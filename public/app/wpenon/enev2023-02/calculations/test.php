@@ -10,6 +10,7 @@ $grundriss = new Grundriss( 'b', 'so' );
 
 $grundriss->wand_laenge( 'a', 20 );
 $grundriss->wand_laenge( 'b', 10 );
+
 $grundriss->wand_laenge( 'c', 5 );
 $grundriss->wand_laenge( 'd', 5 );
 

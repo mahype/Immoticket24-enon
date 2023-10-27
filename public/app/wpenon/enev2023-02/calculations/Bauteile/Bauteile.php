@@ -66,7 +66,7 @@ class Bauteile implements Transmissionswaerme {
 		$elemente = array_filter(
 			$this->elemente,
 			function ( $bauteil ) use ( $typ ) {
-				$reflect     = new ReflectionClass( $bauteil );
+				$reflect     = new \ReflectionClass( $bauteil );
 				$bauteil_typ = $reflect->getShortName();
 
 				return $bauteil_typ === $typ;
@@ -74,6 +74,17 @@ class Bauteile implements Transmissionswaerme {
 		);
 
 		return new Bauteile( $elemente );
+	}
+
+	/**
+	 * Gibt alle Wände des Gebäudes zurück (ohne Anbau).
+	 *
+	 * @return Wand_Sammlung Sammlung aller Wände.
+	 */
+	public function waende(): Wand_Sammlung
+	{
+		$waende = $this->filter( 'Wand' );
+		return new Wand_Sammlung( $waende->alle() );
 	}
 
 	/**

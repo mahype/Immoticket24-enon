@@ -99,13 +99,13 @@ class Fenster_Sammlung implements Transmissionswaerme {
 	 *
 	 * @return float
 	 */
-	public function transmissionswaerme(): float {
-		$transmissionswaerme = 0.0;
+	public function ht(): float {
+		$ht = 0.0;
 
 		foreach ( $this->elemente as $element ) {
-			$transmissionswaerme += $element->transmissionswaerme();
+			$ht += $element->ht();
 		}
 
-		return $transmissionswaerme;
+		return $ht;
 	}
 }

@@ -2,7 +2,13 @@
 
 namespace Enev\Schema202302\Calculations\Gebaeude;
 
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
+use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
+use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
+use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
+use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
+use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
 
 require_once __DIR__ . '/Bauteile.php';
 require_once __DIR__ . '/Heizsystem.php';
@@ -119,7 +125,18 @@ class Gebaeude {
 	 */
 	private int $c_wirk;
 
-	public function __construct( int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten, Grundriss $grundriss ) {
+	/**
+	 * Konstruktor
+	 *
+	 * @param Grundriss $grundriss Grundriss des Gebäudes.
+	 * @param int       $baujahr Baujahr des Gebäudes.
+	 * @param int       $geschossanzahl Anzahl der Geschosse.
+	 * @param float     $geschosshoehe Geschosshöhe vom Boden bis zur Decke des darüberliegenden Geschosses (lichte Höhe). Die Deckenhöhe wird automatisch mit 25 cm für die Decke addiert.
+	 * @param int       $anzahl_wohneinheiten Anzahl der Wohneinheiten.
+	 *
+	 * @return void
+	 */
+	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten ) {
 		$this->jahr                 = new Jahr();
 		$this->baujahr              = $baujahr;
 		$this->geschossanzahl       = $geschossanzahl;
@@ -293,10 +310,10 @@ class Gebaeude {
 	public function huellvolumen(): float {
 		$volumen = 0;
 
-		// Volumen der Geschosse
+		// Volumen der Geschosse.
 		$volumen += $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
 
-		// Volumen des Anbaus
+		// Volumen des Anbaus.
 		if ( $this->anbau !== null ) {
 			$volumen += $this->anbau->volumen();
 		}
@@ -376,10 +393,8 @@ class Gebaeude {
 	 */
 	public function qi_prozesse_monat( string $monat ): float {
 		if ( $this->anzahl_wohneinheiten() === 1 ) {
-			// Einfamlienhaus
 			return 45 * $this->nutzflaeche() * $this->jahr->monat( $monat )->tage() * 0.001;
 		} else {
-			// Mehrfamilienhaus
 			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohneinheiten() * $this->jahr->monat( $monat )->tage() ) ) * 0.001;
 		}
 	}
@@ -416,7 +431,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellvolumen_netto(): float {
-		return $this->geschossanzahl < 4 ? 0.76 * $this->_bauteile()->huellvolumen() : 0.8 * $this->_bauteile()->huellvolumen();
+		return $this->geschossanzahl < 4 ? 0.76 * $this->huellflaeche() : 0.8 * $this->huellvolumen();
 	}
 
 	/**
@@ -425,7 +440,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ave_verhaeltnis(): float {
-		return $this->_bauteile()->huellflaeche() / $this->huellvolumen_netto();
+		return $this->huellflaeche() / $this->huellvolumen_netto();
 	}
 
 	/**

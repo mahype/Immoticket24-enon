@@ -27,6 +27,9 @@ use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
 use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 
+use function Enev\Schema202302\Calculations\Helfer\berechne_fenster_flaeche;
+use function Enev\Schema202302\Calculations\Helfer\berechne_heizkoepfernische_flaeche;
+use function Enev\Schema202302\Calculations\Helfer\berechne_rolladenkasten_flaeche;
 use function Enev\Schema202302\Calculations\Tabellen\uwert;
 
 require_once 'Bauteile/Gebaeude.php';
@@ -81,12 +84,11 @@ foreach ( $grundriss->waende_manuell() as $wand ) {
  * Gebäude.
  */
 $gebaeude = new Gebaeude(
-	$energieausweis->baujahr,
-	$energieausweis->geschoss_zahl,
-	$energieausweis->geschoss_hoehe,
-	$energieausweis->wohnungen,
-	$grundriss,
-	$bauteile
+	grundriss: $grundriss,
+	baujahr: $energieausweis->baujahr,
+	geschossanzahl: $energieausweis->geschoss_zahl,
+	geschosshoehe: $energieausweis->geschoss_hoehe,
+	anzahl_wohneinheiten: $energieausweis->wohnungen
 );
 
 $calculations['gebaeude'] = $gebaeude;
@@ -98,8 +100,7 @@ switch ( $energieausweis->dach ) {
 	case 'beheizt':
 		$kniestock_hoehe = isset( $energieausweis->kniestock_hoehe ) ? $energieausweis->kniestock_hoehe : 0.0;
 		$daemmung_dach   = isset( $energieausweis->dach_daemmung ) ? $energieausweis->dach_daemmung : 0.0;
-
-		$uwert_dach = uwert( $energieausweis->dach_bauart, $energieausweis->dach_baujahr );
+		$uwert_dach      = uwert( $energieausweis->dach_bauart, $energieausweis->dach_baujahr );
 
 		switch ( $energieausweis->dach_form ) {
 			case 'walmdach':
@@ -222,23 +223,55 @@ if ( $energieausweis->anbau ) {
 }
 
 /**
- * Hinzufügen aller Bauteile der Wände (Wände, Fenster, Heizkörpernischen, Rolladenkästen).
+ * Hinzufügen aller Bauteile der Wände.
  */
+
+$uwert_wand = uwert( $energieausweis->anbauwand_bauart, $energieausweis->anbau_baujahr );
+
 foreach ( $grundriss->waende() as $wand ) {
 	$nachbar_slug = 'wand_' . $wand . '_nachbar';
-
 	if ( $energieausweis->$nachbar_slug ) { // Wenn es eine Wand zum Nachbar ist, dann wird diese nicht als Außenwand gewertet.
 		continue;
 	}
 
-	$uwert_wand    = uwert( $energieausweis->anbauwand_bauart, $energieausweis->anbau_baujahr );
-	$uwert_fenster = uwert( $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+	$wand = new Wand(
+		// translators: %s: Seite der Wand.
+		name: sprintf( __( 'Außenwand %s', 'wpenon' ), $wand ),
+		seite: $wand,
+		flaeche: $flaeche,
+		uwert: $energieaus,
+		himmelsrichtung: $gebaeude->_grundriss()->wand_himmelsrichtung( $wand ),
+		daemmung: $energieausweis->$d_slug,
+		grenzt_an_wohngebaeude: $energieausweis->$nachbar_slug
+	);
 
+	$gebaeude->_bauteile()->hinzufuegen( $wand );
+}
+
+/**
+ * Hinzufügen aller Bauteile, abhängig von den Wänden.
+ */
+foreach ( $gebaeude->_bauteile()->waende() as $wand ) {
+	if ( $wand->grenzt_an_wohngebaeude() ) {
+		continue;
+	}
+
+	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
+	if ( $energieauswies->dach !== 'beheizt' ) {
+		$wand->flaeche_addieren( $dach->wand_flaeche( $wand->seite() ) );
+	}
+
+	// Ist ein Anbau vorhanden, muss die überlappende Fläche vom Mauerwerk abgezogen werden.
+	if ( $energieausweis->anbau ) {
+		$wand->flaeche_reduzieren( $anbau->ueberlappung_flaeche_gebaeude( $wand->seite() ) );
+	}
 
 	/**
 	 * Fenster
 	 */
-	$fensterflaeche = ( 0.55 * $grundriss->wand_laenge( $wand ) ) * ( $wandhoehe - 1.5 );
+	$fensterflaeche  = berechne_fenster_flaeche( $gebaeude->_grundriss()->wand_laenge( $wand->seite() ), $energieausweis->geschoss_hoehe );
+	$uwert_fenster   = uwert( $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+	$himmelsrichtung = $gebaeude->_grundriss()->wand_himmelsrichtung( $wand->seite() );
 
 	$fenster = new Fenster(
 		name: sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand ),
@@ -250,69 +283,45 @@ foreach ( $grundriss->waende() as $wand ) {
 
 	$gebaeude->_bauteile()->hinzufuegen( $fenster );
 
+	// Reduzieren der Wandfläche um die Fensterfläche.
+	$wand->flaeche_reduzieren( $fensterflaeche );
+
 	/**
-	 * Heizkörpernischen.
+	 * Heizkörpernischen
 	 */
-	$heizkoerpernischen_flaeche = 0;
 	if ( $energieausweis->heizkoerpernischen === 'vorhanden' ) {
-		$heizkoerpernische_flaeche = $fensterflaeche * 0.5; // 50% der Fensterflächen werden als Heizkörpernischen angenommen.
+		$heizkoerpernische_flaeche = berechne_heizkoepfernische_flaeche( $fensterflaeche );
 
 		$heizkoerpernische = new Heizkoerpernische(
-			name: sprintf( __( 'Heizkörpernischen Wand %s', 'wpenon' ), $wand ),
+			name: sprintf( __( 'Heizkörpernischen Wand %s', 'wpenon' ), $wand->seite() ),
 			flaeche: $heizkoerpernische_flaeche,
-			uwert: $uwert_wand * 2,
-			baujahr: $energieausweis->baujahr,
+			uwert: $wand->uwert() * 2,
 			himmelsrichtung: $himmelsrichtung
 		);
 
 		$gebaeude->_bauteile()->hinzufuegen( $heizkoerpernische );
+		$wand->flaeche_reduzieren( $heizkoerpernische_flaeche );
 	}
 
 	/**
 	 * Rolladenkästen.
 	 */
-	$rolladenkasten_flaeche = 0;
 	if ( substr( $energieausweis->rollladenkaesten, 0, 6 ) === 'innen_' ) { // Wir nehmen nur innenliegende Rolladenkästen.
-		$rolladenkaesten_flaeche = $fensterflaeche * 0.1; // 10% der Fensterflächen werden als Rolladenkästen angenommen.
+		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche );
 		$daemmung                = substr( $energieausweis->rollladenkaesten, 6 );
 		$uwert_rolladenkaesten   = uwert( 'rolladenkaesten_' . $daemmung, $energieausweis->fenster_baujahr );
 
 		$rolladenkasten = new Rolladenkasten(
 			// translators: %s: Seite der Wand.
-			name: sprintf( __( 'Rolladenkasten Wand %s', 'wpenon' ), $wand ),
+			name: sprintf( __( 'Rolladenkasten Wand %s', 'wpenon' ), $wand->seite() ),
 			flaeche: $rolladenkaesten_flaeche,
 			uwert: $uwert_rolladenkaesten,
-			baujahr: $energieausweis->baujahr,
 			himmelsrichtung: $himmelsrichtung
 		);
 
 		$gebaeude->_bauteile()->hinzufuegen( $rolladenkasten );
+		$wand->flaeche_reduzieren( $rolladenkaesten_flaeche );
 	}
-
-	$flaeche = $$l_slug * $wandhoehe - $fensterflaeche - $heizkoerpernischen_flaeche - $rolladenkaesten_flaeche;
-
-	if ( $energieausweis->anbau ) {
-		$flaeche -= $anbau->ueberlappung_flaeche_gebaeude( $wand );
-	}
-
-	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
-	if ( $energieauswies->dach !== 'beheizt' ) {
-		$flaeche += $dach->wand_flaeche( $wand );
-	}
-
-	$himmelsrichtung = $hr_mappings[ $data[1] ];
-
-	$wand = new Wand(
-		// translators: %s: Seite der Wand.
-		name: sprintf( __( 'Außenwand %s', 'wpenon' ), $wand ),
-		seite: $wand,
-		flaeche: $flaeche,
-		uwert: $energieaus,
-		himmelsrichtung: $himmelsrichtung,
-		daemmung: $energieausweis->$d_slug,
-	);
-
-	$gebaeude->_bauteile()->hinzufuegen( $wand );
 }
 
 // Sammlung aller Bauteile des Kellers

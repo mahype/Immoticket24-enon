@@ -20,7 +20,7 @@ class Wand_Sammlung implements Transmissionswaerme {
 	/**
 	 * Konstruktor
 	 *
-	 * @param Wand[] $elemente
+	 * @param Wand[] $elemente Alle Wände welche hinzugefügt werden sollen.
 	 * @return void
 	 */
 	public function __construct( array $elemente = array() ) {
