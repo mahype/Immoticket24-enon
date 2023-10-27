@@ -2,190 +2,188 @@
 
 namespace Enev\Schema202302\Calculations\Tabellen;
 
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 
 /**
- * Berechnung der Daten zur Mittleren Belastung aus Tablle 9 und 11. 
- * 
- * @package 
+ * Berechnung der Daten zur Mittleren Belastung aus Tablle 9 und 11.
+ *
+ * @package
  */
-class Mittlere_Belastung
-{
-    /**
-     * Gebäude.
-     * 
-     * @var Gebaeude
-     */
-    protected Gebaeude $gebaeude;
-    
-    /**
-     * Maximale spezifische Heizlast des Gebäudes.
-     * 
-     * @var float
-     */
-    protected float $h_max_spezifisch;
+class Mittlere_Belastung {
 
-    /**
-     * Zeitkonstante des Gebäudes.
-     * 
-     * @var float
-     */
-    protected float $tau;
+	/**
+	 * Gebäude.
+	 *
+	 * @var Gebaeude
+	 */
+	protected Gebaeude $gebaeude;
 
-    /**
-     * Ist das Gebäude teilbeheizt?
-     * 
-     * @var bool
-     */
-    protected bool $teilbeheizung;
+	/**
+	 * Maximale spezifische Heizlast des Gebäudes.
+	 *
+	 * @var float
+	 */
+	protected float $h_max_spezifisch;
 
-    /**
-     * Tabellendaten aus Tabelle 9 bei Einfamilienhaus oder Tabelle 11 bei Mehrfamilienhaus.
-     * 
-     * @var array
-     */
-    protected array $table_data;
+	/**
+	 * Zeitkonstante des Gebäudes.
+	 *
+	 * @var float
+	 */
+	protected float $tau;
 
-    /**
-     * Constructor.
-     * 
-     * @param float $h_max_spezifisch Maximale spezifische Heizlast des Gebäudes.
-     * @param bool  $teilbeheizung    Ist das Gebäude teilbeheizt? Wir rechnen im Moment immer mit teilbeheizt.
-     */
-    public function __construct( float $h_max_spezifisch, bool $teilbeheizung = true ) {
-        $this->h_max_spezifisch = $h_max_spezifisch;
-        $this->teilbeheizung = $teilbeheizung;        
-    }
+	/**
+	 * Ist das Gebäude teilbeheizt?
+	 *
+	 * @var bool
+	 */
+	protected bool $teilbeheizung;
 
-    /**
-     * Gebäude.
-     * 
-     * @param Gebaeude|null $gebaeude 
-     * @return Gebaeude 
-     */
-    public function gebaeude( Gebaeude|null $gebaeude = null ): Gebaeude
-    {
-        if( ! empty( $gebaeude ) ) {
-            $this->gebaeude = $gebaeude;
+	/**
+	 * Tabellendaten aus Tabelle 9 bei Einfamilienhaus oder Tabelle 11 bei Mehrfamilienhaus.
+	 *
+	 * @var array
+	 */
+	protected array $table_data;
 
-            if ($this->gebaeude->anzahl_wohneinheiten() === 1) {
-                $this->table_data = wpenon_get_table_results('mittlere_belastung_efh');
-            } else {
-                $this->table_data = wpenon_get_table_results('mittlere_belastung_mfh');
-            }
-        }
+	/**
+	 * Constructor.
+	 *
+	 * @param float $h_max_spezifisch Maximale spezifische Heizlast des Gebäudes.
+	 * @param bool  $teilbeheizung    Ist das Gebäude teilbeheizt? Wir rechnen im Moment immer mit teilbeheizt.
+	 */
+	public function __construct( float $h_max_spezifisch, bool $teilbeheizung = true ) {
+		$this->h_max_spezifisch = $h_max_spezifisch;
+		$this->teilbeheizung    = $teilbeheizung;
+	}
 
-        return $this->gebaeude;
-    }
+	/**
+	 * Gebäude.
+	 *
+	 * @param Gebaeude|null $gebaeude
+	 * @return Gebaeude
+	 */
+	public function gebaeude( Gebaeude|null $gebaeude = null ): Gebaeude {
+		if ( ! empty( $gebaeude ) ) {
+			$this->gebaeude = $gebaeude;
 
-    /**
-     * Tau slugs anhand von Tau ermitteln.
-     * 
-     * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
-     * Außentemperaturabhängigen Belastung ßem1 benötigt.
-     * 
-     * @return array 
-     */
-    protected function tau_slugs(): array
-    {
-        if( $this->gebaeude->tau() <= 50 ){
-            return array('t50');
-        } elseif ( $this->gebaeude->tau() > 50 && $this->gebaeude->tau() <= 90) {
-            return array('t50', 't90');
-        } elseif ( $this->gebaeude->tau() > 90 && $this->gebaeude->tau() < 130) {
-            return array('t90', 't130');
-        } else {
-            return array('t130');
-        }
-    }
+			if ( $this->gebaeude->anzahl_wohneinheiten() === 1 ) {
+				$this->table_data = wpenon_get_table_results( 'mittlere_belastung_efh' );
+			} else {
+				$this->table_data = wpenon_get_table_results( 'mittlere_belastung_mfh' );
+			}
+		}
 
-    /**
-     * Teilbeheizung slugs anhand von h_max_spezifisch ermitteln.
-     * 
-     * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
-     * Außentemperaturabhängigen Belastung ßem1 benötigt.
-     * 
-     * @return array Teilbeheizungs slug.
-     */
-    protected function teilbeheizung_slugs(): array {
-        if( ! $this->teilbeheizung ) {
-            return array( 'ohne' );
-        }
+		return $this->gebaeude;
+	}
 
-        if( $this->h_max_spezifisch <= 5 ) {
-            return array('5wm2');
-        } elseif( $this->h_max_spezifisch > 5 && $this->h_max_spezifisch <= 10 ) {
-            return array('5wm2', '10wm2');
-        } elseif( $this->h_max_spezifisch > 10 && $this->h_max_spezifisch <= 25 ) {
-            return array('10wm2', '25wm2');
-        } elseif( $this->h_max_spezifisch > 25 && $this->h_max_spezifisch <= 50 ) {
-            return array('25wm2', '50wm2');
-        } elseif( $this->h_max_spezifisch > 50 && $this->h_max_spezifisch <= 75 ) {
-            return array('50wm2', '75wm2');
-        } elseif( $this->h_max_spezifisch > 75 && $this->h_max_spezifisch <= 100 ) {
-            return array('75wm2', '100wm2');
-        } elseif( $this->h_max_spezifisch > 100 && $this->h_max_spezifisch <= 125 ) {
-            return array('100wm2', '125wm2');
-        } elseif( $this->h_max_spezifisch > 125 && $this->h_max_spezifisch <= 150 ) {
-            return array('125wm2', '150wm2');
-        } else {
-            return array('150wm2');
-        }        
-    }
-    
-    /**
-     * Außentemperaturabhängige Belastung ßem1 für einen Monat ermitteln.
-     * 
-     * @param string $month Slug des Monats.
-     * @return float AußentemperaturabhängigenBelastung ßem1
-     */
-    public function ßem1( string $month ): float
-    {
-        if( ! isset ( $this->table_data[$month] ) ) {
-            return 0;
-        } 
-        
-        $tau_keys = array();
-        $tau_values = array();
+	/**
+	 * Tau slugs anhand von Tau ermitteln.
+	 *
+	 * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
+	 * Außentemperaturabhängigen Belastung ßem1 benötigt.
+	 *
+	 * @return array
+	 */
+	protected function tau_slugs(): array {
+		if ( $this->gebaeude->tau() <= 50 ) {
+			return array( 't50' );
+		} elseif ( $this->gebaeude->tau() > 50 && $this->gebaeude->tau() <= 90 ) {
+			return array( 't50', 't90' );
+		} elseif ( $this->gebaeude->tau() > 90 && $this->gebaeude->tau() < 130 ) {
+			return array( 't90', 't130' );
+		} else {
+			return array( 't130' );
+		}
+	}
 
-        foreach( $this->tau_slugs() as $tau_slug ) {
-            $keys = $values = array(); // Reset key and value arrays.
+	/**
+	 * Teilbeheizung slugs anhand von h_max_spezifisch ermitteln.
+	 *
+	 * Dieser wird zur Zusammensetzung der Spaltennamen zur Ermittlung der
+	 * Außentemperaturabhängigen Belastung ßem1 benötigt.
+	 *
+	 * @return array Teilbeheizungs slug.
+	 */
+	protected function teilbeheizung_slugs(): array {
+		if ( ! $this->teilbeheizung ) {
+			return array( 'ohne' );
+		}
 
-            foreach( $this->teilbeheizung_slugs() as $teilbeheizung_slug ) {
-                // Column name in table_data.
-                $column = $tau_slug . '_' . $teilbeheizung_slug;                
+		if ( $this->h_max_spezifisch <= 5 ) {
+			return array( '5wm2' );
+		} elseif ( $this->h_max_spezifisch > 5 && $this->h_max_spezifisch <= 10 ) {
+			return array( '5wm2', '10wm2' );
+		} elseif ( $this->h_max_spezifisch > 10 && $this->h_max_spezifisch <= 25 ) {
+			return array( '10wm2', '25wm2' );
+		} elseif ( $this->h_max_spezifisch > 25 && $this->h_max_spezifisch <= 50 ) {
+			return array( '25wm2', '50wm2' );
+		} elseif ( $this->h_max_spezifisch > 50 && $this->h_max_spezifisch <= 75 ) {
+			return array( '50wm2', '75wm2' );
+		} elseif ( $this->h_max_spezifisch > 75 && $this->h_max_spezifisch <= 100 ) {
+			return array( '75wm2', '100wm2' );
+		} elseif ( $this->h_max_spezifisch > 100 && $this->h_max_spezifisch <= 125 ) {
+			return array( '100wm2', '125wm2' );
+		} elseif ( $this->h_max_spezifisch > 125 && $this->h_max_spezifisch <= 150 ) {
+			return array( '125wm2', '150wm2' );
+		} else {
+			return array( '150wm2' );
+		}
+	}
 
-                $keys[]= (int) str_replace( 'wm2', '', $teilbeheizung_slug );
-                $values[] = (float) $this->table_data[$month]->$column;          
-            }
+	/**
+	 * Außentemperaturabhängige Belastung ßem1 für einen Monat ermitteln.
+	 *
+	 * @param string $month Slug des Monats.
+	 * @return float AußentemperaturabhängigenBelastung ßem1
+	 */
+	public function ßem1( string $month ): float {
+		if ( ! isset( $this->table_data[ $month ] ) ) {
+			return 0;
+		}
 
-            $tau_keys[] = (int) str_replace( 't', '', $tau_slug );            
-            $tau_values[] = interpolate_value( $this->h_max_spezifisch, $keys, $values ); // Interpolate h_max_spezifisch.
-        }        
+		$tau_keys   = array();
+		$tau_values = array();
 
-        return interpolate_value( $this->gebaeude->tau(), $tau_keys, $tau_values );
-    }
+		foreach ( $this->tau_slugs() as $tau_slug ) {
+			$keys = $values = array(); // Reset key and value arrays.
 
-    /**
-     * Maximale Außentemperaturabhängige Belastung ßem1 aus einem Jahr ermitteln.
-     * 
-     * @return float Maximale Außentemperaturabhängige Belastung ßem1.
-     */
-    public function ßemMax(): float
-    {
-        $ßemMax = 0;
+			foreach ( $this->teilbeheizung_slugs() as $teilbeheizung_slug ) {
+				// Column name in table_data.
+				$column = $tau_slug . '_' . $teilbeheizung_slug;
 
-        $jahr = new Jahr();
+				$keys[]   = (int) str_replace( 'wm2', '', $teilbeheizung_slug );
+				$values[] = (float) $this->table_data[ $month ]->$column;
+			}
 
-        foreach( $jahr->monate() as $monat ) {
-            $ßem = $this->ßem1( $monat->slug() );
+			$tau_keys[]   = (int) str_replace( 't', '', $tau_slug );
+			$tau_values[] = interpolate_value( $this->h_max_spezifisch, $keys, $values ); // Interpolate h_max_spezifisch.
+		}
 
-            if( $ßem > $ßemMax ) {
-                $ßemMax = $ßem;
-            }
-        }
+		return interpolate_value( $this->gebaeude->tau(), $tau_keys, $tau_values );
+	}
 
-        return $ßemMax;
-    }
+	/**
+	 * Maximale Außentemperaturabhängige Belastung ßem1 aus einem Jahr ermitteln.
+	 *
+	 * @return float Maximale Außentemperaturabhängige Belastung ßem1.
+	 */
+	public function ßemMax(): float {
+		$ßemMax = 0;
+
+		$jahr = new Jahr();
+
+		foreach ( $jahr->monate() as $monat ) {
+			$ßem = $this->ßem1( $monat->slug() );
+
+			if ( $ßem > $ßemMax ) {
+				$ßemMax = $ßem;
+			}
+		}
+
+		return $ßemMax;
+	}
 }

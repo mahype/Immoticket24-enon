@@ -5,464 +5,443 @@ namespace Enev\Schema202302\Calculations\Gebaeude;
 /**
  * Die Klasse Grundriss repräsentiert einen Grundriss eines Gebäudes.
  */
-class Grundriss
-{
-    /**
-     * Form des Grundrisses. Mögliche Werte: a, b, c, d.
-     * 
-     * @var string
-     */
-    protected string $form;
+class Grundriss {
 
-    /**
-     * Formen der Grundrisse.
-     * 
-     * @var array
-     */
-    protected array $formen;
+	/**
+	 * Form des Grundrisses. Mögliche Werte: a, b, c, d.
+	 *
+	 * @var string
+	 */
+	protected string $form;
 
-    /**
-     * Himmelsrichtungen.
-     * 
-     * @var string[]
-     */
-    protected $himmelsrichtungen;
+	/**
+	 * Formen der Grundrisse.
+	 *
+	 * @var array
+	 */
+	protected array $formen;
 
-    /**
-     * Ausrichtung des Grundrisses.
-     * 
-     * @var string
-     */
-    protected string $ausrichtung;
+	/**
+	 * Himmelsrichtungen.
+	 *
+	 * @var string[]
+	 */
+	protected $himmelsrichtungen;
 
-    /**
-     * Längen der Wände.
-     * 
-     * @var array
-     */
-    protected array $waende;
+	/**
+	 * Ausrichtung des Grundrisses.
+	 *
+	 * @var string
+	 */
+	protected string $ausrichtung;
 
-    /**
-     * Zuordnung der Wände zu den Himmelsrichtungen.
-     * 
-     * @var array
-     */
-    protected array $waende_zu_himmelsrichtungen = [];
+	/**
+	 * Längen der Wände.
+	 *
+	 * @var array
+	 */
+	protected array $waende;
 
-    /**
-     * Konstruktor.
-     * 
-     * @param string $form        Form a, b, c oder d.
-     * @param string $ausrichtung Himmelsrichtung.
-     */
-    public function __construct( string $form, string $ausrichtung )
-    {
-        $this->init_formen();
-        $this->init_himmelsrichtungen();        
+	/**
+	 * Zuordnung der Wände zu den Himmelsrichtungen.
+	 *
+	 * @var array
+	 */
+	protected array $waende_zu_himmelsrichtungen = array();
 
-        if(! $this->form_existiert($form) ) {
-            throw new Exception('Ungültige Form');
-        }
+	/**
+	 * Konstruktor.
+	 *
+	 * @param string $form        Form a, b, c oder d.
+	 * @param string $ausrichtung Himmelsrichtung.
+	 */
+	public function __construct( string $form, string $ausrichtung ) {
+		$this->init_formen();
+		$this->init_himmelsrichtungen();
 
-        if(! $this->himmelsrichtung_existiert($ausrichtung) ) {
-            throw new Exception('Ungültige Himmelsrichtung');
-        }
+		if ( ! $this->form_existiert( $form ) ) {
+			throw new Exception( 'Ungültige Form' );
+		}
 
-        $this->form = $form;
-        $this->ausrichtung = $ausrichtung;
-        $this->init_waende_zu_himmelsrichtungen();
-    }
+		if ( ! $this->himmelsrichtung_existiert( $ausrichtung ) ) {
+			throw new Exception( 'Ungültige Himmelsrichtung' );
+		}
 
-    /**
-     * Initialisiert die Himmelsrichtungen.
-     * 
-     * @return void 
-     */
-    private function init_himmelsrichtungen()
-    {
-        $this->himmelsrichtungen = array(
-            's'  => 'Süden',
-            'so' => 'Südosten',
-            'o'  => 'Osten',
-            'no' => 'Nordosten',
-            'n'  => 'Norden',
-            'nw' => 'Nordwesten',
-            'w'  => 'Westen',
-            'sw' => 'Südwesten'
-        );
-    }
+		$this->form        = $form;
+		$this->ausrichtung = $ausrichtung;
+		$this->init_waende_zu_himmelsrichtungen();
+	}
 
-    /**
-     * Initialisierre die Zuordnung der Wände zu den Himmelsrichtungen.
-     */
-    private function init_waende_zu_himmelsrichtungen()
-    {
-        $himmelsrichtungen_keys = array_keys( $this->himmelsrichtungen );
-        $nullrichtung = array_search($this->ausrichtung, $himmelsrichtungen_keys );
+	/**
+	 * Initialisiert die Himmelsrichtungen.
+	 *
+	 * @return void
+	 */
+	private function init_himmelsrichtungen() {
+		$this->himmelsrichtungen = array(
+			's'  => 'Süden',
+			'so' => 'Südosten',
+			'o'  => 'Osten',
+			'no' => 'Nordosten',
+			'n'  => 'Norden',
+			'nw' => 'Nordwesten',
+			'w'  => 'Westen',
+			'sw' => 'Südwesten',
+		);
+	}
 
-        
+	/**
+	 * Initialisierre die Zuordnung der Wände zu den Himmelsrichtungen.
+	 */
+	private function init_waende_zu_himmelsrichtungen() {
+		$himmelsrichtungen_keys = array_keys( $this->himmelsrichtungen );
+		$nullrichtung           = array_search( $this->ausrichtung, $himmelsrichtungen_keys );
 
-        for ( $i = 0; $i < 4; $i++ ) {
-            $key = ( $nullrichtung + 2 * $i ) % 8;
-            $himmelsrichtung = $himmelsrichtungen_keys[ $key ];
-            $this->waende_zu_himmelsrichtungen[] = $himmelsrichtung;
-        }
-    }
+		for ( $i = 0; $i < 4; $i++ ) {
+			$key                                 = ( $nullrichtung + 2 * $i ) % 8;
+			$himmelsrichtung                     = $himmelsrichtungen_keys[ $key ];
+			$this->waende_zu_himmelsrichtungen[] = $himmelsrichtung;
+		}
+	}
 
-    /**
-     * Initialisiert die Formen.
-     *
-     * @return void 
-     */
-    protected function init_formen()
-    {
-        $this->formen = array(
-            'a' => array(
-                'a'   => array( true, 0 ),
-                'b'   => array( true, 1 ),
-                'c'   => array( 'a', 2 ),
-                'd'   => array( 'b', 3 ),
-                'fla' => array(
-                    array( 'a', 'b' ),
-                ),
-            ),
-            'b' => array(
-                'a'   => array( true, 0 ),
-                'b'   => array( true, 1 ),
-                'c'   => array( true, 2 ),
-                'd'   => array( true, 3 ),
-                'e'   => array( 'a - c', 2 ),
-                'f'   => array( 'b - d', 3 ),
-                'fla' => array(
-                    array( 'a', 'f' ),
-                    array( 'c', 'd' ),
-                ),
-            ),
-            'c' => array(
-                'a'   => array( true, 0 ),
-                'b'   => array( true, 1 ),
-                'c'   => array( true, 2 ),
-                'd'   => array( true, 1 ),
-                'e'   => array( true, 2 ),
-                'f'   => array( 'd', 3 ),
-                'g'   => array( 'a - c - e', 2 ),
-                'h'   => array( 'b', 3 ),
-                'fla' => array(
-                    array( 'a', 'b' ),
-                    array( 'd', 'e' ),
-                ),
-            ),
-            'd' => array(
-                'a'   => array( true, 0 ),
-                'b'   => array( true, 1 ),
-                'c'   => array( true, 2 ),
-                'd'   => array( true, 3 ),
-                'e'   => array( true, 2 ),
-                'f'   => array( true, 1 ),
-                'g'   => array( 'a - c - e', 2 ),
-                'h'   => array( 'b - d + f', 3 ),
-                'fla' => array(
-                    array( 'a', 'b - d' ),
-                    array( 'c', 'd' ),
-                    array( 'f', 'g' ),
-                ),
-            ),
-        );
-    }
+	/**
+	 * Initialisiert die Formen.
+	 *
+	 * @return void
+	 */
+	protected function init_formen() {
+		$this->formen = array(
+			'a' => array(
+				'a'   => array( true, 0 ),
+				'b'   => array( true, 1 ),
+				'c'   => array( 'a', 2 ),
+				'd'   => array( 'b', 3 ),
+				'fla' => array(
+					array( 'a', 'b' ),
+				),
+			),
+			'b' => array(
+				'a'   => array( true, 0 ),
+				'b'   => array( true, 1 ),
+				'c'   => array( true, 2 ),
+				'd'   => array( true, 3 ),
+				'e'   => array( 'a - c', 2 ),
+				'f'   => array( 'b - d', 3 ),
+				'fla' => array(
+					array( 'a', 'f' ),
+					array( 'c', 'd' ),
+				),
+			),
+			'c' => array(
+				'a'   => array( true, 0 ),
+				'b'   => array( true, 1 ),
+				'c'   => array( true, 2 ),
+				'd'   => array( true, 1 ),
+				'e'   => array( true, 2 ),
+				'f'   => array( 'd', 3 ),
+				'g'   => array( 'a - c - e', 2 ),
+				'h'   => array( 'b', 3 ),
+				'fla' => array(
+					array( 'a', 'b' ),
+					array( 'd', 'e' ),
+				),
+			),
+			'd' => array(
+				'a'   => array( true, 0 ),
+				'b'   => array( true, 1 ),
+				'c'   => array( true, 2 ),
+				'd'   => array( true, 3 ),
+				'e'   => array( true, 2 ),
+				'f'   => array( true, 1 ),
+				'g'   => array( 'a - c - e', 2 ),
+				'h'   => array( 'b - d + f', 3 ),
+				'fla' => array(
+					array( 'a', 'b - d' ),
+					array( 'c', 'd' ),
+					array( 'f', 'g' ),
+				),
+			),
+		);
+	}
 
-    /**
-     * Prüft, ob die Form existiert.
-     * 
-     * @param  string $form Name der Form (a, b, c, d).
-     * @return bool True, wenn die Form existiert, sonst false.
-     */
-    public function form_existiert( string $form ): bool
-    {
-        return array_key_exists($form, $this->formen);
-    }
+	/**
+	 * Prüft, ob die Form existiert.
+	 *
+	 * @param  string $form Name der Form (a, b, c, d).
+	 * @return bool True, wenn die Form existiert, sonst false.
+	 */
+	public function form_existiert( string $form ): bool {
+		return array_key_exists( $form, $this->formen );
+	}
 
-    /**
-     * Prüft, ob die Himmelsrichtung existiert.
-     * 
-     * @param  string $himmelsrichtung 
-     * @return bool 
-     */
-    protected function himmelsrichtung_existiert( string $himmelsrichtung ): bool
-    {
-        return array_key_exists($himmelsrichtung, $this->himmelsrichtungen);
-    }
+	/**
+	 * Prüft, ob die Himmelsrichtung existiert.
+	 *
+	 * @param  string $himmelsrichtung
+	 * @return bool
+	 */
+	protected function himmelsrichtung_existiert( string $himmelsrichtung ): bool {
+		return array_key_exists( $himmelsrichtung, $this->himmelsrichtungen );
+	}
 
-    /**
-     * Gibt alle Wände zurück.
-     * 
-     * @return array 
-     */
-    public function waende(): array
-    {
-        $form = $this->formen[$this->form];
-        $waende = array();
+	/**
+	 * Gibt alle Wände zurück.
+	 *
+	 * @return array
+	 */
+	public function waende(): array {
+		$form   = $this->formen[ $this->form ];
+		$waende = array();
 
-        foreach( $form as $wand => $data ) {
-            if($wand === 'fla' ) {
-                continue;
-            }
+		foreach ( $form as $wand => $data ) {
+			if ( $wand === 'fla' ) {
+				continue;
+			}
 
-            $waende[] = $wand;
-        }
+			$waende[] = $wand;
+		}
 
-        return $waende;
-    }
+		return $waende;
+	}
 
-    /**
-     * Gibt alle Wände zurück, die manuell eingestellt werden können.
-     * 
-     * @return array 
-     */
-    public function waende_manuell(): array
-    {
-        $form = $this->formen[$this->form];
-        $waende = array();
-        
-        foreach( $form as $wand => $data ) {
-            if($this->wand_laenge_berechnet($wand) || $wand === 'fla' ) {
-                continue;
-            }
+	/**
+	 * Gibt alle Wände zurück, die manuell eingestellt werden können.
+	 *
+	 * @return array
+	 */
+	public function waende_manuell(): array {
+		$form   = $this->formen[ $this->form ];
+		$waende = array();
 
-            $waende[] = $wand;
-        }
+		foreach ( $form as $wand => $data ) {
+			if ( $this->wand_laenge_berechnet( $wand ) || $wand === 'fla' ) {
+				continue;
+			}
 
-        return $waende;
-    }
+			$waende[] = $wand;
+		}
 
-    /**
-     * Gibt alle Wände zurück, die automatisch berechnet werden.
-     * 
-     * @return array 
-     */
-    public function waende_berechnet(): array 
-    {
-        $form = $this->formen[$this->form];
-        $waende = array();
+		return $waende;
+	}
 
-        foreach( $form as $wand => $data ) {
-            if(!$this->wand_laenge_berechnet($wand) || $wand === 'fla' ) {
-                continue;
-            }
+	/**
+	 * Gibt alle Wände zurück, die automatisch berechnet werden.
+	 *
+	 * @return array
+	 */
+	public function waende_berechnet(): array {
+		$form   = $this->formen[ $this->form ];
+		$waende = array();
 
-            $waende[] = $wand;
-        }
+		foreach ( $form as $wand => $data ) {
+			if ( ! $this->wand_laenge_berechnet( $wand ) || $wand === 'fla' ) {
+				continue;
+			}
 
-        return $waende;
-    }
+			$waende[] = $wand;
+		}
 
-    /**
-     * Wandlänge setzen oder abrufen.
-     * 
-     * @param  string     $seite 
-     * @param  float|null $laenge 
-     * @return mixed 
-     */
-    public function wand_laenge( string $seite, float $laenge = null )
-    {
-        if(! $this->wand_existiert($seite)) {
-            throw new Exception(sprintf('Ungültige Wand %s', $seite));
-        }
+		return $waende;
+	}
 
-        if($laenge !== null && $this->wand_laenge_berechnet($seite) ) {
-            throw new Exception('Die Länge der Wand kann nicht gesetzt werden');
-        }
+	/**
+	 * Wandlänge setzen oder abrufen.
+	 *
+	 * @param  string     $seite
+	 * @param  float|null $laenge
+	 * @return mixed
+	 */
+	public function wand_laenge( string $seite, float $laenge = null ) {
+		if ( ! $this->wand_existiert( $seite ) ) {
+			throw new Exception( sprintf( 'Ungültige Wand %s', $seite ) );
+		}
 
-        if($this->wand_laenge_berechnet($seite) === true ) {
-            return $this->wand_laenge_berechnen($seite);
-        }
+		if ( $laenge !== null && $this->wand_laenge_berechnet( $seite ) ) {
+			throw new Exception( 'Die Länge der Wand kann nicht gesetzt werden' );
+		}
 
-        if($laenge !== null ) {
-            $this->waende[$seite] = $laenge;
-        }
+		if ( $this->wand_laenge_berechnet( $seite ) === true ) {
+			return $this->wand_laenge_berechnen( $seite );
+		}
 
-        if (! isset($this->waende[ $seite ]) ) {
-            throw new Exception(sprintf('Die Länge der Wand %s wurde nicht gesetzt', $seite));
-        }
+		if ( $laenge !== null ) {
+			$this->waende[ $seite ] = $laenge;
+		}
 
-        return $this->waende[$seite];
-    }
+		if ( ! isset( $this->waende[ $seite ] ) ) {
+			throw new Exception( sprintf( 'Die Länge der Wand %s wurde nicht gesetzt', $seite ) );
+		}
 
-    public function wand_himmelsrichtung( string $wand ): string
-    {
-        foreach( $this->waende() AS $key => $wand_vergleich ) {
-            if($wand === $wand_vergleich) {
-                break;
-            }
-        }
+		return $this->waende[ $seite ];
+	}
 
-        return $this->waende_zu_himmelsrichtungen[ $key ];        
-    }
+	public function wand_himmelsrichtung( string $wand ): string {
+		foreach ( $this->waende() as $key => $wand_vergleich ) {
+			if ( $wand === $wand_vergleich ) {
+				break;
+			}
+		}
 
-    public function wand_laengen_komplett(): bool
-    {
-        $form = $this->formen[$this->form];
+		return $this->waende_zu_himmelsrichtungen[ $key ];
+	}
 
-        foreach( $form as $wand => $data ) {
-            if($this->wand_laenge_berechnet($wand) ) {
-                continue;
-            }
+	public function wand_laengen_komplett(): bool {
+		$form = $this->formen[ $this->form ];
 
-            if(! array_key_exists($wand, $this->waende) ) {
-                return false;
-            }
-        }
+		foreach ( $form as $wand => $data ) {
+			if ( $this->wand_laenge_berechnet( $wand ) ) {
+				continue;
+			}
 
-        return true;
-    }
+			if ( ! array_key_exists( $wand, $this->waende ) ) {
+				return false;
+			}
+		}
 
-    /**
-     * Wandlänge berechnen.
-     * 
-     * @param  string $seite 
-     * @return float Wandlänge.
-     * 
-     * @throws Exception 
-     */
-    protected function wand_laenge_berechnen( string $seite )
-    {
-        if(! $this->wand_laengen_komplett() ) {
-            throw new Exception('Die Längen der Wände sind nicht komplett');
-        }
-        
-        $form = $this->formen[$this->form];
+		return true;
+	}
 
-        $laenge = 0.0;
-        $current_operator = '+';
+	/**
+	 * Wandlänge berechnen.
+	 *
+	 * @param  string $seite
+	 * @return float Wandlänge.
+	 *
+	 * @throws Exception
+	 */
+	protected function wand_laenge_berechnen( string $seite ) {
+		if ( ! $this->wand_laengen_komplett() ) {
+			throw new Exception( 'Die Längen der Wände sind nicht komplett' );
+		}
 
-        $formel = explode(' ', $form[$seite][0]);
+		$form = $this->formen[ $this->form ];
 
-        foreach ( $formel as $t ) {
-            switch ( $t ) {
-            case '+':
-            case '-':
-                $current_operator = $t;
-                break;
-            default:
-                switch ( $current_operator ) {
-                case '+':
-                    $laenge += $this->wand_laenge($t);
-                    break;
-                case '-':
-                    $laenge -= $this->wand_laenge($t);
-                    break;
-                default:
-                }
-            }
-        }
-        
-        return $laenge;
-    }
+		$laenge           = 0.0;
+		$current_operator = '+';
 
-    /**
-     * Prüft, ob die Wand für die Form existiert.
-     * 
-     * @param  string $wand Name der Wand (a, b, c, d, e, f, g, h).
-     * @return bool True, wenn die Wand existiert, sonst false.
-     */
-    public function wand_existiert( string $wand ): bool
-    {
-        return array_key_exists($wand, $this->formen[$this->form]);
-    }
+		$formel = explode( ' ', $form[ $seite ][0] );
 
-    /**
-     * Prüft ob die länge der Wand gesetzt werden darf, oder automatisch berechnet wird.
-     * 
-     * @param  string $wand Name der Wand (a, b, c, d, e, f, g, h).
-     * @return bool True, wenn die Länge gesetzt werden darf, sonst false.
-     */
-    public function wand_laenge_berechnet( string $wand ): bool
-    {
-        return $this->formen[$this->form][$wand][0] === true ? false : true;
-    }
+		foreach ( $formel as $t ) {
+			switch ( $t ) {
+				case '+':
+				case '-':
+					$current_operator = $t;
+					break;
+				default:
+					switch ( $current_operator ) {
+						case '+':
+							$laenge += $this->wand_laenge( $t );
+							break;
+						case '-':
+							$laenge -= $this->wand_laenge( $t );
+							break;
+						default:
+					}
+			}
+		}
 
-    /**
-     * Gibt die Form des Grundrisses zurück.
-     * 
-     * @return array
-     */
-    public function form(): string
-    {
-        return $this->form;
-    }
+		return $laenge;
+	}
 
-    /**
-     * Gibt die Formel zur Berechnung der Fläche zurück.
-     * 
-     * @return array 
-     */
-    public function flaechenberechnungsformel(): array 
-    {
-        return $this->formen[$this->form]['fla'];
-    }
+	/**
+	 * Prüft, ob die Wand für die Form existiert.
+	 *
+	 * @param  string $wand Name der Wand (a, b, c, d, e, f, g, h).
+	 * @return bool True, wenn die Wand existiert, sonst false.
+	 */
+	public function wand_existiert( string $wand ): bool {
+		return array_key_exists( $wand, $this->formen[ $this->form ] );
+	}
 
-    /**
-     * Fläche des Grundrisses berechnen.
-     * 
-     * @return float 
-     * 
-     * @throws Exception
-     */
-    public function flaeche(): float
-    {
-        $grundflaeche = 0.0;
-        foreach ( $this->flaechenberechnungsformel() as $_produkt ) {
-            $produkt = 1.0;
-            for ( $i = 0; $i < 2; $i++ ) {
-                $_faktor = $_produkt[ $i ];
-                $faktor = 0.0;
-                $current_operator = '+';
-                $_faktor = explode(' ', $_faktor);
+	/**
+	 * Prüft ob die länge der Wand gesetzt werden darf, oder automatisch berechnet wird.
+	 *
+	 * @param  string $wand Name der Wand (a, b, c, d, e, f, g, h).
+	 * @return bool True, wenn die Länge gesetzt werden darf, sonst false.
+	 */
+	public function wand_laenge_berechnet( string $wand ): bool {
+		return $this->formen[ $this->form ][ $wand ][0] === true ? false : true;
+	}
 
-                foreach ( $_faktor as $t ) {
-                    switch ( $t ) {
-                    case '+':
-                    case '-':
-                        $current_operator = $t;
-                        break;
-                    default:                       
-                        switch ( $current_operator ) {
-                        case '+':
-                            $faktor += $this->wand_laenge($t);
-                            break;
-                        case '-':
-                            $faktor -= $this->wand_laenge($t);
-                            break;
-                        default:
-                        }
-                    }
-                }
+	/**
+	 * Gibt die Form des Grundrisses zurück.
+	 *
+	 * @return array
+	 */
+	public function form(): string {
+		return $this->form;
+	}
 
-                if ($faktor < 0.0 ) {
-                    $faktor = 0.0;
-                }
+	/**
+	 * Gibt die Formel zur Berechnung der Fläche zurück.
+	 *
+	 * @return array
+	 */
+	public function flaechenberechnungsformel(): array {
+		return $this->formen[ $this->form ]['fla'];
+	}
 
-                $produkt *= $faktor;
-            }
-            $grundflaeche += $produkt;
-        }
+	/**
+	 * Fläche des Grundrisses berechnen.
+	 *
+	 * @return float
+	 *
+	 * @throws Exception
+	 */
+	public function flaeche(): float {
+		$grundflaeche = 0.0;
+		foreach ( $this->flaechenberechnungsformel() as $_produkt ) {
+			$produkt = 1.0;
+			for ( $i = 0; $i < 2; $i++ ) {
+				$_faktor          = $_produkt[ $i ];
+				$faktor           = 0.0;
+				$current_operator = '+';
+				$_faktor          = explode( ' ', $_faktor );
 
-        return $grundflaeche;
-    }
+				foreach ( $_faktor as $t ) {
+					switch ( $t ) {
+						case '+':
+						case '-':
+							$current_operator = $t;
+							break;
+						default:
+							switch ( $current_operator ) {
+								case '+':
+									$faktor += $this->wand_laenge( $t );
+									break;
+								case '-':
+									$faktor -= $this->wand_laenge( $t );
+									break;
+								default:
+							}
+					}
+				}
 
-    /**
-     * Länge des Grundrisses berechnen.
-     * 
-     * @return float 
-     * 
-     * @throws Exception 
-     */
-    public function umfang(): float
-    {
-        $laenge = 0;
-        foreach( $this->waende() as $wand ) {
-            $laenge += $this->wand_laenge($wand);
-        }
+				if ( $faktor < 0.0 ) {
+					$faktor = 0.0;
+				}
 
-        return $laenge;
-    }
+				$produkt *= $faktor;
+			}
+			$grundflaeche += $produkt;
+		}
+
+		return $grundflaeche;
+	}
+
+	/**
+	 * Länge des Grundrisses berechnen.
+	 *
+	 * @return float
+	 *
+	 * @throws Exception
+	 */
+	public function umfang(): float {
+		$laenge = 0;
+		foreach ( $this->waende() as $wand ) {
+			$laenge += $this->wand_laenge( $wand );
+		}
+
+		return $laenge;
+	}
 }

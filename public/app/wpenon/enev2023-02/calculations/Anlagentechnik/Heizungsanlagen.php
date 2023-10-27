@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
@@ -7,69 +7,65 @@ require_once __DIR__ . '/Heizungsanlage.php';
 /**
  * Berechnung mehrerer Heizungsanlagen.
  */
-class Heizungsanlagen
-{
-    /**
-     * Liste der Heizungsanlagen.
-     * 
-     * @var Heizungsanlage[]
-     */
-    protected array $heizungsanlagen = [];
+class Heizungsanlagen {
 
-    /**
-     * Hinzufügen einer Heizungsanlage.
-     * 
-     * @var Heizungsanlage
-     */
-    public function hinzufuegen( Heizungsanlage $heizungsanlage )
-    {
-        $this->heizungsanlagen[] = $heizungsanlage;
-    }
+	/**
+	 * Liste der Heizungsanlagen.
+	 *
+	 * @var Heizungsanlage[]
+	 */
+	protected array $heizungsanlagen = array();
 
-    /**
-     * Alle Heizungsanlagen.
-     * 
-     * @return Heizungsanlage[]
-     */
-    public function alle(): array
-    {
-        return $this->heizungsanlagen;
-    }
+	/**
+	 * Hinzufügen einer Heizungsanlage.
+	 *
+	 * @var Heizungsanlage
+	 */
+	public function hinzufuegen( Heizungsanlage $heizungsanlage ) {
+		$this->heizungsanlagen[] = $heizungsanlage;
+	}
 
-    /**
-     * Validierung des prozentualen Anteils aller Heizungsanlagen.
-     * 
-     * @return bool 
-     */
-    protected function validiere_prozent_gesamt(): bool
-    {
-        $prozent_gesamt = 0;
+	/**
+	 * Alle Heizungsanlagen.
+	 *
+	 * @return Heizungsanlage[]
+	 */
+	public function alle(): array {
+		return $this->heizungsanlagen;
+	}
 
-        foreach ($this->heizungsanlagen as $heizungsanlage) {
-            $prozent_gesamt += $heizungsanlage->prozentualer_anteil();
-        }
+	/**
+	 * Validierung des prozentualen Anteils aller Heizungsanlagen.
+	 *
+	 * @return bool
+	 */
+	protected function validiere_prozent_gesamt(): bool {
+		$prozent_gesamt = 0;
 
-        return $prozent_gesamt === 100;
-    }
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			$prozent_gesamt += $heizungsanlage->prozentualer_anteil();
+		}
 
-    /**
-     * Nutzbare Wärme.
-     * 
-     * @return float
-     */
-    public function fa_h()
-    {
-        $fa_h = 0;
+		return $prozent_gesamt === 100;
+	}
 
-        // Validieren der prozentualen Anteile.
-        if (!$this->validiere_prozent_gesamt()) {
-            throw new Exception('Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.');
-        }
+	/**
+	 * Nutzbare Wärme.
+	 *
+	 * @return float
+	 */
+	public function fa_h() {
+		$fa_h = 0;
 
-        foreach ($this->heizungsanlagen as $heizungsanlage) {
-            $fa_h += $heizungsanlage->fa_h() * $heizungsanlage->prozentualer_anteil() / 100;
-        }
+		// Validieren der prozentualen Anteile.
+		if ( ! $this->validiere_prozent_gesamt() ) {
+			throw new Exception( 'Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.' );
+		}
 
-        return $fa_h;
-    }
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			$fa_h += $heizungsanlage->fa_h() * $heizungsanlage->prozentualer_anteil() / 100;
+		}
+
+		return $fa_h;
+	}
 }

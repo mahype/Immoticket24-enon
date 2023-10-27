@@ -7,110 +7,106 @@ use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 /**
  * Temporäre Klasse zur Aufnahme der Daten. Später sollen die Bauteile, Transmissions usw. hier berechnet werden.
  */
-class Bauteile implements Transmissionswaerme
-{
-    /**
-     * Sammlung aller Bauteile.
-     * 
-     * @var array
-     */
-    protected array $elemente = [];
+class Bauteile implements Transmissionswaerme {
 
-    /**
-     * Konstruktor.
-     * 
-     * @param array $elemente Bauteile welche hinzugefügt werden sollen.
-     */
-    public function __construct( array $elemente = [] )
-    {
-        foreach( $elemente AS $element ) {
-            $this->hinzufuegen( $element );
-        }        
-    }
+	/**
+	 * Sammlung aller Bauteile.
+	 *
+	 * @var array
+	 */
+	protected array $elemente = array();
 
-    /**
-     * Fügt ein Bauteil hinzu.
-     * 
-     * @param Bauteil $bauteil
-     */
-    public function hinzufuegen( Bauteil $bauteil ) {
-        $this->elemente[] = $bauteil;
-    }
+	/**
+	 * Konstruktor.
+	 *
+	 * @param array $elemente Bauteile welche hinzugefügt werden sollen.
+	 */
+	public function __construct( array $elemente = array() ) {
+		foreach ( $elemente as $element ) {
+			$this->hinzufuegen( $element );
+		}
+	}
 
-    /**
-     * Gibt alle Bauteile zurück.
-     * 
-     * @return Bauteile[]
-     */
-    public function alle(): array
-    {
-        return $this->elemente;
-    }
+	/**
+	 * Fügt ein Bauteil hinzu.
+	 *
+	 * @param Bauteil $bauteil
+	 */
+	public function hinzufuegen( Bauteil $bauteil ) {
+		$this->elemente[] = $bauteil;
+	}
 
-    /**
-     * Gibt das erste Bauteil der Sammlung zurück.
-     * 
-     * @return Bauteil
-     */
-    public function erstes(): Bauteil
-    {
-        return $this->elemente[0];
-    }
+	/**
+	 * Gibt alle Bauteile zurück.
+	 *
+	 * @return Bauteile[]
+	 */
+	public function alle(): array {
+		return $this->elemente;
+	}
 
-    /**
-     * Filtern der Bauteile.
-     * 
-     * @param string $typ Typ des Bauteils. Mögliche Bauteile: Wand, Dach, Boden, Fenster, Rolladenkasten, Heizkoepernische, Anbauwand, Anbaudach.
-     * @param string $himmelsrichtung Himmelsrichtung des Bauteils. Mögliche Himmelsrichtungen: n, no, o, so, s, sw, w, nw.
-     * 
-     * @return Bauteile 
-     */
-    public function filter( string $typ = null, string $himmelsrichtung = null ): Bauteile
-    {
-        $elemente = array_filter( $this->elemente, function( $bauteil ) use ( $typ ) {
-            $reflect = new ReflectionClass($bauteil );
-            $bauteil_typ = $reflect->getShortName();
+	/**
+	 * Gibt das erste Bauteil der Sammlung zurück.
+	 *
+	 * @return Bauteil
+	 */
+	public function erstes(): Bauteil {
+		return $this->elemente[0];
+	}
 
-            return $bauteil_typ === $typ;
-        } );
+	/**
+	 * Filtern der Bauteile.
+	 *
+	 * @param string $typ Typ des Bauteils. Mögliche Bauteile: Wand, Dach, Boden, Fenster, Rolladenkasten, Heizkoepernische, Anbauwand, Anbaudach.
+	 * @param string $himmelsrichtung Himmelsrichtung des Bauteils. Mögliche Himmelsrichtungen: n, no, o, so, s, sw, w, nw.
+	 *
+	 * @return Bauteile
+	 */
+	public function filter( string $typ = null, string $himmelsrichtung = null ): Bauteile {
+		$elemente = array_filter(
+			$this->elemente,
+			function ( $bauteil ) use ( $typ ) {
+				$reflect     = new ReflectionClass( $bauteil );
+				$bauteil_typ = $reflect->getShortName();
 
-        return new Bauteile( $elemente );
-    }
+				return $bauteil_typ === $typ;
+			}
+		);
 
-    /**
-     * Gibt die Flaeche aller Bauteile zurück.
-     * 
-     * @return float
-     */
-    public function flaeche(): float
-    {
-        $flaeche = 0.0;
+		return new Bauteile( $elemente );
+	}
 
-        foreach( $this->elemente AS $bauteil ) {
-            $flaeche += $bauteil->flaeche();
-        }
+	/**
+	 * Gibt die Flaeche aller Bauteile zurück.
+	 *
+	 * @return float
+	 */
+	public function flaeche(): float {
+		$flaeche = 0.0;
 
-        return $flaeche;
-    }
+		foreach ( $this->elemente as $bauteil ) {
+			$flaeche += $bauteil->flaeche();
+		}
 
-    /**
-     * Transmissionswärmeverlust aller Bauteile.
-     * 
-     * @return float
-     */
-    public function ht(): float
-    {
-        $ht = 0;
+		return $flaeche;
+	}
 
-        foreach( $this->elemente AS $bauteil ) {
-            $ht += $bauteil->ht();
-        }
+	/**
+	 * Transmissionswärmeverlust aller Bauteile.
+	 *
+	 * @return float
+	 */
+	public function ht(): float {
+		$ht = 0;
 
-        return $ht;
-    }
+		foreach ( $this->elemente as $bauteil ) {
+			$ht += $bauteil->ht();
+		}
 
-    public function hw(): float
-    {
-        return $this->hw;
-    }
+		return $ht;
+	}
+
+	public function hw(): float {
+		return $this->hw;
+	}
 }
