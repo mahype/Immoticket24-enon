@@ -5,6 +5,8 @@ namespace Enev\Schema202302\Calculations\Gebaeude;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
+use Enev\Schema202302\Calculations\Bauteile\Keller;
+use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
@@ -117,6 +119,13 @@ class Gebaeude {
 	 * @var Anbau
 	 */
 	private Anbau $anbau;
+
+	/**
+	 * Keller.
+	 * 
+	 * @var Keller
+	 */
+	private Keller $keller;
 
 	/**
 	 * Wirksame Wärmespeicherkapazität in Abhängigkeit der Gebäudeschwere.
@@ -242,10 +251,45 @@ class Gebaeude {
 		}
 
 		if ( empty( $this->anbau ) ) {
-			throw new Exception( 'Anbau wurde nicht gesetzt.' );
+			throw new Calculation_Exception( 'Anbau wurde nicht gesetzt.' );
 		}
 
 		return $this->anbau;
+	}
+
+	/**
+	 * Prüft, ob ein Anbau vorhanden ist.
+	 * 
+	 * @return bool 
+	 */
+	public function anbau_vorhanden(): bool {
+		return $this->anbau !== null;
+	}
+
+	/**
+	 * Keller.
+	 * 
+	 * @param Keller|null Keller object oder null, sofern bereits angegeben.
+	 */
+	public function _keller( Keller|null $keller = null ): Keller {
+		if ( ! empty( $keller ) ) {
+			$this->keller = $keller;
+		}
+
+		if ( empty( $this->keller ) ) {
+			throw new Calculation_Exception( 'Keller wurde nicht gesetzt.' );
+		}
+
+		return $this->keller;
+	}
+
+	/**
+	 * Prüft, ob ein Keller vorhanden ist.
+	 * 
+	 * @return bool 
+	 */
+	public function keller_vorhanden(): bool {
+		return $this->keller !== null;
 	}
 
 	/**

@@ -16,6 +16,8 @@ use Enev\Schema202302\Calculations\Bauteile\Decke;
 use Enev\Schema202302\Calculations\Bauteile\Fenster;
 use Enev\Schema202302\Calculations\Bauteile\Flachdach;
 use Enev\Schema202302\Calculations\Bauteile\Heizkoerpernische;
+use Enev\Schema202302\Calculations\Bauteile\Keller;
+use Enev\Schema202302\Calculations\Bauteile\Kellerwand;
 use Enev\Schema202302\Calculations\Bauteile\Pultdach;
 use Enev\Schema202302\Calculations\Bauteile\Rolladenkasten;
 use Enev\Schema202302\Calculations\Bauteile\Satteldach;
@@ -202,9 +204,9 @@ if ( $energieausweis->anbau ) {
 	$uwert_anbau_boden = uwert( $energieausweis->anbauboden_bauart, $energieausweis->anbau_baujahr );
 
 	$gebaeude->_bauteile()->hinzufuegen(
-		new Boden(
-			grundriss: $grundriss_anbau,
+		new Boden(			
 			name: sprintf( __( 'Anbau-Boden', 'wpenon' ) ),
+			flaeche: $grundriss->flaeche(),
 			uwert: $uwert_anbau_boden,
 			daemmung: $energieausweis->anbauboden_daemmung,
 		)
@@ -220,12 +222,24 @@ if ( $energieausweis->anbau ) {
 			daemmung: $energieausweis->anbaudach_daemmung,
 		)
 	);
+
+	foreach( $anbau->grundriss()->waende() as $wand ) {
+		$gebaeude->_bauteile()->hinzufuegen(
+			new Anbauwand(
+				name: sprintf( __( 'Anbauwand %s', 'wpenon' ), $wand ),
+				seite: $wand,
+				flaeche: $anbau->wand_flaeche( $wand ),
+				uwert: $uwert_anbau_wand,
+				himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
+				daemmung: $energieausweis->anbauwand_daemmung,
+			)
+		);
+	}
 }
 
 /**
- * Hinzufügen aller Bauteile der Wände.
+ * Hinzufügen aller Wände des Hauptgebäudes.
  */
-
 $uwert_wand = uwert( $energieausweis->anbauwand_bauart, $energieausweis->anbau_baujahr );
 
 foreach ( $grundriss->waende() as $wand ) {
@@ -328,69 +342,52 @@ foreach ( $gebaeude->_bauteile()->waende() as $wand ) {
 $kellerflaeche = $grundflaeche;
 switch ( $energieausweis->keller ) {
 	case 'beheizt':
-		$keller_anteil   = $energieausweis->keller_groesse * 0.01; // bei 80% ist Faktor 0,8
-		$kellerwandhoehe = $energieausweis->keller_hoehe + 0.25;
+		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, $energieausweis->keller_hoehe );
+		$gebaeude->_keller( $keller );
 
-		$kellerflaeche    *= $keller_anteil;
-		$kellerwandlaenge  = sqrt( $kellerflaeche ) * 4; // Als Kellerfläche wird ein Quadrat angesetzt. Die Wurzel aus der Fläche ergibt die Seitenlänge. Diese wird mit 4 multipliziert, um die Gesamtlänge der Kellerwände zu erhalten.
-		$kellerwandflaeche = $kellerwandlaenge * $kellerwandhoehe;
+		$gebaeude->_bauteile()->hinzufuegen(
+			new Kellerwand(
+				name: __( 'Kellerwand', 'wpenon' ),
+				flaeche: $gebaeude->_keller()->wand_flaeche(),
+				uwert: uwert( $energieausweis->keller_bauart, $energieausweis->baujahr ),
+				daemmung: $energieausweis->keller_daemmung,
+			)
+		);
 
-		$calculations['bauteile']['kellerwand'] = array(
-			'name'    => __( 'Kellerwand', 'wpenon' ),
-			'typ'     => 'wand',
-			'modus'   => 'opak',
-			'bauart'  => $energieausweis->keller_bauart,
-			'baujahr' => $energieausweis->baujahr,
-			'a'       => $kellerwandflaeche,
-			'd'       => $energieausweis->keller_daemmung,
+		$gebaeude->_bauteile()->hinzufuegen(
+			new Boden(				
+				name: sprintf( __( 'Boden', 'wpenon' ) ),
+				flaeche: $gebaeude->_keller()->boden_flaeche(),
+				uwert: uwert( $energieausweis->keller_bauart, $energieausweis->baujahr ),
+				daemmung: $energieausweis->anbauboden_daemmung,
+			)
 		);
-		$calculations['bauteile']['boden']      = array(
-			'name'    => __( 'Boden', 'wpenon' ),
-			'typ'     => 'boden',
-			'modus'   => 'opak',
-			'bauart'  => $energieausweis->boden_bauart,
-			'baujahr' => $energieausweis->baujahr,
-			'a'       => $kellerflaeche,
-			'd'       => $energieausweis->boden_daemmung,
-		);
-		$calculations['volumenteile']['keller'] = array(
-			'name' => __( 'Kellergeschoss', 'wpenon' ),
-			'v'    => $grundflaeche * $kellerwandhoehe * $keller_anteil,
-		);
+
 		break;
 	case 'unbeheizt':
-		$kellerflaeche                          *= $energieausweis->keller_groesse * 0.01;
-		$calculations['bauteile']['kellerdecke'] = array(
-			'name'    => __( 'Kellerdecke', 'wpenon' ),
-			'typ'     => 'boden',
-			'modus'   => 'opak',
-			'bauart'  => $energieausweis->boden_bauart,
-			'baujahr' => $energieausweis->baujahr,
-			'a'       => $kellerflaeche,
-			'd'       => $energieausweis->boden_daemmung,
+		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, $energieausweis->keller_hoehe );
+		$gebaeude->_keller( $keller );
+
+		// Frage: Warum wurde der Boden zuvor zwei mal hinzugefügt? Rechnung durchgehen und ggf. korrigieren. Er wird im Frontend auch mit Teilunterkellerung bei unbehgeizt nur ein mal hinzugefügt. 
+		$gebaeude->_bauteile()->hinzufuegen(
+			new Boden(				
+				name: sprintf( __( 'Boden', 'wpenon' ) ),
+				flaeche: $gebaeude->_grundriss()->flaeche(),
+				uwert: uwert( $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				daemmung: $energieausweis->anbauboden_daemmung,
+			)
 		);
-		if ( $kellerflaeche < $grundflaeche ) {
-			$calculations['bauteile']['boden'] = array(
-				'name'    => __( 'Boden', 'wpenon' ),
-				'typ'     => 'boden',
-				'modus'   => 'opak',
-				'bauart'  => $energieausweis->boden_bauart,
-				'baujahr' => $energieausweis->baujahr,
-				'a'       => $grundflaeche - $kellerflaeche,
-				'd'       => $energieausweis->boden_daemmung,
-			);
-		}
+
 		break;
 	case 'nicht-vorhanden':
 	default:
-		$calculations['bauteile']['boden'] = array(
-			'name'    => __( 'Boden', 'wpenon' ),
-			'typ'     => 'boden',
-			'modus'   => 'opak',
-			'bauart'  => $energieausweis->boden_bauart,
-			'baujahr' => $energieausweis->baujahr,
-			'a'       => $kellerflaeche,
-			'd'       => $energieausweis->boden_daemmung,
+		$gebaeude->_bauteile()->hinzufuegen(
+			new Boden(				
+				name: sprintf( __( 'Boden', 'wpenon' ) ),
+				flaeche: $gebaeude->_grundriss()->flaeche(),
+				uwert: uwert( $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				daemmung: $energieausweis->anbauboden_daemmung,
+			)
 		);
 }
 

@@ -7,19 +7,39 @@ use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 /**
  * Die Klasse Kellerwand.
  */
-class Kellerwand extends Wand implements Transmissionswaerme {
+class Kellerwand extends Bauteil implements Transmissionswaerme {
+	/**
+	 * Dicke der daemmung der Kellewand.
+	 * 
+	 * @var float
+	 */
+	private float $daemmung;
+
 	/**
 	 * Konstruktor
 	 *
-	 * @param  string $seite           Seite des Bauteils (a, b, c...)
+	 * @param  string $name            Name des Bauteils.
+	 * @param  string $seite           Seite des Bauteils (a, b, c...).
 	 * @param  float  $flaeche         Fläche des Bauteils.
 	 * @param  float  $uwert           Uwert des Bauteils.
-	 * @param  int    $baujahr         Baujahr des Bauteils.
 	 * @param  string $himmelsrichtung Himmelsrichtung des Bauteils.
 	 * @param  float  $daemmung        Dämmung des Bauteils.
 	 */
-	public function __construct( string $name, string $seite, float $flaeche, float $uwert, string $himmelsrichtung, float $daemmung ) {
-		parent::__construct( $name, $seite, $flaeche, $uwert, $himmelsrichtung, $daemmung );
+	public function __construct( string $name, float $flaeche, float $uwert, float $daemmung ) {		
+		$this->name                   = $name;		
+		$this->flaeche                = $flaeche;
+		$this->uwert                  = $uwert;		
+		$this->daemmung               = $daemmung;
+
 		$this->fx = 0.75; // Schlechtester Wert aus Tab c4 18599/T12
+	}
+
+	/**
+	 * Dämmung des Bauteils.
+	 *
+	 * @return float
+	 */
+	public function daemmung(): float {
+		return $this->daemmung;
 	}
 }

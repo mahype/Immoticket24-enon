@@ -154,6 +154,6 @@ class Anbau {
 	 * @throws Exception
 	 */
 	public function volumen(): float {
-		return $this->grundriss->flaeche() * $this->hoehe;
+		return $this->grundriss->flaeche() * $this->hoehe();
 	}
 }
