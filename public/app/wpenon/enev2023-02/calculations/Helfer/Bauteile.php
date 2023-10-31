@@ -7,8 +7,8 @@ namespace Enev\Schema202302\Calculations\Helfer;
  *
  * @package Enev\Schema202302\Calculations\Bauteile
  */
-function berechne_fenster_flaeche( float $wandlaenge, float $wandhoehe ): float {
-	return ( 0.55 * $wandlaenge ) * ( $wandhoehe - 1.5 );
+function berechne_fenster_flaeche( float $wandlaenge, float $wandhoehe, float $wanddicke ): float {
+	return ( 0.55 * ( $wandlaenge - $wanddicke ) ) * ( $wandhoehe - 1.5 );
 }
 
 /**

@@ -190,7 +190,7 @@ class Gebaeude {
 		}
 
 		if ( $this->wasserversorgung === null ) {
-			throw new Exception( 'Wasserversorgung wurde nicht gesetzt.' );
+			throw new Calculation_Exception( 'Wasserversorgung wurde nicht gesetzt.' );
 		}
 
 		return $this->wasserversorgung;
@@ -292,6 +292,11 @@ class Gebaeude {
 		return $this->keller !== null;
 	}
 
+	public function dach_vorhanden(): bool
+	{
+		
+	}
+
 	/**
 	 * Baujahr des Gebäudes.
 	 *
@@ -360,6 +365,11 @@ class Gebaeude {
 		// Volumen des Anbaus.
 		if ( $this->anbau !== null ) {
 			$volumen += $this->anbau->volumen();
+		}
+
+		// Volumen des Dachs.
+		if( $this->dach_vorhanden() ) {
+			$volumen += $this->dach()->volumen();
 		}
 
 		return $volumen;
