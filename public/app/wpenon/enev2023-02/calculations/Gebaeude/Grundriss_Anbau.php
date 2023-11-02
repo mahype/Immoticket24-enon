@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Gebaeude;
 
+require_once __DIR__ . '/Grundriss.php';
+
 /**
  * Die Klasse Grundriss repräsentiert einen Grundriss eines Anbaus.
  */

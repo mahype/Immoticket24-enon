@@ -3,6 +3,9 @@
 namespace Enev\Schema202302\Calculations\Tabellen;
 
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Helfer\Jahr;
+
+use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
@@ -70,7 +73,7 @@ class Mittlere_Belastung {
 		if ( ! empty( $gebaeude ) ) {
 			$this->gebaeude = $gebaeude;
 
-			if ( $this->gebaeude->anzahl_wohneinheiten() === 1 ) {
+			if ( $this->gebaeude->anzahl_wohnungen() === 1 ) {
 				$this->table_data = wpenon_get_table_results( 'mittlere_belastung_efh' );
 			} else {
 				$this->table_data = wpenon_get_table_results( 'mittlere_belastung_mfh' );

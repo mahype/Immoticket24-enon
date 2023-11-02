@@ -4,6 +4,8 @@ namespace Enev\Schema202302\Calculations\Bauteile;
 
 use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 
+require_once dirname( __DIR__ ) . '/Schnittstellen/Transmissionwaerme.php';
+
 /**
  * Temporäre Klasse zur Aufnahme der Daten. Später sollen die Bauteile, Transmissions usw. hier berechnet werden.
  */
@@ -25,6 +27,15 @@ class Bauteile implements Transmissionswaerme {
 		foreach ( $elemente as $element ) {
 			$this->hinzufuegen( $element );
 		}
+	}
+
+	/**
+	 * Anzahl der Bauteile.
+	 * 
+	 * @return int 
+	 */
+	public function anzahl(): int {
+		return count( $this->elemente );
 	}
 
 	/**
@@ -59,17 +70,34 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @param string $typ Typ des Bauteils. Mögliche Bauteile: Wand, Dach, Boden, Fenster, Rolladenkasten, Heizkoepernische, Anbauwand, Anbaudach.
 	 * @param string $himmelsrichtung Himmelsrichtung des Bauteils. Mögliche Himmelsrichtungen: n, no, o, so, s, sw, w, nw.
+	 * @param string $seite Seite des Bauteils. Mögliche Seiten: a, b, c, d, e, f, g, h.
 	 *
 	 * @return Bauteile
 	 */
-	public function filter( string $typ = null, string $himmelsrichtung = null ): Bauteile {
+	public function filter( string $typ = null, string $himmelsrichtung = null, string $seite = null ): Bauteile {
 		$elemente = array_filter(
 			$this->elemente,
-			function ( $bauteil ) use ( $typ ) {
-				$reflect     = new \ReflectionClass( $bauteil );
-				$bauteil_typ = $reflect->getShortName();
+			function ( $bauteil ) use ( $typ, $himmelsrichtung, $seite ) {
+				$found = true;
 
-				return $bauteil_typ === $typ;
+				$reflect     = new \ReflectionClass( $bauteil );
+
+				$class = $reflect->getShortName();
+				$parent_class = $reflect->getParentClass()->getShortName();
+
+				if( $typ !== null && ( $class !== ucfirst( $typ ) && $parent_class !== ucfirst( $typ ) ) ) {
+					$found = false;
+				}
+
+				if ( $himmelsrichtung !== null && ( ! method_exists( $bauteil, 'himmelsrichtung' ) || $bauteil->himmelsrichtung() !== $himmelsrichtung ) ) {
+					$found = false;
+				}
+
+				if ( $seite !== null && ( ! method_exists( $bauteil, 'seite' ) || $bauteil->seite() !== $seite ) ) {
+					$found = false;
+				}
+
+				return $found;
 			}
 		);
 
@@ -84,6 +112,19 @@ class Bauteile implements Transmissionswaerme {
 	public function waende(): Wand_Sammlung
 	{
 		$waende = $this->filter( 'Wand' );
+		return new Wand_Sammlung( $waende->alle() );
+	}
+
+
+
+	/**
+	 * Gibt alle Wände des Kellers zurück.
+	 *
+	 * @return Wand_Sammlung Sammlung aller Kellerwände.
+	 */
+	public function keller_waende(): Wand_Sammlung
+	{
+		$waende = $this->filter( 'Kellerwand' );
 		return new Wand_Sammlung( $waende->alle() );
 	}
 
@@ -117,7 +158,22 @@ class Bauteile implements Transmissionswaerme {
 		return $ht;
 	}
 
+	/**
+	 * Transmissionswärmeverlust aller Fenster.
+	 * 
+	 * Frage: Ist das so korrekt implementiert?
+	 * 
+	 * @return float 
+	 */
 	public function hw(): float {
-		return $this->hw;
+		$hw = 0;
+
+		$fenster_sammlung = $this->filter( 'Fenster' );
+
+		foreach ( $fenster_sammlung as $fenster ) {
+			$hw += $fenster->ht();
+		}
+
+		return $hw;
 	}
 }

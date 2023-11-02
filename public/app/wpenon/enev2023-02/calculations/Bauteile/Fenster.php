@@ -4,6 +4,13 @@ namespace Enev\Schema202302\Calculations\Bauteile;
 
 use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 
+require __DIR__ . '/Bauteil.php';
+
+/**
+ * Bauteil Fenster.
+ *
+ * @package Enev\Schema202302\Calculations\Bauteile
+ */
 class Fenster extends Bauteil implements Transmissionswaerme {
 	/**
 	 * Himmelsrichtung des Bauteils.

@@ -2,6 +2,9 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enon\Enon\Standards\Calculation;
+
 /**
  * Berechnung eines Übergabeystems (Heizkörper).
  */
@@ -92,12 +95,12 @@ class Uebergabesystem {
 	) {
 		// Check der Übergabe-Typen
 		if ( ! in_array( $typ, $this->typen ) ) {
-			throw new Exception( 'Typ des Übergabesystems nicht bekannt.' );
+			throw new Calculation_Exception( 'Typ des Übergabesystems nicht bekannt.' );
 		}
 
 		// Check der Auslegungstemperaturen.
 		if ( ! in_array( $auslegungstemperaturen, $this->erlaubte_auslegungstemperaturen ) ) {
-			throw new Exception( 'Auslegungstemperaturen nicht bekannt.' );
+			throw new Calculation_Exception( 'Auslegungstemperaturen nicht bekannt.' );
 		}
 
 		$this->typ                    = $typ;
@@ -266,7 +269,7 @@ class Uebergabesystem {
 	 */
 	public function ßhd(): float {
 		if ( $this->typ === 'elektroheizungsflaechen' ) {
-			throw new Exception( 'Elektroheizungsflächen haben keine mittlere Belastung für die Verteilung.' );
+			throw new Calculation_Exception( 'Elektroheizungsflächen haben keine mittlere Belastung für die Verteilung.' );
 		}
 
 		// Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.

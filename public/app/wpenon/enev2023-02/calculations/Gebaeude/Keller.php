@@ -1,14 +1,13 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202302\Calculations\Gebaeude;
 
 use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
-use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 
 /**
  * Abstrakte Klasse für ein Dach.
  */
-class Keller implements Transmissionswaerme {
+class Keller {
 	/**
 	 * Grundriss.
 	 *
@@ -41,6 +40,15 @@ class Keller implements Transmissionswaerme {
         $this->grundriss = $grundriss;
         $this->anteil = $anteil;
         $this->hoehe = $hoehe;
+    }
+
+    /**
+     * Anteil der Unterkellerung.
+     * 
+     * @return float
+     */
+    public function anteil(): float {
+        return $this->anteil;
     }
 
     /**
@@ -77,5 +85,14 @@ class Keller implements Transmissionswaerme {
      */
     public function wand_flaeche(): float {
         return $this->wand_laenge() * $this->wand_hoehe();
+    }
+
+    /**
+     * Gibt das Volumen des Kellers zurück.
+     * 
+     * @return float
+     */
+    public function volumen(): float {
+        return $this->boden_flaeche() * $this->wand_hoehe();
     }
 }

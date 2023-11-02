@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Helfer;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 require_once __DIR__ . '/Monat.php';
 
 /**
@@ -116,6 +118,6 @@ class Jahr {
 			$details = self::$monateListe[ $monatSlug ];
 			return new Monat( $monatSlug, $details['tage'], $details['name'] );
 		}
-		throw new Exception( 'Ungültiger Monatsname' );
+		throw new Calculation_Exception( 'Ungültiger Monatsname' );
 	}
 }

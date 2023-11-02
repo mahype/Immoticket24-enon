@@ -29,6 +29,8 @@ class Flachdach extends Dach {
 		$this->daemmung  = $daemmung;
 
 		$this->fx = 0.8;
+
+		$this->berechnen();
 	}
 
 	/**
@@ -40,5 +42,6 @@ class Flachdach extends Dach {
 	protected function berechnen(): void {
 		$this->flaeche = $this->grundriss->flaeche();
 		$this->volumen = 0;
+		$this->hoehe = 0;
 	}
 }

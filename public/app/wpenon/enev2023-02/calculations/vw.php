@@ -4,7 +4,7 @@ namespace Enev\Schema202302\Calculations;
 
 require_once __DIR__ . '/CalculationsCC.php';
 
-$tableNames = new stdClass();
+$tableNames = new \stdClass();
 
 $tableNames->h_erzeugung                 = 'h_erzeugung2019';
 $tableNames->ww_erzeugung                = 'ww_erzeugung202001';
@@ -12,7 +12,7 @@ $tableNames->energietraeger              = 'energietraeger2021';
 $tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
 $tableNames->klimafaktoren               = 'klimafaktoren202301';
 
-$calcCC                         = new Enev\Schema202302\Calculations\CalculationsCC( $energieausweis );
+$calcCC                         = new CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->getBuilding()->getCo2Emissions();
 
 $calculations['object'] = $calcCC;

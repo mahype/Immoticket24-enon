@@ -137,10 +137,10 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 * Wandfläche für eine bestimmte Seite.
 	 *
 	 * @param string $seite
-	 * @return array
+	 * @return float
 	 * @throws Exception
 	 */
-	public function wand_flaeche( string $seite ): array {
+	public function wand_flaeche( string $seite ): float {
 		$wand_flaeche = 0;
 
 		if ( array_key_exists( $seite, $this->wand_flaechen ) ) {
@@ -149,7 +149,7 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 
 		$wand_flaeche += $this->wandflaeche_kniestock( $seite );
 
-		return $this->wand_flaechen;
+		return $wand_flaeche;
 	}
 
 	/**

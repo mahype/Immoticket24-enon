@@ -76,6 +76,6 @@ abstract class Bauteil {
 	 * @return float
 	 */
 	public function ht(): float {
-		return $this->flaeche * $this->uwert * $this->fx;
+		return $this->flaeche() * $this->uwert() * $this->fx();
 	}
 }

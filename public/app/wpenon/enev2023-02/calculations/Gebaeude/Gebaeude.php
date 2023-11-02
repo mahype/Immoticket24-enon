@@ -5,22 +5,24 @@ namespace Enev\Schema202302\Calculations\Gebaeude;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
-use Enev\Schema202302\Calculations\Bauteile\Keller;
+use Enev\Schema202302\Calculations\Bauteile\Dach;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
 
-require_once __DIR__ . '/Bauteile.php';
-require_once __DIR__ . '/Heizsystem.php';
-require_once __DIR__ . '/Wasserversorgung.php';
-require_once __DIR__ . '/Luftwechsel.php';
-require_once __DIR__ . '/Mittlere_Belastung.php';
-require_once __DIR__ . '/Bilanz_Innentemperatur.php';
+require_once __DIR__  . '/Keller.php';
 
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
+require_once dirname( __DIR__ ) . '/Bauteile/Bauteile.php';
 
+require_once dirname( __DIR__ ) . '/Anlagentechnik/Heizsystem.php';
+require_once dirname( __DIR__ ) . '/Anlagentechnik/Wasserversorgung.php';
+
+require_once dirname( __DIR__ ) . '/Tabellen/Luftwechsel.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Mittlere_Belastung.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Bilanz_Innentemperatur.php';
 
 /**
  * Gebäude.
@@ -62,7 +64,7 @@ class Gebaeude {
 	 *
 	 * @var string
 	 */
-	private $anzahl_wohneinheiten;
+	private $anzahl_wohnungen;
 
 	/**
 	 * Luftwechsel
@@ -118,14 +120,14 @@ class Gebaeude {
 	 *
 	 * @var Anbau
 	 */
-	private Anbau $anbau;
+	private Anbau|null $anbau = null;
 
 	/**
 	 * Keller.
-	 * 
+	 *
 	 * @var Keller
 	 */
-	private Keller $keller;
+	private Keller|null $keller = null;
 
 	/**
 	 * Wirksame Wärmespeicherkapazität in Abhängigkeit der Gebäudeschwere.
@@ -141,16 +143,16 @@ class Gebaeude {
 	 * @param int       $baujahr Baujahr des Gebäudes.
 	 * @param int       $geschossanzahl Anzahl der Geschosse.
 	 * @param float     $geschosshoehe Geschosshöhe vom Boden bis zur Decke des darüberliegenden Geschosses (lichte Höhe). Die Deckenhöhe wird automatisch mit 25 cm für die Decke addiert.
-	 * @param int       $anzahl_wohneinheiten Anzahl der Wohneinheiten.
+	 * @param int       $anzahl_wohnungen Anzahl der Wohneinheiten.
 	 *
 	 * @return void
 	 */
-	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohneinheiten ) {
+	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen ) {
 		$this->jahr                 = new Jahr();
 		$this->baujahr              = $baujahr;
 		$this->geschossanzahl       = $geschossanzahl;
 		$this->geschosshoehe        = $geschosshoehe;
-		$this->anzahl_wohneinheiten = $anzahl_wohneinheiten;
+		$this->anzahl_wohnungen = $anzahl_wohnungen;
 		$this->grundriss            = $grundriss;
 
 		$this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
@@ -164,7 +166,7 @@ class Gebaeude {
 	 *
 	 * @return Bauteile
 	 */
-	public function _bauteile(): Bauteile {
+	public function bauteile(): Bauteile {
 		return $this->bauteile;
 	}
 
@@ -173,7 +175,7 @@ class Gebaeude {
 	 *
 	 * @return Heizsystem
 	 */
-	public function _heizsystem(): Heizsystem {
+	public function heizsystem(): Heizsystem {
 		return $this->heizsystem;
 	}
 
@@ -184,7 +186,7 @@ class Gebaeude {
 	 *
 	 * @return Wasserversorgung
 	 */
-	public function _wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung {
+	public function wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung {
 		if ( $wasserversorgung !== null ) {
 			$this->wasserversorgung = $wasserversorgung;
 		}
@@ -203,7 +205,7 @@ class Gebaeude {
 	 *
 	 * @return Luftwechsel
 	 */
-	public function _luftwechsel( Luftwechsel|null $luftwechsel = null ): Luftwechsel {
+	public function luftwechsel( Luftwechsel|null $luftwechsel = null ): Luftwechsel {
 		if ( ! empty( $luftwechsel ) ) {
 			$this->luftwechsel = $luftwechsel;
 			$this->luftwechsel->gebaeude( $this );
@@ -212,9 +214,9 @@ class Gebaeude {
 		return $this->luftwechsel;
 	}
 
-	protected function _mittlere_belastung(): Mittlere_Belastung {
+	public function mittlere_belastung(): Mittlere_Belastung {
 		if ( empty( $this->mittlere_Belastung ) ) {
-			$this->mittlere_Belastung = new Mittlere_Belastung( $this->_luftwechsel()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
+			$this->mittlere_Belastung = new Mittlere_Belastung( $this->luftwechsel()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
 			$this->mittlere_Belastung->gebaeude( $this );
 		}
 
@@ -222,9 +224,9 @@ class Gebaeude {
 	}
 
 
-	protected function _bilanz_innentemperatur(): Bilanz_Innentemperatur {
+	public function bilanz_innentemperatur(): Bilanz_Innentemperatur {
 		if ( empty( $this->bilanz_innentemperatur ) ) {
-			$this->bilanz_innentemperatur = new Bilanz_Innentemperatur( $this->_luftwechsel()->h_max_spezifisch() );
+			$this->bilanz_innentemperatur = new Bilanz_Innentemperatur( $this->luftwechsel()->h_max_spezifisch() );
 			$this->bilanz_innentemperatur->gebaeude( $this );
 		}
 
@@ -236,7 +238,7 @@ class Gebaeude {
 	 *
 	 * @return Grundriss
 	 */
-	public function _grundriss(): Grundriss {
+	public function grundriss(): Grundriss {
 		return $this->grundriss;
 	}
 
@@ -245,7 +247,7 @@ class Gebaeude {
 	 *
 	 * @param Anbau|null Anbau object oder null, sofern bereits angegeben.
 	 */
-	public function _anbau( Anbau|null $anbau = null ): Anbau {
+	public function anbau( Anbau|null $anbau = null ): Anbau {
 		if ( ! empty( $anbau ) ) {
 			$this->anbau = $anbau;
 		}
@@ -259,8 +261,8 @@ class Gebaeude {
 
 	/**
 	 * Prüft, ob ein Anbau vorhanden ist.
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function anbau_vorhanden(): bool {
 		return $this->anbau !== null;
@@ -268,10 +270,10 @@ class Gebaeude {
 
 	/**
 	 * Keller.
-	 * 
+	 *
 	 * @param Keller|null Keller object oder null, sofern bereits angegeben.
 	 */
-	public function _keller( Keller|null $keller = null ): Keller {
+	public function keller( Keller|null $keller = null ): Keller {
 		if ( ! empty( $keller ) ) {
 			$this->keller = $keller;
 		}
@@ -285,17 +287,30 @@ class Gebaeude {
 
 	/**
 	 * Prüft, ob ein Keller vorhanden ist.
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function keller_vorhanden(): bool {
 		return $this->keller !== null;
 	}
 
-	public function dach_vorhanden(): bool
-	{
-		
+	/**
+	 * Dach.
+	 * 
+	 * @return Dach
+	 */
+	public function dach(): Dach {
+		return $this->bauteile()->filter( typ: 'Dach' )->erstes();
 	}
+
+	/**
+	 * Prüft, ob ein Dach vorhanden ist.
+	 * 
+	 * @return bool 
+	 */
+	public function dach_vorhanden(): bool {
+		return $this->bauteile()->filter( typ: 'Dach' )->anzahl() > 0;
+	}	
 
 	/**
 	 * Baujahr des Gebäudes.
@@ -338,8 +353,8 @@ class Gebaeude {
 	 *
 	 * @return string
 	 */
-	public function anzahl_wohneinheiten(): int {
-		return $this->anzahl_wohneinheiten;
+	public function anzahl_wohnungen(): int {
+		return $this->anzahl_wohnungen;
 	}
 
 	/**
@@ -348,7 +363,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellflaeche(): float {
-		return $this->_bauteile()->flaeche();
+		return $this->bauteile()->flaeche();
 	}
 
 	/**
@@ -368,12 +383,14 @@ class Gebaeude {
 		}
 
 		// Volumen des Dachs.
-		if( $this->dach_vorhanden() ) {
+		if ( $this->dach_vorhanden() ) {
 			$volumen += $this->dach()->volumen();
 		}
 
 		return $volumen;
 	}
+
+	
 
 	/**
 	 * Wärmetransferkoeffizient des Gebäudes.
@@ -383,7 +400,18 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function h() {
-		return $this->_bauteile()->ht() + $this->_luftwechsel()->hv();
+		return $this->bauteile()->ht() + $this->luftwechsel()->hv();
+	}
+
+	/**
+	 * Transmissionswärmeverlust des Gebäudes.
+	 *
+	 * Frage: Ist das so korrekt implementiert?
+	 *
+	 * @return float
+	 */
+	public function ht(): float {
+		return $this->bauteile()->ht() + 0.1 * $this->huellflaeche();
 	}
 
 	/**
@@ -414,7 +442,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function ph_sink_monat( string $monat ) {
-		return $this->q() * ( ( $this->_bilanz_innentemperatur()->θih_monat( $monat ) + 12 ) / 32 ) * $this->_mittlere_belastung()->ßem1( $monat );
+		return $this->q() * ( ( $this->bilanz_innentemperatur()->θih_monat( $monat ) + 12 ) / 32 ) * $this->mittlere_belastung()->ßem1( $monat );
 	}
 
 	public function psh_sink_monat( string $monat ) {
@@ -446,10 +474,10 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_prozesse_monat( string $monat ): float {
-		if ( $this->anzahl_wohneinheiten() === 1 ) {
+		if ( $this->anzahl_wohnungen() === 1 ) {
 			return 45 * $this->nutzflaeche() * $this->jahr->monat( $monat )->tage() * 0.001;
 		} else {
-			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohneinheiten() * $this->jahr->monat( $monat )->tage() ) ) * 0.001;
+			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohnungen() * $this->jahr->monat( $monat )->tage() ) ) * 0.001;
 		}
 	}
 
@@ -461,7 +489,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_wasser_monat( string $monat ): float {
-		return $this->qwb_monat( $monat ) * $this->_wasserversorgung()->fh_w();
+		return $this->qwb_monat( $monat ) * $this->wasserversorgung()->fh_w();
 	}
 
 	/**
@@ -521,7 +549,7 @@ class Gebaeude {
 	 *
 	 * @return float
 	 */
-	function nutzwaermebedarf_trinkwasser(): float {
+	public function nutzwaermebedarf_trinkwasser(): float {
 		if ( $this->nutzflaeche() < 10 ) {
 			return 16.5;
 		} elseif ( $this->nutzflaeche() >= 10 ) {
@@ -567,7 +595,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function θih_monat( string $monat ): float {
-		return $this->_bilanz_innentemperatur()->θih_monat( $monat );
+		return $this->bilanz_innentemperatur()->θih_monat( $monat );
 	}
 
 	/**
@@ -579,7 +607,7 @@ class Gebaeude {
 	 */
 	public function qwb_monat( string $monat ): float {
 		$qwb = $this->nutzwaermebedarf_trinkwasser( $this->nutzflaeche() );
-		return ( $this->nutzflaeche() / $this->anzahl_wohneinheiten() ) * $qwb * ( $this->jahr->monat( $monat )->tage() / 365 );
+		return ( $this->nutzflaeche() / $this->anzahl_wohnungen() ) * $qwb * ( $this->jahr->monat( $monat )->tage() / 365 );
 	}
 
 	/**

@@ -77,6 +77,15 @@ class Grundriss {
 	}
 
 	/**
+	 * Ausrichtung des Grundrisses.
+	 * 
+	 * @return string 
+	 */
+	public function ausrichtung(): string {
+		return  $this->ausrichtung;
+	}
+
+	/**
 	 * Initialisiert die Himmelsrichtungen.
 	 *
 	 * @return void

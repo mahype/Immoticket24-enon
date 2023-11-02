@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 require_once __DIR__ . '/Heizungsanlagen.php';
 require_once __DIR__ . '/Uebergabesysteme.php';
 require_once __DIR__ . '/Wasserversorgungen.php';
@@ -78,7 +80,7 @@ class Heizsystem {
 		$fa_h = 0;
 
 		if ( count( $this->heizungsanlagen()->alle() ) === 0 ) {
-			throw new Exception( 'Keine Heizungsanlagen vorhanden' );
+			throw new Calculation_Exception( 'Keine Heizungsanlagen vorhanden' );
 		}
 
 		/**
@@ -88,7 +90,7 @@ class Heizsystem {
 		 */
 		foreach ( $this->heizungsanlagen()->alle() as $heizungsanlage ) {
 			if ( count( $this->uebergabesysteme()->alle() ) === 0 ) {
-				throw new Exception( 'Keine Übergabesysteme vorhanden' );
+				throw new Calculation_Exception( 'Keine Übergabesysteme vorhanden' );
 			}
 
 			foreach ( $this->uebergabesysteme()->alle() as $uebergabesystem ) {
