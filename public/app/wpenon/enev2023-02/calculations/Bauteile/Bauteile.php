@@ -102,6 +102,19 @@ class Bauteile implements Transmissionswaerme {
 		return new Bauteile( $elemente );
 	}
 
+
+	/**
+	 * Gibt alle Fenster zurück.
+	 *
+	 * @return Fenster_Sammlung Sammlung aller Fenster.
+	 */
+	public function fenster(): Fenster_Sammlung {
+		$fenster = array();
+		$fenster = array_merge( $fenster, $this->filter( 'Fenster' )->alle() );
+		$fenster = array_merge( $fenster, $this->filter( 'Anbaufenster' )->alle() );
+		return new Fenster_Sammlung( $fenster );
+	}
+
 	/**
 	 * Gibt alle Wände des Gebäudes zurück (ohne Anbau).
 	 *
@@ -112,8 +125,6 @@ class Bauteile implements Transmissionswaerme {
 		$waende = $this->filter( 'Wand' );
 		return new Wand_Sammlung( $waende->alle() );
 	}
-
-
 
 	/**
 	 * Gibt alle Wände des Kellers zurück.

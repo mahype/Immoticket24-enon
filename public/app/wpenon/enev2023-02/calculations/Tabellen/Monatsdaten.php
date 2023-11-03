@@ -17,7 +17,7 @@ class Monatsdaten {
 
     public function __construct()
     {
-        $this->table_data = wpenon_get_table_results( 'monatsdaten' );
+        $this->table_data = wpenon_get_table_results( 'monate' );
     }
 
     /**
@@ -44,7 +44,7 @@ class Monatsdaten {
      * @return float
      */
     public function strahlungsfaktor( string $monat, int $winkel, string $himmelsrichtung ): float {
-        $column_name = 'w_' . $himmelsrichtung . '_' . $winkel;
+        $column_name = 'w_' . $himmelsrichtung . $winkel;
         return $this->table_data[ $monat ]->$column_name;
     }
 }

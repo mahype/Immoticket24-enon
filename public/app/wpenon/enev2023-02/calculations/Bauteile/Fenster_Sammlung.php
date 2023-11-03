@@ -65,8 +65,8 @@ class Fenster_Sammlung implements Transmissionswaerme {
 	public function filter( string $himmelsrichtung ): Fenster_Sammlung {
 		$elemente = array_filter(
 			$this->elemente,
-			function ( Wand $element ) use ( $himmelsrichtung ) {
-				$found = false;
+			function ( Fenster $element ) use ( $himmelsrichtung ) {
+				$found = true;
 
 				if ( $himmelsrichtung !== null && $element->himmelsrichtung() !== $himmelsrichtung ) {
 					$found = false;
@@ -107,5 +107,35 @@ class Fenster_Sammlung implements Transmissionswaerme {
 		}
 
 		return $ht;
+	}
+
+	/**
+	 * Solare Wärmegewinne
+	 * 
+	 * @return float 
+	 */
+	public function qi_solar(): float {
+		$qi_solar = 0.0;
+
+		foreach ( $this->elemente as $element ) {
+			$qi_solar += $element->qi_solar();
+		}
+
+		return $qi_solar;
+	}
+
+	/**
+	 * Monatliche solare Wärmegewinne.
+	 * 
+	 * @return float
+	 */
+	public function qi_solar_monat( string $monat ): float {
+		$qi_solar = 0.0;
+
+		foreach ( $this->elemente as $element ) {
+			$qi_solar += $element->qi_solar_monat( $monat );
+		}
+
+		return $qi_solar;
 	}
 }

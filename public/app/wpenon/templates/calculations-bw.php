@@ -222,13 +222,13 @@ $jahr = new Jahr();
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
-		<?php foreach ( $gebaeude->bauteile()->filter( 'Boden' )->alle() as $boeden ) : ?>
+		<?php foreach ( $gebaeude->bauteile()->filter( 'Boden' )->alle() as $boden ) : ?>
 		<tr>
-		<td><?php echo $boeden->name(); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $boeden->flaeche() ); ?> m<sup>2</sup></td>
-		<td><?php echo \WPENON\Util\Format::float( $boeden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
-		<td><?php echo \WPENON\Util\Format::float( $boeden->fx() ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $boeden->ht() ); ?> W/K</td>
+		<td><?php echo $boden->name(); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boden->flaeche() ); ?> m<sup>2</sup></td>
+		<td><?php echo \WPENON\Util\Format::float( $boden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo \WPENON\Util\Format::float( $boden->fx() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boden->ht() ); ?> W/K</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
@@ -310,6 +310,48 @@ $jahr = new Jahr();
 		</tr>
 		<?php endforeach; ?>
 	</table>
+
+	<h3>Anbauboden</h3>
+	<table>
+	<tr>
+		<th>Bauteil</th>    
+		<th>Fläche</th>
+		<th>U-Wert</th>
+		<th>Fx Faktor</th>
+		<th>Transmissionswärmekoeffizient ht</th>    
+	</tr>
+		<?php foreach ( $gebaeude->bauteile()->filter( 'Anbauboden' )->alle() as $boeden ) : ?>
+		<tr>
+		<td><?php echo $boeden->name(); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->flaeche() ); ?> m<sup>2</sup></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo \WPENON\Util\Format::float( $boeden->fx() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->ht() ); ?> W/K</td>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+
+	<h3>Anbaudecke</h3>
+	<table>
+	<tr>
+		<th>Bauteil</th>    
+		<th>Fläche</th>
+		<th>U-Wert</th>
+		<th>Fx Faktor</th>
+		<th>Transmissionswärmekoeffizient ht</th>    
+	</tr>
+		<?php foreach ( $gebaeude->bauteile()->filter( 'Anbaudecke' )->alle() as $boeden ) : ?>
+		<tr>
+		<td><?php echo $boeden->name(); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->flaeche() ); ?> m<sup>2</sup></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo \WPENON\Util\Format::float( $boeden->fx() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $boeden->ht() ); ?> W/K</td>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+
+
 	<?php endif; ?>
 
 	<h2>Lüftungsystemm</h2>
@@ -412,12 +454,14 @@ $jahr = new Jahr();
 
 
 	<h3>Solar</h3>
-
+	<?php echo \WPENON\Util\Format::float( $gebaeude->bauteile()->fenster()->qi_solar() ); ?>	
 
 
 	<h2>Aufsummierung</h2>
 
 	<p><?php printf( __( 'Interne Wärmequellen infolge von Personen Qi<sub>p</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_prozesse() ) ); ?></p>
 	<p><?php printf( __( 'Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_wasser() ) ); ?></p>
+	<p><?php printf( __( 'Interne Wärmequelle infolge von Solar Qi<sub>s</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_solar() ) ); ?></p>
+	
 </div>
 

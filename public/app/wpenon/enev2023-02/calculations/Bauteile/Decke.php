@@ -5,13 +5,15 @@ namespace Enev\Schema202302\Calculations\Bauteile;
 use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
 use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 
+require_once __DIR__ . '/Bauteil.php';
+
 /**
  * Die Klasse Decke.
  */
 class Decke extends Bauteil implements Transmissionswaerme {
 
 	/**
-	 * Dämmung des Bauteils.
+	 * Dämmung des Bauteils. 
 	 *
 	 * @var float
 	 */

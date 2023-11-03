@@ -16,6 +16,8 @@ use Enev\Schema202302\Calculations\Gebaeude\Keller;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
+use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
+use Enev\Schema202302\Calculations\Bauteile\Anbaudecke;
 use Enev\Schema202302\Calculations\Bauteile\Anbaufenster;
 use Enev\Schema202302\Calculations\Bauteile\Anbauwand;
 use Enev\Schema202302\Calculations\Bauteile\Boden;
@@ -55,15 +57,18 @@ require_once __DIR__ . '/Gebaeude/Grundriss_Anbau.php';
 require_once __DIR__ . '/Gebaeude/Keller.php';
 
 require_once __DIR__ . '/Bauteile/Bauteile.php';
+require_once __DIR__ . '/Bauteile/Bauteil.php';
+require_once __DIR__ . '/Bauteile/Decke.php';
+require_once __DIR__ . '/Bauteile/Boden.php';
 require_once __DIR__ . '/Bauteile/Fenster_Sammlung.php';
 require_once __DIR__ . '/Bauteile/Fenster.php';
 require_once __DIR__ . '/Bauteile/Anbaufenster.php';
+require_once __DIR__ . '/Bauteile/Anbauboden.php';
+require_once __DIR__ . '/Bauteile/Anbaudecke.php';
 require_once __DIR__ . '/Bauteile/Wand_Sammlung.php';
 require_once __DIR__ . '/Bauteile/Wand.php';
 require_once __DIR__ . '/Bauteile/Heizkoerpernische.php';
 require_once __DIR__ . '/Bauteile/Rolladenkasten.php';
-require_once __DIR__ . '/Bauteile/Decke.php';
-require_once __DIR__ . '/Bauteile/Boden.php';
 require_once __DIR__ . '/Bauteile/Kellerboden.php';
 require_once __DIR__ . '/Bauteile/Kellerwand.php';
 require_once __DIR__ . '/Bauteile/Anbauwand.php';
@@ -234,7 +239,7 @@ if ( $energieausweis->anbau ) {
 	}
 
 	$gebaeude->bauteile()->hinzufuegen(
-		new Boden(
+		new Anbauboden(
 			name: sprintf( __( 'Anbau-Boden', 'wpenon' ) ),
 			flaeche: $grundriss->flaeche(),
 			uwert: uwert( 'boden_' . $energieausweis->anbauboden_bauart, $energieausweis->anbau_baujahr ),
@@ -243,7 +248,7 @@ if ( $energieausweis->anbau ) {
 	);
 
 	$gebaeude->bauteile()->hinzufuegen(
-		new Decke(
+		new Anbaudecke(
 			name: sprintf( __( 'Anbau-Dach', 'wpenon' ) ),
 			grundriss: $grundriss_anbau,
 			uwert: uwert( 'decke_' . $energieausweis->anbaudecke_bauart, $energieausweis->anbau_baujahr ),

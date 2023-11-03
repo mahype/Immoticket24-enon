@@ -2,11 +2,13 @@
 
 namespace Enev\Schema202302\Calculations\Bauteile;
 
-use Composer\Installers\TYPO3FlowInstaller;
+use Enev\Schema202302\Calculations\Helfer\Jahr;
 use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
-require __DIR__ . '/Bauteil.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Monatsdaten.php';
+
+require_once __DIR__ . '/Bauteil.php';
 
 /**
  * Bauteil Fenster.
@@ -95,5 +97,39 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	public function strahlungsfaktor( $monat ) {
 		$monatsdaten = new Monatsdaten(); // Todo: Daten global einbinden
 		return $monatsdaten->strahlungsfaktor( $monat, $this->winkel, $this->himmelsrichtung );
+	}
+
+	/**
+	 * Multiplikator für den solaren Gewinn.
+	 * 
+	 * @param mixed $monat 
+	 * @return float 
+	 */
+	public function solar_gewinn_mpk() {
+		return 0.9 * 1.0 * 0.9 * 0.7 * $this->gwert;
+	}
+
+	/**
+	 * Monatlicher solare Gewinn.
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 */
+	public function qi_solar_monat( string $monat ): float {
+		return $this->strahlungsfaktor( $monat ) * $this->solar_gewinn_mpk() * 0.024 * ( new Jahr() )->monat( $monat )->tage();
+	}
+
+	/**
+	 * Jährlicher solare Gewinn.
+	 * 
+	 * @return float 
+	 */
+	public function qi_solar(): float {
+		$jahr = new Jahr();
+		$summe = 0.0;
+		foreach ( $jahr->monate() as $monat ) {
+			$summe += $this->qi_solar_monat( $monat->slug() );
+		}
+		return $summe;
 	}
 }

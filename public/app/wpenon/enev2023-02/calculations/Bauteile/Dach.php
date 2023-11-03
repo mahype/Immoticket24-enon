@@ -130,7 +130,7 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 			return $this->grundriss->wand_laenge( $seite ) * $this->kniestock_hoehe;
 		}
 
-		return $this->grundriss->umfang() * $this->kniestock_hoehe;
+		return $this->grundriss->wand_laenge_gesamt() * $this->kniestock_hoehe;
 	}
 
 	/**

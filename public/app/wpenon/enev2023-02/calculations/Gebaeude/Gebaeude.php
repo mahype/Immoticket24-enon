@@ -469,18 +469,23 @@ class Gebaeude {
 		$phs_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * fum( $monat ) );
 	}
 
+	/**
+	 * Monatliche solare Wärmegewinne.
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 */
 	public function qi_solar_monat( string $monat ) : float {		
-		// $strahlungsfaktor * $solar_gewinn_mpk * $data['a'] * 0.024 * $calculations['monate'][ $monat ]['tage']; Neue Berechnung; Programmierzeile direkt unten enflällt
+		return $this->bauteile()->fenster()->qi_solar_monat( $monat );
 	}
 
+	/**
+	 * Solare Wärmegewinne für ein Jahr.
+	 * 
+	 * @return float 
+	 */
 	public function qi_solar(): float {
-		$qi_solar = 0;
-
-		foreach ( $this->jahr->monate() as $monat ) {
-			$qi_solar += $this->qi_solar_monat( $monat->slug() );
-		}
-
-		return $qi_solar;
+		return $this->bauteile()->fenster()->qi_solar();
 	}
 
 	/**
