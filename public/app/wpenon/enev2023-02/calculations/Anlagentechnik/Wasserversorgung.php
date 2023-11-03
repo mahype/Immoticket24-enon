@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 /**
  * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen
  * über Tabelle 142 & 143 Abschnitt 12.
@@ -60,11 +62,11 @@ class Wasserversorgung {
 	) {
 		// Beheizung der Anlage überprüfen und wenn falsch angegeben, Fehler werfen.
 		if ( $beheizte_bereiche !== 'alles' && $beheizte_bereiche !== 'nichts' && $beheizte_bereiche !== 'verteilung' ) {
-			throw new Exception( 'Beheizung der Anlage muss entweder "alles", "nichts" oder "verteilung" sein.' );
+			throw new Calculation_Exception( 'Beheizung der Anlage muss entweder "alles", "nichts" oder "verteilung" sein.' );
 		}
 
 		if ( $mit_zirkulation && ! $zentral ) {
-			throw new Exception( 'Zirkulation ist nur bei zentraler Wasserversorgung möglich.' );
+			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Wasserversorgung möglich.' );
 		}
 
 		$this->zentral                = $zentral;

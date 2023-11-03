@@ -108,6 +108,8 @@ class Anbau {
 
 	/**
 	 * Berechnet die Fläche der Überlappung des Anbaus mit dem Hauptgebäude.
+	 * 
+	 * @param string $wand Wand des Anbaus.
 	 *
 	 * @return float
 	 */
@@ -121,6 +123,10 @@ class Anbau {
 
 			$wand_ueberlappung_flaechen[ $wand_formel[0] ] = $laenge * $hoehe;
 			$grundflaeche                                 += $laenge * $hoehe;
+		}
+
+		if( ! array_key_exists( $wand, $wand_ueberlappung_flaechen ) ) {
+			return 0;
 		}
 
 		if ( $wand !== null ) {

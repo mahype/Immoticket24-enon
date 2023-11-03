@@ -827,7 +827,7 @@ $bauteile = array(
 					'required'    => true,
 					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::dach', 'nicht-vorhanden' ),
+						'callback_args' => array( 'field::dach', array( 'nicht-vorhanden', 'beheizt' ) ),
 					),
 				),
 				'dach_daemmung'      => array(

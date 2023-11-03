@@ -57,6 +57,7 @@ require_once __DIR__ . '/Gebaeude/Keller.php';
 require_once __DIR__ . '/Bauteile/Bauteile.php';
 require_once __DIR__ . '/Bauteile/Fenster_Sammlung.php';
 require_once __DIR__ . '/Bauteile/Fenster.php';
+require_once __DIR__ . '/Bauteile/Anbaufenster.php';
 require_once __DIR__ . '/Bauteile/Wand_Sammlung.php';
 require_once __DIR__ . '/Bauteile/Wand.php';
 require_once __DIR__ . '/Bauteile/Heizkoerpernische.php';
@@ -107,6 +108,8 @@ $gebaeude = new Gebaeude(
 );
 
 $calculations['gebaeude'] = $gebaeude;
+
+$gwert_fenster = wpenon_immoticket24_get_g_wert( $energieausweis->fenster_bauart );
 
 /**
 * Dach
@@ -186,35 +189,40 @@ switch ( $energieausweis->dach ) {
 * Der Anbau wird zuerst hinzugefügt, um eventuelle Überlappungen mit dem Hauptgebäude zu berechnen.
 */
 if ( $energieausweis->anbau ) {
-	$grundriss_anbau = new Grundriss_Anbau( $energieausweis->anbau_form, $energieausweis->anbau_richtung );
+	$grundriss_anbau = new Grundriss_Anbau( $energieausweis->anbau_form, $energieausweis->grundriss_richtung );
 
 	// Hinzufügen der angegebenen Wandlängen zum Grundriss des Anbaus.
-	foreach ( $grundriss_anbau->waende_manuell() as $wand ) {
+	foreach ( $grundriss_anbau->seiten_manuell() as $wand ) {
 		$wand_laenge_slug = 'anbauwand_' . $wand . '_laenge';
-		$wand_laege       = $energieausweis->$wand_laenge_slug;
+		$wand_laenge       = $energieausweis->$wand_laenge_slug;
 		$grundriss_anbau->wand_laenge( $wand, $wand_laenge );
 	}
 
 	$gebaeude->anbau( new Anbau( $grundriss_anbau, $energieausweis->anbau_hoehe ) );
 
 	// Hinzufügen der Bauteile des Anbaus zum Gebäude.
-	$uwert_anbau_wand    = uwert( 'wand_' . $energieausweis->anbauwand_bauart, $energieausweis->anbau_baujahr );
+	$anbauwand_bauart_feldname = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
+	$anbauwand_bauart_name     = $energieausweis->$anbauwand_bauart_feldname;
+	$uwert_anbau_wand    = uwert( 'wand_' . $anbauwand_bauart_name, $energieausweis->anbau_baujahr );
 	$uwert_anbau_fenster = uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 
 	foreach ( $gebaeude->anbau()->grundriss()->waende() as $wand ) {
 		$anbauwand = new Anbauwand(
 			name: sprintf( __( 'Anbauwand %s', 'wpenon' ), $wand ),
 			seite: $wand,
-			flaeche: $anbau->wand_flaeche( $wand ),
+			flaeche: $gebaeude->anbau()->wand_flaeche( $wand ),
 			uwert: $uwert_anbau_wand,
 			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
 			daemmung: $energieausweis->anbauwand_daemmung,
 		);
 
+		$fenster_flaeche = berechne_fenster_flaeche( $grundriss_anbau->wand_laenge( $wand ), $energieausweis->anbau_hoehe, $energieausweis->anbauwand_staerke / 100 );
+
 		$fenster = new Anbaufenster(
 			name: sprintf( __( 'Anbaufenster Wand %s', 'wpenon' ), $wand ),
+			gwert: $gwert_fenster,
 			uwert: $uwert_anbau_fenster,
-			flaeche: berechne_fenster_flaeche( $grundriss_anbau->wand_laenge( $wand ), $energieausweis->anbau_hoehe, $energieausweis->anbauwand_staerke ), // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+			flaeche: $fenster_flaeche, // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
 			winkel: 90.0
 		);
@@ -249,15 +257,15 @@ if ( $energieausweis->anbau ) {
 */
 
 $wand_bauart_feld_name = 'wand_bauart_' . $energieausweis->gebaeudekonstruktion;
-$wand_bauart = $energieausweis->$wand_bauart_feld_name;
-$uwert_wand = uwert( 'wand_' . $wand_bauart, $energieausweis->baujahr );
+$wand_bauart           = $energieausweis->$wand_bauart_feld_name;
+$uwert_wand            = uwert( 'wand_' . $wand_bauart, $energieausweis->baujahr );
 
 foreach ( $grundriss->waende() as $wand ) {
 	$nachbar_slug = 'wand_' . $wand . '_nachbar';
 
 	if ( $energieausweis->$nachbar_slug ) { // Wenn es eine Wand zum Nachbar ist, dann wird diese nicht als Außenwand gewertet und entfällt.
 		continue;
-	}	
+	}
 
 	$daemmung_slug = 'wand_' . $wand . '_daemmung';
 
@@ -290,7 +298,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 
 	// Ist ein Anbau vorhanden, muss die überlappende Fläche vom Mauerwerk abgezogen werden.
 	if ( $gebaeude->anbau_vorhanden() ) {
-		$wand->flaeche_reduzieren( $anbau->ueberlappung_flaeche_gebaeude( $wand->seite() ) );
+		$wand->flaeche_reduzieren( $gebaeude->anbau()->ueberlappung_flaeche_gebaeude( $wand->seite() ) );
 	}
 
 	/**
@@ -302,6 +310,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 
 	$fenster = new Fenster(
 		name: sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand->name() ),
+		gwert: $gwert_fenster,
 		uwert: $uwert_fenster,
 		flaeche: $fensterflaeche,
 		himmelsrichtung: $himmelsrichtung,
@@ -380,7 +389,7 @@ switch ( $energieausweis->keller ) {
 			)
 		);
 
-		if( $energieausweis->keller_groesse < 100 ) {
+		if ( $energieausweis->keller_groesse < 100 ) {
 			$gebaeude->bauteile()->hinzufuegen(
 				new Boden(
 					name: sprintf( __( 'Boden', 'wpenon' ) ),
@@ -407,7 +416,7 @@ switch ( $energieausweis->keller ) {
 			)
 		);
 
-		if( $energieausweis->keller_groesse < 100 ) {
+		if ( $energieausweis->keller_groesse < 100 ) {
 			$gebaeude->bauteile()->hinzufuegen(
 				new Boden(
 					name: sprintf( __( 'Boden', 'wpenon' ) ),
@@ -453,39 +462,70 @@ $gebaeude->wasserversorgung(
 /**
 * Heizsysteme
 */
-$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( new Heizungsanlage(
-	auslegungstemperaturen: $energieausweis->h_auslegungstemperaturen,
-	beheizung_anlage: $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts',
-	prozentualer_anteil: $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100
-) );
+$energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
+$energietraeger = $energieausweis->$energietraeger_name;
+
+$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
+	new Heizungsanlage(
+		typ: $energieausweis->h_erzeugung,
+		energietraeger: $energietraeger,
+		auslegungstemperaturen: $energieausweis->h_auslegungstemperaturen,
+		beheizung_anlage: $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts',
+		prozentualer_anteil: $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100
+	)
+);
 
 if ( $energieausweis->h2_erzeugung ) {
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( new Heizungsanlage(
-		auslegungstemperaturen: $energieausweis->h2_auslegungstemperaturen,
-		beheizung_anlage: $energieausweis->h2_standort === 'innerhalb' ? 'alles' : 'nichts',
-		prozentualer_anteil: $energieausweis->h2_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
-	) );
+	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
+	$energietraeger = $energieausweis->$energietraeger_name;
+
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
+		new Heizungsanlage(
+			typ: $energieausweis->h2_erzeugung,
+			energietraeger: $energietraeger,
+			auslegungstemperaturen: $energieausweis->h2_auslegungstemperaturen,
+			beheizung_anlage: $energieausweis->h2_standort === 'innerhalb' ? 'alles' : 'nichts',
+			prozentualer_anteil: $energieausweis->h2_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
+		)
+	);
 }
 
 if ( $energieausweis->h3_erzeugung ) {
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( new Heizungsanlage(
-		auslegungstemperaturen: $energieausweis->h3_auslegungstemperaturen,
-		beheizung_anlage: $energieausweis->h3_standort === 'innerhalb' ? 'alles' : 'nichts',
-		prozentualer_anteil: $energieausweis->h3_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
-	) );
+	$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
+	$energietraeger = $energieausweis->$energietraeger_name;
+
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
+		new Heizungsanlage(
+			typ: $energieausweis->h3_erzeugung,
+			energietraeger: $energietraeger,
+			auslegungstemperaturen: $energieausweis->h3_auslegungstemperaturen,
+			beheizung_anlage: $energieausweis->h3_standort === 'innerhalb' ? 'alles' : 'nichts',
+			prozentualer_anteil: $energieausweis->h3_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
+		)
+	);
 }
 
 
 // Wir rechnen vorerst nur mit einem Übergabesystem.
-// Todo: Mehrere Übergabesysteme
-// $gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen( new Uebergabesystem(
-// 	typ: $energieausweis->h_uebergabe,
-// 	anzahl_wohnungen: $energieausweis->wohnungen,
-// 	auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
-// 	heizungsanlage_beheizt: $energieausweis->h_uebergabe_beheizt, // Frage: Check der Berücksichtigung der Heizungsanlage
-// 	prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
-// 	mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung, // Frage: Check der Berücksichtigung der mindestdämmung
-// ));
+
+if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
+	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
+		new Uebergabesystem(
+			typ: $energieausweis->h_uebergabe,
+			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
+			prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
+			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
+		)
+	);		
+} else {
+	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
+		new Uebergabesystem(
+			typ: $energieausweis->h_uebergabe,
+			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
+			prozentualer_anteil: $energieausweis->h_uebergabe_anteil
+		)
+	);
+}
 
 // $monate           = wpenon_get_table_results( 'monate' );
 // $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert( $energieausweis->fenster_bauart ); // Solar gewinn neu

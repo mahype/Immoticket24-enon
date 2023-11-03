@@ -11,8 +11,11 @@ use Enev\Schema202302\Calculations\Helfer\Jahr;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
+use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
-require_once __DIR__  . '/Keller.php';
+use function Enev\Schema202302\Calculations\Helfer\fum;
+
+require_once __DIR__ . '/Keller.php';
 
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 require_once dirname( __DIR__ ) . '/Bauteile/Bauteile.php';
@@ -78,7 +81,7 @@ class Gebaeude {
 	 *
 	 * @var Mittlere_Belastung
 	 */
-	private Mittlere_Belastung $mittlere_Belastung;
+	private Mittlere_Belastung $mittlere_belastung;
 
 	/**
 	 * Bilanz Innentemperatur
@@ -148,12 +151,12 @@ class Gebaeude {
 	 * @return void
 	 */
 	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen ) {
-		$this->jahr                 = new Jahr();
-		$this->baujahr              = $baujahr;
-		$this->geschossanzahl       = $geschossanzahl;
-		$this->geschosshoehe        = $geschosshoehe;
+		$this->jahr             = new Jahr();
+		$this->baujahr          = $baujahr;
+		$this->geschossanzahl   = $geschossanzahl;
+		$this->geschosshoehe    = $geschosshoehe;
 		$this->anzahl_wohnungen = $anzahl_wohnungen;
-		$this->grundriss            = $grundriss;
+		$this->grundriss        = $grundriss;
 
 		$this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
@@ -215,12 +218,12 @@ class Gebaeude {
 	}
 
 	public function mittlere_belastung(): Mittlere_Belastung {
-		if ( empty( $this->mittlere_Belastung ) ) {
-			$this->mittlere_Belastung = new Mittlere_Belastung( $this->luftwechsel()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
-			$this->mittlere_Belastung->gebaeude( $this );
+		if ( empty( $this->mittlere_belastung ) ) {
+			$this->mittlere_belastung = new Mittlere_Belastung( $this->luftwechsel()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
+			$this->mittlere_belastung->gebaeude( $this );
 		}
 
-		return $this->mittlere_Belastung;
+		return $this->mittlere_belastung;
 	}
 
 
@@ -296,21 +299,35 @@ class Gebaeude {
 
 	/**
 	 * Dach.
-	 * 
+	 *
 	 * @return Dach
 	 */
 	public function dach(): Dach {
-		return $this->bauteile()->filter( typ: 'Dach' )->erstes();
+		$elemente = array();
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Satteldach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Walmdach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Pultdach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Flachdach' )->alle() );
+
+		$bauteile = new Bauteile( $elemente );
+		return $bauteile->erstes();
 	}
 
 	/**
 	 * Prüft, ob ein Dach vorhanden ist.
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function dach_vorhanden(): bool {
-		return $this->bauteile()->filter( typ: 'Dach' )->anzahl() > 0;
-	}	
+		$elemente = array();
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Satteldach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Walmdach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Pultdach' )->alle() );
+		$elemente = array_merge( $elemente, $this->bauteile()->filter( typ: 'Flachdach' )->alle() );
+
+		$bauteile = new Bauteile( $elemente );
+		return $bauteile->anzahl() > 0 ? true : false;
+	}
 
 	/**
 	 * Baujahr des Gebäudes.
@@ -390,7 +407,7 @@ class Gebaeude {
 		return $volumen;
 	}
 
-	
+
 
 	/**
 	 * Wärmetransferkoeffizient des Gebäudes.
@@ -445,9 +462,25 @@ class Gebaeude {
 		return $this->q() * ( ( $this->bilanz_innentemperatur()->θih_monat( $monat ) + 12 ) / 32 ) * $this->mittlere_belastung()->ßem1( $monat );
 	}
 
-	public function psh_sink_monat( string $monat ) {
+	public function psh_sink_monat( string $monat ) {		
 		// $calculations['monate'][ $monat ]['psh_sink'] = $gebaeude->ph_sink_monat( $monat) - ($gebaeude->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
 		// $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];
+
+		$phs_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * fum( $monat ) );
+	}
+
+	public function qi_solar_monat( string $monat ) : float {		
+		// $strahlungsfaktor * $solar_gewinn_mpk * $data['a'] * 0.024 * $calculations['monate'][ $monat ]['tage']; Neue Berechnung; Programmierzeile direkt unten enflällt
+	}
+
+	public function qi_solar(): float {
+		$qi_solar = 0;
+
+		foreach ( $this->jahr->monate() as $monat ) {
+			$qi_solar += $this->qi_solar_monat( $monat->slug() );
+		}
+
+		return $qi_solar;
 	}
 
 	/**
@@ -585,17 +618,6 @@ class Gebaeude {
 		} elseif ( $this->nutzflaeche() >= 160 ) {
 			return 8.5;
 		}
-	}
-
-	/**
-	 * Bilanz Innentemperatur für einen Monat.
-	 *
-	 * @param  string $monat
-	 * @return float
-	 * @throws Exception
-	 */
-	public function θih_monat( string $monat ): float {
-		return $this->bilanz_innentemperatur()->θih_monat( $monat );
 	}
 
 	/**

@@ -80,12 +80,10 @@ class Bauteile implements Transmissionswaerme {
 			function ( $bauteil ) use ( $typ, $himmelsrichtung, $seite ) {
 				$found = true;
 
-				$reflect     = new \ReflectionClass( $bauteil );
-
+				$reflect = new \ReflectionClass( $bauteil );
 				$class = $reflect->getShortName();
-				$parent_class = $reflect->getParentClass()->getShortName();
 
-				if( $typ !== null && ( $class !== ucfirst( $typ ) && $parent_class !== ucfirst( $typ ) ) ) {
+				if( $typ !== null && ( $class !== ucfirst( $typ ) ) ) {
 					$found = false;
 				}
 
@@ -168,7 +166,7 @@ class Bauteile implements Transmissionswaerme {
 	public function hw(): float {
 		$hw = 0;
 
-		$fenster_sammlung = $this->filter( 'Fenster' );
+		$fenster_sammlung = $this->filter( 'Fenster' )->alle();
 
 		foreach ( $fenster_sammlung as $fenster ) {
 			$hw += $fenster->ht();

@@ -2,10 +2,25 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 /**
  * Berechnungen für eine Heizungsanlage.
  */
 class Heizungsanlage {
+	/**
+	 * Typ.
+	 * 
+	 * @var string
+	 */
+	protected string $typ;
+
+	/**
+	 * Energietraeger.
+	 * 
+	 * @var string
+	 */
+	protected string $energietraeger;
 
 	/**
 	 * Auslegungstemperaturen.
@@ -13,7 +28,6 @@ class Heizungsanlage {
 	 * @var string
 	 */
 	protected string $auslegungstemperaturen;
-
 
 	/**
 	 * Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts', 'verteilung' oder 'verteilung_erzeuger'.
@@ -32,23 +46,44 @@ class Heizungsanlage {
 	/**
 	 * Konstruktor.
 	 *
+	 * @param string $typ                    Typ der Heizungsanlage.
 	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
 	 * @param string $beheizung_anlage       Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts', 'verteilung' oder 'verteilung_erzeuger'.
 	 */
-	public function __construct( string $auslegungstemperaturen, string $beheizung_anlage, int $prozentualer_anteil = 100 ) {
+	public function __construct( string $typ, string $energietraeger, string $auslegungstemperaturen, string $beheizung_anlage, int $prozentualer_anteil = 100 ) {		
 		// Validieren der Auslegungstemperaturen.
 		if ( ! $this->validiere_auslegungstemperaturen( $auslegungstemperaturen ) ) {
-			throw new Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
+			throw new Calculation_Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
 		}
 
 		// Check der Beheizung der Anlage.
 		if ( $beheizung_anlage !== 'alles' && $beheizung_anlage !== 'nichts' && $beheizung_anlage !== 'verteilung' && $beheizung_anlage !== 'verteilung_erzeuger' ) {
-			throw new Exception( 'Beheizung der Anlage muss entweder "alles", "nichts", "verteilung" oder "verteilung_erzeuger" sein.' );
+			throw new Calculation_Exception( 'Beheizung der Anlage muss entweder "alles", "nichts", "verteilung" oder "verteilung_erzeuger" sein.' );
 		}
 
+		$this->typ                    = $typ;
+		$this->energietraeger         = $energietraeger;
 		$this->auslegungstemperaturen = $auslegungstemperaturen;
 		$this->beheizung_anlage       = $beheizung_anlage;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
+	}
+
+	/**
+	 * Typ.
+	 * 
+	 * @return string
+	 */
+	public function typ(): string {
+		return $this->typ;
+	}
+
+	/**
+	 * Energietraeger.
+	 * 
+	 * @return string
+	 */
+	public function energietraeger(): string {
+		return $this->energietraeger;
 	}
 
 	/**
@@ -118,7 +153,7 @@ class Heizungsanlage {
 		}
 
 		if ( ! $this->validiere_auslegungstemperaturen( $auslegungstemperaturen ) ) {
-			throw new Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
+			throw new Calculation_Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
 		}
 
 		// Wertzuweisungen je nach Auslegungstemperatur und Beheizung der Anlage.

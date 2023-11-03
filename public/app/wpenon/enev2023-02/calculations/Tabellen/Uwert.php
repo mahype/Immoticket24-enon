@@ -22,7 +22,7 @@ function uwert( string $bauteil, int $baujahr ): float {
 	}
 
 	if ( ! isset( $jahr_slug ) ) {
-		$jahr_slug = 'ab1918';
+		$jahr_slug = 'ab2007';
 	}
 
 	return floatval( $uwerte[ $bauteil ]->$jahr_slug );

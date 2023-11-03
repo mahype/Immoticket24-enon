@@ -33,4 +33,18 @@ class Monatsdaten {
 
         return $monate;
     }
+
+    /**
+     * Strahlungsfaktor für Fenster.
+     * 
+     * @param string $monat Monat.
+     * @param int $winkel Einbauwinkel des Fensters.
+     * @param string $himmelsrichtung Himmelsrichtung des Fensters.
+     * 
+     * @return float
+     */
+    public function strahlungsfaktor( string $monat, int $winkel, string $himmelsrichtung ): float {
+        $column_name = 'w_' . $himmelsrichtung . '_' . $winkel;
+        return $this->table_data[ $monat ]->$column_name;
+    }
 }

@@ -211,6 +211,25 @@ class Grundriss {
 	}
 
 	/**
+	 * Gibt alle Seiten zurück, die manuell eingestellt werden können.
+	 * 
+	 * @return array 
+	 */
+	public function seiten_manuell(): array {
+		$seiten = array();
+
+		foreach( $this->formen[$this->form()] as $seiten_name => $seite ) {
+			if ( $this->wand_laenge_berechnet( $seiten_name ) || $seiten_name === 'waende' || $seiten_name === 'fla' ) {
+				continue;
+			}
+
+			$seiten[] = $seiten_name;
+		}
+
+		return $seiten;
+	}
+
+	/**
 	 * Gibt alle Wände zurück, die manuell eingestellt werden können.
 	 *
 	 * @return array
@@ -361,7 +380,7 @@ class Grundriss {
 	 * @return bool True, wenn die Wand existiert, sonst false.
 	 */
 	public function wand_existiert( string $wand ): bool {
-		return array_key_exists( $wand, $this->formen[ $this->form ] );
+ 		return array_key_exists( $wand, $this->formen[ $this->form ] );
 	}
 
 	/**

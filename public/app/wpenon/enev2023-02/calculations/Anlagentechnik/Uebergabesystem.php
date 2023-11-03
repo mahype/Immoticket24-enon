@@ -18,9 +18,7 @@ class Uebergabesystem {
 	protected $typen = array(
 		'elektroheizungsflaechen',
 		'heizkoerper',
-		'fussbodenheizung',
-		'wandheizung',
-		'deckenheizung',
+		'flaechenheizung',
 	);
 
 	/**
@@ -46,20 +44,6 @@ class Uebergabesystem {
 	 * @var string
 	 */
 	protected string $auslegungstemperaturen;
-
-	/**
-	 * Anzahl der Wohnungen.
-	 *
-	 * @var int
-	 */
-	protected int $anzahl_wohnungen;
-
-	/**
-	 * Ist die Heizungsanlage beheizt?
-	 *
-	 * @var bool
-	 */
-	protected bool $heizungsanlage_beheizt;
 
 	/**
 	 * Prozentualer Anteil der Heizungsanlage im Heizsystem
@@ -88,8 +72,6 @@ class Uebergabesystem {
 	public function __construct(
 		string $typ,
 		string $auslegungstemperaturen,
-		int $anzahl_wohnungen,
-		bool $heizungsanlage_beheizt,
 		int $prozentualer_anteil = 100,
 		bool $mindestdaemmung = false
 	) {
@@ -105,10 +87,44 @@ class Uebergabesystem {
 
 		$this->typ                    = $typ;
 		$this->auslegungstemperaturen = $auslegungstemperaturen;
-		$this->anzahl_wohnungen       = $anzahl_wohnungen;
-		$this->heizungsanlage_beheizt = $heizungsanlage_beheizt;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
 		$this->mindestdaemmung        = $mindestdaemmung;
+	}
+
+	/**
+	 * Typ.
+	 *
+	 * @return string
+	 */
+	public function typ(): string {
+		return $this->typ;
+	}
+
+	/**
+	 * Auslegungstemperaturen.
+	 *
+	 * @return string
+	 */
+	public function auslegungstemperaturen(): string {
+		return $this->auslegungstemperaturen;
+	}
+
+	/**
+	 * Prozentualer Anteil.
+	 *
+	 * @return int
+	 */
+	public function prozentualer_anteil(): int {
+		return $this->prozentualer_anteil;
+	}
+
+	/**
+	 * Prozentualer Faktor.
+	 *
+	 * @return float
+	 */
+	public function prozentualer_faktor(): float {
+		return $this->prozentualer_anteil() / 100;
 	}
 
 
@@ -118,9 +134,11 @@ class Uebergabesystem {
 	 * @return float
 	 */
 	public function ehce(): float {
+		$ehce = 0;
+
 		switch ( $this->typ ) {
 			case 'elektroheizungsflaechen':
-				$ehce  = 1.066; // Es wird immer "Elektro-Direktheizung mit Raum-Regelung" angenommen. ehce 0
+				$ehce += 1.066; // Es wird immer "Elektro-Direktheizung mit Raum-Regelung" angenommen. ehce 0
 				$ehce += 0.018; // Immeririerender betrieb ist bei Elektroheizungsflächen immer  0,018
 				// Alle anderen Werte sind immer 0.
 
@@ -162,9 +180,7 @@ class Uebergabesystem {
 
 				return $ehce;
 			// Flächenheizungen
-			case 'fussbodenheizung':
-			case 'wandheizung':
-			case 'deckenheizung':
+			case 'flaechenheizung':
 				// Raumtemperaturregelung_ Es wird immer "P-Regler" angenommen.
 				$ehce = 1.042; // ehce 0
 
@@ -197,10 +213,10 @@ class Uebergabesystem {
 				$ehce += -0.030;
 
 				// Da immer vom "Zweirohrsystem" ausgegangen wird, kommt ehcehyd mit 0.036 hinzu.
-				$ehce += 0.036;
-
-				return 0;
+				$ehce += 0.036;				
 		}
+
+		return $ehce;
 	}
 
 	/**
@@ -214,12 +230,12 @@ class Uebergabesystem {
 	 *
 	 * @return float
 	 */
-	public function ehd( Heizungsanlage $heizungsanlage ): float {
+	public function ehd( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
 		if ( $this->typ === 'elektroheizungsflaechen' ) {
 			return 1;
 		}
 
-		$ehd0 = $this->ehd0( $heizungsanlage );
+		$ehd0 = $this->ehd0( $heizungsanlage, $anzahl_wohnungen );
 	}
 
 	/**
@@ -227,8 +243,8 @@ class Uebergabesystem {
 	 *
 	 * @return float|void
 	 */
-	public function ehd0( Heizungsanlage $heizungsanlage ): float {
-		if ( $this->anzahl_wohnungen === 1 ) {
+	public function ehd0( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
+		if ( $anzahl_wohnungen === 1 ) {
 			switch ( $this->auslegungstemperaturen ) {
 				case '90/70':
 					return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.099 : 1.1;
@@ -280,42 +296,5 @@ class Uebergabesystem {
 	}
 
 	public function fßhd() {
-	}
-
-
-	/**
-	 * Typ.
-	 *
-	 * @return string
-	 */
-	public function typ(): string {
-		return $this->typ;
-	}
-
-	/**
-	 * Auslegungstemperaturen.
-	 *
-	 * @return string
-	 */
-	public function auslegungstemperaturen(): string {
-		return $this->auslegungstemperaturen;
-	}
-
-	/**
-	 * Prozentualer Anteil.
-	 *
-	 * @return int
-	 */
-	public function prozentualer_anteil(): int {
-		return $this->prozentualer_anteil;
-	}
-
-	/**
-	 * Prozentualer Faktor.
-	 *
-	 * @return float
-	 */
-	public function prozentualer_faktor(): float {
-		return $this->prozentualer_anteil() / 100;
 	}
 }
