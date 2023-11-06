@@ -2,6 +2,7 @@
 
 namespace Enev\Schema202302\Calculations\Tabellen;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
@@ -163,7 +164,7 @@ class Luftwechsel {
 			case 'ohne':
 				return 0;
 			default:
-				throw new Exception( sprintf( 'Ungültiges Lüftungssystem: %s.', $this->lueftungssystem ) );
+				throw new Calculation_Exception( sprintf( 'Ungültiges Lüftungssystem: %s.', $this->lueftungssystem ) );
 		}
 	}
 

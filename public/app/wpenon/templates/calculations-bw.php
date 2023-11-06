@@ -354,7 +354,7 @@ $jahr = new Jahr();
 
 	<?php endif; ?>
 
-	<h2>Lüftungsystemm</h2>
+	<h2>Lüftungsystem</h2>
 
 	<h3>Bilanz-Innentemperatur</h3>
 	<table>
@@ -459,7 +459,7 @@ $jahr = new Jahr();
 
 	<h2>Aufsummierung</h2>
 
-	<p><?php printf( __( 'Interne Wärmequellen infolge von Personen Qi<sub>p</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_prozesse() ) ); ?></p>
+	<p><?php printf( __( 'Interne Wärmequelle infolge von Personen Qi<sub>p</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_prozesse() ) ); ?></p>
 	<p><?php printf( __( 'Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_wasser() ) ); ?></p>
 	<p><?php printf( __( 'Interne Wärmequelle infolge von Solar Qi<sub>s</sub>: %s kWh', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->qi_solar() ) ); ?></p>
 	

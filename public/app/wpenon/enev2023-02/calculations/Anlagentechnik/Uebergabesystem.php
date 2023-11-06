@@ -3,12 +3,20 @@
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enon\Enon\Standards\Calculation;
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
+use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 /**
  * Berechnung eines Übergabeystems (Heizkörper).
  */
 class Uebergabesystem {
+	/**
+	 * Gebäude.
+	 *
+	 * @var Gebaeude
+	 */
+	protected Gebaeude $gebaeude;
 
 	/**
 	 * Erlaubte Typen.
@@ -62,14 +70,16 @@ class Uebergabesystem {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param string $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
-	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
-	 * @param int    $anzahl_wohnungen       Anzahl der Wohnungen.
-	 * @param bool   $heizungsanlage_beheizt Ist die Heizungsanlage beheizt? Wenn der Kunde dies nicht weis, dann nein (false).
-	 * @param string $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
-	 * @param bool   $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
+	 * @param Gebaeude $gebaeude               Gebäude.
+	 * @param string   $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
+	 * @param string   $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
+	 * @param int      $anzahl_wohnungen       Anzahl der Wohnungen.
+	 * @param bool     $heizungsanlage_beheizt Ist die Heizungsanlage beheizt? Wenn der Kunde dies nicht weis, dann nein (false).
+	 * @param string   $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
+	 * @param bool     $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
 	 */
 	public function __construct(
+		Gebaeude $gebaeude,
 		string $typ,
 		string $auslegungstemperaturen,
 		int $prozentualer_anteil = 100,
@@ -85,6 +95,7 @@ class Uebergabesystem {
 			throw new Calculation_Exception( 'Auslegungstemperaturen nicht bekannt.' );
 		}
 
+		$this->gebaeude               = $gebaeude;
 		$this->typ                    = $typ;
 		$this->auslegungstemperaturen = $auslegungstemperaturen;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
@@ -213,10 +224,20 @@ class Uebergabesystem {
 				$ehce += -0.030;
 
 				// Da immer vom "Zweirohrsystem" ausgegangen wird, kommt ehcehyd mit 0.036 hinzu.
-				$ehce += 0.036;				
+				$ehce += 0.036;
 		}
 
 		return $ehce;
+	}
+
+	/**
+	 * Flächenbezogene leistung der Übergabe der Heizung Qhce.
+	 *
+	 * @param float $h_max_spezifisch
+	 * @return float
+	 */
+	public function qhce(): float {
+		return $this->gebaeude->luftwechsel()->h_max_spezifisch() * $this->ehce();
 	}
 
 	/**
@@ -230,12 +251,27 @@ class Uebergabesystem {
 	 *
 	 * @return float
 	 */
-	public function ehd( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
+	public function ehd( Heizungsanlage $heizungsanlage ): float {
 		if ( $this->typ === 'elektroheizungsflaechen' ) {
 			return 1;
 		}
 
-		$ehd0 = $this->ehd0( $heizungsanlage, $anzahl_wohnungen );
+		return 1 + ( $this->ehd1( $heizungsanlage, $this->gebaeude->anzahl_wohnungen() ) - 1 ) * ( 50 / $this->qhce( $this->gebaeude->luftwechsel()->h_max_spezifisch() ) );
+	}
+
+	/**
+	 * Verteilung Heizung (ehd_korrektur).
+	 *
+	 * @param Heizungsanlage $heizungsanlage
+	 * @return float
+	 */
+	public function ehd_korrektur( Heizungsanlage $heizungsanlage ) : float {
+		if ( $this->typ === 'elektroheizungsflaechen' ) {
+			return 1;
+		}
+
+		// 1 + (ehd-1)*(8760/$calculations['ith,rl'] )
+		return 1 + ( $this->ehd( $heizungsanlage ) - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
 	}
 
 	/**
@@ -270,12 +306,16 @@ class Uebergabesystem {
 		}
 	}
 
-	public function ehd1(): float {
-	}
-
-
-	public function ßhce(): float {
-		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000; //mittlere Belastund bei Übergabe der Heizung
+	/**
+	 * Verteilung Heizung (ehd1).
+	 *
+	 * @param Heizungsanlage $heizungsanlage
+	 * @param int            $anzahl_wohnungen
+	 * @return float
+	 * @throws Calculation_Exception
+	 */
+	public function ehd1( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
+		return $this->ehd0( $heizungsanlage, $anzahl_wohnungen ) * $this->fßd( $heizungsanlage, $anzahl_wohnungen );
 	}
 
 	/**
@@ -292,8 +332,23 @@ class Uebergabesystem {
 		// Da dies aber später Pflicht wird, muss das später noch angepasst werden.
 		$fhydr = 1.06;
 
-		return $this->ßhce() * $this->ehce() * $fhydr;
+		return $this->gebaeude->ßhce() * $this->ehce() * $fhydr;
 	}
+
+	/**
+	 * Mittlere Belastung Korrekturfaktor.
+	 *
+	 * @param Heizungsanlage $heizungsanlage
+	 * @param int            $anzahl_wohnungen
+	 * @return float
+	 * @throws Calculation_Exception
+	 */
+	public function fßd( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
+		$heizungsanlage_beheizt             = $heizungsanlage->beheizung_anlage() === 'alles' ? true : false;
+		$mittlere_belastung_korrekturfaktor = new Mittlere_Belastung_Korrekturfaktor( $heizungsanlage_beheizt, $anzahl_wohnungen, $this->auslegungstemperaturen, $this->ßhd() );
+		return $mittlere_belastung_korrekturfaktor->fßd();
+	}
+
 
 	public function fßhd() {
 	}

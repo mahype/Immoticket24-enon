@@ -33,6 +33,7 @@ use Enev\Schema202302\Calculations\Bauteile\Satteldach;
 use Enev\Schema202302\Calculations\Bauteile\Walmdach;
 use Enev\Schema202302\Calculations\Bauteile\Wand;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
+use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 use function Enev\Schema202302\Calculations\Helfer\berechne_fenster_flaeche;
 use function Enev\Schema202302\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
@@ -76,6 +77,8 @@ require_once __DIR__ . '/Bauteile/Flachdach.php';
 require_once __DIR__ . '/Bauteile/Pultdach.php';
 require_once __DIR__ . '/Bauteile/Satteldach.php';
 require_once __DIR__ . '/Bauteile/Walmdach.php';
+
+require_once __DIR__ . '/Tabellen/Mittlere_Belastung_Korrekturfaktor.php';
 
 /**
  * Kalkulationen für den Bedarfsausweis.
@@ -464,6 +467,8 @@ $gebaeude->wasserversorgung(
 	)
 );
 
+
+
 /**
 * Heizsysteme
 */
@@ -510,12 +515,11 @@ if ( $energieausweis->h3_erzeugung ) {
 	);
 }
 
-
 // Wir rechnen vorerst nur mit einem Übergabesystem.
-
 if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
+			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
@@ -525,6 +529,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 } else {
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
+			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil
@@ -635,6 +640,10 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 
 // $calculations['monate'][ $monat ]['ith_rl'] = $calculations['monate'][ $monat ]['thm'] * 0.042 * $calculations['monate'][ $monat ]['trl'];
 // $x = 0;
+
+
+$mittlere_belastung_korrekturfaktor = new Mittlere_Belastung_Korrekturfaktor( true, 1, '90/70', 0.4 );
+$test = $mittlere_belastung_korrekturfaktor->fßd();
 
 // $calculations['ith_rl'] += $calculations['monate'][ $monat ]['ith_rl'];
 // }

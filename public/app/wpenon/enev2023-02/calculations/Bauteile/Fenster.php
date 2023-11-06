@@ -17,6 +17,13 @@ require_once __DIR__ . '/Bauteil.php';
  */
 class Fenster extends Bauteil implements Transmissionswaerme {
 	/**
+	 * Monatsdaten
+	 * 
+	 * @var Monatsdaten
+	 */
+	protected Monatsdaten $monatsdaten;
+
+	/**
 	 * Himmelsrichtung des Bauteils.
 	 *
 	 * @var string
@@ -58,6 +65,8 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 		$this->winkel          = $winkel;
 
 		$this->fx = 1.0;
+
+		$this->monatsdaten = new Monatsdaten();
 	}
 
 	/**
@@ -95,8 +104,7 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * @return float
 	 */
 	public function strahlungsfaktor( $monat ) {
-		$monatsdaten = new Monatsdaten(); // Todo: Daten global einbinden
-		return $monatsdaten->strahlungsfaktor( $monat, $this->winkel, $this->himmelsrichtung );
+		return $this->monatsdaten->strahlungsfaktor( $monat, $this->winkel, $this->himmelsrichtung );
 	}
 
 	/**
@@ -106,7 +114,7 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * @return float 
 	 */
 	public function solar_gewinn_mpk() {
-		return 0.9 * 1.0 * 0.9 * 0.7 * $this->gwert;
+		return 0.9 * 1.0 * 0.9 * 0.7 * $this->gwert();
 	}
 
 	/**
@@ -115,8 +123,8 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * @param string $monat 
 	 * @return float 
 	 */
-	public function qi_solar_monat( string $monat ): float {
-		return $this->strahlungsfaktor( $monat ) * $this->solar_gewinn_mpk() * 0.024 * ( new Jahr() )->monat( $monat )->tage();
+	public function qs_monat( string $monat ): float {
+		return $this->strahlungsfaktor( $monat ) * $this->solar_gewinn_mpk() * 0.024 * $this->monatsdaten->tage( $monat );
 	}
 
 	/**
@@ -124,11 +132,11 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * 
 	 * @return float 
 	 */
-	public function qi_solar(): float {
+	public function qs(): float {
 		$jahr = new Jahr();
 		$summe = 0.0;
 		foreach ( $jahr->monate() as $monat ) {
-			$summe += $this->qi_solar_monat( $monat->slug() );
+			$summe += $this->qs_monat( $monat->slug() );
 		}
 		return $summe;
 	}

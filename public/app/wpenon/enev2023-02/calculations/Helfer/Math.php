@@ -5,7 +5,7 @@ namespace Enev\Schema202302\Calculations\Helfer;
 /**
  * Interpolation of values.
  *
- * @param float $target_value
+ * @param float $target_value The value to interpolate.
  * @param array $keys
  * @param array $values
  *

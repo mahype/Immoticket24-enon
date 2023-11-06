@@ -8,16 +8,18 @@ use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Dach;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
+use Enev\Schema202302\Calculations\Tabellen\Ausnutzungsgrad;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
+use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
 use function Enev\Schema202302\Calculations\Helfer\fum;
+use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once __DIR__ . '/Keller.php';
 
-require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 require_once dirname( __DIR__ ) . '/Bauteile/Bauteile.php';
 
 require_once dirname( __DIR__ ) . '/Anlagentechnik/Heizsystem.php';
@@ -33,14 +35,6 @@ require_once dirname( __DIR__ ) . '/Tabellen/Bilanz_Innentemperatur.php';
  * @package
  */
 class Gebaeude {
-
-	/**
-	 * Jahr Objekt.
-	 *
-	 * @var Jahr
-	 */
-	private Jahr $jahr;
-
 	/**
 	 * Baujahr des Gebäudes.
 	 *
@@ -68,6 +62,13 @@ class Gebaeude {
 	 * @var string
 	 */
 	private $anzahl_wohnungen;
+
+	/**
+	 * Monatsdaten
+	 * 
+	 * @var Monatsdaten
+	 */
+	protected Monatsdaten $monatsdaten;
 
 	/**
 	 * Luftwechsel
@@ -151,7 +152,6 @@ class Gebaeude {
 	 * @return void
 	 */
 	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen ) {
-		$this->jahr             = new Jahr();
 		$this->baujahr          = $baujahr;
 		$this->geschossanzahl   = $geschossanzahl;
 		$this->geschosshoehe    = $geschosshoehe;
@@ -160,6 +160,7 @@ class Gebaeude {
 
 		$this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
+		$this->monatsdaten = new Monatsdaten();
 		$this->bauteile   = new Bauteile();
 		$this->heizsystem = new Heizsystem();
 	}
@@ -407,8 +408,6 @@ class Gebaeude {
 		return $volumen;
 	}
 
-
-
 	/**
 	 * Wärmetransferkoeffizient des Gebäudes.
 	 *
@@ -443,12 +442,24 @@ class Gebaeude {
 	}
 
 	/**
-	 * Maximaler Wärmestrom.
+	 * Maximaler Wärmestrom Q gesamt.
 	 *
 	 * @return float
 	 */
 	public function q(): float {
 		return $this->h() * 32;
+	}
+
+	/**
+	 * Mittlere Belastung bei Übergabe der Heizung.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function ßhce(): float {
+		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
+		return  ( $this->qh() / $this->thm() * $this->luftwechsel()->h_max() ) * 1000;
 	}
 
 	/**
@@ -462,30 +473,35 @@ class Gebaeude {
 		return $this->q() * ( ( $this->bilanz_innentemperatur()->θih_monat( $monat ) + 12 ) / 32 ) * $this->mittlere_belastung()->ßem1( $monat );
 	}
 
-	public function psh_sink_monat( string $monat ) {		
-		// $calculations['monate'][ $monat ]['psh_sink'] = $gebaeude->ph_sink_monat( $monat) - ($gebaeude->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * $fum);
-		// $calculations['monate'][ $monat ]['psh_sink'] = $calculations['monate'][ $monat ]['psh_sink'] < 0 ? 0 : $calculations['monate'][ $monat ]['psh_sink'];
-
-		$phs_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $calculations['monate'][ $monat ]['qi_solar'] ) * fum( $monat ) );
+	/**
+	 * Wärmesenken als Leistung in W (P*h sink).
+	 *
+	 * @param string $monat
+	 *
+	 * @return int|float
+	 */
+	public function psh_sink_monat( string $monat ) {
+		$psh_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $this->qs_monat( $monat ) ) * fum( $monat ) );
+		return $psh_sink < 0 ? 0 : $psh_sink;
 	}
 
 	/**
 	 * Monatliche solare Wärmegewinne.
-	 * 
-	 * @param string $monat 
-	 * @return float 
+	 *
+	 * @param string $monat
+	 * @return float
 	 */
-	public function qi_solar_monat( string $monat ) : float {		
-		return $this->bauteile()->fenster()->qi_solar_monat( $monat );
+	public function qs_monat( string $monat ): float {
+		return $this->bauteile()->fenster()->qs_monat( $monat );
 	}
 
 	/**
 	 * Solare Wärmegewinne für ein Jahr.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function qi_solar(): float {
-		return $this->bauteile()->fenster()->qi_solar();
+	public function qs(): float {
+		return $this->bauteile()->fenster()->qs();
 	}
 
 	/**
@@ -497,8 +513,8 @@ class Gebaeude {
 	public function qi_prozesse(): float {
 		$qi_prozesse = 0;
 
-		foreach ( $this->jahr->monate() as $monat ) {
-			$qi_prozesse += $this->qi_prozesse_monat( $monat->slug() );
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$qi_prozesse += $this->qi_prozesse_monat( $monat );
 		}
 
 		return $qi_prozesse;
@@ -513,9 +529,9 @@ class Gebaeude {
 	 */
 	public function qi_prozesse_monat( string $monat ): float {
 		if ( $this->anzahl_wohnungen() === 1 ) {
-			return 45 * $this->nutzflaeche() * $this->jahr->monat( $monat )->tage() * 0.001;
+			return 45 * $this->nutzflaeche() * $this->monatsdaten->tage( $monat ) * 0.001;
 		} else {
-			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohnungen() * $this->jahr->monat( $monat )->tage() ) ) * 0.001;
+			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohnungen() * $this->monatsdaten->tage( $monat ) ) ) * 0.001;
 		}
 	}
 
@@ -527,7 +543,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_wasser_monat( string $monat ): float {
-		return $this->qwb_monat( $monat ) * $this->wasserversorgung()->fh_w();
+		return $this->QWB_monat( $monat ) * $this->wasserversorgung()->fh_w();
 	}
 
 	/**
@@ -538,11 +554,271 @@ class Gebaeude {
 	public function qi_wasser(): float {
 		$qi_wasser = 0;
 
-		foreach ( $this->jahr->monate() as $monat ) {
-			$qi_wasser += $this->qi_wasser_monat( $monat->slug() );
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$qi_wasser += $this->qi_wasser_monat( $monat );
 		}
 
 		return $qi_wasser;
+	}
+
+	/**
+	 * Interne Wärmequelle infolge von Heizung (Qi,h) für einen Monat.
+	 *
+	 * @param string $monat
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function qi_heizung_monat( string $monat ): float {
+		return $this->psh_sink_monat( $monat ) * ( $this->mittlere_belastung()->ßem1( $monat ) / $this->mittlere_belastung()->ßemMax() ) * $this->heizsystem()->fa_h() / fum( $monat );
+	}
+
+	/**
+	 * Interne Wärmequelle infolge von Heizung (Qi,h).
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function qi_heizung(): float {
+		$qi_heizung = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$qi_heizung += $this->qi_heizung_monat( $monat );
+		}
+
+		return $qi_heizung;
+	}
+
+	/**
+	 * Berechnung von Qi gesamt für einen Monat.
+	 *
+	 * @param string $monat
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function qi_monat( string $monat ): float {
+		return $this->qi_prozesse_monat( $monat ) + $this->qi_wasser_monat( $monat ) + $this->qi_heizung_monat( $monat ) + $this->qs_monat( $monat );
+	}
+
+	/**
+	 * Berechnung von Qi gesamt.
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function qi(): float {
+		$qi = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$qi += $this->qi_monat( $monat );
+		}
+
+		return $qi;
+	}
+
+	/**
+	 * Berechnung von PH Source für einen Monat (in den Dokumenten auch "pi" genannt).
+	 *
+	 * @param string $monat
+	 *
+	 * @return float
+	 */
+	public function ph_source_monat( string $monat ): float {
+		return $this->qi_monat( $monat ) - fum( $monat );
+	}
+
+	/**
+	 * Berechnung das monatlichen Wärmequellen-/Wärmesenken-Verhältnis ym.
+	 *
+	 * @return float
+	 */
+	public function ym_monat( string $monat ): float {
+		return $this->ph_source_monat( $monat ) / $this->ph_sink_monat( $monat );
+	}
+
+	/**
+	 * Ausnutzungsgrad nm für einen Monat.
+	 * 
+	 * @param mixed $monat
+	 * @return float
+	 * 
+	 * @throws Calculation_Exception
+	 */
+	public function nm_monat( $monat ): float {
+		return ( new Ausnutzungsgrad( $this->tau(), $this->ym_monat( $monat ) ) )->nm();
+	}
+
+	/**
+	 * Berechnung von ßhm für einen Monat.
+	 * // Frage: Was ist ßhm?
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ßhm_monat( string $monat ): float {		
+		return $this->mittlere_belastung()->ßem1( $monat ) * $this->k_monat( $monat );
+	}	
+
+	/**
+	 * Berechnung von ßhm für ein Jahr.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ßhm() : float
+	{
+		$ßhm = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$ßhm += $this->ßhm_monat( $monat );
+		}
+
+		return $ßhm;
+	}
+
+	/**
+	 * Berechnung von thm für einen Monat.
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function thm_monat( string $monat ): float
+	{ 
+		if( $this->ßhm_monat( $monat ) > 0.05 ) {
+			return $this->monatsdaten->tage( $monat ) * 24;
+		}
+
+		return ( $this->ßhm_monat( $monat ) / 0.05 ) * $this->monatsdaten->tage( $monat ) * 24;
+	}
+
+	/**
+	 * Berechnung von thm für ein Jahr.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function thm(): float{
+		$thm = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$thm += $this->thm_monat( $monat );
+		}
+
+		return $thm;
+	}
+
+	/**
+	 * Heizwärmebedarf/ Nutzenergie in kWh für einen Monat.
+	 * 
+	 * Ph,sink*(1-nm*ym)*thm/1000 = Ph,sink* k*thm/1000.
+	 * 
+	 * @param string $monat 
+	 * @return float
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function qh_monat( string $monat ): float {
+		return $this->ph_sink_monat( $monat ) * $this->k_monat( $monat ) * $this->thm_monat( $monat ) / 1000;
+	}
+
+
+	/**
+	 * Heizwärmebedarf/ Nutzenergie im Jahr in kWh.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function qh(): float {
+		$qh = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$qh += $this->qh_monat( $monat );
+		}
+
+		return $qh;
+	}
+
+	/**
+	 * Bestimmung von flna.
+	 * 
+	 * // Frage: Was ist flna?
+	 * 
+	 * @param string $monat
+	 * 
+	 * @return float
+	 */
+	public function flna_monat( $monat ): float {
+		if ( $this->anzahl_wohnungen() === 1 ) {
+			return 1;
+		} 
+		
+		return 1 - ( ( 10 - $this->monatsdaten->temperatur( $monat ) ) / 22 );
+	}
+
+	/**
+	 * Bestimmung von trl.
+	 * 
+	 * // Frage: Was ist trl?
+	 * 
+	 * @param string $monat
+	 * 
+	 * @return float
+	 */
+	public function trl_monat( $monat ): float {		
+		$trl = 24 - $this->flna_monat( $monat ) * 7;
+
+		if ( $trl < 17 ) {
+			$trl = 17;
+		}
+
+		return $trl;
+	}
+
+	/**
+	 * Bestimmung von ith,rl für einen Monat.
+	 * 
+	 *  // Frage: Was ist ith,rl?
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function ith_rl_monat( string $monat ): float {		
+		return $this->thm_monat( $monat ) * 0.042 * $this->trl_monat( $monat );
+	}
+
+	/**
+	 * Bestimmung von ith,rl für ein Jahr.
+	 * 
+	 * @return float
+	 */
+	public function ith_rl(): float {
+		$ith_rl = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$ith_rl += $this->ith_rl_monat( $monat );
+		}
+
+		return $ith_rl;
+	}
+
+	/**
+	 * Zwischenberechnung; Bestimmung von k = (1-nm*ym).
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function k_monat( string $monat ): float {
+		return ( 1 - $this->nm_monat( $monat ) * $this->ym_monat( $monat ) );
 	}
 
 	/**
@@ -574,81 +850,5 @@ class Gebaeude {
 		} else {
 			return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe - 0.04 );
 		}
-	}
-
-	/**
-	 * Jährlicher Nutzwaermebedarf für Trinkwasser (qwb).
-	 *
-	 * Aufgrund der Einfachheit nicht in der Datenbank gespeichert.
-	 *
-	 * Teil 12 - Tabelle 19.
-	 *
-	 * @param float $nutzflaeche Netto-Nutzfläche des Gebäudes.
-	 *
-	 * @return float
-	 */
-	public function nutzwaermebedarf_trinkwasser(): float {
-		if ( $this->nutzflaeche() < 10 ) {
-			return 16.5;
-		} elseif ( $this->nutzflaeche() >= 10 ) {
-			return 16;
-		} elseif ( $this->nutzflaeche() >= 20 ) {
-			return 15.5;
-		} elseif ( $this->nutzflaeche() >= 30 ) {
-			return 15;
-		} elseif ( $this->nutzflaeche() >= 40 ) {
-			return 14.5;
-		} elseif ( $this->nutzflaeche() >= 50 ) {
-			return 14;
-		} elseif ( $this->nutzflaeche() >= 60 ) {
-			return 13.5;
-		} elseif ( $this->nutzflaeche() >= 70 ) {
-			return 13;
-		} elseif ( $this->nutzflaeche() >= 80 ) {
-			return 12.5;
-		} elseif ( $this->nutzflaeche() >= 90 ) {
-			return 12;
-		} elseif ( $this->nutzflaeche() >= 100 ) {
-			return 11.5;
-		} elseif ( $this->nutzflaeche() >= 110 ) {
-			return 11;
-		} elseif ( $this->nutzflaeche() >= 120 ) {
-			return 10.5;
-		} elseif ( $this->nutzflaeche() >= 130 ) {
-			return 10;
-		} elseif ( $this->nutzflaeche() >= 140 ) {
-			return 9.5;
-		} elseif ( $this->nutzflaeche() >= 150 ) {
-			return 9;
-		} elseif ( $this->nutzflaeche() >= 160 ) {
-			return 8.5;
-		}
-	}
-
-	/**
-	 * Monatlicher Nutzwärmebedarf für Trinkwasser (qwb).
-	 *
-	 * @param string $monat Slug des Monats.
-	 *
-	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
-	 */
-	public function qwb_monat( string $monat ): float {
-		$qwb = $this->nutzwaermebedarf_trinkwasser( $this->nutzflaeche() );
-		return ( $this->nutzflaeche() / $this->anzahl_wohnungen() ) * $qwb * ( $this->jahr->monat( $monat )->tage() / 365 );
-	}
-
-	/**
-	 *  Nutzwärmebedarf für Trinkwasser (qwb) für ein Jahr.
-	 *
-	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
-	 */
-	public function qwb(): float {
-		$qwb = 0;
-
-		foreach ( $this->jahr->monate() as $monat ) {
-			$qwb += $this->qwb_monat( $monat->slug() );
-		}
-
-		return $qwb;
 	}
 }
