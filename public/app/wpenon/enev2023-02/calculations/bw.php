@@ -457,17 +457,28 @@ $gebaeude->luftwechsel(
 	)
 );
 
-
+switch ( $energieausweis->ww_info ) {
+	case 'ww':
+		$ww_zentral = false;
+		$beheizte_bereiche = 'nichts';
+		$mit_warmwasserspeicher = false;
+		break;
+	case 'h':
+		$ww_zentral = true;
+		$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+		$mit_warmwasserspeicher = false;
+		break;
+	
+}
 $gebaeude->wasserversorgung(
 	new Wasserversorgung(
-		zentral: true,
-		beheizte_bereiche: 'alles',
-		mit_warmwasserspeicher: $energieausweis->warmwasserspeicher == 'ja' ? true : false, // Neu - Ist ein Warmwasserspeicher vorhanden?
+		gebaeude: $gebaeude,
+		zentral: $ww_zentral,
+		beheizte_bereiche: $beheizte_bereiche,
+		mit_warmwasserspeicher: $energieausweis->speicherung, // Neu - Ist ein Warmwasserspeicher vorhanden?
 		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
 	)
 );
-
-
 
 /**
 * Heizsysteme
@@ -536,6 +547,11 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 		)
 	);
 }
+
+if( $energieausweis->puffer !== 'unbekannt' ) {	
+	
+}
+
 
 // $monate           = wpenon_get_table_results( 'monate' );
 // $solar_gewinn_mpk = 0.9 * 1.0 * 0.9 * 0.7 * wpenon_immoticket24_get_g_wert( $energieausweis->fenster_bauart ); // Solar gewinn neu

@@ -4,8 +4,8 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
+
 
 /**
  * Berechnung eines Übergabeystems (Heizkörper).
@@ -118,6 +118,16 @@ class Uebergabesystem {
 	 */
 	public function auslegungstemperaturen(): string {
 		return $this->auslegungstemperaturen;
+	}
+
+	/**
+	 * Auslegungsvorlauftemperatur.
+	 *
+	 * @return int
+	 */
+	public function auslegungsvorlauftemperatur(): int {
+		$temperaturen = explode( '/', $this->auslegungstemperaturen() );
+		return (int) $temperaturen[0];
 	}
 
 	/**
@@ -265,7 +275,7 @@ class Uebergabesystem {
 	 * @param Heizungsanlage $heizungsanlage
 	 * @return float
 	 */
-	public function ehd_korrektur( Heizungsanlage $heizungsanlage ) : float {
+	public function ehd_korrektur( Heizungsanlage $heizungsanlage ): float {
 		if ( $this->typ === 'elektroheizungsflaechen' ) {
 			return 1;
 		}
@@ -345,11 +355,6 @@ class Uebergabesystem {
 	 */
 	public function fßd( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
 		$heizungsanlage_beheizt             = $heizungsanlage->beheizung_anlage() === 'alles' ? true : false;
-		$mittlere_belastung_korrekturfaktor = new Mittlere_Belastung_Korrekturfaktor( $heizungsanlage_beheizt, $anzahl_wohnungen, $this->auslegungstemperaturen, $this->ßhd() );
-		return $mittlere_belastung_korrekturfaktor->fßd();
-	}
-
-
-	public function fßhd() {
+		return ( new Mittlere_Belastung_Korrekturfaktor( $heizungsanlage_beheizt, $anzahl_wohnungen, $this->auslegungstemperaturen, $this->ßhd() ) )->fßd();		
 	}
 }

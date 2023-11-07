@@ -68,4 +68,34 @@ class Heizungsanlagen {
 
 		return $fa_h;
 	}
+
+	/**
+	 * Ist eine Wärmepumpe vorhanden?
+	 * 
+	 * @return bool 
+	 */
+	public function waermepumpe_vorhanden(): bool {
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			if ( strpos( $heizungsanlage->typ(), 'waermepumpe' ) === 0 ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Ist ein Biomassekessel vorhanden?
+	 * 
+	 * @return bool 
+	 */
+	public function biomassekessel_vorhanden(): bool {
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			if ( strpos( $heizungsanlage->typ(), 'biomassekessel' ) === 0 ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

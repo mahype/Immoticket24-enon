@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Tabellen;
 
+use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
+
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**

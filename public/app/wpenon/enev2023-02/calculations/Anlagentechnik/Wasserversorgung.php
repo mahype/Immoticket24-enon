@@ -4,10 +4,11 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Kessel_Nennleistung;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
+
+require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
 
 /**
  * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen
@@ -66,10 +67,12 @@ class Wasserversorgung {
 	/**
 	 * Liegt eine Warmwasserspeicher vor
 	 *
-	 * @param bool $zentral            Handelt sich um eine zentrale Wasserversorgung (true) oder um eine dezentrale (false)?
-	 * @param bool $beheizte_bereiche  Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
-	 * @param bool $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
-	 * @param bool $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
+	 * @param Gebaeude $gebaeude               Gebäude.
+	 * @param bool     $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
+	 * @param string   $beheizte_bereiche      Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
+	 * @param bool     $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
+	 * @param bool     $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
+	 * @param int      $prozentualer_anteil    Prozentualer Anteil.
 	 */
 	public function __construct(
 		Gebaeude $gebaeude,
@@ -95,7 +98,17 @@ class Wasserversorgung {
 		$this->mit_zirkulation        = $mit_zirkulation;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
 
-		$this->monatsdaten = new Monatsdaten(); }
+		$this->monatsdaten = new Monatsdaten();
+	}
+
+	/**
+	 * Läuft die Warmwasserversorgung über die Heizungsanlage?
+	 *
+	 * @return bool
+	 */
+	public function zentral(): bool {
+		return $this->zentral;
+	}
 
 	/**
 	 * Prozentualer Anteil.
@@ -167,7 +180,7 @@ class Wasserversorgung {
 			8.5,
 		);
 
-		return interpolate_value( $this->gebaeude->nutzflaeche(), $keys, $values );
+		return interpolate_value( $this->gebaeude->nutzflaeche_pro_wohneinheit(), $keys, $values );
 	}
 
 	/**
@@ -178,7 +191,7 @@ class Wasserversorgung {
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
 	 */
 	public function QWB_monat( string $monat ): float {
-		$qwb = $this->nutzwaermebedarf_trinkwasser( $this->gebaeude->nutzflaeche() );
+		$qwb = $this->nutzwaermebedarf_trinkwasser();
 		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $qwb * ( $this->monatsdaten->tage( $monat ) / 365 );
 	}
 
@@ -195,29 +208,6 @@ class Wasserversorgung {
 		}
 
 		return $qwb;
-	}
-
-	/**
-	 * Berechnung von pwn. 
-	 * 
-	 * @return float 
-	 */
-	public function pwn(): float {	
-		$pwn = 0;
-		
-		if( $this->zentral ) {
-			if( $this->gebaeude->nutzflaeche() >= 5000 ) {
-				$pwn = 0.042 * ( ( $this->nutzwaermebedarf_trinkwasser() * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
-			} else {
-				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $this->nutzwaermebedarf_trinkwasser() ) )->nennleistung();
-			}
-		}
-
-		if( $pwn > $this->gebaeude->luftwechsel()->h_max() ) {
-			return $this->gebaeude->luftwechsel()->h_max();
-		}
-
-		return $pwn;
 	}
 
 	/**

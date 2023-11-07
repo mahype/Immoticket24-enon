@@ -1134,7 +1134,7 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::h3_info', true ),
 					),
-				),				
+				),
 				'verteilung_baujahr'                            => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr des Rohrleitungssystems', 'wpenon' ),
@@ -1197,7 +1197,7 @@ $anlage = array(
 					),
 				),
 			),
-		),
+		),		
 		'uebergabesystem' => array(
 			'title' => __('Übergabesystem', 'wpenon'),
 			'description' => __('Machen Sie hier Angaben zum Übergabesystem des Gebäudes.', 'wpenon'),
@@ -1363,7 +1363,7 @@ $anlage = array(
 						'mit'  => __( 'mit Zirkulation', 'wpenon' ),
 					),
 					'required'    => true,
-				),
+				)
 			),
 		),
 		'lueftung'   => array(

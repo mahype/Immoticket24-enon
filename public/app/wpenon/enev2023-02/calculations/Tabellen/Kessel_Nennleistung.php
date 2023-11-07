@@ -55,11 +55,14 @@ class Kessel_Nennleistung {
 				$values[] = (float) $this->table_data[ $nutzflaeche_slug ]->$nutzwaermebedarf_trinkwasser_slug;
 			}
 
+            $interpolated_value = interpolate_value( $this->nutzflaeche, $keys, $values );
+
 			$nutzwaermebedarf_trinkwasser_keys[]   = (float) str_replace( 'kwh_', '', $nutzwaermebedarf_trinkwasser_slug ) / 10;
-			$nutzwaermebedarf_trinkwasser_values[] = interpolate_value( $this->nutzflaeche, $keys, $values );
+			$nutzwaermebedarf_trinkwasser_values[] = $interpolated_value;
 		}
 
-		return interpolate_value( $this->nutzwaermebedarf_trinkwasser, $nutzwaermebedarf_trinkwasser_keys, $nutzwaermebedarf_trinkwasser_values );
+        $interpolated_value = interpolate_value( $this->nutzwaermebedarf_trinkwasser, $nutzwaermebedarf_trinkwasser_keys, $nutzwaermebedarf_trinkwasser_values );
+		return $interpolated_value;
     }
 
 

@@ -34,6 +34,15 @@ class Uebergabesysteme {
 	}
 
 	/**
+	 * Erstes Uebergabesystem (derzeit auch einziges Überabesystem).
+	 * 
+	 * @return Uebergabesystem 
+	 */
+	public function erstes(): Uebergabesystem {
+		return $this->uebergabesysteme[0];
+	}
+
+	/**
 	 * Validierung des prozentualen Anteils aller Uebergabesystemn.
 	 *
 	 * @return bool

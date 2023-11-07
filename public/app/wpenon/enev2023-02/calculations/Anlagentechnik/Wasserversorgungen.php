@@ -25,24 +25,6 @@ class Wasserversorgungen {
 	}
 
 	/**
-	 * Hinzufügen einer Wasserversorgungen welche in einer Heizung enthalten ist.
-	 *
-	 * @param Heizungsanlage $heizungsanlage
-	 * @param bool           $mit_warmwasserspeicher Hat die Wasserversorgung einen Warmwasserspeicher?
-	 * @param bool           $mit_zirkulation Ist die Wasserversorgung mit Zirkulation?
-	 * @return void
-	 */
-	public function hinzufuegen_ueber_heizung( Heizungsanlage $heizungsanlage, bool $mit_warmwasserspeicher, bool $mit_zirkulation ) {
-		$this->wasserversorgungen[] = new Wasserversorgung(
-			zentral: true,
-			beheizte_bereiche: $heizungsanlage->beheizung_anlage(),
-			mit_warmwasserspeicher: $mit_warmwasserspeicher,
-			mit_zirkulation: $mit_zirkulation,
-			prozentualer_anteil: $heizungsanlage->prozentualer_anteil()
-		);
-	}
-
-	/**
 	 * Alle Uebergabesysteme.
 	 *
 	 * @return Uebergabesystem[]

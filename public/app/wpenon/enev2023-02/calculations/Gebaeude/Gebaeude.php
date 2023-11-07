@@ -162,7 +162,7 @@ class Gebaeude {
 
 		$this->monatsdaten = new Monatsdaten();
 		$this->bauteile   = new Bauteile();
-		$this->heizsystem = new Heizsystem();
+		$this->heizsystem = new Heizsystem( $this );
 	}
 
 	/**
@@ -543,7 +543,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_wasser_monat( string $monat ): float {
-		return $this->QWB_monat( $monat ) * $this->wasserversorgung()->fh_w();
+		return $this->wasserversorgung->QWB_monat( $monat ) * $this->wasserversorgung()->fh_w();
 	}
 
 	/**
@@ -617,6 +617,34 @@ class Gebaeude {
 		}
 
 		return $qi;
+	}
+
+	/**
+	 * Berechnung von pi für ein Jahr..
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function pi(): float {
+		$pi = 0;
+
+		foreach ( $this->monatsdaten->monate() as $monat ) {
+			$pi += $this->pi_monat( $monat );
+		}
+
+		return $pi;
+	}
+
+	/**
+	 * Berechnung von pi für einen Monat.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function pi_monat( $monat ) {
+		return $this->qi_monat( $monat ) - fum( $monat );
 	}
 
 	/**
@@ -850,5 +878,14 @@ class Gebaeude {
 		} else {
 			return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe - 0.04 );
 		}
+	}
+
+	/**
+	 * Nutzfläche pro Wohneinheit.
+	 * 
+	 * @return float 
+	 */
+	public function nutzflaeche_pro_wohneinheit(): float {
+		return $this->nutzflaeche() / $this->anzahl_wohnungen();
 	}
 }

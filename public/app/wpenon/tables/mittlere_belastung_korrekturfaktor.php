@@ -2,7 +2,7 @@
 
 return array(
 	'title'         => __( 'Mittlere Belastung Korrekturfaktor', 'wpenon' ),
-	'description'   => __( 'Diese Tabelle enthält Korrekturfaktor fβ,d für die mittlere Belastung', 'wpenon' ) . ' ' . __( 'Diese Daten werden für den Bedarfsausweis benötigt.', 'wpenon' ),
+	'description'   => __( 'Diese Tabelle enthält Korrekturfaktor fβ,d für die mittlere Belastung.', 'wpenon' ) . ' ' . __( 'Diese Daten werden für den Bedarfsausweis benötigt.', 'wpenon' ),
 	'primary_field' => 'bezeichnung',
 	'search_field'  => 'bezeichnung',
 	'search_before' => true,
