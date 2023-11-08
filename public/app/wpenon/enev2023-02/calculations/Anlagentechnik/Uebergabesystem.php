@@ -248,41 +248,7 @@ class Uebergabesystem {
 	 */
 	public function qhce(): float {
 		return $this->gebaeude->luftwechsel()->h_max_spezifisch() * $this->ehce();
-	}
-
-	/**
-	 * Verteilung Heizung (ehd).
-	 *
-	 * Berechnung der Wirkungsgrade der Wärmeverluste (Aufwandszahlen) von  Verteilung ehd
-	 * Bemerkung: Übergabestationen werden vorerst nicht berücksichtigt
-	 * Siehe Tabelle 12, Tabele 30, Tabelle 31
-	 *
-	 * @param Heizungsanlage
-	 *
-	 * @return float
-	 */
-	public function ehd( Heizungsanlage $heizungsanlage ): float {
-		if ( $this->typ === 'elektroheizungsflaechen' ) {
-			return 1;
-		}
-
-		return 1 + ( $this->ehd1( $heizungsanlage, $this->gebaeude->anzahl_wohnungen() ) - 1 ) * ( 50 / $this->qhce( $this->gebaeude->luftwechsel()->h_max_spezifisch() ) );
-	}
-
-	/**
-	 * Verteilung Heizung (ehd_korrektur).
-	 *
-	 * @param Heizungsanlage $heizungsanlage
-	 * @return float
-	 */
-	public function ehd_korrektur( Heizungsanlage $heizungsanlage ): float {
-		if ( $this->typ === 'elektroheizungsflaechen' ) {
-			return 1;
-		}
-
-		// 1 + (ehd-1)*(8760/$calculations['ith,rl'] )
-		return 1 + ( $this->ehd( $heizungsanlage ) - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
-	}
+	}	
 
 	/**
 	 * Verteilung Heizung (ehd0).
@@ -314,47 +280,5 @@ class Uebergabesystem {
 			case '35/28':
 				return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.016 : 1.024;
 		}
-	}
-
-	/**
-	 * Verteilung Heizung (ehd1).
-	 *
-	 * @param Heizungsanlage $heizungsanlage
-	 * @param int            $anzahl_wohnungen
-	 * @return float
-	 * @throws Calculation_Exception
-	 */
-	public function ehd1( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
-		return $this->ehd0( $heizungsanlage, $anzahl_wohnungen ) * $this->fßd( $heizungsanlage, $anzahl_wohnungen );
-	}
-
-	/**
-	 * Mitttlere Belastung für die Verteilung (ßhd).
-	 *
-	 * @return float
-	 */
-	public function ßhd(): float {
-		if ( $this->typ === 'elektroheizungsflaechen' ) {
-			throw new Calculation_Exception( 'Elektroheizungsflächen haben keine mittlere Belastung für die Verteilung.' );
-		}
-
-		// Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.
-		// Da dies aber später Pflicht wird, muss das später noch angepasst werden.
-		$fhydr = 1.06;
-
-		return $this->gebaeude->ßhce() * $this->ehce() * $fhydr;
-	}
-
-	/**
-	 * Mittlere Belastung Korrekturfaktor.
-	 *
-	 * @param Heizungsanlage $heizungsanlage
-	 * @param int            $anzahl_wohnungen
-	 * @return float
-	 * @throws Calculation_Exception
-	 */
-	public function fßd( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
-		$heizungsanlage_beheizt             = $heizungsanlage->beheizung_anlage() === 'alles' ? true : false;
-		return ( new Mittlere_Belastung_Korrekturfaktor( $heizungsanlage_beheizt, $anzahl_wohnungen, $this->auslegungstemperaturen, $this->ßhd() ) )->fßd();		
-	}
+	}	
 }

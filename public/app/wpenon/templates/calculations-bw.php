@@ -369,15 +369,9 @@ $jahr = new Jahr();
 		<th>PH<sub>source</sub></th>
 		<th>Qs</th>
 		<th>Qh</th>
-		<th>Qi</th>
-		<th>ym</th>
-		<th>nm</th>
 		<th>ßhm</th>
 		<th>thm</th>
-		<th>flna</th>
-		<th>trl</th>
-		<th>ith_rl</th>
-		<th>k</th>
+		<th>Q<sub>W,B</sub></th>
 	</tr>
 		<?php foreach ( $jahr->monate() as $monat ) : ?>
 		<tr>
@@ -387,11 +381,41 @@ $jahr = new Jahr();
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qs_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qi_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ym_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->nm_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ßhm_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->thm_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->wasserversorgung()->QWB_monat( $monat->slug() ) ); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+		<td><b>Gesamt</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qs() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qh() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ßhma() ); ?> (ßhma)</td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->thm() ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->wasserversorgung()->QWB() ); ?></td>
+		</tr>
+	</table>
+
+	<h3>Korrekturfaktoren</h3>
+
+	<table>
+	<tr>
+		<th>Monat</th>    
+		<th>ym</th>
+		<th>nm</th>
+		<th>flna</th>
+		<th>trl</th>
+		<th>ith_rl</th>
+		<th>k</th>
+	</tr>
+		<?php foreach ( $jahr->monate() as $monat ) : ?>
+		<tr>
+		<td><?php echo $monat->name(); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ym_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->nm_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->flna_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->trl_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ith_rl_monat( $monat->slug() ) ); ?></td>
@@ -403,16 +427,8 @@ $jahr = new Jahr();
 		<td></td>
 		<td></td>
 		<td></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qs( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qh( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->qi( $monat->slug() ) ); ?></td>
 		<td></td>
-		<td></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ßhm( $monat->slug() ) ); ?></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->thm( $monat->slug() ) ); ?></td>
-		<td></td>
-		<td></td>
-		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ith_rl( $monat->slug() ) ); ?></td>
+		<td><?php echo \WPENON\Util\Format::float( $gebaeude->ith_rl() ); ?></td>
 		<td></td>
 		</tr>
 	</table>
@@ -537,8 +553,18 @@ $jahr = new Jahr();
 	<?php endforeach; ?>	
 	</table>
 
-	<h3>Heizsystem Gesamt</h3>
+	<h3>Heizsystem</h3>
+
 	<p><?php printf( __( 'Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->fa_h() ) ); ?></p>
+	<p><?php printf( __( 'Aufwandszahl für freie Heizflächen ehce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehce() ) ); ?></p>	
+	<p><?php printf( __( 'Mittlere Belastung bei Übergabe der Heizung ßhce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ßhce() ) ); ?></p>
+	<p><?php printf( __( 'Flächenbezogene leistung der Übergabe der Heizung qhce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->qhce() ) ); ?></p>
+	<p><?php printf( __( 'ßhd: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ßhd() ) ); ?></p>
+	<p><?php printf( __( 'fßd: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->fßd() ) ); ?></p>
+	<p><?php printf( __( 'ehd0: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehd0() ) ); ?></p>
+	<p><?php printf( __( 'ehd1: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehd1() ) ); ?></p>
+	<p><?php printf( __( 'ehd: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehd() ) ); ?></p>
+	<p><?php printf( __( 'ehd korrektur: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehd_korrektur() ) ); ?></p>
 
 
 	<h3>Wasserversorgung</h3>

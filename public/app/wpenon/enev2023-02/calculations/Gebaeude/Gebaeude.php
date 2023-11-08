@@ -148,10 +148,11 @@ class Gebaeude {
 	 * @param int       $geschossanzahl Anzahl der Geschosse.
 	 * @param float     $geschosshoehe Geschosshöhe vom Boden bis zur Decke des darüberliegenden Geschosses (lichte Höhe). Die Deckenhöhe wird automatisch mit 25 cm für die Decke addiert.
 	 * @param int       $anzahl_wohnungen Anzahl der Wohneinheiten.
+	 * @param string    $standort_heizsystem Standort des Heizsystems ("innerhalb" oder "ausserhalb" der thermischen Hülle).
 	 *
 	 * @return void
 	 */
-	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen ) {
+	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen, string $standort_heizsystem ) {
 		$this->baujahr          = $baujahr;
 		$this->geschossanzahl   = $geschossanzahl;
 		$this->geschosshoehe    = $geschosshoehe;
@@ -162,7 +163,7 @@ class Gebaeude {
 
 		$this->monatsdaten = new Monatsdaten();
 		$this->bauteile   = new Bauteile();
-		$this->heizsystem = new Heizsystem( $this );
+		$this->heizsystem = new Heizsystem( $this, $standort_heizsystem );
 	}
 
 	/**
@@ -451,15 +452,30 @@ class Gebaeude {
 	}
 
 	/**
-	 * Mittlere Belastung bei Übergabe der Heizung.
+	 * Aufwandszahl der Heizungsübergabe (ehce).
+	 * 
+	 * @return float
+	 */
+	public function ehce(): float {
+		return $this->heizsystem()->uebergabesysteme()->erstes()->ehce();
+	}
+
+	/**
+	 * Flächenbezogene leistung der Übergabe der Heizung (qhce).
+	 * 
+	 * @return float
+	 */
+	public function qhce(): float {
+		return $this->heizsystem()->uebergabesysteme()->erstes()->qhce();
+	}
+
+	/**
+	 * Verteilung Heizung (ehd0).
 	 * 
 	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
 	 */
-	public function ßhce(): float {
-		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return  ( $this->qh() / $this->thm() * $this->luftwechsel()->h_max() ) * 1000;
+	public function ehd0(): float {
+		$this->heizsystem()->ehd0();
 	}
 
 	/**
@@ -692,12 +708,12 @@ class Gebaeude {
 	}	
 
 	/**
-	 * Berechnung von ßhm für ein Jahr.
+	 * Berechnung von ßhma.
 	 * 
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function ßhm() : float
+	public function ßhma() : float
 	{
 		$ßhm = 0;
 
@@ -809,7 +825,7 @@ class Gebaeude {
 	}
 
 	/**
-	 * Bestimmung von ith,rl für einen Monat.
+	 * Berechnung der monaltichen Laufzeit (ith,rl).
 	 * 
 	 *  // Frage: Was ist ith,rl?
 	 * 
@@ -823,7 +839,7 @@ class Gebaeude {
 	}
 
 	/**
-	 * Bestimmung von ith,rl für ein Jahr.
+	 * Berechnung der jährlichen Laufzeit (ith,rl).
 	 * 
 	 * @return float
 	 */

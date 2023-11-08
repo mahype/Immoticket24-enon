@@ -112,7 +112,8 @@ $gebaeude = new Gebaeude(
 	baujahr: $energieausweis->baujahr,
 	geschossanzahl: $energieausweis->geschoss_zahl,
 	geschosshoehe: $energieausweis->geschoss_hoehe,
-	anzahl_wohnungen: $energieausweis->wohnungen
+	anzahl_wohnungen: $energieausweis->wohnungen,
+	standort_heizsystem: $energieausweis->h_standort
 );
 
 $calculations['gebaeude'] = $gebaeude;
@@ -548,9 +549,16 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	);
 }
 
-if( $energieausweis->puffer !== 'unbekannt' ) {	
-	
-}
+// TODO: Bestimmung des Nutzenergiebedarfs (1135)
+// TODO: Ermittlung der Summernwerte über 12 Monate (1136)
+// TODO: Anlagentechnik (1137)
+// TODO: Berechnung der Wirkungsgrade der Wärmeverluste (Aufwandszahlen) von Übergabe, Verteilung, Speicherung, Erzeuger (1138)
+// TODO: Verteilung der Heizung (1139)
+// TODO: Speicherung Heizung (1140)
+// TODO: 1141 ???
+// TODO: Trinkwarmwasser (1142)
+// TODO: Berechnung der Erzeugernutzwärmeabgabe Qoutg (1143)
+// TODO: Energieerzeuger (1144)
 
 
 // $monate           = wpenon_get_table_results( 'monate' );

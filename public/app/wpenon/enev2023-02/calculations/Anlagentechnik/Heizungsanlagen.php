@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 require_once __DIR__ . '/Heizungsanlage.php';
 
 /**
