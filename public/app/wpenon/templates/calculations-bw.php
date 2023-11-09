@@ -266,7 +266,7 @@ $jahr = new Jahr();
 	</table>
 	<?php endif; ?>
 
-	<?php if ( $gebaeude->anbau() ) : ?>
+	<?php if ( $gebaeude->anbau_vorhanden() ) : ?>
 	<h3>Anbau</h3>
 	<p class="lead"><?php printf( __( 'Anbau Fläche: %s m&sup2; ', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->anbau()->grundriss()->flaeche() ) ); ?></p>
 	<p class="lead"><?php printf( __( 'Anbau Volumen: %s m&sup2; ', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->anbau()->volumen() ) ); ?></p>
