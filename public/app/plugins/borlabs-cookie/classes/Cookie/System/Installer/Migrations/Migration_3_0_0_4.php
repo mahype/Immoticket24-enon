@@ -1,0 +1,32 @@
+<?php
+/*
+ *  Copyright (c) 2023 Borlabs GmbH. All rights reserved.
+ *  This file may not be redistributed in whole or significant part.
+ *  Content of this file is protected by international copyright laws.
+ *
+ *  ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
+ *
+ *  @copyright Borlabs GmbH, https://borlabs.io
+ */
+
+declare(strict_types=1);
+
+namespace Borlabs\Cookie\System\Installer\Migrations;
+
+use Borlabs\Cookie\Container\Container;
+use Borlabs\Cookie\System\ThirdPartyCacheClearer\ThirdPartyCacheClearerManager;
+
+class Migration_3_0_0_4
+{
+    private Container $container;
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    public function run()
+    {
+        $this->container->get(ThirdPartyCacheClearerManager::class)->clearCache();
+    }
+}

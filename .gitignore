@@ -35,6 +35,8 @@ public/app/nfwlog/*
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
 !public/app/plugins/borlabs-cookie
+!public/app/plugins/block-trusted-shops
+!public/app/plugins/block-wave-separator
 !public/app/plugins/cf7-mailchimp-integration
 !public/app/plugins/edd-custom-fees
 !public/app/plugins/edd-discount-code-generator

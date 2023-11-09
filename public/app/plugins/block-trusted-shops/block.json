@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json.schemastore.org/block.json",
+	"apiVersion": 2,
+	"name": "awsm/block-trusted-shops-testimonials",
+	"version": "0.1.0",
+	"title": "Trusted Shops Testimonials",
+	"category": "design",
+	"icon": "star-half",
+	"description": "Inserts trusted shops testimonials.",
+	"supports": {
+		"html": true
+	},
+	"attributes": {
+		"ratingCols": {
+			"type": "number",
+			"default": "3"
+		}
+	},
+	"textdomain": "block-trusted-shops",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}
