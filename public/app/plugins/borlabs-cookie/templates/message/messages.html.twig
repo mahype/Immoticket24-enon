@@ -1,0 +1,5 @@
+<div class="bc-my-6">
+    {% for message in messages %}
+        <div class="brlbs-cmpnt-alert brlbs-cmpnt-alert-{{ message.type }}" role="alert">{{ message.message | raw }}</div>
+    {% endfor %}
+</div>

@@ -1,0 +1,11 @@
+{% if checkboxes is not empty %}
+    {% import "system/macro/row/checkbox-list.html.twig" as row_checkbox_list %}
+    {{ row_checkbox_list.component({
+        checkboxes: checkboxes,
+        checkedKeys: checkedKeys,
+        hint: hint,
+        id: generateFormFieldId(id, collectionName),
+        name: generateFormFieldName(name, collectionName),
+        title: title,
+    }) }}
+{% endif %}

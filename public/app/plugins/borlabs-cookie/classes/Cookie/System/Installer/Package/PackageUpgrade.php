@@ -1,0 +1,41 @@
+<?php
+/*
+ *  Copyright (c) 2023 Borlabs GmbH. All rights reserved.
+ *  This file may not be redistributed in whole or significant part.
+ *  Content of this file is protected by international copyright laws.
+ *
+ *  ----------------- Borlabs Cookie IS NOT FREE SOFTWARE -----------------
+ *
+ *  @copyright Borlabs GmbH, https://borlabs.io
+ */
+
+declare(strict_types=1);
+
+namespace Borlabs\Cookie\System\Installer\Package;
+
+use Borlabs\Cookie\Adapter\WpDb;
+use Borlabs\Cookie\Repository\Package\PackageRepository;
+
+final class PackageUpgrade
+{
+    private PackageInstall $packageInstall;
+
+    private WpDb $wpdb;
+
+    public function __construct(PackageInstall $packageInstall, WpDb $wpdb)
+    {
+        $this->packageInstall = $packageInstall;
+        $this->wpdb = $wpdb;
+    }
+
+    public function upgrade(string $prefix = ''): bool
+    {
+        if (empty($prefix)) {
+            $prefix = $this->wpdb->prefix;
+        }
+
+        $tableName = $prefix . PackageRepository::TABLE;
+
+        return true;
+    }
+}
