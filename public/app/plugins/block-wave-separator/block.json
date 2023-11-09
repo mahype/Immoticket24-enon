@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/block.json",
+	"apiVersion": 2,
+	"name": "create-block/block-wave-separator",
+	"version": "0.1.0",
+	"title": "Wave Separator",
+	"category": "design",
+	"icon": "chart-area",
+	"description": "Inserts a  wave as separator.",
+	"supports": {
+		"html": true,
+		"color": {
+			"gradients": true,
+			"text":false
+		}
+	},
+	"attributes": {
+		"waveId": {
+			"type": "string",
+			"default": "wave-1"
+		},
+		"waveHeight": {
+			"type":"string",
+			"default": "160px"
+		}
+	},
+	"textdomain": "block-wave-separator",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}
