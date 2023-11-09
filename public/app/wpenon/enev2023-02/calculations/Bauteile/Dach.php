@@ -86,7 +86,7 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 * @return float
 	 */
 	public function hoehe(): float {
-		return $this->hoehe;
+		return $this->hoehe - $this->kniestock_hoehe;
 	}
 
 	/**
@@ -114,6 +114,19 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 */
 	public function volumen_kniestock(): float {
 		return $this->grundriss->flaeche() * $this->kniestock_hoehe;
+	}	
+	
+	/**
+	 * Die Wandfläche des Dachs.
+	 * 
+	 * @return float 
+	 */
+	public function wand_flaeche(): float {
+		$wand_flaeche = 0;
+		foreach ( $this->grundriss->waende() AS $wand ) {
+			$wand_flaeche += $this->wandseite_flaeche( $wand );
+		}
+		return $wand_flaeche;
 	}
 
 	/**
@@ -125,7 +138,7 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 *
 	 * @throws Exception
 	 */
-	protected function wandflaeche_kniestock( string $seite = null ): float {
+	public function wandflaeche_kniestock( string $seite = null ): float {
 		if ( $seite ) {
 			return $this->grundriss->wand_laenge( $seite ) * $this->kniestock_hoehe;
 		}
@@ -140,7 +153,7 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 * @return float
 	 * @throws Exception
 	 */
-	public function wand_flaeche( string $seite ): float {
+	public function wandseite_flaeche( string $seite ): float {
 		$wand_flaeche = 0;
 
 		if ( array_key_exists( $seite, $this->wand_flaechen ) ) {

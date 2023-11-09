@@ -102,7 +102,7 @@ class Anbau {
 	 *
 	 * @throws Exception
 	 */
-	public function wand_flaeche( string $wand ) {
+	public function wandseite_flaeche( string $wand ) {
 		return $this->grundriss->wand_laenge( $wand ) * $this->hoehe() - $this->ueberlappung_flaeche( $wand );
 	}
 
