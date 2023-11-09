@@ -230,7 +230,7 @@ $jahr = new Jahr();
 	</table>
 	
 
-	<?php if ( $gebaeude->keller() ) : ?>
+	<?php if ( $gebaeude->keller_vorhanden() ) : ?>
 	<h3>Keller</h3>
 	<p class="lead"><?php printf( __( 'Unterkellerung: %s;', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->keller()->anteil() ) ); ?></p>
 	<p class="lead"><?php printf( __( 'Kellerfläche A<sub>K</sub>: %s m&sup2;', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->keller()->boden_flaeche() ) ); ?></p>
