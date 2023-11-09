@@ -100,7 +100,8 @@ $basisdaten = array(
 					'label'       => __( 'Art der erneuerbaren Energien', 'wpenon' ),
 					'options'     => array(
 						'keine' => 'Keine thermische Solaranlage',
-						'solar' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
+						'warmwasser' => 'Solargestützte Warmwasser-Unterstützung',
+						'warmwasser_heizung' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
 					),
 					'required'    => true,
 				),

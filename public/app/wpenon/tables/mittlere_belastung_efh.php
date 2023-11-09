@@ -67,8 +67,8 @@ return array(
       'title'       => __( 'T90 25W/m2', 'wpenon' ),
       'type'        => 'FLOAT',
     ),
-    't90_90wm2'     => array(
-      'title'       => __( 'T90 90W/m2', 'wpenon' ),
+    't90_50wm2'     => array(
+      'title'       => __( 'T90 50W/m2', 'wpenon' ),
       'type'        => 'FLOAT',
     ),
     't90_75wm2'     => array(
@@ -103,8 +103,8 @@ return array(
       'title'       => __( 'T130 25W/m2', 'wpenon' ),
       'type'        => 'FLOAT',
     ),
-    't130_90wm2'     => array(
-      'title'       => __( 'T130 90W/m2', 'wpenon' ),
+    't130_50wm2'     => array(
+      'title'       => __( 'T130 50W/m2', 'wpenon' ),
       'type'        => 'FLOAT',
     ),
     't130_75wm2'     => array(

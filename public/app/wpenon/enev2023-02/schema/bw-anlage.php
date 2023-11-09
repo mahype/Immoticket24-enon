@@ -267,6 +267,21 @@ $anlage = array(
 						),
 					),
 				),
+				'h_auslegungstemperaturen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
+					'options'     => array(
+						'90/70' => __( '90/70°', 'wpenon' ),
+						'70/55' => __( '70/55°', 'wpenon' ),
+						'55/45' => __( '55/45°', 'wpenon' ),
+						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
+					),
+					'required' => true,
+				),
 				'h_deckungsanteil'                              => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der Heizungsanlage', 'wpenon' ),
@@ -288,6 +303,16 @@ $anlage = array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( 'field::h2_info', true ),
 					),
+				),
+				'h_standort' => array(
+					'type'        => 'select',
+					'label'       => __( 'Standord der Heizungsanlage', 'wpenon' ),
+					'description' => __( 'Wählen Sie aus, ob sich die heizungsanlage innerhalb oder außerhalb der thermischen Hülle befindet.', 'wpenon' ),
+					'options'     => array(
+						'innerhalb'  => __( 'innerhalb thermischer Hülle', 'wpenon' ),
+						'ausserhalb' => __( 'außerhalb thermischer Hülle', 'wpenon' ),
+					),
+					'required'    => true
 				),
 				'h_baujahr'                                     => array(
 					'type'                  => 'text',
@@ -616,6 +641,25 @@ $anlage = array(
 							'field::h2_energietraeger_gasraumheizer',
 							'field::h2_energietraeger_oelofenverdampfungsbrenner',
 						),
+					),
+				),
+				'h2_auslegungstemperaturen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
+					'options'     => array(
+						'90/70' => __( '90/70°', 'wpenon' ),
+						'70/55' => __( '70/55°', 'wpenon' ),
+						'55/45' => __( '55/45°', 'wpenon' ),
+						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
+					),
+					'required' => true,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
 				'h2_deckungsanteil'                             => array(
@@ -987,6 +1031,25 @@ $anlage = array(
 						),
 					),
 				),
+				'h3_auslegungstemperaturen'               => array(
+					'type'     => 'select',
+					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
+					'options'     => array(
+						'90/70' => __( '90/70°', 'wpenon' ),
+						'70/55' => __( '70/55°', 'wpenon' ),
+						'55/45' => __( '55/45°', 'wpenon' ),
+						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
+					),
+					'required' => true,
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_bool_compare',
+						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
+					),
+				),
 				'h3_deckungsanteil'                             => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der 3. Heizungsanlage', 'wpenon' ),
@@ -1134,6 +1197,61 @@ $anlage = array(
 					),
 				),
 			),
+		),		
+		'uebergabesystem' => array(
+			'title' => __('Übergabesystem', 'wpenon'),
+			'description' => __('Machen Sie hier Angaben zum Übergabesystem des Gebäudes.', 'wpenon'),
+			'fields' => array(
+				'h_uebergabe' => array(
+					'type'        => 'select',
+					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
+					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
+					'options'     => array(
+						'elektroheizungsflaechen' => __( 'Elektroheizungsflächen', 'wpenon' ),
+						'heizkoerper' => __( 'Heizkörper', 'wpenon' ),
+						'flaechenheizung' => __( 'Flächenheizung Fußboden/Wandheizung', 'wpenon' ),
+					),
+					'required'    => true,
+				),
+				'h_uebergabe_auslegungstemperaturen' => array(
+					'type'        => 'select',
+					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
+					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),
+					'options'     => array(
+						'90/70' => __( '90/70°', 'wpenon' ),
+						'70/55' => __( '70/55°', 'wpenon' ),
+						'55/45' => __( '55/45°', 'wpenon' ),
+						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'required'    => true,
+				),
+				'h_uebergabe_anteil'                             => array(
+					'type'        => 'int',
+					'label'       => __( 'Deckungsanteil des Übergabesystems', 'wpenon' ),
+					'description' => __( 'Geben Sie an, wie groß der Anteil ist, den das Übergabesystem abdeckt.', 'wpenon' ),
+					'default'     => 100,
+					'max'         => 100,
+					'required'    => true,
+					'unit'        => '%',
+					'value'       => array(
+						'callback'      => 'wpenon_get_value_by_sum',
+						'callback_args' => array(
+							100,
+							array( 'h_uebergabe2' => 'field::h_uebergabe2_anteil' ),
+							array( 'h_uebergabe2' => 'field::h_uebergabe2_info' ),
+							true
+						),
+					)
+				),
+				'h_uebergabe_mindestdaemmung' => array(
+					'type'  => 'checkbox',
+					'label' => __( 'Die Flächenheizung erreicht die Mindestdämmung.', 'wpenon' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_uebergabe', array( 'flaechenheizung' ) ),
+					),
+				),
+			)
 		),
 		'warmwasser' => array(
 			'title'       => __( 'Warmwasseranlage', 'wpenon' ),
@@ -1245,7 +1363,7 @@ $anlage = array(
 						'mit'  => __( 'mit Zirkulation', 'wpenon' ),
 					),
 					'required'    => true,
-				),
+				)
 			),
 		),
 		'lueftung'   => array(

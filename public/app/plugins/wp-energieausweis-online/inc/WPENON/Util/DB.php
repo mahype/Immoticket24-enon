@@ -223,7 +223,9 @@ class DB {
 			foreach ( $queries as $key => $data ) {
 				$sql_status = $wpdb->insert( $wpdb->$table_slug, $data, $data_format );
 				if ( $sql_status === false ) {
-					$message .= sprintf( __( 'Beim Einfügen der Zeile %d in die Tabelle ist ein MySQL-Fehler aufgetreten.', 'wpenon' ), $key + 1 );
+					// Get wpdb error
+					$wpdb_error = $wpdb->last_error;
+					$message .= sprintf( sprintf( __( 'Beim Einfügen der Zeile %d in die Tabelle ist ein MySQL-Fehler aufgetreten: %s', 'wpenon' ), $wpdb_error ), $key + 1 );
 					$status  = false;
 					$i++;
 				}

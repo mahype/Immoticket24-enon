@@ -37,8 +37,8 @@ use Enon_Reseller\Tasks\Filters\Filter_Template;
 use Enon_Reseller\Tasks\Setup_Edd;
 
 use Enon_Reseller\Tasks\Sparkasse\Add_CSV_Export as Sparkasse_CSV_Export;
-use Enon_Reseller\Tasks\EVM\Add_Discounts as EVM_Discounts;
 use Enon_Reseller\Tasks\Sparkasse\Add_Discounts as Sparkasse_Discounts;
+use Enon_Reseller\Tasks\EVM\Add_Discounts as EVM_Discounts;
 use Enon_Reseller\Tasks\VNR\Add_Discounts as VNR_Discounts;
 
 /**
@@ -204,7 +204,7 @@ class Loader extends Task_Loader {
         $this->load_reseller_scripts();
 
          // Sparkasse specific tasks.
-        if ( 321587 !== $this->reseller->get_id() ) {
+        if ( 321587 === $this->reseller->get_id() ) {
             $this->add_task( Sparkasse_Discounts::class, $this->logger );
         }
 
