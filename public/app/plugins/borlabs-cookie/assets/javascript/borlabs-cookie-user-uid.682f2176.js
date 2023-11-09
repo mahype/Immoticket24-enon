@@ -1,1 +1,0 @@
-import{g as r}from"./localization.8b0c0006.js";import{e,t as s}from"./vue.16a54326.js";import{_ as t}from"./_plugin-vue_export-helper.c27b6911.js";import"./selectors.4bfd398c.js";const i=e({name:"BorlabsUserUid",setup(){return{userUid:r.pluginCookie.uid}}});function n(o,a,p,d,m,u){return s(o.userUid)}const l=t(i,[["render",n]]);export{l as default};

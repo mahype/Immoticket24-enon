@@ -1,1 +1,0 @@
-import{i as o}from"./localization.8b0c0006.js";import{b as s,c as e}from"./vue.16a54326.js";const r=Symbol("GUIDialog"),a=s("Entrance"),i=s(!0),n=s(!0);function l(t){i.value=t,o.unset()}function f(t){a.value=t}function m(t){n.value=t}e(()=>a.value);export{r as S,l as a,a as b,i as c,m as d,n as e,f as s};
