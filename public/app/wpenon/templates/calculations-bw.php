@@ -556,9 +556,9 @@ $jahr = new Jahr();
 	<h3>Heizsystem</h3>
 
 	<p><?php printf( __( 'Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->fa_h() ) ); ?></p>
-	<p><?php printf( __( 'Aufwandszahl für freie Heizflächen ehce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehce() ) ); ?></p>	
-	<p><?php printf( __( 'Mittlere Belastung bei Übergabe der Heizung ßhce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ßhce() ) ); ?></p>
-	<p><?php printf( __( 'Flächenbezogene leistung der Übergabe der Heizung qhce: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->qhce() ) ); ?></p>
+	<p><?php printf( __( 'Aufwandszahl für freie Heizflächen (ehce): %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehce() ) ); ?></p>	
+	<p><?php printf( __( 'Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ßhce() ) ); ?></p>
+	<p><?php printf( __( 'Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->qhce() ) ); ?></p>
 	<p><?php printf( __( 'ßhd: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ßhd() ) ); ?></p>
 	<p><?php printf( __( 'fßd: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->fßd() ) ); ?></p>
 	<p><?php printf( __( 'ehd0: %s', 'wpenon' ), \WPENON\Util\Format::float( $gebaeude->heizsystem()->ehd0() ) ); ?></p>

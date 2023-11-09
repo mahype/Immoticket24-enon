@@ -64,6 +64,13 @@ class Gebaeude {
 	private $anzahl_wohnungen;
 
 	/**
+	 * Hüllvolumen.
+	 * 
+	 * @var float
+	 */
+	private float $huellvolumen;
+
+	/**
 	 * Monatsdaten
 	 * 
 	 * @var Monatsdaten
@@ -391,22 +398,47 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellvolumen(): float {
-		$volumen = 0;
-
-		// Volumen der Geschosse.
-		$volumen += $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
-
-		// Volumen des Anbaus.
-		if ( $this->anbau !== null ) {
-			$volumen += $this->anbau->volumen();
+		if( empty( $this->huellvolumen ) ) {
+			$this->huellvolumen = $this->huellvolumen_vollgeschosse() + $this->huellvolumen_keller() + $this->huellvolumen_dach() + $this->huellvolumen_anbau();
 		}
+		
+		return $this->huellvolumen;
+	}
 
-		// Volumen des Dachs.
-		if ( $this->dach_vorhanden() ) {
-			$volumen += $this->dach()->volumen();
-		}
+	/**
+	 * Hüllvolumen der Vollgeschosse.
+	 * 
+	 * @return float 
+	 */
+	public function huellvolumen_vollgeschosse(): float {
+		return $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
+	}
 
-		return $volumen;
+	/**
+	 * Hüllvolumen des Kellers.
+	 * 
+	 * @return float 
+	 */
+	public function huellvolumen_keller(): float {
+		return $this->keller_vorhanden() ? $this->keller->volumen() : 0;
+	}
+
+	/**
+	 * Hüllvolumen des Dachs.
+	 * 
+	 * @return float 
+	 */
+	public function huellvolumen_dach(): float {
+		return $this->dach_vorhanden() ? $this->dach()->volumen() : 0;
+	}
+
+	/**
+	 * Hüllvolumen des Anbaus.
+	 * 
+	 * @return float 
+	 */
+	public function huellvolumen_anbau(): float {
+		return $this->anbau_vorhanden() ? $this->anbau->volumen() : 0;
 	}
 
 	/**

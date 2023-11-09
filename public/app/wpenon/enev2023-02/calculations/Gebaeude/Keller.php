@@ -83,7 +83,7 @@ class Keller {
      * 
      * @return float
      */
-    public function wand_flaeche(): float {
+    public function wandseite_flaeche(): float {
         return $this->wand_laenge() * $this->wand_hoehe();
     }
 

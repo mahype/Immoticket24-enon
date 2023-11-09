@@ -219,7 +219,7 @@ if ( $energieausweis->anbau ) {
 		$anbauwand = new Anbauwand(
 			name: sprintf( __( 'Anbauwand %s', 'wpenon' ), $wand ),
 			seite: $wand,
-			flaeche: $gebaeude->anbau()->wand_flaeche( $wand ),
+			flaeche: $gebaeude->anbau()->wandseite_flaeche( $wand ),
 			uwert: $uwert_anbau_wand,
 			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
 			daemmung: $energieausweis->anbauwand_daemmung,
@@ -278,11 +278,15 @@ foreach ( $grundriss->waende() as $wand ) {
 
 	$daemmung_slug = 'wand_' . $wand . '_daemmung';
 
+	$wand_laenge = $gebaeude->grundriss()->wand_laenge( $wand );
+	$wand_hoehe = $gebaeude->geschosshoehe() * $gebaeude->geschossanzahl();
+	$wand_flaeche = $wand_laenge * $wand_hoehe;
+
 	$wand = new Wand(
 		// translators: %s: Seite der Wand.
 		name: sprintf( __( 'Außenwand %s', 'wpenon' ), $wand ),
 		seite: $wand,
-		flaeche: $gebaeude->grundriss()->wand_laenge( $wand ) * $gebaeude->geschosshoehe(),
+		flaeche: $wand_flaeche,
 		uwert: $uwert_wand,
 		himmelsrichtung: $gebaeude->grundriss()->wand_himmelsrichtung( $wand ),
 		daemmung: $energieausweis->$daemmung_slug,
@@ -302,18 +306,22 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 
 	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
 	if ( $gebaeude->dach_vorhanden() ) {
-		$wand->flaeche_addieren( $gebaeude->dach()->wand_flaeche( $wand->seite() ) );
+		$dachwand_flaeche = $gebaeude->dach()->wandseite_flaeche( $wand->seite() );
+		$dachwand_flaeche_kniestock = $gebaeude->dach()->wandflaeche_kniestock( $wand->seite() );
+		$wand->flaeche_addieren( $dachwand_flaeche + $dachwand_flaeche_kniestock );
 	}
 
 	// Ist ein Anbau vorhanden, muss die überlappende Fläche vom Mauerwerk abgezogen werden.
 	if ( $gebaeude->anbau_vorhanden() ) {
-		$wand->flaeche_reduzieren( $gebaeude->anbau()->ueberlappung_flaeche_gebaeude( $wand->seite() ) );
+		$anbau_schnittflaeche = $gebaeude->anbau()->ueberlappung_flaeche_gebaeude( $wand->seite() );
+		$wand->flaeche_reduzieren( $anbau_schnittflaeche );
 	}
 
 	/**
 	 * Fenster
 	 */
-	$fensterflaeche  = berechne_fenster_flaeche( $gebaeude->grundriss()->wand_laenge( $wand->seite() ), $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 );  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+	$anbauwand_staerke = $energieausweis->wand_staerke / 100;
+	$fensterflaeche  = berechne_fenster_flaeche( $gebaeude->grundriss()->wand_laenge( $wand->seite() ), $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 	$uwert_fenster   = uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
 
@@ -335,7 +343,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	 * Heizkörpernischen
 	 */
 	if ( $energieausweis->heizkoerpernischen === 'vorhanden' ) {
-		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche( $fensterflaeche );
+		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche( $fensterflaeche ) * $energieausweis->geschoss_zahl;
 
 		$heizkoerpernische = new Heizkoerpernische(
 			name: sprintf( __( 'Heizkörpernischen Wand %s', 'wpenon' ), $wand->seite() ),
@@ -353,7 +361,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	 * Rolladenkästen.
 	 */
 	if ( substr( $energieausweis->rollladenkaesten, 0, 6 ) === 'innen_' ) { // Wir nehmen nur innenliegende Rolladenkästen.
-		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche );
+		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche ) * $energieausweis->geschoss_zahl;
 		$daemmung                = substr( $energieausweis->rollladenkaesten, 6 );
 		$uwert_rolladenkaesten   = uwert( 'rollladen_' . $daemmung, $energieausweis->fenster_baujahr );
 
@@ -381,7 +389,7 @@ switch ( $energieausweis->keller ) {
 		$gebaeude->bauteile()->hinzufuegen(
 			new Kellerwand(
 				name: __( 'Kellerwand', 'wpenon' ),
-				flaeche: $gebaeude->keller()->wand_flaeche(),
+				flaeche: $gebaeude->keller()->wandseite_flaeche(),
 				uwert: uwert( 'wand_' . $energieausweis->keller_bauart, $energieausweis->baujahr ),
 				daemmung: $energieausweis->keller_daemmung,
 			)
