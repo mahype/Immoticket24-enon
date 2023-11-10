@@ -885,7 +885,7 @@ if ( $energieausweis->anbau ) {
         'bauart'        => $energieausweis->anbaufenster_bauart,
         'baujahr'       => $energieausweis->anbaufenster_baujahr,
         'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
-        'a'             => $fensterflaeche,
+        'a'             => $fensterflaeche,^
         'd'             => 0,
         'winkel'        => 90.0, //Fenster werden senkrecht angesetzt! Dachfrenster etc. finden da daher keine Berücksichtigung!!!!! Oder?, Sollte später erweitert werden um z.B. Dachfenster
         
