@@ -475,6 +475,8 @@ $gebaeude->luftwechsel(
 	)
 );
 
+$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+
 switch ( $energieausweis->ww_info ) {
 	case 'ww':
 		$ww_zentral = false;
@@ -483,18 +485,21 @@ switch ( $energieausweis->ww_info ) {
 		break;
 	case 'h':
 		$ww_zentral = true;
-		$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+
 		$mit_warmwasserspeicher = false;
 		break;
 	
 }
+
+$heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
+
 $gebaeude->wasserversorgung(
 	new Wasserversorgung(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
-		beheizte_bereiche: $beheizte_bereiche,
+		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: $energieausweis->speicherung, // Neu - Ist ein Warmwasserspeicher vorhanden?
-		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
+		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false,
 	)
 );
 
@@ -509,7 +514,7 @@ $gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
 		typ: $energieausweis->h_erzeugung,
 		energietraeger: $energietraeger,
 		auslegungstemperaturen: $energieausweis->h_auslegungstemperaturen,
-		beheizung_anlage: $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts',
+		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		prozentualer_anteil: $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100
 	)
 );
@@ -523,7 +528,7 @@ if ( $energieausweis->h2_erzeugung ) {
 			typ: $energieausweis->h2_erzeugung,
 			energietraeger: $energietraeger,
 			auslegungstemperaturen: $energieausweis->h2_auslegungstemperaturen,
-			beheizung_anlage: $energieausweis->h2_standort === 'innerhalb' ? 'alles' : 'nichts',
+			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 			prozentualer_anteil: $energieausweis->h2_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
 		)
 	);
@@ -538,7 +543,7 @@ if ( $energieausweis->h3_erzeugung ) {
 			typ: $energieausweis->h3_erzeugung,
 			energietraeger: $energietraeger,
 			auslegungstemperaturen: $energieausweis->h3_auslegungstemperaturen,
-			beheizung_anlage: $energieausweis->h3_standort === 'innerhalb' ? 'alles' : 'nichts',
+			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 			prozentualer_anteil: $energieausweis->h3_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
 		)
 	);

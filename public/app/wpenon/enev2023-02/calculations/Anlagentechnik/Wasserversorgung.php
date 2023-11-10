@@ -32,9 +32,9 @@ class Wasserversorgung {
 	/**
 	 * Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
 	 *
-	 * @var string
+	 * @var bool
 	 */
-	protected string $beheizte_bereiche;
+	protected bool $heizung_im_beheizten_bereich;
 
 	/**
 	 * Liegt eine Warmwasserspeicher vor?
@@ -69,7 +69,7 @@ class Wasserversorgung {
 	 *
 	 * @param Gebaeude $gebaeude               Gebäude.
 	 * @param bool     $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
-	 * @param string   $beheizte_bereiche      Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
+	 * @param bool     $heizung_im_beheizten_bereich      Liegt die Heizung im beheitzen Bereich?
 	 * @param bool     $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
 	 * @param bool     $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
 	 * @param int      $prozentualer_anteil    Prozentualer Anteil.
@@ -77,26 +77,21 @@ class Wasserversorgung {
 	public function __construct(
 		Gebaeude $gebaeude,
 		bool $zentral,
-		string $beheizte_bereiche = 'alles',
+		bool $heizung_im_beheizten_bereich,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
 		int $prozentualer_anteil = 100
 	) {
-		// Beheizung der Anlage überprüfen und wenn falsch angegeben, Fehler werfen.
-		if ( $beheizte_bereiche !== 'alles' && $beheizte_bereiche !== 'nichts' && $beheizte_bereiche !== 'verteilung' ) {
-			throw new Calculation_Exception( 'Beheizung der Anlage muss entweder "alles", "nichts" oder "verteilung" sein.' );
-		}
-
 		if ( $mit_zirkulation && ! $zentral ) {
 			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Wasserversorgung möglich.' );
 		}
 
-		$this->gebaeude               = $gebaeude;
-		$this->zentral                = $zentral;
-		$this->beheizte_bereiche      = $beheizte_bereiche;
-		$this->mit_warmwasserspeicher = $mit_warmwasserspeicher;
-		$this->mit_zirkulation        = $mit_zirkulation;
-		$this->prozentualer_anteil    = $prozentualer_anteil;
+		$this->gebaeude                     = $gebaeude;
+		$this->zentral                      = $zentral;
+		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
+		$this->mit_warmwasserspeicher       = $mit_warmwasserspeicher;
+		$this->mit_zirkulation              = $mit_zirkulation;
+		$this->prozentualer_anteil          = $prozentualer_anteil;
 
 		$this->monatsdaten = new Monatsdaten();
 	}
@@ -215,17 +210,17 @@ class Wasserversorgung {
 	 *
 	 * @return float
 	 */
-	public function fh_w(): float {
+	public function Faw(): float {
 		// There is
 		if ( ! $this->zentral ) {
 			return 0.193;
 		}
 
 		if ( ! $this->mit_warmwasserspeicher ) {
-			return $this->fh_w_ohne_warmwasserspeicher();
+			return $this->Faw_ohne_warmwasserspeicher();
 		}
 
-		return $this->fh_w_mit_warmwasserspeicher();
+		return $this->Faw_mit_warmwasserspeicher();
 	}
 
 	/**
@@ -233,18 +228,15 @@ class Wasserversorgung {
 	 *
 	 * @return float
 	 */
-	protected function fh_w_mit_warmwasserspeicher(): float {
+	protected function Faw_mit_warmwasserspeicher(): float {
 		// Werte aus Tabelle 142 & 143 nach den drei
 		// Möglichkeiten der Beheizung der Anlage aufgeteilt,
 		// je nachdem ob mit oder ohne Zirkulation.
-		switch ( $this->beheizte_bereiche ) {
-			case 'alles':
-				return $this->mit_zirkulation ? 1.554 : 0.647;
-			case 'nichts':
-				return $this->mit_zirkulation ? 0.815 : 0.335;
-			case 'verteilung':
-				return $this->mit_zirkulation ? 1.321 : 0.451;
+		if( $this->heizung_im_beheizten_bereich ) {
+			return $this->mit_zirkulation ? 1.554 : 0.647;
 		}
+
+		return $this->mit_zirkulation ? 0.815 : 0.335;
 	}
 
 	/**
@@ -252,7 +244,7 @@ class Wasserversorgung {
 	 *
 	 * @return float
 	 */
-	protected function fh_w_ohne_warmwasserspeicher(): float {
+	protected function Faw_ohne_warmwasserspeicher(): float {
 		// Werte aus Tabelle 142 & 143 ohne Warmwasserspeicher
 		// je nachdem ob mit oder ohne Zirkulation.
 		// Es wird der schlechtere Wert der beidem beheizten Varianten genommen.

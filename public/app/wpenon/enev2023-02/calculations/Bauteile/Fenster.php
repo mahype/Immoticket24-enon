@@ -123,8 +123,8 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * @param string $monat 
 	 * @return float 
 	 */
-	public function qs_monat( string $monat ): float {
-		return $this->strahlungsfaktor( $monat ) * $this->solar_gewinn_mpk() * 0.024 * $this->monatsdaten->tage( $monat );
+	public function qi_solar_monat( string $monat ): float {
+		return $this->strahlungsfaktor( $monat ) * $this->solar_gewinn_mpk() * $this->flaeche() * 0.024 * $this->monatsdaten->tage( $monat );
 	}
 
 	/**
@@ -132,11 +132,11 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * 
 	 * @return float 
 	 */
-	public function qs(): float {
+	public function qi_solar(): float {
 		$jahr = new Jahr();
 		$summe = 0.0;
 		foreach ( $jahr->monate() as $monat ) {
-			$summe += $this->qs_monat( $monat->slug() );
+			$summe += $this->qi_solar_monat( $monat->slug() );
 		}
 		return $summe;
 	}

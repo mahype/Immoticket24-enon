@@ -1799,7 +1799,7 @@ ______________________________________________________________________________
 // Suchbegriff 1140
 // $qwb 
 
-// NOTE: Berechnung der Nennlleistung
+// NOTE: Berechnung der Nennleistung
 
 
 ////// Abfrage ob  die Warmwassererzeugung direkt über den Wärmeerezeuger (Heizkessel) erfolgt  Frontend : ja/nein

@@ -162,7 +162,7 @@ class Gebaeude {
 	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen, string $standort_heizsystem ) {
 		$this->baujahr          = $baujahr;
 		$this->geschossanzahl   = $geschossanzahl;
-		$this->geschosshoehe    = $geschosshoehe;
+		$this->geschosshoehe    = $geschosshoehe + 0.25;
 		$this->anzahl_wohnungen = $anzahl_wohnungen;
 		$this->grundriss        = $grundriss;
 
@@ -371,7 +371,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function geschosshoehe(): float {
-		return $this->geschosshoehe + 0.25; // Die vom Kunden angegebenen Geschosshöhe zzgl. 25 cm für die Decke des darüberliegenden Geschosses.
+		return $this->geschosshoehe; // Die vom Kunden angegebenen Geschosshöhe zzgl. 25 cm für die Decke des darüberliegenden Geschosses.
 	}
 
 	/**
@@ -460,11 +460,12 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ht(): float {
+		// 0,1 = Wärmebrückenzuschlag
 		return $this->bauteile()->ht() + 0.1 * $this->huellflaeche();
 	}
 
 	/**
-	 * Zeitkonstante Tau
+	 * Zeitkonstante Tau.
 	 *
 	 * @return float
 	 *
@@ -529,7 +530,7 @@ class Gebaeude {
 	 * @return int|float
 	 */
 	public function psh_sink_monat( string $monat ) {
-		$psh_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $this->qs_monat( $monat ) ) * fum( $monat ) );
+		$psh_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $this->qi_solar_monat( $monat ) ) * fum( $monat ) );
 		return $psh_sink < 0 ? 0 : $psh_sink;
 	}
 
@@ -539,8 +540,8 @@ class Gebaeude {
 	 * @param string $monat
 	 * @return float
 	 */
-	public function qs_monat( string $monat ): float {
-		return $this->bauteile()->fenster()->qs_monat( $monat );
+	public function qi_solar_monat( string $monat ): float {
+		return $this->bauteile()->fenster()->qi_solar_monat( $monat );
 	}
 
 	/**
@@ -548,8 +549,8 @@ class Gebaeude {
 	 *
 	 * @return float
 	 */
-	public function qs(): float {
-		return $this->bauteile()->fenster()->qs();
+	public function qi_solar(): float {
+		return $this->bauteile()->fenster()->qi_solar();
 	}
 
 	/**
@@ -591,7 +592,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_wasser_monat( string $monat ): float {
-		return $this->wasserversorgung->QWB_monat( $monat ) * $this->wasserversorgung()->fh_w();
+		return $this->wasserversorgung->QWB_monat( $monat ) * $this->wasserversorgung()->Faw();
 	}
 
 	/**
@@ -647,7 +648,7 @@ class Gebaeude {
 	 * @throws Calculation_Exception
 	 */
 	public function qi_monat( string $monat ): float {
-		return $this->qi_prozesse_monat( $monat ) + $this->qi_wasser_monat( $monat ) + $this->qi_heizung_monat( $monat ) + $this->qs_monat( $monat );
+		return $this->qi_prozesse_monat( $monat ) + $this->qi_wasser_monat( $monat ) + $this->qi_heizung_monat( $monat ) + $this->qi_solar_monat( $monat );
 	}
 
 	/**
@@ -912,7 +913,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ave_verhaeltnis(): float {
-		return $this->huellflaeche() / $this->huellvolumen_netto();
+		return $this->huellflaeche() / $this->huellvolumen();
 	}
 
 	/**
@@ -921,10 +922,10 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function nutzflaeche(): float {
-		if ( $this->geschosshoehe >= 2.5 && $this->geschosshoehe <= 3.0 ) {
+		if ( $this->geschosshoehe() >= 2.5 && $this->geschosshoehe() <= 3.0 ) {
 			return $this->huellvolumen() * 0.32;
 		} else {
-			return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe - 0.04 );
+			return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe() - 0.04 );
 		}
 	}
 
