@@ -1228,6 +1228,7 @@ ________________________________________________________________________________
 //Berechnung von Ph,sink
 ////Kom. zu Ph,sink: Wärmesenken als Leistung in W 
 
+// NOTE: ßem wird hier verwendet, oben ist aber nur ßem1 definiert. Bitte prüfen, ob das so richtig ist.
 //$calculations['monate'][ $monat ]['Ph,sink']= $Qges *(($calculations['monate'][ $monat ]['θih']+12)/32)*$calculations['monate'][ $monat ]['ßem']
 //
 //______________________________________________________________________________________________________
@@ -1238,6 +1239,8 @@ ________________________________________________________________________________
 //Bestehend aus: Internen Wärmequellen (Haushaltsgeräte)
 //  Internen Wärmequellen (Haushaltsgeräte) Code qi unten entfällt damit
 //  
+
+//  BUG: Berechnung für Mehrfamilienhäuser geht nicht auf
 //  a) Einfamilienhäuser
 
 //  $calculations['monate'][ $monat ]['qi,P'] = 45.0 * $calculations['nutzflaeche'] * $calculations['monate'][ $monat ]['tage']  *0.001 ; //0,001 = /1000 Ziel W auf kWh ändern

@@ -577,10 +577,10 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_prozesse_monat( string $monat ): float {
-		if ( $this->anzahl_wohnungen() === 1 ) {
-			return 45 * $this->nutzflaeche() * $this->monatsdaten->tage( $monat ) * 0.001;
+		if ( $this->anzahl_wohnungen() <= 1 ) {
+			return ( 45 * $this->nutzflaeche() * $this->monatsdaten->tage( $monat ) ) / 1000;
 		} else {
-			return ( 90.0 * $this->nutzflaeche() / ( $this->anzahl_wohnungen() * $this->monatsdaten->tage( $monat ) ) ) * 0.001;
+			return ( 90.0 * $this->nutzflaeche() / $this->anzahl_wohnungen() * $this->monatsdaten->tage( $monat ) ) / 1000;
 		}
 	}
 
@@ -693,7 +693,7 @@ class Gebaeude {
 	 * @throws Calculation_Exception 
 	 */
 	public function pi_monat( $monat ) {
-		return $this->qi_monat( $monat ) - fum( $monat );
+		return $this->ph_source_monat( $monat );
 	}
 
 	/**
@@ -704,7 +704,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ph_source_monat( string $monat ): float {
-		return $this->qi_monat( $monat ) - fum( $monat );
+		return $this->qi_monat( $monat ) * fum( $monat );
 	}
 
 	/**
@@ -895,7 +895,8 @@ class Gebaeude {
 	 * @throws Calculation_Exception 
 	 */
 	public function k_monat( string $monat ): float {
-		return ( 1 - $this->nm_monat( $monat ) * $this->ym_monat( $monat ) );
+		$k = ( 1 - $this->nm_monat( $monat ) * $this->ym_monat( $monat ) );
+		return $k < 0 ? 0 : $k;
 	}
 
 	/**
@@ -904,7 +905,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellvolumen_netto(): float {
-		return $this->geschossanzahl < 4 ? 0.76 * $this->huellflaeche() : 0.8 * $this->huellvolumen();
+		return $this->geschossanzahl < 4 ? 0.76 * $this->huellvolumen() : 0.8 * $this->huellvolumen();
 	}
 
 	/**
