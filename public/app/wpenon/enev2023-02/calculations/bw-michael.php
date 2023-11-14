@@ -1606,7 +1606,7 @@ ______________________________________________________________________________
 //                                                if "Speicherheizung mit mit Raumregelung und Witterungeführter Regelung" than InnenWand Tab24/12 ehec0=1.113
 //  
 //                                              ehce1= 0,018, ehce2=0, ehce3=0, ehce4=0, ehce5=0, ehcehyd=0 // Bedingung Tab.24, T12 max Raumhöhe mit 4m angeben
-
+// NOTE: Wenn Deckenhöhe > 4m dann soll sich Energieberater melden. Abfrage im Frontend.
 //                                             3) if Deckenhöhe > 4m than nach Abschluss der Eingabenmitteilung, dass sich der Energieberater persönlich meldet
 //   
 //    -----------------------------------------------------

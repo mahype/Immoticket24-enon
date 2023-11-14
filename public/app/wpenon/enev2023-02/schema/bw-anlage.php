@@ -1225,24 +1225,21 @@ $anlage = array(
 					),
 					'required'    => true,
 				),
-				'h_uebergabe_anteil'                             => array(
-					'type'        => 'int',
-					'label'       => __( 'Deckungsanteil des Übergabesystems', 'wpenon' ),
-					'description' => __( 'Geben Sie an, wie groß der Anteil ist, den das Übergabesystem abdeckt.', 'wpenon' ),
-					'default'     => 100,
-					'max'         => 100,
+				'h_uebergabe_flaechenheizungstyp' => array(
+					'type'        => 'select',
+					'label'       => __( 'Typ der Flächenheizung', 'wpenon' ),
+					'options'     => array(
+						'fussbodenheizung' => __( 'Fußbodenheizung', 'wpenon' ),
+						'wandheizung' => __( 'Wandheizung', 'wpenon' ),
+						'deckenheizung' => __( 'Deckenheizung', 'wpenon' ),
+					),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_uebergabe', array( 'flaechenheizung' ) ),
+					),
 					'required'    => true,
-					'unit'        => '%',
-					'value'       => array(
-						'callback'      => 'wpenon_get_value_by_sum',
-						'callback_args' => array(
-							100,
-							array( 'h_uebergabe2' => 'field::h_uebergabe2_anteil' ),
-							array( 'h_uebergabe2' => 'field::h_uebergabe2_info' ),
-							true
-						),
-					)
 				),
+				
 				'h_uebergabe_mindestdaemmung' => array(
 					'type'  => 'checkbox',
 					'label' => __( 'Die Flächenheizung erreicht die Mindestdämmung.', 'wpenon' ),
@@ -1251,6 +1248,7 @@ $anlage = array(
 						'callback_args' => array( 'field::h_uebergabe', array( 'flaechenheizung' ) ),
 					),
 				),
+
 			)
 		),
 		'warmwasser' => array(

@@ -557,6 +557,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
+			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
 			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
 		)
 	);		

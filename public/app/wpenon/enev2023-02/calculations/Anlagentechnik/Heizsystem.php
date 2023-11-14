@@ -237,7 +237,7 @@ class Heizsystem {
 	 */
 	public function ßhce(): float {
 		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return ( $this->gebaeude->qh() / $this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) * 1000;
+		return ( $this->gebaeude->qh() / ($this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) ) * 1000;
 	}
 
 	/**
