@@ -824,7 +824,7 @@ class Gebaeude {
 	/**
 	 * Bestimmung von flna.
 	 * 
-	 * // Frage: Was ist flna?
+	 * // NOTE: Was ist flna?
 	 * 
 	 * @param string $monat
 	 * 
