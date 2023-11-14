@@ -364,78 +364,6 @@ $jahr = new Jahr();
 
 	<h2>Bilanzierung</h2>
 
-	<table>
-	<tr>
-		<th>Monat</th>    
-		<th>P*H<sub>sink</sub></th>    
-		<th>PH<sub>sink</sub></th>    
-		<th>PH<sub>source</sub></th>
-		<th>Qh</th>
-		<th>ßhm</th>
-		<th>thm</th>
-		<th>Q<sub>W,B</sub></th>
-	</tr>
-		<?php foreach ( $jahr->monate() as $monat ) : ?>
-		<tr>
-		<td><?php echo $monat->name(); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->psh_sink_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ph_sink_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ßhm_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->thm_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB_monat( $monat->slug() ) ); ?></td>
-		</tr>
-		<?php endforeach; ?>
-		<tr>
-		<td><b>Gesamt</b></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td><?php echo str_replace('.',',', $gebaeude->qh() ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ßhma() ); ?> (ßhma)</td>
-		<td><?php echo str_replace('.',',', $gebaeude->thm() ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ); ?></td>
-		</tr>
-	</table>
-
-	<h3>Korrekturfaktoren und wetere Werte</h3>
-
-	<table>
-	<tr>
-		<th>Monat</th>
-		<th>pi</th>    
-		<th>ym</th>
-		<th>nm</th>
-		<th>flna</th>
-		<th>trl</th>
-		<th>ith_rl</th>
-		<th>k</th>
-	</tr>
-		<?php foreach ( $jahr->monate() as $monat ) : ?>
-		<tr>
-		<td><?php echo $monat->name(); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->pi_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ym_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->nm_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->flna_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->trl_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ith_rl_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->k_monat( $monat->slug() ) ); ?></td>
-		</tr>
-		<?php endforeach; ?>
-		<tr>
-		<td><b>Gesamt</b></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td><?php echo str_replace('.',',', $gebaeude->ith_rl() ); ?></td>
-		<td></td>
-		</tr>
-	</table>
-
 	<h3>Interne Wärmequellen</h3>
 	<table>
 	<tr>
@@ -466,47 +394,6 @@ $jahr = new Jahr();
 		</tr>
 	</table>
 
-	<hr />
-
-	<h2>Lüftung</h2>
-
-	<h3>Bilanz-Innentemperatur (θih)</h3>
-	<table>
-	<tr>
-		<th>Monat</th>    
-		<th>Tage</th>    
-		<th>Temperatur</th>
-	</tr>
-		<?php foreach ( $jahr->monate() as $monat ) : ?>
-		<tr>
-		<td><?php echo $monat->name(); ?></td>
-		<td><?php echo $monat->tage(); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->bilanz_innentemperatur()->θih_monat( $monat->slug() ) ); ?></td>
-		</tr>
-		<?php endforeach; ?>
-	</table>
-
-	<h3>Mittlere Belastung</h3>
-	<table>
-	<tr>
-		<th>Monat</th>    
-		<th>Tage</th>    
-		<th>Außentemperaturabhängige Belastung ßem1</th>
-	</tr>
-		<?php foreach ( $jahr->monate() as $monat ) : ?>
-		<tr>
-		<td><?php echo $monat->name(); ?></td>
-		<td><?php echo $monat->tage(); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->mittlere_belastung()->ßem1( $monat->slug() ) ); ?></td>
-		</tr>
-		<?php endforeach; ?>
-	<tr>
-		<td><strong>ßemMax</strong></td>
-		<td></td>
-		<td><?php echo $gebaeude->mittlere_belastung()->ßemMax(); ?></td>
-		</tr>
-	</table>
-
 	<h3>fum</h3>
 	<table>
 	<tr>
@@ -520,6 +407,120 @@ $jahr = new Jahr();
 		</tr>
 		<?php endforeach; ?>
 	</table>
+
+	<table>
+	<tr>
+		<th>Monat</th>    
+		<th>P*H<sub>sink</sub></th>    
+		<th>PH<sub>sink</sub></th>    
+		<th>PH<sub>source</sub></th>
+		<th>Qh</th>
+		<th>Q<sub>W,B</sub></th>
+	</tr>
+		<?php foreach ( $jahr->monate() as $monat ) : ?>
+		<tr>
+		<td><?php echo $monat->name(); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->psh_sink_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ph_sink_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB_monat( $monat->slug() ) ); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+		<td><b>Gesamt</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><?php echo str_replace('.',',', $gebaeude->qh() ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ); ?></td>
+		</tr>
+	</table>
+
+	<h3>Jahr Gesamt</h3>
+	<table>
+		<tr>
+			<th>ßhma</th>
+			<th>thm</th>
+			<th>ith_rl</th>
+			<th>Qi</th>
+			<th>Q<sub>W,B</sub></th>
+			<th>Qh</th>
+		</tr>
+		<tr>
+			<td><?php echo str_replace('.',',', $gebaeude->ßhma() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->thm() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->ith_rl() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->qi() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->qh() ); ?></td>
+		</tr>
+	</table>
+
+	<h3>Korrekturfaktoren und wetere Werte</h3>
+
+	<table>
+	<tr>
+		<th>Monat</th>
+		<th>pi</th>    
+		<th>ym</th>
+		<th>nm</th>
+		<th>flna</th>
+		<th>trl</th>
+		<th>ith_rl</th>
+	</tr>
+		<?php foreach ( $jahr->monate() as $monat ) : ?>
+		<tr>
+		<td><?php echo $monat->name(); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->pi_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ym_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->nm_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->flna_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->trl_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ith_rl_monat( $monat->slug() ) ); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+		<td><b>Gesamt</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ith_rl() ); ?></td>
+		</tr>
+	</table>
+
+	<table>
+	<tr>
+		<th>Monat</th>
+		<th>k</th>
+		<th>θih</th>
+		<th>ßem1</th>
+		<th>ßhm</th>
+		<th>thm</th>
+	</tr>
+		<?php foreach ( $jahr->monate() as $monat ) : ?>
+		<tr>
+		<td><?php echo $monat->name(); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->k_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->bilanz_innentemperatur()->θih_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->mittlere_belastung()->ßem1( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ßhm_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->thm_monat( $monat->slug() ) ); ?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+		<td><b>Gesamt</b></td>
+		<td></td>
+		<td></td>
+		<td><?php echo $gebaeude->mittlere_belastung()->ßemMax(); ?> (ßemMax)</td>
+		<td><?php echo str_replace('.',',', $gebaeude->ßhma() ); ?> (ßhma)</td>
+		<td><?php echo str_replace('.',',', $gebaeude->thm() ); ?></td>
+		</tr>
+	</table>
+
+	
 
 	<h3>Luftwechsel</h3>
 
