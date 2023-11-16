@@ -1826,20 +1826,19 @@ ______________________________________________________________________________
 //                          
 //
 //-----------------------------
-// "Ja" = Heizung und Trinkwarmwasser für zentrale Kesselanlage
 
-//  If "ja"  != "Wärmepumpe" than  // $fz = 1,5 bei Bestandsanlagen, /T12, Seite39; unser Kundenstamm, die Berechnung Pn=fz*max.[Φh,max;Pwn] nur für alle Heizungen außer Wärmepumpen
+//  If "Zentral" && nein = "Wärmepumpe" than  // $fz = 1,5 bei Bestandsanlagen, /T12, Seite39; unser Kundenstamm, die Berechnung Pn=fz*max.[Φh,max;Pwn] nur für alle Heizungen außer Wärmepumpen
 //   
 //     $Pn=$fz*[$Φpwn]  // alles außer Wärmepumpe 
 
-//  If "Nein"  != "Wärmepumpe" than  // $fz = 1,5 bei Bestandsanlagen; unser Kundenstamm, die Berechnung Pn=fz*max.[Φh,max;Pwn] nur für alle Heizungen außer Wärmepumpen, Hierbei wird oben bei der Ermittlung von $Φpwn = $Pwn festgelegt, da $Φh,max = Leitlast ist und $Pwn=0 ist wird automatisch die Heizungsheizlast angesetzt.
+//  If "Dezentral"  && nein = "Wärmepumpe" than  // $fz = 1,5 bei Bestandsanlagen; unser Kundenstamm, die Berechnung Pn=fz*max.[Φh,max;Pwn] nur für alle Heizungen außer Wärmepumpen, Hierbei wird oben bei der Ermittlung von $Φpwn = $Pwn festgelegt, da $Φh,max = Leitlast ist und $Pwn=0 ist wird automatisch die Heizungsheizlast angesetzt.
 //   
 //     $Pn=$fz*[$Φpwn]  // alles außer Wärmepumpe  
   
-//  If "ja" && "Wärmepumpe" 
+//  If "Zentral" && "Wärmepumpe" 
 //      $Pn=1,3* $Φh,max         // für  Wärmepumpe Gl.29
 /
-////  If "Nein" && "Wärmepumpe" 
+////  If "Dezentral" && "Wärmepumpe" 
 //      $Pn= $Φh,max         // für  Wärmepumpe Gl.29
 //
 //   else ???

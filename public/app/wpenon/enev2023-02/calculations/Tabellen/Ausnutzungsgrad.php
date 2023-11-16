@@ -24,7 +24,13 @@ class Ausnutzungsgrad {
 	 */
 	protected array $table_data;
 
-
+	/**
+	 * Konstruktor.
+	 * 
+	 * @param float $tau 
+	 * @param float $ym 
+	 * @return void 
+	 */
 	public function __construct( float $tau, float $ym ) {
 		$this->tau = $tau;
 		$this->ym  = $ym;
