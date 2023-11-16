@@ -2,11 +2,13 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Kessel_Nennleistung;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Pufferspeicher_Korrekturfaktor;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Mittlere_Belastung_Pufferspeicher_Korrekturfaktor.php';
 
 class Pufferspeicher {
 	/**
@@ -31,13 +33,6 @@ class Pufferspeicher {
 	protected Uebergabesystem $uebergabesystem;
 
 	/**
-	 * Handelt sich um eine zentrale Wasserversorgung (true) oder um eine dezentrale (false)?
-	 *
-	 * @var bool
-	 */
-	protected bool $zentral;
-
-	/**
 	 * Liegt eine Warmwasserspeicher vor
 	 *
 	 * @param Gebaeude   $gebaeude               Gebäude.
@@ -47,8 +42,37 @@ class Pufferspeicher {
 		Gebaeude $gebaeude,
 		float $puffergroesse = null
 	) {
-		$this->gebaeude        = $gebaeude;
-		$this->puffergroesse   = $puffergroesse;
+		$this->gebaeude      = $gebaeude;
+		$this->puffergroesse = $puffergroesse;
+	}
+
+	/**
+	 * Volumen des Pufferspeichers.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function volumen(): float {
+		if ( $this->puffergroesse ) {
+			return $this->puffergroesse;
+		}
+
+		$biomassekessel = $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden();
+		$waermepumpe    = $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden();
+
+		// Wenn Biomassekessel vorhanden ist, dann wird der Pufferspeicher immer mit Faktor 50 berechnet, egal ob Wärmepumpe vorhanden oder nicht.
+		if ( $biomassekessel ) {
+			return 50 * $this->pn();
+		}
+
+		// Wenn Wärmepumpe vorhanden ist, aber kein Biomassekessel dann wird der Pufferspeicher immer Faktor 9.5 berechnet.
+		if ( $waermepumpe ) {
+			return 9.5 * $this->pn();
+		}
+
+		// Alle Anderen Speicher.
+		return 0;
 	}
 
 	/**
@@ -59,13 +83,13 @@ class Pufferspeicher {
 	public function pwn(): float {
 		$pwn = 0;
 
-		if ( $this->zentral ) {
+		if ( $this->gebaeude->wasserversorgung()->zentral() ) {
 			$nutzwaermebedarf_trinkwasser = $this->gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser();
 
-			if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
+			if ( $this->gebaeude->nutzflaeche() > 5000 ) {
 				$pwn = 0.042 * ( ( $nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
 			} else {
-				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser ) )->nennleistung();
+				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser ) )->nennleistung() * 1000; // Umrechnung in Watt
 			}
 		}
 
@@ -76,8 +100,14 @@ class Pufferspeicher {
 		return $pwn;
 	}
 
+	/**
+	 * Nennleistung des Pufferspeichers (pn).
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function pn(): float {
-		if ( $this->zentral ) {
+		if ( $this->gebaeude->wasserversorgung()->zentral() ) {
 			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
 				return 1.3 * $this->gebaeude->luftwechsel()->h_max();
 			} else {
@@ -100,8 +130,8 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception
 	 */
 	public function ßhs(): float {
-		// $ßhs=$ßhd*$ehdkorr		
-		return $this->uebergabesystem->ßhd() * $this->uebergabesystem->ehd_korrektur( $this->heizungsanlage );
+		// $ßhs=$ßhd*$ehdkorr
+		return $this->gebaeude->heizsystem()->ßhd() * $this->gebaeude->heizsystem()->ehd_korrektur();
 	}
 
 	/**
@@ -112,8 +142,7 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception
 	 */
 	public function fßhs(): float {
-		$heizungsanlage_beheizt = $this->heizungsanlage->beheizung_anlage() === 'alles' ? true : false;
-		return ( new Mittlere_Belastung_Pufferspeicher_Korrekturfaktor( $this->uebergabesystem->auslegungsvorlauftemperatur(), $heizungsanlage_beheizt, $this->ßhs() ) )->fßhs();
+		return ( new Mittlere_Belastung_Pufferspeicher_Korrekturfaktor( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungsvorlauftemperatur(), $this->gebaeude->heizsystem()->beheizt(), $this->ßhs() ) )->fßhs();
 	}
 
 	/**
@@ -122,6 +151,6 @@ class Pufferspeicher {
 	 * @return float
 	 */
 	public function fhs(): float {
-		return $this->fßhs( $this->heizungsanlage ) * $this->gebaeude->ith_rl() / 5000;
+		return $this->fßhs() * $this->gebaeude->ith_rl() / 5000;
 	}
 }

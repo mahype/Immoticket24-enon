@@ -58,7 +58,7 @@ class Heizsystem {
 	 *
 	 * @var Pufferspeicher
 	 */
-	protected Pufferspeicher $pufferspeicher;
+	protected Pufferspeicher|null $pufferspeicher = null;
 
 	/**
 	 * Konstruktor.
@@ -109,6 +109,30 @@ class Heizsystem {
 	 */
 	public function wasserversorgungen(): Wasserversorgungen {
 		return $this->wasserversorgungen;
+	}
+
+	/**
+	 * Pufferspeicher.
+	 * 
+	 * @param Pufferspeicher|null $pufferspeicher 
+	 * 
+	 * @return Pufferspeicher|void 
+	 */
+	public function pufferspeicher( Pufferspeicher $pufferspeicher = null ) {
+		if ( $pufferspeicher === null ) {
+			return $this->pufferspeicher;
+		}
+
+		$this->pufferspeicher = $pufferspeicher;
+	}
+
+	/**
+	 * Pufferspeicher vorhanden?
+	 * 
+	 * @return bool 
+	 */
+	public function pufferspeicher_vorhanden(): bool {
+		return $this->pufferspeicher !== null;
 	}
 
 	/**
@@ -237,7 +261,7 @@ class Heizsystem {
 	 */
 	public function ßhce(): float {
 		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return ( $this->gebaeude->qh() / $this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) * 1000;
+		return ( $this->gebaeude->qh() / ($this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) ) * 1000;
 	}
 
 	/**

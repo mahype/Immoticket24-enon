@@ -1,0 +1,28 @@
+Bezeichnung (intern);Bauteil;Bis 1918;1919-1948;1949-1957;1958-1968;1969-1978;1979-1983;1984-1994;1995-2001;2002-2006;Ab 2007
+boden_holz;Boden/Kellerdecke (Holz);1;1;1;0,8;0,6;0,6;0,4;0,4;0,4;0,4
+boden_massiv;Boden/Kellerdecke (Massivbau);1,2;1,2;1,5;1;1;0,8;0,6;0,6;0,5;0,5
+boden_stahlbeton;Boden/Kellerdecke (Stahlbeton);1,6;1,6;2,3;1;1;0,8;0,6;0,6;0,5;0,5
+dach_holz;Dach (Holz);2,6;1,4;1,4;1,4;0,8;0,7;0,5;0,3;0,2;0,2
+dach_massiv;Dach (Massivbau);2,1;2,1;2,1;1,3;1,3;0,6;0,4;0,3;0,2;0,2
+decke_holz;Oberste Geschossdecke (Holz);1;1;0,8;0,7;0,6;0,4;0,3;0,3;0,3;0,2
+decke_massiv;Oberste Geschossdecke (Massivbau);2,1;2,1;2,1;2,1;0,6;0,6;0,3;0,3;0,2;0,2
+fenster_aluminium;Aluminiumfenster, Isolierverglasung (2-Fach);4,3;4,3;4,3;4,3;4,3;4,3;3,2;1,9;1,5;1,5
+fenster_holzdoppelt;Holzfenster, Isolierverglasung  (2-Fach);2,7;2,7;2,7;2,7;2,7;2,7;2,7;1,6;1,5;1,1
+fenster_holzeinfach;Holzfenster (1-Fach);5;5;5;5;5;5;5;5;5;5
+fenster_kunststoff;Kunststofffenster, Isolierverglasung  (2-Fach);3;3;3;3;3;3;3;1,9;1,5;1,1
+fenster_stahl;Stahlfenster, Isolierverglasung  (2-Fach);4,3;4,3;4,3;4,3;4,3;4,3;3,2;1,9;1,5;1,5
+fenster_waermedaemmglas;Wärmedämmglas (3-fach);0,7;0,7;0,7;0,7;0,7;0,7;0,7;0,7;0,7;0,7
+rollladen_gedaemmt;Rollladenkästen gedämmt;2,2;2,2;2,2;1,8;1,8;1,8;1,5;1,4;0,9;0,9
+rollladen_ungedaemmt;Rollladenkästen ungedämmt;3,6;3,6;3,6;3,6;3,6;3,6;3,6;3,6;3,6;3,6
+tuer;Türen;4;4;4;4;4;4;4;4;4;4
+wand_holzhaus_holz;Holzwände;2;2;1,5;1,4;0,6;0,5;0,4;0,4;0,3;0,3
+wand_fachwerk_lehm;Lehm-/Lehmziegelausfachung;1,5;1,5;1,5;1,5;1,5;1,5;1,5;1,5;1,5;1,5
+wand_fachwerk_vollziegel;Vollziegel oder Massive Natursteinausfach;2;2;2;2;2;2;2;2;2;2
+wand_massiv_vollziegel_bis_20cm;Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm;2,8;2,8;2,8;1,4;1;0,8;0,7;0,7;0,4;0,3
+wand_massiv_vollziegel_20cm_bis_30_cm;Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm;1,8;1,8;1,8;1,4;1;0,8;0,7;0,7;0,4;0,3
+wand_massiv_vollziegel_ueber_30cm;Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm;1,5;1,5;1,5;1,5;1;0,8;0,6;0,5;0,4;0,3
+wand_massiv_bims;"Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton";1,4;1,4;1,4;1,4;1;0,8;0,6;0,5;0,4;0,3
+wand_massiv_zweischalig;Zweischalige Bauweise;1,3;1,3;1,3;1,4;1;0,8;0,6;0,5;0,4;0,3
+wand_massiv_bis_20cm;Sonstige Massivwände bis 20 cm;3;3;3;1,4;1;0,8;0,7;0,7;0,4;0,3
+wand_massiv_ueber_20cm;Sonstige Massivwände über 20 cm;2,2;2,2;2,2;1,4;1;0,8;0,6;0,5;0,4;0,3
+fenster_waermedaemmglas2fach;Wärmedämmglas (2-fach);1,1;1,1;1,1;1,1;1,1;1,1;1,1;1,1;1,1;1,1

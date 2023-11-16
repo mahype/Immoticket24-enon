@@ -61,7 +61,7 @@ class Heizungsanlagen {
 
 		// Validieren der prozentualen Anteile.
 		if ( ! $this->validiere_prozent_gesamt() ) {
-			throw new Exception( 'Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.' );
+			throw new Calculation_Exception( 'Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.' );
 		}
 
 		foreach ( $this->heizungsanlagen as $heizungsanlage ) {

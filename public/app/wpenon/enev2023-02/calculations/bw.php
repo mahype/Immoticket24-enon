@@ -14,6 +14,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
 use Enev\Schema202302\Calculations\Gebaeude\Keller;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
+use Enev\Schema202302\Calculations\Anlagentechnik\Pufferspeicher;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
 use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
@@ -304,10 +305,12 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 		continue;
 	}
 
+	$fensterflaeche = $heizkoerpernische_flaeche = $rolladenkaesten_flaeche = 0.0;
+
 	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
 	if ( $gebaeude->dach_vorhanden() ) {
 		$dachwand_flaeche = $gebaeude->dach()->wandseite_flaeche( $wand->seite() );
-		$dachwand_flaeche_kniestock = $gebaeude->dach()->wandflaeche_kniestock( $wand->seite() );
+		$dachwand_flaeche_kniestock = $gebaeude->dach()->kniestock_flaeche( $wand->seite() );
 		$wand->flaeche_addieren( $dachwand_flaeche + $dachwand_flaeche_kniestock );
 	}
 
@@ -319,9 +322,16 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 
 	/**
 	 * Fenster
-	 */
-	$anbauwand_staerke = $energieausweis->wand_staerke / 100;
-	$fensterflaeche  = berechne_fenster_flaeche( $gebaeude->grundriss()->wand_laenge( $wand->seite() ), $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+	 */	
+	$wand_laenge = $gebaeude->grundriss()->wand_laenge( $wand->seite() );
+
+	// TODO: Berechnung ggf. auch mit Abzug der Schnittfläche des Anbaus.
+	// NOTE: Vorher ausgelassen, da dies in den originalen Berechnungen auch nicht berücksichtigt wurde.	
+	// if( $gebaeude->anbau_vorhanden() ) {
+	// 	$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
+	// }
+
+	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 	$uwert_fenster   = uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
 
@@ -343,7 +353,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	 * Heizkörpernischen
 	 */
 	if ( $energieausweis->heizkoerpernischen === 'vorhanden' ) {
-		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche( $fensterflaeche ) * $energieausweis->geschoss_zahl;
+		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche( $fensterflaeche );
 
 		$heizkoerpernische = new Heizkoerpernische(
 			name: sprintf( __( 'Heizkörpernischen Wand %s', 'wpenon' ), $wand->seite() ),
@@ -361,7 +371,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	 * Rolladenkästen.
 	 */
 	if ( substr( $energieausweis->rollladenkaesten, 0, 6 ) === 'innen_' ) { // Wir nehmen nur innenliegende Rolladenkästen.
-		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche ) * $energieausweis->geschoss_zahl;
+		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche );
 		$daemmung                = substr( $energieausweis->rollladenkaesten, 6 );
 		$uwert_rolladenkaesten   = uwert( 'rollladen_' . $daemmung, $energieausweis->fenster_baujahr );
 
@@ -451,7 +461,7 @@ switch ( $energieausweis->keller ) {
 			new Boden(
 				name: sprintf( __( 'Boden', 'wpenon' ) ),
 				flaeche: $gebaeude->grundriss()->flaeche(),
-				uwert: uwert( $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
 				daemmung: $energieausweis->anbauboden_daemmung,
 			)
 		);
@@ -466,6 +476,8 @@ $gebaeude->luftwechsel(
 	)
 );
 
+$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+
 switch ( $energieausweis->ww_info ) {
 	case 'ww':
 		$ww_zentral = false;
@@ -474,18 +486,21 @@ switch ( $energieausweis->ww_info ) {
 		break;
 	case 'h':
 		$ww_zentral = true;
-		$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+
 		$mit_warmwasserspeicher = false;
 		break;
 	
 }
+
+$heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
+
 $gebaeude->wasserversorgung(
 	new Wasserversorgung(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
-		beheizte_bereiche: $beheizte_bereiche,
+		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: $energieausweis->speicherung, // Neu - Ist ein Warmwasserspeicher vorhanden?
-		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false, // Feld vorhanden
+		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false,
 	)
 );
 
@@ -500,7 +515,7 @@ $gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
 		typ: $energieausweis->h_erzeugung,
 		energietraeger: $energietraeger,
 		auslegungstemperaturen: $energieausweis->h_auslegungstemperaturen,
-		beheizung_anlage: $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts',
+		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		prozentualer_anteil: $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100
 	)
 );
@@ -514,7 +529,7 @@ if ( $energieausweis->h2_erzeugung ) {
 			typ: $energieausweis->h2_erzeugung,
 			energietraeger: $energietraeger,
 			auslegungstemperaturen: $energieausweis->h2_auslegungstemperaturen,
-			beheizung_anlage: $energieausweis->h2_standort === 'innerhalb' ? 'alles' : 'nichts',
+			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 			prozentualer_anteil: $energieausweis->h2_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
 		)
 	);
@@ -529,7 +544,7 @@ if ( $energieausweis->h3_erzeugung ) {
 			typ: $energieausweis->h3_erzeugung,
 			energietraeger: $energietraeger,
 			auslegungstemperaturen: $energieausweis->h3_auslegungstemperaturen,
-			beheizung_anlage: $energieausweis->h3_standort === 'innerhalb' ? 'alles' : 'nichts',
+			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 			prozentualer_anteil: $energieausweis->h3_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
 		)
 	);
@@ -543,6 +558,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
+			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
 			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
 		)
 	);		
@@ -555,6 +571,10 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil
 		)
 	);
+}
+
+if( $energieausweis->speicherung !== 'nicht_vorhanden' ) {
+	$gebaeude->heizsystem()->pufferspeicher( new Pufferspeicher( $gebaeude, $energieausweis->speicherung == 'vorhanden_bekannt' ? $energieausweis->speicherung_groesse : null ) );
 }
 
 // TODO: Bestimmung des Nutzenergiebedarfs (1135)

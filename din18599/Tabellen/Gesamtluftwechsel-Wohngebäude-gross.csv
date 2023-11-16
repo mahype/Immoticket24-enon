@@ -1,0 +1,17 @@
+﻿Bezeichnung (intern);Kategorie;Hüllfläche / Nettovolumen;Ohne mechanische Lüftung;Zu-/Abluftanlage Bedarfsgeführt ab 0%;Zu-/Abluftanlage Bedarfsgeführt ab 60%;Zu-/Abluftanlage Bedarfsgeführt ab 80%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 0%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 60%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 80%;Abluftanlage Bedarfsgeführt;Abluftanlage nicht Bedarfsgeführt
+din_4108_7_02;I Einhaltung Dichtheit nach DIN 4108-7;0,2;0,53;0,48;0,27;0,2;0,53;0,29;0,21;0,46;0,51
+din_4108_7_04;I Einhaltung Dichtheit nach DIN 4108-7;0,4;0,56;0,51;0,3;0,23;0,56;0,32;0,24;0,47;0,52
+din_4108_7_06;I Einhaltung Dichtheit nach DIN 4108-7;0,6;0,59;0,53;0,32;0,25;0,58;0,34;0,26;0,48;0,52
+din_4108_7_08;I Einhaltung Dichtheit nach DIN 4108-7;0,8;0,62;0,56;0,35;0,28;0,61;0,37;0,29;0,49;0,53
+ohne_02;II ohne Dichtheitsprüfung;0,2;0,56;0,53;0,32;0,25;0,58;0,34;0,26;0,48;0,52
+ohne_04;II ohne Dichtheitsprüfung;0,4;0,62;0,62;0,41;0,34;0,67;0,43;0,35;0,53;0,56
+ohne_06;II ohne Dichtheitsprüfung;0,6;0,67;0,7;0,49;0,42;0,75;0,51;0,43;0,58;0,61
+ohne_08;II ohne Dichtheitsprüfung;0,8;0,74;0,79;0,58;0,51;0,84;0,6;0,52;0,65;0,67
+andere_02;III andere (von I, II oder IV abweichend);0,2;0,59;0,58;0,37;0,3;0,63;0,39;0,31;0,5;0,54
+andere_04;III andere (von I, II oder IV abweichend);0,4;0,67;0,7;0,49;0,42;0,75;0,51;0,43;0,58;0,61
+andere_06;III andere (von I, II oder IV abweichend);0,6;0,77;0,83;0,62;0,55;0,88;0,64;0,56;0,68;0,7
+andere_08;III andere (von I, II oder IV abweichend);0,8;0,85;0,95;0,74;0,67;1;0,76;0,68;0,79;0,79
+undichtheiten_02;IV offensichtliche Undichtheiten;0,2;0,65;0,66;0,45;0,38;0,71;0,47;0,39;0,55;0,58
+undichtheiten_04;IV offensichtliche Undichtheiten;0,4;0,79;0,87;0,66;0,59;0,92;0,68;0,6;0,72;0,73
+undichtheiten_06;IV offensichtliche Undichtheiten;0,6;0,94;1,08;0,87;0,8;1,13;0,89;0,81;0,9;0,89
+undichtheiten_08;IV offensichtliche Undichtheiten;0,8;1,09;1,29;1,08;1,01;1,34;1,1;1,02;1,07;1,06

@@ -28,6 +28,16 @@ class Uebergabesystem {
 		'heizkoerper',
 		'flaechenheizung',
 	);
+	
+	/**
+	 * Erlaubte Flächenheizungstypen.
+	 * @var string[]
+	 */
+	protected $flaechenheizungstypen = array(
+		'fussbodenheizung',
+		'wandheizung',
+		'deckenheizung',
+	);
 
 	/**
 	 * Erlaubte Auslegungstemperaturen.
@@ -44,7 +54,12 @@ class Uebergabesystem {
 	/**
 	 * Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper oder flaechenheizung).
 	 */
-	protected $typ;
+	protected string $typ;
+
+	/**
+	 * Typ der Flächenheizung, wenn es sich um eine Flächenheizung handelt.
+	 */
+	protected string|null $flaechenheizungstyp;
 
 	/**
 	 * Auslegungstemperaturen.
@@ -83,6 +98,7 @@ class Uebergabesystem {
 		string $typ,
 		string $auslegungstemperaturen,
 		int $prozentualer_anteil = 100,
+		string $flaechenheizungstyp = null,
 		bool $mindestdaemmung = false
 	) {
 		// Check der Übergabe-Typen
@@ -99,6 +115,7 @@ class Uebergabesystem {
 		$this->typ                    = $typ;
 		$this->auslegungstemperaturen = $auslegungstemperaturen;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
+		$this->flaechenheizungstyp	  = $flaechenheizungstyp;
 		$this->mindestdaemmung        = $mindestdaemmung;
 	}
 
@@ -163,7 +180,7 @@ class Uebergabesystem {
 				$ehce += 0.018; // Immeririerender betrieb ist bei Elektroheizungsflächen immer  0,018
 				// Alle anderen Werte sind immer 0.
 
-				return 1.066;
+				return $ehce;
 			case 'heizkoerper':
 				// Raumtemperaturregelung_ Es wird immer "P-Regler" angenommen.
 				$ehce = 1.042; // ehce 0
@@ -205,7 +222,7 @@ class Uebergabesystem {
 				// Raumtemperaturregelung_ Es wird immer "P-Regler" angenommen.
 				$ehce = 1.042; // ehce 0
 
-				switch ( $this->typ ) {
+				switch ( $this->flaechenheizungstyp ) {
 					case 'fussbodenheizung':
 						// Fussbodenheizung - ehce 1
 						$ehce += 0.021;

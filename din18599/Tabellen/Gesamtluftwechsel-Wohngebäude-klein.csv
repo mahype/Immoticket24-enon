@@ -1,0 +1,5 @@
+﻿Bezeichnung (intern);Kategorie;Ohne mechanische Lüftung;Zu-/Abluftanlage Bedarfsgeführt ab 0%;Zu-/Abluftanlage Bedarfsgeführt ab 60%;Zu-/Abluftanlage Bedarfsgeführt ab 80%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 0%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 60%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 80%;Abluftanlage Bedarfsgeführt;Abluftanlage nicht Bedarfsgeführt
+din_4108_7;I Einhaltung Dichtheit nach DIN 4108-7;0,6;0,52;0,31;0,24;0,57;0,33;0,25;0,48;0,52
+ohne;II ohne Dichtheitsprüfung;0,7;0,73;0,52;0,45;0,78;0,54;0,46;0,6;0,63
+andere;III andere (von I, II oder IV abweichend);0,79;0,87;0,66;0,59;0,92;0,68;0,6;0,72;0,73
+undichtheiten;IV offensichtliche Undichtheiten;0,99;1,15;0,94;0,87;1,2;0,96;0,88;0,95;0,95

@@ -1,0 +1,17 @@
+﻿Bezeichnung (intern);Kategorie;Hüllfläche / Nettovolumen;Ohne mechanische Lüftung;Zu-/Abluftanlage Bedarfsgeführt ab 0%;Zu-/Abluftanlage Bedarfsgeführt ab 60%;Zu-/Abluftanlage Bedarfsgeführt ab 80%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 0%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 60%;Zu-/Abluftanlage nicht Bedarfsgeführt ab 80%;Abluftanlage Bedarfsgeführt;Abluftanlage nicht Bedarfsgeführt
+din_4108_7_02;I Einhaltung Dichtheit nach DIN 4108-7;0,2;0,921;0,209;0,373;0,505;0,189;0,347;0,481;0,216;0,197
+din_4108_7_04;I Einhaltung Dichtheit nach DIN 4108-7;0,4;0,85;0,198;0,338;0,442;0,18;0,316;0,424;0,213;0,194
+din_4108_7_06;I Einhaltung Dichtheit nach DIN 4108-7;0,6;0,786;0,187;0,309;0,394;0,171;0,291;0,379;0,208;0,191
+din_4108_7_08;I Einhaltung Dichtheit nach DIN 4108-7;0,8;0,728;0,178;0,284;0,355;0,163;0,269;0,342;0,203;0,188
+ohne_02;II ohne Dichtheitsprüfung;0,2;0,85;0,187;0,309;0,394;0,171;0,291;0,379;0,208;0,191
+ohne_04;II ohne Dichtheitsprüfung;0,4;0,728;0,162;0,245;0,296;0,15;0,234;0,287;0,19;0,179
+ohne_06;II ohne Dichtheitsprüfung;0,6;0,627;0,142;0,203;0,237;0,133;0,195;0,231;0,171;0,165
+ohne_08;II ohne Dichtheitsprüfung;0,8;0,543;0,127;0,174;0,198;0,12;0,168;0,194;0,154;0,15
+andere_02;III andere (von I, II oder IV abweichend);0,2;0,786;0,174;0,273;0,338;0,16;0,259;0,327;0,2;0,186
+andere_04;III andere (von I, II oder IV abweichend);0,4;0,627;0,142;0,203;0,237;0,133;0,195;0,231;0,171;0,165
+andere_06;III andere (von I, II oder IV abweichend);0,6;0,506;0,121;0,162;0,182;0,114;0,157;0,179;0,146;0,144
+andere_08;III andere (von I, II oder IV abweichend);0,8;0,409;0,105;0,134;0,148;0,1;0,131;0,146;0,127;0,126
+undichtheiten_02;IV offensichtliche Undichtheiten;0,2;0,675;0,152;0,222;0,263;0,141;0,213;0,256;0,181;0,172
+undichtheiten_04;IV offensichtliche Undichtheiten;0,4;0,471;0,115;0,152;0,169;0,109;0,147;0,167;0,139;0,137
+undichtheiten_06;IV offensichtliche Undichtheiten;0,6;0,33;0,093;0,115;0,125;0,088;0,112;0,123;0,112;0,112
+undichtheiten_08;IV offensichtliche Undichtheiten;0,8;0,228;0,078;0,093;0,099;0,075;0,091;0,098;0,093;0,095

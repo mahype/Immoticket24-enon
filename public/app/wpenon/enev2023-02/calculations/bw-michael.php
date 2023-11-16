@@ -885,7 +885,7 @@ if ( $energieausweis->anbau ) {
         'bauart'        => $energieausweis->anbaufenster_bauart,
         'baujahr'       => $energieausweis->anbaufenster_baujahr,
         'richtung'      => $calculations['bauteile'][ 'anbauwand_' . $wand ]['richtung'],
-        'a'             => $fensterflaeche,
+        'a'             => $fensterflaeche,^
         'd'             => 0,
         'winkel'        => 90.0, //Fenster werden senkrecht angesetzt! Dachfrenster etc. finden da daher keine Berücksichtigung!!!!! Oder?, Sollte später erweitert werden um z.B. Dachfenster
         
@@ -1228,6 +1228,7 @@ ________________________________________________________________________________
 //Berechnung von Ph,sink
 ////Kom. zu Ph,sink: Wärmesenken als Leistung in W 
 
+// NOTE: ßem wird hier verwendet, oben ist aber nur ßem1 definiert. Bitte prüfen, ob das so richtig ist.
 //$calculations['monate'][ $monat ]['Ph,sink']= $Qges *(($calculations['monate'][ $monat ]['θih']+12)/32)*$calculations['monate'][ $monat ]['ßem']
 //
 //______________________________________________________________________________________________________
@@ -1238,6 +1239,8 @@ ________________________________________________________________________________
 //Bestehend aus: Internen Wärmequellen (Haushaltsgeräte)
 //  Internen Wärmequellen (Haushaltsgeräte) Code qi unten entfällt damit
 //  
+
+//  BUG: Berechnung für Mehrfamilienhäuser geht nicht auf
 //  a) Einfamilienhäuser
 
 //  $calculations['monate'][ $monat ]['qi,P'] = 45.0 * $calculations['nutzflaeche'] * $calculations['monate'][ $monat ]['tage']  *0.001 ; //0,001 = /1000 Ziel W auf kWh ändern
@@ -1603,7 +1606,7 @@ ______________________________________________________________________________
 //                                                if "Speicherheizung mit mit Raumregelung und Witterungeführter Regelung" than InnenWand Tab24/12 ehec0=1.113
 //  
 //                                              ehce1= 0,018, ehce2=0, ehce3=0, ehce4=0, ehce5=0, ehcehyd=0 // Bedingung Tab.24, T12 max Raumhöhe mit 4m angeben
-
+// NOTE: Wenn Deckenhöhe > 4m dann soll sich Energieberater melden. Abfrage im Frontend.
 //                                             3) if Deckenhöhe > 4m than nach Abschluss der Eingabenmitteilung, dass sich der Energieberater persönlich meldet
 //   
 //    -----------------------------------------------------
@@ -1799,7 +1802,7 @@ ______________________________________________________________________________
 // Suchbegriff 1140
 // $qwb 
 
-// NOTE: Berechnung der Nennlleistung
+// NOTE: Berechnung der Nennleistung
 
 
 ////// Abfrage ob  die Warmwassererzeugung direkt über den Wärmeerezeuger (Heizkessel) erfolgt  Frontend : ja/nein

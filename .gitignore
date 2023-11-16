@@ -1,6 +1,8 @@
 # Vendor in general
 vendor
 
+~$*
+
 # Application
 *.log
 .user.ini

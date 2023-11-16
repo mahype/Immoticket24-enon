@@ -114,11 +114,11 @@ class Fenster_Sammlung implements Transmissionswaerme {
 	 * 
 	 * @return float 
 	 */
-	public function qs(): float {
+	public function qi_solar(): float {
 		$qs = 0.0;
 
 		foreach ( $this->elemente as $element ) {
-			$qs += $element->qs();
+			$qs += $element->qi_solar();
 		}
 
 		return $qs;
@@ -129,13 +129,13 @@ class Fenster_Sammlung implements Transmissionswaerme {
 	 * 
 	 * @return float
 	 */
-	public function qs_monat( string $monat ): float {
-		$qs = 0.0;
+	public function qi_solar_monat( string $monat ): float {
+		$qi_solar = 0.0;
 
 		foreach ( $this->elemente as $element ) {
-			$qs += $element->qs_monat( $monat );
+			$qi_solar += $element->qi_solar_monat( $monat );
 		}
 
-		return $qs;
+		return $qi_solar;
 	}
 }

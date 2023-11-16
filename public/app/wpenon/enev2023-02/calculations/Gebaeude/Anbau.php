@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Gebaeude;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 /**
  * Diese Klasse repräsentiert einen Anbau für ein Gebäude.
  */
@@ -108,7 +110,7 @@ class Anbau {
 
 	/**
 	 * Berechnet die Fläche der Überlappung des Anbaus mit dem Hauptgebäude.
-	 * 
+	 *
 	 * @param string $wand Wand des Anbaus.
 	 *
 	 * @return float
@@ -125,7 +127,7 @@ class Anbau {
 			$grundflaeche                                 += $laenge * $hoehe;
 		}
 
-		if( ! array_key_exists( $wand, $wand_ueberlappung_flaechen ) ) {
+		if ( ! array_key_exists( $wand, $wand_ueberlappung_flaechen ) ) {
 			return 0;
 		}
 
@@ -151,6 +153,23 @@ class Anbau {
 
 		$wand_anbau = $this->mapping()[ $wand ];
 		return $this->ueberlappung_flaeche( $wand_anbau );
+	}
+
+	/**
+	 * Berechnet die Länge der Überlappung einer Wand des Hauptgebäudes mit dem Anbau.
+	 *
+	 * @param string $wand Seite des Hauptgebäudes.
+	 * @return float Länge der Überlappung.
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function ueberlappung_laenge_wand( string $wand ): float {
+		if ( ! array_key_exists( $wand, $this->mapping() ) ) {
+			return 0;
+		}
+
+		$wand_anbau = $this->mapping()[ $wand ];
+		return $this->grundriss()->wand_laenge( $wand_anbau );
 	}
 
 	/**
