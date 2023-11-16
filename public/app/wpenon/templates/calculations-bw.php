@@ -598,14 +598,15 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Jährlicher Nutzwaermebedarf für Trinkwasser (qwb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung des monatlichen Wärmebedarfs für Warmwasser(QWB) für ein Jahr: %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ) ); ?></p>
 
+	<?php if ( $gebaeude->heizsystem()->pufferspeicher_vorhanden() ) : ?>
 	<h3>Pufferspeicher</h3>
-	<p><?php printf( __( 'Zentrale Wassererwärmung über Erzeuger? %s', 'wpenon' ),  $gebaeude->wasserversorgung()->zentral() ? 'Ja' : 'Nein' ); ?>.</p>
-	<p><?php printf( __( 'Nutzfläche: %s m<sup>2</sup>', 'wpenon' ),  str_replace('.',',', $gebaeude->nutzflaeche() ) ); ?></p>
-	<p><?php printf( __( 'Nutzfläche pro Wohneinheit: %s m<sup>2</sup>', 'wpenon' ),  str_replace('.',',', $gebaeude->nutzflaeche_pro_wohneinheit() ) ); ?></p>
-	<p><?php printf( __( 'Nutzwärmebedarf für Trinkwasser (qwb): %s kWh/(ma)', 'wpenon' ),  str_replace('.',',', $gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser() ) ); ?></p>
-	<p><?php // printf( __( 'Nennleistung Pufferspeicher (pwn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->pwn() ) ); ?></p>
-	<p><?php // printf( __( 'Nennleistung Pufferspeicher (pwn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->pwn() ) ); ?></p>
-
+	<p><?php printf( __( 'Nennleistung Pufferspeicher (pwn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->pwn() ) ); ?></p>
+	<p><?php printf( __( '(pn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->pn() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfaktor mittlere Belastung des Pufferspeichers fßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->fßhs() ) ); ?></p>
+	<p><?php printf( __( 'Mittlere Belastung für Speicherung ßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->ßhs() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfaktor für beliebige mittlere Berlastung und Laufzeit der Heizung fhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->fhs() ) ); ?></p>
+	<p><?php printf( __( 'Volumen: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->volumen() ) ); ?></p>
+	<?php endif; ?>
 
 	<h3>Solar</h3>
 	<?php echo str_replace('.',',', $gebaeude->bauteile()->fenster()->qi_solar() ); ?>	

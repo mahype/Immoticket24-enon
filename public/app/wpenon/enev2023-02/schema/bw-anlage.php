@@ -1166,8 +1166,25 @@ $anlage = array(
 					),
 				),
 				'speicherung'                                   => array(
-					'type'  => 'checkbox',
-					'label' => __( 'Pufferspeicher vorhanden?', 'wpenon' ),
+					'type'  => 'select',
+					'label' => __( 'Pufferspeicher', 'wpenon' ),
+					'required' => true,
+					'options'  => array(
+						'nicht_vorhanden' => __( 'Nicht vorhanden', 'wpenon' ),
+						'vorhanden_unbekannt' => __( 'Vorhanden (größe unbekannt)', 'wpenon' ),
+						'vorhanden_bekannt' => __( 'Vorhanden (größe bekannt)', 'wpenon' ),
+					),
+				),
+				'speicherung_groesse'              => array(
+					'type'        => 'int',
+					'label'       => __( 'Größe des Pufferspeichers', 'wpenon' ),
+					'description' => __( 'Geben Sie die Größe des Pufferspeichers in Litern an.', 'wpenon' ),
+					'required'    => true,
+					'unit'        => 'l',
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt') ),
+					),
 				),
 				'speicherung_baujahr'                           => array(
 					'type'                  => 'int',
@@ -1178,8 +1195,8 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 					'display'               => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::speicherung', true ),
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt', 'vorhanden_unbekannt') ),
 					),
 				),
 				'speicherung_standort'                          => array(
@@ -1192,8 +1209,8 @@ $anlage = array(
 					),
 					'required'    => true,
 					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::speicherung', true ),
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt', 'vorhanden_unbekannt') ),
 					),
 				),
 			),

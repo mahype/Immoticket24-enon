@@ -70,8 +70,9 @@ class Mittlere_Belastung_Pufferspeicher_Korrekturfaktor {
         $values = array();
 
         foreach( $this->mittlere_belastung_slugs() AS $mittlere_belastung_slug ) {
-            $keys[] = $this->table_data[ $mittlere_belastung_slug ]['bhs'];
-            $values = $this->table_data[ $mittlere_belastung_slug ][ $this->heizung_col() ];
+            $heizung_col = $this->heizung_col();
+            $keys[] = $this->table_data[ $mittlere_belastung_slug ]->bhs;
+            $values[] = $this->table_data[ $mittlere_belastung_slug ]->$heizung_col;
         }
 
         return interpolate_value( $this->ßhs, $keys, $values );
@@ -83,7 +84,7 @@ class Mittlere_Belastung_Pufferspeicher_Korrekturfaktor {
      * @return string 
      */
     public function heizung_col(): string {
-        return $this->heizungsanlage_beheizt ? 'beheizt' : 'unbeheizt' . '_'  .$this->auslegungsvorlauftemperatur;
+        return $this->heizungsanlage_beheizt ? 'beheizt'  . '_'  .$this->auslegungsvorlauftemperatur : 'unbeheizt' . '_'  .$this->auslegungsvorlauftemperatur;
     }
 
     /**

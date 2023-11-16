@@ -14,6 +14,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
 use Enev\Schema202302\Calculations\Gebaeude\Keller;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
+use Enev\Schema202302\Calculations\Anlagentechnik\Pufferspeicher;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
 use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
@@ -570,6 +571,10 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			prozentualer_anteil: $energieausweis->h_uebergabe_anteil
 		)
 	);
+}
+
+if( $energieausweis->speicherung !== 'nicht_vorhanden' ) {
+	$gebaeude->heizsystem()->pufferspeicher( new Pufferspeicher( $gebaeude, $energieausweis->speicherung == 'vorhanden_bekannt' ? $energieausweis->speicherung_groesse : null ) );
 }
 
 // TODO: Bestimmung des Nutzenergiebedarfs (1135)
