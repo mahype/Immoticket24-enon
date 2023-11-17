@@ -424,7 +424,7 @@ $jahr = new Jahr();
 		<td><?php echo str_replace('.',',', $gebaeude->ph_sink_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace('.',',', $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace('.',',', $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->QWB_monat( $monat->slug() ) ); ?></td>
 		</tr>
 		<?php endforeach; ?>
 		<tr>
@@ -433,7 +433,7 @@ $jahr = new Jahr();
 		<td></td>
 		<td></td>
 		<td><?php echo str_replace('.',',', $gebaeude->qh() ); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->QWB() ); ?></td>
 		</tr>
 	</table>
 
@@ -452,7 +452,7 @@ $jahr = new Jahr();
 			<td><?php echo str_replace('.',',', $gebaeude->thm() ); ?></td>
 			<td><?php echo str_replace('.',',', $gebaeude->ith_rl() ); ?></td>
 			<td><?php echo str_replace('.',',', $gebaeude->qi() ); ?></td>
-			<td><?php echo str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ); ?></td>
+			<td><?php echo str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->QWB() ); ?></td>
 			<td><?php echo str_replace('.',',', $gebaeude->qh() ); ?></td>
 		</tr>
 	</table>
@@ -587,17 +587,6 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'ehd korrektur: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd_korrektur() ) ); ?></p>
 
 
-	<h3>Wasserversorgung</h3>
-	
-	<p><?php printf( __( 'Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen Faw: %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->Faw() ) ); ?></p>
-	<p><?php printf( __( 'Nutzwärmebedarf für Trinkwasser qwb: %s kWh/(ma)', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser() ) ); ?></p>	
-	<p><?php printf( __( 'Q<sub>w,b</sub>: %s kWh', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ) ); ?></p>
-	
-
-	<p><?php printf( __( 'Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->qi_wasser() ) ); ?></p>
-	<p><?php printf( __( 'Jährlicher Nutzwaermebedarf für Trinkwasser (qwb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser() ) ); ?></p>
-	<p><?php printf( __( 'Berechnung des monatlichen Wärmebedarfs für Warmwasser(QWB) für ein Jahr: %s', 'wpenon' ), str_replace('.',',', $gebaeude->wasserversorgung()->QWB() ) ); ?></p>
-
 	<?php if ( $gebaeude->heizsystem()->pufferspeicher_vorhanden() ) : ?>
 	<h3>Pufferspeicher</h3>
 	<p><?php printf( __( 'Nennleistung Pufferspeicher (pwn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->pwn() ) ); ?></p>
@@ -614,8 +603,19 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Aufwandszahl für Pufferspeicher (ehs): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->ehs() ) ); ?></p>
 	<?php endif; ?>
 
-	<h3>Solar</h3>
-	<?php echo str_replace('.',',', $gebaeude->bauteile()->fenster()->qi_solar() ); ?>	
+	<h3>Trinkwarmwasseranlage</h3>
+	
+	<p><?php printf( __( 'Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen Faw: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Faw() ) ); ?></p>
+	<p><?php printf( __( 'Nutzwärmebedarf für Trinkwasser qwb: %s kWh/(ma)', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser() ) ); ?></p>	
+	<p><?php printf( __( 'Q<sub>w,b</sub>: %s kWh', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->QWB() ) ); ?></p>
+	<p><?php printf( __( 'Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->qi_wasser() ) ); ?></p>
+	<p><?php printf( __( 'Jährlicher Nutzwaermebedarf für Trinkwasser (qwb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung des monatlichen Wärmebedarfs für Warmwasser(QWB) für ein Jahr: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->QWB() ) ); ?></p>
+
+	<h4>Aufwandszahlen Trinkwarmwasser</h4>
+
+	<p><?php printf( __( 'Zwischenwert für die Berechnung von ewd (ewd0): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd0() ) ); ?></p>
+	<p><?php printf( __( 'Aufwandszahlen für die Verteilung von Trinkwarmwasser (ewd): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd() ) ); ?></p>
 
 
 	

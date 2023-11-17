@@ -1228,7 +1228,7 @@ ________________________________________________________________________________
 //Berechnung von Ph,sink
 ////Kom. zu Ph,sink: Wärmesenken als Leistung in W 
 
-// NOTE: ßem wird hier verwendet, oben ist aber nur ßem1 definiert. Bitte prüfen, ob das so richtig ist.
+// [ ] ßem wird hier verwendet, oben ist aber nur ßem1 definiert. Bitte prüfen, ob das so richtig ist.
 //$calculations['monate'][ $monat ]['Ph,sink']= $Qges *(($calculations['monate'][ $monat ]['θih']+12)/32)*$calculations['monate'][ $monat ]['ßem']
 //
 //______________________________________________________________________________________________________
@@ -1362,15 +1362,15 @@ foreach ( $monate as $monat => $monatsdaten ) {
   // $qwb=jährlicher Nutzwasserbedarf für Trinkwasserbedarf=Tab.19 T12 in Abhängigkeit Anfg,NWohnungen= (Anfg/SummWohneinheiten)
   //dmth= Tage des jeweiligen Monats, Tab. 8 T10
 
-  // Faw=Tab.142 oder 143 T12 in Abhängigkeit Abfrage: 1) Dezentrale und zentrale Wasserversorgung
+  // Faw=Tab.142 oder 143 T12 in Abhängigkeit Abfrage: 1) Dezentrale und zentrale Trinkwarmwasseranlage
   //                                                   2) Liegt eine Warmwasserspeicher vor (Bemerkung im Formular Warmwasserspeicher Auswahl ja/nein vorgeben) if Tab. 141 keine Speicherung than Spalte Spicherung = unebheizt, aus Tab 143-141
-  //                                                   3) ob Trinkwasserverteilung mit Zirkulation oder ohne; Wenn dezantrale Wasserversorgung dann ohne Zirkulation
-  //                                                   4) Wenn dezantrale Wasserversorgung dann ohne Zirkulation (Tab 142, T12)
+  //                                                   3) ob Trinkwasserverteilung mit Zirkulation oder ohne; Wenn dezantrale Trinkwarmwasseranlage dann ohne Zirkulation
+  //                                                   4) Wenn dezantrale Trinkwarmwasseranlage dann ohne Zirkulation (Tab 142, T12)
   //                                                      a)Liegt  die Anlage im unbeheizen Bereich = 0,335
   //                                                      b)liegt ihre Anlage im behiezen Bereich =  0,647
   //                                                      c)Liegt das Verteilsystem im Beheizen Breich und der Rest  im unbeheizten Bereich= 0,451
 //                                                        d)if Tab. 141 keine Speicherung than Spalte Spicherung = unebheizt, aus Tab 143-141, größer Wert
-  //                                                   5) Wenn zentral Wasserversorgung dann mit Zirkulation (Tab 143, T12)
+  //                                                   5) Wenn zentral Trinkwarmwasseranlage dann mit Zirkulation (Tab 143, T12)
   //                                                      a)Liegt  die Anlage im unbeheizen bereich = 0,815
   //                                                      b)liegt ihre Anlage im behiezen bereich =  1,554
   //                                                      c)Liegt das Verteilsystem im beheizen Breich und der Rest im unbeheizten Bereich= 1,321
@@ -1606,7 +1606,7 @@ ______________________________________________________________________________
 //                                                if "Speicherheizung mit mit Raumregelung und Witterungeführter Regelung" than InnenWand Tab24/12 ehec0=1.113
 //  
 //                                              ehce1= 0,018, ehce2=0, ehce3=0, ehce4=0, ehce5=0, ehcehyd=0 // Bedingung Tab.24, T12 max Raumhöhe mit 4m angeben
-// NOTE: Wenn Deckenhöhe > 4m dann soll sich Energieberater melden. Abfrage im Frontend.
+// [ ] Wenn Deckenhöhe > 4m dann soll sich Energieberater melden. Abfrage im Frontend.
 //                                             3) if Deckenhöhe > 4m than nach Abschluss der Eingabenmitteilung, dass sich der Energieberater persönlich meldet
 //   
 //    -----------------------------------------------------
@@ -1698,9 +1698,9 @@ ______________________________________________________________________________
 
 
 //----------------------------------------------------------------
-// TODO: Verteilung Heizung
+// [x] Verteilung Heizung
 // Suchbegriff 1139
-// NOTE: Berechnung der Wirkungsgrade der Wärmeverluste (Aufwandszahlen) von  Verteilung ehd// Bemerkung: Übergabestationen werden vorerst nicht berücksichtigt 
+// [x] Berechnung der Wirkungsgrade der Wärmeverluste (Aufwandszahlen) von  Verteilung ehd// Bemerkung: Übergabestationen werden vorerst nicht berücksichtigt 
 //-----------------------------
 // Unten Berechnung von $ehd0
 //    if EFH && Heizkörper  && Fußbodenheizung && Wandheizung 
@@ -1802,7 +1802,7 @@ ______________________________________________________________________________
 // Suchbegriff 1140
 // $qwb 
 
-// NOTE: Berechnung der Nennleistung
+// [x] Berechnung der Nennleistung
 
 
 ////// Abfrage ob  die Warmwassererzeugung direkt über den Wärmeerezeuger (Heizkessel) erfolgt  Frontend : ja/nein
@@ -1851,19 +1851,19 @@ ______________________________________________________________________________
 
 
 //---------------------------
-// NOTE: Korrektrufaktor mittlere Belastung des Pufferspeichers fßhs
+// [x] Korrektrufaktor mittlere Belastung des Pufferspeichers fßhs
 //$fßhs= Tab52, Wert muss interpoliert werden (Interpolation nur über Spalte $ßhs)
 // Abhängigkeit  Vorlauftemperatur, $ßhs, Aufstellraum beheizt/unbeheizt (Aufstellort Puffer=Aufstellort Kessel)
 
 //-----------------------------------------
 
-// NOTE: Korrekturfaktor für beliebige mittlere Berlastung und Laufzeit der Heizung $fhs
+// [x] Korrekturfaktor für beliebige mittlere Berlastung und Laufzeit der Heizung $fhs
 
 //$fhs=$fßhs*$calculations['ith,rl']/5000
 
 
 //------------------------------------------
-// NOTE: Berechnung ges Pufferspeichervolumens.
+// [x] Berechnung ges Pufferspeichervolumens.
 // BAnz AT 04.12.2020 B1 definiert, dass bei gas- und ölbetriebenen Kesseln sowie Fernwärme keine Pufferpeicher vorgesehen werden. Bei Wärmepumpen, solare Heizungsunterstüzung, Biomasse und KWK  werden Puffer berücksichtig
 
 //Abfrage: Pufferspeicher bekannte Ja/Nein
@@ -1885,7 +1885,7 @@ ______________________________________________________________________________
 
 //------------------------------
 //
-// NOTE: Wärmeverluste Pufferspeicher  kWh/a,  $Qhs0 aus Tab. 50 & 51, Wärmeverluste im Reverenzfall
+// [x] Wärmeverluste Pufferspeicher  kWh/a,  $Qhs0 aus Tab. 50 & 51, Wärmeverluste im Reverenzfall
 //
 //
 // if $Vs > 1500Liter than
@@ -1909,7 +1909,7 @@ ______________________________________________________________________________
 // $Qhs=$fhs*($Qhs0Vs1+$Qhs0Vs2)
 
 //-----------------------------------------
-// NOTE: Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher
+// [x] Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher
 //
 //   if "Wärmepumpe"&&"Biomassekessel" than
 //         $ehs = 1 + $Qhs/($calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr)
@@ -1930,9 +1930,9 @@ ______________________________________________________________________________
 //_______________________________________________________________________________
 // Suchbegriff 1142
 // TODO: Trinkwarmwasser
-// NOTE: Bestimmung der Aufwandszahlen;
+// [ ] Bestimmung der Aufwandszahlen;
 //----------------------------------
-//Übergabe
+// [ ] Übergabe
 // ewce ist nach Tab. 29, T12 ein Standardwert
 //
 
@@ -1940,10 +1940,11 @@ ______________________________________________________________________________
 
 //--------------------------
 
-// Verteilung
+// [ ] Verteilung
 
 // ewd, nach BAnZ 04.12.2020 B1, Standardangaben  sind beim Verteilnetz "SteigenstandTyp", Zitkulation kann angesetzt werden (damit wird ohne Zirkulation vernachlässigt!) 
 //
+// Werte aus Tabelle 42
 //  If "dezentrale Versorgung" than
 //     $ewd0 = 1.193;
 //  if "ungeheizt" than
@@ -1951,12 +1952,13 @@ ______________________________________________________________________________
 //  if "beheizt" than;
 //      $ewd0=2.252;
 //  else ????
+// 
 //
 //  $ewd= 1+($ewd0-1)*(12.5/$qwb)
 //
 //-----------------------------
 //   if "Solaranlage = Nein" than  // Äußere Schleife
-// NOTE: Speicherung
+// [ ] Speicherung
 //nach BAnZ 04.12.2020 B1 müssen wir nur  indirekt beheizte Speicher (Bj 1987 bis 1994) ansetzten (normale Trinklwaasserspeicher mit einem WendelWärmetausche). Bei thermischer Solaranlage anlog jedoch als bivaltenter Speicher (mind. 2 Wendelwärmetauscher)
 //Speichervolumen für Warmwasserspeicher Vsw im indirekt beheizsten Speicher , Bj '85 bis '94 vorgebebn durch BAnz  
 
@@ -1982,7 +1984,7 @@ ______________________________________________________________________________
 //                       $Vs03 =  756 //Liter; die drei Voluminas addiert ergeben 3336Liter, 3000Liter sind max. nach T12 zulässig deswegen werden beim letzten Speicher abgezogen. Vs03 wird nicht berücksichtigt
 
 //
-// NOTE: Berechnung Volumen
+// [ ] Berechnung Volumen
 //                 $Vs0=$Vs01+$Vs02+$Vs3
 //
 // 
@@ -2011,11 +2013,11 @@ ______________________________________________________________________________
 
 //-------------------------------
 //
-// NOTE: Bestimmung der Aufwandszahl der Trinkwasserwarmwasserspeicher ews
+// [ ] Bestimmung der Aufwandszahl der Trinkwasserwarmwasserspeicher ews
 //
 //
-//          Diese Frormel befindet sich am Ende der Äußeren Schleife         $ews= 1+($Qws/($calculations['QWB']*$ewd*$ewce))  Kann Man diese Löschen????
-
+//         Diese Frormel befindet sich am Ende der Äußeren Schleife         $ews= 1+($Qws/($calculations['QWB']*$ewd*$ewce))  Kann Man diese Löschen????
+// NOTE: Kann man die nun löschen?
 //---------------------------------
 
 
@@ -2023,7 +2025,8 @@ ______________________________________________________________________________
 //
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
 
-// NOTE: Bestimmung von fbivalent
+// [ ] Bestimmung von fbivalent
+// Tabelle 57
 
 //                    if "beheizt" than
 //                         $fbivalent=1.008
@@ -2032,7 +2035,7 @@ ______________________________________________________________________________
 
 // Bestimmung der Volumina der Speichernenninhalte für für den Bereitschaftsanteil (Vsaux) und den Solaranteil (Vssol), Aperturfläche Solaranlage Ac, Der Energieertrag der Solaranlage Qwsola
 
-// NOTE: Anpassung der Volumina an Grundfläche nach Formel 
+// [ ] Anpassung der Volumina an Grundfläche nach Formel 
 
 // Tab. 59 & 60 T12, 
 // 
@@ -2045,7 +2048,7 @@ ______________________________________________________________________________
 //                   if "unbeheizt" && $nutzflaeche1 than
 //                             $Vsaux0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                              $Vssol0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
-//                               $Ac0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
+//                               $Ac0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren ) // Fläche
 //                              $Qwsola0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                   if "beheizt" && $nutzflaeche1 than
 //                              $Vssol0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
@@ -2067,14 +2070,16 @@ ______________________________________________________________________________
 
 //
 
-// NOTE: folgend Berechnung von ews für Solarthereminutzung for TWW und Heizung
+// [ ] folgend Berechnung von ews für Solarthereminutzung for TWW und Heizung
 
-
+// NOTE: IF Else bis hier hin? Wird das nur berechnet wenn Solarthermie für Heizung und Warmwasser gewählt wurde?
 // if "Solarthermie für Heizung und Warmwasser" than  //äußeren Schleife
+// Diese Zweig wird erstmal nicht berücksichtigt!
 
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
+// NOTE: Was ist mit der oberen Zeile gemeint? Auf was hat das einen Einfluss?
 
-// NOTE: Bestimmung von fbivalent
+// [ ] Bestimmung von fbivalent
 // 
 //                        if "beheizt" than
 //                            $fbivalent=1.008
@@ -2083,7 +2088,8 @@ ______________________________________________________________________________
 
 // Bestimmung der Volumina der Speichernenninhalte für für den Bereitschaftsanteil (Vsaux) und den Solaranteil (Vssol), Aperturfläche Solaranlage Ac, Der Energieertrag der Solaranlage Qwsola
 
-// NOTE: Anpassung der Volumina an Grundfläche nach Formel 
+// [ ] Anpassung der Volumina an Grundfläche nach Formel 
+// NOTE: Also nehmen wir hier zu Interpolation Spalte Q und A bei Flachkollektoren?
 
 // Tab. 59 & 60 T12, 
 // 
@@ -2125,7 +2131,7 @@ ______________________________________________________________________________
 
 
 
-// NOTE: Korrektur der Faktorwerte; da bisher auf 12,5 (80m² Wohnung ) alles bezogen wird
+// [ ] Korrektur der Faktorwerte; da bisher auf 12,5 (80m² Wohnung ) alles bezogen wird
 
 // Korrekturfaktor fwb // Anpassungswert an tatsächeliche Trinkwarmwasserbedarf nach Gl. 74, T12
 
@@ -2133,7 +2139,7 @@ ______________________________________________________________________________
 
 //  $fwb = ($qwb/12,5)*/((1+($ewd0-1))*(12,5/$qwb)/$ewd0)
 
-// NOTE: Bestimmung Anpassung an den realen Warmwasserbedarf des Gebäudes
+// [ ] Bestimmung Anpassung an den realen Warmwasserbedarf des Gebäudes
 // Hierbei ist Ac1 die kollektrofläche; diese wird jedoch nicht beim Kunden abgefragt sondern wird aus den Tabellen vorgegeben (Tab. 59 u. 60).
 //
 //   $Vsaux1= $Vsaux0 * $fwb //Nur für Trinkwasser bercüksicht Gl67. T12
@@ -2145,12 +2151,12 @@ ______________________________________________________________________________
 
 //----------------------------------
 
-// NOTE: Berechnung Qws= Wärmeverluste eines bivalenten Speichers
+// [ ] Berechnung Qws= Wärmeverluste eines bivalenten Speichers
 // $Qws= $fbivalent * (0.4+0.2*(($Vsaux1+$Vssol1)^0.4)*(($Vsaux1/$Vsaux1+$Vssol1)^2)*365; //Gl.67, T12
 
 //--------------------------------------
 
-// NOTE: Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlage
+// [ ] Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlage
 
 // $ews= 1+($Qws/($calculations['QWB']*$ewd*$ewce))
 
@@ -2160,10 +2166,10 @@ ______________________________________________________________________________
 
 
 //___________________________________________________________________________
-
+// NOTE: Nicht berücksichtigen ab hier
 // 
 // Suchbegriffe 1143
-// TODO: Berechnung der Erzeugernutzwärmeabgabe Qoutg
+// Berechnung der Erzeugernutzwärmeabgabe Qoutg
 
 // Wird einmal für Heizung und einmal für TWW berechnet 
 
@@ -2176,8 +2182,9 @@ ______________________________________________________________________________
 
 
 ///////////// Der Bereich zwischen ////// wurde in die if-Abfrage genommen könnte also gelöscht werden. //////
+// Was genau kann hier gelöscht werden?
 
-// NOTE: Beginne des Foreach Schleife (monatsweise)
+// Beginne des Foreach Schleife (monatsweise)
 
 // $calculations['monate'][ $monat ]['Qhoutg'] = $calculations['monate'][ $monat ]['qh']*$ehce*$ehd*$ehs    // Erzeugernutzwärme pro MOnat Heizung
 //  $calculations['Qhoutg'] += $calculations['monate'][ $monat ]['Qhoutg']; 
@@ -2262,7 +2269,7 @@ ______________________________________________________________________________
 //////////////////////////////////////////////////////////////////////
 
 //---------------------------------------------
-
+// NOTE: Nicht berücksichtigen bis hier
 
 
 //   Deckungsanteil erneuererbare Energieen; Solarthermie...Wärmepumpen wie berücksichtigt?
@@ -2270,6 +2277,8 @@ ______________________________________________________________________________
 //  If "Solarthermie nur TWW" than
 //      $keew=0.5   //Tab. 59 und 60
 //      $keeh=0
+
+// Nicht berücksichtigen Solarthermie & WW
 //  if "Solarthermie Heizung & Wasser" than
  //     $keew=$Qwsol/$calculations['Qwoutg'] 
  //     $keeh=$calculations['Qhsol']/$calculations['Qhoutg']
@@ -2286,7 +2295,7 @@ ______________________________________________________________________________
 
 // Etagenkesselanlagen/Thermen werden nicht einzeln berücksichtigt. Nach DIN 18599 T12 werden die Übertragungswerte für die einzelnen Wohnungen würden in der Summe imm 100% ergeben (Faktor 1.0), Die Kesselleitung des fiktiven Kessels wir berechnet. Sie T12 Seite
 
-// NOTE: a) Konventionelle Kessel
+// [ ] a) Konventionelle Kessel
 
 //---------------------------------------------
 //- Standard Gas Banz (Hochtemperaturkessel)
@@ -2405,7 +2414,7 @@ ______________________________________________________________________________
 
 /
 //------------------------------------
-// NOTE: b) Wärmepumpe
+// [ ] b) Wärmepumpe
 //
 // BanZ: luft/Wasserwärmepumpen = bivalenter Betrieb; Heizgrenztemperatur=15°C kleiner 15°C dann ON-Betrieb der Wärmepumpe, Bivalenztempaeratur bei - 2°C; ab -2°C beginnt der Elektroheizstab=On und Wärmepumpe= OFF
 // BanZ: Sole-/Wasser oder Wasser/Wasser Wärmepumpe nehmen wir Mono-ValentenBetrieb an. 
@@ -2574,7 +2583,7 @@ ______________________________________________________________________________
 
 
 
-// NOTE: c) zentral elektrisch beheizte Wärmeerzeuger, Tab 101, T12
+// [ ] c) zentral elektrisch beheizte Wärmeerzeuger, Tab 101, T12
 // Abfrage Kunden elektrischer Wärmererzeuger (Heizstab) mit Pufferspeicher: Ja/nein
 // If "Ja" than // 
 //    $eg = 1.09; 
@@ -2587,7 +2596,7 @@ ______________________________________________________________________________
 
 //----------------------------------------
 
-// NOTE: d) Fernwärme/Nahwärme
+// [ ] d) Fernwärme/Nahwärme
 //
 //  Berechnung der Aufwandszahl für Nah- und Fernwärme $eg, Bestimmung auf Bassis BamZ (Standardwert)
 //
@@ -2620,7 +2629,7 @@ ______________________________________________________________________________
 
 
 //------------------------------------------
-//  NOTE: e) Dezentrale KWK, BHKW= primär Wärme Abfallprodukt Strom, Brennstoffzelle= Primär Strom , Abfallprodukt= Wärme
+//  [ ] e) Dezentrale KWK, BHKW= primär Wärme Abfallprodukt Strom, Brennstoffzelle= Primär Strom , Abfallprodukt= Wärme
 
 //
 
@@ -2628,7 +2637,7 @@ ______________________________________________________________________________
 
 
 //--------------------------------------------
-// NOTE:  f) dezentrale Systeme
+// [ ]  f) dezentrale Systeme
 //  Infobox: "Infrarotheizflächen und/oder Nachtspeicherheizung"
 //  Berechnung der Aufwandszahlen eg (Heizung)
 //  $eg = 1.0;
@@ -2721,7 +2730,7 @@ ______________________________________________________________________________
 
 
 
-// NOTE: Bestimmung der Hilfsenergie_Übergabe Wce
+// [ ] Bestimmung der Hilfsenergie_Übergabe Wce
 
 // a)  Heizung WHce
 //-----
@@ -2757,7 +2766,7 @@ ______________________________________________________________________________
 
 //-------------------------------------------------------------
 
-// NOTE: Bestimmung der Hilfsenergie_Verteilung Wd
+// [ ] Bestimmung der Hilfsenergie_Verteilung Wd
 //----------------
 //  a) Berechnung des Rohrnetzes 
 
@@ -2882,7 +2891,7 @@ ______________________________________________________________________________
 
 
 
-//  if "Dezentrale Wasserversorgung" than
+//  if "Dezentrale Trinkwarmwasseranlage" than
 //   $Wwd=0.0;  //T12, S. 93
 // else
 //    $Wwd=$Wwd; //siehe oben
@@ -3080,7 +3089,7 @@ ______________________________________________________________________________
 
 //-------------------------------------------------------------------------------------------------------------
 
-//  NOTE: Berechnung der gesamten Hilfsenergie (Ohne Anteile !!!), bisher nru für eine Heizunganlage mit einem Übertragungssystem später muss das anteilig berechnet werden
+//  [ ] Berechnung der gesamten Hilfsenergie (Ohne Anteile !!!), bisher nru für eine Heizunganlage mit einem Übertragungssystem später muss das anteilig berechnet werden
 
 
 // //// if nur ein Kessel than

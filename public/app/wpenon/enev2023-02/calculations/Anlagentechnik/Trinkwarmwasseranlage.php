@@ -14,7 +14,7 @@ require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
  * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen
  * über Tabelle 142 & 143 Abschnitt 12.
  */
-class Wasserversorgung {
+class Trinkwarmwasseranlage {
 	/**
 	 * Gebäude.
 	 *
@@ -23,7 +23,7 @@ class Wasserversorgung {
 	protected Gebaeude $gebaeude;
 
 	/**
-	 * Handelt sich um eine zentrale Wasserversorgung (true) oder um eine dezentrale (false)?
+	 * Handelt sich um eine zentrale Trinkwarmwasseranlage (true) oder um eine dezentrale (false)?
 	 *
 	 * @var bool
 	 */
@@ -83,7 +83,7 @@ class Wasserversorgung {
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
-			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Wasserversorgung möglich.' );
+			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Trinkwarmwasseranlage möglich.' );
 		}
 
 		$this->gebaeude                     = $gebaeude;
@@ -94,6 +94,41 @@ class Wasserversorgung {
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
 		$this->monatsdaten = new Monatsdaten();
+	}
+
+	/**
+	 * ewce
+	 *
+	 * @return float
+	 */
+	public function ewce(): float {
+		return 1.0;
+	}
+
+	/**
+	 * Zwischenwert für die Berechnung von ewd (ewd0).
+	 * 
+	 * @return float 
+	 */
+	public function ewd0(): float {
+		if ( ! $this->zentral() ) {
+			return 1.193;
+		}
+		
+		if ( ! $this->gebaeude->heizsystem()->beheizt() ) {
+			return 2.290;
+		} else {
+			return 2.252;
+		}
+	}
+
+	/**
+	 * Aufwandszahlen für die Verteilung von Trinkwarmwasser.
+	 *
+	 * @return float
+	 */
+	public function ewd() {
+		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->QWB() );
 	}
 
 	/**
@@ -232,7 +267,7 @@ class Wasserversorgung {
 		// Werte aus Tabelle 142 & 143 nach den drei
 		// Möglichkeiten der Beheizung der Anlage aufgeteilt,
 		// je nachdem ob mit oder ohne Zirkulation.
-		if( $this->heizung_im_beheizten_bereich ) {
+		if ( $this->heizung_im_beheizten_bereich ) {
 			return $this->mit_zirkulation ? 1.554 : 0.647;
 		}
 
