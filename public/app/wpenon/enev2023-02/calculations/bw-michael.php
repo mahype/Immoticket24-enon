@@ -1362,15 +1362,15 @@ foreach ( $monate as $monat => $monatsdaten ) {
   // $qwb=jährlicher Nutzwasserbedarf für Trinkwasserbedarf=Tab.19 T12 in Abhängigkeit Anfg,NWohnungen= (Anfg/SummWohneinheiten)
   //dmth= Tage des jeweiligen Monats, Tab. 8 T10
 
-  // Faw=Tab.142 oder 143 T12 in Abhängigkeit Abfrage: 1) Dezentrale und zentrale Wasserversorgung
+  // Faw=Tab.142 oder 143 T12 in Abhängigkeit Abfrage: 1) Dezentrale und zentrale Trinkwarmwasseranlage
   //                                                   2) Liegt eine Warmwasserspeicher vor (Bemerkung im Formular Warmwasserspeicher Auswahl ja/nein vorgeben) if Tab. 141 keine Speicherung than Spalte Spicherung = unebheizt, aus Tab 143-141
-  //                                                   3) ob Trinkwasserverteilung mit Zirkulation oder ohne; Wenn dezantrale Wasserversorgung dann ohne Zirkulation
-  //                                                   4) Wenn dezantrale Wasserversorgung dann ohne Zirkulation (Tab 142, T12)
+  //                                                   3) ob Trinkwasserverteilung mit Zirkulation oder ohne; Wenn dezantrale Trinkwarmwasseranlage dann ohne Zirkulation
+  //                                                   4) Wenn dezantrale Trinkwarmwasseranlage dann ohne Zirkulation (Tab 142, T12)
   //                                                      a)Liegt  die Anlage im unbeheizen Bereich = 0,335
   //                                                      b)liegt ihre Anlage im behiezen Bereich =  0,647
   //                                                      c)Liegt das Verteilsystem im Beheizen Breich und der Rest  im unbeheizten Bereich= 0,451
 //                                                        d)if Tab. 141 keine Speicherung than Spalte Spicherung = unebheizt, aus Tab 143-141, größer Wert
-  //                                                   5) Wenn zentral Wasserversorgung dann mit Zirkulation (Tab 143, T12)
+  //                                                   5) Wenn zentral Trinkwarmwasseranlage dann mit Zirkulation (Tab 143, T12)
   //                                                      a)Liegt  die Anlage im unbeheizen bereich = 0,815
   //                                                      b)liegt ihre Anlage im behiezen bereich =  1,554
   //                                                      c)Liegt das Verteilsystem im beheizen Breich und der Rest im unbeheizten Bereich= 1,321
@@ -1944,6 +1944,7 @@ ______________________________________________________________________________
 
 // ewd, nach BAnZ 04.12.2020 B1, Standardangaben  sind beim Verteilnetz "SteigenstandTyp", Zitkulation kann angesetzt werden (damit wird ohne Zirkulation vernachlässigt!) 
 //
+// Werte aus Tabelle 42
 //  If "dezentrale Versorgung" than
 //     $ewd0 = 1.193;
 //  if "ungeheizt" than
@@ -1951,6 +1952,7 @@ ______________________________________________________________________________
 //  if "beheizt" than;
 //      $ewd0=2.252;
 //  else ????
+// 
 //
 //  $ewd= 1+($ewd0-1)*(12.5/$qwb)
 //
@@ -2024,6 +2026,7 @@ ______________________________________________________________________________
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
 
 // [ ] Bestimmung von fbivalent
+// Tabelle 57
 
 //                    if "beheizt" than
 //                         $fbivalent=1.008
@@ -2045,7 +2048,7 @@ ______________________________________________________________________________
 //                   if "unbeheizt" && $nutzflaeche1 than
 //                             $Vsaux0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                              $Vssol0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
-//                               $Ac0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
+//                               $Ac0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren ) // Fläche
 //                              $Qwsola0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                   if "beheizt" && $nutzflaeche1 than
 //                              $Vssol0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
@@ -2071,6 +2074,7 @@ ______________________________________________________________________________
 
 // NOTE: IF Else bis hier hin? Wird das nur berechnet wenn Solarthermie für Heizung und Warmwasser gewählt wurde?
 // if "Solarthermie für Heizung und Warmwasser" than  //äußeren Schleife
+// Diese Zweig wird erstmal nicht berücksichtigt!
 
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
 // NOTE: Was ist mit der oberen Zeile gemeint? Auf was hat das einen Einfluss?
@@ -2162,10 +2166,10 @@ ______________________________________________________________________________
 
 
 //___________________________________________________________________________
-
+// NOTE: Nicht berücksichtigen ab hier
 // 
 // Suchbegriffe 1143
-// TODO: Berechnung der Erzeugernutzwärmeabgabe Qoutg
+// Berechnung der Erzeugernutzwärmeabgabe Qoutg
 
 // Wird einmal für Heizung und einmal für TWW berechnet 
 
@@ -2178,9 +2182,9 @@ ______________________________________________________________________________
 
 
 ///////////// Der Bereich zwischen ////// wurde in die if-Abfrage genommen könnte also gelöscht werden. //////
-// NOTE: Was genau kann hier gelöscht werden?
+// Was genau kann hier gelöscht werden?
 
-// [ ] Beginne des Foreach Schleife (monatsweise)
+// Beginne des Foreach Schleife (monatsweise)
 
 // $calculations['monate'][ $monat ]['Qhoutg'] = $calculations['monate'][ $monat ]['qh']*$ehce*$ehd*$ehs    // Erzeugernutzwärme pro MOnat Heizung
 //  $calculations['Qhoutg'] += $calculations['monate'][ $monat ]['Qhoutg']; 
@@ -2265,7 +2269,7 @@ ______________________________________________________________________________
 //////////////////////////////////////////////////////////////////////
 
 //---------------------------------------------
-
+// NOTE: Nicht berücksichtigen bis hier
 
 
 //   Deckungsanteil erneuererbare Energieen; Solarthermie...Wärmepumpen wie berücksichtigt?
@@ -2273,6 +2277,8 @@ ______________________________________________________________________________
 //  If "Solarthermie nur TWW" than
 //      $keew=0.5   //Tab. 59 und 60
 //      $keeh=0
+
+// Nicht berücksichtigen Solarthermie & WW
 //  if "Solarthermie Heizung & Wasser" than
  //     $keew=$Qwsol/$calculations['Qwoutg'] 
  //     $keeh=$calculations['Qhsol']/$calculations['Qhoutg']
@@ -2885,7 +2891,7 @@ ______________________________________________________________________________
 
 
 
-//  if "Dezentrale Wasserversorgung" than
+//  if "Dezentrale Trinkwarmwasseranlage" than
 //   $Wwd=0.0;  //T12, S. 93
 // else
 //    $Wwd=$Wwd; //siehe oben

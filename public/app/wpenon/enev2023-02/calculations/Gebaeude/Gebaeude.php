@@ -3,27 +3,24 @@
 namespace Enev\Schema202302\Calculations\Gebaeude;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
-use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
+use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Dach;
 use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Helfer\Jahr;
 use Enev\Schema202302\Calculations\Tabellen\Ausnutzungsgrad;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
 use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
-use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
 use function Enev\Schema202302\Calculations\Helfer\fum;
-use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once __DIR__ . '/Keller.php';
 
 require_once dirname( __DIR__ ) . '/Bauteile/Bauteile.php';
 
 require_once dirname( __DIR__ ) . '/Anlagentechnik/Heizsystem.php';
-require_once dirname( __DIR__ ) . '/Anlagentechnik/Wasserversorgung.php';
+require_once dirname( __DIR__ ) . '/Anlagentechnik/Trinkwarmwasseranlage.php';
 
 require_once dirname( __DIR__ ) . '/Tabellen/Luftwechsel.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Mittlere_Belastung.php';
@@ -120,11 +117,11 @@ class Gebaeude {
 	private Heizsystem $heizsystem;
 
 	/**
-	 * Wasserversorgung.
+	 * Trinkwarmwasseranlage.
 	 *
-	 * @var Wasserversorgung
+	 * @var Trinkwarmwasseranlage
 	 */
-	private Wasserversorgung $wasserversorgung;
+	private Trinkwarmwasseranlage $trinkwarmwasseranlage;
 
 	/**
 	 * Anbau.
@@ -192,22 +189,22 @@ class Gebaeude {
 	}
 
 	/**
-	 * Wasserversorgung.
+	 * Trinkwarmwasseranlage.
 	 *
-	 * @param Wasserversorgung
+	 * @param Trinkwarmwasseranlage
 	 *
-	 * @return Wasserversorgung
+	 * @return Trinkwarmwasseranlage
 	 */
-	public function wasserversorgung( Wasserversorgung $wasserversorgung = null ): Wasserversorgung {
-		if ( $wasserversorgung !== null ) {
-			$this->wasserversorgung = $wasserversorgung;
+	public function trinkwarmwasseranlage( Trinkwarmwasseranlage $trinkwarmwasseranlage = null ): Trinkwarmwasseranlage {
+		if ( $trinkwarmwasseranlage !== null ) {
+			$this->trinkwarmwasseranlage = $trinkwarmwasseranlage;
 		}
 
-		if ( $this->wasserversorgung === null ) {
-			throw new Calculation_Exception( 'Wasserversorgung wurde nicht gesetzt.' );
+		if ( $this->trinkwarmwasseranlage === null ) {
+			throw new Calculation_Exception( 'Trinkwarmwasseranlage wurde nicht gesetzt.' );
 		}
 
-		return $this->wasserversorgung;
+		return $this->trinkwarmwasseranlage;
 	}
 
 	/**
@@ -592,7 +589,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_wasser_monat( string $monat ): float {
-		return $this->wasserversorgung->QWB_monat( $monat ) * $this->wasserversorgung()->Faw();
+		return $this->trinkwarmwasseranlage->QWB_monat( $monat ) * $this->trinkwarmwasseranlage()->Faw();
 	}
 
 	/**

@@ -16,7 +16,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Keller;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Anlagentechnik\Pufferspeicher;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
-use Enev\Schema202302\Calculations\Anlagentechnik\Wasserversorgung;
+use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
 use Enev\Schema202302\Calculations\Bauteile\Anbaudecke;
 use Enev\Schema202302\Calculations\Bauteile\Anbaufenster;
@@ -494,8 +494,8 @@ switch ( $energieausweis->ww_info ) {
 
 $heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
 
-$gebaeude->wasserversorgung(
-	new Wasserversorgung(
+$gebaeude->trinkwarmwasseranlage(
+	new Trinkwarmwasseranlage(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,

@@ -206,8 +206,8 @@ class Pufferspeicher {
 	public function pwn(): float {
 		$pwn = 0;
 
-		if ( $this->gebaeude->wasserversorgung()->zentral() ) {
-			$nutzwaermebedarf_trinkwasser = $this->gebaeude->wasserversorgung()->nutzwaermebedarf_trinkwasser();
+		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			$nutzwaermebedarf_trinkwasser = $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser();
 
 			if ( $this->gebaeude->nutzflaeche() > 5000 ) {
 				$pwn = 0.042 * ( ( $nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
@@ -230,7 +230,7 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception
 	 */
 	public function pn(): float {
-		if ( $this->gebaeude->wasserversorgung()->zentral() ) {
+		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
 			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
 				return 1.3 * $this->gebaeude->luftwechsel()->h_max();
 			} else {

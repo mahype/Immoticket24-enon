@@ -9,7 +9,6 @@ use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 require_once __DIR__ . '/Heizungsanlage.php';
 require_once __DIR__ . '/Heizungsanlagen.php';
 require_once __DIR__ . '/Uebergabesysteme.php';
-require_once __DIR__ . '/Wasserversorgungen.php';
 require_once __DIR__ . '/Pufferspeicher.php';
 
 
@@ -47,13 +46,6 @@ class Heizsystem {
 	protected Uebergabesysteme $uebergabesysteme;
 
 	/**
-	 * Wasserversorgungen.
-	 *
-	 * @var Wasserversorgungen
-	 */
-	protected Wasserversorgungen $wasserversorgungen;
-
-	/**
 	 * Pufferspeicher.
 	 *
 	 * @var Pufferspeicher
@@ -72,7 +64,6 @@ class Heizsystem {
 		$this->standort           = $standort;
 		$this->heizungsanlagen    = new Heizungsanlagen();
 		$this->uebergabesysteme   = new Uebergabesysteme();
-		$this->wasserversorgungen = new Wasserversorgungen();
 	}
 
 	/**
@@ -100,15 +91,6 @@ class Heizsystem {
 	 */
 	public function uebergabesysteme(): Uebergabesysteme {
 		return $this->uebergabesysteme;
-	}
-
-	/**
-	 * Wasserversorgungen.
-	 *
-	 * @return Wasserversorgungen
-	 */
-	public function wasserversorgungen(): Wasserversorgungen {
-		return $this->wasserversorgungen;
 	}
 
 	/**
