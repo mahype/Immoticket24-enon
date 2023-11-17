@@ -616,12 +616,17 @@ $jahr = new Jahr();
 
 	<p><?php printf( __( 'Zwischenwert für die Berechnung von ewd (ewd0): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd0() ) ); ?></p>
 	<p><?php printf( __( 'Aufwandszahlen für die Verteilung von Trinkwarmwasser (ewd): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfaktor (fwb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->fwb() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Speicher 1 in Litern. (Vs01): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs01() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Speicher 2 in Litern. (Vs02): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs02() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Speicher 3 in Litern. (Vs03): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs03() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Speicher Gesamt in Litern. (Vs0): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs0() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Vsw1: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsw1() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Vsw2: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsw2() ) ); ?></p>
+
+	<h4>Solarthermie</h4>
+	<p><?php printf( __( 'Berechnung von fbivalent: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->fbivalent() ) ); ?></p>
+	
 	
 
 	

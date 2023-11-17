@@ -51,6 +51,13 @@ class Trinkwarmwasseranlage {
 	protected bool $mit_zirkulation;
 
 	/**
+	 * Wird Solarthermie genutzt?
+	 * 
+	 * @var bool $mit_solarthermie
+	 */
+	protected bool $mit_solarthermie;
+
+	/**
 	 * Prozentualer Anteil.
 	 *
 	 * @var int
@@ -80,6 +87,7 @@ class Trinkwarmwasseranlage {
 		bool $heizung_im_beheizten_bereich,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
+		bool $mit_solarthermie = false,
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
@@ -91,6 +99,7 @@ class Trinkwarmwasseranlage {
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->mit_warmwasserspeicher       = $mit_warmwasserspeicher;
 		$this->mit_zirkulation              = $mit_zirkulation;
+		$this->mit_solarthermie             = $mit_solarthermie;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
 		$this->monatsdaten = new Monatsdaten();
@@ -129,6 +138,16 @@ class Trinkwarmwasseranlage {
 	 */
 	public function ewd() {
 		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->QWB() );
+	}
+
+	/**
+	 * Bestimmung des Korrekturfaktors (fwb).
+	 * 
+	 * @return float
+	 */
+	public function fwb(): float {
+		// ($qwb/12,5)*/((1+($ewd0-1))*(12,5/$qwb)/$ewd0)
+		return ( $this->nutzwaermebedarf_trinkwasser() / 12.5 ) / ( ( 1 + ( $this->ewd0() - 1 ) ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() ) / $this->ewd0() );
 	}
 
 	/**
@@ -382,8 +401,7 @@ class Trinkwarmwasseranlage {
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
 	 */
 	public function QWB_monat( string $monat ): float {
-		$qwb = $this->nutzwaermebedarf_trinkwasser();
-		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $qwb * ( $this->monatsdaten->tage( $monat ) / 365 );
+		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $this->nutzwaermebedarf_trinkwasser() * ( $this->monatsdaten->tage( $monat ) / 365 );
 	}
 
 	/**
@@ -449,5 +467,14 @@ class Trinkwarmwasseranlage {
 		}
 
 		return 0.451;
+	}
+
+	/**
+	 * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen.
+	 *
+	 * @return float
+	 */
+	public function fbivalent() : float {
+		return $this->gebaeude->heizsystem()->beheizt() ? 1.008 : 1.2096;
 	}
 }

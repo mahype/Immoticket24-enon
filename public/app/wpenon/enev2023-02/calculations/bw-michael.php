@@ -1930,9 +1930,9 @@ ______________________________________________________________________________
 //_______________________________________________________________________________
 // Suchbegriff 1142
 // TODO: Trinkwarmwasser
-// [ ] Bestimmung der Aufwandszahlen;
+// [x] Bestimmung der Aufwandszahlen;
 //----------------------------------
-// [ ] Übergabe
+// [x] Übergabe
 // ewce ist nach Tab. 29, T12 ein Standardwert
 //
 
@@ -1940,7 +1940,7 @@ ______________________________________________________________________________
 
 //--------------------------
 
-// [ ] Verteilung
+// [x] Verteilung
 
 // ewd, nach BAnZ 04.12.2020 B1, Standardangaben  sind beim Verteilnetz "SteigenstandTyp", Zitkulation kann angesetzt werden (damit wird ohne Zirkulation vernachlässigt!) 
 //
@@ -1958,7 +1958,7 @@ ______________________________________________________________________________
 //
 //-----------------------------
 //   if "Solaranlage = Nein" than  // Äußere Schleife
-// [ ] Speicherung
+// [x] Speicherung
 //nach BAnZ 04.12.2020 B1 müssen wir nur  indirekt beheizte Speicher (Bj 1987 bis 1994) ansetzten (normale Trinklwaasserspeicher mit einem WendelWärmetausche). Bei thermischer Solaranlage anlog jedoch als bivaltenter Speicher (mind. 2 Wendelwärmetauscher)
 //Speichervolumen für Warmwasserspeicher Vsw im indirekt beheizsten Speicher , Bj '85 bis '94 vorgebebn durch BAnz  
 
@@ -1984,7 +1984,7 @@ ______________________________________________________________________________
 //                       $Vs03 =  756 //Liter; die drei Voluminas addiert ergeben 3336Liter, 3000Liter sind max. nach T12 zulässig deswegen werden beim letzten Speicher abgezogen. Vs03 wird nicht berücksichtigt
 
 //
-// [ ] Berechnung Volumen
+// [x] Berechnung Volumen
 //                 $Vs0=$Vs01+$Vs02+$Vs3
 //
 // 
@@ -2017,7 +2017,6 @@ ______________________________________________________________________________
 //
 //
 //         Diese Frormel befindet sich am Ende der Äußeren Schleife         $ews= 1+($Qws/($calculations['QWB']*$ewd*$ewce))  Kann Man diese Löschen????
-// NOTE: Kann man die nun löschen?
 //---------------------------------
 
 
@@ -2025,7 +2024,7 @@ ______________________________________________________________________________
 //
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
 
-// [ ] Bestimmung von fbivalent
+// [x] Bestimmung von fbivalent
 // Tabelle 57
 
 //                    if "beheizt" than
@@ -2072,14 +2071,14 @@ ______________________________________________________________________________
 
 // [ ] folgend Berechnung von ews für Solarthereminutzung for TWW und Heizung
 
-// NOTE: IF Else bis hier hin? Wird das nur berechnet wenn Solarthermie für Heizung und Warmwasser gewählt wurde?
+// NOTE: Ab hier nicht berücksictigen
 // if "Solarthermie für Heizung und Warmwasser" than  //äußeren Schleife
 // Diese Zweig wird erstmal nicht berücksichtigt!
 
 // Speicherung Trinkwasser in bivalenten Speicher (u.a. für Solaranlage thermisch). Vereinfachung durch BAnz  ...ebenfalls durch BAnz können zur Vereinfachung nur Flachkollektoren angesetzt werden. Ebenfalls wird nur "mit Zirkulation". Folglich kann im Frontende Zirkulation entfernt werden; nicht mehr abgefragt werden.
-// NOTE: Was ist mit der oberen Zeile gemeint? Auf was hat das einen Einfluss?
+// Was ist mit der oberen Zeile gemeint? Auf was hat das einen Einfluss?
 
-// [ ] Bestimmung von fbivalent
+// Bestimmung von fbivalent
 // 
 //                        if "beheizt" than
 //                            $fbivalent=1.008
@@ -2088,8 +2087,7 @@ ______________________________________________________________________________
 
 // Bestimmung der Volumina der Speichernenninhalte für für den Bereitschaftsanteil (Vsaux) und den Solaranteil (Vssol), Aperturfläche Solaranlage Ac, Der Energieertrag der Solaranlage Qwsola
 
-// [ ] Anpassung der Volumina an Grundfläche nach Formel 
-// NOTE: Also nehmen wir hier zu Interpolation Spalte Q und A bei Flachkollektoren?
+// Anpassung der Volumina an Grundfläche nach Formel 
 
 // Tab. 59 & 60 T12, 
 // 
@@ -2127,9 +2125,7 @@ ______________________________________________________________________________
 // else???? // Ende der äußeren Schleife,
 
 
-
-
-
+// NOTE: Bis hier nicht berücksichtigen
 
 // [ ] Korrektur der Faktorwerte; da bisher auf 12,5 (80m² Wohnung ) alles bezogen wird
 
