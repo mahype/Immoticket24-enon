@@ -2006,8 +2006,8 @@ ______________________________________________________________________________
 //                   $Vsw2= 0
 //
 
-//                  $Qws01 = Tab.55, Vsw1, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation)
-//                  $Qws02 = Tab.55, Vsw2, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation)
+//                  $Qws01 = Tab.55, Vsw1, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizttr Speicher.
+//                  $Qws02 = Tab.55, Vsw2, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizttr Speicher.
 
 //                  $Qws= ($Qws01+$Qws02)*1.32 // Faktor 1.32 nach BaNz,  fwBj. 1987-1994, T12, Tab. 55; besieht sich auf indirekt beheizte Speicher und nicht auf bivalente Speicher.
 
