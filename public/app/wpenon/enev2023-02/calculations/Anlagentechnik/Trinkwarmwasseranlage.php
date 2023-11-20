@@ -5,6 +5,7 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
+use Enev\Schema202302\Calculations\Tabellen\Thermische_Solaranlagen;
 
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
@@ -72,6 +73,13 @@ class Trinkwarmwasseranlage {
 	protected Monatsdaten $monatsdaten;
 
 	/**
+	 * Daten für eine Thermische Solaranlage.
+	 * 
+	 * @var Thermische_Solaranlagen
+	 */
+	protected Thermische_Solaranlagen $thermische_solaranlagen;
+	
+	/**
 	 * Liegt eine Warmwasserspeicher vor
 	 *
 	 * @param Gebaeude $gebaeude               Gebäude.
@@ -94,6 +102,8 @@ class Trinkwarmwasseranlage {
 			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Trinkwarmwasseranlage möglich.' );
 		}
 
+		$this->monatsdaten = new Monatsdaten();
+
 		$this->gebaeude                     = $gebaeude;
 		$this->zentral                      = $zentral;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
@@ -102,7 +112,9 @@ class Trinkwarmwasseranlage {
 		$this->mit_solarthermie             = $mit_solarthermie;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
-		$this->monatsdaten = new Monatsdaten();
+		if( $mit_solarthermie ) {
+			$this->thermische_solaranlagen = new Thermische_Solaranlagen( $this->gebaeude->nutzflaeche() );
+		}
 	}
 
 	/**
@@ -243,6 +255,18 @@ class Trinkwarmwasseranlage {
 	 */
 	public function Vs0(): float {
 		return $this->Vs01() + $this->Vs02() + $this->Vs03();
+	}
+
+	public function Qws(): float {
+		if( $this->mit_solarthermie ) {
+			return $this->Qws_mit_solar();
+		}
+
+		return $this->Qws_ohne_solar();
+	}
+
+	public function Qws_ohne_solar(): float {
+		
 	}
 
 	/**
@@ -477,4 +501,6 @@ class Trinkwarmwasseranlage {
 	public function fbivalent() : float {
 		return $this->gebaeude->heizsystem()->beheizt() ? 1.008 : 1.2096;
 	}
+
+
 }
