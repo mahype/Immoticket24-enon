@@ -9,91 +9,92 @@ use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 class Mittlere_Belastung_Pufferspeicher_Korrekturfaktor {
-    /**
-     * Auslegungsvorlauftemperatur.
-     * 
-     * @var int
-     */
-    protected int $auslegungsvorlauftemperatur;
+	/**
+	 * Auslegungsvorlauftemperatur.
+	 *
+	 * @var int
+	 */
+	protected int $auslegungsvorlauftemperatur;
 
-    /**
-     * Heizungsanlage beheizt.
-     * 
-     * @var bool
-     */
-    protected bool $heizungsanlage_beheizt;
+	/**
+	 * Heizungsanlage beheizt.
+	 *
+	 * @var bool
+	 */
+	protected bool $heizungsanlage_beheizt;
 
-    /**
-     * Mittlere Belastung (ßhs).
-     * 
-     * @var float
-     */
-    protected float $ßhs;
+	/**
+	 * Mittlere Belastung (ßhs).
+	 *
+	 * @var float
+	 */
+	protected float $ßhs;
 
-    /**
+	/**
 	 * Tabellendaten aus Tabelle 32.
 	 *
 	 * @var array
 	 */
 	protected array $table_data;
-    
-    /**
-     * Konstruktor.
-     * 
-     * @param int $auslegungsvorlauftemperatur
-     * @param bool $heizungsanlage_beheizt
-     * @param float $ßhs
-     */
-    public function __construct( int $auslegungsvorlauftemperatur, bool $heizungsanlage_beheizt, float $ßhs ) {
-        $this->table_data =  wpenon_get_table_results( 'mittlere_belastung_pufferspeicher_korrekturfaktor' );
 
-        $this->auslegungsvorlauftemperatur = $auslegungsvorlauftemperatur;
-        $this->heizungsanlage_beheizt = $heizungsanlage_beheizt;
-        $this->ßhs = $ßhs;
-    }
+	/**
+	 * Konstruktor.
+	 *
+	 * @param int   $auslegungsvorlauftemperatur
+	 * @param bool  $heizungsanlage_beheizt
+	 * @param float $ßhs
+	 */
+	public function __construct( int $auslegungsvorlauftemperatur, bool $heizungsanlage_beheizt, float $ßhs ) {
+		$this->table_data = wpenon_get_table_results( 'mittlere_belastung_pufferspeicher_korrekturfaktor' );
 
-    /**
-     * Mittlere Belastung Korrekturfaktor.
-     * 
-     * @return float 
-     * 
-     * @throws Calculation_Exception 
-     */
-    public function fßhs(): float {
-        $mittlere_belastung_slugs = $this->mittlere_belastung_slugs();
+		$this->auslegungsvorlauftemperatur = $auslegungsvorlauftemperatur;
+		$this->heizungsanlage_beheizt      = $heizungsanlage_beheizt;
+		$this->ßhs                         = $ßhs;
+	}
 
-        if( count( $mittlere_belastung_slugs ) === 1 ) {
-            return $this->table_data[ $mittlere_belastung_slugs[0] ][ $this->heizung_col() ];
-        }
+	/**
+	 * Mittlere Belastung Korrekturfaktor.
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function fßhs(): float {
+		$mittlere_belastung_slugs = $this->mittlere_belastung_slugs();
 
-        $keys = array();
-        $values = array();
+		if ( count( $mittlere_belastung_slugs ) === 1 ) {
+            $spalte = $this->heizung_col();
+			return $this->table_data[ $mittlere_belastung_slugs[0] ]->$spalte;
+		}
 
-        foreach( $this->mittlere_belastung_slugs() AS $mittlere_belastung_slug ) {
-            $heizung_col = $this->heizung_col();
-            $keys[] = $this->table_data[ $mittlere_belastung_slug ]->bhs;
-            $values[] = $this->table_data[ $mittlere_belastung_slug ]->$heizung_col;
-        }
+		$keys   = array();
+		$values = array();
 
-        return interpolate_value( $this->ßhs, $keys, $values );
-    }
+		foreach ( $this->mittlere_belastung_slugs() as $mittlere_belastung_slug ) {
+			$heizung_col = $this->heizung_col();
+			$keys[]      = $this->table_data[ $mittlere_belastung_slug ]->bhs;
+			$values[]    = $this->table_data[ $mittlere_belastung_slug ]->$heizung_col;
+		}
 
-    /**
-     * Heizungsspalte.
-     * 
-     * @return string 
-     */
-    public function heizung_col(): string {
-        return $this->heizungsanlage_beheizt ? 'beheizt'  . '_'  .$this->auslegungsvorlauftemperatur : 'unbeheizt' . '_'  .$this->auslegungsvorlauftemperatur;
-    }
+		return interpolate_value( $this->ßhs, $keys, $values );
+	}
 
-    /**
-     * Mittlere Belastung Slugs.
-     * 
-     * @return array 
-     */
-    public function mittlere_belastung_slugs(): array {
-        if ( $this->ßhs <= 0.1 ) {
+	/**
+	 * Heizungsspalte.
+	 *
+	 * @return string
+	 */
+	public function heizung_col(): string {
+		return $this->heizungsanlage_beheizt ? 'beheizt' . '_' . $this->auslegungsvorlauftemperatur : 'unbeheizt' . '_' . $this->auslegungsvorlauftemperatur;
+	}
+
+	/**
+	 * Mittlere Belastung Slugs.
+	 *
+	 * @return array
+	 */
+	public function mittlere_belastung_slugs(): array {
+		if ( $this->ßhs <= 0.1 ) {
 			return array( 'bhs_01' );
 		} elseif ( $this->ßhs > 0.1 && $this->ßhs <= 0.2 ) {
 			return array( 'bhs_01', 'bhs_02' );
@@ -116,5 +117,5 @@ class Mittlere_Belastung_Pufferspeicher_Korrekturfaktor {
 		} else {
 			return array( 'bhs_10' );
 		}
-    }
+	}
 }
