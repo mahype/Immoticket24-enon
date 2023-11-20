@@ -70,13 +70,16 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception
 	 */
 	public function volumen(): float {
+		$this->speicher_1 = 0;
+		$this->speicher_2 = 0;
+
 		if ( $this->puffergroesse ) {
 			$volumen = $this->puffergroesse;
 		} else {
 			$biomassekessel = $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden();
 			$waermepumpe    = $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden();
 
-			if ( ! $biomassekessel && ! $waermepumpe ) {
+			if ( ! $biomassekessel && ! $waermepumpe ) {				
 				return 0;
 			}
 
@@ -92,9 +95,6 @@ class Pufferspeicher {
 				$volumen = 9.5 * ( $this->pn() / 1000 );
 			}
 		}
-
-		$this->speicher_1 = 0;
-		$this->speicher_2 = 0;
 
 		if ( $volumen >= 1500 ) {
 			$this->speicher_1 = 1500;
