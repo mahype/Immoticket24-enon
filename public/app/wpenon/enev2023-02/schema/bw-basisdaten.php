@@ -101,23 +101,23 @@ $basisdaten = array(
 					'options'     => array(
 						'keine' => 'Keine thermische Solaranlage',
 						'warmwasser' => 'Solargestützte Warmwasser-Unterstützung',
-						'warmwasser_heizung' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
+						// 'warmwasser_heizung' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
 					),
 					'required'    => true,
 				),
-				'regenerativ_nutzung' => array(
-					'type'        => 'select',
-					'label'       => __( 'Verwendung der erneuerbaren Energien', 'wpenon' ),
-					'options'     => array(
-						'warmwasser'                 => 'Warmwasser',
-						'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
-					),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::regenerativ_art', 'solar' ),
-					),
-					'required'    => true,
-				),
+				// 'regenerativ_nutzung' => array(
+				// 	'type'        => 'select',
+				// 	'label'       => __( 'Verwendung der erneuerbaren Energien', 'wpenon' ),
+				// 	'options'     => array(
+				// 		'warmwasser'                 => 'Warmwasser',
+				// 		'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
+				// 	),
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::regenerativ_art', 'solar' ),
+				// 	),
+				// 	'required'    => true,
+				// ),
 			),
 		),
 	),

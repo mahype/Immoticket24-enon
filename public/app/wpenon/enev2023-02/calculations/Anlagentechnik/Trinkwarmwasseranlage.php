@@ -51,6 +51,13 @@ class Trinkwarmwasseranlage {
 	protected bool $mit_zirkulation;
 
 	/**
+	 * Wird Solarthermie genutzt?
+	 * 
+	 * @var bool $mit_solarthermie
+	 */
+	protected bool $mit_solarthermie;
+
+	/**
 	 * Prozentualer Anteil.
 	 *
 	 * @var int
@@ -80,6 +87,7 @@ class Trinkwarmwasseranlage {
 		bool $heizung_im_beheizten_bereich,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
+		bool $mit_solarthermie = false,
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
@@ -91,6 +99,7 @@ class Trinkwarmwasseranlage {
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->mit_warmwasserspeicher       = $mit_warmwasserspeicher;
 		$this->mit_zirkulation              = $mit_zirkulation;
+		$this->mit_solarthermie             = $mit_solarthermie;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
 		$this->monatsdaten = new Monatsdaten();
@@ -107,14 +116,14 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Zwischenwert für die Berechnung von ewd (ewd0).
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function ewd0(): float {
 		if ( ! $this->zentral() ) {
 			return 1.193;
 		}
-		
+
 		if ( ! $this->gebaeude->heizsystem()->beheizt() ) {
 			return 2.290;
 		} else {
@@ -129,6 +138,177 @@ class Trinkwarmwasseranlage {
 	 */
 	public function ewd() {
 		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->QWB() );
+	}
+
+	/**
+	 * Bestimmung des Korrekturfaktors (fwb).
+	 * 
+	 * @return float
+	 */
+	public function fwb(): float {
+		// ($qwb/12,5)*/((1+($ewd0-1))*(12,5/$qwb)/$ewd0)
+		return ( $this->nutzwaermebedarf_trinkwasser() / 12.5 ) / ( ( 1 + ( $this->ewd0() - 1 ) ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() ) / $this->ewd0() );
+	}
+
+	/**
+	 * Volumen Speicher 1 in Litern.
+	 * 
+	 * @return float 
+	 */
+	public function Vs01(): float {
+		if( $this->gebaeude->nutzflaeche() < 5000 ) {
+			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() );
+		} 
+
+		return 1122;
+	}
+
+	/**
+	 * Volumen Speicher 2 in Litern.
+	 * 
+	 * @return float 
+	 */
+	public function Vs02(): float {
+		if( $this->gebaeude->nutzflaeche() < 5000 ) {
+			return 0;
+		} 
+
+		if( $this->gebaeude->nutzflaeche() < 10000 ) {
+			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() - 5000 );
+		}
+
+		return 1122;
+	}
+
+	/**
+	 * Volumen Speicher 3 in Litern.
+	 * 
+	 * @return float 
+	 */
+	public function Vs03(): float {
+		if( $this->gebaeude->nutzflaeche() < 10000 ) {
+			return 0;
+		} 
+
+		if( $this->gebaeude->nutzflaeche() < 13368.98 ) {
+			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() - 10000 );
+		}
+
+		return 756;
+	}
+
+	/**
+	 * Berechnung von Vsw1. // NOTE: Was ist das?
+	 * 
+	 * @return float 
+	 */
+	public function Vsw1(): float {
+		$Vsw = $this->Vs0() * ( $this->QWB() / 1000 );
+
+		if( $Vsw > 3000 ) {
+			$Vsw = 3000;
+		}
+
+		if( $Vsw >= 1500 ) {
+			return 1500;
+		}
+
+		return $Vsw;
+	}
+
+	/**
+	 * Berechnung von Vsw2. // NOTE: Was ist das?
+	 * 
+	 * @return float 
+	 */
+	public function Vsw2(): float {
+		$Vsw = $this->Vs0() * ( $this->QWB() / 1000 );
+
+		if( $Vsw > 3000 ) {
+			$Vsw = 3000;
+		}
+
+		if( $Vsw < 1500 ) {
+			return 0;
+		}
+
+		return $Vsw - 1500;
+	}
+
+
+	/**
+	 * Volumen Speicher gesamnt in Litern.
+	 * 
+	 * @return float 
+	 */
+	public function Vs0(): float {
+		return $this->Vs01() + $this->Vs02() + $this->Vs03();
+	}
+
+	/**
+	 * Berechnung des interpolierten Volumens (Tabelle 54)
+	 * 
+	 * @param float $nutzflaeche
+	 * 
+	 * @return float 
+	 */
+	public function interpoliertes_volumen( float $nutzflaeche ): float {
+		$keys = array();
+		$values = array();
+		if ( $nutzflaeche <= 50 ) {
+			$keys = array( 50 );
+			$values =  array( 78 );
+		} elseif ( $nutzflaeche > 50 && $nutzflaeche <= 100 ) {
+			$keys = array( 50, 100 );
+			$values =  array( 78, 116 );
+		} elseif ( $nutzflaeche > 100 && $nutzflaeche <= 150 ) {
+			$keys = array( 100, 150 );
+			$values =  array( 116, 147 );
+		} elseif ( $nutzflaeche > 150 && $nutzflaeche <= 200 ) {
+			$keys = array( 150, 200 );
+			$values =  array( 147, 173 );
+		} elseif ( $nutzflaeche > 200 && $nutzflaeche <= 300 ) {
+			$keys = array( 200, 300 );
+			$values =  array( 173, 219 );
+		} elseif ( $nutzflaeche > 300 && $nutzflaeche <= 400 ) {
+			$keys = array( 300, 400 );
+			$values =  array( 219, 259 );
+		} elseif ( $nutzflaeche > 400 && $nutzflaeche <= 500 ) {
+			$keys = array( 400, 500 );
+			$values =  array( 259, 295 );
+		} elseif ( $nutzflaeche > 500 && $nutzflaeche <= 600 ) {
+			$keys = array( 500, 600 );
+			$values =  array( 295, 328 );
+		} elseif ( $nutzflaeche > 600 && $nutzflaeche <= 700 ) {
+			$keys = array( 600, 700 );
+			$values =  array( 328, 359 );
+		} elseif ( $nutzflaeche > 700 && $nutzflaeche <= 800 ) {
+			$keys = array( 700, 800 );
+			$values =  array( 359, 388 );
+		} elseif ( $nutzflaeche > 800 && $nutzflaeche <= 900 ) {
+			$keys = array( 800, 900 );
+			$values =  array( 388, 415 );
+		} elseif ( $nutzflaeche > 900 && $nutzflaeche <= 1000 ) {
+			$keys = array( 900, 1000 );
+			$values =  array( 415, 441 );
+		} elseif ( $nutzflaeche > 1000 && $nutzflaeche <= 2000 ) {
+			$keys = array( 1000, 2000 );
+			$values =  array( 441, 660 );
+		} elseif ( $nutzflaeche > 2000 && $nutzflaeche <= 3000 ) {
+			$keys = array( 2000, 3000 );
+			$values =  array( 660, 834 );
+		} elseif ( $nutzflaeche > 3000 && $nutzflaeche <= 4000 ) {
+			$keys = array( 3000, 4000 );
+			$values =  array( 834, 986 );
+		} elseif ( $nutzflaeche > 4000 && $nutzflaeche <= 5000 ) {
+			$keys = array( 4000, 5000 );
+			$values =  array( 986, 1122 );
+		} else {
+			$keys = array( 5000 );
+			$values =  array( 1122 );
+		}
+
+		return interpolate_value( $nutzflaeche, $keys, $values );
 	}
 
 	/**
@@ -221,8 +401,7 @@ class Trinkwarmwasseranlage {
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
 	 */
 	public function QWB_monat( string $monat ): float {
-		$qwb = $this->nutzwaermebedarf_trinkwasser();
-		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $qwb * ( $this->monatsdaten->tage( $monat ) / 365 );
+		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $this->nutzwaermebedarf_trinkwasser() * ( $this->monatsdaten->tage( $monat ) / 365 );
 	}
 
 	/**
@@ -288,5 +467,14 @@ class Trinkwarmwasseranlage {
 		}
 
 		return 0.451;
+	}
+
+	/**
+	 * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen.
+	 *
+	 * @return float
+	 */
+	public function fbivalent() : float {
+		return $this->gebaeude->heizsystem()->beheizt() ? 1.008 : 1.2096;
 	}
 }
