@@ -68,6 +68,13 @@ class Gebaeude {
 	private float $huellvolumen;
 
 	/**
+	 * Nutzfläche.
+	 * 
+	 * @var float
+	 */
+	private float $nutzflaeche;
+
+	/**
 	 * Monatsdaten
 	 * 
 	 * @var Monatsdaten
@@ -920,11 +927,17 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function nutzflaeche(): float {
-		if ( $this->geschosshoehe() >= 2.5 && $this->geschosshoehe() <= 3.0 ) {
-			return $this->huellvolumen() * 0.32;
-		} else {
-			return $this->huellvolumen() * ( 1.0 / $this->geschosshoehe() - 0.04 );
+		if( ! empty( $this->nutzflaeche ) ) {
+			return $this->nutzflaeche;
 		}
+
+		if ( $this->geschosshoehe() >= 2.5 && $this->geschosshoehe() <= 3.0 ) {
+			$this->nutzflaeche = $this->huellvolumen() * 0.32;
+		} else {
+			$this->nutzflaeche = $this->huellvolumen() * ( 1.0 / $this->geschosshoehe() - 0.04 );
+		}
+
+		return $this->nutzflaeche;
 	}
 
 	/**

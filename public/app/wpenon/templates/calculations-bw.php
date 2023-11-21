@@ -622,10 +622,29 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Volumen Speicher 3 in Litern. (Vs03): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs03() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Speicher Gesamt in Litern. (Vs0): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vs0() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Vsw1: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsw1() ) ); ?></p>
-	<p><?php printf( __( 'Berechnung von Vsw2: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsw2() ) ); ?></p>
-
+	<p><?php printf( __( 'Berechnung von Vsw2: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsw2() ) ); ?></p>	
+	<p><?php printf( __( 'Berechnung von Qws01: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws01() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Qws02: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws02() ) ); ?></p>
+	
+	<?php if ( $gebaeude->trinkwarmwasseranlage()->solarthermie_vorhanden() ) : ?>
 	<h4>Solarthermie</h4>
-	<p><?php printf( __( 'Berechnung von fbivalent: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->fbivalent() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Vsaux0: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsaux0() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Vssol0: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vssol0() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Ac0: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Ac0() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Qwsola0: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qwsola0() ) ); ?></p>	
+	<br />
+	<p><?php printf( __( 'Berechnung von Vsaux: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vsaux() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Vssol: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Vssol() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Ac: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Ac() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Qwsola: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qwsola() ) ); ?></p>
+	<?php endif; ?>
+
+	<br>
+
+	<p><?php printf( __( 'Berechnung von Qws: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von Qws m s: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws_mit_solar() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von ews: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ews() ) ); ?></p>
+	
 	
 	
 

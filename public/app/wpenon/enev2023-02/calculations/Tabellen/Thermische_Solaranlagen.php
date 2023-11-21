@@ -27,14 +27,22 @@ class Thermische_Solaranlagen {
 	 */
 	protected array $table_data;
 
+    /**
+     * Heizung im beheiztem Bereich.
+     * 
+     * @var bool
+     */
+    protected bool $heizung_im_beheizten_bereich;
+
 	/**
 	 * Konstruktor.
 	 *
 	 * @param float $flaeche
 	 * @return void
 	 */
-	public function __construct( float $flaeche ) {
+	public function __construct( float $flaeche, bool $heizung_im_beheizten_bereich ) {
 		$this->flaeche = $flaeche;
+        $this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->table_data = wpenon_get_table_results( 'thermische_solaranlagen' );
 	}
 
@@ -46,6 +54,7 @@ class Thermische_Solaranlagen {
      */
 	protected function ermittle_wert( string $spalte ): float {
 		$flaechen_ids = $this->flaechen();
+        $spalte = $this->prefix() . $spalte;
 
 		if ( count( $flaechen_ids ) === 1 ) {
             return $this->table_data['a_' . $flaechen_ids[0]]->$spalte;
@@ -60,6 +69,19 @@ class Thermische_Solaranlagen {
 
         return interpolate_value( $this->flaeche, $keys, $values );
 	}
+
+    /**
+     * Prefix für die Spalte.
+     * 
+     * @return string 
+     */
+    protected function prefix(): string {
+        if( $this->heizung_im_beheizten_bereich ) {
+            return 'beheizt_';
+        }
+
+        return 'unbeheizt_';
+    }
 
     /**
      * Ermittelt Vs,sol.

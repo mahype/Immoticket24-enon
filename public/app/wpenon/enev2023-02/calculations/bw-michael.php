@@ -2006,8 +2006,8 @@ ______________________________________________________________________________
 //                   $Vsw2= 0
 //
 
-//                  $Qws01 = Tab.55, Vsw1, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizttr Speicher.
-//                  $Qws02 = Tab.55, Vsw2, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizttr Speicher.
+//                  $Qws01 = Tab.55, Vsw1, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizter Speicher.
+//                  $Qws02 = Tab.55, Vsw2, unbeheizt/beheizt, Zirkulation mit (Spalte Zirkulation), indirekt beheizter Speicher.
 
 //                  $Qws= ($Qws01+$Qws02)*1.32 // Faktor 1.32 nach BaNz,  fwBj. 1987-1994, T12, Tab. 55; besieht sich auf indirekt beheizte Speicher und nicht auf bivalente Speicher.
 
@@ -2034,7 +2034,7 @@ ______________________________________________________________________________
 
 // Bestimmung der Volumina der Speichernenninhalte für für den Bereitschaftsanteil (Vsaux) und den Solaranteil (Vssol), Aperturfläche Solaranlage Ac, Der Energieertrag der Solaranlage Qwsola
 
-// [ ] Anpassung der Volumina an Grundfläche nach Formel 
+// [x] Anpassung der Volumina an Grundfläche nach Formel 
 
 // Tab. 59 & 60 T12, 
 // 
@@ -2052,8 +2052,8 @@ ______________________________________________________________________________
 //                   if "beheizt" && $nutzflaeche1 than
 //                              $Vssol0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                              $Vsaux0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
-//                              $Ac0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
-//                             $Qwsola0= inpol (Tab.59; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
+//                              $Ac0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
+//                             $Qwsola0= inpol (Tab.60; in Abhängikeit von  $nutzflaeche1, Spalte Flachkollektoren )
 //                             else ???   
 
 //                   if ($calculations['nutzflaeche'] >=5000 than
@@ -2069,9 +2069,9 @@ ______________________________________________________________________________
 
 //
 
-// [ ] folgend Berechnung von ews für Solarthereminutzung for TWW und Heizung
-
 // NOTE: Ab hier nicht berücksictigen
+// folgend Berechnung von ews für Solarthereminutzung for TWW und Heizung
+
 // if "Solarthermie für Heizung und Warmwasser" than  //äußeren Schleife
 // Diese Zweig wird erstmal nicht berücksichtigt!
 
@@ -2127,15 +2127,15 @@ ______________________________________________________________________________
 
 // NOTE: Bis hier nicht berücksichtigen
 
-// [ ] Korrektur der Faktorwerte; da bisher auf 12,5 (80m² Wohnung ) alles bezogen wird
+// [x] Korrektur der Faktorwerte; da bisher auf 12,5 (80m² Wohnung ) alles bezogen wird
 
 // Korrekturfaktor fwb // Anpassungswert an tatsächeliche Trinkwarmwasserbedarf nach Gl. 74, T12
 
 
 
-//  $fwb = ($qwb/12,5)*/((1+($ewd0-1))*(12,5/$qwb)/$ewd0)
+//  $fwb = ($qwb/12,5) *  ((1+($ewd0-1))*(12,5/$qwb)/$ewd0)
 
-// [ ] Bestimmung Anpassung an den realen Warmwasserbedarf des Gebäudes
+// [x] Bestimmung Anpassung an den realen Warmwasserbedarf des Gebäudes
 // Hierbei ist Ac1 die kollektrofläche; diese wird jedoch nicht beim Kunden abgefragt sondern wird aus den Tabellen vorgegeben (Tab. 59 u. 60).
 //
 //   $Vsaux1= $Vsaux0 * $fwb //Nur für Trinkwasser bercüksicht Gl67. T12
@@ -2147,12 +2147,12 @@ ______________________________________________________________________________
 
 //----------------------------------
 
-// [ ] Berechnung Qws= Wärmeverluste eines bivalenten Speichers
+// [x] Berechnung Qws= Wärmeverluste eines bivalenten Speichers
 // $Qws= $fbivalent * (0.4+0.2*(($Vsaux1+$Vssol1)^0.4)*(($Vsaux1/$Vsaux1+$Vssol1)^2)*365; //Gl.67, T12
 
 //--------------------------------------
 
-// [ ] Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlage
+// [x] Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlage
 
 // $ews= 1+($Qws/($calculations['QWB']*$ewd*$ewce))
 
