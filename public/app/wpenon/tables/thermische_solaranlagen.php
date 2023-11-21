@@ -15,32 +15,60 @@ return array(
 			'title' => __( 'Flaeche', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'vs_sol'           => array(
-			'title' => __( 'Vs,sol', 'wpenon' ),
+		'unbeheizt_vs_sol'           => array(
+			'title' => __( 'Vs,sol (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'vs_aux'           => array(
-			'title' => __( 'Vs,aux', 'wpenon' ),
+		'unbeheizt_vs_aux'           => array(
+			'title' => __( 'Vs,aux (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'vs_ges'           => array(
-			'title' => __( 'Vs,ges', 'wpenon' ),
+		'unbeheizt_vs_ges'           => array(
+			'title' => __( 'Vs,ges (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'flach_a'           => array(
-			'title' => __( 'Flachkollektoren A', 'wpenon' ),
+		'unbeheizt_flach_a'           => array(
+			'title' => __( 'Flachkollektoren A (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'flach_q'           => array(
-			'title' => __( 'Flachkollektoren Q', 'wpenon' ),
+		'unbeheizt_flach_q'           => array(
+			'title' => __( 'Flachkollektoren Q (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'roehren_a'           => array(
-			'title' => __( 'Flachkollektoren A', 'wpenon' ),
+		'unbeheizt_roehren_a'           => array(
+			'title' => __( 'Flachkollektoren A (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'roehren_q'           => array(
-			'title' => __( 'Roehrenkollektoren Q', 'wpenon' ),
+		'unbeheizt_roehren_q'           => array(
+			'title' => __( 'Roehrenkollektoren Q (unbeheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_vs_sol'           => array(
+			'title' => __( 'Vs,sol (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_vs_aux'           => array(
+			'title' => __( 'Vs,aux (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_vs_ges'           => array(
+			'title' => __( 'Vs,ges (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_flach_a'           => array(
+			'title' => __( 'Flachkollektoren A (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_flach_q'           => array(
+			'title' => __( 'Flachkollektoren Q (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_roehren_a'           => array(
+			'title' => __( 'Flachkollektoren A (beheizt)', 'wpenon' ),
+			'type'  => 'FLOAT',
+		),
+		'beheizt_roehren_q'           => array(
+			'title' => __( 'Roehrenkollektoren Q (beheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 	),

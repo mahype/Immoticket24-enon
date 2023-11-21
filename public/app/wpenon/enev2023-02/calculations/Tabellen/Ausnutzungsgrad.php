@@ -13,8 +13,18 @@ require_once dirname( __DIR__ ) . '/Helfer/Math.php';
  */
 class Ausnutzungsgrad {
 
+	/**
+	 * Zeitkonstante Tau.
+	 *
+	 * @var float
+	 */
 	protected float $tau;
 
+	/**
+	 * Mittlere Belastung (ym).
+	 *
+	 * @var float
+	 */
 	protected float $ym;
 
 	/**
