@@ -1,4 +1,4 @@
-Bezeichnung (intern);Flaeche;Vs,sol (unbeheizt);Vs,aux (unbeheizt);Vs,ges (unbeheizt);Flachkollektoren A (unbeheizt);Flachkollektoren Q (unbeheizt);Flachkollektoren A (unbeheizt);Roehrenkollektoren Q (unbeheizt);Vs,sol (beheizt);Vs,aux (beheizt);Vs,ges (beheizt);Flachkollektoren A (beheizt);Flachkollektoren Q (beheizt);Flachkollektoren A (beheizt);Roehrenkollektoren Q (beheizt)
+Bezeichnung (intern);Flaeche;Vs sol (unbeheizt);Vs aux (unbeheizt);Vs ges (unbeheizt);Flachkollektoren A (unbeheizt);Flachkollektoren Q (unbeheizt);Flachkollektoren A (unbeheizt);Roehrenkollektoren Q (unbeheizt);Vs sol (beheizt);Vs aux (beheizt);Vs ges (beheizt);Flachkollektoren A (beheizt);Flachkollektoren Q (beheizt);Flachkollektoren A (beheizt);Roehrenkollektoren Q (beheizt)
 a_100;100;185;173;359;4,8;1851;2,91;1986;173;162;335;4,48;1729;2,71;1854
 a_150;150;241;191;432;6,26;2412;3,79;2587;229;181;410;5,94;2290;3,59;2456
 a_200;200;298;209;507;7,73;2981;4,68;3198;286;200;485;7,4;2853;4,48;3061
