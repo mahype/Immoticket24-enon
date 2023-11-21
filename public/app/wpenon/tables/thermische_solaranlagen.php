@@ -16,15 +16,15 @@ return array(
 			'type'  => 'FLOAT',
 		),
 		'unbeheizt_vs_sol'           => array(
-			'title' => __( 'Vs,sol (unbeheizt)', 'wpenon' ),
+			'title' => __( 'Vs sol (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'unbeheizt_vs_aux'           => array(
-			'title' => __( 'Vs,aux (unbeheizt)', 'wpenon' ),
+			'title' => __( 'Vs aux (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'unbeheizt_vs_ges'           => array(
-			'title' => __( 'Vs,ges (unbeheizt)', 'wpenon' ),
+			'title' => __( 'Vs ges (unbeheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'unbeheizt_flach_a'           => array(
@@ -44,15 +44,15 @@ return array(
 			'type'  => 'FLOAT',
 		),
 		'beheizt_vs_sol'           => array(
-			'title' => __( 'Vs,sol (beheizt)', 'wpenon' ),
+			'title' => __( 'Vs sol (beheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'beheizt_vs_aux'           => array(
-			'title' => __( 'Vs,aux (beheizt)', 'wpenon' ),
+			'title' => __( 'Vs aux (beheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'beheizt_vs_ges'           => array(
-			'title' => __( 'Vs,ges (beheizt)', 'wpenon' ),
+			'title' => __( 'Vs ges (beheizt)', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 		'beheizt_flach_a'           => array(
