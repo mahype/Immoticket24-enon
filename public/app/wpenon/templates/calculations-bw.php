@@ -642,7 +642,6 @@ $jahr = new Jahr();
 	<br>
 
 	<p><?php printf( __( 'Berechnung von Qws: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws() ) ); ?></p>
-	<p><?php printf( __( 'Berechnung von Qws m s: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->Qws_mit_solar() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von ews: %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ews() ) ); ?></p>
 	
 	
