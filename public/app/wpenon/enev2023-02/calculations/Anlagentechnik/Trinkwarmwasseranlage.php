@@ -305,6 +305,24 @@ class Trinkwarmwasseranlage {
 	}
 
 	/**
+	 * Berechnung von keew.
+	 * 
+	 * @return float 
+	 */
+	public function keew(): float {
+		return 0.5; // Zum jetzigen Zeitpunkt ist keew immer 0.5, da wir keine Solarthermie in der Heizung haben.
+	}
+
+	/**
+	 * Berechnung von keeh.
+	 * 
+	 * @return float 
+	 */
+	public function keeh(): float {
+		return 0; // Zum jetzigen Zeitpunkt ist keew immer 0, da wir keine Solarthermie in der Heizung haben.
+	}
+
+	/**
 	 * Wärmeverlust ohne Solar.
 	 *
 	 * @return float
