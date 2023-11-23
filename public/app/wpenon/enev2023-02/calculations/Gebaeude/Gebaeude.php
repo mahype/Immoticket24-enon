@@ -452,8 +452,8 @@ class Gebaeude {
 	 *
 	 * @throws Exception
 	 */
-	public function h() {
-		return $this->bauteile()->ht() + $this->luftwechsel()->hv();
+	public function h_ges() {
+		return $this->bauteile()->ht() + $this->luftwechsel()->hv() + $this->ht_wb();
 	}
 
 	/**
@@ -463,9 +463,18 @@ class Gebaeude {
 	 *
 	 * @return float
 	 */
-	public function ht(): float {
+	public function ht_ges(): float {
 		// 0,1 = Wärmebrückenzuschlag
-		return $this->bauteile()->ht() + 0.1 * $this->huellflaeche();
+		return $this->bauteile()->ht() + $this->ht_wb();
+	}
+
+	/**
+	 * Berechnung ht_wb.
+	 * 
+	 * @return float 
+	 */
+	public function ht_wb(): float {
+		return 0.1 * $this->huellflaeche();
 	}
 
 	/**
@@ -476,7 +485,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function tau(): float {
-		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->ht();
+		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->h_ges();
 	}
 
 	/**
@@ -485,7 +494,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function q(): float {
-		return $this->h() * 32;
+		return $this->h_ges() * 32;
 	}
 
 	/**

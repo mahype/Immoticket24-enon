@@ -103,9 +103,9 @@ class Luftwechsel {
 		switch ( $this->lueftungssystem ) {
 			case 'zu_abluft':
 			case 'abluft':
-				return ( $this->gebaeude()->bauteile()->ht() + $this->hv() - 0.5 * 0.34 * $this->gebaeude()->huellvolumen_netto() * ( $this->n_wrg() - $this->n_anl() ) ) * 32;
+				return ( $this->gebaeude()->ht_ges() + $this->hv() - 0.5 * 0.34 * $this->gebaeude()->huellvolumen_netto() * ( $this->n_wrg() - $this->n_anl() ) ) * 32;
 			case 'ohne':
-				return ( $this->gebaeude()->bauteile()->ht() + 0.5 * $this->hv() ) * 32;
+				return ( $this->gebaeude()->ht_ges() + 0.5 * $this->hv() ) * 32;
 		}
 	}
 
@@ -120,6 +120,10 @@ class Luftwechsel {
 
 
 	public function n_wrg(): float {
+		if( $this->lueftungssystem === 'ohne' ) {
+			return 0;
+		}
+
 		if ( $this->gebaeude()->huellvolumen_netto() <= 1500 ) {
 			return (float) $this->n_wrg_small_buildings();
 		} else {
