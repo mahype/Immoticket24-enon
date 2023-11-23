@@ -476,7 +476,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function tau(): float {
-		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->h();
+		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->ht();
 	}
 
 	/**
