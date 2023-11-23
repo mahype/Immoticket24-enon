@@ -2306,7 +2306,7 @@ ______________________________________________________________________________
 //               Bj. durch Eingaben bestimmen  und aus Tabellen Wert ermitteln
 //----------------------------------------------
 //       - Niedertemperaturkessel Gas
-//               ab  1987 -2009 // NOTE: Was bedeuten die Jahreszahlen?
+//               ab  1987 -2009
 //                   
 //       - Niedertemperaturkessel Öl
 //               ab 1987 - 2009
@@ -2372,12 +2372,10 @@ ______________________________________________________________________________
 //
 // Bestimmung von $eg0, Tab 77 und 82
 //
-// NOTE: Was ist $Pn?
-// NOTE: Wo in der Tabelle setze ich die Werte an?
 //   if "Umlaufwasserheizer" than
-//      $ego = Tab 82 T12, in Anhängigkeit von $Pn und $ßhg
+//      $eg0 = Tab 82 T12, in Anhängigkeit von $Pn und $ßhg
 //   else
-//       $ego = Tab 77 T12, in Anhängigkeit von $Pn und $ßhg
+//       $eg0 = Tab 77 T12, in Anhängigkeit von $Pn und $ßhg
 //
 //---------------------
 /// Bestimmung von $fbj, Tab 78 und 82
@@ -2385,15 +2383,15 @@ ______________________________________________________________________________
 //   if "Umlaufwasserheizer" than
 //      $fbj = Tab 82 T12, in Anhängigkeit von "Umlaufwasserheizer" und $ßhg
 //   else
-//       $ego = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg // NOTE: $ego ist vorher schon gesetzt worden. Sollte hier $fbj stehen?
+//       $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
 //
 // ---------------------
 //  
 //    if Umlaufwasserheizer &&  "Energieträger = Hackschnitzel" && "Energieträger = Scheitholz" && "Energieträger = Pellet"  than
 //              $fegt = 1.0
-//    if  "Brennwertheizung" &&  "Energieträger = Gas" && "Energieträger = Biogas" && "Energieträger = Flüssiggas"  than // NOTE: Ist Brennwertkessel gemeint anstatt Brennwertheizung?
+//    if  "Brennwertkessel" &&  "Energieträger = Gas" && "Energieträger = Biogas" && "Energieträger = Flüssiggas"  than
 //              $fegt = Tab.79  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
-//    if  "Brennwertheizung" &&  "Energieträger = Heizöl" && "Energieträger = Bioöl"  than
+//    if  "Brennwertkessel" &&  "Energieträger = Heizöl" && "Energieträger = Bioöl"  than
 //              $fegt = Tab.80  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
 //   else 
 //             $fegt = Tab. 81 in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
@@ -2457,10 +2455,10 @@ ______________________________________________________________________________
 //Luft/Wasser :Ermittlung eines durchschnittlichen COP-Wert; Da Luft Wasserwärmepumpe keine konstante Temperaturniveaus  (Außenlufttemperatur variabel) besitzt. 
 // Betrachtet werden 3 Temperaturklassen (-7°C, +2°C, +7°C)
 
-// Raussuchen von $COPtk nach Tab. 89 T12; in Anhängigkeit von $θvl ($COPtk-7,$COPtk2,$COPtk7) // NOTE: Welche Tempperaturklasse?
-// Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite. (alternativ. 1.02) // NOTE: Alternativ. 1.02? Was bedeutet das? Wie komme ich an die Werte?
+// Raussuchen von $COPtk nach Tab. 89 T12; in Anhängigkeit von $θvl ($COPtk-7,$COPtk2,$COPtk7)
+// Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
 // 
-//   $COPkorr-7 = $COPtk-7 * 1.0 ; // NOTE: Wie genau wird hier gerechnet? -7? Im Anschluss dann 2? Was heisst das?
+//   $COPkorr-7 = $COPtk-7 * 1.0 ;
 //   $COPkorr2 = $COPtk2 * 1.0 ;
 //   $COPkorr7 = $COPtk7 * 1.0 ;
 //------------
@@ -2471,7 +2469,6 @@ ______________________________________________________________________________
 //
 ////-----------
 //   Gesamtwichtung  der Temperaturklassen nach Tab 93, T12
-// NOTE: Alles ein mal mit den Werten aus der Tabelle multiplizieren. TRichtig=
 
 //    $calculations['monate'][ $monat ]['W-7']= $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W -7 herauskopieren);
 //    $calculations['monate'][ $monat ]['W2']= $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W +2 herauskopieren);
@@ -2531,10 +2528,7 @@ ______________________________________________________________________________
 //-------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-//  else // NOTE: Für alle anderen Wärmepumpen?
-
-
-//  Berechnung COP-Wert für Sole/Wasser-Wärmepume und Wasser/Wasser-Wärmepumpe Heizung
+//  else //  Berechnung COP-Wert für Sole/Wasser-Wärmepume und Wasser/Wasser-Wärmepumpe Heizung
 
 // Bestimmung COPtk
 //
@@ -2632,7 +2626,7 @@ ______________________________________________________________________________
 //------------------------------------------
 //  [ ] e) Dezentrale KWK, BHKW= primär Wärme Abfallprodukt Strom, Brennstoffzelle= Primär Strom , Abfallprodukt= Wärme
 
-// NOTE: Was soll hier berechnet werden? 
+// NOTE: Erstmal nicht relevant
 
 
 
@@ -2653,7 +2647,7 @@ ______________________________________________________________________________
 // ------------------------------------------ 
 
 //  [ ] b) Zu/Abluftsystem (Zentral und Dezentral) keine Wärmepumpe, Banz AT 04.12.2022
-// NOTE: Was soll hier berechnet werden?
+// NOTE: Nicht relevant
 //
 //_______________________________________________________________________________
 //
