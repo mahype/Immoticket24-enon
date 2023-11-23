@@ -452,8 +452,8 @@ class Gebaeude {
 	 *
 	 * @throws Exception
 	 */
-	public function h() {
-		return $this->bauteile()->ht() + $this->luftwechsel()->hv();
+	public function h_ges() {
+		return $this->bauteile()->ht() + $this->luftwechsel()->hv() + $this->ht_wb();
 	}
 
 	/**
@@ -485,7 +485,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function tau(): float {
-		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->h();
+		return ( $this->c_wirk() * $this->nutzflaeche() ) / $this->h_ges();
 	}
 
 	/**
@@ -494,7 +494,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function q(): float {
-		return $this->h() * 32;
+		return $this->h_ges() * 32;
 	}
 
 	/**

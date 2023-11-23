@@ -357,9 +357,14 @@ $jahr = new Jahr();
 	
 	<p><?php printf( __( 'Transmissionswärmekoeffizient Bauteile ht: %s', 'wpenon' ), str_replace('.',',', $gebaeude->bauteile()->ht() ) ); ?></p>
 	<p><?php printf( __( 'Transmissionswärmekoeffizient Fenster hw: %s', 'wpenon' ), str_replace('.',',', $gebaeude->bauteile()->hw() ) ); ?></p>
+	<p><?php printf( __( 'Wärmebrückenzuschlag (ht_wb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->ht_wb() ) ); ?></p>
 	<p><?php printf( __( 'Transmissionswärmekoeffizient Gesamt ht<sub>ges</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->ht_ges() ) ); ?></p>
+	<p><?php printf( __( 'Wärmetransferkoeffizient des Gebäudes. (h ges): %s', 'wpenon' ), str_replace('.',',', $gebaeude->h_ges() ) ); ?></p>
 	<p><?php printf( __( 'Tau: %s', 'wpenon' ), str_replace('.',',', $gebaeude->tau() ) ); ?></p>
 	<p><?php printf( __( 'Maximaler Wärmestrom Q: %s', 'wpenon' ), str_replace('.',',', $gebaeude->q() ) ); ?></p>
+
+	
+	
 
 	<h3>Luftwechsel</h3>
 
@@ -373,7 +378,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'n_anl: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_anl() ) ); ?></p>
 	<p><?php printf( __( 'n_wrg: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_wrg() ) ); ?></p>
 
-	<p><?php printf( __( 'Wärmetransferkoeffizient des Gebäudes. (h): %s', 'wpenon' ), str_replace('.',',', $gebaeude->h() ) ); ?></p>
+	
 
 	<hr />
 
