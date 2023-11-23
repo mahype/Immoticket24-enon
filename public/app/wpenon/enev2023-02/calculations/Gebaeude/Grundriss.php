@@ -301,13 +301,8 @@ class Grundriss {
 	 * @return string 
 	 */
 	public function wand_himmelsrichtung( string $wand ): string {
-		foreach ( $this->waende() as $key => $wand_vergleich ) {
-			if ( $wand === $wand_vergleich ) {
-				break;
-			}
-		}
-
-		return $this->waende_zu_himmelsrichtungen[ $key ];
+		$himmesrichtung_index = $this->formen[ $this->form ][$wand][1];
+		return $this->waende_zu_himmelsrichtungen[ $himmesrichtung_index ];
 	}
 
 	/**
