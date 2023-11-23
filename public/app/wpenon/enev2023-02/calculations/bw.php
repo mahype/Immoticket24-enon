@@ -558,7 +558,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
-			prozentualer_anteil: $energieausweis->h_uebergabe_anteil,
+			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
 			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
 		)
@@ -569,7 +569,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
 			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
-			prozentualer_anteil: $energieausweis->h_uebergabe_anteil
+			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);
 }
