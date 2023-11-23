@@ -360,6 +360,18 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Tau: %s', 'wpenon' ), str_replace('.',',', $gebaeude->tau() ) ); ?></p>
 	<p><?php printf( __( 'Maximaler Wärmestrom Q: %s', 'wpenon' ), str_replace('.',',', $gebaeude->q() ) ); ?></p>
 
+	<h3>Luftwechsel</h3>
+
+	<p><?php printf( __( 'Maximale Heizlast h<sub>max</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->h_max() ) ); ?></p>
+	<p><?php printf( __( 'Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->h_max_spezifisch() ) ); ?></p>
+	<p><?php printf( __( 'Luftwechselrate n: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n() ) ); ?></p>
+	<p><?php printf( __( 'Luftechselvolumen h<sub>v</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->hv() ) ); ?></p>
+	<p><?php printf( __( 'Gesamtluftwechselrate n<sub>0</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n0() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfakror f<sub>win,1</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->fwin1() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfakror f<sub>win,2</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->fwin2() ) ); ?></p>
+	<p><?php printf( __( 'n_anl: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_anl() ) ); ?></p>
+	<p><?php printf( __( 'n_wrg: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_wrg() ) ); ?></p>
+
 	<hr />
 
 	<h2>Bilanzierung</h2>
@@ -518,21 +530,7 @@ $jahr = new Jahr();
 		<td><?php echo str_replace('.',',', $gebaeude->ßhma() ); ?> (ßhma)</td>
 		<td><?php echo str_replace('.',',', $gebaeude->thm() ); ?></td>
 		</tr>
-	</table>
-
-	
-
-	<h3>Luftwechsel</h3>
-
-	<p><?php printf( __( 'Maximale Heizlast h<sub>max</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->h_max() ) ); ?></p>
-	<p><?php printf( __( 'Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->h_max_spezifisch() ) ); ?></p>
-	<p><?php printf( __( 'Luftwechselrate n: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n() ) ); ?></p>
-	<p><?php printf( __( 'Luftechselvolumen h<sub>v</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->hv() ) ); ?></p>
-	<p><?php printf( __( 'Gesamtluftwechselrate n<sub>0</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n0() ) ); ?></p>
-	<p><?php printf( __( 'Korrekturfakror f<sub>win,1</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->fwin1() ) ); ?></p>
-	<p><?php printf( __( 'Korrekturfakror f<sub>win,2</sub>: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->fwin2() ) ); ?></p>
-	<p><?php printf( __( 'n_anl: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_anl() ) ); ?></p>
-	<p><?php printf( __( 'n_wrg: %s', 'wpenon' ), str_replace('.',',', $gebaeude->luftwechsel()->n_wrg() ) ); ?></p>
+	</table>	
 
 	<hr />
 
