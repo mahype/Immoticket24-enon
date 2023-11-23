@@ -40,6 +40,7 @@ class Walmdach extends Dach implements Transmissionswaerme {
 				// array_push( $dachwinkel, atan( $this->hoehe() / $dach_b ), atan( $this->hoehe() / $dach_x ) );
 				$flaeche += 2 * ( 0.5 * $dach_b * $dach_sw + 0.5 * ( $dach_th + $dach_f ) * $dach_sh );
 				$volumen += ( 1.0 / 3.0 ) * ( 2 * $dach_b ) * ( 2 * $dach_x ) * $this->hoehe() + 0.5 * ( 2 * $dach_b ) * $dach_f * $this->hoehe();
+				break;
 			case 'b':
 				$dach_b1_gross = $this->grundriss->wand_laenge( 'f' );
 				$dach_b1       = 0.5 * $this->grundriss->wand_laenge( 'f' );
