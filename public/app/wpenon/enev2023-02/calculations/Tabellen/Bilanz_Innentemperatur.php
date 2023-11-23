@@ -146,10 +146,6 @@ class Bilanz_Innentemperatur {
 	 * @return float Bilanz-Innentemperatur θih
 	 */
 	public function θih_monat( string $month ): float {
-		if ( ! isset( $this->table_data[ $month ] ) ) {
-			return 0;
-		}
-
 		$tau_keys   = array();
 		$tau_values = array();
 
