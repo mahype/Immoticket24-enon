@@ -28,8 +28,6 @@ class Flachdach extends Dach {
 		$this->uwert     = $uwert;
 		$this->daemmung  = $daemmung;
 
-		$this->fx = 0.8;
-
 		$this->berechnen();
 	}
 
