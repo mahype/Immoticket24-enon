@@ -114,7 +114,7 @@ class Fenster extends Bauteil implements Transmissionswaerme {
 	 * @return float 
 	 */
 	public function solar_gewinn_mpk() {
-		return 0.9 * 1.0 * 0.9 * 0.7 * $this->gwert();
+		return 0.9 * 1.0 * 0.7 * $this->gwert();
 	}
 
 	/**
