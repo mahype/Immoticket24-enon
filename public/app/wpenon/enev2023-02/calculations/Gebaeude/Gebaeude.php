@@ -543,7 +543,7 @@ class Gebaeude {
 	 * @return int|float
 	 */
 	public function psh_sink_monat( string $monat ) {
-		$psh_sink = $this->ph_sink_monat( $monat ) - ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $this->qi_solar_monat( $monat ) ) * fum( $monat ) );
+		$psh_sink = $this->ph_sink_monat( $monat ) - ( ( $this->qi_prozesse_monat( $monat ) + ( 0.5 * $this->qi_solar_monat( $monat ) ) ) * fum( $monat ) );
 		return $psh_sink < 0 ? 0 : $psh_sink;
 	}
 
