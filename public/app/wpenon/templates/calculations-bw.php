@@ -620,6 +620,7 @@ $jahr = new Jahr();
 
 	<h4>Aufwandszahlen Trinkwarmwasser</h4>
 
+	<p><?php printf( __( 'Zwischenwert für die Berechnung von ewd (ewce): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewce() ) ); ?></p>
 	<p><?php printf( __( 'Zwischenwert für die Berechnung von ewd (ewd0): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd0() ) ); ?></p>
 	<p><?php printf( __( 'Aufwandszahlen für die Verteilung von Trinkwarmwasser (ewd): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->ewd() ) ); ?></p>
 	<p><?php printf( __( 'Korrekturfaktor (fwb): %s', 'wpenon' ), str_replace('.',',', $gebaeude->trinkwarmwasseranlage()->fwb() ) ); ?></p>

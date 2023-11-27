@@ -161,7 +161,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function ewd() {
-		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->QWB() );
+		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() );
 	}
 
 	/**
