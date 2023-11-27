@@ -10,7 +10,7 @@
  */
 return array(
 	'title'         => __( 'Aufwandszahlen Heizwärmeerzeugung', 'wpenon' ),
-	'description'   => __( 'Korrekturfaktoren Aufwandszahlen Heizwärmeerzeugung', 'wpenon' ),
+	'description'   => __( 'Korrekturfaktoren Aufwandszahlen Heizwärmeerzeugung (Tabelle 79, 80 und 81 zusammengefasst).', 'wpenon' ),
 	'asterisks'     => array(),
 	'primary_field' => 'bezeichnung',
 	'search_field'  => 'bezeichnung',
