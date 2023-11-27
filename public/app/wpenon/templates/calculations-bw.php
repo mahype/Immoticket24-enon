@@ -388,11 +388,11 @@ $jahr = new Jahr();
 	<table>
 	<tr>
 		<th>Monat</th>    
-		<th>Qi<sub>p</sub></th>
-		<th>Qi<sub>w</sub></th>
-		<th>Qi<sub>s</sub></th>
-		<th>Qi<sub>h</sub></th>
-		<th>Qi</th>
+		<th>Qi<sub>p</sub> (kWh)</th>
+		<th>Qi<sub>w</sub> (kWh)</th>
+		<th>Qi<sub>s</sub> (kWh)</th>
+		<th>Qi<sub>h</sub> (kWh)</th>
+		<th>Qi<sub>ges</sub> (kWh)</th>
 	</tr>
 		<?php foreach ( $jahr->monate() as $monat ) : ?>
 		<tr>
@@ -431,11 +431,11 @@ $jahr = new Jahr();
 	<table>
 	<tr>
 		<th>Monat</th>    
-		<th>P*H<sub>sink</sub></th>    
-		<th>PH<sub>sink</sub></th>    
-		<th>PH<sub>source</sub></th>
-		<th>Qh</th>
-		<th>Q<sub>W,B</sub></th>
+		<th>P*H<sub>sink</sub> (W)</th>    
+		<th>PH<sub>sink</sub> (W)</th>    
+		<th>PH<sub>source</sub> (W)</th>
+		<th>Q<sub>h,b</sub> (kWh)</th>
+		<th>Q<sub>w,b</sub> (kWh)</th>
 	</tr>
 		<?php foreach ( $jahr->monate() as $monat ) : ?>
 		<tr>
@@ -463,9 +463,9 @@ $jahr = new Jahr();
 			<th>ßhma</th>
 			<th>thm</th>
 			<th>ith_rl</th>
-			<th>Qi</th>
-			<th>Q<sub>W,B</sub></th>
-			<th>Qh</th>
+			<th>Qi (kWh)</th>
+			<th>Q<sub>w,b</sub> (kWh)</th>
+			<th>Q<sub>h,b</sub> (kWh)</th>
 		</tr>
 		<tr>
 			<td><?php echo str_replace('.',',', $gebaeude->ßhma() ); ?></td>
@@ -482,7 +482,7 @@ $jahr = new Jahr();
 	<table>
 	<tr>
 		<th>Monat</th>
-		<th>pi</th>    
+		<th>P<sub>h+w+str+p,source</sub></th>    
 		<th>ym</th>
 		<th>nm</th>
 		<th>flna</th>
@@ -492,7 +492,7 @@ $jahr = new Jahr();
 		<?php foreach ( $jahr->monate() as $monat ) : ?>
 		<tr>
 		<td><?php echo $monat->name(); ?></td>
-		<td><?php echo str_replace('.',',', $gebaeude->pi_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace('.',',', $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace('.',',', $gebaeude->ym_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace('.',',', $gebaeude->nm_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace('.',',', $gebaeude->flna_monat( $monat->slug() ) ); ?></td>

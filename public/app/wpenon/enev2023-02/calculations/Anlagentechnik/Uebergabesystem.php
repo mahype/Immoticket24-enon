@@ -211,7 +211,7 @@ class Uebergabesystem {
 				// Erhöhte Strahlung - ehce 4 - Ist aufgrund von Wert in Tabelle ist der Wert immer +0.000.
 
 				// Einzelraumregelung - ehce 5 - Es wird immer von "eigenständig" ausgegangen.
-				$ehce += 0.030;
+				$ehce -= 0.030;
 
 				// Da immer vom "Zweirohrsystem" ausgegangen wird, kommt ehcehyd mit 0.036 hinzu.
 				$ehce += 0.036;
@@ -248,7 +248,7 @@ class Uebergabesystem {
 				// ehce3 = 0.0 Tab 22 18599 T12, intermetierender Betrieb Heizungebetrieb, da hier von uns der schlechtere Wert angesetzt wird
 				// ehce4 = 0.0 Tab 22 18599 T12
 				// ehce5 = -0.03,  Tab 22 18599 T12, hier wird nach "Smart Home-Lösungen" gefragt. Das Optimierungspotzenzial,welches die DIN vorgibt ist sehr groß... Abfrage aber komplex für das Verstädnis des Kunden. Wir können aber ehce 5 = -0,030 setzen für manuele Betätigung der Einzelraumregelsystem ohne weitere Nachfrage.
-				$ehce += -0.030;
+				$ehce -= 0.030;
 
 				// Da immer vom "Zweirohrsystem" ausgegangen wird, kommt ehcehyd mit 0.036 hinzu.
 				$ehce += 0.036;
