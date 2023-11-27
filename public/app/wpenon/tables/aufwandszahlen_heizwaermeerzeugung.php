@@ -3,6 +3,10 @@
 /**
  *  Brennwertgeräte - Korrekturfaktoren Aufwandszahlen Heizwärmeerzeugung
  *  Tabelle 79, 80 und 81
+ * 
+ *   bh - beheizt
+ *  ubh - unbeheizt
+ * 
  */
 return array(
 	'title'         => __( 'Aufwandszahlen Heizwärmeerzeugung', 'wpenon' ),
