@@ -54,7 +54,8 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Nutzfläche A<sub>N</sub>: %s m&sup2;', 'wpenon' ), str_replace('.',',', $gebaeude->nutzflaeche() ) ); ?></p>
 	<p><?php printf( __( 'Anzahl der Geschosse: %s', 'wpenon' ), $gebaeude->geschossanzahl() ); ?></p>
 	<p><?php printf( __( 'Geschosshöhe: %s m', 'wpenon' ), str_replace('.',',', $gebaeude->geschosshoehe() ) ); ?></p>
-	<p><?php printf( __( 'Anzahl der Wohnungen: %s', 'wpenon' ), $gebaeude->anzahl_wohnungen() ); ?></p>  
+	<p><?php printf( __( 'Anzahl der Wohnungen: %s', 'wpenon' ), $gebaeude->anzahl_wohnungen() ); ?></p>
+	<p><?php printf( __( 'Einfamilienhaus: %s', 'wpenon' ), $gebaeude->ist_einfamilienhaus() ? 'Ja': 'Nein' ); ?></p>
  
 
 	<h3>Grundriss</h3>
@@ -551,6 +552,8 @@ $jahr = new Jahr();
 		<th>Energieträger</th>    
 		<th>Auslegungstemperatur</th>
 		<th>Anteil</th>
+		<th>eg0</th>
+		<th>fbj</th>
 	</tr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
 		<tr>
@@ -558,6 +561,8 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
 		<td><?php echo $heizungsanlage->auslegungstemperaturen(); ?></td>
 		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
+		<td><?php echo $heizungsanlage->eg0(); ?></td>
+		<td><?php echo $heizungsanlage->fbj(); ?></td>
 		</tr>
 	<?php endforeach; ?>	
 	</table>
@@ -591,6 +596,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'ehd1: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd1() ) ); ?></p>
 	<p><?php printf( __( 'ehd: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd() ) ); ?></p>
 	<p><?php printf( __( 'ehd korrektur: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd_korrektur() ) ); ?></p>
+	
 
 
 	<?php if ( $gebaeude->heizsystem()->pufferspeicher_vorhanden() ) : ?>
@@ -598,7 +604,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Nennleistung Pufferspeicher (pwn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->pwn() ) ); ?></p>
 	<p><?php printf( __( '(pn): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->pn() ) ); ?></p>
 	<p><?php printf( __( 'Korrekturfaktor mittlere Belastung des Pufferspeichers fßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->fßhs() ) ); ?></p>
-	<p><?php printf( __( 'Mittlere Belastung für Speicherung ßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->ßhs() ) ); ?></p>
+	<p><?php printf( __( 'Mittlere Belastung für Speicherung ßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ßhs() ) ); ?></p>
 	<p><?php printf( __( 'Korrekturfaktor für beliebige mittlere Berlastung und Laufzeit der Heizung fhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->fhs() ) ); ?></p>
 	<p><?php printf( __( 'Berechnetes Volumen: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->volumen() ) ); ?></p>
 	<p><?php printf( __( 'Volumen Pufferspeicher vs1: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->vs1() ) ); ?></p>
@@ -606,7 +612,9 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Wärmeabgabe Pufferspeicher (Qhs0Vs1): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->Qhs0Vs1() ) ); ?></p>
 	<p><?php printf( __( 'Wärmeabgabe Pufferspeicher (Qhs0Vs2): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->Qhs0Vs2() ) ); ?></p>
 	<p><?php printf( __( 'Wärmeabgabe Pufferspeicher Gesamt (Qhs): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->Qhs() ) ); ?></p>
-	<p><?php printf( __( 'Aufwandszahl für Pufferspeicher (ehs): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->pufferspeicher()->ehs() ) ); ?></p>
+	<p><?php printf( __( 'Aufwandszahl für Pufferspeicher (ehs): %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehs() ) ); ?></p>
+	<?php else: ?>
+		<p><?php printf( __( 'Aufwandszahl für Pufferspeicher (ehs):  %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehs() ) ); ?></p>
 	<?php endif; ?>
 
 	<h3>Trinkwarmwasseranlage</h3>

@@ -75,7 +75,7 @@ class Bilanz_Innentemperatur {
 		if ( ! empty( $gebaeude ) ) {
 			$this->gebaeude = $gebaeude;
 
-			if ( $this->gebaeude->anzahl_wohnungen() === 1 ) {
+			if ( $this->gebaeude->ist_einfamilienhaus() ) {
 				$this->table_data = wpenon_get_table_results( 'bilanz_innentemperatur_efh' );
 			} else {
 				$this->table_data = wpenon_get_table_results( 'bilanz_innentemperatur_mfh' );

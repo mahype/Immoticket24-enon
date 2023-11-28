@@ -4,13 +4,13 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Tabellen\Kessel_Nennleistung;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 require_once __DIR__ . '/Heizungsanlage.php';
 require_once __DIR__ . '/Heizungsanlagen.php';
 require_once __DIR__ . '/Uebergabesysteme.php';
 require_once __DIR__ . '/Pufferspeicher.php';
-
 
 /**
  * Berechnung des Heizsystems.
@@ -58,11 +58,11 @@ class Heizsystem {
 	public function __construct( Gebaeude $gebaeude, string $standort ) {
 		if ( $standort !== 'innerhalb' && $standort !== 'ausserhalb' ) {
 			throw new Calculation_Exception( 'Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.' );
-		}
+		}		
 
 		$this->gebaeude           = $gebaeude;
 		$this->standort           = $standort;
-		$this->heizungsanlagen    = new Heizungsanlagen();
+		$this->heizungsanlagen    = new Heizungsanlagen( $gebaeude );
 		$this->uebergabesysteme   = new Uebergabesysteme();
 	}
 
@@ -100,12 +100,13 @@ class Heizsystem {
 	 * 
 	 * @return Pufferspeicher|void 
 	 */
-	public function pufferspeicher( Pufferspeicher $pufferspeicher = null ) {
-		if ( $pufferspeicher === null ) {
-			return $this->pufferspeicher;
+	public function pufferspeicher(): Pufferspeicher|null {
+		// Pufferspeicher wird nur bei Wärmepumpe oder Biomassekessel benötigt.
+		if( ( $this->heizungsanlagen()->waermepumpe_vorhanden()  || $this->heizungsanlagen()->biomassekessel_vorhanden() ) && $this->pufferspeicher === null ) {
+			$this->pufferspeicher = new Pufferspeicher( $this->gebaeude );
 		}
 
-		$this->pufferspeicher = $pufferspeicher;
+		return $this->pufferspeicher;
 	}
 
 	/**
@@ -114,7 +115,7 @@ class Heizsystem {
 	 * @return bool 
 	 */
 	public function pufferspeicher_vorhanden(): bool {
-		return $this->pufferspeicher !== null;
+		return $this->pufferspeicher() !== null;
 	}
 
 	/**
@@ -144,7 +145,7 @@ class Heizsystem {
 	public function ehd0(): float {
 		$uebergabesystem = $this->uebergabesysteme()->erstes();
 
-		if ( $this->gebaeude->anzahl_wohnungen() === 1 ) {
+		if ( $this->gebaeude->ist_einfamilienhaus() ) {
 			switch ( $uebergabesystem->typ() ) {
 				case '90/70':
 					return $this->standort === 'innerhalb' ? 1.099 : 1.1;
@@ -301,5 +302,80 @@ class Heizsystem {
 		}
 
 		return $max;
+	}
+
+	/**
+	 * Nennleistung des Pufferspeichers (pwn).
+	 *
+	 * @return float
+	 */
+	public function pwn(): float {
+		$pwn = 0;
+
+		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			$nutzwaermebedarf_trinkwasser = $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser();
+
+			if ( $this->gebaeude->nutzflaeche() > 5000 ) {
+				$pwn = 0.042 * ( ( $nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
+			} else {
+				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser ) )->nennleistung() * 1000; // Umrechnung in Watt
+			}
+		}
+
+		if ( $this->gebaeude->luftwechsel()->h_max() > $pwn ) {
+			return $this->gebaeude->luftwechsel()->h_max();
+		}
+
+		return $pwn;
+	}
+
+	/**
+	 * Nennleistung des Pufferspeichers (pn).
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
+	 */
+	public function pn(): float {
+		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
+				return 1.3 * $this->gebaeude->luftwechsel()->h_max();
+			} else {
+				return 1.5 * $this->pwn();
+			}
+		}
+
+		if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
+			return $this->gebaeude->luftwechsel()->h_max();
+		} else {
+			return 1.5 * $this->pwn();
+		}
+	}
+
+	/**
+	 * Mittlere Belastung für Speicherung.
+	 *
+	 * @param Heizungsanlage $heizungsanlage
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
+	 */
+	public function ßhs(): float {
+		// $ßhs=$ßhd*$ehdkorr
+		return $this->gebaeude->heizsystem()->ßhd() * $this->gebaeude->heizsystem()->ehd_korrektur();
+	}
+
+	/**
+	 * Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function ehs(): float {
+		if( $this->gebaeude->heizsystem()->pufferspeicher_vorhanden() ) {
+			return $this->gebaeude->heizsystem()->pufferspeicher()->ehs();
+		}
+
+		return 1;
 	}
 }

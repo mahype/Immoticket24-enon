@@ -267,21 +267,6 @@ $anlage = array(
 						),
 					),
 				),
-				'h_auslegungstemperaturen'               => array(
-					'type'     => 'select',
-					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
-					),
-					'required' => true,
-				),
 				'h_deckungsanteil'                              => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der Heizungsanlage', 'wpenon' ),
@@ -641,25 +626,6 @@ $anlage = array(
 							'field::h2_energietraeger_gasraumheizer',
 							'field::h2_energietraeger_oelofenverdampfungsbrenner',
 						),
-					),
-				),
-				'h2_auslegungstemperaturen'               => array(
-					'type'     => 'select',
-					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
-					),
-					'required' => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::h2_info', true ),
 					),
 				),
 				'h2_deckungsanteil'                             => array(
@@ -1031,25 +997,6 @@ $anlage = array(
 						),
 					),
 				),
-				'h3_auslegungstemperaturen'               => array(
-					'type'     => 'select',
-					'label'    => __( 'Auslegungstemperaturen der Heizungsanlage', 'wpenon' ),
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'standardkessel' ),
-					),
-					'required' => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
-					),
-				),
 				'h3_deckungsanteil'                             => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der 3. Heizungsanlage', 'wpenon' ),
@@ -1163,54 +1110,6 @@ $anlage = array(
 							'field::verteilung_baujahr',
 							1978
 						),
-					),
-				),
-				'speicherung'                                   => array(
-					'type'  => 'select',
-					'label' => __( 'Pufferspeicher', 'wpenon' ),
-					'required' => true,
-					'options'  => array(
-						'nicht_vorhanden' => __( 'Nicht vorhanden', 'wpenon' ),
-						'vorhanden_unbekannt' => __( 'Vorhanden (größe unbekannt)', 'wpenon' ),
-						'vorhanden_bekannt' => __( 'Vorhanden (größe bekannt)', 'wpenon' ),
-					),
-				),
-				'speicherung_groesse'              => array(
-					'type'        => 'int',
-					'label'       => __( 'Größe des Pufferspeichers', 'wpenon' ),
-					'description' => __( 'Geben Sie die Größe des Pufferspeichers in Litern an.', 'wpenon' ),
-					'required'    => true,
-					'unit'        => 'l',
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt') ),
-					),
-				),
-				'speicherung_baujahr'                           => array(
-					'type'                  => 'int',
-					'label'                 => __( 'Baujahr des Pufferspeichers', 'wpenon' ),
-					'min'                   => 1800,
-					'max'                   => wpenon_get_reference_date( 'Y' ),
-					'required'              => true,
-					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
-					'display'               => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt', 'vorhanden_unbekannt') ),
-					),
-				),
-				'speicherung_standort'                          => array(
-					'type'        => 'select',
-					'label'       => __( 'Standort des Pufferspeichers', 'wpenon' ),
-					'description' => __( 'Wählen Sie aus, ob sich der Pufferspeicher innerhalb oder außerhalb der thermischen Hülle befindet.', 'wpenon' ),
-					'options'     => array(
-						'innerhalb'  => __( 'innerhalb thermischer Hülle', 'wpenon' ),
-						'ausserhalb' => __( 'außerhalb thermischer Hülle', 'wpenon' ),
-					),
-					'required'    => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::speicherung', array('vorhanden_bekannt', 'vorhanden_unbekannt') ),
 					),
 				),
 			),

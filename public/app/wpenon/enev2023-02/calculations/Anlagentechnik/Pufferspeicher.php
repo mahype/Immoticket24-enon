@@ -4,7 +4,6 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Kessel_Nennleistung;
 use Enev\Schema202302\Calculations\Tabellen\Waermeabgabe_Pufferspeicher;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Pufferspeicher_Korrekturfaktor;
 
@@ -19,13 +18,6 @@ class Pufferspeicher {
 	 * @var Gebaeude
 	 */
 	protected Gebaeude $gebaeude;
-
-	/**
-	 * Pufferspeicher Größe in Liter.
-	 *
-	 * @var float
-	 */
-	protected float|null $puffergroesse = null;
 
 	/**
 	 * Übergabesystem.
@@ -55,11 +47,9 @@ class Pufferspeicher {
 	 * @param float|null $puffergroesse         Puffergröße in Liter.
 	 */
 	public function __construct(
-		Gebaeude $gebaeude,
-		float $puffergroesse = null
+		Gebaeude $gebaeude
 	) {
 		$this->gebaeude      = $gebaeude;
-		$this->puffergroesse = $puffergroesse;
 	}
 
 	/**
@@ -73,27 +63,23 @@ class Pufferspeicher {
 		$this->speicher_1 = 0;
 		$this->speicher_2 = 0;
 
-		if ( $this->puffergroesse ) {
-			$volumen = $this->puffergroesse;
-		} else {
-			$biomassekessel = $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden();
-			$waermepumpe    = $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden();
+		$biomassekessel = $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden();
+		$waermepumpe    = $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden();
 
-			if ( ! $biomassekessel && ! $waermepumpe ) {				
-				return 0;
-			}
+		if ( ! $biomassekessel && ! $waermepumpe ) {				
+			return 0;
+		}
 
-			$volumen = 0;
+		$volumen = 0;
 
-			// Wenn Biomassekessel vorhanden ist, dann wird der Pufferspeicher immer mit Faktor 50 berechnet, egal ob Wärmepumpe vorhanden oder nicht.
-			if ( $biomassekessel ) {
-				$volumen = 50 * ( $this->pn() / 1000 );
-			}
+		// Wenn Biomassekessel vorhanden ist, dann wird der Pufferspeicher immer mit Faktor 50 berechnet, egal ob Wärmepumpe vorhanden oder nicht.
+		if ( $biomassekessel ) {
+			$volumen = 50 * ( $this->gebaeude->heizsystem()->pn() / 1000 );
+		}
 
-			// Wenn Wärmepumpe vorhanden ist, aber kein Biomassekessel dann wird der Pufferspeicher immer Faktor 9.5 berechnet.
-			if ( $waermepumpe && ! $biomassekessel ) {
-				$volumen = 9.5 * ( $this->pn() / 1000 );
-			}
+		// Wenn Wärmepumpe vorhanden ist, aber kein Biomassekessel dann wird der Pufferspeicher immer Faktor 9.5 berechnet.
+		if ( $waermepumpe && ! $biomassekessel ) {
+			$volumen = 9.5 * ( $this->gebaeude->heizsystem()->pn() / 1000 );
 		}
 
 		if ( $volumen >= 1500 ) {
@@ -184,80 +170,6 @@ class Pufferspeicher {
 	}
 
 	/**
-	 * Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher.
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
-	 */
-	public function ehs(): float {
-		if( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden()  || $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden() ) {
-			return 1 + $this->Qhs() / ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() );
-		}
-
-		return 1;
-	}
-
-	/**
-	 * Nennleistung des Pufferspeichers (pwn).
-	 *
-	 * @return float
-	 */
-	public function pwn(): float {
-		$pwn = 0;
-
-		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
-			$nutzwaermebedarf_trinkwasser = $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser();
-
-			if ( $this->gebaeude->nutzflaeche() > 5000 ) {
-				$pwn = 0.042 * ( ( $nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
-			} else {
-				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser ) )->nennleistung() * 1000; // Umrechnung in Watt
-			}
-		}
-
-		if ( $this->gebaeude->luftwechsel()->h_max() > $pwn ) {
-			return $this->gebaeude->luftwechsel()->h_max();
-		}
-
-		return $pwn;
-	}
-
-	/**
-	 * Nennleistung des Pufferspeichers (pn).
-	 *
-	 * @return float
-	 * @throws Calculation_Exception
-	 */
-	public function pn(): float {
-		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
-			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
-				return 1.3 * $this->gebaeude->luftwechsel()->h_max();
-			} else {
-				return 1.5 * $this->pwn();
-			}
-		}
-
-		if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
-			return $this->gebaeude->luftwechsel()->h_max();
-		} else {
-			return 1.5 * $this->pwn();
-		}
-	}
-	/**
-	 * Mittlere Belastung für Speicherung.
-	 *
-	 * @param Heizungsanlage $heizungsanlage
-	 * @return float
-	 *
-	 * @throws Calculation_Exception
-	 */
-	public function ßhs(): float {
-		// $ßhs=$ßhd*$ehdkorr
-		return $this->gebaeude->heizsystem()->ßhd() * $this->gebaeude->heizsystem()->ehd_korrektur();
-	}
-
-	/**
 	 * Korrektrufaktor mittlere Belastung des Pufferspeichers.
 	 *
 	 * @param Heizungsanlage $heizungsanlage
@@ -265,7 +177,7 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception
 	 */
 	public function fßhs(): float {
-		return ( new Mittlere_Belastung_Pufferspeicher_Korrekturfaktor( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungsvorlauftemperatur(), $this->gebaeude->heizsystem()->beheizt(), $this->ßhs() ) )->fßhs();
+		return ( new Mittlere_Belastung_Pufferspeicher_Korrekturfaktor( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungsvorlauftemperatur(), $this->gebaeude->heizsystem()->beheizt(), $this->gebaeude->heizsystem()->ßhs() ) )->fßhs();
 	}
 
 	/**
@@ -275,5 +187,22 @@ class Pufferspeicher {
 	 */
 	public function fhs(): float {
 		return $this->fßhs() * $this->gebaeude->ith_rl() / 5000;
+	}
+
+	/**
+	 * Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function ehs(): float {
+		return 1 + $this->Qhs() / ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() );
+
+		if( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden()  || $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden() ) {
+			return 1 + $this->Qhs() / ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() );
+		}
+
+		return 1;
 	}
 }

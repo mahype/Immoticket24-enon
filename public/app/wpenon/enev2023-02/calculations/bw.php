@@ -511,44 +511,20 @@ $gebaeude->trinkwarmwasseranlage(
 $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
 
-$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
-	new Heizungsanlage(
-		typ: $energieausweis->h_erzeugung,
-		energietraeger: $energietraeger,
-		auslegungstemperaturen: $energieausweis->h_auslegungstemperaturen,
-		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
-		prozentualer_anteil: $energieausweis->h_deckungsanteil ? $energieausweis->h_deckungsanteil : 100
-	)
-);
+$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_deckungsanteil );
 
 if ( $energieausweis->h2_erzeugung ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
-		new Heizungsanlage(
-			typ: $energieausweis->h2_erzeugung,
-			energietraeger: $energietraeger,
-			auslegungstemperaturen: $energieausweis->h2_auslegungstemperaturen,
-			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
-			prozentualer_anteil: $energieausweis->h2_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
-		)
-	);
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_deckungsanteil );
 }
 
 if ( $energieausweis->h3_erzeugung ) {
 	$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen(
-		new Heizungsanlage(
-			typ: $energieausweis->h3_erzeugung,
-			energietraeger: $energietraeger,
-			auslegungstemperaturen: $energieausweis->h3_auslegungstemperaturen,
-			heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
-			prozentualer_anteil: $energieausweis->h3_deckungsanteil ? $energieausweis->h2_deckungsanteil : 100
-		)
-	);
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_deckungsanteil );
 }
 
 // Wir rechnen vorerst nur mit einem Übergabesystem.
@@ -572,10 +548,6 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);
-}
-
-if( $energieausweis->speicherung !== 'nicht_vorhanden' ) {
-	$gebaeude->heizsystem()->pufferspeicher( new Pufferspeicher( $gebaeude, $energieausweis->speicherung == 'vorhanden_bekannt' ? $energieausweis->speicherung_groesse : null ) );
 }
 
 // TODO: Bestimmung des Nutzenergiebedarfs (1135)

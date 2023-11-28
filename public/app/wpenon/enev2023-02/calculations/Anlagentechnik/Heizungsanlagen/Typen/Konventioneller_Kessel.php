@@ -1,9 +1,17 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Typen;
 
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
+use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
+use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
+
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php'; 
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermerzeugung_Korrekturfaktor.php';
 
 class Konventioneller_Kessel extends Heizungsanlage {
 	/**
@@ -16,24 +24,22 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param string $typ Typ der Heizung (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
-	 * @param string $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).
-	 * @param string $auslegungstemperaturen
-	 * @param bool   $heizung_im_beheizten_bereich
-	 * @param int    $prozentualer_anteil
-	 * @param float  $ithrl
+	 * @param Gebaeude $gebaeude Gebäude.
+	 * @param string   $erzeuger Erzeuger (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
+	 * @param string   $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).	 
+	 * @param int      $baujahr Baujahr der Heizung.
+	 * @param int      $prozentualer_anteil	Prozentualer Anteil der Heizungsanlage im Heizsystem.
 	 *
 	 * @return void
 	 */
 	public function __construct(
 		Gebaeude $gebaeude,
-		string $typ,
+		string $erzeuger,
 		string $energietraeger,
-		string $auslegungstemperaturen,
-		bool $heizung_im_beheizten_bereich,
+		int $baujahr,
 		int $prozentualer_anteil = 100,
 	) {
-		parent::__construct( $typ, $energietraeger, $auslegungstemperaturen, $heizung_im_beheizten_bereich, $prozentualer_anteil );
+		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
 		$this->gebaeude = $gebaeude;
 	}
 
@@ -42,11 +48,11 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return array
 	 */
-	public static function erlaubte_typen(): array {
+	public static function erlaubte_erzeuger(): array {
 		return array(
 			'standardkessel'              => array(
 				'name'           => 'Standardkessel',
-                'typ' => 'standardkessel',                
+				'typ'            => 'standardkessel',
 				'energietraeger' => array(
 					'heizoel'     => 'Heizöl',
 					'erdgas'      => 'Erdgas',
@@ -56,7 +62,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			),
 			'brennwertkessel'             => array(
 				'name'           => 'Brennwertkessel',
-                'typ' => 'brennwertkessel',
+				'typ'            => 'brennwertkessel',
 				'energietraeger' => array(
 					'heizoel'     => 'Heizöl',
 					'erdgas'      => 'Erdgas',
@@ -66,7 +72,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			),
 			'kleinthermeniedertemperatur' => array(
 				'name'           => 'Kleintherme Niedertemperatur',
-                'typ' => 'umlaufwasserheizer',
+				'typ'            => 'umlaufwasserheizer',
 				'energietraeger' => array(
 					'heizoel'     => 'Heizöl',
 					'erdgas'      => 'Erdgas',
@@ -107,12 +113,20 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $eg0 = Tab 82 T12, in Anhängigkeit von $Pn und $ßhg
 		// else
 		// $eg0 = Tab 77 T12, in Anhängigkeit von $Pn und $ßhg
-		return 0.0;
+
+		$pn = $this->gebaeude->heizsystem()->pn();
+		$ßhg = $this->ßhg();
+
+		if ( $this->typ() === 'umlaufwasserheizer' ) {
+			return (new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ))->eg0();
+		}
+
+		return (new Aufwandszahlen_Brennwertkessel( $pn / 1000, $ßhg ))->eg0();
 	}
 
 	public function ßhg(): float {
 		// $ßhg = $ßhs * $ehs // mittlere Belastung der *Übergabe Heizung; damit für Alle Erzeuger (einschl Fern/Nahwärme)
-		return $this->gebaeude->heizsystem()->pufferspeicher()->ßhs() * $this->gebaeude->heizsystem()->pufferspeicher()->ehs();
+		return $this->gebaeude->heizsystem()->ßhs() * $this->gebaeude->heizsystem()->ehs();
 	}
 
 	public function fbj(): float {
@@ -120,7 +134,12 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $fbj = Tab 82 T12, in Anhängigkeit von "Umlaufwasserheizer" und $ßhg
 		// else
 		// $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
-		return 0.0;
+
+		if ( $this->typ() === 'umlaufwasserheizer' ) {
+			return (new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ))->eg0();
+		}
+		
+		return (new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f();		
 	}
 
 	public function fegt(): float {

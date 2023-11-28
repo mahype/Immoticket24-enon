@@ -1,16 +1,16 @@
 ID;Waermeerzeuger;Baujahr;b h,g 0,1;b h,g 0,2;b h,g 0,3;b h,g 0,4;b h,g 0,5;b h,g 0,6;b h,g 0,7;b h,g 0,8;b h,g 0,9;b h,g 1,0
-gas_und_heizoel_ brennwertkessel_1987;Gas- und Heizoel (Brennwertkessel);vor 1987;1,011;1,019;1,026;1,03;1,035;1,039;1,043;1,047;1,05;1,054
-gas_und_heizoel_ brennwertkessel_1987_1994;Gas- und Heizoel (Brennwertkessel);von 1987 bis 1994;1,008;1,013;1,017;1,02;1,022;1,024;1,026;1,028;1,03;1,032
-gas_und_heizoel_ brennwertkessel_1994_1999;Gas- und Heizoel (Brennwertkessel);1995 bis 1999;1,005;1,011;1,016;1,017;1,017;1,018;1,019;1,02;1,02;1,021
-gas_und_heizoel_ brennwertkessel_1999;Gas- und Heizoel (Brennwertkessel);nach 1999;1;1;1;1;1;1;1;1;1;1
-pellet_brennwertkessel_1994;Pellet (bis 105 kW) (Brennwertkessel);nach 1994;1,002;1,004;1,005;0,993;0,982;0,971;0,96;0,95;0,94;0,93
-gas_spezial_geblaese_brennertausch_geblaesekessel_nt_kessel_1987;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);vor 1987;1,024;1,026;1,037;1,041;1,044;1,047;1,05;1,053;1,056;1,059
-gas_spezial_geblaese_brennertausch_geblaesekessel_nt_kessel_1987_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);von 1987 bis 1994;1,02;1,037;1,054;1,061;1,067;1,074;1,08;1,086;1,092;1,097
-gas_spezial_geblaese_brennertausch_geblaesekessel_nt_kessel_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);nach 1994;1,014;1,028;1,041;1,045;1,048;1,051;1,054;1,057;1,06;1,063
-gas_spezial_geblaese_brennertausch_geblaesekessel_standard_kessel_1987;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);vor 1987;1,05;1,07;1,09;1,1;1,11;1,12;1,13;1,14;1,14;1,15
-gas_spezial_geblaese_brennertausch_geblaesekessel_standard_kessel_1987_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);von 1987 bis 1994;1,037;1,055;1,073;1,081;1,088;1,095;1,101;1,108;1,114;1,121
-gas_spezial_geblaese_brennertausch_geblaesekessel_standard_kessel_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);nach 1994;1,03;1,046;1,062;1,068;1,073;1,078;1,083;1,088;1,092;1,097
-umstell_wechselbrand_feststoffkessel_standard_kessel_1987;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);vor 1987;1,069;1,088;1,107;1,119;1,13;1,141;1,152;1,162;1,172;1,182
-umstell_wechselbrand_feststoffkessel_standard_kessel_1987_1994;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);von 1987 bis 1994;1,059;1,074;1,089;1,099;1,109;1,118;1,128;1,136;1,145;1,153
-umstell_wechselbrand_feststoffkessel_standard_kessel_1994;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);nach 1994;1,046;1,058;1,071;1,078;1,085;1,092;1,099;1,105;1,111;1,117
-pellet_hack-schnitzelkessel_standard_kessel_1994;Pellet-, Hackschnitzelkessel (Standard-Kessel);nach 1994;1,022;1,027;1,032;1,03;1,029;1,027;1,026;1,025;1,024;1,022
+brennwertkessel_gas_und_heizoel_bis_1986;Gas- und Heizoel (Brennwertkessel);vor 1987;1,011;1,019;1,026;1,03;1,035;1,039;1,043;1,047;1,05;1,054
+brennwertkessel_gas_und_heizoel_bis_1994;Gas- und Heizoel (Brennwertkessel);von 1987 bis 1994;1,008;1,013;1,017;1,02;1,022;1,024;1,026;1,028;1,03;1,032
+brennwertkessel_gas_und_heizoel_ bis_1999;Gas- und Heizoel (Brennwertkessel);1995 bis 1999;1,005;1,011;1,016;1,017;1,017;1,018;1,019;1,02;1,02;1,021
+brennwertkessel_gas_und_heizoel_ bis_heute;Gas- und Heizoel (Brennwertkessel);nach 1999;1;1;1;1;1;1;1;1;1;1
+brennwertkessel_holz_bis_heute;Pellet (bis 105 kW) (Brennwertkessel);nach 1994;1,002;1,004;1,005;0,993;0,982;0,971;0,96;0,95;0,94;0,93
+niedertemperaturkessel_gas_und_heizoel_bis_1986;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);vor 1987;1,024;1,026;1,037;1,041;1,044;1,047;1,05;1,053;1,056;1,059
+niedertemperaturkessel_kessel_gas_und_heizoel_bis_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);von 1987 bis 1994;1,02;1,037;1,054;1,061;1,067;1,074;1,08;1,086;1,092;1,097
+niedertemperaturkessel_kessel_gas_und_heizoel_bis_heute;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);nach 1994;1,014;1,028;1,041;1,045;1,048;1,051;1,054;1,057;1,06;1,063
+standard_kessel_gas_und_heizoel_bis_1986;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);vor 1987;1,05;1,07;1,09;1,1;1,11;1,12;1,13;1,14;1,14;1,15
+standard_kessel_gas_und_heizoel_bis_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);von 1987 bis 1994;1,037;1,055;1,073;1,081;1,088;1,095;1,101;1,108;1,114;1,121
+standard_kessel_gas_und_heizoel_bis_heute;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (Standard-Kessel);nach 1994;1,03;1,046;1,062;1,068;1,073;1,078;1,083;1,088;1,092;1,097
+standard_kessel_feststoff_bis_1987;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);vor 1987;1,069;1,088;1,107;1,119;1,13;1,141;1,152;1,162;1,172;1,182
+standard_kessel_feststoff_bis_1994;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);von 1987 bis 1994;1,059;1,074;1,089;1,099;1,109;1,118;1,128;1,136;1,145;1,153
+standard_kessel_feststoff_bis_heute;Umstell-/Wechselbrand-, Feststoffkessel (Standard-Kessel);nach 1994;1,046;1,058;1,071;1,078;1,085;1,092;1,099;1,105;1,111;1,117
+standard_kesse_holz_bis_heute;Pellet-, Hackschnitzelkessel (Standard-Kessel);nach 1994;1,022;1,027;1,032;1,03;1,029;1,027;1,026;1,025;1,024;1,022

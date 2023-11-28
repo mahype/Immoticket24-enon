@@ -388,6 +388,17 @@ class Gebaeude {
 	}
 
 	/**
+	 * Handelt es sich um ein Einfamilienhaus?
+	 * 
+	 * Das Haus gilt als Mehrfamilienhaus, wenn es mehr als zwei Wohneinheiten hat (Laut BANZ? bzw. DIN18599).
+	 * 
+	 * @return bool 
+	 */
+	public function ist_einfamilienhaus(): bool {
+		return $this->anzahl_wohnungen() <= 2;
+	}
+
+	/**
 	 * Hüllfläche des Gebäudes.
 	 *
 	 * @return float
@@ -590,7 +601,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function qi_prozesse_monat( string $monat ): float {
-		if ( $this->anzahl_wohnungen() <= 1 ) {
+		if ( $this->ist_einfamilienhaus() ) {
 			return ( 45 * $this->nutzflaeche() * $this->monatsdaten->tage( $monat ) ) / 1000;
 		} else {
 			return ( 90.0 * $this->nutzflaeche() / $this->anzahl_wohnungen() * $this->monatsdaten->tage( $monat ) ) / 1000;
@@ -844,7 +855,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function flna_monat( $monat ): float {
-		if ( $this->anzahl_wohnungen() === 1 ) {
+		if ( $this->ist_einfamilienhaus() ) {
 			return 1;
 		} 
 		

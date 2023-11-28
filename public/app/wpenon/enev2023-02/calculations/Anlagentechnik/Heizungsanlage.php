@@ -11,17 +11,17 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Erlaubte Typen.
-	 * 
+	 *
 	 * @var array
 	 */
-	protected array $erlaubte_typen;
+	protected array $erlaubte_erzeuger;
 
 	/**
-	 * Typ.
+	 * Erzeuger.
 	 *
 	 * @var string
 	 */
-	protected string $typ;
+	protected string $erzeuger;
 
 	/**
 	 * Energietraeger.
@@ -29,6 +29,11 @@ abstract class Heizungsanlage {
 	 * @var string
 	 */
 	protected string $energietraeger;
+
+	/**
+	 * Baujahr.
+	 */
+	protected int $baujahr;
 
 	/**
 	 * Auslegungstemperaturen.
@@ -54,26 +59,27 @@ abstract class Heizungsanlage {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param string $typ                    Typ der Heizungsanlage.
+	 * @param string $erzeuger                    Typ der Heizungsanlage.
 	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
 	 * @param bool   $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
 	 * @param int    $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
 	 */
-	public function __construct( string $typ, string $energietraeger, string $auslegungstemperaturen, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {		
-		$erlaubte_typen = static::erlaubte_typen();
+	public function __construct( string $erzeuger, string $energietraeger, int $baujahr, string $auslegungstemperaturen, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
+		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
 
-		if( ! in_array( $typ, $erlaubte_typen ) ) {
+		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
 			throw new Calculation_Exception( 'Der Typ der Heizungsanlage für konventionelle Kessel nicht erlaubt.' );
 		}
 
-		$erlaubte_energietraeger = array_keys( $erlaubte_typen[$typ]['energietraeger'] );
+		$erlaubte_energietraeger = array_keys( static::erlaubte_erzeuger()[ $erzeuger ]['energietraeger'] );
 
-		if( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
-			throw new Calculation_Exception( 'Der Energieträger der Heizungsanlage für diesen Kesseltyp nicht erlaubt.' );
+		if ( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
+			throw new Calculation_Exception( 'Der Energieträger der Heizungsanlage für diesen Kesselerzeuger nicht erlaubt.' );
 		}
 
-		$this->typ                          = $typ;
+		$this->erzeuger                     = $erzeuger;
 		$this->energietraeger               = $energietraeger;
+		$this->baujahr                      = $baujahr;
 		$this->auslegungstemperaturen       = $auslegungstemperaturen;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
@@ -81,18 +87,27 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Erlaubte Typen der Heizungsanlage.
-	 * 
-	 * @return array 
+	 *
+	 * @return array
 	 */
-	abstract public static function erlaubte_typen(): array;
+	abstract public static function erlaubte_erzeuger(): array;
 
 	/**
 	 * Typ der Heizungsanlage.
 	 *
 	 * @return string
 	 */
-	public function typ(): string {
-		return $this->typ;
+	public function erzeuger(): string {
+		return $this->erzeuger;
+	}
+
+	/**
+	 * Erlaubte Energietraeger.
+	 *
+	 * @return string
+	 */
+	public function erlaubte_energietraeger(): string {
+		return $this->erlaubte_energietraeger()[ $this->energietraeger() ];
 	}
 
 	/**
@@ -102,6 +117,24 @@ abstract class Heizungsanlage {
 	 */
 	public function energietraeger(): string {
 		return $this->energietraeger;
+	}
+
+	/**
+	 * Typ der Heizungsanlage.
+	 *
+	 * @return string
+	 */
+	public function typ(): string {
+		return $this->erlaubte_erzeuger()[ $this->erzeuger() ]['typ'];
+	}
+
+	/**
+	 * Baujahr.
+	 *
+	 * @return int
+	 */
+	public function baujahr(): int {
+		return $this->baujahr;
 	}
 
 	/**
@@ -158,9 +191,9 @@ abstract class Heizungsanlage {
 		// Wertzuweisungen je nach Auslegungstemperatur und Beheizung der Anlage.
 		switch ( $auslegungstemperaturen ) {
 			case '90/70':
-				return $this->heizung_im_beheizten_bereich() ? 0.123 : 0.039;								
+				return $this->heizung_im_beheizten_bereich() ? 0.123 : 0.039;
 			case '70/55':
-				return $this->heizung_im_beheizten_bereich() ? 0.099 : 0.028;				
+				return $this->heizung_im_beheizten_bereich() ? 0.099 : 0.028;
 			case '55/45':
 				return $this->heizung_im_beheizten_bereich() ? 0.082 : 0.02;
 			case '35/28':
