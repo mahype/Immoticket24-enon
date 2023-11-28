@@ -2386,15 +2386,15 @@ ______________________________________________________________________________
 //       $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
 //
 // ---------------------
-//  
-//    if Umlaufwasserheizer &&  "Energieträger = Hackschnitzel" && "Energieträger = Scheitholz" && "Energieträger = Pellet"  than
+// NOTE: Fall 1 tritt nicht ein, da Energieträger für kleinthermen nicht vorhanden sind.
+//    if Umlaufwasserheizer &&  "Energieträger = Hackschnitzel" && "Energieträger = Scheitholz" && "Energieträger = Pellet"  than // Gasetagenheizung
 //              $fegt = 1.0
-//    if  "Brennwertkessel" &&  "Energieträger = Gas" && "Energieträger = Biogas" && "Energieträger = Flüssiggas"  than
-//              $fegt = Tab.79  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
+//    if  "Brennwertkessel" &&  "Energieträger = Gas" && "Energieträger = Biogas" && "Energieträger = Flüssiggas"  than // Brennstoff Gas
+//              $fegt = Tab.79  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt" 
 //    if  "Brennwertkessel" &&  "Energieträger = Heizöl" && "Energieträger = Bioöl"  than
-//              $fegt = Tab.80  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
+//              $fegt = Tab.80  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt" // Brennstoff Öl
 //   else 
-//             $fegt = Tab. 81 in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
+//             $fegt = Tab. 81 in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt" // Brenstoff Gas bzw. Öl
 
 //----------------------------
 
