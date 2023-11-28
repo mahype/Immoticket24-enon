@@ -58,7 +58,7 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 	 * Konstruktor.
 	 * 
      * @param string $heizung Typ der Heizung (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
-     * @param string $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel)
+     * @param string $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).
 	 * @param float $uebergabe_auslegungstemperatur Übergabe Auslegungstemperatur des Übertragunngssystems. 
 	 * @param float $ßhg ßhg.
      * @param bool $heizung_im_beheizten_bereich Heizung im beheizten Bereich, ja/nein.
@@ -75,5 +75,5 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 		$this->table_data = wpenon_get_table_results( 'ausnutzungsgrad' );
 	}
 
-    
+
 }
