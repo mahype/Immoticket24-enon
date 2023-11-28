@@ -7,7 +7,15 @@ use Enev\Schema202302\Calculations\Calculation_Exception;
 /**
  * Berechnungen für eine Heizungsanlage.
  */
-class Heizungsanlage {
+abstract class Heizungsanlage {
+
+	/**
+	 * Erlaubte Typen.
+	 * 
+	 * @var array
+	 */
+	protected array $erlaubte_typen;
+
 	/**
 	 * Typ.
 	 *
@@ -51,7 +59,19 @@ class Heizungsanlage {
 	 * @param bool   $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
 	 * @param int    $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
 	 */
-	public function __construct( string $typ, string $energietraeger, string $auslegungstemperaturen, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
+	public function __construct( string $typ, string $energietraeger, string $auslegungstemperaturen, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {		
+		$erlaubte_typen = static::erlaubte_typen();
+
+		if( ! in_array( $typ, $erlaubte_typen ) ) {
+			throw new Calculation_Exception( 'Der Typ der Heizungsanlage für konventionelle Kessel nicht erlaubt.' );
+		}
+
+		$erlaubte_energietraeger = array_keys( $erlaubte_typen[$typ]['energietraeger'] );
+
+		if( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
+			throw new Calculation_Exception( 'Der Energieträger der Heizungsanlage für diesen Kesseltyp nicht erlaubt.' );
+		}
+
 		$this->typ                          = $typ;
 		$this->energietraeger               = $energietraeger;
 		$this->auslegungstemperaturen       = $auslegungstemperaturen;
@@ -60,7 +80,14 @@ class Heizungsanlage {
 	}
 
 	/**
-	 * Typ.
+	 * Erlaubte Typen der Heizungsanlage.
+	 * 
+	 * @return array 
+	 */
+	abstract public static function erlaubte_typen(): array;
+
+	/**
+	 * Typ der Heizungsanlage.
 	 *
 	 * @return string
 	 */
