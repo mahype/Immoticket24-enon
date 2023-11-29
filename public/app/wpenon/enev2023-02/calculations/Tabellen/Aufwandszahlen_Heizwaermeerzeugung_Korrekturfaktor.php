@@ -85,7 +85,8 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
             $spalten_keys[]   = $spalte;
             $spalten_teile  = explode( '.', $spalte );
             $spalten_name = 'bhg_' . $spalten_teile[0] . '_' . $spalten_teile[1];
-            $spalten_values[] = $this->table_data[ $this->zeile() ]->$spalten_name;
+            $zeilen_name = $this->zeile();
+            $spalten_values[] = floatval( $this->table_data[ $zeilen_name ]->$spalten_name );
         }
 
         return interpolate_value( $this->spalte_zielwert, $spalten_keys, $spalten_values );
@@ -118,27 +119,11 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
 	}
 
 	protected function zeile(): string {
-		$zeilen_name = $this->erzeuger;
-
-		if ( $this->energietraeger === 'gas' || $this->energietraeger === 'oel' ) {
-			$zeilen_name .= '_gas_und_heizoel';
-		}
-
-		if ( $this->energietraeger === 'holz' ) {
-			$zeilen_name .= '_holz';
-		}
-
-		if ( $this->energietraeger === 'feststoff' ) {
-			$zeilen_name .= '_feststoff';
-		}
-
-		$zeilen_name .= $this->kessel_jahr_slug();
-
-		return $zeilen_name;
+		return $this->erzeuger . '_' . $this->energietraeger_slug() . '_'. $this->jahr_slug();
 	}
 
 
-	protected function kessel_jahr_slug(): string {
+	protected function jahr_slug(): string {
 		if ( $this->erzeuger === 'standardkessel' ) {
 			return $this->standardkessel_jahr_slug();
 		}
@@ -154,49 +139,68 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
 
 	protected function standardkessel_jahr_slug(): string {
 		if ( $this->energietraeger === 'holz' ) {
-			return '_bis_heute';
+			return 'bis_heute';
 		}
 
 		if ( $this->baujahr <= 1986 ) {
-			return '_bis_1986';
+			return 'bis_1986';
 		}
 
 		if ( $this->baujahr <= 1994 ) {
-			return '_bis_1994';
+			return 'bis_1994';
 		}
 
-		return '_bis_heute';
+		return 'bis_heute';
 	}
+
+    protected function energietraeger_slug(): string {
+        switch( $this->energietraeger ) {
+            case 'heizoel':
+            case 'erdgas':
+            case 'fluessiggas':
+            case 'biogas':
+                return 'gas_und_heizoel';
+            case 'holzpellets':
+            case 'holzhackschnitzel':
+            case 'stueckholz':
+                return 'holz';
+            case 'braunkohle':
+            case 'steinkohle':
+                return 'feststoff';
+            default:
+                throw new \Exception( 'Unbekannter Energieträger: ' . $this->energietraeger );
+        }
+}
 
 	protected function niedertemperaturkessel_jahr_slug(): string {
 		if ( $this->baujahr <= 1986 ) {
-			return '_bis_1986';
+			return 'bis_1986';
 		}
 
 		if ( $this->baujahr <= 1994 ) {
-			return '_bis_1994';
+			return 'bis_1994';
 		}
 
-		return '_bis_heute';
+		return 'bis_heute';
 	}
 
 	protected function brennwertkessel_jahr_slug(): string {
 		if ( $this->energietraeger === 'holz' ) {
-			return '_bis_heute';
+			return 'bis_heute';
 		}
 
 		if ( $this->baujahr <= 1986 ) {
-			return '_bis_1986';
+			return 'bis_1986';
 		}
 
 		if ( $this->baujahr <= 1994 ) {
-			return '_bis_1994';
+			return 'bis_1994';
 		}
 
 		if ( $this->baujahr <= 1999 ) {
-			return '_bis_1999';
+			return 'bis_1999';
 		}
 
-		return '_bis_heute';
+		return 'bis_heute';
 	}
 }

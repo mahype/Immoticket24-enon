@@ -36,13 +36,6 @@ abstract class Heizungsanlage {
 	protected int $baujahr;
 
 	/**
-	 * Auslegungstemperaturen.
-	 *
-	 * @var string
-	 */
-	protected string $auslegungstemperaturen;
-
-	/**
 	 * Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts', 'verteilung' oder 'verteilung_erzeuger'.
 	 *
 	 * @var string
@@ -64,7 +57,7 @@ abstract class Heizungsanlage {
 	 * @param bool   $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
 	 * @param int    $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
 	 */
-	public function __construct( string $erzeuger, string $energietraeger, int $baujahr, string $auslegungstemperaturen, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
+	public function __construct( string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
 		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
 
 		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
@@ -80,7 +73,6 @@ abstract class Heizungsanlage {
 		$this->erzeuger                     = $erzeuger;
 		$this->energietraeger               = $energietraeger;
 		$this->baujahr                      = $baujahr;
-		$this->auslegungstemperaturen       = $auslegungstemperaturen;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 	}
@@ -135,15 +127,6 @@ abstract class Heizungsanlage {
 	 */
 	public function baujahr(): int {
 		return $this->baujahr;
-	}
-
-	/**
-	 * Auslegungstemperaturen.
-	 *
-	 * @return string
-	 */
-	public function auslegungstemperaturen(): string {
-		return $this->auslegungstemperaturen;
 	}
 
 	/**

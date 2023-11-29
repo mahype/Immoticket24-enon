@@ -549,20 +549,24 @@ $jahr = new Jahr();
 	<table>
 	<tr>
 		<th>Heizungstyp</th>    
-		<th>Energieträger</th>    
-		<th>Auslegungstemperatur</th>
+		<th>Energieträger</th>
 		<th>Anteil</th>
 		<th>eg0</th>
 		<th>fbj</th>
+		<th>fegt</th>
+		<th>eg</th>
+		<th>ewg</th>
 	</tr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
 		<tr>
 		<td><?php echo $heizungsanlage->typ(); ?></td>
 		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
-		<td><?php echo $heizungsanlage->auslegungstemperaturen(); ?></td>
 		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
 		<td><?php echo $heizungsanlage->eg0(); ?></td>
 		<td><?php echo $heizungsanlage->fbj(); ?></td>
+		<td><?php echo $heizungsanlage->fegt(); ?></td>
+		<td><?php echo $heizungsanlage->eg(); ?></td>
+		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 	<?php endforeach; ?>	
 	</table>

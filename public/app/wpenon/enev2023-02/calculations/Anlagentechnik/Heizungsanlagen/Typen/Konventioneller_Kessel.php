@@ -6,12 +6,14 @@ use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
+use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
 
 require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php'; 
 require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
-require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermerzeugung_Korrekturfaktor.php';
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
 
 class Konventioneller_Kessel extends Heizungsanlage {
 	/**
@@ -134,7 +136,6 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $fbj = Tab 82 T12, in Anhängigkeit von "Umlaufwasserheizer" und $ßhg
 		// else
 		// $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
-
 		if ( $this->typ() === 'umlaufwasserheizer' ) {
 			return (new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ))->eg0();
 		}
@@ -143,14 +144,14 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	public function fegt(): float {
-		// if Umlaufwasserheizer &&  "Energieträger = Hackschnitzel" && "Energieträger = Scheitholz" && "Energieträger = Pellet"  than
-		// $fegt = 1.0
-		// if  "Brennwertkessel" &&  "Energieträger = Gas" && "Energieträger = Biogas" && "Energieträger = Flüssiggas"  than
-		// $fegt = Tab.79  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
-		// if  "Brennwertkessel" &&  "Energieträger = Heizöl" && "Energieträger = Bioöl"  than
-		// $fegt = Tab.80  in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
-		// else
-		// $fegt = Tab. 81 in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt"
-		return 0.0;
+		$fegt = (new Aufwandszahlen_Heizwaermeerzeugung( 
+			$this->erzeuger(), 
+			$this->energietraeger(), 
+			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(), 
+			$this->ßhg(), 
+			$this->heizung_im_beheizten_bereich() ) 
+		)->fegt();
+
+		return $fegt;
 	}
 }
