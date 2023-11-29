@@ -2,12 +2,14 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Standardkessel;
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Konventioneller_Kessel;
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Waermepumpe;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 
 require_once __DIR__ . '/Heizungsanlage.php';
-require_once __DIR__ . '/Heizungsanlagen/Standardkessel.php';
+require_once __DIR__ . '/Heizungsanlagen/Konventioneller_Kessel.php';
+require_once __DIR__ . '/Heizungsanlagen/Waermepumpe.php';
 
 /**
  * Berechnung mehrerer Heizungsanlagen.
@@ -45,11 +47,19 @@ class Heizungsanlagen {
 	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100 ) {
 		switch( $erzeuger ) {
 			case 'standardkessel':
-				$this->heizungsanlagen[] = new Standardkessel( $this->gebaeude, $energietraeger, $baujahr, $prozentualer_anteil );
+			case 'niedertemperaturkessel':
+			case 'brennwertkessel':
+			case 'brennwertkesselverbessert': // ???
+			case 'kleinthermeniedertemperatur':
+			case 'kleinthermebrennwert':
+				$this->heizungsanlagen[] = new Konventioneller_Kessel( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
 				break;
-			// case 'niedertemperaturkessel':
-			// 	$this->heizungsanlagen[] = new Niedertemperaturkessel( $this->gebaeude, $energietraeger, $prozentualer_anteil );
-			// 	break;
+			case 'warmepumpeluft':
+			case 'warmepumpewasser':
+			case 'warmepumpeerde':
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $baujahr, $prozentualer_anteil );
+				break;
+			
 			default:
 				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );		
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Typen;
+namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Calculation_Exception;
@@ -10,14 +10,14 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
 
-require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php'; 
-require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
-require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
-require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php'; 
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
 
 class Konventioneller_Kessel extends Heizungsanlage {
 	/**
-	 * Pufferspeicher.
+	 * Gebaeude.
 	 *
 	 * @var Gebaeude
 	 */
@@ -72,8 +72,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'biogas'      => 'Biogas',
 				),
 			),
-			'kleinthermeniedertemperatur' => array(
-				'name'           => 'Kleintherme Niedertemperatur',
+			'etagenheizung' => array(
+				'name'           => 'Etagenheizung',
 				'typ'            => 'umlaufwasserheizer',
 				'energietraeger' => array(
 					'heizoel'     => 'Heizöl',
