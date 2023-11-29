@@ -61,13 +61,13 @@ abstract class Heizungsanlage {
 		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
 
 		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
-			throw new Calculation_Exception( 'Der Typ der Heizungsanlage für konventionelle Kessel nicht erlaubt.' );
+			throw new Calculation_Exception( sprintf( 'Der erzeuger "%s" nicht erlaubt.', $erzeuger ) );
 		}
 
 		$erlaubte_energietraeger = array_keys( static::erlaubte_erzeuger()[ $erzeuger ]['energietraeger'] );
 
 		if ( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
-			throw new Calculation_Exception( 'Der Energieträger der Heizungsanlage für diesen Kesselerzeuger nicht erlaubt.' );
+			throw new Calculation_Exception( sprintf( 'Der Energieträger "%s" der Heizungsanlage für den Erzeuger "%s" nicht erlaubt.', $energietraeger, $erzeuger ) );
 		}
 
 		$this->erzeuger                     = $erzeuger;

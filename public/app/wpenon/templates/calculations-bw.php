@@ -553,8 +553,9 @@ $jahr = new Jahr();
 		<th>Anteil</th>
 		<th>eg0</th>
 		<th>fbj</th>
+		<th>ßhg</th>
 		<th>fegt</th>
-		<th>eg</th>
+		<th>ehg</th>
 		<th>ewg</th>
 	</tr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
@@ -564,8 +565,9 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
 		<td><?php echo $heizungsanlage->eg0(); ?></td>
 		<td><?php echo $heizungsanlage->fbj(); ?></td>
+		<td><?php echo $heizungsanlage->ßhg(); ?></td>
 		<td><?php echo $heizungsanlage->fegt(); ?></td>
-		<td><?php echo $heizungsanlage->eg(); ?></td>
+		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 	<?php endforeach; ?>	
@@ -600,6 +602,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'ehd1: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd1() ) ); ?></p>
 	<p><?php printf( __( 'ehd: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd() ) ); ?></p>
 	<p><?php printf( __( 'ehd korrektur: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ehd_korrektur() ) ); ?></p>
+	<p><?php printf( __( 'ßhs: %s', 'wpenon' ), str_replace('.',',', $gebaeude->heizsystem()->ßhs() ) ); ?></p>
 	
 
 

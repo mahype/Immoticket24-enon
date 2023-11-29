@@ -54,10 +54,10 @@ class Heizungsanlagen {
 			case 'kleinthermebrennwert':
 				$this->heizungsanlagen[] = new Konventioneller_Kessel( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
 				break;
-			case 'warmepumpeluft':
-			case 'warmepumpewasser':
-			case 'warmepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $baujahr, $prozentualer_anteil );
+			case 'waermepumpeluft':
+			case 'waermepumpewasser':
+			case 'waermepumpeerde':
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
 				break;
 			
 			default:
