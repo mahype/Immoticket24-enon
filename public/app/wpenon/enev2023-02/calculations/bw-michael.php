@@ -2396,6 +2396,23 @@ ______________________________________________________________________________
 //   else 
 //             $fegt = Tab. 81 in Abhängigkeit  "Vor- und Rücklauftemperatur" und $ßhg und "unbeheizt/beheizt" // Brenstoff Gas bzw. Öl
 
+if ( $erzeuger === 'umlaufwasserheizer' || $energietraeger === 'holz' ) {
+  $fegt = 1;
+}
+
+if( $erzeuger === 'brennwertkessel' && $energietraeger === 'gas' ) {
+  $fegt =  Tab.79;
+}
+
+if( $erzeuger === 'brennwertkessel' && $energietraeger === 'oel' ) {
+  $fegt =  Tab.80;
+}
+
+if( ( $erzeuger === 'standardkessel' ||  $erzeuger === 'niedertemperaturkessel' ) && ( $energietraeger === 'gas' || $energietraeger === 'oel' ) ) {
+  $fegt =  Tab.81;
+}
+
+
 //----------------------------
 
 

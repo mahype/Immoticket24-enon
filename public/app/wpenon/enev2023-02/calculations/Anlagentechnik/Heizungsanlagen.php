@@ -2,14 +2,23 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Standardkessel;
 use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 
 require_once __DIR__ . '/Heizungsanlage.php';
+require_once __DIR__ . '/Heizungsanlagen/Standardkessel.php';
 
 /**
  * Berechnung mehrerer Heizungsanlagen.
  */
 class Heizungsanlagen {
+	/**
+	 * Gebäude.
+	 * 
+	 * @var Gebaeude
+	 */
+	protected Gebaeude $gebaeude;
 
 	/**
 	 * Liste der Heizungsanlagen.
@@ -19,12 +28,31 @@ class Heizungsanlagen {
 	protected array $heizungsanlagen = array();
 
 	/**
+	 * Konstruktor.
+	 * 
+	 * @param Gebaeude $gebaeude 
+	 * @return void 
+	 */
+	public function __construct( Gebaeude $gebaeude ) {
+		$this->gebaeude = $gebaeude;
+	}
+
+	/**
 	 * Hinzufügen einer Heizungsanlage.
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( Heizungsanlage $heizungsanlage ) {
-		$this->heizungsanlagen[] = $heizungsanlage;
+	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100 ) {
+		switch( $erzeuger ) {
+			case 'standardkessel':
+				$this->heizungsanlagen[] = new Standardkessel( $this->gebaeude, $energietraeger, $baujahr, $prozentualer_anteil );
+				break;
+			// case 'niedertemperaturkessel':
+			// 	$this->heizungsanlagen[] = new Niedertemperaturkessel( $this->gebaeude, $energietraeger, $prozentualer_anteil );
+			// 	break;
+			default:
+				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );		
+		}
 	}
 
 	/**
