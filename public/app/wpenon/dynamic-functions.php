@@ -495,19 +495,13 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	$energietraeger_standardkessel,
 	$energietraeger_niedertemperaturkessel,
 	$energietraeger_brennwertkessel,
-	$energietraeger_brennwertkesselverbessert,
-	$energietraeger_kleinthermeniedertemperatur,
-	$energietraeger_kleinthermebrennwert,
+	$energietraeger_etagenheizung,
 	$energietraeger_fernwaerme,
 	$energietraeger_waermepumpeluft,
 	$energietraeger_waermepumpewasser,
 	$energietraeger_waermepumpeerde,
 	$energietraeger_elektronachtspeicherheizung,
-	$energietraeger_elektrodirektheizgeraet,
-	$energietraeger_pelletfeuerung,
-	$energietraeger_kohleholzofen,
-	$energietraeger_gasraumheizer,
-	$energietraeger_oelofenverdampfungsbrenner
+	$energietraeger_infrarotheizung
 ) {
 	if ( empty( $erzeugung ) ) {
 		return;
@@ -523,14 +517,8 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 		case 'brennwertkessel':
 			$energietraeger = $energietraeger_brennwertkessel;
 			break;
-		case 'brennwertkesselverbessert':
-			$energietraeger = $energietraeger_brennwertkesselverbessert;
-			break;
-		case 'kleinthermeniedertemperatur':
-			$energietraeger = $energietraeger_kleinthermeniedertemperatur;
-			break;
-		case 'kleinthermebrennwert':
-			$energietraeger = $energietraeger_kleinthermebrennwert;
+		case 'etagenheizung':
+			$energietraeger = $energietraeger_etagenheizung;
 			break;
 		case 'fernwaerme':
 			$energietraeger = $energietraeger_fernwaerme;
@@ -547,21 +535,9 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 		case 'elektronachtspeicherheizung':
 			$energietraeger = $energietraeger_elektronachtspeicherheizung;
 			break;
-		case 'elektrodirektheizgeraet':
-			$energietraeger = $energietraeger_elektrodirektheizgeraet;
-			break;
-		case 'pelletfeuerung':
-			$energietraeger = $energietraeger_pelletfeuerung;
-			break;
-		case 'kohleholzofen':
-			$energietraeger = $energietraeger_kohleholzofen;
-			break;
-		case 'gasraumheizer':
-			$energietraeger = $energietraeger_gasraumheizer;
-			break;
-		case 'oelofenverdampfungsbrenner':
-			$energietraeger = $energietraeger_oelofenverdampfungsbrenner;
-			break;
+		case 'infrarotheizung':
+			$energietraeger = $energietraeger_infrarotheizung;
+			break;		
 		default:
 			break;
 	}
