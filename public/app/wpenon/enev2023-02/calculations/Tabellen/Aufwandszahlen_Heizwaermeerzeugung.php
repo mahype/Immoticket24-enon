@@ -80,7 +80,7 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 			return 1.0;
 		}
 
-		if ( $this->energietraeger === 'holzpellets' || $this->energietraeger === 'holzhackschnitzel' || $this->energietraeger === 'stueckholz' ) {
+		if ( $this->energietraeger === 'holzpellets' || $this->energietraeger === 'holzhackschnitzel' || $this->energietraeger === 'stueckholz' || $this->energietraeger === 'steinkohle' || $this->energietraeger === 'braunkohle' ) {
 			return 1.0;
 		}
 

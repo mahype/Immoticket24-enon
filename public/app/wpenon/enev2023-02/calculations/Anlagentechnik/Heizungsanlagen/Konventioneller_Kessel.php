@@ -10,7 +10,7 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
 
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php'; 
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
@@ -28,9 +28,9 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @param Gebaeude $gebaeude Gebäude.
 	 * @param string   $erzeuger Erzeuger (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
-	 * @param string   $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).	 
+	 * @param string   $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).
 	 * @param int      $baujahr Baujahr der Heizung.
-	 * @param int      $prozentualer_anteil	Prozentualer Anteil der Heizungsanlage im Heizsystem.
+	 * @param int      $prozentualer_anteil Prozentualer Anteil der Heizungsanlage im Heizsystem.
 	 *
 	 * @return void
 	 */
@@ -52,17 +52,22 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 */
 	public static function erlaubte_erzeuger(): array {
 		return array(
-			'standardkessel'              => array(
+			'standardkessel'  => array(
 				'name'           => 'Standardkessel',
 				'typ'            => 'standardkessel',
 				'energietraeger' => array(
-					'heizoel'     => 'Heizöl',
-					'erdgas'      => 'Erdgas',
-					'fluessiggas' => 'Flüssiggas',
-					'biogas'      => 'Biogas',
+					'heizoel'           => 'Heizöl',
+					'erdgas'            => 'Erdgas',
+					'fluessiggas'       => 'Flüssiggas',
+					'biogas'            => 'Biogas',
+					'holzpellets'       => 'Holzpellets',
+					'holzhackschnitzel' => 'Holzhackschnitzel',
+					'stueckholz'        => 'Stückholz',
+					'steinkohle'        => 'Steinkohle',
+					'braunkohle'        => 'Braunkohle',
 				),
 			),
-			'brennwertkessel'             => array(
+			'brennwertkessel' => array(
 				'name'           => 'Brennwertkessel',
 				'typ'            => 'brennwertkessel',
 				'energietraeger' => array(
@@ -72,7 +77,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'biogas'      => 'Biogas',
 				),
 			),
-			'etagenheizung' => array(
+			'etagenheizung'   => array(
 				'name'           => 'Etagenheizung',
 				'typ'            => 'umlaufwasserheizer',
 				'energietraeger' => array(
@@ -116,14 +121,14 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else
 		// $eg0 = Tab 77 T12, in Anhängigkeit von $Pn und $ßhg
 
-		$pn = $this->gebaeude->heizsystem()->pn();
+		$pn  = $this->gebaeude->heizsystem()->pn();
 		$ßhg = $this->ßhg();
 
 		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			return (new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ))->eg0();
+			return ( new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ) )->eg0();
 		}
 
-		return (new Aufwandszahlen_Brennwertkessel( $pn / 1000, $ßhg ))->eg0();
+		return ( new Aufwandszahlen_Brennwertkessel( $pn / 1000, $ßhg ) )->eg0();
 	}
 
 	public function ßhg(): float {
@@ -137,19 +142,20 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else
 		// $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
 		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			return (new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ))->eg0();
+			return ( new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->eg0();
 		}
-		
-		return (new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f();		
+
+		return ( new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f();
 	}
 
 	public function fegt(): float {
-		$fegt = (new Aufwandszahlen_Heizwaermeerzeugung( 
-			$this->erzeuger(), 
-			$this->energietraeger(), 
-			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(), 
-			$this->ßhg(), 
-			$this->heizung_im_beheizten_bereich() ) 
+		$fegt = ( new Aufwandszahlen_Heizwaermeerzeugung(
+			$this->erzeuger(),
+			$this->energietraeger(),
+			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(),
+			$this->ßhg(),
+			$this->heizung_im_beheizten_bereich()
+		)
 		)->fegt();
 
 		return $fegt;
