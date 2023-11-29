@@ -98,8 +98,16 @@ abstract class Heizungsanlage {
 	 *
 	 * @return string
 	 */
-	public function erlaubte_energietraeger(): string {
-		return $this->erlaubte_energietraeger()[ $this->energietraeger() ];
+	public static function erlaubte_energietraeger( $erzeuger ): string {
+		if( ! array_key_exists( $erzeuger, static::erlaubte_erzeuger() ) ) {
+			throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
+		}
+
+		if( ! array_key_exists( 'energietraeger', static::erlaubte_erzeuger()[ $erzeuger ] ) ) {
+			throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" hat keine Energieträger.' );
+		}
+
+		return static::erlaubte_erzeuger()[ $erzeuger ]['energietraeger'];
 	}
 
 	/**

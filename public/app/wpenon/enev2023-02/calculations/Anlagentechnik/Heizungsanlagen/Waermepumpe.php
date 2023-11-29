@@ -27,10 +27,11 @@ class Waermepumpe extends Heizungsanlage {
 	public function __construct(
 		Gebaeude $gebaeude,
 		string $erzeuger,
+        string $energietraeger,
 		int $baujahr,
 		int $prozentualer_anteil = 100,
 	) {
-		parent::__construct( $erzeuger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
+		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
 		$this->gebaeude = $gebaeude;
 	}
 
@@ -41,9 +42,21 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public static function erlaubte_erzeuger(): array {
 		return array(
-			'waermepumpeluft',
-			'waermepumpewasser',
-			'waermepumpeerde',
+			'waermepumpeluft' => array(
+                'energietraeger' => array(
+                    'strom' => 'Strom',
+                ),
+            ),
+			'waermepumpewasser' => array(
+                'energietraeger' => array(
+                    'strom' => 'Strom',
+                ),
+            ),
+			'waermepumpeerde' => array(
+                'energietraeger' => array(
+                    'strom' => 'Strom',
+                ),
+            ),
 		);
 	}
 

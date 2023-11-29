@@ -57,7 +57,7 @@ class Heizungsanlagen {
 			case 'warmepumpeluft':
 			case 'warmepumpewasser':
 			case 'warmepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $baujahr, $prozentualer_anteil );
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $baujahr, $prozentualer_anteil );
 				break;
 			
 			default:
