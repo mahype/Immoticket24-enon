@@ -546,8 +546,11 @@ $jahr = new Jahr();
 	<h2>Heizsystem</h2>
 
 	<h3>Heizungsanlage</h3>
-	<table>
-	<tr>
+	
+	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
+		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
+		<table>
+		<tr>
 		<th>Kategorie</th>    
 		<th>Heizungstyp</th>    
 		<th>Energieträger</th>
@@ -558,9 +561,7 @@ $jahr = new Jahr();
 		<th>fegt</th>
 		<th>ehg</th>
 		<th>ewg</th>
-	</tr>
-	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
-		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
+		</tr>
 		<tr>
 		<td><?php echo $heizungsanlage->kategorie(); ?></td>
 		<td><?php echo $heizungsanlage->typ(); ?></td>
@@ -573,17 +574,26 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
+		</table>
 		<?php elseif ( $heizungsanlage->kategorie() === 'waermepumpe' ) : ?>
-			<tr>
+		<table>
+		<tr>
+		<th>Kategorie</th>    
+		<th>Heizungstyp</th>    
+		<th>Energieträger</th>
+		<th>Anteil</th>
+		<th>θva</th>
+		<th>θvl</th>
+		<th>ewg</th>
+		</tr>
+		<tr>
+		<tr>
 		<td><?php echo $heizungsanlage->kategorie(); ?></td>
 		<td><?php echo $heizungsanlage->typ(); ?></td>
 		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
 		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php // echo $heizungsanlage->eg0(); ?></td>
-		<td><?php // echo $heizungsanlage->fbj(); ?></td>
-		<td><?php // echo $heizungsanlage->ßhg(); ?></td>
-		<td><?php // echo $heizungsanlage->fegt(); ?></td>
-		<td><?php // echo $heizungsanlage->ehg(); ?></td>
+		<td><?php echo $heizungsanlage->θva(); ?></td>
+		<td><?php echo $heizungsanlage->θvl(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 		<?php endif; ?>

@@ -2454,7 +2454,7 @@ ______________________________________________________________________________
 
 //------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-//  if Wärmepumentyp = "Luft Wasser-Wärmepumpe" than
+//  if Wärmepumentyp = "Luft Wasser-Wärmepumpe" than // Luft
 
 
 
@@ -2524,7 +2524,7 @@ ______________________________________________________________________________
 
 
 
-// Berechnung von eg Luft/Wasserwärmepumpe,  für Gesamtaufwandszahl
+// Berechnung von eg Luft/Wasserwärmepumpe,  für Gesamtaufwandszahl 
 // a) Einstufige Wärmepumpe (Abgabeleistung immer konstant; immer eine feste KW Zahl in der Abgabe, nicht leistungsgeregelt)
 //     
 //     $eg = $Qhfwp*/$Qhfwp  ; // Einstufige Wärmepumpe
@@ -2536,7 +2536,7 @@ ______________________________________________________________________________
 //-------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-//  else //  Berechnung COP-Wert für Sole/Wasser-Wärmepume und Wasser/Wasser-Wärmepumpe Heizung
+//  else //  Berechnung COP-Wert für Sole/Wasser-Wärmepume und Wasser/Wasser-Wärmepumpe Heizung /
 
 // Bestimmung COPtk
 //
