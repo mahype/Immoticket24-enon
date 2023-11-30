@@ -330,7 +330,7 @@ class Heizsystem {
 	}
 
 	/**
-	 * Nennleistung des Pufferspeichers (pn).
+	 * Nennleistung des Pufferspeichers in Watt (pn).
 	 *
 	 * @return float
 	 * @throws Calculation_Exception

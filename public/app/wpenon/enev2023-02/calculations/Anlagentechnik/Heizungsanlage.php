@@ -64,7 +64,7 @@ abstract class Heizungsanlage {
 			throw new Calculation_Exception( sprintf( 'Der erzeuger "%s" nicht erlaubt.', $erzeuger ) );
 		}
 
-		$erlaubte_energietraeger = array_keys( static::erlaubte_erzeuger()[ $erzeuger ]['energietraeger'] );
+		$erlaubte_energietraeger = array_keys( static::erlaubte_energietraeger( $erzeuger ) );
 
 		if ( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
 			throw new Calculation_Exception( sprintf( 'Der Energieträger "%s" der Heizungsanlage für den Erzeuger "%s" nicht erlaubt.', $energietraeger, $erzeuger ) );
@@ -96,9 +96,9 @@ abstract class Heizungsanlage {
 	/**
 	 * Erlaubte Energietraeger.
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function erlaubte_energietraeger( $erzeuger ): string {
+	public static function erlaubte_energietraeger( $erzeuger ): array {
 		if( ! array_key_exists( $erzeuger, static::erlaubte_erzeuger() ) ) {
 			throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
 		}
@@ -174,11 +174,6 @@ abstract class Heizungsanlage {
 	 * @return float Anteils nutzbarer Wärme von Heizungsanlagen (fa-h) aus Tabelle 141 / Teil 12, anteilig für die Heizungsanlage.
 	 */
 	public function fa_h( $auslegungstemperaturen = null ) {
-		// Es können auch andere Auslegungstemperaturen als die der Heizungsanlage angesetzt werden (beispielsweise die des Übergabesystems).
-		if ( ! $auslegungstemperaturen ) {
-			$auslegungstemperaturen = $this->auslegungstemperaturen;
-		}
-
 		// Wertzuweisungen je nach Auslegungstemperatur und Beheizung der Anlage.
 		switch ( $auslegungstemperaturen ) {
 			case '90/70':

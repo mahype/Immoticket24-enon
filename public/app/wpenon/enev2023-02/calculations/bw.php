@@ -499,7 +499,7 @@ $gebaeude->trinkwarmwasseranlage(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
-		mit_warmwasserspeicher: $energieausweis->speicherung, // Neu - Ist ein Warmwasserspeicher vorhanden?
+		mit_warmwasserspeicher: true,
 		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false,
 		mit_solarthermie: $energieausweis->regenerativ_art === 'warmwasser' ? true : false,
 	)

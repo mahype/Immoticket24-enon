@@ -24,7 +24,7 @@ class Aufwandszahlen_Brennwertkessel {
 	 *
 	 * @var float
 	 */
-	protected float $spalte_zielwert;
+	protected float $ßhg;
 
 	/**
 	 * Tabellendaten aus Tabelle 77.
@@ -43,7 +43,7 @@ class Aufwandszahlen_Brennwertkessel {
 	 */
 	public function __construct( float $pn, float $ßhg ) {
 		$this->zeile_zielwert  = $pn;
-		$this->spalte_zielwert = $ßhg;
+		$this->ßhg = $ßhg;
 		$this->table_data      = wpenon_get_table_results( 'aufwandszahlen_brennwertkessel' );
 	}
 
@@ -63,10 +63,13 @@ class Aufwandszahlen_Brennwertkessel {
 			}
 
          	$zeilen_keys[]   = $zeile;
-			$zeilen_values[] = interpolate_value( $this->spalte_zielwert, $spalten_keys, $spalten_values );
+			$interpolierter_wert = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
+			$zeilen_values[] = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
 		}
 
-      return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+	
+		$interpolierter_wert_2 = interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+      	return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
 	}
 
    public function eg0(): float {
@@ -120,25 +123,25 @@ class Aufwandszahlen_Brennwertkessel {
 	}
 
 	protected function spalten(): array {
-		if ( $this->spalte_zielwert <= 0.1 ) {
+		if ( $this->ßhg <= 0.1 ) {
 			return array( 0.1 );
-		} elseif ( $this->spalte_zielwert > 0.1 && $this->spalte_zielwert <= 0.2 ) {
+		} elseif ( $this->ßhg > 0.1 && $this->ßhg <= 0.2 ) {
 			return array( 0.1, 0.2 );
-		} elseif ( $this->spalte_zielwert > 0.2 && $this->spalte_zielwert <= 0.3 ) {
+		} elseif ( $this->ßhg > 0.2 && $this->ßhg <= 0.3 ) {
 			return array( 0.2, 0.3 );
-		} elseif ( $this->spalte_zielwert > 0.3 && $this->spalte_zielwert <= 0.4 ) {
+		} elseif ( $this->ßhg > 0.3 && $this->ßhg <= 0.4 ) {
 			return array( 0.3, 0.4 );
-		} elseif ( $this->spalte_zielwert > 0.4 && $this->spalte_zielwert <= 0.5 ) {
+		} elseif ( $this->ßhg > 0.4 && $this->ßhg <= 0.5 ) {
 			return array( 0.4, 0.5 );
-		} elseif ( $this->spalte_zielwert > 0.5 && $this->spalte_zielwert <= 0.6 ) {
+		} elseif ( $this->ßhg > 0.5 && $this->ßhg <= 0.6 ) {
 			return array( 0.5, 0.6 );
-		} elseif ( $this->spalte_zielwert > 0.6 && $this->spalte_zielwert <= 0.7 ) {
+		} elseif ( $this->ßhg > 0.6 && $this->ßhg <= 0.7 ) {
 			return array( 0.6, 0.7 );
-		} elseif ( $this->spalte_zielwert > 0.7 && $this->spalte_zielwert <= 0.8 ) {
+		} elseif ( $this->ßhg > 0.7 && $this->ßhg <= 0.8 ) {
 			return array( 0.7, 0.8 );
-		} elseif ( $this->spalte_zielwert > 0.8 && $this->spalte_zielwert <= 0.9 ) {
+		} elseif ( $this->ßhg > 0.8 && $this->ßhg <= 0.9 ) {
 			return array( 0.8, 0.9 );
-		} elseif ( $this->spalte_zielwert > 0.9 && $this->spalte_zielwert <= 1.0 ) {
+		} elseif ( $this->ßhg > 0.9 && $this->ßhg <= 1.0 ) {
 			return array( 0.9, 1.0 );
 		} else {
 			return array( 1.0 );
