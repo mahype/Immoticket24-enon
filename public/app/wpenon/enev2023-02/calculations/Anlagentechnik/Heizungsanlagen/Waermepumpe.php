@@ -43,16 +43,19 @@ class Waermepumpe extends Heizungsanlage {
 	public static function erlaubte_erzeuger(): array {
 		return array(
 			'waermepumpeluft' => array(
+                'typ' => 'waermepumpe',
                 'energietraeger' => array(
                     'strom' => 'Strom',
                 ),
             ),
 			'waermepumpewasser' => array(
+                'typ' => 'waermepumpe',
                 'energietraeger' => array(
                     'strom' => 'Strom',
                 ),
             ),
 			'waermepumpeerde' => array(
+                'typ' => 'waermepumpe',
                 'energietraeger' => array(
                     'strom' => 'Strom',
                 ),
@@ -73,5 +76,9 @@ class Waermepumpe extends Heizungsanlage {
             default:
                 throw new Calculation_Exception( 'Die Auslegungstemperatur "' . $auslegungstemperaturen . '" ist nicht erlaubt.' );
         }
+    }
+
+    public function ewg(): float {
+        return 0;
     }
 }

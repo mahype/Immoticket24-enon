@@ -12,7 +12,7 @@ return array(
 	'search_before' => true,
 	'fields'        => array(
 		'bwk_pn_kw'   => array(
-			'title' => __( 'P<sub>n</sub> kW', 'wpenon' ),
+			'title' => __( 'Pn kW', 'wpenon' ),
 			'type'  => 'INT',
 		),
 		'bwk_0_1' => array(

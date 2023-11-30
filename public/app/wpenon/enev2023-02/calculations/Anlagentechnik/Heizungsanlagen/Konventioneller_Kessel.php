@@ -122,14 +122,16 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else
 		// $eg0 = Tab 77 T12, in Anhängigkeit von $Pn und $ßhg
 
-		$pn  = $this->gebaeude->heizsystem()->pn();
+		$pn  = $this->gebaeude->heizsystem()->pn() / 1000;
 		$ßhg = $this->ßhg();
 
 		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			return ( new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ) )->eg0();
+			$eg0 = ( new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ) )->eg0();
+		} else {
+			$eg0 = ( new Aufwandszahlen_Brennwertkessel( $pn, $ßhg ) )->eg0();
 		}
 
-		return ( new Aufwandszahlen_Brennwertkessel( $pn / 1000, $ßhg ) )->eg0();
+		return $eg0;
 	}
 
 	public function ßhg(): float {
