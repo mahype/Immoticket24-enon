@@ -128,6 +128,11 @@ abstract class Heizungsanlage {
 		return $this->erlaubte_erzeuger()[ $this->erzeuger() ]['typ'];
 	}
 
+	public function kategorie(): string {
+		$path = explode('\\', static::class);
+		return strtolower( array_pop($path) );
+	}
+
 	/**
 	 * Baujahr.
 	 *
