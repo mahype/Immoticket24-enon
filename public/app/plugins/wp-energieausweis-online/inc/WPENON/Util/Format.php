@@ -29,11 +29,11 @@ class Format {
 	}
 
 	public static function float( $value ) {
-		return number_format( floatval( $value ), 2, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
+		return number_format( floatval( $value ), 6, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
 	}
 
 	public static function float_length( $value ) {
-		return number_format( floatval( $value ), 2, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
+		return number_format( floatval( $value ), 6, wpenon_get_option( 'decimal_separator' ), wpenon_get_option( 'thousands_separator' ) );
 	}
 
 	public static function boolean( $value ) {
