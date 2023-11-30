@@ -1,0 +1,13 @@
+faktor_baujahr_anlagensystemen
+ID;Systeme der WohnungslÃ¼ftung;AC;DC/EC
+abluft_zentral_ohne_wp;Abluftsystem zentral: ohne WŠrmepumpe;1,5;2
+abluft_zentral_mit_wp;Abluftsystem zentral: mit Abluft-WŠrmepumpe;1,286;1,5
+abluft_dezentral;Abluftsystem dezentral Einzelventilator: ohne WP;1,286;1,5
+zuluft_abluft_zentral_mit_abluft_uebertrager;Zuluft- und Abluftsystem zentral: mit Abluft-Zuluft-WŠrmeŸbertrager;1,182;1,286
+zuluft_abluft_zentral_mit_abluft_wp;Zuluft- und Abluftsystem zentral: mit Abluft-WP (mit/ohne W†T);1,154;1,222
+zuluft_abluft_dezentral_wuet;Zuluft- und Abluftsystem dezentral (RaumgerŠt): mit Abluft-Zuluft-W†T;1,143;1,222
+zuluft_zentral;Zuluftsystem zentral (mit ZentralgerŠt);1,4;1,667
+zuluft_dezentral;Zuluftsystem dezentral (mit EinzelgerŠten);1,25;1,4
+luftheitzung_zentral_abluft_uebertrager;Luftheizung zentral: mit Abluft-Zuluft-WŠrmeŸbertrager;1,143;1,2
+luftheitzung_zentral_abluft_wp;Luftheizung zentral: mit Abluft-WP (mit/ohne W†T);1,125;1,167
+alle_systeme;Alle Systeme;1;1

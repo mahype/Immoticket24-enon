@@ -1,0 +1,3 @@
+ID;Bezeichnung;Zuschlagsfaktor fz;Aufwandszahl 1;Aufwandszahl 1,2;Aufwandszahl 2;Aufwandszahl 2,5;Aufwandszahl 3;Aufwandszahl 3,5;Aufwandszahl 4
+anlage_neu;Zu errichtende Anlagen;1,1;227;273;455;568;682;795;909
+anlage_bestand;Bei bestehenden Anlagen;1,5;167;200;333;417;500;583;667
