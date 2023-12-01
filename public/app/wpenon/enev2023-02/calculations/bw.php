@@ -510,21 +510,37 @@ $gebaeude->trinkwarmwasseranlage(
 */
 $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
+$h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieausweis->h_deckungsanteil : 100;
 
-$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_deckungsanteil );
+if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
+	$h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;	
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, $h_evu_abschaltung );
+} else {
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil );
+}
 
 if ( $energieausweis->h2_erzeugung ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_deckungsanteil );
+	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' || $energieausweis->h2_erzeugung === 'waermepumpewasser' || $energieausweis->h2_erzeugung === 'waermepumpeerde' ) {
+		$h2_evu_abschaltung = $energieausweis->h2_evu_abschaltung === 'ja' ? true : false;	
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, $h2_evu_abschaltung );
+	} else {
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil );
+	}
 }
 
 if ( $energieausweis->h3_erzeugung ) {
 	$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_deckungsanteil );
+	if( $energieausweis->h3_erzeugung === 'waermepumpeluft' || $energieausweis->h3_erzeugung === 'waermepumpewasser' || $energieausweis->h3_erzeugung === 'waermepumpeerde' ) {
+		$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;	
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung );
+	} else {
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil );
+	}
 }
 
 // Wir rechnen vorerst nur mit einem Übergabesystem.

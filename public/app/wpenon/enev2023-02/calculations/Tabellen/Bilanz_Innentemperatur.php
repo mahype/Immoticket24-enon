@@ -7,7 +7,6 @@ use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
-require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';
 
 /**
  * Berechnung der Daten zur Mittleren Belastung aus Tablle 8 und 10.

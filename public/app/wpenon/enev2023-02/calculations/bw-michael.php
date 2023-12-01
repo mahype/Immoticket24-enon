@@ -2479,8 +2479,8 @@ ______________________________________________________________________________
 //   Gesamtwichtung  der Temperaturklassen nach Tab 93, T12
 
 //    $calculations['monate'][ $monat ]['W-7']= $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W -7 herauskopieren);
-//    $calculations['monate'][ $monat ]['W2']= $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W +2 herauskopieren);
-//    $calculations['monate'][ $monat ]['W7']= $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W +7 herauskopieren);
+//    $calculations['monate'][ $monat ]['W2'] = $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W +2 herauskopieren);
+//    $calculations['monate'][ $monat ]['W7'] = $calculations['monate'][ $monat ]['ßoutgmth']* (Tab93 MOnatwert für W +7 herauskopieren);
 
 
 // Jahreessumme bilden 
@@ -2587,6 +2587,7 @@ ______________________________________________________________________________
 
 
 // [ ] c) zentral elektrisch beheizte Wärmeerzeuger, Tab 101, T12
+// NOTE: Nicht relevant
 // Abfrage Kunden elektrischer Wärmererzeuger (Heizstab) mit Pufferspeicher: Ja/nein
 // If "Ja" than // 
 //    $eg = 1.09; 

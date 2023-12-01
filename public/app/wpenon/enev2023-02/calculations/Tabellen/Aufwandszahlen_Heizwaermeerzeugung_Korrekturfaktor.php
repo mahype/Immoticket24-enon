@@ -73,7 +73,7 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
 		$this->table_data      = wpenon_get_table_results( 'aufwandszahlen_heizwaermeerzeugung_korrektur' );
 	}
 
-    public function f(): float {
+    public function f_temp(): float {
         return $this->interpolierter_wert();
     }
 
