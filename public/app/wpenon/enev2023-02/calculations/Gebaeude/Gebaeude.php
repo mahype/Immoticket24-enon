@@ -782,6 +782,19 @@ class Gebaeude {
 	}
 
 	/**
+	 * ßoutgmth.
+	 * 
+	 * Berechnung der mittlere Belastung Erzeuger Nutzwärme
+	 * 
+	 * @param string $monat 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ßoutgmth( string $monat ): float {		
+		return $this->ßhm_monat( $monat ) / $this->ßhma();
+	}
+
+	/**
 	 * Berechnung von thm für einen Monat.
 	 * 
 	 * @param string $monat 

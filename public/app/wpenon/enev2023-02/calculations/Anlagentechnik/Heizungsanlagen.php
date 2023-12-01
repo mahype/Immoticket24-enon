@@ -2,6 +2,7 @@
 
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Fernwaerme;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Konventioneller_Kessel;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Waermepumpe;
 use Enev\Schema202302\Calculations\Calculation_Exception;
@@ -10,6 +11,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 require_once __DIR__ . '/Heizungsanlage.php';
 require_once __DIR__ . '/Heizungsanlagen/Konventioneller_Kessel.php';
 require_once __DIR__ . '/Heizungsanlagen/Waermepumpe.php';
+require_once __DIR__ . '/Heizungsanlagen/Fernwaerme.php';
 
 /**
  * Berechnung mehrerer Heizungsanlagen.
@@ -44,7 +46,7 @@ class Heizungsanlagen {
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100 ) {
+	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false ) {
 		switch( $erzeuger ) {
 			case 'standardkessel':
 			case 'niedertemperaturkessel':
@@ -57,7 +59,10 @@ class Heizungsanlagen {
 			case 'waermepumpeluft':
 			case 'waermepumpewasser':
 			case 'waermepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung );
+				break;
+			case 'fernwaerme':
+				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
 				break;
 			
 			default:

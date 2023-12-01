@@ -148,7 +148,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			return ( new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->eg0();
 		}
 
-		return ( new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f();
+		return ( new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f_temp();
 	}
 
 	public function fegt(): float {
