@@ -41,13 +41,13 @@ class Dezentral extends Heizungsanlage {
 	public static function erlaubte_erzeuger(): array {
 		return array(
 			'infrarotheizung'   => array(
-				'typ'            => 'dezentral',
+				'typ'            => 'infrarotheizung',
 				'energietraeger' => array(
 					'strom' => 'Strom',
 				),
 			),
 			'elektronachtspeicherheizung'   => array(
-				'typ'            => 'dezentral',
+				'typ'            => 'elektronachtspeicherheizung',
 				'energietraeger' => array(
 					'strom' => 'Strom',
 				),
