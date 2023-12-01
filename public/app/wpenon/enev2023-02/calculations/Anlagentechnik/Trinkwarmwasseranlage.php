@@ -34,6 +34,13 @@ class Trinkwarmwasseranlage {
 	protected bool $zentral;
 
 	/**
+	 * Dezenraler Erzeiger
+	 *
+	 * @var string|null
+	 */
+	protected ?string $dezentraler_erzeuger;
+
+	/**
 	 * Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
 	 *
 	 * @var bool
@@ -85,17 +92,19 @@ class Trinkwarmwasseranlage {
 	/**
 	 * Liegt eine Warmwasserspeicher vor
 	 *
-	 * @param Gebaeude $gebaeude               Gebäude.
-	 * @param bool     $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
-	 * @param bool     $heizung_im_beheizten_bereich      Liegt die Heizung im beheitzen Bereich?
-	 * @param bool     $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
-	 * @param bool     $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
-	 * @param int      $prozentualer_anteil    Prozentualer Anteil.
+	 * @param Gebaeude    $gebaeude               Gebäude.
+	 * @param bool        $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
+	 * @param bool        $heizung_im_beheizten_bereich      Liegt die Heizung im beheitzen Bereich?
+	 * @param string|null $dezentraler_erzeuger   Dezentraler Erzeuger
+	 * @param bool        $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
+	 * @param bool        $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
+	 * @param int         $prozentualer_anteil    Prozentualer Anteil.
 	 */
 	public function __construct(
 		Gebaeude $gebaeude,
 		bool $zentral,
 		bool $heizung_im_beheizten_bereich,
+		string|null $dezentraler_erzeuger = null,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
 		bool $mit_solarthermie = false,
@@ -110,6 +119,7 @@ class Trinkwarmwasseranlage {
 		$this->gebaeude                     = $gebaeude;
 		$this->zentral                      = $zentral;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
+		$this->dezentraler_erzeuger         = $dezentraler_erzeuger;
 		$this->mit_warmwasserspeicher       = $mit_warmwasserspeicher;
 		$this->mit_zirkulation              = $mit_zirkulation;
 		$this->mit_solarthermie             = $mit_solarthermie;
@@ -122,11 +132,20 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Wird die Trinkwarmwasseranlage mit Solarthermie betrieben?
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function solarthermie_vorhanden(): bool {
 		return $this->mit_solarthermie;
+	}
+
+	/**
+	 * Dezentraler Erzeuger.
+	 * 
+	 * @return string|null
+	 */
+	public function dezentraler_erzeuger(): ?string {
+		return $this->dezentraler_erzeuger;
 	}
 
 	/**
@@ -169,8 +188,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function fwb(): float {		
-		return ( $this->nutzwaermebedarf_trinkwasser() / 12.5 ) *  ( 1 + ( $this->ewd0() -1 ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() ) ) / $this->ewd0();
+	public function fwb(): float {
+		return ( $this->nutzwaermebedarf_trinkwasser() / 12.5 ) * ( 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() ) ) / $this->ewd0();
 	}
 
 	/**
@@ -227,7 +246,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Vsw1(): float {
-		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5);
+		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
 
 		if ( $Vsw > 3000 ) {
 			$Vsw = 3000;
@@ -246,7 +265,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Vsw2(): float {
-		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5);
+		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
 
 		if ( $Vsw > 3000 ) {
 			$Vsw = 3000;
@@ -274,7 +293,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Qws02(): float {
-		if( $this->Vsw2() == 0 ) {
+		if ( $this->Vsw2() == 0 ) {
 			return 0;
 		}
 
@@ -296,18 +315,18 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Berechnung von ews.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function ews(): float {		
+	public function ews(): float {
 		// Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlag
 		return 1 + ( $this->Qws() / ( $this->QWB() * $this->ewd() * $this->ewce() ) );
 	}
 
 	/**
 	 * Berechnung von keew.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function keew(): float {
 		return 0.5; // Zum jetzigen Zeitpunkt ist keew immer 0.5, da wir keine Solarthermie in der Heizung haben.
@@ -315,8 +334,8 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Berechnung von keeh.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function keeh(): float {
 		return 0; // Zum jetzigen Zeitpunkt ist keew immer 0, da wir keine Solarthermie in der Heizung haben.
@@ -337,27 +356,27 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Qws_mit_solar(): float {
-		return $this->fbivalent() * ( 0.4 + 0.2 * ( pow( $this->Vsaux() + $this->Vssol() , 0.4 ) ) ) * pow( $this->Vsaux() / ( $this->Vsaux() + $this->Vssol() ), 2) * 365;		
+		return $this->fbivalent() * ( 0.4 + 0.2 * ( pow( $this->Vsaux() + $this->Vssol(), 0.4 ) ) ) * pow( $this->Vsaux() / ( $this->Vsaux() + $this->Vssol() ), 2 ) * 365;
 	}
 
 	/**
 	 * Vsaux0 direkt als interpolierter Wert aus Tabelle.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function Vsaux0() : float {
+	public function Vsaux0(): float {
 		return $this->thermische_solaranlagen->vs_aux();
 	}
 
 	/**
 	 * Berechnung von Vsaucx.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Vsaux(): float {
-		$Vsaux  = $this->Vsaux0();
-		
-		if( $this->gebaeude->nutzflaeche() >= 5000 ) {
+		$Vsaux = $this->Vsaux0();
+
+		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
 			$Vsaux = $Vsaux * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
@@ -368,22 +387,22 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Vssol direkt als interpolierter Wert aus Tabelle.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function Vssol0() : float {
+	public function Vssol0(): float {
 		return $this->thermische_solaranlagen->vs_sol();
 	}
 
 	/**
 	 * Berechnung von Vssol.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Vssol(): float {
-		$Vssol  = $this->Vssol0();
+		$Vssol = $this->Vssol0();
 
-		if( $this->gebaeude->nutzflaeche() >= 5000 ) {
+		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
 			$Vssol = $Vssol * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
@@ -394,53 +413,54 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Ac0 direkt als interpolierter Wert aus Tabelle.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function Ac0() : float {
+	public function Ac0(): float {
 		return $this->thermische_solaranlagen->flach_a();
 	}
-	
+
 	/**
 	 * Berechnung von Ac.
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Ac(): float {
-		$Ac  = $this->Ac0();
+		$Ac = $this->Ac0();
 
-		if( $this->gebaeude->nutzflaeche() >= 5000 ) {
+		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
 			$Ac = $Ac * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
 		$Ac *= $this->fwb();
 
-		return $Ac;	
+		return $Ac;
 	}
 
 	/**
 	 * Qwsola0 direkt als interpolierter Wert aus Tabelle.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
-	public function Qwsola0() : float {
+	public function Qwsola0(): float {
 		return $this->thermische_solaranlagen->flach_q();
 	}
 
 	/**
 	 * Berechnung von Qwsola.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Qwsola(): float {
-		$Qwsola  = $this->Qwsola0();
+		$Qwsola = $this->Qwsola0();
 
-		if( $this->gebaeude->nutzflaeche() >= 5000 ) {
+		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
 			$Qwsola = $Qwsola * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
 		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() );
 
-		return $Qwsola;	
+		return $Qwsola;
 	}
 
 	/**

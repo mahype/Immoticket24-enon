@@ -12,15 +12,16 @@ $anlage = array(
 					'label'       => __( 'Typ der Heizungsanlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
 					'options'     => array(
-						'standardkessel'         => __( 'Standardkessel', 'wpenon' ),
-						'niedertemperaturkessel' => __( 'Niedertemperaturkessel', 'wpenon' ),
-						'brennwertkessel'        => __( 'Brennwertkessel', 'wpenon' ),
-						'waermepumpeluft'        => __( 'Wärmepumpe (Luft)', 'wpenon' ),
-						'waermepumpewasser'      => __( 'Wärmepumpe (Wasser)', 'wpenon' ),
-						'waermepumpeerde'        => __( 'Wärmepumpe (Erde)', 'wpenon' ),
-						'etagenheizung'          => __( 'Etagenheizung', 'wpenon' ),
-						'infrarotheizung'        => __( 'Infrarotheizung', 'wpenon' ),
-						'fernwaerme'             => __( 'Fernwärme', 'wpenon' ),
+						'standardkessel'              => __( 'Standardkessel', 'wpenon' ),
+						'niedertemperaturkessel'      => __( 'Niedertemperaturkessel', 'wpenon' ),
+						'brennwertkessel'             => __( 'Brennwertkessel', 'wpenon' ),
+						'waermepumpeluft'             => __( 'Wärmepumpe (Luft)', 'wpenon' ),
+						'waermepumpewasser'           => __( 'Wärmepumpe (Wasser)', 'wpenon' ),
+						'waermepumpeerde'             => __( 'Wärmepumpe (Erde)', 'wpenon' ),
+						'etagenheizung'               => __( 'Etagenheizung', 'wpenon' ),
+						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
+						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
+						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
 					),
 					'required'    => true,
 				),
@@ -204,20 +205,20 @@ $anlage = array(
 						),
 					),
 				),
-				'h_evu_abschaltung' => array(
-					'type'     => 'select',
-					'label'    => __( 'EVU abschaltung', 'wpenon' ),
+				'h_evu_abschaltung'                        => array(
+					'type'        => 'select',
+					'label'       => __( 'EVU abschaltung', 'wpenon' ),
 					'description' => __( 'Wird ihre Wärmepumpe vom Stromversorger zu verschiedene Zeitpunkten am Tag abgeschaltet?', 'wpenon' ),
-					'options'  => array(
-						'ja'     => __( 'Ja', 'wpenon' ),
-						'nein'      => __( 'Nein', 'wpenon' ),
+					'options'     => array(
+						'ja'   => __( 'Ja', 'wpenon' ),
+						'nein' => __( 'Nein', 'wpenon' ),
 					),
-					'default' => 'nein',
-					'display'  => array(
+					'default'     => 'nein',
+					'display'     => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::h_erzeugung', array( 'waermepumpeluft', 'waermepumpewasser', 'waermepumpeerde' ) ),
 					),
-					'required' => true,
+					'required'    => true,
 				),
 				'h_deckungsanteil'                         => array(
 					'type'        => 'int',
@@ -978,7 +979,7 @@ $anlage = array(
 					'label'       => __( 'Der Energieverbrauch für Warmwasser ist:', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, ob die Warmwasserzeugung durch eine der angegebenen Heizungsanlagen oder in einer separaten Anlage stattfindet.', 'wpenon' ),
 					'options'     => array(
-						'callback'      => 'wpenon_immoticket24_get_ww_info',
+						'callback'      => 'wpenon_immoticket24_get_ww_info_18599',
 						'callback_args' => array(
 							'field::h2_info',
 							'field::h3_info',
@@ -1077,6 +1078,10 @@ $anlage = array(
 					'options'     => array(
 						'ohne' => __( 'ohne Zirkulation', 'wpenon' ),
 						'mit'  => __( 'mit Zirkulation', 'wpenon' ),
+					),
+					'display'     => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::ww_info', array( 'h', 'h2', 'h3' ) ),
 					),
 					'required'    => true,
 				),

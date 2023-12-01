@@ -3,6 +3,7 @@
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Fernwaerme;
+use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Dezentral;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Konventioneller_Kessel;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen\Waermepumpe;
 use Enev\Schema202302\Calculations\Calculation_Exception;
@@ -12,6 +13,7 @@ require_once __DIR__ . '/Heizungsanlage.php';
 require_once __DIR__ . '/Heizungsanlagen/Konventioneller_Kessel.php';
 require_once __DIR__ . '/Heizungsanlagen/Waermepumpe.php';
 require_once __DIR__ . '/Heizungsanlagen/Fernwaerme.php';
+require_once __DIR__ . '/Heizungsanlagen/Dezentral.php';
 
 /**
  * Berechnung mehrerer Heizungsanlagen.
@@ -64,7 +66,10 @@ class Heizungsanlagen {
 			case 'fernwaerme':
 				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
 				break;
-			
+			case 'elektronachtspeicherheizung':
+			case 'infrarotheizung':
+				$this->heizungsanlagen[] = new Dezentral( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
+				break;			
 			default:
 				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );		
 		}

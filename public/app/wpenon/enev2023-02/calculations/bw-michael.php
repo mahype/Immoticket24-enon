@@ -2648,7 +2648,7 @@ ______________________________________________________________________________
 
 //  Berechnung der Aufwandszahlen ewg (Warmwasser)
 //  
-//      if "Elektrodurchlauferhitzer" than  // Wird nur hydraulischer Durchlauferhitzer wird berücksichtigt (auf der sicheren Seite)
+//      if "Elektrodurchlauferhitzer" than  // Wird nur hydraulischer Durchlauferhitzer wird berücksichtigt (auf der sicheren Seite) // Gilt auch für Elektro-Kleinspeicher
  //           $ewg = 1.01;
 //      if "Gasdurchlauferhitzer"   Than
 //             $ewg = 1.26
