@@ -476,28 +476,26 @@ $gebaeude->luftwechsel(
 	)
 );
 
-$beheizte_bereiche = $energieausweis->h_standort === 'innerhalb' ? 'alles' : 'nichts';
+$heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
 
 switch ( $energieausweis->ww_info ) {
+	// Eigene Warmwasserbereitung.
 	case 'ww':
 		$ww_zentral = false;
-		$beheizte_bereiche = 'nichts';
 		$mit_warmwasserspeicher = false;
 		break;
+	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
 		$ww_zentral = true;
-
 		$mit_warmwasserspeicher = false;
 		break;
-	
 }
-
-$heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
 
 $gebaeude->trinkwarmwasseranlage(
 	new Trinkwarmwasseranlage(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
+		dezentraler_erzeuger: $energieausweis->ww_info === 'ww' ? $energieausweis->ww_erzeugung : null,
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: true,
 		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false,

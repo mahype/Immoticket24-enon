@@ -374,6 +374,13 @@ function wpenon_get_water_independend_heaters() {
 	);
 }
 
+function wpenon_get_water_independend_heaters_18599() {
+	return array(		
+		'elektronachtspeicherheizung',
+		'infrarotheizung',
+	);
+}
+
 function wpenon_get_heaters_without_piping() {
 	$heaters = wpenon_get_water_independend_heaters();
 	$heaters = array_merge( $heaters, array( 'kleinthermebrennwert', 'kleinthermeniedertemperatur' ) );
@@ -405,6 +412,50 @@ function wpenon_immoticket24_get_ww_info( $h2_info = false, $h3_info = false, $h
 	];
 
 	$water_independend_heaters = wpenon_get_water_independend_heaters();
+
+	$values = [];
+
+	foreach( $heaters AS $name => $heater ) {
+		if ( ! $heater ) {
+			continue;
+		}
+
+		if ( in_array( $heater['type'], $water_independend_heaters ) ) {
+			continue;
+		}
+
+		$values[ $name ] = $heater['ww_value'];
+	}
+
+	$values['ww'] = __( 'separat angegeben', 'wpenon' );
+
+	if ( $show_unbekannt ) {
+		$values['unbekannt'] = __( 'unbekannt', 'wpenon' );
+	}
+
+	return $values;
+}
+function wpenon_immoticket24_get_ww_info_18599( $h2_info = false, $h3_info = false, $h_erzeuger = false, $h2_erzeuger = false, $h3_erzeuger = false, $show_unbekannt = false, $can_hide_pauschal = false ) {
+	$h2_info        = filter_var( $h2_info, FILTER_VALIDATE_BOOLEAN );
+	$h3_info        = filter_var( $h3_info, FILTER_VALIDATE_BOOLEAN );
+	$show_unbekannt = filter_var( $show_unbekannt, FILTER_VALIDATE_BOOLEAN );
+
+	$heaters = [
+		'h' => [ 
+				'type' => $h_erzeuger,
+				'ww_value' => __( 'pauschal in Heizungsanlage enthalten', 'wpenon' )
+			],
+		'h2' => $h2_info ? [ 
+				'type' => $h2_erzeuger,
+				'ww_value' => __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' ) 
+			]: false,
+		'h3' => $h2_info && $h3_info ? [ 
+				'type' => $h3_erzeuger,
+				'ww_value' => __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' ) 
+			] : false
+	];
+
+	$water_independend_heaters = wpenon_get_water_independend_heaters_18599();
 
 	$values = [];
 
