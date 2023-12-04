@@ -146,7 +146,7 @@ class Heizsystem {
 		$uebergabesystem = $this->uebergabesysteme()->erstes();
 
 		if ( $this->gebaeude->ist_einfamilienhaus() ) {
-			switch ( $uebergabesystem->typ() ) {
+			switch ( $uebergabesystem->auslegungstemperaturen() ) {
 				case '90/70':
 					return $this->standort === 'innerhalb' ? 1.099 : 1.1;
 				case '70/55':
@@ -155,6 +155,8 @@ class Heizsystem {
 					return $this->standort === 'innerhalb' ? 1.049 : 1.055;
 				case '35/28':
 					return $this->standort === 'innerhalb' ? 1.019 : 1.028;
+				default:
+					throw new Calculation_Exception( 'Auslegungstemperatur nicht bekannt' );
 			}
 		}
 
@@ -167,6 +169,8 @@ class Heizsystem {
 				return $this->standort === 'innerhalb' ? 1.042 : 1.047;
 			case '35/28':
 				return $this->standort === 'innerhalb' ? 1.016 : 1.024;
+			default:
+				throw new Calculation_Exception( 'Auslegungstemperatur nicht bekannt' );
 		}
 	}
 
