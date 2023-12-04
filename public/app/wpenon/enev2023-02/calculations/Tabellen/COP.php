@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Tabellen;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
@@ -12,6 +14,13 @@ require_once dirname( __DIR__ ) . '/Helfer/Math.php';
  * @package
  */
 class COP {
+    /**
+     * Erzeuger.
+     * 
+     * @var string
+     */
+    protected string $erzeuger;
+
     /**
      * Zielwert der Interpolation.
      * 
@@ -38,7 +47,7 @@ class COP {
      *
      * @return void
      */
-    public function __construct( float $θvl ) {
+    public function __construct( string $erzeuger, float $θvl ) {
         $this->zielwert = $θvl;
         $this->table_data_cop = wpenon_get_table_results( 'cop_werte' );
         $this->table_data_endenergie_luft_wasser = wpenon_get_table_results( 'endenergie_luft_wasser_waermepumpen' ); // Werden zur Zeit nicht gebraucht
@@ -46,9 +55,6 @@ class COP {
 
     /**
      * COPtk -7°.
-     * 
-     * @param float $θvl 
-     * @return float 
      */
     public function COPtk_7(): float {
         return $this->wert( 'lww_w_7' );
@@ -56,8 +62,6 @@ class COP {
 
     /**
      * COPtk 2°.
-     * 
-     * @param float $θvl
      */
     public function COPtk2(): float {
         return $this->wert( 'lww_w2' );
@@ -65,46 +69,26 @@ class COP {
 
     /**
      * COPtk 7°.
-     * 
-     * @param float $θvl
      */
     public function COPtk7(): float {
         return $this->wert( 'lww_w7' );
-    } 
-
-    /**
-     * COP Korrektur -7°.
-     * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
-     */
-    public function COPkorrektur_7(): float {
-        return $this->wert( 'korrektur_7' ) * 1.0;
-    }
-
-
-    /**
-     * COP Korrektur 2°.
-     * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
-     */
-    public function COPkorrektur2(): float {
-        return $this->wert( 'korrektur_2' ) * 1.0;
     }
 
     /**
-     * COP Korrektur 7°.
+     * COPtk. 
      * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
+     * @param float $θvl
      */
-    public function COPkorrektur7(): float {
-        return $this->wert( 'korrektur_7' ) * 1.0;
+    public function COPtk(): float {
+        if( $this->erzeuger === 'waermepumpewasser') {
+            return $this->wert( 'www' );
+        } elseif( $this->erzeuger === 'waermepumpeerde' ) {
+            return $this->wert( 'sww' );
+        } else {
+            throw new Calculation_Exception( sprintf( 'COPtk für "%s" kann nicht ermittelt werden.', $this->erzeuger ) );
+        }
     }
+    
 
     /**
      * Wert aus beliebiger Spalte.
