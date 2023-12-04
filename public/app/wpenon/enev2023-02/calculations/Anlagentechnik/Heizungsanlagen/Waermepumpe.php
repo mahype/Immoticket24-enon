@@ -98,7 +98,7 @@ class Waermepumpe extends Heizungsanlage {
 		switch ( $auslegungstemperaturen ) {
 			case '90/70':
 			case '70/55':
-			case '55/35':
+			case '55/45':
 				return 55;
 			case '35/28':
 				return 35;
