@@ -186,6 +186,36 @@ class Waermepumpe extends Heizungsanlage {
 	}
 
 	/**
+	 * COP Korrektur bei -7 Grad.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function COPkorr_7(): float {
+		return $this->COPtk_7() * 1.0;
+	}
+
+	/**
+	 * COP Korrektur bei 2 Grad.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function COPkorr2(): float {
+		return $this->COPtk2() * 1.0;
+	}
+
+	/**
+	 * COP Korrektur bei 7 Grad.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function COPkorr7(): float {
+		return $this->COPtk7() * 1.0;
+	}
+
+	/**
 	 * W-7.
 	 * 
 	 * @param string $monat 
@@ -306,7 +336,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw_7(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W-7'];
-		return $this->Qhfwpw_Multiplikator() * $this->W_7();
+		return ( $this->Qhfwpw_Multiplikator() * $this->W_7() ) / $this->COPkorr_7();
 	}
 
 	/**
@@ -316,7 +346,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw2(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W2'];
-		return $this->Qhfwpw_Multiplikator() * $this->W2();
+		return ( $this->Qhfwpw_Multiplikator() * $this->W2() ) / $this->COPkorr2();
 	}
 
 	/**
@@ -326,7 +356,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw7(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W7'];
-		return $this->Qhfwpw_Multiplikator() * $this->W7();
+		return ( $this->Qhfwpw_Multiplikator() * $this->W7() ) / $this->COPkorr7();
 	}
 
 	/**
