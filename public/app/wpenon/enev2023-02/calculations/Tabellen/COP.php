@@ -48,6 +48,7 @@ class COP {
      * @return void
      */
     public function __construct( string $erzeuger, float $θvl ) {
+        $this->erzeuger = $erzeuger;
         $this->zielwert = $θvl;
         $this->table_data_cop = wpenon_get_table_results( 'cop_werte' );
         $this->table_data_endenergie_luft_wasser = wpenon_get_table_results( 'endenergie_luft_wasser_waermepumpen' ); // Werden zur Zeit nicht gebraucht
