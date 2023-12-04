@@ -48,7 +48,7 @@ class Heizungsanlagen {
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false ) {
+	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, $einstufig = false, $h_waermepumpe_erde_typ = null ) {
 		switch( $erzeuger ) {
 			case 'standardkessel':
 			case 'niedertemperaturkessel':
@@ -61,7 +61,7 @@ class Heizungsanlagen {
 			case 'waermepumpeluft':
 			case 'waermepumpewasser':
 			case 'waermepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung );
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung, $einstufig, $h_waermepumpe_erde_typ );
 				break;
 			case 'fernwaerme':
 				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );

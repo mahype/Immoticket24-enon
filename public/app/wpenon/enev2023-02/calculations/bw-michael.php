@@ -2293,7 +2293,7 @@ ______________________________________________________________________________
 // Etagenkesselanlagen/Thermen werden nicht einzeln berücksichtigt. Nach DIN 18599 T12 werden die Übertragungswerte für die einzelnen Wohnungen würden in der Summe imm 100% ergeben (Faktor 1.0), Die Kesselleitung des fiktiven Kessels wir berechnet. Sie T12 Seite
 // NOTE: Wie werden Etagekesselanlagen/Thermen dann berücksichtigt?
 
-// [ ] a) Konventionelle Kessel
+// [x] a) Konventionelle Kessel
 
 //---------------------------------------------
 //- Standard Gas Banz (Hochtemperaturkessel)
@@ -2420,7 +2420,7 @@ ______________________________________________________________________________
 
 /
 //------------------------------------
-// [ ] b) Wärmepumpe
+// [x] b) Wärmepumpe
 //
 // BanZ: luft/Wasserwärmepumpen = bivalenter Betrieb; Heizgrenztemperatur=15°C kleiner 15°C dann ON-Betrieb der Wärmepumpe, Bivalenztempaeratur bei - 2°C; ab -2°C beginnt der Elektroheizstab=On und Wärmepumpe= OFF
 // BanZ: Sole-/Wasser oder Wasser/Wasser Wärmepumpe nehmen wir Mono-ValentenBetrieb an. 
@@ -2519,10 +2519,8 @@ ______________________________________________________________________________
 //  $Qhfwpw2* = $Qhfwpw2/$COPkorr2 ;
 //  $Qhfwpw7* = $Qhfwpw7/$COPkorr7 ;
 
-//   $Qhfwp* = $Qhfwpw-7*+$Qhfwpw2*+$Qhfwpw7*;
+//   $Qhfwp* = $Qhfwpw-7* + $Qhfwpw2* + $Qhfwpw7*;
 //
-
-
 
 // Berechnung von eg Luft/Wasserwärmepumpe,  für Gesamtaufwandszahl 
 // a) Einstufige Wärmepumpe (Abgabeleistung immer konstant; immer eine feste KW Zahl in der Abgabe, nicht leistungsgeregelt)
@@ -2586,7 +2584,7 @@ ______________________________________________________________________________
 
 
 
-// [ ] c) zentral elektrisch beheizte Wärmeerzeuger, Tab 101, T12
+// [x] c) zentral elektrisch beheizte Wärmeerzeuger, Tab 101, T12
 // NOTE: Nicht relevant
 // Abfrage Kunden elektrischer Wärmererzeuger (Heizstab) mit Pufferspeicher: Ja/nein
 // If "Ja" than // 
@@ -2600,7 +2598,7 @@ ______________________________________________________________________________
 
 //----------------------------------------
 
-// [ ] d) Fernwärme/Nahwärme
+// [x] d) Fernwärme/Nahwärme
 //
 //  Berechnung der Aufwandszahl für Nah- und Fernwärme $eg, Bestimmung auf Bassis BamZ (Standardwert)
 //
@@ -2633,7 +2631,7 @@ ______________________________________________________________________________
 
 
 //------------------------------------------
-//  [ ] e) Dezentrale KWK, BHKW= primär Wärme Abfallprodukt Strom, Brennstoffzelle= Primär Strom , Abfallprodukt= Wärme
+// e) Dezentrale KWK, BHKW= primär Wärme Abfallprodukt Strom, Brennstoffzelle= Primär Strom , Abfallprodukt= Wärme
 
 // NOTE: Erstmal nicht relevant
 
@@ -2641,7 +2639,7 @@ ______________________________________________________________________________
 
 
 //--------------------------------------------
-// [ ]  f) dezentrale Systeme
+// [x]  f) dezentrale Systeme
 //  Infobox: "Infrarotheizflächen und/oder Nachtspeicherheizung"
 //  Berechnung der Aufwandszahlen eg (Heizung)
 //  $eg = 1.0;
@@ -2655,7 +2653,7 @@ ______________________________________________________________________________
 //      else??
 // ------------------------------------------ 
 
-//  [ ] b) Zu/Abluftsystem (Zentral und Dezentral) keine Wärmepumpe, Banz AT 04.12.2022
+//  b) Zu/Abluftsystem (Zentral und Dezentral) keine Wärmepumpe, Banz AT 04.12.2022
 // NOTE: Nicht relevant
 //
 //_______________________________________________________________________________
@@ -2745,13 +2743,14 @@ ______________________________________________________________________________
 // Hierbei setzten wir Flächen von Fußbodenheizung=Wandheizungen=Deckenheizungen, da bei gleichen Systemtemperaturen (35/28) zu gleichgroßen Flächen führen würden. In Absprache mit Herrn Esch 18.10.23
 //
 
+//    Anteile ist derzeit bei 1.0, da nur ein Übertragungsystem
 //    $nR= $calculations['nutzflaeche']*$AnteileFBHZ/7  //derzeit werden nur 2 Übertragungssysteme berücksichtigt. Sollten später mehr Flächenheizungen berücksichitg werdn müsse hier $Anteile Fußbodenheizung+Wandheizung+Deckenheizung addiert werden.
-//
+//    // NOTE: Was ist $AnteileFBHZ? Wo kommen die Werte her?
+
 //    if Heizkörper than
 //        $WHce=0; // Wir  berücksichtigen hierbei keine elektriche unterstützung der Regelung (NUr normale HeizköperThermostatventile, thermische geregel// in Absprach mit Esch, 18.10.2023)
 //    if Wandheizung && Fußbodenheizung && Deckenheizung than
 //        $WHce= 0.876*$nR; // in Absprach mit Esch
-//      $WHce = $Wc;
      
 //
 // b) Bestimmung der Hilfsenergie Übergabe Lüftung (nur Lüftung nicht Umluftheizung)
@@ -2768,12 +2767,14 @@ ______________________________________________________________________________
 //     if thermische SolarAnlage than
 //        $WsolPumpece=0, // 18599 T12 Beispielrechnung; ansonsten keine Def. in  Normung. Es wird in T8 etc. nur die Hilfsenergie für Erzeuung berücksichtigt
 
+
 //-------------------------------------------------------------
 
 // [ ] Bestimmung der Hilfsenergie_Verteilung Wd
 //----------------
 //  a) Berechnung des Rohrnetzes 
 
+// NOTE: Warum neue Variablen?
 //    $nG = Anzahl der Geschosse (alter Quellcode; Variable suchen); was ist mit dem beheizten Dachgeschoss?
 //     $hG = Geschosshöhe (alter Quellcode; Variable suchen)
 //
@@ -2786,18 +2787,19 @@ ______________________________________________________________________________
 //    $fblTWW=0,22; T12, Tab D1.
 
 
-//       $Lchar= ($calculations['nutzflaeche']/$nG*$fgeo)^(1/2);
+//       $LcharHzg= ($calculations['nutzflaeche']/$nG*$fgeoHzg)^(1/2); // Welches "geo" ist gemeint
+//       $LcharWW= ($calculations['nutzflaeche']/$nG*$fgeoHzgWW)^(1/2); // Welches "geo" ist gemeint
 
-//       $Bcar=$Lchar*0,31;
+//       $BcarHzg=$LcharHzg*0,31;
+//       $BcarWW=$LcharWW*0,31;
 
-//       $LmaxHzg=2*($Lchar+($Bcar/2)+$nG*$hG+10); //10=ld ; definiert da wir nur 2-Rohrsystem Heizung betrachten T12 S. 305
-
-//       $LmaxTWW=2*($Lchar+2.5+$nG*$hG); //
-
+//       $LmaxHzg=2*($LcharHzg+($BcarHzg/2)+$nG*$hG+10); //10=ld ; definiert da wir nur 2-Rohrsystem Heizung betrachten T12 S. 305
+//       $LmaxTWW=2*($LcharWW+2.5+$nG*$hG); //
+ 
 
 //----------------------------------------------------------------
      
-// Berechnung der Hilfsenergie_Verteilung Heizung Whd , Rohrnetzberechnung
+// [ ] Berechnung der Hilfsenergie_Verteilung Heizung Whd , Rohrnetzberechnung
 //   
 //   If Heizkörper than
 //       $TERMp= 0.13*$LmaxHzg+2+0; //bestimmen in Abhängikeit von $LmaxHzg  && Heizkörper oder Fußbodenheizung, wenn Übergabesytem Heizkörper bzw. Fußbodenheizung prozentrual anteilig zu berechnen  //Tab37, T12
@@ -2805,14 +2807,16 @@ ______________________________________________________________________________
 //       $TERMp= 0.13*$LmaxHzg+2+25; 
 //
 
+// NOTE: Was soll das heißen?
+
 //   if GasBrennwertheizung=! GasNiedertemperatrukessel && $Pn <35  than
-//       $pg= Tab 39, T12, in Abhängikeit der Heizlast und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
+//       $pg= Tab 39, T12, in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
 //   else $pg= 1.0;
 //--------------------
 //    Volumenstrom Tab 38/ T12
-//      $Vstr= aus TAb 38/T12 in Abhängikeit der Heizlast und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
+//      $Vstr= aus TAb 38/T12 in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
 
-
+// NOTE: Was ist die Normheizlast? Wo kommt die her? Ist das die Heizlast? Ist das h_max aus dem Luftwechsel?
 
 //
 // $PhydrHzg=0.2778*($TERMp+$pg+11)*$Vstr; //10=Pwmz; Pstranga=1 daraus ergibt sich die 11 beides entnommen aus  T12, S.83

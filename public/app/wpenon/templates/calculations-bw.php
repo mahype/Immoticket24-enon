@@ -590,6 +590,7 @@ $jahr = new Jahr();
 		<th>W -7</th>
 		<th>W 2</th>
 		<th>W 7</th>
+		<th>ehg</th>
 		<th>ewg</th>
 		</tr>
 		<tr>
@@ -606,6 +607,7 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->W_7(); ?></td>
 		<td><?php echo $heizungsanlage->W2(); ?></td>
 		<td><?php echo $heizungsanlage->W7(); ?></td>
+		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 		</table>
@@ -632,7 +634,7 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->ßhg(); ?></td>
 		<td><?php echo $heizungsanlage->fiso(); ?></td>
 		<td><?php echo $heizungsanlage->ftemp(); ?></td>
-
+		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 		</table>
@@ -755,6 +757,10 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Berechnung von ews: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->ews() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von keew: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->keew() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von keeh: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->keeh() ) ); ?></p>
+
+	<h4>Hilfsenergie</h4>
+
+	<p><?php printf( __( 'pg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->pg() ) ); ?></p>
 	
 	
 	

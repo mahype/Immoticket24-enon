@@ -41,6 +41,20 @@ class Waermepumpe extends Heizungsanlage {
 	protected bool $evu_abschaltung;
 
 	/**
+	 * Einstufig oder mehrstufig?
+	 * 
+	 * @var bool
+	 */
+	protected bool $einstufig;
+
+	/**
+	 * Typ der Erdwärmepumpe.
+	 * 
+	 * @var string|null
+	 */
+	protected string|null $erde_typ;
+
+	/**
 	 * Konstruktor.
 	 *
 	 * @param Gebaeude $gebaeude Gebäude.
@@ -55,12 +69,16 @@ class Waermepumpe extends Heizungsanlage {
 		string $erzeuger,
 		string $energietraeger,		
 		int $baujahr,
-		int $prozentualer_anteil = 100,		
+		int $prozentualer_anteil = 100,
 		bool $evu_abschaltung = false,
+		bool $einstufig = true,
+		string|null $erde_typ = null,
 	) {
 		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
 		$this->gebaeude = $gebaeude;
 		$this->evu_abschaltung = $evu_abschaltung;
+		$this->einstufig = $einstufig;
+		$this->erde_typ = $erde_typ;
 		$this->jahr = new Jahr();
 	}
 
@@ -149,7 +167,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	protected function COP(): COP {
 		if ( ! isset( $this->cop ) ) {
-			$this->cop = new COP( $this->θvl() );
+			$this->cop = new COP( $this->erzeuger(), $this->θvl() );
 		}
 
 		return $this->cop;
@@ -395,9 +413,68 @@ class Waermepumpe extends Heizungsanlage {
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function Qhfwpw_Sternchen(): float {
+	public function Qhfwp_Sternchen(): float {
 		//   $Qhfwp* = $Qhfwpw-7*+$Qhfwpw2*+$Qhfwpw7*;
 		return $this->Qhfwpw_7_Sternchen() + $this->Qhfwpw2_Sternchen() + $this->Qhfwpw7_Sternchen();
+	}
+
+	/**
+	 * COPtk
+	 * 
+	 * @return float
+	 */
+	public function COPtk(): float {
+		return $this->COP()->COPtk();
+	}
+
+	/**
+	 * COPkorr.
+	 * 
+	 * @return float
+	 */
+	public function COPkorr(): float {
+		return $this->COPtk() * 1.0;
+	}
+
+	/**
+	 * ewg0
+	 *
+	 * @return float
+	 * @throws Calculation_Exception 
+	 */ 
+	public function ewg0(): float {
+		// Bestimmung ewg0
+
+		// Abfrage : bei SoleWasser  Nach a) Erdsonde oder b) Erdkollektor
+
+		// if Luft/wasserWärmepumpe than
+		// 
+		// $ewg0=0.365;
+		// if SoleWasserWärmepumpe && Erdsonde than
+		// $ewg0=0.364;
+
+		// if SoleWasserWärmepume && ( Erdkollektor) than
+		//   $ewg0=0.378;
+
+		// if WasserWasserWärmepume than
+
+		// $ewg0=0.308;
+
+		if( $this->erzeuger() === 'waermepumpeluft' ) {
+			return 0.365;
+		} elseif( $this->erzeuger() === 'waermepumpeerde' ) {
+			if( $this->erde_typ === 'sonde' ) {
+				return 0.364;
+			} elseif( $this->erde_typ === 'kollektor' ) {
+				return 0.378;
+			} else {
+				throw new Calculation_Exception( 'Erdwärmepumpe-Typ nicht bekannt.' );
+			}
+		} elseif( $this->erzeuger() === 'waermepumpewasser' ) {
+			return 0.308;
+		} else {
+			throw new Calculation_Exception( 'Erzeuger nicht bekannt.' );
+		}
 	}
 
 	/**
@@ -407,11 +484,40 @@ class Waermepumpe extends Heizungsanlage {
 	 * @throws Calculation_Exception 
 	 */
 	public function ewg(): float {
-		// $ewg = 1/(1/($Qhfwp*/$Qhfwp)+0.1);
-		return 1 / ( 1 / ( $this->Qhfwp() / $this->Qhfwp() ) + 0.1 );		
+		// if Luft/wasserWärmepumpe than
+		//   $k=0.05;
+		// else
+		//  $k=0.0;
+		// $ewg= (1-k)*$ewg0+k ;
+
+		if( $this->erzeuger() === 'waermepumpeluft' ) {
+			$k = 0.05;
+		} else {
+			$k = 0.0;
+		}
+
+		return ( 1 - $k ) * $this->ewg0() + $k;
 	}
 
-	public function eg(): float {
-		
+	/**
+	 * ehg.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ehg(): float {
+		// Waeermepumpe Luft
+		if( $this->erzeuger() === 'waermepumpeluft' ) {
+			if( $this->einstufig ) {
+				//  $ehg = $Qhfwp*/$Qhfwp  ; // Einstufige Wärmepumpe
+				return $this->Qhfwp_Sternchen() / $this->Qhfwp();
+			} else {
+				// $ehg = 1/(1/($Qhfwp*/$Qhfwp)+0.1); // mehrstufige Wärmepumpe
+				return 1 / ( 1 / ( $this->Qhfwp_Sternchen() / $this->Qhfwp() ) + 0.1 );
+			}
+		}
+
+		// Waermenpumpe Wasser & Erde
+		return 1 / $this->COPkorr();
 	}
 }

@@ -3,6 +3,7 @@
 namespace Enev\Schema202302\Calculations\Gebaeude;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
+use Enev\Schema202302\Calculations\Anlagentechnik\Hilfsenergie;
 use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Dach;
@@ -21,6 +22,7 @@ require_once dirname( __DIR__ ) . '/Bauteile/Bauteile.php';
 
 require_once dirname( __DIR__ ) . '/Anlagentechnik/Heizsystem.php';
 require_once dirname( __DIR__ ) . '/Anlagentechnik/Trinkwarmwasseranlage.php';
+require_once dirname( __DIR__ ) . '/Anlagentechnik/Hilfsenergie.php';
 
 require_once dirname( __DIR__ ) . '/Tabellen/Luftwechsel.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Mittlere_Belastung.php';
@@ -131,6 +133,13 @@ class Gebaeude {
 	private Trinkwarmwasseranlage $trinkwarmwasseranlage;
 
 	/**
+	 * Hilfsenergie.
+	 * 
+	 * @var Hilfsenergie
+	 */
+	private Hilfsenergie $hilfsenergie;
+
+	/**
 	 * Anbau.
 	 *
 	 * @var Anbau
@@ -175,6 +184,7 @@ class Gebaeude {
 		$this->monatsdaten = new Monatsdaten();
 		$this->bauteile   = new Bauteile();
 		$this->heizsystem = new Heizsystem( $this, $standort_heizsystem );
+		$this->hilfsenergie = new Hilfsenergie( $this );
 	}
 
 	/**
@@ -980,5 +990,10 @@ class Gebaeude {
 	 */
 	public function nutzflaeche_pro_wohneinheit(): float {
 		return $this->nutzflaeche() / $this->anzahl_wohnungen();
+	}
+
+	public function hilfsenergie(): Hilfsenergie
+	{
+		return $this->hilfsenergie;
 	}
 }

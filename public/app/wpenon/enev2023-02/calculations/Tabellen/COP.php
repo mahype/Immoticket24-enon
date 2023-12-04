@@ -2,6 +2,8 @@
 
 namespace Enev\Schema202302\Calculations\Tabellen;
 
+use Enev\Schema202302\Calculations\Calculation_Exception;
+
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
@@ -12,6 +14,13 @@ require_once dirname( __DIR__ ) . '/Helfer/Math.php';
  * @package
  */
 class COP {
+    /**
+     * Erzeuger.
+     * 
+     * @var string
+     */
+    protected string $erzeuger;
+
     /**
      * Zielwert der Interpolation.
      * 
@@ -38,7 +47,7 @@ class COP {
      *
      * @return void
      */
-    public function __construct( float $θvl ) {
+    public function __construct( string $erzeuger, float $θvl ) {
         $this->zielwert = $θvl;
         $this->table_data_cop = wpenon_get_table_results( 'cop_werte' );
         $this->table_data_endenergie_luft_wasser = wpenon_get_table_results( 'endenergie_luft_wasser_waermepumpen' ); // Werden zur Zeit nicht gebraucht
@@ -71,8 +80,13 @@ class COP {
      * @param float $θvl
      */
     public function COPtk(): float {
-        
-        // return $this->wert( 'lww_w' );
+        if( $this->erzeuger === 'waermepumpewasser') {
+            return $this->wert( 'www' );
+        } elseif( $this->erzeuger === 'waermepumpeerde' ) {
+            return $this->wert( 'sww' );
+        } else {
+            throw new Calculation_Exception( sprintf( 'COPtk für "%s" kann nicht ermittelt werden.', $this->erzeuger ) );
+        }
     }
     
 

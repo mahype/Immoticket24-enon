@@ -376,8 +376,8 @@ class Heizsystem {
 	 * @throws Calculation_Exception 
 	 */
 	public function ehs(): float {
-		if( $this->gebaeude->heizsystem()->pufferspeicher_vorhanden() ) {
-			return $this->gebaeude->heizsystem()->pufferspeicher()->ehs();
+		if( $this->pufferspeicher_vorhanden() ) {
+			return $this->pufferspeicher()->ehs();
 		}
 
 		return 1;

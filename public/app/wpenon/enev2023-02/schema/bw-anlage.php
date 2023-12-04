@@ -24,7 +24,7 @@ $anlage = array(
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
 					),
 					'required'    => true,
-				),
+				),				
 				'h_energietraeger_standardkessel'          => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
@@ -204,6 +204,32 @@ $anlage = array(
 							'field::h_energietraeger_infrarotheizung',
 						),
 					),
+				),
+				'h_waermepumpe_luft_stufen'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'options'  => array(
+						'einstufig'           => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'waermepumpeluft' ),
+					),
+					'required' => true,
+				),
+				'h_waermepumpe_erde_typ'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'options'  => array(
+						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'waermepumpeerde' ),
+					),
+					'required' => true,
 				),
 				'h_evu_abschaltung'                        => array(
 					'type'        => 'select',
@@ -503,6 +529,32 @@ $anlage = array(
 						),
 					),
 				),
+				'h2_waermepumpe_luft_stufen'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'options'  => array(
+						'einstufig'           => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeluft' ),
+					),
+					'required' => true,
+				),
+				'h2_waermepumpe_erde_typ'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'options'  => array(
+						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeerde' ),
+					),
+					'required' => true,
+				),
 				'h2_deckungsanteil'                        => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der 2. Heizungsanlage', 'wpenon' ),
@@ -793,6 +845,32 @@ $anlage = array(
 							'field::h3_energietraeger_infrarotheizung',
 						),
 					),
+				),
+				'h3_waermepumpe_luft_stufen'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'options'  => array(
+						'einstufig'           => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeluft' ),
+					),
+					'required' => true,
+				),
+				'h3_waermepumpe_erde_typ'          => array(
+					'type'     => 'select',
+					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'options'  => array(
+						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeerde' ),
+					),
+					'required' => true,
 				),
 				'h3_deckungsanteil'                        => array(
 					'type'        => 'int',
