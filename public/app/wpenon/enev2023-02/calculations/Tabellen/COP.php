@@ -46,9 +46,6 @@ class COP {
 
     /**
      * COPtk -7°.
-     * 
-     * @param float $θvl 
-     * @return float 
      */
     public function COPtk_7(): float {
         return $this->wert( 'lww_w_7' );
@@ -56,8 +53,6 @@ class COP {
 
     /**
      * COPtk 2°.
-     * 
-     * @param float $θvl
      */
     public function COPtk2(): float {
         return $this->wert( 'lww_w2' );
@@ -65,46 +60,21 @@ class COP {
 
     /**
      * COPtk 7°.
-     * 
-     * @param float $θvl
      */
     public function COPtk7(): float {
         return $this->wert( 'lww_w7' );
-    } 
-
-    /**
-     * COP Korrektur -7°.
-     * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
-     */
-    public function COPkorrektur_7(): float {
-        return $this->wert( 'korrektur_7' ) * 1.0;
-    }
-
-
-    /**
-     * COP Korrektur 2°.
-     * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
-     */
-    public function COPkorrektur2(): float {
-        return $this->wert( 'korrektur_2' ) * 1.0;
     }
 
     /**
-     * COP Korrektur 7°.
+     * COPtk. 
      * 
-     * // Bestimmung von COPkorr nach Tab 90 T12; Nach Vorgaben der DIN 18599 T5 S. 98; schlechterer Wert und damit auf der sicheren Seite.
-     * 
-     * @return float
+     * @param float $θvl
      */
-    public function COPkorrektur7(): float {
-        return $this->wert( 'korrektur_7' ) * 1.0;
+    public function COPtk(): float {
+        
+        // return $this->wert( 'lww_w' );
     }
+    
 
     /**
      * Wert aus beliebiger Spalte.

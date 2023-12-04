@@ -358,6 +358,47 @@ class Waermepumpe extends Heizungsanlage {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W7'];
 		return $this->Qhfwpw_Multiplikator() * $this->W7();
 	}
+	
+	/**
+	 * Qhfwpw-7*.
+	 * 
+	 * @return float
+	 */
+	public function Qhfwpw_7_Sternchen(): float {	
+		// $Qhfwpw-7* =$Qhfwpw-7/$COPkorr-7 ;	
+		return $this->Qhfwpw_7() / $this->COPkorr_7();
+	}
+
+	/**
+	 * Qhfwpw2*.
+	 * 
+	 * @return float
+	 */
+	public function Qhfwpw2_Sternchen(): float {
+		// $Qhfwpw2* = $Qhfwpw2/$COPkorr2 ;
+		return $this->Qhfwpw2() / $this->COPkorr2();
+	}
+
+	/**
+	 * Qhfwpw7*.
+	 * 
+	 * @return float
+	 */
+	public function Qhfwpw7_Sternchen(): float {
+		// $Qhfwpw7* = $Qhfwpw7/$COPkorr7 ;
+		return $this->Qhfwpw7() / $this->COPkorr7();
+	}
+
+	/**
+	 * Qhfwpw*.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function Qhfwpw_Sternchen(): float {
+		//   $Qhfwp* = $Qhfwpw-7*+$Qhfwpw2*+$Qhfwpw7*;
+		return $this->Qhfwpw_7_Sternchen() + $this->Qhfwpw2_Sternchen() + $this->Qhfwpw7_Sternchen();
+	}
 
 	/**
 	 * ewg.
@@ -368,5 +409,9 @@ class Waermepumpe extends Heizungsanlage {
 	public function ewg(): float {
 		// $ewg = 1/(1/($Qhfwp*/$Qhfwp)+0.1);
 		return 1 / ( 1 / ( $this->Qhfwp() / $this->Qhfwp() ) + 0.1 );		
+	}
+
+	public function eg(): float {
+		
 	}
 }
