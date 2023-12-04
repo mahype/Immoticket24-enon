@@ -463,9 +463,9 @@ class Waermepumpe extends Heizungsanlage {
 		if( $this->erzeuger() === 'waermepumpeluft' ) {
 			return 0.365;
 		} elseif( $this->erzeuger() === 'waermepumpeerde' ) {
-			if( $this->erde_typ === 'sonde' ) {
+			if( $this->erde_typ === 'erdsonde' ) {
 				return 0.364;
-			} elseif( $this->erde_typ === 'kollektor' ) {
+			} elseif( $this->erde_typ === 'erdkollektor' ) {
 				return 0.378;
 			} else {
 				throw new Calculation_Exception( 'Erdwärmepumpe-Typ nicht bekannt.' );
