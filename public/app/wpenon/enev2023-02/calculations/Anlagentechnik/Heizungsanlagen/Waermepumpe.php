@@ -336,7 +336,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw_7(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W-7'];
-		return ( $this->Qhfwpw_Multiplikator() * $this->W_7() ) / $this->COPkorr_7();
+		return $this->Qhfwpw_Multiplikator() * $this->W_7();
 	}
 
 	/**
@@ -346,7 +346,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw2(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W2'];
-		return ( $this->Qhfwpw_Multiplikator() * $this->W2() ) / $this->COPkorr2();
+		return $this->Qhfwpw_Multiplikator() * $this->W2();
 	}
 
 	/**
@@ -356,7 +356,7 @@ class Waermepumpe extends Heizungsanlage {
 	 */
 	public function Qhfwpw7(): float {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs*$calculations['W7'];
-		return ( $this->Qhfwpw_Multiplikator() * $this->W7() ) / $this->COPkorr7();
+		return $this->Qhfwpw_Multiplikator() * $this->W7();
 	}
 
 	/**
