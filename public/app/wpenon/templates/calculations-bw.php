@@ -645,7 +645,7 @@ $jahr = new Jahr();
 		<th>Heizungstyp</th>    
 		<th>Energieträger</th>
 		<th>Anteil</th>
-		<th>eg</th>
+		<th>ehg</th>
 		<th>ewg</th>
 		</tr>
 		<tr>
@@ -654,7 +654,7 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->typ(); ?></td>
 		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
 		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php echo $heizungsanlage->eg(); ?></td>
+		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 		</table>
