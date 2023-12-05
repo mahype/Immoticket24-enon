@@ -197,12 +197,10 @@ class Pufferspeicher {
 	 * @throws Calculation_Exception 
 	 */
 	public function ehs(): float {
-		return 1 + $this->Qhs() / ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() );
-
 		if( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden()  || $this->gebaeude->heizsystem()->heizungsanlagen()->biomassekessel_vorhanden() ) {
 			return 1 + $this->Qhs() / ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() );
 		}
 
 		return 1;
-	}
+	} 
 }
