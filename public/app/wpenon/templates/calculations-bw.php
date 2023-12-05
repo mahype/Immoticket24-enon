@@ -778,9 +778,9 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'LmaxTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LmaxTWW() ) ); ?></p>
 	<p><?php printf( __( 'TERMp: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMp() ) ); ?></p>
 	<p><?php printf( __( 'Vstr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Vstr() ) ); ?></p>
-	<p><?php // printf( __( 'PhydrHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrHzg() ) ); ?></p>
-	<p><?php // printf( __( 'fe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fe() ) ); ?></p>
-	<p><?php // printf( __( 'TERMpumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMpumpe() ) ); ?></p>
+	<p><?php printf( __( 'PhydrHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrHzg() ) ); ?></p>
+	<p><?php printf( __( 'fe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fe() ) ); ?></p>
+	<p><?php printf( __( 'TERMpumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMpumpe() ) ); ?></p>
 	
 </div>
 

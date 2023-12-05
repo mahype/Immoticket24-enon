@@ -52,7 +52,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 */
 	public static function erlaubte_erzeuger(): array {
 		return array(
-			'standardkessel'  => array(
+			'standardkessel'         => array(
 				'name'           => 'Standardkessel',
 				'typ'            => 'standardkessel',
 				'energietraeger' => array(
@@ -67,19 +67,9 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'braunkohle'        => 'Braunkohle',
 				),
 			),
-			'niedertemperaturkessel'  => array(
+			'niedertemperaturkessel' => array(
 				'name'           => 'Niedertemperaturkessel',
 				'typ'            => 'niedertemperaturkessel',
-				'energietraeger' => array(
-					'heizoel'           => 'Heizöl',
-					'erdgas'            => 'Erdgas',
-					'fluessiggas'       => 'Flüssiggas',
-					'biogas'            => 'Biogas',
-				),
-			),
-			'brennwertkessel' => array(
-				'name'           => 'Brennwertkessel',
-				'typ'            => 'brennwertkessel',
 				'energietraeger' => array(
 					'heizoel'     => 'Heizöl',
 					'erdgas'      => 'Erdgas',
@@ -87,7 +77,20 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'biogas'      => 'Biogas',
 				),
 			),
-			'etagenheizung'   => array(
+			'brennwertkessel'        => array(
+				'name'           => 'Brennwertkessel',
+				'typ'            => 'brennwertkessel',
+				'energietraeger' => array(
+					'heizoel'           => 'Heizöl',
+					'erdgas'            => 'Erdgas',
+					'fluessiggas'       => 'Flüssiggas',
+					'biogas'            => 'Biogas',
+					'holzpellets'       => 'Holzpellets',
+					'holzhackschnitzel' => 'Holzhackschnitzel',
+					'stueckholz'        => 'Stückholz',
+				),
+			),
+			'etagenheizung'          => array(
 				'name'           => 'Etagenheizung',
 				'typ'            => 'umlaufwasserheizer',
 				'energietraeger' => array(
@@ -112,10 +115,10 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-     * Erzeugung Korrekturfaktur für die Heizungsanlage.
-     * 
-     * @return float 
-     */
+	 * Erzeugung Korrekturfaktur für die Heizungsanlage.
+	 *
+	 * @return float
+	 */
 	public function ehg(): float {
 		// $eg=$eg0*$fbj*$fegt
 		return $this->eg0() * $this->fbj() * $this->fegt();
