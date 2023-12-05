@@ -622,6 +622,7 @@ $jahr = new Jahr();
 		<th>ßhg</th>
 		<th>fiso</th>
 		<th>ftemp</th>
+		<th>ehg</th>
 		<th>ewg</th>
 		</tr>
 		<tr>
