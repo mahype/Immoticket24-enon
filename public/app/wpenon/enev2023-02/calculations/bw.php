@@ -513,7 +513,7 @@ $h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieau
 if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
 	$h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
 
-	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieauswies->h_waermepumpe_luft_stufen === 'einstufig' ) {
+	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h_waermepumpe_luft_einstufig = true;
 	} else {
 		$h_waermepumpe_luft_einstufig = false;	

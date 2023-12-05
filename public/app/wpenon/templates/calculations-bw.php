@@ -590,7 +590,7 @@ $jahr = new Jahr();
 		<th>W -7</th>
 		<th>W 2</th>
 		<th>W 7</th>
-		<th>ehg</th>
+		<th>e gsamt (ehg)</th>
 		<th>ewg</th>
 		</tr>
 		<tr>

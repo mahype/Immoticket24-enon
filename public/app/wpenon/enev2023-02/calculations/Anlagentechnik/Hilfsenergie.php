@@ -200,5 +200,6 @@ class Hilfsenergie {
 
     public function TERMpumpe(): float {
        //  $TERMpumpe = Nach Tab.40 T12, in Anhängikeit von $ßhd && Bj Heizung bis 1994 ungregelt ab 1995 konstant
+       
     }
 }

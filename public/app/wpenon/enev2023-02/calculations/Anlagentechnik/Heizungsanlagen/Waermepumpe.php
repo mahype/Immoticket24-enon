@@ -500,7 +500,7 @@ class Waermepumpe extends Heizungsanlage {
 	}
 
 	/**
-	 * ehg.
+	 * e gesamt. Enthalten sind auch Speucher, Übergabe- und Verteilverluste (ehg = ehce + ehd + ehs + ehg )
 	 * 
 	 * @return float 
 	 * @throws Calculation_Exception 
