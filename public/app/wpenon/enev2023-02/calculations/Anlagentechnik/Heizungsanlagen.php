@@ -48,7 +48,7 @@ class Heizungsanlagen {
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, $einstufig = false, $h_waermepumpe_erde_typ = null ) {
+	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null ) {
 		switch( $erzeuger ) {
 			case 'standardkessel':
 			case 'niedertemperaturkessel':

@@ -166,7 +166,7 @@ class Pufferspeicher {
 	 * @return float
 	 */
 	public function Qhs(): float {
-		return $this->Qhs0Vs1() + $this->Qhs0Vs2();
+		return ( $this->Qhs0Vs1() + $this->Qhs0Vs2() ) * $this->fhs();
 	}
 
 	/**
