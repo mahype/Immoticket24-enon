@@ -58,7 +58,7 @@ class Fernwaerme extends Heizungsanlage {
 	public static function erlaubte_erzeuger(): array {
 		return array(
 			'fernwaerme' => array(
-				'typ'            => 'waermepumpe',
+				'typ'            => 'fernwaerme',
 				'energietraeger' => array(
 					'fernwaermehzwfossil' => 'Nah-/Fernwärme',
 				),

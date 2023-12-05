@@ -58,12 +58,12 @@ class Heizsystem {
 	public function __construct( Gebaeude $gebaeude, string $standort ) {
 		if ( $standort !== 'innerhalb' && $standort !== 'ausserhalb' ) {
 			throw new Calculation_Exception( 'Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.' );
-		}		
+		}
 
-		$this->gebaeude           = $gebaeude;
-		$this->standort           = $standort;
-		$this->heizungsanlagen    = new Heizungsanlagen( $gebaeude );
-		$this->uebergabesysteme   = new Uebergabesysteme();
+		$this->gebaeude         = $gebaeude;
+		$this->standort         = $standort;
+		$this->heizungsanlagen  = new Heizungsanlagen( $gebaeude );
+		$this->uebergabesysteme = new Uebergabesysteme();
 	}
 
 	/**
@@ -95,14 +95,14 @@ class Heizsystem {
 
 	/**
 	 * Pufferspeicher.
-	 * 
-	 * @param Pufferspeicher|null $pufferspeicher 
-	 * 
-	 * @return Pufferspeicher|void 
+	 *
+	 * @param Pufferspeicher|null $pufferspeicher
+	 *
+	 * @return Pufferspeicher|void
 	 */
 	public function pufferspeicher(): Pufferspeicher|null {
 		// Pufferspeicher wird nur bei Wärmepumpe oder Biomassekessel benötigt.
-		if( ( $this->heizungsanlagen()->waermepumpe_vorhanden()  || $this->heizungsanlagen()->biomassekessel_vorhanden() ) && $this->pufferspeicher === null ) {
+		if ( ( $this->heizungsanlagen()->waermepumpe_vorhanden() || $this->heizungsanlagen()->biomassekessel_vorhanden() ) && $this->pufferspeicher === null ) {
 			$this->pufferspeicher = new Pufferspeicher( $this->gebaeude );
 		}
 
@@ -111,8 +111,8 @@ class Heizsystem {
 
 	/**
 	 * Pufferspeicher vorhanden?
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function pufferspeicher_vorhanden(): bool {
 		return $this->pufferspeicher() !== null;
@@ -248,7 +248,7 @@ class Heizsystem {
 	 */
 	public function ßhce(): float {
 		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return ( $this->gebaeude->qh() / ($this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) ) * 1000;
+		return ( $this->gebaeude->qh() / ( $this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) ) * 1000;
 	}
 
 	/**
@@ -306,6 +306,25 @@ class Heizsystem {
 		}
 
 		return $max;
+	}
+
+
+	/**
+	 * Die äteste Heizungsanlage.
+	 * 
+	 * @return Heizungsanlage 
+	 */
+	public function aelteste_heizungsanlage(): Heizungsanlage {
+		// Finde Heizugnsanlage mit groesstem Anteil
+		foreach ( $this->heizungsanlagen()->alle() as $heizungsanlage ) {
+			if ( ! isset( $aelteste ) ) {
+				$aelteste_heizungsanlage = $heizungsanlage;
+			} elseif ( $heizungsanlage->baujahr() < $aelteste->baujahr() ) {
+				$aelteste_heizungsanlage = $heizungsanlage;
+			}
+		}
+
+		return $aelteste_heizungsanlage;
 	}
 
 	/**
@@ -370,13 +389,13 @@ class Heizsystem {
 
 	/**
 	 * Bestimmung von ehs, ehs= Auwandszahl für Pufferspeicher.
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function ehs(): float {
-		if( $this->pufferspeicher_vorhanden() ) {
+		if ( $this->pufferspeicher_vorhanden() ) {
 			return $this->pufferspeicher()->ehs();
 		}
 

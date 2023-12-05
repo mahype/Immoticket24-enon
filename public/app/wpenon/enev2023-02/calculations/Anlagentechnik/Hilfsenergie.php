@@ -5,9 +5,12 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Differenzdruck_Waermeerzeuger;
+use Enev\Schema202302\Calculations\Tabellen\TERMpumpe;
 use Enev\Schema202302\Calculations\Tabellen\Volumenstrom_im_Auslegungspunkt;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Differenzdruck_Waermeerzeuger.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Volumenstrom_im_Auslegungspunkt.php';
+require_once dirname( __DIR__ ) . '/Tabellen/TERMpumpe.php';
 
 /**
  * Hilfsenergie.
@@ -62,9 +65,7 @@ class Hilfsenergie {
         switch( $uebergabesystem->typ() ) {
             case 'heizkoerper':
                 return 0;
-            case 'fussbodenheizung':
-            case 'wandheizung':
-            case 'deckenheizung':
+            case 'flaechenheizung':
                 // $nR= $calculations['nutzflaeche']*$AnteileFBHZ/7 
                 $nR = $this->gebaeude->nutzflaeche() * $uebergabesystem->prozentualer_anteil() / 7;
                 return 0.876 * $nR;
@@ -174,9 +175,7 @@ class Hilfsenergie {
         switch( $uebergabesystem->typ() ) {
             case 'heizkoerper':
                 return 0.13 * $this->LmaxHzg() + 2 + 0;
-            case 'fussbodenheizung':
-            case 'wandheizung':
-            case 'deckenheizung':
+            case 'flaechenheizung':
                 return 0.13 * $this->LmaxHzg() + 2 + 25;
             default:
                 throw new Calculation_Exception( sprintf( 'TERMp für "%s" kann nicht ermittelt werden.', $uebergabesystem->typ() ) );
@@ -200,6 +199,7 @@ class Hilfsenergie {
 
     public function TERMpumpe(): float {
        //  $TERMpumpe = Nach Tab.40 T12, in Anhängikeit von $ßhd && Bj Heizung bis 1994 ungregelt ab 1995 konstant
-       
+       $TERMpumpe = (new TERMpumpe( $this->gebaeude->heizsystem()->ßhd(), $this->gebaeude->heizsystem()->aelteste_heizungsanlage()->baujahr() ) )->TERMpumpe();
+       return $TERMpumpe;
     }
 }

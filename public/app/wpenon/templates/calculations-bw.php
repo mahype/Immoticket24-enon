@@ -761,10 +761,26 @@ $jahr = new Jahr();
 	<h4>Hilfsenergie</h4>
 
 	<p><?php printf( __( 'pg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->pg() ) ); ?></p>
-	
-	
-	
-
+	<p><?php printf( __( 'WHce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WHce() ) ); ?></p>
+	<p><?php printf( __( 'Wc: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wc() ) ); ?></p>
+	<p><?php printf( __( 'Wrvce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrvce() ) ); ?></p>
+	<p><?php printf( __( 'Wwce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wwce() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumpece: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpece() ) ); ?></p>
+	<p><?php printf( __( 'fgeoHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fgeoHzg() ) ); ?></p>
+	<p><?php printf( __( 'fblHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fblHzg() ) ); ?></p>
+	<p><?php printf( __( 'fgeoTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fgeoTWW() ) ); ?></p>
+	<p><?php printf( __( 'fblTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fblTWW() ) ); ?></p>
+	<p><?php printf( __( 'LcharHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LcharHzg() ) ); ?></p>
+	<p><?php printf( __( 'LcharTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LcharTWW() ) ); ?></p>
+	<p><?php printf( __( 'BcarHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->BcarHzg() ) ); ?></p>
+	<p><?php printf( __( 'BcarWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->BcarWW() ) ); ?></p>
+	<p><?php printf( __( 'LmaxHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LmaxHzg() ) ); ?></p>
+	<p><?php printf( __( 'LmaxTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LmaxTWW() ) ); ?></p>
+	<p><?php printf( __( 'TERMp: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMp() ) ); ?></p>
+	<p><?php printf( __( 'Vstr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Vstr() ) ); ?></p>
+	<p><?php // printf( __( 'PhydrHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrHzg() ) ); ?></p>
+	<p><?php // printf( __( 'fe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fe() ) ); ?></p>
+	<p><?php // printf( __( 'TERMpumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMpumpe() ) ); ?></p>
 	
 </div>
 
