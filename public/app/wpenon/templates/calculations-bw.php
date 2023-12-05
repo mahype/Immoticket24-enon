@@ -607,7 +607,7 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->W_7(); ?></td>
 		<td><?php echo $heizungsanlage->W2(); ?></td>
 		<td><?php echo $heizungsanlage->W7(); ?></td>
-		<td><?php echo $heizungsanlage->ehg(); ?></td>
+		<td><?php echo $heizungsanlage->eg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
 		</tr>
 		</table>

@@ -55,7 +55,12 @@ class Dezentral extends Heizungsanlage {
 		);
 	}
 
-    public function eg(): float {
+    /**
+     * Erzeugung Korrekturfaktur für die Heizungsanlage.
+     * 
+     * @return float 
+     */
+    public function ehg(): float {
         return 1.0;
     }
 

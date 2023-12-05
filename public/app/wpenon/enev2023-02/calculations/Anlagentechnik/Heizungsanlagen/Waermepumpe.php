@@ -500,12 +500,12 @@ class Waermepumpe extends Heizungsanlage {
 	}
 
 	/**
-	 * e gesamt. Enthalten sind auch Speucher, Übergabe- und Verteilverluste (ehg = ehce + ehd + ehs + ehg )
+	 * E gesamt. Enthalten sind auch Speucher, Übergabe- und Verteilverluste (ehg = ehce + ehd + ehs + ehg )
 	 * 
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function ehg(): float {
+	public function eg(): float {
 		// Waeermepumpe Luft
 		if( $this->erzeuger() === 'waermepumpeluft' ) {
 			if( $this->einstufig ) {
