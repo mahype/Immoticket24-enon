@@ -22,7 +22,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
-						'zentral_elekrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+						'zentral_elektrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 				),				
@@ -1115,7 +1115,6 @@ $anlage = array(
 					'label'       => __( 'Typ der Warmwasseranlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Warmwasseranlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
 					'options'     => array(
-						'dezentralkleinspeicher'   => __( 'elektrischer Kleinspeicher', 'wpenon' ),
 						'dezentralelektroerhitzer' => __( 'elektrischer Durchlauferhitzer', 'wpenon' ),
 						'dezentralgaserhitzer'     => __( 'Gas-Durchlauferhitzer', 'wpenon' ),
 					),
@@ -1136,19 +1135,6 @@ $anlage = array(
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
 						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
-					),
-				),
-				'ww_energietraeger_dezentralkleinspeicher' => array(
-					'type'     => 'select',
-					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
-					'required' => true,
-					'options'  => array(
-						'strom' => __( 'Strom', 'wpenon' ),
-					),
-					'default'  => 'strom',
-					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_ww_energietraeger',
-						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralkleinspeicher' ),
 					),
 				),
 				'ww_energietraeger_dezentralgaserhitzer'   => array(

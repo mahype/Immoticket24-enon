@@ -1747,7 +1747,7 @@ ______________________________________________________________________________
 
 //
 //Da es keine Aufwandszahl für Vereilung bei Elektroheizung daher ist ehd_Elektroheizung=1 anzusetzen
-// If "Elektroheizung" than ehd=0 else.....// If " .. !=Elektroheizung= "... (unter if-Bedingung) (Aufbau einer inneren Schleife)
+// If "Elektroheizung" than ehd=1 else.....// If " .. !=Elektroheizung= "... (unter if-Bedingung) (Aufbau einer inneren Schleife)
 //   If " .. !=Elektroheizung= "... (unter Case or if-Bedingung) (Aufbau einer inneren Routine)
 //    case 1   "keine hydraulischer Abgleich vorhanden" than $fhydr=1.06;
               //    $ßhd  = $ßhce * $ehce *$fhydr; 
