@@ -7,8 +7,8 @@ return array(
 	'title'         => __( 'Laufzeit Zirkulationspumpe', 'wpenon' ),
 	'description'   => __( 'Laufzeit der Zirkulationspumpe', 'wpenon' ),
 	'asterisks'     => array(),
-	'primary_field' => 'angf_m2',
-	'search_field'  => 'angf_m2',
+	'primary_field' => 'id',
+	'search_field'  => 'id',
 	'search_before' => true,
 	'fields'        => array(
 		'id'      => array(
@@ -19,7 +19,7 @@ return array(
 			'title' => __( 'A<sub>ngf</sub> m&sup2;', 'wpenon' ),
 			'type'  => 'VARCHAR(100)',
 		),
-		'ehf'     => array(
+		'efh'     => array(
 			'title' => __( 'EFH z h/d', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),

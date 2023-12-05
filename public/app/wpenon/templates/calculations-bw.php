@@ -761,11 +761,17 @@ $jahr = new Jahr();
 	<h4>Hilfsenergie</h4>
 
 	<p><?php printf( __( 'pg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->pg() ) ); ?></p>
+
+	<h5>Bestimmung der Hilfsenergie_Übergabe Wce</h5>
+
 	<p><?php printf( __( 'WHce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WHce() ) ); ?></p>
 	<p><?php printf( __( 'Wc: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wc() ) ); ?></p>
 	<p><?php printf( __( 'Wrvce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrvce() ) ); ?></p>
 	<p><?php printf( __( 'Wwce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wwce() ) ); ?></p>
 	<p><?php printf( __( 'WsolPumpece: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpece() ) ); ?></p>
+
+	<h5>Bestimmung der Hilfsenergie_Verteilung Wd</h5>
+
 	<p><?php printf( __( 'fgeoHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fgeoHzg() ) ); ?></p>
 	<p><?php printf( __( 'fblHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fblHzg() ) ); ?></p>
 	<p><?php printf( __( 'fgeoTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fgeoTWW() ) ); ?></p>
@@ -776,12 +782,31 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'BcarWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->BcarWW() ) ); ?></p>
 	<p><?php printf( __( 'LmaxHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LmaxHzg() ) ); ?></p>
 	<p><?php printf( __( 'LmaxTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->LmaxTWW() ) ); ?></p>
+
+	<h5>Berechnung der Hilfsenergie_Verteilung Heizung Whd , Rohrnetzberechnung</h5>
+
 	<p><?php printf( __( 'TERMp: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMp() ) ); ?></p>
 	<p><?php printf( __( 'Vstr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Vstr() ) ); ?></p>
 	<p><?php printf( __( 'PhydrHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrHzg() ) ); ?></p>
 	<p><?php printf( __( 'fe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fe() ) ); ?></p>
 	<p><?php printf( __( 'TERMpumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMpumpe() ) ); ?></p>
 	<p><?php printf( __( 'fint: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fint() ) ); ?></p>
+
+	<h5>Berechnung der Hilfsenergie für Heizsysteme</h5>
+
+	<p><?php printf( __( 'Wrvd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrvd() ) ); ?></p>
+	<p><?php printf( __( 'Lv: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Lv() ) ); ?></p>
+	<p><?php printf( __( 'Ls: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Ls() ) ); ?></p>
+	<p><?php printf( __( 'Pwda: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Pwda() ) ); ?></p>
+	<p><?php printf( __( 'PhydrTWW: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrTWW() ) ); ?></p>
+	<p><?php printf( __( 'z: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->z() ) ); ?></p>
+	<p><?php printf( __( 'Wwd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wwd() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumped: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumped() ) ); ?></p>
+	<p><?php printf( __( 'Whs: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Whs() ) ); ?></p>
+	<p><?php printf( __( 'tpu: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->tpu() ) ); ?></p>
+	<p><?php printf( __( 'Vws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Vws() ) ); ?></p>
+	<p><?php printf( __( 'Wws0: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws0() ) ); ?></p>
+	<p><?php printf( __( 'Wws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws() ) ); ?></p>
 	
 </div>
 

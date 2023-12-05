@@ -2732,7 +2732,7 @@ ______________________________________________________________________________
 
 
 
-// [ ] Bestimmung der Hilfsenergie_Übergabe Wce
+// [x] Bestimmung der Hilfsenergie_Übergabe Wce
 
 // a)  Heizung WHce
 //-----
@@ -2770,7 +2770,7 @@ ______________________________________________________________________________
 
 //-------------------------------------------------------------
 
-// [ ] Bestimmung der Hilfsenergie_Verteilung Wd
+// [x] Bestimmung der Hilfsenergie_Verteilung Wd
 //----------------
 //  a) Berechnung des Rohrnetzes 
 
@@ -2930,6 +2930,8 @@ ______________________________________________________________________________
 //---------------------------------
 
 //// Berechnung Hilfsenergie Speicherung Trinkwarmwasser Wws
+
+// Qwoutg = QWB * ewce * ewd * ews
 
 // 
 // $tpu=1.1*($calculations['Qwoutg']/$Pn);

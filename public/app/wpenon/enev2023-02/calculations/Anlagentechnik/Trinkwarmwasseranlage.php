@@ -141,7 +141,7 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Dezentraler Erzeuger.
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public function dezentraler_erzeuger(): ?string {
@@ -241,12 +241,21 @@ class Trinkwarmwasseranlage {
 	}
 
 	/**
+	 * Berechnung von Vsw.
+	 * 
+	 * @return float 
+	 */
+	public function Vsw(): float {
+		return $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
+	}
+
+	/**
 	 * Berechnung von Vsw1. // NOTE: Was ist das?
 	 *
 	 * @return float
 	 */
 	public function Vsw1(): float {
-		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
+		$Vsw = $this->Vsw();
 
 		if ( $Vsw > 3000 ) {
 			$Vsw = 3000;
@@ -265,7 +274,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Vsw2(): float {
-		$Vsw = $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
+		$Vsw = $this->Vsw();
 
 		if ( $Vsw > 3000 ) {
 			$Vsw = 3000;
@@ -314,12 +323,22 @@ class Trinkwarmwasseranlage {
 	}
 
 	/**
+	 * Berechnung Hilfsenergie Trinkwarmwasser Wws
+	 *
+	 * @return float
+	 */
+	public function Qwoutg(): float {
+		// Qwoutg = QWB * ewce * ewd * ews
+		return $this->QWB() * $this->ewce() * $this->ewd() * $this->ews();
+	}
+
+	/**
 	 * Berechnung von ews.
 	 *
 	 * @return float
 	 */
 	public function ews(): float {
-		if( ! $this->zentral ) {
+		if ( ! $this->zentral ) {
 			return 1;
 		}
 
