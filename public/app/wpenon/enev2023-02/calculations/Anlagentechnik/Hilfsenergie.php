@@ -10,7 +10,7 @@ use Enev\Schema202302\Calculations\Tabellen\Volumenstrom_im_Auslegungspunkt;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Differenzdruck_Waermeerzeuger.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Volumenstrom_im_Auslegungspunkt.php';
-require_once dirname( __DIR__ ) . '/Tabellen/TERMpumpe.php';
+require_once dirname( __DIR__ ) . '/Tabellen/TERMPumpe.php';
 
 /**
  * Hilfsenergie.
