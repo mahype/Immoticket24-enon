@@ -528,7 +528,7 @@ if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erz
 	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil );
 }
 
-if ( $energieausweis->h2_erzeugung ) {
+if ( $energieausweis->h2_info ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
@@ -548,7 +548,7 @@ if ( $energieausweis->h2_erzeugung ) {
 	}
 }
 
-if ( $energieausweis->h3_erzeugung ) {
+if ( $energieausweis->h3_info ) {
 	$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
