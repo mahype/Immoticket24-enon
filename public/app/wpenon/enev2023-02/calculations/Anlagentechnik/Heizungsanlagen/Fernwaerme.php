@@ -42,7 +42,7 @@ class Fernwaerme extends Heizungsanlage {
 	}
 
 	public function eg0(): float {
-		return ( new Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->eg0();
+		return ( new Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->eg0();
 	}
 
 	public function ßhg(): float {

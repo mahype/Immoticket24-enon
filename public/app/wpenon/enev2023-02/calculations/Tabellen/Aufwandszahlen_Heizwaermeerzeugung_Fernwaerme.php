@@ -64,12 +64,12 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme {
 
          	$zeilen_keys[]   = $zeile;
 			$interpolierter_wert = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
-			$zeilen_values[] = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
+			$zeilen_values[] = $interpolierter_wert;
 		}
 
 	
 		$interpolierter_wert_2 = interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
-      	return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+      	return $interpolierter_wert_2;
 	}
 
    public function eg0(): float {

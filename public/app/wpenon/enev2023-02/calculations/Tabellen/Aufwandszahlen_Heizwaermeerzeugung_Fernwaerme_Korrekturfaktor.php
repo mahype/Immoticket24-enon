@@ -9,7 +9,7 @@ use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**
- * Berechnung der Daten zur Mittleren Belastung aus Tablle 78.
+ * Berechnung der Daten Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme_Korrekturfaktor aus Tabelle 104.
  *
  * @package
  */
@@ -110,38 +110,51 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme_Korrekturfaktor {
 
 	protected function zeile(): string {
 		$zeile = '';
-		if ( $this->heizung_im_beheizten_bereich ) {
-			$zeile .= 'bh_';
-		} else {
+		// Unbeheizt
+		if ( ! $this->heizung_im_beheizten_bereich ) {
 			$zeile .= 'ubh_';
-		}
+			$zeile .= str_replace( '/', '_', $this->uebergabe_auslegungstemperatur );
 
-		$zeile .= str_replace( '/', '_', $this->uebergabe_auslegungstemperatur );
-
-		if ( $this->heizung_im_beheizten_bereich && $this->uebergabe_auslegungstemperatur === '35/28' ) {
-			if ( $this->pn <= 30 ) {
-				$zeile .= '_bis_30';
-			} elseif ( $this->pn > 30 && $this->pn <= 100 ) {
-				$zeile .= '_bis_100';
-			} else {
-				$zeile .= '_ab_100';
+			if( $this->uebergabe_auslegungstemperatur === '70/55' ) {
+				return $zeile .'_alle';
 			}
 
-			return $zeile;
+			if( $this->pn < 30 ) {
+				return $zeile .'_bis_30';
+			}
+
+			return $zeile .'_ab_30';
+		
+		// Beheizt
+		} else {
+			$zeile .= 'bh_';
+			$zeile .= str_replace( '/', '_', $this->uebergabe_auslegungstemperatur );
+
+			if( $this->uebergabe_auslegungstemperatur === '90/70' ) {
+				return $zeile .'_alle';
+			}
+
+			if( $this->uebergabe_auslegungstemperatur === '35/28' ) {
+				if( $this->pn < 30 ) {
+					return $zeile .'_bis_30';
+				}
+
+				if( $this->pn >= 30 && $this->pn < 100 ) {
+					return $zeile .'_30_bis_100';
+				}
+
+				if( $this->pn >= 100 ) {
+					return $zeile .'_ab_100';
+				}
+			}
+
+			if( $this->pn < 30 ) {
+				return $zeile .'_bis_30';
+			}
+
+			if( $this->pn >= 30 ) {
+				return $zeile .'_ab_30';
+			}
 		}
-
-		if ( ( ! $this->heizung_im_beheizten_bereich && $this->uebergabe_auslegungstemperatur === '70/55' ) ||
-			( ! $this->heizung_im_beheizten_bereich && $this->uebergabe_auslegungstemperatur === '90/70' )
-		) {
-			return $zeile;
-		}
-
-        if( $this->pn <= 30 ) {
-            $zeile . '_bis_30';
-        } else {
-            $zeile .= '_ab_30';
-        }
-
-        return $zeile;
 	}
 }
