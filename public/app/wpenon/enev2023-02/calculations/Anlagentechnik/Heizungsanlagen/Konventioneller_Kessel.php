@@ -102,10 +102,10 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * ehg
-	 *
-	 * @return float
-	 */
+     * Erzeugung Korrekturfaktur für die Heizungsanlage.
+     * 
+     * @return float 
+     */
 	public function ehg(): float {
 		// $eg=$eg0*$fbj*$fegt
 		return $this->eg0() * $this->fbj() * $this->fegt();

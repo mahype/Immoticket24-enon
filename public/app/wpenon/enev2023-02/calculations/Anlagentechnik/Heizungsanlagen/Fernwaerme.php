@@ -100,7 +100,12 @@ class Fernwaerme extends Heizungsanlage {
         ) )->f_temp();
 	}
 
-    public function eg(): float {
+	/**
+     * Erzeugung Korrekturfaktur für die Heizungsanlage.
+     * 
+     * @return float 
+     */
+    public function ehg(): float {
         return $this->eg0() * $this->fiso() * $this->ftemp();
     }
 

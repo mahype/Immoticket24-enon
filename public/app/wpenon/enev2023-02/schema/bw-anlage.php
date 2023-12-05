@@ -22,6 +22,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
+						'zentral_elekrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 				),				
@@ -181,6 +182,19 @@ $anlage = array(
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::h_erzeugung', 'infrarotheizung' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h_energietraeger_zentral_elektrisch'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h_erzeugung', 'zentral_elektrisch' ),
 					),
 					'default'  => 'strom',
 					'required' => true,
@@ -510,6 +524,19 @@ $anlage = array(
 					'default'  => 'strom',
 					'required' => true,
 				),
+				'h2_energietraeger_zentral_elektrisch'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h2_erzeugung', 'zentral_elektrisch' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
 				'h2_energietraeger'                        => array(
 					'type'  => 'hidden',
 					'value' => array(
@@ -823,6 +850,19 @@ $anlage = array(
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
 						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'infrarotheizung' ),
+					),
+					'default'  => 'strom',
+					'required' => true,
+				),
+				'h3_energietraeger_zentral_elektrisch'         => array(
+					'type'     => 'select',
+					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'options'  => array(
+						'strom' => __( 'Strom', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::h3_erzeugung', 'zentral_elektrisch' ),
 					),
 					'default'  => 'strom',
 					'required' => true,

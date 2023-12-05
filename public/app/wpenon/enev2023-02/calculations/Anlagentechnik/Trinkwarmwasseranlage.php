@@ -111,7 +111,7 @@ class Trinkwarmwasseranlage {
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
-			throw new Calculation_Exception( 'Zirkulation ist nur bei zentraler Trinkwarmwasseranlage möglich.' );
+			throw new Calculation_Exception( 'Zirkulation dezentraler Trinkwasseranlage ist nicht möglich.' );
 		}
 
 		$this->monatsdaten = new Monatsdaten();

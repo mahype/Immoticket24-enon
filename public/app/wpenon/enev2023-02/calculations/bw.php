@@ -482,11 +482,13 @@ switch ( $energieausweis->ww_info ) {
 	// Eigene Warmwasserbereitung.
 	case 'ww':
 		$ww_zentral = false;
+		$mit_zirkulation = false;
 		$mit_warmwasserspeicher = false;
 		break;
 	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
 		$ww_zentral = true;
+		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		break;
 }
@@ -498,7 +500,7 @@ $gebaeude->trinkwarmwasseranlage(
 		dezentraler_erzeuger: $energieausweis->ww_info === 'ww' ? $energieausweis->ww_erzeugung : null,
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: true,
-		mit_zirkulation: $energieausweis->verteilung_versorgung === 'mit' ? true : false,
+		mit_zirkulation: $mit_zirkulation,
 		mit_solarthermie: $energieausweis->regenerativ_art === 'warmwasser' ? true : false,
 	)
 );
