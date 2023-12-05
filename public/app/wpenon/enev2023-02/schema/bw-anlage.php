@@ -66,9 +66,6 @@ $anlage = array(
 						'erdgas'            => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'            => __( 'Biogas', 'wpenon' ),
-						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
-						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
-						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -400,9 +397,6 @@ $anlage = array(
 						'erdgas'            => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'            => __( 'Biogas', 'wpenon' ),
-						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
-						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
-						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -730,9 +724,6 @@ $anlage = array(
 						'erdgas'            => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'            => __( 'Biogas', 'wpenon' ),
-						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
-						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
-						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',

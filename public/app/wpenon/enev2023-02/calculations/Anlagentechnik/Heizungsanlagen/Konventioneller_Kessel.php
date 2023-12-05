@@ -67,6 +67,16 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'braunkohle'        => 'Braunkohle',
 				),
 			),
+			'niedertemperaturkessel'  => array(
+				'name'           => 'Niedertemperaturkessel',
+				'typ'            => 'niedertemperaturkessel',
+				'energietraeger' => array(
+					'heizoel'           => 'Heizöl',
+					'erdgas'            => 'Erdgas',
+					'fluessiggas'       => 'Flüssiggas',
+					'biogas'            => 'Biogas',
+				),
+			),
 			'brennwertkessel' => array(
 				'name'           => 'Brennwertkessel',
 				'typ'            => 'brennwertkessel',

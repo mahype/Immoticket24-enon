@@ -50,55 +50,55 @@ class Volumenstrom_im_Auslegungspunkt {
 
     protected function heizlast_slugs(): array {
          if( $this->heizlast <= 2.5 ) {
-             return array('dw_2_5' );
+             return array('va_2_5' );
          } else if( $this->heizlast > 2.5 && $this->heizlast <= 5 ) {
-            return array('dw_2_5', 'dw_5' );
+            return array('va_2_5', 'va_5' );
          } else if( $this->heizlast > 5 && $this->heizlast <= 10 ) {
-            return array('dw_5', 'dw_10' );
+            return array('va_5', 'va_10' );
          } else if( $this->heizlast > 10 && $this->heizlast <= 20 ) {
-            return array('dw_10', 'dw_20' );
+            return array('va_10', 'va_20' );
          } else if( $this->heizlast > 20 && $this->heizlast <= 30 ) {
-            return array('dw_20', 'dw_30' );
+            return array('va_20', 'va_30' );
          } else if( $this->heizlast > 30 && $this->heizlast <= 40 ) {
-            return array('dw_30', 'dw_40' );
+            return array('va_30', 'va_40' );
          } else if( $this->heizlast > 40 && $this->heizlast <= 50 ) {
-            return array('dw_40', 'dw_50' );
+            return array('va_40', 'va_50' );
          } else if( $this->heizlast > 50 && $this->heizlast <= 60 ) {
-            return array('dw_50', 'dw_60' );
+            return array('va_50', 'va_60' );
          } else if( $this->heizlast > 60 && $this->heizlast <= 70 ) {
-            return array('dw_60', 'dw_70' );
+            return array('va_60', 'va_70' );
          } else if( $this->heizlast > 70 && $this->heizlast <= 80 ) {
-            return array('dw_70', 'dw_80' );
+            return array('va_70', 'va_80' );
          } else if( $this->heizlast > 80 && $this->heizlast <= 90 ) {
-            return array('dw_80', 'dw_90' );
+            return array('va_80', 'va_90' );
          } else if( $this->heizlast > 90 && $this->heizlast <= 100 ) {
-            return array('dw_90', 'dw_100' );
+            return array('va_90', 'va_100' );
          } else if( $this->heizlast > 100 && $this->heizlast <= 110 ) {
-            return array('dw_100', 'dw_110' );
+            return array('va_100', 'va_110' );
          } else if( $this->heizlast > 110 && $this->heizlast <= 120 ) {
-            return array('dw_110', 'dw_120' );
+            return array('va_110', 'va_120' );
          } else if( $this->heizlast > 120 && $this->heizlast <= 130 ) {
-            return array('dw_120', 'dw_130' );
+            return array('va_120', 'va_130' );
          } else if( $this->heizlast > 130 && $this->heizlast <= 140 ) {
-            return array('dw_130', 'dw_140' );
+            return array('va_130', 'va_140' );
          } else if( $this->heizlast > 140 && $this->heizlast <= 150 ) {
-            return array('dw_140', 'dw_150' );
+            return array('va_140', 'va_150' );
          } else if( $this->heizlast > 150 && $this->heizlast <= 160 ) {
-            return array('dw_150', 'dw_160' );
+            return array('va_150', 'va_160' );
          } else if( $this->heizlast > 160 && $this->heizlast <= 170 ) {
-            return array('dw_160', 'dw_170' );
+            return array('va_160', 'va_170' );
          } else if( $this->heizlast > 170 && $this->heizlast <= 180 ) {
-            return array('dw_170', 'dw_180' );
+            return array('va_170', 'va_180' );
          } else if( $this->heizlast > 180 && $this->heizlast <= 190 ) {
-            return array('dw_180', 'dw_190' );
+            return array('va_180', 'va_190' );
          } else if( $this->heizlast > 190 && $this->heizlast <= 200 ) {
-            return array('dw_190', 'dw_200' );
+            return array('va_190', 'va_200' );
          } else if( $this->heizlast > 200 && $this->heizlast <= 300 ) {
-            return array('dw_200', 'dw_300' );
+            return array('va_200', 'va_300' );
          } else if( $this->heizlast > 300 && $this->heizlast <= 400 ) {
-            return array('dw_300', 'dw_400' );
+            return array('va_300', 'va_400' );
          } else if( $this->heizlast > 400 ) {
-            return array('dw_400' );
+            return array('va_400' );
          }
     }
 }
