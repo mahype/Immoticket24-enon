@@ -319,6 +319,10 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function ews(): float {
+		if( ! $this->zentral ) {
+			return 1;
+		}
+
 		// Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlag
 		return 1 + ( $this->Qws() / ( $this->QWB() * $this->ewd() * $this->ewce() ) );
 	}
