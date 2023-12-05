@@ -5,12 +5,14 @@ namespace Enev\Schema202302\Calculations\Anlagentechnik;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Differenzdruck_Waermeerzeuger;
+use Enev\Schema202302\Calculations\Tabellen\Intermittierender_Pumpenbetrieb;
 use Enev\Schema202302\Calculations\Tabellen\TERMpumpe;
 use Enev\Schema202302\Calculations\Tabellen\Volumenstrom_im_Auslegungspunkt;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Differenzdruck_Waermeerzeuger.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Volumenstrom_im_Auslegungspunkt.php';
 require_once dirname( __DIR__ ) . '/Tabellen/TERMPumpe.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Intermittierender_Pumpenbetrieb.php';
 
 /**
  * Hilfsenergie.
@@ -201,5 +203,10 @@ class Hilfsenergie {
        //  $TERMpumpe = Nach Tab.40 T12, in Anhängikeit von $ßhd && Bj Heizung bis 1994 ungregelt ab 1995 konstant
        $TERMpumpe = (new TERMpumpe( $this->gebaeude->heizsystem()->ßhd(), $this->gebaeude->heizsystem()->aelteste_heizungsanlage()->baujahr() ) )->TERMpumpe();
        return $TERMpumpe;
+    }
+
+    public function fint(): float {
+        $fint = (new Intermittierender_Pumpenbetrieb( $this->gebaeude->ith_rl(), $this->gebaeude->thm() ) )->fint();
+        return $fint;
     }
 }

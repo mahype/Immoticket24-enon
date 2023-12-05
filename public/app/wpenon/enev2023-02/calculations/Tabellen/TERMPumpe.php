@@ -7,7 +7,7 @@ use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**
- * Berechnungen zum Luftwechsel.
+ * Berechnungen zum TERMpumpe.
  *
  * @package
  */
@@ -48,7 +48,7 @@ class TERMpumpe {
         foreach ( $this->ßhd_slugs() as $ßhd_slugs ) {			
             $keys[]   = floatval( $this->table_data[ $ßhd_slugs ]->b );
             $spalte = $this->baujahr_heizung <= 1994 ? 'ungeregelt': 'd_p_const';
-            $values[] = (float) $this->table_data[ $ßhd_slugs ]->$spalte; // in Abhängikeit der Heizlast und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
+            $values[] = (float) $this->table_data[ $ßhd_slugs ]->$spalte;
         }
 
         $interpolated_value = interpolate_value( $this->ßhd, $keys, $values );

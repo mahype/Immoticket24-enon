@@ -781,6 +781,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'PhydrHzg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->PhydrHzg() ) ); ?></p>
 	<p><?php printf( __( 'fe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fe() ) ); ?></p>
 	<p><?php printf( __( 'TERMpumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->TERMpumpe() ) ); ?></p>
+	<p><?php printf( __( 'fint: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->fint() ) ); ?></p>
 	
 </div>
 
