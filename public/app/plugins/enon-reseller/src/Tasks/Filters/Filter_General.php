@@ -64,11 +64,12 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_filters() {
-		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );				
+		add_filter( 'wpenon_bill_to_address', array( $this, 'filter_bill_to_address' ) );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
 		add_filter( 'wpenon_get_option', array( $this, 'filter_price' ), 10, 2 );
-        add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
-        add_filter( 'eddkti_add_customer', array( $this, 'filter_send_customer_to_klicktipp' ), 100, 1 );
+		add_filter( 'wpenon_custom_fees', array( $this, 'filter_custom_fees' ), 100, 1 );
+		add_filter( 'eddkti_add_customer', array( $this, 'filter_send_customer_to_klicktipp' ), 100, 1 );
+		add_filter( 'affwp_tracking_is_valid_affiliate', array( $this, 'filter_affiliatewp_tracking_is_valid_affiliate' ), 100, 2 );
 	}
 
 	/**
@@ -77,12 +78,12 @@ class Filter_General implements Task, Filters, Actions {
 	 * @since 1.0.0
 	 */
 	public function add_actions() {
-        add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
-        add_action( 'wpenon_energieausweis_create', array( $this, 'update_reseller_id' ) );
+		add_action( 'template_redirect', array( $this, 'set_affiliatewp_referal' ), -10000, 0 );
+		add_action( 'wpenon_energieausweis_create', array( $this, 'update_reseller_id' ) );
 
-		add_action( 'edd_admin_sale_notice', [$this, 'add_order_email_filter'], 9, 2 );
-		add_action( 'edd_admin_sale_notice', [$this, 'remove_order_email_filter'], 11, 2 );
-    }
+		add_action( 'edd_admin_sale_notice', array( $this, 'add_order_email_filter' ), 9, 2 );
+		add_action( 'edd_admin_sale_notice', array( $this, 'remove_order_email_filter' ), 11, 2 );
+	}
 
 
 	public function add_order_email_filter() {
@@ -95,16 +96,16 @@ class Filter_General implements Task, Filters, Actions {
 
 	/**
 	 * Filter to email adress of order confirmation.
-	 * 
+	 *
 	 * @param string $email To email address.
-	 * 
+	 *
 	 * @return string Filtered to email address.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	public function filter_order_confirmation_to_address( $emails ) {
 		$reseller_contact_email = $this->reseller->data()->general->get_contact_email();
-		array_push( $emails, 'reseller@immoticket24.de' );		
+		array_push( $emails, 'reseller@immoticket24.de' );
 
 		if ( ! $this->reseller->data()->general->send_order_confirmation_to_reseller() ) {
 			return $emails;
@@ -114,8 +115,8 @@ class Filter_General implements Task, Filters, Actions {
 
 		return $emails;
 	}
-    
-    /**
+
+	/**
 	 * Updating reseller id.
 	 *
 	 * @since 1.0.0
@@ -143,9 +144,9 @@ class Filter_General implements Task, Filters, Actions {
 		}
 
 		return $reseller_contact_email;
-    }
+	}
 
-	
+
 
 	/**
 	 * Filter if customer can be send to klicktipp.
@@ -159,8 +160,8 @@ class Filter_General implements Task, Filters, Actions {
 	public function filter_send_customer_to_klicktipp( $can_send ) {
 		if ( ! $this->reseller->data()->general->isset_marketing_klicktipp() ) {
 			return false;
-        }
-        
+		}
+
 		return $can_send;
 	}
 
@@ -242,5 +243,27 @@ class Filter_General implements Task, Filters, Actions {
 
 		affiliate_wp()->tracking->referral = $affiliate_id;
 		affiliate_wp()->tracking->set_affiliate_id( $affiliate_id );
+	}
+
+	/**
+	 * Filter is valid affiliate. Enable tracking for reseller purchases himself.
+	 *
+	 * @param bool $valid True if affiliate is valid, false if not.
+	 * @param int  $affiliate_id Affiliate id.
+	 * @return bool True if affiliate is valid, false if not.
+	 */
+	public function filter_affiliatewp_tracking_is_valid_affiliate( $valid, $affiliate_id ) {
+		if ( empty( $affiliate_id ) ) {
+			$affiliate_id = affiliate_wp()->get_affiliate( $affiliate_id );
+		}
+		$affiliate = affwp_get_affiliate( $affiliate_id );
+		if ( $affiliate ) {
+			$is_self = is_user_logged_in() && get_current_user_id() == $affiliate->user_id;
+			$active  = 'active' === $affiliate->status;
+		}
+		if ( $is_self && $active ) {
+			$valid = true;
+		}
+		return $valid;
 	}
 }
