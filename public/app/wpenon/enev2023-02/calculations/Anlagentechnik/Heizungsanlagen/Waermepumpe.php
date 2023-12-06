@@ -6,9 +6,11 @@ use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\COP;
+use Enev\Schema202302\Calculations\Tabellen\Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/COP.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Helfer/Jahr.php';
 
 class Waermepumpe extends Heizungsanlage {
@@ -521,7 +523,7 @@ class Waermepumpe extends Heizungsanlage {
 		return 1 / $this->COPkorr();
 	}
 
-	public function WHg(): float {
+	public function Whg(): float {
 		// T12. Seite 144 Defintion der NOrm, dass sowohl Heizung und TWW mit dem einen Wert aus Tab96 berücksichtigt ist.
 
 		// if Wärmepumpe && Luftwasserwärmepumpe than
@@ -533,6 +535,6 @@ class Waermepumpe extends Heizungsanlage {
 			return 0.00;
 		}
 
-		return (new Tabelle_96( $this->gebaeude->heizsystem()->pn() / 1000, 15 ))->WHg();
+		return (new Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen( $this->gebaeude->heizsystem()->pn() / 1000, 15 ))->Whg();
 	}
 }

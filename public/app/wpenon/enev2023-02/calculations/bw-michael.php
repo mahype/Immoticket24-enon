@@ -3028,7 +3028,7 @@ ______________________________________________________________________________
 //    $Whg=120 //kWh/a //nach T12, Kap. 6.6.7.2  und  T8, S.97  // Da kine weiteren Infos in DIN setzten wir den höhren Wert für die Übergabestation an. geregelt Station
 
 //  e) dezentraler Wärmeerzeuger (infrarotHeizflächen und Nachtspeicherheizungen)
-//     $WHg = 0; T12, Seite 159, hier wird gesamt Wg = definiert (also sowohl Heizung wie auch TWW), Werden nur bei Übergabe berücksichtig siehe T5 S.157, Kommentar 6.5.8.1
+//     $Whg = 0; T12, Seite 159, hier wird gesamt Wg = definiert (also sowohl Heizung wie auch TWW), Werden nur bei Übergabe berücksichtig siehe T5 S.157, Kommentar 6.5.8.1
 //
 
 
@@ -3316,3 +3316,6 @@ ______________________________________________________________________________
 // TODO: Berechnung der Primärenergie mit PV-Einfluss (kwh/m^2a)
 
 //       $Qp= $Qp/$calculations['nutzflaeche']
+
+
+// GEG Anlage 10 für die Einordnung der Energieeffizeinzklasse von Wohngebäuden (Skala) A+ bis H)

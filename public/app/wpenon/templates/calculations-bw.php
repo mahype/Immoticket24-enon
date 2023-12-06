@@ -561,119 +561,213 @@ $jahr = new Jahr();
 <hr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
 		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
+			<table>
+				<tr>
+					<th>Kategorie</th>
+					<td><?php echo $heizungsanlage->kategorie(); ?></td>
+				</tr>
+				<tr>
+					<th>Heizungstyp</th>
+					<td><?php echo $heizungsanlage->typ(); ?></td>
+				</tr>
+				<tr>
+					<th>Energieträger</th>
+					<td><?php echo $heizungsanlage->energietraeger(); ?></td>
+				</tr>
+				<tr>
+					<th>Anteil</th>
+					<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
+				</tr>
+				<tr>
+					<th>eg0</th>
+					<td><?php echo $heizungsanlage->eg0(); ?></td>
+				</tr>
+				<tr>
+					<th>fbj</th>
+					<td><?php echo $heizungsanlage->fbj(); ?></td>
+				</tr>
+				<tr>
+					<th>ßhg</th>
+					<td><?php echo $heizungsanlage->ßhg(); ?></td>
+				</tr>
+				<tr>
+					<th>fegt</th>
+					<td><?php echo $heizungsanlage->fegt(); ?></td>
+				</tr>
+				<tr>
+					<th>ehg</th>
+					<td><?php echo $heizungsanlage->ehg(); ?></td>
+				</tr>
+				<tr>
+					<th>ehg korrektur</th>
+					<td><?php echo $heizungsanlage->ehg_korrektur(); ?></td>
+				</tr>
+				<tr>
+					<th>ewg0</th>
+					<td><?php echo $heizungsanlage->ewg0(); ?></td>
+				</tr>
+				<tr>
+					<th>ewg</th>
+					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+				<tr>
+					<th>ewg korrektur</th>
+					<td><?php echo $heizungsanlage->ewg_korrektur(); ?></td>
+				</tr>
+			</table>
+			<h5>Hilfsenergie</h5>
+			<table>
+				<tr>
+					<th>tpwn0</th>
+					<td><?php echo $heizungsanlage->twpn0(); ?></td>
+				</tr>
+				<tr>
+					<th>tpwn</th>
+					<td><?php echo $heizungsanlage->twpn(); ?></td>
+				</tr>
+			</table>
 
-		<table>
-		<tr>
-		<th>Kategorie</th>    
-		<th>Heizungstyp</th>    
-		<th>Energieträger</th>
-		<th>Anteil</th>
-		<th>eg0</th>
-		<th>fbj</th>
-		<th>ßhg</th>
-		<th>fegt</th>
-		<th>ehg</th>
-		<th>ewg</th>
-        <th>fphgaux</th>
-		</tr>
-		<tr>
-		<td><?php echo $heizungsanlage->kategorie(); ?></td>
-		<td><?php echo $heizungsanlage->typ(); ?></td>
-		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
-		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php echo $heizungsanlage->eg0(); ?></td>
-		<td><?php echo $heizungsanlage->fbj(); ?></td>
-		<td><?php echo $heizungsanlage->ßhg(); ?></td>
-		<td><?php echo $heizungsanlage->fegt(); ?></td>
-		<td><?php echo $heizungsanlage->ehg(); ?></td>
-		<td><?php echo $heizungsanlage->ewg(); ?></td>
-        <td><?php echo $heizungsanlage->phgaux(); ?></td>
-		</tr>
-		</table>
 		<?php elseif ( $heizungsanlage->kategorie() === 'waermepumpe' ) : ?>
-		<table>
-		<tr>
-		<th>Kategorie</th>    
-		<th>Heizungstyp</th>    
-		<th>Energieträger</th>
-		<th>Anteil</th>
-		<th>θva</th>
-		<th>θvl</th>
-		<th>COPtk -7</th>
-		<th>COPtk 2</th>
-		<th>COPtk 7</th>
-		<th>W -7</th>
-		<th>W 2</th>
-		<th>W 7</th>
-		<th>e gsamt (ehg)</th>
-		<th>ewg</th>
-		</tr>
-		<tr>
-		<tr>
-		<td><?php echo $heizungsanlage->kategorie(); ?></td>
-		<td><?php echo $heizungsanlage->typ(); ?></td>
-		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
-		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php echo $heizungsanlage->θva(); ?></td>
-		<td><?php echo $heizungsanlage->θvl(); ?></td>
-		<td><?php echo $heizungsanlage->COPtk_7(); ?></td>
-		<td><?php echo $heizungsanlage->COPtk2(); ?></td>
-		<td><?php echo $heizungsanlage->COPtk7(); ?></td>
-		<td><?php echo $heizungsanlage->W_7(); ?></td>
-		<td><?php echo $heizungsanlage->W2(); ?></td>
-		<td><?php echo $heizungsanlage->W7(); ?></td>
-		<td><?php echo $heizungsanlage->eg(); ?></td>
-		<td><?php echo $heizungsanlage->ewg(); ?></td>
-		</tr>
-		</table>
+			<table>
+				<tr>
+					<td>Kategorie</td>
+					<td><?php echo $heizungsanlage->kategorie(); ?></td>
+				</tr>
+				<tr>
+					<td>Heizungstyp</td>
+					<td><?php echo $heizungsanlage->typ(); ?></td>
+				</tr>
+				<tr>
+					<td>Energieträger</td>
+					<td><?php echo $heizungsanlage->energietraeger(); ?></td>
+				</tr>
+				<tr>
+					<td>Anteil</td>
+					<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
+				</tr>
+				<tr>
+					<td>θva</td>
+					<td><?php echo $heizungsanlage->θva(); ?></td>
+				</tr>
+				<tr>
+					<td>θvl</td>
+					<td><?php echo $heizungsanlage->θvl(); ?></td>
+				</tr>
+				<tr>
+					<td>COPtk -7</td>
+					<td><?php echo $heizungsanlage->COPtk_7(); ?></td>
+				</tr>
+				<tr>
+					<td>COPtk 2</td>
+					<td><?php echo $heizungsanlage->COPtk2(); ?></td>
+				</tr>
+				<tr>
+					<td>COPtk 7</td>
+					<td><?php echo $heizungsanlage->COPtk7(); ?></td>
+				</tr>
+				<tr>
+					<td>W -7</td>
+					<td><?php echo $heizungsanlage->W_7(); ?></td>
+				</tr>
+				<tr>
+					<td>W 2</td>
+					<td><?php echo $heizungsanlage->W2(); ?></td>
+				</tr>
+				<tr>
+					<td>W 7</td>
+					<td><?php echo $heizungsanlage->W7(); ?></td>
+				</tr>
+				<tr>
+					<td>e gsamt (ehg)</td>
+					<td><?php echo $heizungsanlage->eg(); ?></td>
+				</tr>
+				<tr>
+					<td>ewg</td>
+					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+			</table>
+
+			<h5>Hilfsenergie</h5>
+
+			<table>
+				<tr>
+					<th>Whg</th>
+					<td><?php echo $heizungsanlage->Whg(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'fernwaerme' ) : ?>
-		<table>
-		<tr>
-		<th>Kategorie</th>    
-		<th>Heizungstyp</th>    
-		<th>Energieträger</th>
-		<th>Anteil</th>
-		<th>eg0</th>
-		<th>ßhg</th>
-		<th>fiso</th>
-		<th>ftemp</th>
-		<th>ehg</th>
-		<th>ewg</th>
-		</tr>
-		<tr>
-		<tr>
-		<td><?php echo $heizungsanlage->kategorie(); ?></td>
-		<td><?php echo $heizungsanlage->typ(); ?></td>
-		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
-		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php echo $heizungsanlage->eg0(); ?></td>
-		<td><?php echo $heizungsanlage->ßhg(); ?></td>
-		<td><?php echo $heizungsanlage->fiso(); ?></td>
-		<td><?php echo $heizungsanlage->ftemp(); ?></td>
-		<td><?php echo $heizungsanlage->ehg(); ?></td>
-		<td><?php echo $heizungsanlage->ewg(); ?></td>
-		</tr>
-		</table>
+			<table>
+				<tr>
+					<td>Kategorie</td>
+					<td><?php echo $heizungsanlage->kategorie(); ?></td>
+				</tr>
+				<tr>
+					<td>Heizungstyp</td>
+					<td><?php echo $heizungsanlage->typ(); ?></td>
+				</tr>
+				<tr>
+					<td>Energieträger</td>
+					<td><?php echo $heizungsanlage->energietraeger(); ?></td>
+				</tr>
+				<tr>
+					<td>Anteil</td>
+					<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
+				</tr>
+				<tr>
+					<td>eg0</td>
+					<td><?php echo $heizungsanlage->eg0(); ?></td>
+				</tr>
+				<tr>
+					<td>ßhg</td>
+					<td><?php echo $heizungsanlage->ßhg(); ?></td>
+				</tr>
+				<tr>
+					<td>fiso</td>
+					<td><?php echo $heizungsanlage->fiso(); ?></td>
+				</tr>
+				<tr>
+					<td>ftemp</td>
+					<td><?php echo $heizungsanlage->ftemp(); ?></td>
+				</tr>
+				<tr>
+					<td>ehg</td>
+					<td><?php echo $heizungsanlage->ehg(); ?></td>
+				</tr>
+				<tr>
+					<td>ewg</td>
+					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'dezentral' ) : ?>
-		<table>
-		<tr>
-		<th>Kategorie</th>    
-		<th>Heizungstyp</th>    
-		<th>Energieträger</th>
-		<th>Anteil</th>
-		<th>ehg</th>
-		<th>ewg</th>
-		</tr>
-		<tr>
-		<tr>
-		<td><?php echo $heizungsanlage->kategorie(); ?></td>
-		<td><?php echo $heizungsanlage->typ(); ?></td>
-		<td><?php echo $heizungsanlage->energietraeger(); ?></td>
-		<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
-		<td><?php echo $heizungsanlage->ehg(); ?></td>
-		<td><?php echo $heizungsanlage->ewg(); ?></td>
-		</tr>
-		</table>
+			<table>
+				<tr>
+					<td>Kategorie</td>
+					<td><?php echo $heizungsanlage->kategorie(); ?></td>
+				</tr>
+				<tr>
+					<td>Heizungstyp</td>
+					<td><?php echo $heizungsanlage->typ(); ?></td>
+				</tr>
+				<tr>
+					<td>Energieträger</td>
+					<td><?php echo $heizungsanlage->energietraeger(); ?></td>
+				</tr>
+				<tr>
+					<td>Anteil</td>
+					<td><?php echo $heizungsanlage->prozentualer_anteil(); ?></td>
+				</tr>
+				<tr>
+					<td>ehg</td>
+					<td><?php echo $heizungsanlage->ehg(); ?></td>
+				</tr>
+				<tr>
+					<td>ewg</td>
+					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+			</table>
+
 		<?php endif; ?>
 		
 	<?php endforeach; ?>		

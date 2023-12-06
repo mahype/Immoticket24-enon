@@ -46,12 +46,16 @@ class Laufzeit_Waermeerzeuger_Trinkwassererwaermung {
         $ewd_ews_slugs = $this->ewd_ews_slugs();
 
         foreach ( $ewd_ews_slugs as $ewd_ews_slug ) {
-            $keys[]   = (float) $this->table_data[ $bestand_slug ]->ewd_ews;     
-            $values[] = (float) $this->table_data[ $bestand_slug ]->$ewd_ews_slug; // in Abhängikeit der Heizlast und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
+            $spalten_teile  = explode( '.', $ewd_ews_slug );
+
+            $spalten_name = 'aufwand_' . $spalten_teile[0];
+            $spalten_name .= isset( $spalten_teile[1] ) ? '_' . $spalten_teile[1] : '';
+
+            $keys[]   = (float) $ewd_ews_slug;     
+            $values[] = (float) $this->table_data[ $bestand_slug ]->$spalten_name; // in Abhängikeit der Heizlast und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung  
         }
 
         $interpolated_value = interpolate_value( $this->ewd_ews, $keys, $values );
-
         return $interpolated_value;
     }
 
@@ -61,21 +65,21 @@ class Laufzeit_Waermeerzeuger_Trinkwassererwaermung {
 
     protected function ewd_ews_slugs(): array {
         if( $this->ewd_ews <= 1 ) {
-            return array( 'aufwand_1' );
+            return array( 1 );
         } elseif( $this->ewd_ews > 1 && $this->ewd_ews <= 1.2 ) {
-            return array( 'aufwand_1', 'aufwand_1_2' );
+            return array( 1, 1.2 );
         } elseif( $this->ewd_ews > 1.2 && $this->ewd_ews <= 2 ) {
-            return array( 'aufwand_1_2', 'aufwand_2' );
+            return array( 1.2, 2 );
         } elseif( $this->ewd_ews > 2 && $this->ewd_ews <= 2.5 ) {
-            return array( 'aufwand_2', 'aufwand_2_5' );
+            return array( 2, 2.5 );
         } elseif( $this->ewd_ews > 2.5 && $this->ewd_ews <= 3 ) {
-            return array( 'aufwand_2_5', 'aufwand_3' );
+            return array( 2.5, 3 );
         } elseif( $this->ewd_ews > 3 && $this->ewd_ews <= 3.5 ) {
-            return array( 'aufwand_3', 'aufwand_3_5' );
+            return array( 3, 3.5 );
         } elseif( $this->ewd_ews > 3.5 && $this->ewd_ews <= 4 ) {
-            return array( 'aufwand_3_5', 'aufwand_4' );
+            return array( 3.5, 4 );
         } elseif( $this->ewd_ews > 4 ) {
-            return array( 'aufwand_4' );
+            return array( 4 );
         }
     }
 }
