@@ -591,6 +591,10 @@ $jahr = new Jahr();
 					<td><?php echo $heizungsanlage->ehg_korrektur(); ?></td>
 				</tr>
 				<tr>
+					<th>ewg0</th>
+					<td><?php echo $heizungsanlage->ewg0(); ?></td>
+				</tr>
+				<tr>
 					<th>ewg</th>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
 				</tr>
