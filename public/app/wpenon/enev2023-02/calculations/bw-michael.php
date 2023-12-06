@@ -2999,8 +2999,6 @@ ______________________________________________________________________________
 //            $PhauxP0= Tabelle 87 T12 in Anhängigkeit $Pn in Spalte Hackschnitzel;
 //   else??? 
 
-
-// 
 //    $twpn0= Tab 140, T12 in Anhägingkeit ($ewd*$ews) und "bei bestehenden Anlagen"
 //    $twpn= $twpn0*(($calculations['nutzflaeche']*50*$qwb)/($Pn*1000*12.5));
 

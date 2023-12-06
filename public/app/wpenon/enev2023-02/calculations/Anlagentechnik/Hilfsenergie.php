@@ -420,5 +420,30 @@ class Hilfsenergie {
         return 0;
     }
 
+	public function fphgaux(): float {
+		//  if "Brennwertheizung", "Gasetagenheizung" und "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than   
+		//     $fphgaux=1.0;
+		//  if "Standardkessel NT Kessel" "Feststoffkessel"than
+		//      $fphgaux = Tab.84, T12 in Anhängikeit $Pn und $ßhg;
+		//   if "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr älter 1995"
+		//      $fphgaux = Tab. 86 T12 in Anhängikeit $Pn und $ßhg;
+		// else????
+		$heizungsanlagen = $this->gebaeude->heizsystem()->heizungsanlagen();
+
+		foreach( $heizungsanlagen AS $heizungsanlage ) {
+			if ( 
+				( $heizungsanlage->typ() === 'brennwertkessel' || $heizungsanlage->typ() === 'gasetagenheizung' )
+				&& ( $heizungsanlage->energietraeger() === 'holzpellets' || $heizungsanlage->energietraeger() === 'holzhackschnitzel' || $heizungsanlage->energietraeger() === 'stueckholz' )
+				&& $heizungsanlage->baujahr() >= 1995 ) {
+				return 1.0;
+			}
+		}
+
+
+
+
+
+	}
+
 
 }

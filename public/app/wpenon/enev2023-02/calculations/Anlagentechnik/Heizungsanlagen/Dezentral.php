@@ -70,7 +70,7 @@ class Dezentral extends Heizungsanlage {
         //      if "Gasdurchlauferhitzer"   Than
         //             $ewg = 1.26
         //      else??
-        if( $this->gebaeude->trinkwarmwasseranlage()->dezentraler_erzeuger() === 'dezentralkleinspeicher' || $this->gebaeude->trinkwarmwasseranlage()->dezentraler_erzeuger() === 'dezentralelektroerhitzer' ) {
+        if( $this->gebaeude->trinkwarmwasseranlage()->dezentraler_erzeuger() === 'dezentralelektroerhitzer' ) {
             return 1.01;
         }
 

@@ -9,11 +9,14 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
+use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Gas_Spezial_Heizkessel;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Gas_Spezial_Heizkessel.php';
+
 
 class Konventioneller_Kessel extends Heizungsanlage {
 	/**
@@ -175,5 +178,30 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		)->fegt();
 
 		return $fegt;
+	}
+
+	/**
+	 * Hilfsenenergiebedarf für die Heizungsanlage.
+	 * 
+	 * @return void 
+	 */
+	public function fphgaux() {
+		//  if "Brennwertheizung", "Gasetagenheizung" und "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than   
+		//     $fphgaux=1.0;
+		//  if "Standardkessel NT Kessel" "Feststoffkessel"than
+		//      $fphgaux = Tab.84, T12 in Anhängikeit $Pn und $ßhg;
+		//   if "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr älter 1995"
+		//      $fphgaux = Tab. 86 T12 in Anhängikeit $Pn und $ßhg;
+		// else????
+
+		if( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'holzhackschnitzel' || $this->energietraeger() === 'stueckholz' ) {
+			if( $this->baujahr() >= 1995 ) {
+				return 1.0;
+			}
+		}
+
+		if( $this->typ() === 'brennwertkessel' || $this->typ() === 'etagenheizung' ) {
+			return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
+		}
 	}
 }

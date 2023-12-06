@@ -125,13 +125,7 @@ class Heizungsanlagen {
 	 * @return bool 
 	 */
 	public function waermepumpe_vorhanden(): bool {
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
-			if ( strpos( $heizungsanlage->typ(), 'waermepumpe' ) === 0 ) {
-				return true;
-			}
-		}
-
-		return false;
+		return $this->heizungstyp_vorhanden( 'waermepumpe' );
 	}
 
 	/**
@@ -140,8 +134,19 @@ class Heizungsanlagen {
 	 * @return bool 
 	 */
 	public function biomassekessel_vorhanden(): bool {
+		return $this->heizungstyp_vorhanden( 'biomassekessel' );
+	}
+
+	/**
+	 * Ist ein bestimmter Heizungstyp vorhanden?
+	 * 
+	 * @param string $heizungstyp Folgende Heizungstypen können überprüft werden: standardkessel, niedertemperaturkessel, brennwertkessel, brennwertkesselverbessert, kleinthermeniedertemperatur, kleinthermebrennwert, waermepumpe, fernwaerme, elektronachtspeicherheizung, infrarotheizung.
+	 * 
+	 * @return bool
+	 */
+	public function heizungstyp_vorhanden( string $heizungstyp ) {
 		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
-			if ( strpos( $heizungsanlage->typ(), 'biomassekessel' ) === 0 ) {
+			if ( strpos( $heizungsanlage->typ(), $heizungstyp ) === 0 ) {
 				return true;
 			}
 		}
