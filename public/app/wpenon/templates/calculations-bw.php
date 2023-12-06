@@ -9,11 +9,13 @@ use Enev\Schema202302\Calculations\Helfer\Jahr;
 
 use function Enev\Schema202302\Calculations\Helfer\fum;
 
+
 $gebaeude = $data['gebaeude'];
 
 $jahr = new Jahr();
 
 ?>
+
 <style type="text/css">
 	.calculation-details {
 	background-color: lightblue;
@@ -547,8 +549,19 @@ $jahr = new Jahr();
 
 	<h3>Heizungsanlage</h3>
 	
+    HIER
+    <?php
+   // var_dump(dirname( __FILE__ ));
+   // var_dump(dirname(dirname( __FILE__ ) ). '/enev2023-02/calculations/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php');
+//require ( dirname (dirname( __FILE__ )) . '/enev2023-02/calculations/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php' );
+//$a= new Umlaufwasserheizer_Hilfsenergieaufwand( 11, 0.1 );
+//echo $a->fphgaux();
+//exit;
+?>
+<hr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
 		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
+
 		<table>
 		<tr>
 		<th>Kategorie</th>    
@@ -561,6 +574,7 @@ $jahr = new Jahr();
 		<th>fegt</th>
 		<th>ehg</th>
 		<th>ewg</th>
+        <th>fphgaux</th>
 		</tr>
 		<tr>
 		<td><?php echo $heizungsanlage->kategorie(); ?></td>
@@ -573,6 +587,7 @@ $jahr = new Jahr();
 		<td><?php echo $heizungsanlage->fegt(); ?></td>
 		<td><?php echo $heizungsanlage->ehg(); ?></td>
 		<td><?php echo $heizungsanlage->ewg(); ?></td>
+        <td><?php echo $heizungsanlage->phgaux(); ?></td>
 		</tr>
 		</table>
 		<?php elseif ( $heizungsanlage->kategorie() === 'waermepumpe' ) : ?>
