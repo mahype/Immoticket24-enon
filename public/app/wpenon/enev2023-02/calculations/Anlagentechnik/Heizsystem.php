@@ -134,8 +134,7 @@ class Heizsystem {
 			return 1;
 		}
 
-		$ehd = 1 + ( $this->ehd1() - 1 ) * ( 50 / $this->qhce() );
-		return 1 + ( $ehd - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
+		return 1 + ( $this->ehd1() - 1 ) * ( 50 / $this->qhce() );
 	}
 
 	/**
