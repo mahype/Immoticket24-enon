@@ -18,6 +18,9 @@ require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaerm
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Gas_Spezial_Heizkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Holzhackschnitzelkessel.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Brennwertkessel_Hilfsenergieaufwand.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Pelletkessel_Hilfsenergieaufwand.php';
 
 
 class Konventioneller_Kessel extends Heizungsanlage {
@@ -278,16 +281,16 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else????
 
 		if ( $this->erzeuger() === 'gasetagenheizung' ) {
-			return ( new Tabelle_88( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+			return ( new Umlaufwasserheizer_Hilfsenergie( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
 		}
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
 			if ( $this->baujahr() >= 1995 ) {
-				return ( new Tabelle_85( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
 			}
 		}
 
-		return ( new Tabelle_83( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
 	}
 
 	/**
