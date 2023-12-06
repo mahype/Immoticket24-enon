@@ -2409,14 +2409,15 @@ ______________________________________________________________________________
 
 ////Bestimmung von Aufwandszahl der Erzeugung $eg Heizung
 // $eg=$eg0*$fbj*$fegt  //$eg wird auch in Trinkwarmwasser genutzt
-/
+// $eg_korr = 1+ ($eg - 1 ) * (8760/$calculations['ithrl']) // Korrektur der Aufwandszahl der Erzeugung $eg Heizung
 
 //_______________________________________
 // 
 //  
 //  konventionelle Heizkessel WasserWarm laut FOrmael A16 T12, S.210. 
-//   $ewg= ($eg-1)*8760/$calculations['ithrl']+1;
 
+//   $ewg= ($eg-1)*8760/$calculations['ithrl']+1;
+//   $ewg_korr = 1+ ($ewg - 1 ) * (8760/$calculations['ithrl'])
 
 /
 //------------------------------------

@@ -27,7 +27,7 @@ class Aufwandszahlen_Umlaufwasserheizer {
 	protected float $spalte_zielwert;
 
 	/**
-	 * Tabellendaten aus Tabelle 77.
+	 * Tabellendaten aus Tabelle 82.
 	 *
 	 * @var array
 	 */
@@ -69,9 +69,13 @@ class Aufwandszahlen_Umlaufwasserheizer {
       return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
 	}
 
-   public function eg0(): float {
-      return $this->interpolierter_wert();
-   }
+	public function eg0(): float {
+	   return $this->interpolierter_wert();
+	}
+
+	public function ewg0(): float {
+	   return $this->interpolierter_wert();
+	}
 
 	protected function zeilen(): array {
 		if ( $this->zeile_zielwert <= 11 ) {

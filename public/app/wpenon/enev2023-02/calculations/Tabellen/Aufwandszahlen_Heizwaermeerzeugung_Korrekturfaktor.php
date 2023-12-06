@@ -84,6 +84,11 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
         foreach ( $this->spalten() as $spalte ) {
             $spalten_keys[]   = $spalte;
             $spalten_teile  = explode( '.', $spalte );
+
+			if( !isset( $spalten_teile[1] ) ) {
+				$spalten_teile[1] = 0;
+			}
+
             $spalten_name = 'bhg_' . $spalten_teile[0] . '_' . $spalten_teile[1];
             $zeilen_name = $this->zeile();
             $spalten_values[] = floatval( $this->table_data[ $zeilen_name ]->$spalten_name );

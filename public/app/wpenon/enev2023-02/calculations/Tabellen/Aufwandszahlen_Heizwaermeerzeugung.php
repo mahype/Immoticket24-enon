@@ -87,6 +87,10 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 		return $this->interpolierter_wert();
 	}
 
+	public function fegtw(): float {
+		return $this->fegt();
+	}
+
 	protected function interpolierter_wert(): float {
 		$spalten_keys   = array();
 		$spalten_values = array();
@@ -97,6 +101,11 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 			$spalten_keys[]   = $spalte;
 			$spalten_teile    = explode( '.', $spalte );
 			$spalten_name     = $this->heizung_im_beheizten_bereich ? 'bh_' : 'ubh_';
+
+			if( !isset( $spalten_teile[1] ) ) {
+				$spalten_teile[1] = 0;
+			}
+
 			$spalten_name    .= $spalten_teile[0] . '_' . $spalten_teile[1];
 			$spalten_values[] = floatval( $this->table_data[ $zeilen_name ]->$spalten_name );
 		}

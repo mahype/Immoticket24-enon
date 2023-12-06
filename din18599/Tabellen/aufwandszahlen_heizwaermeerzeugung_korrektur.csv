@@ -1,8 +1,8 @@
 ID;Waermeerzeuger;Baujahr;b h,g 0,1;b h,g 0,2;b h,g 0,3;b h,g 0,4;b h,g 0,5;b h,g 0,6;b h,g 0,7;b h,g 0,8;b h,g 0,9;b h,g 1,0
 brennwertkessel_gas_und_heizoel_bis_1986;Gas- und Heizoel (Brennwertkessel);vor 1987;1,011;1,019;1,026;1,03;1,035;1,039;1,043;1,047;1,05;1,054
 brennwertkessel_gas_und_heizoel_bis_1994;Gas- und Heizoel (Brennwertkessel);von 1987 bis 1994;1,008;1,013;1,017;1,02;1,022;1,024;1,026;1,028;1,03;1,032
-brennwertkessel_gas_und_heizoel_ bis_1999;Gas- und Heizoel (Brennwertkessel);1995 bis 1999;1,005;1,011;1,016;1,017;1,017;1,018;1,019;1,02;1,02;1,021
-brennwertkessel_gas_und_heizoel_ bis_heute;Gas- und Heizoel (Brennwertkessel);nach 1999;1;1;1;1;1;1;1;1;1;1
+brennwertkessel_gas_und_heizoel_bis_1999;Gas- und Heizoel (Brennwertkessel);1995 bis 1999;1,005;1,011;1,016;1,017;1,017;1,018;1,019;1,02;1,02;1,021
+brennwertkessel_gas_und_heizoel_bis_heute;Gas- und Heizoel (Brennwertkessel);nach 1999;1;1;1;1;1;1;1;1;1;1
 brennwertkessel_holz_bis_heute;Pellet (bis 105 kW) (Brennwertkessel);nach 1994;1,002;1,004;1,005;0,993;0,982;0,971;0,96;0,95;0,94;0,93
 niedertemperaturkessel_gas_und_heizoel_bis_1986;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);vor 1987;1,024;1,026;1,037;1,041;1,044;1,047;1,05;1,053;1,056;1,059
 niedertemperaturkessel_kessel_gas_und_heizoel_bis_1994;Gas-Spezial-, Geblaese, Brennertausch Geblaesekessel (NT-Kessel);von 1987 bis 1994;1,02;1,037;1,054;1,061;1,067;1,074;1,08;1,086;1,092;1,097

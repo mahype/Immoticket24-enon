@@ -42,9 +42,9 @@ class Aufwandszahlen_Brennwertkessel {
 	 * @return void
 	 */
 	public function __construct( float $pn, float $ßhg ) {
-		$this->zeile_zielwert  = $pn;
-		$this->ßhg = $ßhg;
-		$this->table_data      = wpenon_get_table_results( 'aufwandszahlen_brennwertkessel' );
+		$this->zeile_zielwert = $pn;
+		$this->ßhg            = $ßhg;
+		$this->table_data     = wpenon_get_table_results( 'aufwandszahlen_brennwertkessel' );
 	}
 
 	protected function interpolierter_wert(): float {
@@ -57,24 +57,32 @@ class Aufwandszahlen_Brennwertkessel {
 
 			foreach ( $this->spalten() as $spalte ) {
 				$spalten_keys[]   = $spalte;
-				$spalten_teile  = explode( '.', $spalte );
-				$spalten_name = 'bwk_' . $spalten_teile[0] . '_' . $spalten_teile[1];
+				$spalten_teile    = explode( '.', $spalte );
+				
+				if( ! isset( $spalten_teile[1] ) ) {
+					$spalten_teile[1] = 0;
+				}
+
+				$spalten_name     = 'bwk_' . $spalten_teile[0] . '_' . $spalten_teile[1];
 				$spalten_values[] = $this->table_data[ $zeile ]->$spalten_name;
 			}
 
-         	$zeilen_keys[]   = $zeile;
+			$zeilen_keys[]       = $zeile;
 			$interpolierter_wert = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
-			$zeilen_values[] = interpolate_value( $this->ßhg, $spalten_keys, $spalten_values );
+			$zeilen_values[]     = $interpolierter_wert;
 		}
 
-	
-		$interpolierter_wert_2 = interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
-      	return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+		$interpolierter_wert = interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+		return $interpolierter_wert;
 	}
 
-   public function eg0(): float {
-      return $this->interpolierter_wert();
-   }
+	public function eg0(): float {
+		return $this->interpolierter_wert();
+	}
+
+	public function ewg0(): float {
+		return $this->interpolierter_wert();
+	}
 
 	protected function zeilen(): array {
 		if ( $this->zeile_zielwert <= 5 ) {
