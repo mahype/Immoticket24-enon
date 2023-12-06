@@ -9,9 +9,12 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
+use Enev\Schema202302\Calculations\Tabellen\Brennwertkessel_Hilfsenergieaufwand;
 use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Gas_Spezial_Heizkessel;
 use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Holzhackschnitzelkessel;
 use Enev\Schema202302\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassererwaermung;
+use Enev\Schema202302\Calculations\Tabellen\Umlaufwasserheizer_Hilfsenergieaufwand;
+use Enev\Schema202302\Calculations\Tabellen\Pelletkessel_Hilfsenergieaufwand;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
@@ -301,16 +304,16 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else????
 
 		if ( $this->erzeuger() === 'gasetagenheizung' ) {
-			return ( new Umlaufwasserheizer_Hilfsenergie( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+			return ( new Umlaufwasserheizer_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
 		}
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
 			if ( $this->baujahr() >= 1995 ) {
-				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
 			}
 		}
 
-		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->Phgaux();
+		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
 	}
 
 	/**
@@ -328,7 +331,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else???
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			return ( new Tabelle_87( $this->gebaeude->heizsystem()->pn(), 'pelletkessel' ) )->PhauxP0();
+			return ( new Tabelle_87( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
 		}
 
 		if ( $this->baujahr() >= 1987 ) {

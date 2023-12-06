@@ -39,7 +39,7 @@ class Brennwertkessel_Hilfsenergieaufwand {
 		$this->table_data = wpenon_get_table_results( 'brennwertkessel_erdgas_hilfsenergieaufwand' );
 	}
 
-	public function fphgaux(): float {
+	public function Phgaux(): float {
 		$zeilen_keys   = array();
 		$zeilen_values = array();
 
@@ -51,7 +51,8 @@ class Brennwertkessel_Hilfsenergieaufwand {
 				$spalten_keys[]   = $ßhg_slug;
 				$spalten_teile    = explode( '.', $ßhg_slug );
 				$spalten_name     = 'bhg_' . $spalten_teile[0] . '_' . $spalten_teile[1];
-				$spalten_values[] = $this->table_data[ $pn_slug ]->$spalten_name;
+				$zeilen_name      = 'beh_' . $pn_slug;
+				$spalten_values[] = $this->table_data[ $zeilen_name ]->$spalten_name;
 			}
 
 			$zeilen_keys[]       = $pn_slug;

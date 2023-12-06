@@ -39,7 +39,7 @@ class Umlaufwasserheizer_Hilfsenergieaufwand {
 		$this->table_data = wpenon_get_table_results( 'umlaufwasserheizer_hilfsenergieaufwand' );
 	}
 
-	public function fphgaux(): float {
+	public function Phgaux(): float {
 		$zeilen_keys   = array();
 		$zeilen_values = array();
 
