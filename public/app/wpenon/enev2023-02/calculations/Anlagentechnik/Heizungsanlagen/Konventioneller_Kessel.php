@@ -11,6 +11,7 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_K
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
 use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Gas_Spezial_Heizkessel;
 use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Holzhackschnitzelkessel;
+use Enev\Schema202302\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassererwaermung;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
@@ -18,6 +19,7 @@ require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaerm
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Gas_Spezial_Heizkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Holzhackschnitzelkessel.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Laufzeit_Waermeerzeuger_Trinkwassererwaermung.php';
 
 
 class Konventioneller_Kessel extends Heizungsanlage {
@@ -323,7 +325,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	public function twpn0(): float {
 		// $twpn0= Tab 140, T12 in Anhägingkeit ($ewd*$ews) und "bei bestehenden Anlagen"
 		$ewd_ews = $this->gebaeude->trinkwarmwasseranlage()->ewd() * $this->gebaeude->trinkwarmwasseranlage()->ews();
-		return ( new Tabelle_140( $ewd_ews, 'bestehende_anlagen' ) )->twpn0();
+		return ( new Laufzeit_Waermeerzeuger_Trinkwassererwaermung( $ewd_ews, 'bestehende_anlagen' ) )->twpn0();
 	}
 
 	/**
@@ -341,7 +343,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function WHg(): float {
+	public function Whg(): float {
 		// $Whg= $fphgaux*$Phgaux*($calculations['ith,rl']-$twpn)+$PhauxP0*(8760-$calculations['ith,rl']);
 		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
 	}
