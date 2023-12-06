@@ -167,8 +167,17 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 * @throws Calculation_Exception
 	 */
 	public function ewg(): float {
-		$ewg = $this->ewg0() * $this->fbjw() * $this->fegtw();
-		return 1 + ( $ewg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
+		return $this->ewg0() * $this->fbjw() * $this->fegtw();		
+	}
+
+	/**
+	 * ewg_korrektur.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ewg_korrektur(): float {
+		return 1 + ( $this->ewg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
 	}
 
 	/**
