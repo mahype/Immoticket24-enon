@@ -76,4 +76,9 @@ class Dezentral extends Heizungsanlage {
 
         return 1.26;
     }
+
+    public function Whg(): float {
+        // $WHg = 0; T12, Seite 159, hier wird gesamt Wg = definiert (also sowohl Heizung wie auch TWW), Werden nur bei Übergabe berücksichtig siehe T5 S.157, Kommentar 6.5.8.1
+        return 0;
+    }
 }

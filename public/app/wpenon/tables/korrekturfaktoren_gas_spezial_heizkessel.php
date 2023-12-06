@@ -5,7 +5,7 @@
  */
 return array(
 	'title'         => __( 'Korrekturfaktoren Gas-Spezial-Heizkessel', 'wpenon' ),
-	'description'   => __( 'Korrekturfaktoren für verschiedene Leistungsbereiche für Gas-Spezial-Heizkessel', 'wpenon' ),
+	'description'   => __( 'Korrekturfaktoren für verschiedene Leistungsbereiche für Gas-Spezial-Heizkessel (Tabelle 84).', 'wpenon' ),
 	'asterisks'     => array(),
 	'primary_field' => 'bezeichnung',
 	'search_field'  => 'bezeichnung',

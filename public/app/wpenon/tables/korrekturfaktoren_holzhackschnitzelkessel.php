@@ -5,7 +5,7 @@
  */
 return array(
 	'title'         => __( 'Korrekturfaktoren Holzhackschnitzelkessel', 'wpenon' ),
-	'description'   => __( 'Korrekturfaktoren für Holzhackschnitzelkessel bezogen auf Pelletkessel (aktuelle Standardwerte) – Hilfsenergieaufwand', 'wpenon' ),
+	'description'   => __( 'Korrekturfaktoren für Holzhackschnitzelkessel bezogen auf Pelletkessel (aktuelle Standardwerte) – Hilfsenergieaufwand (Tabelle 86).', 'wpenon' ),
 	'asterisks'     => array(),
 	'primary_field' => 'bezeichnung',
 	'search_field'  => 'bezeichnung',

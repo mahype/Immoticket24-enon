@@ -193,4 +193,11 @@ abstract class Heizungsanlage {
 				throw new Calculation_Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
 		}
 	}
+
+	/**
+	 * Hilfsenergie für Heizungsystem (WHg).
+	 * 
+	 * @return float;
+	 */
+	abstract public function WHg(): float;
 }

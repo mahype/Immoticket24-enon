@@ -7,11 +7,11 @@ use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**
- * Korrekturfaktor aus Tabelle 84.
+ * Korrekturfaktor aus Tabelle 86.
  *
  * @package
  */
-class Korrekturfaktoren_Gas_Spezial_Heizkessel {
+class Korrekturfaktoren_Holzhackschnitzelkessel {
     /**
      * pn
      * 
@@ -27,7 +27,7 @@ class Korrekturfaktoren_Gas_Spezial_Heizkessel {
     protected float $ßhg;
 
     /**
-     * Tabellendaten aus Tabelle 84.
+     * Tabellendaten aus Tabelle 86.
      *
      * @var array
      */
@@ -36,7 +36,7 @@ class Korrekturfaktoren_Gas_Spezial_Heizkessel {
     public function __construct( float $pn, float $ßhg ) {
         $this->pn = $pn;
         $this->ßhg = $ßhg;
-        $this->table_data = wpenon_get_table_results( 'korrekturfaktoren_gas_spezial_heizkessel' );
+        $this->table_data = wpenon_get_table_results( 'korrekturfaktoren_holzhackschnitzelkessel' );
     }
 
     public function fphgaux(): float {
@@ -66,21 +66,19 @@ class Korrekturfaktoren_Gas_Spezial_Heizkessel {
     protected function pn_slugs(): array {
         if( $this->pn <= 5 ) {
             return array( 5 );
-        } elseif( $this->pn > 5 && $this->pn <= 15 ) {
-            return array(  5, 15 );
-        } elseif( $this->pn > 15 && $this->pn <= 25 ) {
-            return array( 15, 25 );
-        } elseif( $this->pn > 25 && $this->pn <= 40 ) {
-            return array( 25, 40 );
-        } elseif( $this->pn > 40 && $this->pn <= 75 ) {
-            return array( 40, 75 );
-        } elseif( $this->pn > 75 && $this->pn <= 175 ) {
-            return array( 75, 175 );
-        } elseif( $this->pn > 175 && $this->pn <= 325 ) {
-            return array( 175, 325 );
-        } elseif( $this->pn > 325 && $this->pn <= 400 ) {
-            return array( 325, 400 );
-        } elseif( $this->pn > 400 ) {
+        } elseif( $this->pn > 5 && $this->pn <= 10 ) {
+            return array(  5, 10 );
+        } elseif( $this->pn > 10 && $this->pn <= 20 ) {
+            return array( 10, 20 );
+        } elseif( $this->pn > 20 && $this->pn <= 40 ) {
+            return array( 20, 40 );
+        } elseif( $this->pn > 40 && $this->pn <= 95 ) {
+            return array( 40, 95 );
+        } elseif( $this->pn > 95 && $this->pn <= 270 ) {
+            return array( 95, 270 );
+        } elseif( $this->pn > 270 && $this->pn <= 400 ) {
+            return array( 270, 400 );
+        } else {
             return array( 400 );
         }
     }

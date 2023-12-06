@@ -2969,34 +2969,33 @@ ______________________________________________________________________________
 
 // TODO: Berechnung Hilfsenergie Erzeugung Wg
 
-//
+
 // Hilfsenergie für Heizungsystem $Whg
 //  a) konvenionelle Heizungssysteme
 //   
-//  if "Brennwertheizung", "Gasetagenheizung" und "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than   
-//     $fphgaux=1.0;
-//  if "Standardkessel NT Kessel" "Feststoffkessel"than
-//      $fphgaux = Tab.84, T12 in Anhängikeit $Pn und $ßhg;
-//   if "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr älter 1995"
+//  if "Brennwertheizung (Öl+Gas)", "Gasetagenheizung(Gas)" und "(Brennwert+Standard) für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than   
+//      $fphgaux=1.0;
+//  if "Brennwert + Standard für Pellet, Stückholz, Hackschnitzel mit Baujahr bis 1995"
 //      $fphgaux = Tab. 86 T12 in Anhängikeit $Pn und $ßhg;
-// else????
+//  if "Standardkessel & NT Kessel (Öl+Gas)" "Feststoffkessel"than
+//      $fphgaux = Tab.84, T12 in Anhängikeit $Pn und $ßhg;
 
-//  if "Brennwertheizung", "Standardkessel - NT", "Feststoffkessel" than   
+//  else????
+
+//  if "Brennwertheizung (Öl+Gas bis heute/ Holz bois 1994)", "Standardkessel (Öl+Gas bis heute/ Holz bois 1994) - NT(Öl+Gas bis heute)", "Feststoffkessel" than   
 //     $Phgaux=nach Tab. 83 T12 in Abhängigkeit von $Pn und $hg;
-//  if  "Heizung Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
+//  if  "Brennwert + Standardkessel für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
 //      $Phgaux = Tab.85, T12 in Anhängikeit $Pn und $ßhg;
 //   if "Gasetagenheizung"
 //      $Phgaux = Tab. 88 T12 in Anhängikeit $Pn und $ßhg;
 // else????
 //    
-//   if "Gasetagenheizung, Brennwertkessel, NT-Kessel, Festsoffkessel ab 1987" than
+//   if "Gasetagenheizung, Brennwertkessel, NT-Kessel, Festsoffkessel (+ Stückholz) ab 1987" than
 //         $PhauxP0=0.015; in kW;
-//   if "Gasetagenheizung, Brennwertkessel, NT-Kessel, Festsoffkessel vor 1987" than
+//   if "Gasetagenheizung, Standardkessel, Brennwertkessel, NT-Kessel, Festsoffkessel  (+ Stückholz)  vor 1987" than
 //         $PhauxP0=0.15; in kW;
-//   if "Pelletheizung" than
+//   if "Pelletheizung", "Hackschnitzelkessel" than
 //         $PhauxP0= Tabelle 87 T12 in Anhängigkeit $Pn in Spalte Pelletkessel;
-//   if "Hackschnitzelkessel und Scheitholzkessel" than
-//            $PhauxP0= Tabelle 87 T12 in Anhängigkeit $Pn in Spalte Hackschnitzel;
 //   else??? 
 
 //    $twpn0= Tab 140, T12 in Anhägingkeit ($ewd*$ews) und "bei bestehenden Anlagen"
@@ -3019,7 +3018,7 @@ ______________________________________________________________________________
 
 //
 //  c) zentral elektrisch beheizter Wärmeerzeuger
-//
+//  NOTE: Nicht relevant
 //     $Whg=0.0; //T12, S.148 Kap6.6.6.2
 
 
