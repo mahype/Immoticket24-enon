@@ -3316,3 +3316,6 @@ ______________________________________________________________________________
 // TODO: Berechnung der Primärenergie mit PV-Einfluss (kwh/m^2a)
 
 //       $Qp= $Qp/$calculations['nutzflaeche']
+
+
+// GEG Anlage 10 für die Einordnung der Energieeffizeinzklasse von Wohngebäuden (Skala) A+ bis H)
