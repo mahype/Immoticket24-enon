@@ -154,8 +154,10 @@ class Thermische_Solaranlagen {
 	public function flaechen(): array {
 		$flaechen = array();
 
-		if ( $this->flaeche <= 150 ) {
-			$flaechen = array( 150 );
+		if ( $this->flaeche <= 100 ) {
+			$flaechen = array( 100 );
+		} elseif ( $this->flaeche > 100 && $this->flaeche <= 150 ) {
+			$flaechen = array( 100, 150 );
 		} elseif ( $this->flaeche > 150 && $this->flaeche <= 200 ) {
 			$flaechen = array( 150, 200 );
 		} elseif ( $this->flaeche > 200 && $this->flaeche <= 300 ) {
