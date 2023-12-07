@@ -77,7 +77,6 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
 						'erdgas'      => __( 'Erdgas', 'wpenon' ),
 						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
 						'biogas'      => __( 'Biogas', 'wpenon' ),

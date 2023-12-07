@@ -328,7 +328,8 @@ class Hilfsenergie {
 
 		$z = $this->z();
 
-		return ( $this->PhydrTWW() / 1000 ) * 365 * $z * ( 1.25 + ( ( 200 / $this->PhydrTWW() ) ** 0.5 ) ) * 2 * $Cp;
+		$Wwd = ( $this->PhydrTWW() / 1000 ) * 365 * $z * ( 1.25 + ( 200 / $this->PhydrTWW() ) ** 0.5 ) * 2 * $Cp;
+		return $Wwd;
 	}
 
 	/**
@@ -382,7 +383,7 @@ class Hilfsenergie {
 	 */
 	public function tpu(): float {
 		// $tpu=1.1*($calculations['Qwoutg']/$Pn);
-		return 1.1 * ( $this->gebaeude->trinkwarmwasseranlage()->Qwoutg() / $this->gebaeude->heizsystem()->pn() );
+		return 1.1 * ( $this->gebaeude->trinkwarmwasseranlage()->Qwoutg() / ( $this->gebaeude->heizsystem()->pn() / 1000 ) );
 	}
 
 	public function Vws(): float {
