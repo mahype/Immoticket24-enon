@@ -397,7 +397,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			return ( new Tabelle_87( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
 		}
 
-		if( $this->erzeuger() === 'standardkessel' ) {
+		if( $this->erzeuger() === 'standardkessel' ) { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
 			return 0.15;
 		}
 
