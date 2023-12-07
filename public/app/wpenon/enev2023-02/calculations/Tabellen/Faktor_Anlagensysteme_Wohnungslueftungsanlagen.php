@@ -5,7 +5,7 @@ namespace Enev\Schema202302\Calculations\Tabellen;
 /**
  *  Faktor für das Baujahr von Anlagensystemen der Wohnungslüftungsanlagen Tabelle 121.
  */
-class  Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
+class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	/**
 	 * Zielwert für die Spalte.
 	 *
@@ -14,9 +14,9 @@ class  Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	protected string $lueftungssystem;
 
 	/**
-	 * Zielwert für die Zeile.
+	 * Ist es eine zentrale oder dezentrale Anlage.
 	 *
-	 * @var float
+	 * @var string
 	 */
 	protected string $art;
 
@@ -38,16 +38,17 @@ class  Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	 * Konstruktor.
 	 *
 	 * @example $a = new Faktor_Anlagensysteme_Wohnungslueftungsanlagen('abluft', 'zentral', 1989 );
-	 * @param string $lueftungssystem Zielwert für die Spalte. abluft, zu_abluft oder ohne.
-	 * @param string $art Zielwert für die Zeile.  zentral oder dezentral.
+	 * @param string $lueftungssystem abluft, zu_abluft oder ohne.
+	 * @param string $art Ist es eine zentrale oder dezentrale Anlage.
 	 * @param int    $baujahr Zielwert für die Zeile.
 	 *
 	 * @return void
 	 */
-	public function __construct( string $lueftungssystem, string $art, int $baujahr ) {
+	public function __construct( string $lueftungssystem, bool $art, int $baujahr ) {
 		$this->lueftungssystem = $lueftungssystem;
-		$this->art             = $art;
+		$this->art     = $art;
 		$this->baujahr         = $baujahr;
+
 		$this->table_data      = wpenon_get_table_results( 'faktor_anlagensysteme_wohnungslueftungsanlagen' );
 	}
 
@@ -66,14 +67,12 @@ class  Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 		return $baujahrslug;
 	}
 
-	private function artslug(): string {
-		$art_slug = '';
-		if ( $this->art == 'zentral' ) {
-			$art_slug = 'zentrale';
-		} elseif ( $this->art == 'dezentral' ) {
-			$art_slug = 'dezentrale';
+	private function art_slug(): string {
+		if ( $this->art === 'zentral' ) {
+			return 'zentrale';
 		}
-		return $art_slug;
+
+		return 'dezentrale';
 	}
 	/**
 	 * Umrechnungsfaktor fbaujahr.
@@ -86,8 +85,6 @@ class  Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 		}
 
 		$column_name = 'fsystem';
-		return $this->table_data[ $this->artslug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug() ]->$column_name;
+		return $this->table_data[ $this->art_slug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug() ]->$column_name;
 	}
-
-
 }

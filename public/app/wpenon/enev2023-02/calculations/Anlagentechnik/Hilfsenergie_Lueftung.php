@@ -3,23 +3,44 @@
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Tabellen\Faktor_Anlagensysteme_Wohnungslueftungsanlagen;
+use Enev\Schema202302\Calculations\Tabellen\Faktor_Baujahr_Anlagensysteme;
+use Enev\Schema202302\Calculations\Tabellen\Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen;
+
+require_once dirname( __DIR__ ) . '/Tabellen/Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen.php';
 
 class Hilfsenergie_Lueftung {
     /**
      * Gebäude.
      * 
-     * @var Gebaeude
+     * @var string
      */
-    protected Gebaeude $gebaeude;
+    protected string $lueftungssystem;
+
+    /**
+     * Baujahr.
+     * 
+     * @var int
+     */
+    protected int $baujahr;
+
+    /**
+     * Ist zentral.
+     * 
+     * @var bool
+     */
+    protected string $art;
 
     /**
      * Gebäude.
      *
      * @param Gebaeude
      */
-    public function __construct( $gebaeude )
+    public function __construct( string $lueftungsystem, int $baujahr, string $art )
     {
-        $this->gebaeude = $gebaeude;        
+        $this->lueftungssystem = $lueftungsystem;
+        $this->baujahr = $baujahr; 
+        $this->art = $art;
     }
 
     /**
@@ -28,10 +49,10 @@ class Hilfsenergie_Lueftung {
      * @return float
      */
     public function fsup_decr(): float {
-        if ( $this->gebaeude->lueftungssystem === 'zu_abluft' ) {
+        if ( $this->lueftungssystem === 'zu_abluft' ) {
             return 0.995;
         }
-        if ( $this->gebaeude->lueftungssystem === 'abluft' ) {
+        if ( $this->lueftungssystem === 'abluft' ) {
             return 1.0;
         }
 
@@ -49,7 +70,7 @@ class Hilfsenergie_Lueftung {
      * @return float
      */
     public function fbaujahr(): float {
-        return (new Tabelle_124( $this->gebaeude->lueftungssystem, $this->gebaeude->baujahr ))->fbaujahr();
+        return (new Faktor_Baujahr_Anlagensysteme( $this->lueftungssystem, $this->art, $this->baujahr ))->fbaujahr();
     }
 
     /**
@@ -58,7 +79,7 @@ class Hilfsenergie_Lueftung {
      * @return float
      */
     public function fsystem(): float {
-        return (new Tabelle_121( $this->gebaeude->lueftungssystem, $this->gebaeude->baujahr ))->fsystem();
+        return (new Faktor_Anlagensysteme_Wohnungslueftungsanlagen( $this->lueftungssystem, $this->art, $this->baujahr ))->fsystem();
     }
 
     /**
@@ -67,7 +88,7 @@ class Hilfsenergie_Lueftung {
      * @return float
      */
     public function Wfan0(): float {
-        return (new Tabelle_120( $this->gebaeude->lueftungssystem, $this->gebaeude->baujahr ))->Wfan0();
+        return (new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen( $this->lueftungssystem, $this->baujahr ))->Wfan0();
     }
 
     /**

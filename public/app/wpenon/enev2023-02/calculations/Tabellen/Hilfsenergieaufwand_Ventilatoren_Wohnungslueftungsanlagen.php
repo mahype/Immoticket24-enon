@@ -9,7 +9,7 @@ require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 /**
  *  Hilfsenergieaufwand der Ventilatoren in Wohnungslüftungsanlagen - Tabelle 120.
  */
-class  Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen {
+class Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen {
 	/**
 	 * Zielwert für die Spalte.
 	 *
@@ -134,5 +134,4 @@ class  Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen {
 	public function Wfan0(): float { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		return $this->interpolierter_wert();
 	}
-
 }
