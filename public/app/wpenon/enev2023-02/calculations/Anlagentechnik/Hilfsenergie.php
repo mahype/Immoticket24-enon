@@ -149,12 +149,12 @@ class Hilfsenergie {
 
 	public function LcharHzg(): float {
 		// $LcharHzg= ($calculations['nutzflaeche']/$nG*$fgeoHzg)^(1/2); // Welches "geo" ist gemeint
-		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->geschossanzahl() * $this->fgeoHzg() ) ** ( 1 / 2 );
+		return ( $this->gebaeude->nutzflaeche() / ( $this->gebaeude->geschossanzahl() * $this->fgeoHzg() ) ) ** ( 1 / 2 );
 	}
 
 	public function LcharTWW(): float {
 		// $LcharTWW= ($calculations['nutzflaeche']/$nG*$fgeoTWW)^(1/2); // Welches "geo" ist gemeint
-		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->geschossanzahl() * $this->fgeoTWW() ) ** ( 1 / 2 );
+		return ( $this->gebaeude->nutzflaeche() / ( $this->gebaeude->geschossanzahl() * $this->fgeoTWW() ) ) ** ( 1 / 2 );
 	}
 
 	public function BcarHzg(): float {
