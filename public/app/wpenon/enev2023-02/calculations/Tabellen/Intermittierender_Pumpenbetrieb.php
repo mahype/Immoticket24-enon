@@ -34,7 +34,7 @@ class Intermittierender_Pumpenbetrieb {
 	protected array $table_data;
 
 
-    public function __construct( float $ith_rl, int $th )
+    public function __construct( float $ith_rl, float $th )
     {
         $this->ith_rl = $ith_rl;
         $this->th = $th;

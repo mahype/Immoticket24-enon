@@ -418,7 +418,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 */
 	public function twpn(): float {
 		// $twpn= $twpn0*(($calculations['nutzflaeche']*50*$qwb)/($Pn*1000*12.5));
-		return $this->twpn0() * ( ( $this->gebaeude->nutzflaeche() * 50 * $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser() ) / ( $this->gebaeude->heizsystem()->pn() * 1000 * 12.5 ) );
+		return $this->twpn0() * ( ( $this->gebaeude->nutzflaeche() * 50 * $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser() ) / ( $this->gebaeude->heizsystem()->pn() * 12.5 ) );
 	}
 
 	/**
