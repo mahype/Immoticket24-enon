@@ -15,28 +15,16 @@ return array(
 			'title' => __( 'ID', 'wpenon' ),
 			'type'  => 'VARCHAR(100)',
 		),
-		'a'                  => array(
-			'title' => __( 'A m', 'wpenon' ),
+		'gebaeudenutzfläche'                  => array(
+			'title' => __( 'Gebäudenutzfläche', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'v'                  => array(
-			'title' => __( 'V m', 'wpenon' ),
+		'ac'                  => array(
+			'title' => __( 'AC', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'bedarf_ac'          => array(
-			'title' => __( 'Bedarfsgeführt AC', 'wpenon' ),
-			'type'  => 'FLOAT',
-		),
-		'bedarf_de_ec'       => array(
-			'title' => __( 'Bedarfsgeführt DC/EC', 'wpenon' ),
-			'type'  => 'FLOAT',
-		),
-		'nicht_bedarf_ac'    => array(
-			'title' => __( 'Nicht Bedarfsgeführt AC', 'wpenon' ),
-			'type'  => 'FLOAT',
-		),
-		'nicht_bedarf_de_ec' => array(
-			'title' => __( 'Nicht Bedarfsgeführt DC/EC', 'wpenon' ),
+		'dc_ec'          => array(
+			'title' => __( 'DC/EC', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
 	),
