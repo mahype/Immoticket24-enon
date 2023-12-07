@@ -771,9 +771,8 @@ $jahr = new Jahr();
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
 				</tr>
 			</table>
-
 		<?php endif; ?>
-		
+
 	<?php endforeach; ?>		
 
 	<h3>Übergabesystem</h3>
@@ -921,6 +920,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Vws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Vws() ) ); ?></p>
 	<p><?php printf( __( 'Wws0: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws0() ) ); ?></p>
 	<p><?php printf( __( 'Wws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws() ) ); ?></p>
+	<p><?php printf( __( 'Whd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Whd() ) ); ?></p>
 	
 </div>
 

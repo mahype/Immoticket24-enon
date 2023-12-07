@@ -426,6 +426,15 @@ class Hilfsenergie {
         return $this->Wws0() * ( $this->tpu() / 8760 );
     }
 
+	public function Whd(): float {
+		if( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+			return 0;
+		}
+
+		// $Whd=($PhydrHzg/1000)*$ßhd*$thm*1*1*$fe*$TERMpumpe*(0.25/0.25)*$fint; 
+		return ( $this->PhydrHzg() / 1000 ) * $this->gebaeude->heizsystem()->ßhd() * $this->gebaeude->thm() * 1 * 1 * $this->fe() * $this->TERMpumpe() * ( 0.25 / 0.25 ) * $this->fint();
+	}
+
     public function WsolPumpes(): float {
         // Berechnung Hilfsenergie Solarpumpe Speicherung
         return 0;
