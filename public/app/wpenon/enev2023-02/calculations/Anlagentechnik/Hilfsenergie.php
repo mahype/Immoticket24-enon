@@ -44,7 +44,7 @@ class Hilfsenergie {
 	public function pg() {
 		$ist_gaskessel = false;
 
-		foreach ( $this->gebaeude->heizsystem()->heizungsanlagen() as $heizungsanlage ) {
+		foreach ( $this->gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) {
 			if ( $heizungsanlage->typ() !== 'brennwertkessel' && $heizungsanlage->typ() !== 'niedertemperaturkessel' ) {
 				continue;
 			}
@@ -56,8 +56,8 @@ class Hilfsenergie {
 			$ist_gaskessel = true;
 		}
 
-		if ( $ist_gaskessel ) {
-			// if GasBrennwertheizung=! GasNiedertemperatrukessel && $Pn <35  than
+		if ( $ist_gaskessel && ( $this->gebaeude->luftwechsel()->h_max() / 1000 ) < 35 ) {
+			// if GasBrennwertheizung=! GasNiedertemperatrukessel && $h_max <35  than
 			// $pg= Tab 39, T12, in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung
 			// else $pg= 1.0;
 			return ( new Differenzdruck_Waermeerzeuger( $this->gebaeude->luftwechsel()->h_max() / 1000 ) )->pg();
