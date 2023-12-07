@@ -75,7 +75,7 @@ class Hilfsenergie {
 				return 0;
 			case 'flaechenheizung':
 				// $nR= $calculations['nutzflaeche']*$AnteileFBHZ/7
-				$nR = $this->gebaeude->nutzflaeche() * $uebergabesystem->prozentualer_anteil() / 7;
+				$nR = $this->gebaeude->nutzflaeche() / 7;
 				return 0.876 * $nR;
 			default:
 				throw new Calculation_Exception( sprintf( 'WHce für "%s" kann nicht ermittelt werden.', $uebergabesystem->typ() ) );
