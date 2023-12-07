@@ -27,7 +27,7 @@ return array(
 			'title' => __( 'HK 10 K', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'fbh_7_K'     => array(
+		'fbh_7_k'     => array(
 			'title' => __( 'FBH 7 K', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
