@@ -199,7 +199,7 @@ class Hilfsenergie {
 
 	public function Vstr(): float {
 		// $Vstr= aus TAb 38/T12 in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung
-		return ( new Volumenstrom_im_Auslegungspunkt( $this->gebaeude->luftwechsel()->h_max() / 1000 ) )->V();
+		return ( new Volumenstrom_im_Auslegungspunkt( $this->gebaeude->luftwechsel()->h_max() / 1000, $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() ) )->V();
 	}
 
 	public function PhydrHzg(): float {
