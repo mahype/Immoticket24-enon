@@ -57,24 +57,31 @@ class Aufwandszahlen_Umlaufwasserheizer {
 
 			foreach ( $this->spalten() as $spalte ) {
 				$spalten_keys[]   = $spalte;
-				$spalten_teile  = explode( '.', $spalte );
-				$spalten_name = 'uwh_' . $spalten_teile[0] . '_' . $spalten_teile[1];
+				$spalten_teile    = explode( '.', $spalte );
+				
+				if( ! isset( $spalten_teile[1] ) ) {
+					$spalten_teile[1] = 0;
+				}
+
+				$spalten_name     = 'uwh_' . $spalten_teile[0] . '_' . $spalten_teile[1];
 				$spalten_values[] = $this->table_data[ $zeile ]->$spalten_name;
 			}
 
-         	$zeilen_keys[]   = $zeile;
-			$zeilen_values[] = interpolate_value( $this->spalte_zielwert, $spalten_keys, $spalten_values );
+			$zeilen_keys[]   = $zeile;
+			$interpolierter_wert = interpolate_value( $this->spalte_zielwert, $spalten_keys, $spalten_values );
+			$zeilen_values[] = $interpolierter_wert;
 		}
 
-      return interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+		$interpolierter_wert = interpolate_value( $this->zeile_zielwert, $zeilen_keys, $zeilen_values );
+		return $interpolierter_wert;
 	}
 
 	public function eg0(): float {
-	   return $this->interpolierter_wert();
+		return $this->interpolierter_wert();
 	}
 
 	public function ewg0(): float {
-	   return $this->interpolierter_wert();
+		return $this->interpolierter_wert();
 	}
 
 	protected function zeilen(): array {
