@@ -282,7 +282,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			}
 		}
 
-		if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'gasetagenheizung' ) {
+		if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
 			return 1.0;
 		}
 
