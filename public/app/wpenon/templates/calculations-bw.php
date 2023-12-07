@@ -633,6 +633,22 @@ $jahr = new Jahr();
 					<th>Phgaux</th>
 					<td><?php echo $heizungsanlage->Phgaux(); ?></td>
 				</tr>
+				<tr>
+					<th>fpwgaux</th>
+					<td><?php echo $heizungsanlage->fpwgaux(); ?></td>
+				</tr>
+				<tr>
+					<th>Pwgaux</th>
+					<td><?php echo $heizungsanlage->Pwgaux(); ?></td>
+				</tr>
+				<tr>
+					<th>Whg</th>
+					<td><?php echo $heizungsanlage->Whg(); ?></td>
+				</tr>
+				<tr>
+					<th>Wwg</th>
+					<td><?php echo $heizungsanlage->Wwg(); ?></td>
+				</tr>
 			</table>
 
 		<?php elseif ( $heizungsanlage->kategorie() === 'waermepumpe' ) : ?>
@@ -702,6 +718,10 @@ $jahr = new Jahr();
 					<th>Whg</th>
 					<td><?php echo $heizungsanlage->Whg(); ?></td>
 				</tr>
+				<tr>
+					<th>Wwg</th>
+					<td><?php echo $heizungsanlage->Wwg(); ?></td>
+				</tr>
 			</table>
 
 		<?php elseif ( $heizungsanlage->kategorie() === 'fernwaerme' ) : ?>
@@ -748,6 +768,19 @@ $jahr = new Jahr();
 				</tr>
 			</table>
 
+			<h5>Hilfsenergie</h5>
+
+			<table>
+				<tr>
+					<th>Whg</th>
+					<td><?php echo $heizungsanlage->Whg(); ?></td>
+				</tr>
+				<tr>
+					<th>Wwg</th>
+					<td><?php echo $heizungsanlage->Wwg(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'dezentral' ) : ?>
 			<table>
 				<tr>
@@ -773,6 +806,19 @@ $jahr = new Jahr();
 				<tr>
 					<td>ewg</td>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+			</table>
+
+			<h5>Hilfsenergie</h5>
+
+			<table>
+				<tr>
+					<th>Whg</th>
+					<td><?php echo $heizungsanlage->Whg(); ?></td>
+				</tr>
+				<tr>
+					<th>Wwg</th>
+					<td><?php echo $heizungsanlage->Wwg(); ?></td>
 				</tr>
 			</table>
 		<?php endif; ?>

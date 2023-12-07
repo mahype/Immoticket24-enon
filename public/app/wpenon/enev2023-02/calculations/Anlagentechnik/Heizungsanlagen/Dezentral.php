@@ -70,15 +70,24 @@ class Dezentral extends Heizungsanlage {
         //      if "Gasdurchlauferhitzer"   Than
         //             $ewg = 1.26
         //      else??
-        if( $this->gebaeude->trinkwarmwasseranlage()->dezentraler_erzeuger() === 'dezentralelektroerhitzer' ) {
+        if( $this->gebaeude->trinkwarmwasseranlage()->erzeuger() === 'dezentralelektroerhitzer' ) {
             return 1.01;
         }
 
         return 1.26;
     }
 
+    /**
+	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
+	 * 
+	 * @return float
+	 */
     public function Whg(): float {
         // $Whg = 0; T12, Seite 159, hier wird gesamt Wg = definiert (also sowohl Heizung wie auch TWW), Werden nur bei Übergabe berücksichtig siehe T5 S.157, Kommentar 6.5.8.1
+        return 0;
+    }
+
+    public function Wwg(): float {
         return 0;
     }
 }

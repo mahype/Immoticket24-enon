@@ -113,8 +113,22 @@ class Fernwaerme extends Heizungsanlage {
         return 1.0;
     }
 
+	/**
+	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
+	 * 
+	 * @return float 
+	 */
 	public function Whg(): float {
 		// $Whg=120 //kWh/a //nach T12, Kap. 6.6.7.2  und  T8, S.97  // Da kine weiteren Infos in DIN setzten wir den höhren Wert für die Übergabestation an. geregelt Station
 		return 120;
 	}
+
+	/**
+	 * Hilfsenergie für Warmwasserbereitung.
+	 * 
+	 * @return float
+	 */
+	public function Wwg(): float {
+        return 0;
+    }
 }

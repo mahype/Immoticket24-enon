@@ -432,6 +432,12 @@ class Hilfsenergie {
         return $this->Wws0() * ( $this->tpu() / 8760 );
     }
 
+	/**
+	 * Hilfsenergie Heizung im Bereich Verteilung.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Whd(): float {
 		if( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
 			return 0;

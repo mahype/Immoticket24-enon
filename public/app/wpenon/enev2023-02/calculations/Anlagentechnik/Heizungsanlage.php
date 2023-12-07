@@ -195,9 +195,16 @@ abstract class Heizungsanlage {
 	}
 
 	/**
-	 * Hilfsenergie für Heizungsystem (Whg).
+	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
+	 * 
+	 * @return float
+	 */
+	abstract public function Whg(): float;
+
+	/**
+	 * Hilfsenergie für Warmwasser (Wwg).
 	 * 
 	 * @return float;
 	 */
-	abstract public function Whg(): float;
+	abstract public function Wwg(): float;
 }

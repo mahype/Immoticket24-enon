@@ -523,6 +523,13 @@ class Waermepumpe extends Heizungsanlage {
 		return 1 / $this->COPkorr();
 	}
 
+	/**
+	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
+	 * 
+	 * @return float
+	 * 
+	 * @throws Calculation_Exception 
+	 */
 	public function Whg(): float {
 		// T12. Seite 144 Defintion der NOrm, dass sowohl Heizung und TWW mit dem einen Wert aus Tab96 berücksichtigt ist.
 
@@ -537,4 +544,13 @@ class Waermepumpe extends Heizungsanlage {
 
 		return (new Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen( $this->gebaeude->heizsystem()->pn() / 1000, 15 ))->Whg();
 	}
+
+	/**
+	 *Hilfsenergie für Warmwasserbereitung.
+	 * 
+	 * @return Enev\Schema202302\Calculations\Anlagentechnik\float; 
+	 */
+	public function Wwg(): float {	
+        return 0;
+    }
 }

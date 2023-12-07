@@ -3100,6 +3100,7 @@ ______________________________________________________________________________
 //  [ ] Berechnung der gesamten Hilfsenergie (Ohne Anteile !!!), bisher nru für eine Heizunganlage mit einem Übertragungssystem später muss das anteilig berechnet werden
 
 
+
 // //// if nur ein Kessel than
 // $Wh=$Whce + $Whd + $Whs + $Whg1;   // >Heizsystem 
 // $Ww=$Wwce + $Wwd + $Wws + $Wwg1;   // TWW-System     

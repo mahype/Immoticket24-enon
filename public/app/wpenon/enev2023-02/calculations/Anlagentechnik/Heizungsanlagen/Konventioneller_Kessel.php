@@ -260,7 +260,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * Hilfsenenergiebedarf für die Heizungsanlage.
+	 * Korrekturfaktor Hilfsenergie Heizung im Bereich Erzeugung.
 	 *
 	 * @return float
 	 */
@@ -290,7 +290,39 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * Hilfsenergie - Phgaux.
+	 * Korrekturfaktor für die Hilfsenergie Erzeugung Warmwasser.
+	 *
+	 * @return float
+	 */
+	public function fpwgaux(): float {
+		// if "Brennwertheizung (Öl+Gas)", "Gasetagenheizung(Gas)" und "(Brennwert+Standard) für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
+		// $fphgaux=1.0;
+		// if "Brennwert + Standard für Pellet, Stückholz, Hackschnitzel mit Baujahr bis 1995"
+		// $fphgaux = Tab. 86 T12 in Anhängikeit $Pn und $ßhg;
+		// if "Standardkessel & NT Kessel (Öl+Gas)" "Feststoffkessel"than
+		// $fphgaux = Tab.84, T12 in Anhängikeit $Pn und $ßhg;
+
+		// Holz bei Standard- und Brennwertkesseln.
+		// Kesseltyp nicht abgefragt, da Holz nur bei Standard- und Brennwertkesseln möglich ist.
+		$ßhg = 1;
+
+		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
+			if ( $this->baujahr() >= 1995 ) {
+				return 1.0;
+			} else {
+				return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
+			}
+		}
+
+		if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
+			return 1.0;
+		}
+
+		return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
+	}
+
+	/**
+	 * Elektrische Hilfsenergieleistung für die Heizungsanlage
 	 *
 	 * @return float
 	 */
@@ -314,6 +346,33 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		}
 
 		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
+	}
+
+	/**
+	 * Elektrische Hilfsenergieleistung Trinkwarmwasser im Bereich Erzeugung.
+	 *
+	 * @return float
+	 */
+	public function Pwgaux(): float {
+		// if "Brennwertheizung (Öl+Gas bis heute/ Holz bois 1994)", "Standardkessel (Öl+Gas bis heute/ Holz bois 1994) - NT(Öl+Gas bis heute)", "Feststoffkessel" than
+		// $Phgaux=nach Tab. 83 T12 in Abhängigkeit von $Pn und $hg;
+		// if  "Brennwert + Standardkessel für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
+		// $Phgaux = Tab.85, T12 in Anhängikeit $Pn und $ßhg;
+		// if "Gasetagenheizung"
+		// $Phgaux = Tab. 88 T12 in Anhängikeit $Pn und $ßhg;
+		// else????
+
+		if ( $this->erzeuger() === 'etagenheizung' ) {
+			return ( new Umlaufwasserheizer_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
+		}
+
+		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
+			if ( $this->baujahr() >= 1995 ) {
+				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
+			}
+		}
+
+		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
 	}
 
 	/**
@@ -363,12 +422,25 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * Hilfsenenergiebedarf für die Heizungsanlage.
-	 *
-	 * @return float
+	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
+	 * 
+	 * @return float 
 	 */
 	public function Whg(): float {
 		// $Whg= $fphgaux*$Phgaux*($calculations['ith,rl']-$twpn)+$PhauxP0*(8760-$calculations['ith,rl']);
 		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
 	}
+	
+	/**
+	 * Hilfsenergie für Warmwasser.
+	 * 
+	 * @return float 
+	 */
+	public function Wwg(): float {
+		if( ! $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			return 0.0;	
+		}
+		
+		return $this->fpwgaux() * $this->Pwgaux() * $this->twpn();
+    }
 }

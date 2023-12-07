@@ -484,12 +484,14 @@ switch ( $energieausweis->ww_info ) {
 		$ww_zentral = false;
 		$mit_zirkulation = false;
 		$mit_warmwasserspeicher = false;
+		$ww_erzeuger = $energieausweis->ww_erzeugung;
 		break;
 	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
+		$ww_erzeuger = $energieausweis->h_erzeugung;
 		break;
 }
 
@@ -497,7 +499,7 @@ $gebaeude->trinkwarmwasseranlage(
 	new Trinkwarmwasseranlage(
 		gebaeude: $gebaeude,
 		zentral: $ww_zentral,
-		dezentraler_erzeuger: $energieausweis->ww_info === 'ww' ? $energieausweis->ww_erzeugung : null,
+		erzeuger: $ww_erzeuger,
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: true,
 		mit_zirkulation: $mit_zirkulation,

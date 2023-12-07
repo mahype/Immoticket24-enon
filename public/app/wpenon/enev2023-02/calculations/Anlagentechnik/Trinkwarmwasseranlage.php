@@ -34,11 +34,11 @@ class Trinkwarmwasseranlage {
 	protected bool $zentral;
 
 	/**
-	 * Dezenraler Erzeiger
+	 * Dezenraler Erzeuger
 	 *
 	 * @var string|null
 	 */
-	protected ?string $dezentraler_erzeuger;
+	protected ?string $erzeuger;
 
 	/**
 	 * Welcher Teil der Anlage ist beheizt. Mögliche Werte: 'alles', 'nichts' oder 'verteilung'.
@@ -95,7 +95,7 @@ class Trinkwarmwasseranlage {
 	 * @param Gebaeude    $gebaeude               Gebäude.
 	 * @param bool        $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
 	 * @param bool        $heizung_im_beheizten_bereich      Liegt die Heizung im beheitzen Bereich?
-	 * @param string|null $dezentraler_erzeuger   Dezentraler Erzeuger
+	 * @param string|null $erzeuger   Dezentraler Erzeuger (dezentralgaserhitzer oder dezentralelektroerhitzer).
 	 * @param bool        $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
 	 * @param bool        $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
 	 * @param int         $prozentualer_anteil    Prozentualer Anteil.
@@ -104,7 +104,7 @@ class Trinkwarmwasseranlage {
 		Gebaeude $gebaeude,
 		bool $zentral,
 		bool $heizung_im_beheizten_bereich,
-		string|null $dezentraler_erzeuger = null,
+		string|null $erzeuger = null,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
 		bool $mit_solarthermie = false,
@@ -119,7 +119,7 @@ class Trinkwarmwasseranlage {
 		$this->gebaeude                     = $gebaeude;
 		$this->zentral                      = $zentral;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
-		$this->dezentraler_erzeuger         = $dezentraler_erzeuger;
+		$this->erzeuger                     = $erzeuger;
 		$this->mit_warmwasserspeicher       = $mit_warmwasserspeicher;
 		$this->mit_zirkulation              = $mit_zirkulation;
 		$this->mit_solarthermie             = $mit_solarthermie;
@@ -131,21 +131,30 @@ class Trinkwarmwasseranlage {
 	}
 
 	/**
+	 * Läuft die Warmwasserversorgung über die Heizungsanlage?
+	 *
+	 * @return bool
+	 */
+	public function zentral(): bool {
+		return $this->zentral;
+	}
+
+	/**
+	 * Dezentraler Erzeuger (dezentralgaserhitzer oder dezentralelektroerhitzer).
+	 *
+	 * @return string|null
+	 */
+	public function erzeuger(): ?string {
+		return $this->erzeuger;
+	}
+
+	/**
 	 * Wird die Trinkwarmwasseranlage mit Solarthermie betrieben?
 	 *
 	 * @return bool
 	 */
 	public function solarthermie_vorhanden(): bool {
 		return $this->mit_solarthermie;
-	}
-
-	/**
-	 * Dezentraler Erzeuger.
-	 *
-	 * @return string|null
-	 */
-	public function dezentraler_erzeuger(): ?string {
-		return $this->dezentraler_erzeuger;
 	}
 
 	/**
@@ -242,8 +251,8 @@ class Trinkwarmwasseranlage {
 
 	/**
 	 * Berechnung von Vsw.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Vsw(): float {
 		return $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
@@ -559,15 +568,6 @@ class Trinkwarmwasseranlage {
 		}
 
 		return interpolate_value( $nutzflaeche, $keys, $values );
-	}
-
-	/**
-	 * Läuft die Warmwasserversorgung über die Heizungsanlage?
-	 *
-	 * @return bool
-	 */
-	public function zentral(): bool {
-		return $this->zentral;
 	}
 
 	/**
