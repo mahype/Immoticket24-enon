@@ -116,11 +116,11 @@ class Aufwandszahlen_Heizwaermeerzeugung {
 	protected function zeile(): string {
 		$zeile = '';
 
-		if ( $this->erzeuger === 'brennwertkessel' && $this->energietraeger_ist_gas() ) {
+		if ( ( $this->erzeuger === 'brennwertkessel' || $this->erzeuger === 'etagenheizung' )  && $this->energietraeger_ist_gas() ) {
 			$zeile = 'brennwertkessel_gas';
 		}
 
-		if ( $this->erzeuger === 'brennwertkessel' && $this->energietraeger_ist_oel() ) {
+		if ( ( $this->erzeuger === 'brennwertkessel' || $this->erzeuger === 'etagenheizung' ) && $this->energietraeger_ist_oel() ) {
 			$zeile = 'brennwertkessel_oel';
 		}
 
