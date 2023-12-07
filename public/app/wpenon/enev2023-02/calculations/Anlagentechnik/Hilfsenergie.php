@@ -71,6 +71,7 @@ class Hilfsenergie {
 
 		switch ( $uebergabesystem->typ() ) {
 			case 'heizkoerper':
+			case 'elektroheizungsflaechen':
 				return 0;
 			case 'flaechenheizung':
 				// $nR= $calculations['nutzflaeche']*$AnteileFBHZ/7
@@ -181,9 +182,11 @@ class Hilfsenergie {
 
 		switch ( $uebergabesystem->typ() ) {
 			case 'heizkoerper':
-				return 0.13 * $this->LmaxHzg() + 2 + 0;
+				return 0.13 * $this->LmaxHzg() + 2 + 0;			
 			case 'flaechenheizung':
 				return 0.13 * $this->LmaxHzg() + 2 + 25;
+			case 'elektroheizungsflaechen':
+				return 0;
 			default:
 				throw new Calculation_Exception( sprintf( 'TERMp für "%s" kann nicht ermittelt werden.', $uebergabesystem->typ() ) );
 		}
@@ -339,6 +342,10 @@ class Hilfsenergie {
 	 * @throws Calculation_Exception
 	 */
 	public function Whs(): float {
+		if( $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+			return 0;
+		}
+
 		// if "Pufferspeicher nicht vorhanden" then
 		// $Whs=0.0;
 		if ( ! $this->gebaeude->heizsystem()->pufferspeicher_vorhanden() ) {
@@ -411,6 +418,10 @@ class Hilfsenergie {
 	}
 
     public function Wws(): float {
+		if ( ! $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			return 0;
+		}
+		
         // $Wws=$Wws0*($tpu/8760);
         return $this->Wws0() * ( $this->tpu() / 8760 );
     }
