@@ -303,7 +303,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $Phgaux = Tab. 88 T12 in Anhängikeit $Pn und $ßhg;
 		// else????
 
-		if ( $this->erzeuger() === 'gasetagenheizung' ) {
+		if ( $this->erzeuger() === 'etagenheizung' ) {
 			return ( new Umlaufwasserheizer_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
 		}
 
