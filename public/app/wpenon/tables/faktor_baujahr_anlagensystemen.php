@@ -16,17 +16,17 @@ return array(
 			'type'  => 'VARCHAR(100)',
 		),
 		'bezeichnung' => array(
-			'title' => __( 'Systeme der Wohnungslüftung', 'wpenon' ),
+			'title' => __( 'Anlage', 'wpenon' ),
 			'type'  => 'VARCHAR(100)',
 		),
-		'vor_1999'    => array(
-			'title' => __( 'AC', 'wpenon' ),
+		'Baujahr'     => array(
+			'title' => __( 'Baujahr', 'wpenon' ),
+			'type'  => 'VARCHAR(100)',
+		),
+		'fBaujahr'    => array(
+			'title' => __( 'fBaujahr', 'wpenon' ),
 			'type'  => 'FLOAT',
 		),
-		'bis_2004'   => array(
-			'title' => __( 'DC/EC', 'wpenon' ),
-			'type'  => 'FLOAT',
-		),
-		
+
 	),
 );
