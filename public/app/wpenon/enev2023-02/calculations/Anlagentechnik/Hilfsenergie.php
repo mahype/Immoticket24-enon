@@ -215,7 +215,7 @@ class Hilfsenergie {
 	 */
 	public function fe(): float {
 		// $fe = ((1.25+(200/$PhydrHzg)^0.5)*2// Banz wir können für Pumpe(2 Faktor) berücksichtigen, da diese als nich bedarfsausgelegt definiert wird
-		return ( ( 1.25 + ( 200 / $this->PhydrHzg() ) ** 0.5 ) * 2 );
+		return ( ( 1.25 + ( 200 / $this->PhydrHzg() ) ) ** 0.5 ) * 2;
 	}
 
 	/**
