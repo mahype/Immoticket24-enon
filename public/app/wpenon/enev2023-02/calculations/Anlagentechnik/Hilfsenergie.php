@@ -82,6 +82,11 @@ class Hilfsenergie {
 		}
 	}
 
+	/**
+	 * Zwischenwert zur Berechnung der Lüftungsanlagen.
+	 * 
+	 * @return float 
+	 */
 	public function Wc(): float {
 		return 0;
 	}

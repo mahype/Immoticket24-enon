@@ -46,12 +46,13 @@ class Pelletkessel_Hilfsenergieaufwand {
 		foreach ( $this->pn_slugs() as $pn_slug ) {
 			$spalten_keys   = array();
 			$spalten_values = array();
+			$zeilen_name = 'pkh_' . $pn_slug;
 
 			foreach ( $this->ßhg_slugs() as $ßhg_slug ) {
 				$spalten_keys[]   = $ßhg_slug;
 				$spalten_teile    = explode( '.', $ßhg_slug );
 				$spalten_name     = 'bhg_' . $spalten_teile[0] . '_' . $spalten_teile[1];
-				$spalten_values[] = $this->table_data[ $pn_slug ]->$spalten_name;
+				$spalten_values[] = $this->table_data[ $zeilen_name ]->$spalten_name;
 			}
 
 			$zeilen_keys[]       = $pn_slug;
