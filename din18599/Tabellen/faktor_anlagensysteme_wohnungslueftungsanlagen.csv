@@ -1,12 +1,9 @@
-faktor_anlagensysteme_wohnungslueftungsanlagen
-ID;Systeme der WohnungslÃ¼ftung;AC;DC/EC
-abluftsystem_zentral_ohnewaermerueckgewinnung;zentral: ohne WŠrmerŸckgewinnung;1;1
-abluftsystem_zentral_mit_abluft_waermepumpe;zentral: mit Abluft-WŠrmepumpe;1,75;2
-abluftsystem_dezentral_einzelventilator;dezentral Einzelventilator: ohne WP;1,75;2
-zuluft_abluftsystem_zentral_abluft_zuluft_waermeuebertrager;zentral: mit Abluft-Zuluft-WŠrmeŸbertrager;2,75;3,5
-zuluft_abluftsystem_zentral_abluft_wp;zentral: mit Abluft-WP (mit/ohne W†T);3,25;4,5
-zuluft_abluftsystem_dezentral_abluft_zuluft_wuet;dezentral (RaumgerŠt): mit Abluft-Zuluft-W†T;3,5;4,5
-zuluftsystem_zentral_zentralgeraet;zentral (mit ZentralgerŠt);1,25;1,5
-zuluftsystem_dezentral_einzelgeraet;dezentral (mit EinzelgerŠten);2;2,5
-luftheizung_zentral_abluft;zentral: mit Abluft-Zuluft-WŠrmeŸbertrager;3,5;5
-luftheizung_zentral_abluft_wp;zentral: mit Abluft-WP (mit/ohne W†T);4;6
+ID;Anlage;Baujahr;fsystem
+zentrale_abluft_2009;Zentrale Abluftanlage;Bis 2009;1
+dezentrale_abluft_2009;Dezentrale Abluftanlage;Bis 2009;1,75
+zentrale_zu_abluft_2009;Zentrale Zu-/ Abluftanlage;Bis 2009;2,75
+dezentrale_zu_abluft_2009;Dezentrale Zu-/ Abluftanlage;Bis 2009;3,5
+zentrale_abluft_2010;Zentrale Abluftanlage;Ab 2010;1
+dezentrale_abluft_2010;Dezentrale Abluftanlage;Ab 2010;2
+zentrale_zu_abluft_2010;Zentrale Zu-/ Abluftanlage;Ab 2010;3,5
+dezentrale_zu_abluft_2010;Dezentrale Zu-/ Abluftanlage;Ab 2010;4,5
