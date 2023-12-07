@@ -76,8 +76,6 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'holzpellets'       => 'Holzpellets',
 					'holzhackschnitzel' => 'Holzhackschnitzel',
 					'stueckholz'        => 'Stückholz',
-					'steinkohle'        => 'Steinkohle',
-					'braunkohle'        => 'Braunkohle',
 				),
 			),
 			'niedertemperaturkessel' => array(
@@ -274,19 +272,22 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 		// Holz bei Standard- und Brennwertkesseln.
 		// Kesseltyp nicht abgefragt, da Holz nur bei Standard- und Brennwertkesseln möglich ist.
-		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() >= 1995 ) {
-				return 1.0;
-			} else {
-				return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
-			}
-		}
+		
+		// if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
+		// 	if ( $this->baujahr() >= 1995 ) {
+		// 		return 1.0;
+		// 	} else {
+		// 		return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
+		// 	}
+		// }
 
-		if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
-			return 1.0;
-		}
+		// if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
+		// 	return 1.0;
+		// }
 
-		return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
+		// return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
+
+		return 1; // Norm sagt nicht klar aus, welcher Wert hier verwendet werden soll. Seite 130/131 Teil 12 völlig missverständlich.
 	}
 
 	/**
@@ -304,21 +305,24 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 		// Holz bei Standard- und Brennwertkesseln.
 		// Kesseltyp nicht abgefragt, da Holz nur bei Standard- und Brennwertkesseln möglich ist.
-		$ßhg = 1;
+		
+		// $ßhg = 1;
+		// if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
+		// 	if ( $this->baujahr() >= 1995 ) {
+		// 		return 1.0;
+		// 	} else {
+		// 		return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
+		// 	}
+		// }
 
-		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() >= 1995 ) {
-				return 1.0;
-			} else {
-				return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
-			}
-		}
+		// if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
+		// 	return 1.0;
+		// }
 
-		if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
-			return 1.0;
-		}
+		// return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
 
-		return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
+
+		return 1; // Norm sagt nicht klar aus, welcher Wert hier verwendet werden soll. Seite 130/131 Teil 12 völlig missverständlich.
 	}
 
 	/**
@@ -340,7 +344,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		}
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() >= 1995 ) {
+			if ( $this->baujahr() > 1994 ) {
 				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
 			}
 		}
@@ -367,7 +371,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		}
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() >= 1995 ) {
+			if ( $this->baujahr() > 1994 ) {
 				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
 			}
 		}
@@ -393,11 +397,11 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			return ( new Tabelle_87( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
 		}
 
-		if ( $this->baujahr() >= 1987 ) {
-			return 0.015;
+		if( $this->erzeuger() === 'standardkessel' ) {
+			return 0.15;
 		}
 
-		return 0.15;
+		return 0.015;
 	}
 
 	/**
