@@ -626,6 +626,10 @@ $jahr = new Jahr();
 					<td><?php echo $heizungsanlage->twpn(); ?></td>
 				</tr>
 				<tr>
+					<th>fphgaux</th>
+					<td><?php echo $heizungsanlage->fphgaux(); ?></td>
+				</tr>
+				<tr>
 					<th>Phgaux</th>
 					<td><?php echo $heizungsanlage->Phgaux(); ?></td>
 				</tr>
