@@ -2791,8 +2791,8 @@ ______________________________________________________________________________
 //       $LcharHzg= ($calculations['nutzflaeche']/$nG*$fgeoHzg)^(1/2); // Welches "geo" ist gemeint
 //       $LcharWW= ($calculations['nutzflaeche']/$nG*$fgeoHzgWW)^(1/2); // Welches "geo" ist gemeint
 
-//       $BcarHzg=$LcharHzg*0,31;
-//       $BcarWW=$LcharWW*0,31;
+//       $BcarHzg=$LcharHzg*$fblHzg;
+//       $BcarWW=$LcharWW*$fblTWW;
 
 //       $LmaxHzg=2*($LcharHzg+($BcarHzg/2)+$nG*$hG+10); //10=ld ; definiert da wir nur 2-Rohrsystem Heizung betrachten T12 S. 305
 //       $LmaxTWW=2*($LcharWW+2.5+$nG*$hG); //

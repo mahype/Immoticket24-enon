@@ -158,13 +158,13 @@ class Hilfsenergie {
 	}
 
 	public function BcarHzg(): float {
-		// $BcarHzg=$LcharHzg*0,31;
-		return $this->LcharHzg() * 0.31;
+		// $BcarHzg=$LcharHzg*$fblHzg;
+		return $this->LcharHzg() * $this->fblHzg();
 	}
 
 	public function BcarWW(): float {
-		// $BcarWW=$LcharWW*0,31;
-		return $this->LcharTWW() * 0.31;
+		// $BcarWW=$LcharWW*$fblTWW;
+		return $this->LcharTWW() * $this->fblTWW();
 	}
 
 	public function LmaxHzg(): float {
