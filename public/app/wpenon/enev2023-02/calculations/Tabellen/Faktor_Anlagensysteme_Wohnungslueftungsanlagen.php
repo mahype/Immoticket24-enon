@@ -85,6 +85,7 @@ class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 		}
 
 		$column_name = 'fsystem';
-		return $this->table_data[ $this->art_slug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug() ]->$column_name;
+		$row_name = $this->art_slug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug();
+		return $this->table_data[ $row_name ]->$column_name;
 	}
 }

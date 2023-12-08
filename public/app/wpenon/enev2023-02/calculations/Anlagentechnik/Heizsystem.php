@@ -248,7 +248,7 @@ class Heizsystem {
 	 */
 	public function ßhce(): float {
 		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return ( $this->gebaeude->qh() / ( $this->gebaeude->thm() * $this->gebaeude->luftwechsel()->h_max() ) ) * 1000;
+		return ( $this->gebaeude->qh() / ( $this->gebaeude->thm() * $this->gebaeude->lueftung()->h_max() ) ) * 1000;
 	}
 
 	/**
@@ -345,8 +345,8 @@ class Heizsystem {
 			}
 		}
 
-		if ( $this->gebaeude->luftwechsel()->h_max() > $pwn ) {
-			return $this->gebaeude->luftwechsel()->h_max();
+		if ( $this->gebaeude->lueftung()->h_max() > $pwn ) {
+			return $this->gebaeude->lueftung()->h_max();
 		}
 
 		return $pwn;
@@ -361,14 +361,14 @@ class Heizsystem {
 	public function pn(): float {
 		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
 			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
-				return 1.3 * $this->gebaeude->luftwechsel()->h_max();
+				return 1.3 * $this->gebaeude->lueftung()->h_max();
 			} else {
 				return 1.5 * $this->pwn();
 			}
 		}
 
 		if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
-			return $this->gebaeude->luftwechsel()->h_max();
+			return $this->gebaeude->lueftung()->h_max();
 		} else {
 			return 1.5 * $this->pwn();
 		}

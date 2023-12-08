@@ -369,19 +369,19 @@ $jahr = new Jahr();
 	
 	
 
-	<h3>Luftwechsel</h3>
+	<h3>Lüftung</h3>
 
-	<p><?php printf( __( 'Maximale Heizlast h<sub>max</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->h_max() ) ); ?></p>
-	<p><?php printf( __( 'Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->h_max_spezifisch() ) ); ?></p>
-	<p><?php printf( __( 'Luftwechselrate n: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->n() ) ); ?></p>
-	<p><?php printf( __( 'Luftechselvolumen h<sub>v</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->hv() ) ); ?></p>
-	<p><?php printf( __( 'Gesamtluftwechselrate n<sub>0</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->n0() ) ); ?></p>
-	<p><?php printf( __( 'Korrekturfakror f<sub>win,1</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->fwin1() ) ); ?></p>
-	<p><?php printf( __( 'Korrekturfakror f<sub>win,2</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->fwin2() ) ); ?></p>
-	<p><?php printf( __( 'n_anl: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->n_anl() ) ); ?></p>
-	<p><?php printf( __( 'n_wrg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->luftwechsel()->n_wrg() ) ); ?></p>
+	<p><?php printf( __( 'Luftechselvolumen h<sub>v</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->hv() ) ); ?></p>
+	<p><?php printf( __( 'Maximale Heizlast h<sub>max</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->h_max() ) ); ?></p>
+	<p><?php printf( __( 'Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->h_max_spezifisch() ) ); ?></p>
 
-	
+	<h4>Luftwechsel Werte</h4>
+	<p><?php printf( __( 'Luftwechselrate n: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->n() ) ); ?></p>	
+	<p><?php printf( __( 'Gesamtluftwechselrate n<sub>0</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->n0() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfakror f<sub>win,1</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->fwin1() ) ); ?></p>
+	<p><?php printf( __( 'Korrekturfakror f<sub>win,2</sub>: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->fwin2() ) ); ?></p>	
+	<p><?php printf( __( 'n_anl: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->n_anl() ) ); ?></p>
+	<p><?php printf( __( 'n_wrg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->luftwechsel()->n_wrg() ) ); ?></p>
 
 	<hr />
 
@@ -971,6 +971,18 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Wws0: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws0() ) ); ?></p>
 	<p><?php printf( __( 'Wws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws() ) ); ?></p>
 	<p><?php printf( __( 'Whd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Whd() ) ); ?></p>
+
+	<h5>Berechnung der Hilfsenergie für Lüftung</h5>
+	
+	<p><?php printf( __( 'fbaujahr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fbaujahr() ) ); ?></p>
+	<p><?php printf( __( 'fgr_exch: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fgr_exch() ) ); ?></p>
+	<p><?php printf( __( 'fsup_decr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fsup_decr() ) ); ?></p>
+	<p><?php printf( __( 'fbetrieb: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fbetrieb() ) ); ?></p>
+	<p><?php printf( __( 'Wfan0: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->Wfan0() ) ); ?></p>
+	<p><?php printf( __( 'Wc: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->Wc() ) ); ?></p>
+	<p><?php printf( __( 'Wpre_h: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->Wpre_h() ) ); ?></p>
+	<p><?php printf( __( 'fsystem: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fsystem() ) ); ?></p>
+	<p><?php printf( __( 'Wrvg (Gesamt): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->Wrvg() ) ); ?></p>
 
 	<h5>Hilfsenergie Endergebnisse</h5>
 

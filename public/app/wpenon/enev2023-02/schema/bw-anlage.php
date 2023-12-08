@@ -1226,16 +1226,17 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				// 'l_baujahr'   => array(
-				// 'type'                  => 'int',
-				// 'label'                 => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
-				// 'min'                   => 1800,
-				// 'max'                   => wpenon_get_reference_date( 'Y' ),
-				// 'required'              => true,
-				// 'display'               => array(
-				// 'callback'      => 'wpenon_show_on_array_whitelist',
-				// 'callback_args' => array( 'field::l_info', 'anlage' ),
-				// ),
+				'l_baujahr'   => array(
+					'type'                  => 'int',
+					'label'                 => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
+					'min'                   => 1800,
+					'max'                   => wpenon_get_reference_date( 'Y' ),
+					'required'              => true,
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
+					),
+				),				
 				// 'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 				// 'validate_dependencies' => array( 'baujahr' ),
 				// ),
@@ -1254,6 +1255,20 @@ $anlage = array(
 				// 'callback_args' => array( 'field::l_info', 'anlage' ),
 				// ),
 				// ),
+				'l_art'            => array(
+					'type'     => 'select',
+					'label'    => __( 'Art (Name!)', 'wpenon' ),
+					'options'  => array(
+						'zentral'      => __( 'Zentral', 'wpenon' ),
+						'dezentral' => __( 'Dezentral', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
+					),
+					'required' => true,
+					'required' => true,
+				),
 				'l_wirkungsgrad'    => array(
 					'type'     => 'select',
 					'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),

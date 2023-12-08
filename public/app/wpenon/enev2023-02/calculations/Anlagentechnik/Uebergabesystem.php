@@ -264,7 +264,7 @@ class Uebergabesystem {
 	 * @return float
 	 */
 	public function qhce(): float {
-		return $this->gebaeude->luftwechsel()->h_max_spezifisch() * $this->ehce();
+		return $this->gebaeude->lueftung()->h_max_spezifisch() * $this->ehce();
 	}	
 
 	/**

@@ -56,28 +56,27 @@ class Luftwechsel {
 	 *
 	 * @var float
 	 */
-	protected float $wirkunksgrad;
+	protected float $wirkungsgrad;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Gebaeude  $gebaeude          Gebäude.
-	 * @param float|int $ht                Wärmetransferkoeffizent aller Bauteile der Gebäudehülle.
+	 * @param Gebaeude  $gebaeude          Gebäude.	 
 	 * @param string    $lueftungssystem   Lüftungsyystemn (zu_abluft, abluft,ohne).
 	 * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7, ohne, andere, undichtheiten).
 	 * @param bool      $bedarfsgefuehrt   Ist das Lüftungssystem bedarfsgeführt?
-	 * @param float|int $wirkunksgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
+	 * @param float|int $wirkungsgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
 	 */
 	public function __construct(
 		string $lueftungssystem,
 		string $gebaeudedichtheit,
 		bool $bedarfsgefuehrt = false,
-		float $wirkunksgrad = 0,
+		float $wirkungsgrad = 0,
 	) {
 		$this->lueftungssystem   = $lueftungssystem;
 		$this->bedarfsgefuehrt   = $bedarfsgefuehrt;
 		$this->gebaeudedichtheit = $gebaeudedichtheit;
-		$this->wirkunksgrad      = $wirkunksgrad;
+		$this->wirkungsgrad      = $wirkungsgrad;
 	}
 
 	/**
@@ -132,7 +131,7 @@ class Luftwechsel {
 	}
 
 	protected function n_wrg_small_buildings(): float {
-		$column_name = $this->column_name( wirkunksgrad_slug:'ab_0' );
+		$column_name = $this->column_name( wirkungsgrad_slug:'ab_0' );
 		$results     = wpenon_get_table_results( 'l_luftwechsel_klein' );
 		$rate        = $results[ $this->gebaeudedichtheit ]->{$column_name};
 		return $rate;
@@ -140,7 +139,7 @@ class Luftwechsel {
 
 
 	protected function n_wrg_large_buildings(): float {
-		$column_name = $this->column_name( wirkunksgrad_slug:'ab_0' );
+		$column_name = $this->column_name( wirkungsgrad_slug:'ab_0' );
 
 		$results = wpenon_get_table_results( 'l_luftwechsel_gross' );
 
@@ -306,7 +305,7 @@ class Luftwechsel {
 	 * @return string
 	 * @throws Exception
 	 */
-	protected function column_name( string $wirkunksgrad_slug = null ) {
+	protected function column_name( string $wirkungsgrad_slug = null ) {
 		switch ( $this->lueftungssystem ) {
 			case 'zu_abluft':
 				$column_name = 'zu_abluft';
@@ -331,18 +330,18 @@ class Luftwechsel {
 			return $column_name;
 		}
 
-		if ( $wirkunksgrad_slug !== null ) {
-			return $column_name . '_' . $wirkunksgrad_slug;
+		if ( $wirkungsgrad_slug !== null ) {
+			return $column_name . '_' . $wirkungsgrad_slug;
 		}
 
-		if ( $this->wirkunksgrad < 60 ) {
+		if ( $this->wirkungsgrad < 60 ) {
 			$column_name .= '_ab_0';
-		} elseif ( $this->wirkunksgrad < 80 ) {
+		} elseif ( $this->wirkungsgrad < 80 ) {
 			$column_name .= '_ab_60';
-		} elseif ( $this->wirkunksgrad <= 100 ) {
+		} elseif ( $this->wirkungsgrad <= 100 ) {
 			$column_name .= '_ab_80';
 		} else {
-			throw new Exception( 'Invalid wirkunksgrad.' );
+			throw new Exception( 'Invalid wirkungsgrad.' );
 		}
 
 		return $column_name;

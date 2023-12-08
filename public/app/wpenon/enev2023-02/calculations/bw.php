@@ -13,8 +13,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Anbau;
 use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
 use Enev\Schema202302\Calculations\Gebaeude\Keller;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
-use Enev\Schema202302\Calculations\Anlagentechnik\Pufferspeicher;
+use Enev\Schema202302\Calculations\Anlagentechnik\Lueftung;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
@@ -33,7 +32,6 @@ use Enev\Schema202302\Calculations\Bauteile\Rolladenkasten;
 use Enev\Schema202302\Calculations\Bauteile\Satteldach;
 use Enev\Schema202302\Calculations\Bauteile\Walmdach;
 use Enev\Schema202302\Calculations\Bauteile\Wand;
-use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 use function Enev\Schema202302\Calculations\Helfer\berechne_fenster_flaeche;
@@ -78,6 +76,8 @@ require_once __DIR__ . '/Bauteile/Flachdach.php';
 require_once __DIR__ . '/Bauteile/Pultdach.php';
 require_once __DIR__ . '/Bauteile/Satteldach.php';
 require_once __DIR__ . '/Bauteile/Walmdach.php';
+
+require_once __DIR__ . '/Anlagentechnik/Lueftung.php';
 
 require_once __DIR__ . '/Tabellen/Mittlere_Belastung_Korrekturfaktor.php';
 
@@ -467,14 +467,17 @@ switch ( $energieausweis->keller ) {
 		);
 }
 
-$gebaeude->luftwechsel(
-	new Luftwechsel(
+$gebaeude->lueftung(
+	new Lueftung(
+		gebaeude: $gebaeude,
 		lueftungssystem: $energieausweis->l_info,
+		art: $energieausweis->l_art,
 		bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
 		gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
-		wirkunksgrad: (float) $energieausweis->l_wirkungsgrad
+		wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
 	)
 );
+
 
 $heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
 

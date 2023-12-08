@@ -56,11 +56,11 @@ class Hilfsenergie {
 			$ist_gaskessel = true;
 		}
 
-		if ( $ist_gaskessel && ( $this->gebaeude->luftwechsel()->h_max() / 1000 ) < 35 ) {
+		if ( $ist_gaskessel && ( $this->gebaeude->lueftung()->h_max() / 1000 ) < 35 ) {
 			// if GasBrennwertheizung=! GasNiedertemperatrukessel && $h_max <35  than
 			// $pg= Tab 39, T12, in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung
 			// else $pg= 1.0;
-			return ( new Differenzdruck_Waermeerzeuger( $this->gebaeude->luftwechsel()->h_max() / 1000 ) )->pg();
+			return ( new Differenzdruck_Waermeerzeuger( $this->gebaeude->lueftung()->h_max() / 1000 ) )->pg();
 		}
 
 		return 1;
@@ -199,7 +199,7 @@ class Hilfsenergie {
 
 	public function Vstr(): float {
 		// $Vstr= aus TAb 38/T12 in Abhängikeit der h_max und Übergabesystems (Heizkörper 10k; sichere Seite), Fußbodenheizung
-		return ( new Volumenstrom_im_Auslegungspunkt( $this->gebaeude->luftwechsel()->h_max() / 1000, $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() ) )->V();
+		return ( new Volumenstrom_im_Auslegungspunkt( $this->gebaeude->lueftung()->h_max() / 1000, $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->typ() ) )->V();
 	}
 
 	public function PhydrHzg(): float {
@@ -495,7 +495,7 @@ class Hilfsenergie {
 	 */
 	public function Wrv(): float {
 		// $Wrv=$Wrvce + Wrvd + Wrvs + Wrvg;  // Lüftung 
-		return $this->Wrvce() + $this->Wrvd() + $this->Wrvs();
+		return $this->Wrvce() + $this->Wrvd() + $this->Wrvs() + $this->gebaeude->lueftung()->Wrvg();
 	}
 
 	/**

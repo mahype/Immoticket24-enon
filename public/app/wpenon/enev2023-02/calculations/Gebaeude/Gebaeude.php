@@ -4,6 +4,7 @@ namespace Enev\Schema202302\Calculations\Gebaeude;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Hilfsenergie;
+use Enev\Schema202302\Calculations\Anlagentechnik\Lueftung;
 use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Dach;
@@ -133,6 +134,13 @@ class Gebaeude {
 	private Trinkwarmwasseranlage $trinkwarmwasseranlage;
 
 	/**
+	 * Lueftung.
+	 * 
+	 * @var Lueftung
+	 */
+	private Lueftung $lueftung;
+
+	/**
 	 * Hilfsenergie.
 	 * 
 	 * @var Hilfsenergie
@@ -225,24 +233,27 @@ class Gebaeude {
 	}
 
 	/**
-	 * Luftwechsel
-	 *
-	 * @param Luftwechsel|null Luftwechsel object oder null, sofern bereits angegeben.
-	 *
-	 * @return Luftwechsel
+	 * Lüftung.
+	 * 
+	 * @param null|Lueftung $lueftung 
+	 * @return Lueftung 
+	 * @throws Calculation_Exception 
 	 */
-	public function luftwechsel( Luftwechsel|null $luftwechsel = null ): Luftwechsel {
-		if ( ! empty( $luftwechsel ) ) {
-			$this->luftwechsel = $luftwechsel;
-			$this->luftwechsel->gebaeude( $this );
+	public function lueftung( Lueftung|null $lueftung = null ) {
+		if( $lueftung !== null ) {
+			$this->lueftung = $lueftung;
 		}
 
-		return $this->luftwechsel;
+		if( $this->lueftung === null ) {
+			throw new Calculation_Exception( 'Lüftung wurde nicht gesetzt.' );
+		}
+
+		return $this->lueftung;
 	}
 
 	public function mittlere_belastung(): Mittlere_Belastung {
 		if ( empty( $this->mittlere_belastung ) ) {
-			$this->mittlere_belastung = new Mittlere_Belastung( $this->luftwechsel()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
+			$this->mittlere_belastung = new Mittlere_Belastung( $this->lueftung()->h_max_spezifisch() ); // Mittlere Belastung wird immer mit Teilbeheizung gerechnet
 			$this->mittlere_belastung->gebaeude( $this );
 		}
 
@@ -252,7 +263,7 @@ class Gebaeude {
 
 	public function bilanz_innentemperatur(): Bilanz_Innentemperatur {
 		if ( empty( $this->bilanz_innentemperatur ) ) {
-			$this->bilanz_innentemperatur = new Bilanz_Innentemperatur( $this->luftwechsel()->h_max_spezifisch() );
+			$this->bilanz_innentemperatur = new Bilanz_Innentemperatur( $this->lueftung()->h_max_spezifisch() );
 			$this->bilanz_innentemperatur->gebaeude( $this );
 		}
 
@@ -474,7 +485,7 @@ class Gebaeude {
 	 * @throws Exception
 	 */
 	public function h_ges() {
-		return $this->bauteile()->ht() + $this->luftwechsel()->hv() + $this->ht_wb();
+		return $this->bauteile()->ht() + $this->lueftung()->hv() + $this->ht_wb();
 	}
 
 	/**

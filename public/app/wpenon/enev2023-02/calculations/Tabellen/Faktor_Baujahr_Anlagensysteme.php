@@ -88,5 +88,4 @@ class  Faktor_Baujahr_Anlagensysteme {
 		$column_name = 'fBaujahr';
 		return $this->table_data[ $this->artslug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug() ]->$column_name;
 	}
-
 }
