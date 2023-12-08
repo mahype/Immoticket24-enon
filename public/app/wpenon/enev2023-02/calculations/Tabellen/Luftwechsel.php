@@ -317,7 +317,11 @@ class Luftwechsel {
 				return 'ohne';
 				break;
 			default:
-				throw new Exception( sprintf( 'Invalid air system: %s.', $this->lueftungssystem ) );
+				throw new Calculation_Exception( sprintf( 'Invalid air system: %s.', $this->lueftungssystem ) );
+		}
+		
+		if( $this->gebaeudedichtheit !== 'din_4108_7' ) { // Wurde kein Blower Door Test durchgeführt, so wird immer der Wert aus "ohne mechanische Lüftung" verwendet.
+			return 'ohne';
 		}
 
 		if ( $this->bedarfsgefuehrt ) {
@@ -341,7 +345,7 @@ class Luftwechsel {
 		} elseif ( $this->wirkungsgrad <= 100 ) {
 			$column_name .= '_ab_80';
 		} else {
-			throw new Exception( 'Invalid wirkungsgrad.' );
+			throw new Calculation_Exception( 'Invalid wirkungsgrad.' );
 		}
 
 		return $column_name;

@@ -89,6 +89,10 @@ class Trinkwarmwasseranlage {
 	 */
 	protected Thermische_Solaranlagen $thermische_solaranlagen;
 
+	// solarthermie_neigung
+	// solarthermie_richtung
+	// solarthermie_baujahr
+
 	/**
 	 * Liegt eine Warmwasserspeicher vor
 	 *
@@ -107,7 +111,7 @@ class Trinkwarmwasseranlage {
 		string|null $erzeuger = null,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
-		bool $mit_solarthermie = false,
+		bool $mit_solarthermie = false,		
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
@@ -361,6 +365,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function keew(): float {
+		// 0,5 * fqsol 
 		return 0.5; // Zum jetzigen Zeitpunkt ist keew immer 0.5, da wir keine Solarthermie in der Heizung haben.
 	}
 
@@ -464,7 +469,11 @@ class Trinkwarmwasseranlage {
 			$Ac = $Ac * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
-		$Ac *= $this->fwb();
+		// $fac = Tabelle_63_64_65( baujahr, neigung, himmelsrichtung )->fac();
+
+		
+		$Ac *= $this->fwb(); //  * fac (Tabelle)
+
 
 		return $Ac;
 	}
@@ -490,7 +499,9 @@ class Trinkwarmwasseranlage {
 			$Qwsola = $Qwsola * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
-		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() );
+		// $fqsola = Tabelle_63_64_65( baujahr, neigung, himmelsrichtung )->fqsola();
+
+		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() ); // *fqsola (Tabelle)
 
 		return $Qwsola;
 	}

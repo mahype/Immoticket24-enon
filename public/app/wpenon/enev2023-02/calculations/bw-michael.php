@@ -2670,6 +2670,7 @@ ______________________________________________________________________________
  //-----------------------------                                                                                           
 // Hier wird nur Heizung berücksichtigt! Enedenergie Heizung
 // if nur ein Kessel than
+// Qh, ehce, ehd, ehds, ehg
 //     $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)  // $es Puffer wirdnur einmal berücksichtigt
 //      $Qfhges= $Qfhges1
 // if zwei Kessel
