@@ -984,6 +984,12 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'fsystem: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->fsystem() ) ); ?></p>
 	<p><?php printf( __( 'Wrvg (Gesamt): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->lueftung()->Wrvg() ) ); ?></p>
 
+	<h5>Berechnung der Hilfsenergie für Solarthermie</h5>
+	<p><?php printf( __( 'WsolPumpece: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpece() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumped: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumped() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumpes: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpes() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpe() ) ); ?></p>
+
 	<h5>Hilfsenergie Endergebnisse</h5>
 
 	<p><?php printf( __( 'Wh (Hilfsenergie Heizsystem): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wh() ) ); ?></p>
