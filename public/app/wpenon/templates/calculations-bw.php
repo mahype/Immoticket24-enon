@@ -971,6 +971,14 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Wws0: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws0() ) ); ?></p>
 	<p><?php printf( __( 'Wws: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wws() ) ); ?></p>
 	<p><?php printf( __( 'Whd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Whd() ) ); ?></p>
-	
+
+	<h5>Hilfsenergie Endergebnisse</h5>
+
+	<p><?php printf( __( 'Wh (Hilfsenergie Heizsystem): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wh() ) ); ?></p>
+	<p><?php printf( __( 'Ww (Hilfsenergie Warmwasser): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Ww() ) ); ?></p>
+	<p><?php printf( __( 'Wrv (Hilfsenergie Lüftung): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrv() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumpe (Hilfsenergie Solarpumpe): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpe() ) ); ?></p>
+	<p><?php printf( __( 'W gesamt (Hilfsenergie Gesamt): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->W() ) ); ?></p>
+
 </div>
 

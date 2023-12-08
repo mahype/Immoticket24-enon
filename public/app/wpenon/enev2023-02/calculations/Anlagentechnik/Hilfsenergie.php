@@ -451,4 +451,70 @@ class Hilfsenergie {
         // Berechnung Hilfsenergie Solarpumpe Speicherung
         return 0;
     }
+
+	/**
+	 * Hilfsenergie Heizsystem.
+	 * 
+	 * @return float
+	 */
+	public function Wh(): float {
+		// $Wh=$Whce + $Whd + $Whs + $Whg1;   // >Heizsystem 
+		// $Wh=$Whce + $Whd + $Whs + $Whg1 + $Whg2;   // >Heizsystem zwei Kessel
+		// $Wh=$Whce + $Whd + $Whs + $Whg1 + $Whg2 + $Whg3;   // >Heizsystem  drei Kessel
+
+		$Wh = $this->Whce() + $this->Whd() + $this->Whs();
+
+		foreach( $this->gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) {			
+			$Wh += $heizungsanlage->Whg();	
+		}
+
+		return $Wh;
+	}
+
+	/**
+	 * Hilfsenergie Trinkwarmwasser.
+	 */
+	public function Ww(): float {
+		// $Ww=$Wwce + $Wwd + $Wws + $Wwg1;   // TWW-System     
+		// $Ww=$Wwce + $Wwd + $Wws + $Wwg1 + $Wwg2   // TWW-System       
+		// $Ww=$Wwce + $Wwd + $Wws + $Wwg1 + $Wwg2 + $Wwg3   // TWW-System 
+
+		$Ww = $this->Wwce() + $this->Wwd() + $this->Wws();
+
+		foreach( $this->gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) {			
+			$Ww += $heizungsanlage->Wwg();	
+		}
+
+		return $Ww;
+	}
+
+	/**
+	 * Hilfsenergie Lüftung.
+	 * 
+	 * @return float
+	 */
+	public function Wrv(): float {
+		// $Wrv=$Wrvce + Wrvd + Wrvs + Wrvg;  // Lüftung 
+		return $this->Wrvce() + $this->Wrvd() + $this->Wrvs();
+	}
+
+	/**
+	 * Hilfsenergie Solar.
+	 * 
+	 * @return float
+	 */
+	public function WsolPumpe(): float {
+		// $WsolPumpe=$WsolPumpece + WsolPumped + WsolPumpes + WsolPumpeg; // Solarpumpe 
+		return $this->WsolPumpece() + $this->WsolPumped() + $this->WsolPumpes();
+	}
+
+	/**
+	 * Hilfsenergie Gesamt.
+	 * 
+	 * @return float
+	 */
+	public function W(): float {
+		// $W=$Wh + $Ww + $Wrv + $WsolPumpe;  // Gesamt
+		return $this->Wh() + $this->Ww() + $this->Wrv() + $this->WsolPumpe();
+	}
 }

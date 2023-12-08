@@ -86,6 +86,15 @@ class Heizungsanlagen {
 	}
 
 	/**
+	 * Anzahl der Heizungsanlagen.
+	 * 
+	 * @return int
+	 */
+	public function anzahl(): int {
+		return count( $this->heizungsanlagen );
+	}
+
+	/**
 	 * Validierung des prozentualen Anteils aller Heizungsanlagen.
 	 *
 	 * @return bool
