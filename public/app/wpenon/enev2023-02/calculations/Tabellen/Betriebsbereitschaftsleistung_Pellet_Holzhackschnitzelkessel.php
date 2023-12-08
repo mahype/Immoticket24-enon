@@ -7,7 +7,7 @@ use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 
 /**
- *  Hilfsenergieaufwand der Ventilatoren in Wohnungslüftungsanlagen - Tabelle 120.
+ * Betriebsbereitschaftsleistung für Pellet- und Holzhackschnitzelkessel (aktuelle Standardwerte) – Hilfsenergieaufwand - Tabelle 87.
  */
 class Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel {
 	/**
@@ -64,7 +64,6 @@ class Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel {
 		}
 
 		$interpolated_value = interpolate_value( $this->Pn, $keys, $values ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-
 		return $interpolated_value;
 	}
 

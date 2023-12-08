@@ -143,7 +143,7 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
 	}
 
 	protected function standardkessel_jahr_slug(): string {
-		if ( $this->energietraeger === 'holz' ) {
+		if ( $this->energietraeger === 'holzpellets' || $this->energietraeger === 'holzhackschnitzel' || $this->energietraeger === 'stueckholz') {
 			return 'bis_heute';
 		}
 
@@ -190,7 +190,7 @@ class Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor {
 	}
 
 	protected function brennwertkessel_jahr_slug(): string {
-		if ( $this->energietraeger === 'holz' ) {
+		if ( $this->energietraeger === 'holzpellets' || $this->energietraeger === 'holzhackschnitzel' || $this->energietraeger === 'stueckholz' ) {
 			return 'bis_heute';
 		}
 

@@ -9,9 +9,8 @@ use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
 use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
+use Enev\Schema202302\Calculations\Tabellen\Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel;
 use Enev\Schema202302\Calculations\Tabellen\Brennwertkessel_Hilfsenergieaufwand;
-use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Gas_Spezial_Heizkessel;
-use Enev\Schema202302\Calculations\Tabellen\Korrekturfaktoren_Holzhackschnitzelkessel;
 use Enev\Schema202302\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassererwaermung;
 use Enev\Schema202302\Calculations\Tabellen\Umlaufwasserheizer_Hilfsenergieaufwand;
 use Enev\Schema202302\Calculations\Tabellen\Pelletkessel_Hilfsenergieaufwand;
@@ -24,6 +23,7 @@ require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Gas_Sp
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Holzhackschnitzelkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Laufzeit_Waermeerzeuger_Trinkwassererwaermung.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Brennwertkessel_Hilfsenergieaufwand.php';
+require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Pelletkessel_Hilfsenergieaufwand.php';
 
@@ -201,7 +201,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 * @throws Calculation_Exception 
 	 */
 	public function ehg_korrektur(): float {		
-		return 1 + ( $this->ehg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); // Inkl. Korrektur.
+ 		return 1 + ( $this->ehg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); // Inkl. Korrektur.
 	}
 
 	/**
@@ -394,7 +394,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// else???
 
 		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			return ( new Tabelle_87( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
+			return ( new Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
 		}
 
 		if( $this->erzeuger() === 'standardkessel' ) { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
@@ -432,7 +432,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 */
 	public function Whg(): float {
 		// $Whg= $fphgaux*$Phgaux*($calculations['ith,rl']-$twpn)+$PhauxP0*(8760-$calculations['ith,rl']);
-		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
+ 		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
 	}
 	
 	/**
