@@ -546,7 +546,7 @@ class Waermepumpe extends Heizungsanlage {
 	}
 
 	/**
-	 *Hilfsenergie für Warmwasserbereitung.
+	 * Hilfsenergie für Warmwasserbereitung.
 	 * 
 	 * @return Enev\Schema202302\Calculations\Anlagentechnik\float; 
 	 */

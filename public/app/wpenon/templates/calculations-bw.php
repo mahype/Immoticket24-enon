@@ -991,7 +991,6 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'WsolPumpe: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpe() ) ); ?></p>
 
 	<h5>Hilfsenergie Endergebnisse</h5>
-
 	<p><?php printf( __( 'Wh (Hilfsenergie Heizsystem): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wh() ) ); ?></p>
 	<p><?php printf( __( 'Ww (Hilfsenergie Warmwasser): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Ww() ) ); ?></p>
 	<p><?php printf( __( 'Wrv (Hilfsenergie Lüftung): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrv() ) ); ?></p>

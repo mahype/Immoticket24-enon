@@ -91,34 +91,5 @@ $basisdaten = array(
 				),
 			),
 		),
-		'regenerativ'    => array(
-			'title'       => __( 'Erneuerbare Energien', 'wpenon' ),
-			'description' => __( 'Falls Ihr Gebäude zum Teil erneuerbare Energien verwendet, machen Sie hier entsprechende Angaben.', 'wpenon' ),
-			'fields'      => array(
-				'regenerativ_art'           => array(
-					'type'        => 'select',
-					'label'       => __( 'Art der erneuerbaren Energien', 'wpenon' ),
-					'options'     => array(
-						'keine' => 'Keine thermische Solaranlage',
-						'warmwasser' => 'Solargestützte Warmwasser-Unterstützung',
-						// 'warmwasser_heizung' => 'Solargestützte Warmwasser-/Heizungsunterstützung',
-					),
-					'required'    => true,
-				),
-				// 'regenerativ_nutzung' => array(
-				// 	'type'        => 'select',
-				// 	'label'       => __( 'Verwendung der erneuerbaren Energien', 'wpenon' ),
-				// 	'options'     => array(
-				// 		'warmwasser'                 => 'Warmwasser',
-				// 		'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
-				// 	),
-				// 	'display'     => array(
-				// 		'callback'      => 'wpenon_show_on_array_whitelist',
-				// 		'callback_args' => array( 'field::regenerativ_art', 'solar' ),
-				// 	),
-				// 	'required'    => true,
-				// ),
-			),
-		),
 	),
 );

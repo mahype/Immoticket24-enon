@@ -22,10 +22,10 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
-						'zentral_elektrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
-				),				
+				),
 				'h_energietraeger_standardkessel'          => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
@@ -62,10 +62,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'           => __( 'Heizöl', 'wpenon' ),
-						'erdgas'            => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'            => __( 'Biogas', 'wpenon' ),
+						'heizoel'     => __( 'Heizöl', 'wpenon' ),
+						'erdgas'      => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'      => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -91,10 +91,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
-						'erdgas'      => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'      => __( 'Biogas', 'wpenon' ),
+						'heizoel'           => __( 'Heizöl', 'wpenon' ),
+						'erdgas'            => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'            => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
@@ -183,7 +183,7 @@ $anlage = array(
 					'default'  => 'strom',
 					'required' => true,
 				),
-				'h_energietraeger_zentral_elektrisch'         => array(
+				'h_energietraeger_zentral_elektrisch'      => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
@@ -216,12 +216,12 @@ $anlage = array(
 						),
 					),
 				),
-				'h_waermepumpe_luft_stufen'          => array(
+				'h_waermepumpe_luft_stufen'                => array(
 					'type'     => 'select',
 					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
 					'options'  => array(
-						'einstufig'           => __( 'Einstufig', 'wpenon' ),
-						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+						'einstufig'  => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -229,12 +229,12 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_waermepumpe_erde_typ'          => array(
+				'h_waermepumpe_erde_typ'                   => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ (Name!)', 'wpenon' ),
 					'options'  => array(
-						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
-						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -363,7 +363,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
-						'zentral_elektrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 					'display'     => array(
@@ -402,10 +402,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'           => __( 'Heizöl', 'wpenon' ),
-						'erdgas'            => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'            => __( 'Biogas', 'wpenon' ),
+						'heizoel'     => __( 'Heizöl', 'wpenon' ),
+						'erdgas'      => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'      => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -417,10 +417,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
-						'erdgas'      => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'      => __( 'Biogas', 'wpenon' ),
+						'heizoel'           => __( 'Heizöl', 'wpenon' ),
+						'erdgas'            => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'            => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
@@ -528,7 +528,7 @@ $anlage = array(
 					'default'  => 'strom',
 					'required' => true,
 				),
-				'h2_energietraeger_zentral_elektrisch'         => array(
+				'h2_energietraeger_zentral_elektrisch'     => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
@@ -560,12 +560,12 @@ $anlage = array(
 						),
 					),
 				),
-				'h2_waermepumpe_luft_stufen'          => array(
+				'h2_waermepumpe_luft_stufen'               => array(
 					'type'     => 'select',
 					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
 					'options'  => array(
-						'einstufig'           => __( 'Einstufig', 'wpenon' ),
-						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+						'einstufig'  => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -573,12 +573,12 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h2_waermepumpe_erde_typ'          => array(
+				'h2_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ (Name!)', 'wpenon' ),
 					'options'  => array(
-						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
-						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -700,7 +700,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
-						'zentral_elektrisch' => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 					'display'     => array(
@@ -739,10 +739,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'           => __( 'Heizöl', 'wpenon' ),
-						'erdgas'            => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'            => __( 'Biogas', 'wpenon' ),
+						'heizoel'     => __( 'Heizöl', 'wpenon' ),
+						'erdgas'      => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'      => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -754,10 +754,10 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
-						'erdgas'      => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'      => __( 'Biogas', 'wpenon' ),
+						'heizoel'           => __( 'Heizöl', 'wpenon' ),
+						'erdgas'            => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'            => __( 'Biogas', 'wpenon' ),
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
 						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
@@ -865,7 +865,7 @@ $anlage = array(
 					'default'  => 'strom',
 					'required' => true,
 				),
-				'h3_energietraeger_zentral_elektrisch'         => array(
+				'h3_energietraeger_zentral_elektrisch'     => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
@@ -897,12 +897,12 @@ $anlage = array(
 						),
 					),
 				),
-				'h3_waermepumpe_luft_stufen'          => array(
+				'h3_waermepumpe_luft_stufen'               => array(
 					'type'     => 'select',
 					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
 					'options'  => array(
-						'einstufig'           => __( 'Einstufig', 'wpenon' ),
-						'mehrstufig'          => __( 'Mehrstufig', 'wpenon' ),
+						'einstufig'  => __( 'Einstufig', 'wpenon' ),
+						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -910,12 +910,12 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h3_waermepumpe_erde_typ'          => array(
+				'h3_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ (Name!)', 'wpenon' ),
 					'options'  => array(
-						'erdsonde'           => __( 'Erdsonde', 'wpenon' ),
-						'erdkollektor'          => __( 'Erdkollektor', 'wpenon' ),
+						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
+						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -1103,7 +1103,7 @@ $anlage = array(
 			'title'       => __( 'Warmwasseranlage', 'wpenon' ),
 			'description' => __( 'Machen Sie hier Angaben zur Warmwassererzeugung des Gebäudes.', 'wpenon' ),
 			'fields'      => array(
-				'ww_info'                                  => array(
+				'ww_info'                                => array(
 					'type'        => 'select',
 					'label'       => __( 'Der Energieverbrauch für Warmwasser ist:', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, ob die Warmwasserzeugung durch eine der angegebenen Heizungsanlagen oder in einer separaten Anlage stattfindet.', 'wpenon' ),
@@ -1121,7 +1121,7 @@ $anlage = array(
 					),
 					'required'    => true,
 				),
-				'ww_erzeugung'                             => array(
+				'ww_erzeugung'                           => array(
 					'type'        => 'select',
 					'label'       => __( 'Typ der Warmwasseranlage', 'wpenon' ),
 					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Warmwasseranlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
@@ -1148,7 +1148,7 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralelektroerhitzer' ),
 					),
 				),
-				'ww_energietraeger_dezentralgaserhitzer'   => array(
+				'ww_energietraeger_dezentralgaserhitzer' => array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Warmwasseranlage', 'wpenon' ),
 					'required' => true,
@@ -1161,7 +1161,7 @@ $anlage = array(
 						'callback_args' => array( 'field::ww_info', 'field::h_erzeugung', 'field::ww_erzeugung', 'dezentralgaserhitzer' ),
 					),
 				),
-				'ww_energietraeger'                        => array(
+				'ww_energietraeger'                      => array(
 					'type'  => 'hidden',
 					'value' => array(
 						'callback'      => 'wpenon_immoticket24_get_ww_energietraeger_by_erzeugung',
@@ -1173,7 +1173,7 @@ $anlage = array(
 						),
 					),
 				),
-				'ww_baujahr'                               => array(
+				'ww_baujahr'                             => array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr der Warmwasseranlage', 'wpenon' ),
 					'min'                   => 1800,
@@ -1186,7 +1186,7 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
-				'verteilung_versorgung'                    => array(
+				'verteilung_versorgung'                  => array(
 					'type'        => 'select',
 					'label'       => __( 'Warmwasserverteilung', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, ob die Warmwassererzeugung mit oder ohne Zirkulation erfolgt.', 'wpenon' ),
@@ -1206,16 +1206,6 @@ $anlage = array(
 			'title'       => __( 'Lüftungsanlage', 'wpenon' ),
 			'description' => __( 'Machen Sie hier Angaben zur Lüftungsanlage des Gebäudes.', 'wpenon' ),
 			'fields'      => array(
-				// 'l_info'      => array(
-				// 'type'     => 'select',
-				// 'label'    => __( 'Art der Lüftung', 'wpenon' ),
-				// 'options'  => array(
-				// 'fenster' => __( 'Fensterlüftung', 'wpenon' ),
-				// 'anlage_ohne'  => __( 'Lüftungsanlage (ohne Wärmerückgewinnung)', 'wpenon' ),
-				// 'anlage_mit'  => __( 'Lüftungsanlage (mit Wärmerückgewinnung)', 'wpenon' ),
-				// ),
-				// 'required' => true,
-				// ),
 				'l_info'            => array(
 					'type'     => 'select',
 					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
@@ -1226,40 +1216,22 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'l_baujahr'   => array(
-					'type'                  => 'int',
-					'label'                 => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
-					'min'                   => 1800,
-					'max'                   => wpenon_get_reference_date( 'Y' ),
-					'required'              => true,
-					'display'               => array(
+				'l_baujahr'         => array(
+					'type'     => 'int',
+					'label'    => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
+					'min'      => 1800,
+					'max'      => wpenon_get_reference_date( 'Y' ),
+					'required' => true,
+					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
 					),
-				),				
-				// 'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-				// 'validate_dependencies' => array( 'baujahr' ),
-				// ),
-				// 'l_standort'  => array(
-				// 'type'        => 'select',
-				// 'label'       => __( 'Standort der Lüftungsanlage', 'wpenon' ),
-				// 'description' => __( 'Wählen Sie den Standort der Lüftungsanlage aus.', 'wpenon' ),
-				// 'options'     => array(
-				// 'innerhalb'         => __( 'innerhalb thermischer Hülle', 'wpenon' ),
-				// 'ausserhalb_dach'   => __( 'Dach, außerhalb thermischer Hülle', 'wpenon' ),
-				// 'ausserhalb_keller' => __( 'Keller, außerhalb thermischer Hülle', 'wpenon' ),
-				// ),
-				// 'required'    => true,
-				// 'display'     => array(
-				// 'callback'      => 'wpenon_show_on_array_whitelist',
-				// 'callback_args' => array( 'field::l_info', 'anlage' ),
-				// ),
-				// ),
-				'l_art'            => array(
+				),
+				'l_art'             => array(
 					'type'     => 'select',
 					'label'    => __( 'Art (Name!)', 'wpenon' ),
 					'options'  => array(
-						'zentral'      => __( 'Zentral', 'wpenon' ),
+						'zentral'   => __( 'Zentral', 'wpenon' ),
 						'dezentral' => __( 'Dezentral', 'wpenon' ),
 					),
 					'display'  => array(
@@ -1371,6 +1343,101 @@ $anlage = array(
 					'placeholder' => 'MM/JJJJ',
 				),
 
+			),
+		),
+		'regenerativ'        => array(
+			'title'       => __( 'Photovoltaik-Anlage', 'wpenon' ),
+			'description' => __( 'Machen Sie hier Angaben zur Photovoltaik-Anlage des Gebäudes.', 'wpenon' ),
+			'fields'      => array(
+				'pv_info'            => array(
+					'type'     => 'select',
+					'label'    => __( 'Photovoltaik-Anlage', 'wpenon' ),
+					'options'  => array(
+						'nicht_vorhanden' => __( 'nicht vorhanden', 'wpenon' ),
+						'vorhanden'       => __( 'vorhanden', 'wpenon' ),
+					),
+					'required' => true,
+				),
+				'pv_richtung'    => array(
+					'type'     => 'select',
+					'label'    => __( 'Ausrichtung', 'wpenon' ),
+					'options'  => wpenon_immoticket24_get_himmelsrichtungen(),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::pv_info', array('vorhanden') ),
+					),
+					'required' => true,
+				),
+				'pv_neiung'    => array(
+					'type'     => 'select',
+					'label'    => __( 'Neigung', 'wpenon' ),					
+					'options'  => array( // (0, 30, 45, 60, 90°
+						'0'  => __( '0° (Flach auf dem Grund)', 'wpenon' ),
+						'30' => __( '30°', 'wpenon' ),
+						'45' => __( '45°', 'wpenon' ),
+						'60' => __( '60°', 'wpenon' ),
+						'90' => __( '90°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::pv_info', array('vorhanden') ),
+					),
+					'description' => __( 'Wählen Sie die Ausrichtung der PV-Anlage.', 'wpenon' ),
+					'required' => true,
+				),
+				'pv_flaeche'   => array(
+					'type'     => 'text',
+					'label'    => __( 'Fläche', 'wpenon' ),
+					'description' => __( 'Wie groß ist die Fläche der PV-Anlage in m²?', 'wpenon' ),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::pv_info', array('vorhanden') ),
+					),
+					'unit' => 'm²',
+					'required' => true,
+				),
+			),
+		),
+		'regenerativ_solarthermie'        => array(
+			'title'       => __( 'Solarthermie', 'wpenon' ),
+			'description' => __( 'Machen Sie hier Angaben zur Solarthermie-Anlage des Gebäudes.', 'wpenon' ),
+			'fields'      => array(
+				'solarthermie_info'            => array(
+					'type'     => 'select',
+					'label'    => __( 'Solargestützte Warmwasser-Unterstützung', 'wpenon' ),
+					'options'  => array(
+						'nicht_vorhanden' => __( 'nicht vorhanden', 'wpenon' ),
+						'vorhanden'       => __( 'vorhanden', 'wpenon' ),
+					),
+					'required' => true,
+				),
+				'solarthermie_richtung'    => array(
+					'type'     => 'select',
+					'label'    => __( 'Ausrichtung', 'wpenon' ),
+					'options'  => wpenon_immoticket24_get_himmelsrichtungen(),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::solarthermie_info', array('vorhanden') ),
+					),
+					'required' => true,
+				),
+				'solarthermie_neigung'    => array(
+					'type'     => 'select',
+					'label'    => __( 'Neigung', 'wpenon' ),					
+					'options'  => array( // (0, 30, 45, 60, 90°
+						'0'  => __( '0° (Flach auf dem Grund)', 'wpenon' ),
+						'30' => __( '30°', 'wpenon' ),
+						'45' => __( '45°', 'wpenon' ),
+						'60' => __( '60°', 'wpenon' ),
+						'90' => __( '90°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::solarthermie_info', array('vorhanden') ),
+					),
+					'description' => __( 'Wählen Sie die Ausrichtung der Solarthermie-Anlage.', 'wpenon' ),
+					'required' => true,
+				),
 			),
 		),
 	),

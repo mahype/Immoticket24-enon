@@ -472,7 +472,7 @@ $gebaeude->lueftung(
 		gebaeude: $gebaeude,
 		lueftungssystem: $energieausweis->l_info,
 		art: $energieausweis->l_art,
-		bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
+		bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt === 'ja' ? true : false,
 		gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
 		wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
 	)
@@ -506,7 +506,7 @@ $gebaeude->trinkwarmwasseranlage(
 		heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 		mit_warmwasserspeicher: true,
 		mit_zirkulation: $mit_zirkulation,
-		mit_solarthermie: $energieausweis->regenerativ_art === 'warmwasser' ? true : false,
+		mit_solarthermie: $energieausweis->solarthermie_info === 'vorhanden' ? true : false,
 	)
 );
 
