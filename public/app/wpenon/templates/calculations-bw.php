@@ -911,6 +911,8 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Berechnung von Vsaux: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->Vsaux() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Vssol: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->Vssol() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Ac: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->Ac() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von fAc: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->fAc() ) ); ?></p>
+	<p><?php printf( __( 'Berechnung von fQsola: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->fQsola() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von Qwsola: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->Qwsola() ) ); ?></p>
 	<?php endif; ?>
 

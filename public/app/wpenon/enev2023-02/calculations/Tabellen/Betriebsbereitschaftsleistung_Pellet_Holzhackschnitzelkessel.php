@@ -15,7 +15,7 @@ class Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel {
 	 *
 	 * @var string
 	 */
-	protected string $Pn; // phpcs:ignore 
+	protected float $Pn; // phpcs:ignore 
 
 	/**
 	 * Zielwert für die Zeile.
@@ -40,7 +40,7 @@ class Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel {
 	 *
 	 * @return void
 	 */
-	public function __construct( int $Pn, string $kesselart ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+	public function __construct( float $Pn, string $kesselart ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		$this->Pn         = $Pn; // phpcs:ignore 
 		$this->kesselart  = $kesselart;
 		$this->table_data = wpenon_get_table_results( 'bbleistung_pellet_holzhackschnitzelkessel' );

@@ -6,12 +6,14 @@ use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 use Enev\Schema202302\Calculations\Tabellen\Thermische_Solaranlagen;
+use Enev\Schema202302\Calculations\Tabellen\Umrechnungsfaktoren_Kollektorflaeche;
 use Enev\Schema202302\Calculations\Tabellen\Waermeverlust_Trinkwasserspeicher;
 
 use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Thermische_Solaranlagen.php';
+require_once dirname( __DIR__ ) . '/Tabellen/Umrechnungsfaktoren_Kollektorflaeche.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Waermeverlust_Trinkwasserspeicher.php';
 
 /**
@@ -69,6 +71,27 @@ class Trinkwarmwasseranlage {
 	protected bool $mit_solarthermie;
 
 	/**
+	 * Solarthermie Neigung.
+	 *
+	 * @var int|null
+	 */
+	protected ?int $solarthermie_neigung;
+
+	/**
+	 * Solarthermie Richtung.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $solarthermie_richtung;
+
+	/**
+	 * Solarthermie Baujahr.
+	 *
+	 * @var int|null
+	 */
+	protected ?int $solarthermie_baujahr;
+
+	/**
 	 * Prozentualer Anteil.
 	 *
 	 * @var int
@@ -102,6 +125,10 @@ class Trinkwarmwasseranlage {
 	 * @param string|null $erzeuger   Dezentraler Erzeuger (dezentralgaserhitzer oder dezentralelektroerhitzer).
 	 * @param bool        $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
 	 * @param bool        $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
+	 * @param bool        $mit_solarthermie       Wird die Trinkwarmwasseranlage mit Solarthermie betrieben?
+	 * @param int|null    $solarthermie_neigung   Neigung der Solarthermie.
+	 * @param string|null $solarthermie_richtung  Himmelsrichtung der Solarthermieanlage.
+	 * @param int|null    $solarthermie_baujahr   Baujahr der Solarthermieanlage.
 	 * @param int         $prozentualer_anteil    Prozentualer Anteil.
 	 */
 	public function __construct(
@@ -111,7 +138,10 @@ class Trinkwarmwasseranlage {
 		string|null $erzeuger = null,
 		bool $mit_warmwasserspeicher = false,
 		bool $mit_zirkulation = false,
-		bool $mit_solarthermie = false,		
+		bool $mit_solarthermie = false,
+		int $solarthermie_neigung = null,
+		string $solarthermie_richtung = null,
+		int $solarthermie_baujahr = null,
 		int $prozentualer_anteil = 100
 	) {
 		if ( $mit_zirkulation && ! $zentral ) {
@@ -131,6 +161,9 @@ class Trinkwarmwasseranlage {
 
 		if ( $mit_solarthermie ) {
 			$this->thermische_solaranlagen = new Thermische_Solaranlagen( $this->gebaeude->nutzflaeche(), $this->gebaeude->heizsystem()->beheizt() );
+			$this->solarthermie_neigung    = $solarthermie_neigung;
+			$this->solarthermie_richtung   = $solarthermie_richtung;
+			$this->solarthermie_baujahr    = $solarthermie_baujahr;
 		}
 	}
 
@@ -365,7 +398,7 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function keew(): float {
-		// 0,5 * fqsol 
+		// 0,5 * fqsol
 		return 0.5; // Zum jetzigen Zeitpunkt ist keew immer 0.5, da wir keine Solarthermie in der Heizung haben.
 	}
 
@@ -449,6 +482,15 @@ class Trinkwarmwasseranlage {
 	}
 
 	/**
+	 * Berechnung von fAc.
+	 *
+	 * @return float
+	 */
+	public function fAc(): float {
+		return (new Umrechnungsfaktoren_Kollektorflaeche( $this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr ))->fAc();
+	}
+
+	/**
 	 * Ac0 direkt als interpolierter Wert aus Tabelle.
 	 *
 	 * @return float
@@ -467,15 +509,20 @@ class Trinkwarmwasseranlage {
 
 		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
 			$Ac = $Ac * ( $this->gebaeude->nutzflaeche() / 5000 );
-		}
+		}	
 
-		// $fac = Tabelle_63_64_65( baujahr, neigung, himmelsrichtung )->fac();
-
-		
-		$Ac *= $this->fwb(); //  * fac (Tabelle)
-
+		$Ac *= $this->fwb() * $this->fAc();
 
 		return $Ac;
+	}
+
+	/**
+	 * fQsola.
+	 * 
+	 * @return float
+	 */
+	public function fQsola(): float {
+		return (new Umrechnungsfaktoren_Kollektorflaeche( $this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr ))->fQsola();
 	}
 
 	/**
@@ -499,9 +546,7 @@ class Trinkwarmwasseranlage {
 			$Qwsola = $Qwsola * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}
 
-		// $fqsola = Tabelle_63_64_65( baujahr, neigung, himmelsrichtung )->fqsola();
-
-		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() ); // *fqsola (Tabelle)
+		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() ) * $this->fQsola();
 
 		return $Qwsola;
 	}

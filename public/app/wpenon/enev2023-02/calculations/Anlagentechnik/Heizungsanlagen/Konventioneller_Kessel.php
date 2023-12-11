@@ -416,7 +416,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * Hilfsenergie - twpn.
+	 * Hilfsenergie - twpn - Laufzeit der Wärmeerzeuger für Trinkwassererwärmung.
 	 *
 	 * @return float
 	 */

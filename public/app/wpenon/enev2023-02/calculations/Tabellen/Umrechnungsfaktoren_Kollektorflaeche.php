@@ -98,17 +98,19 @@ class Umrechnungsfaktoren_Kollektorflaeche {
 	 */
 	public function fAc(): float { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		$column_name = $this->orientierungslug() . '_' . $this->baujahrslug();
-		return $this->table_data[ $this->ausrichtung . '_fAc' ]->$column_name;
+		$row_name = strtoupper( $this->ausrichtung ) . '_fAc';
+		return $this->table_data[ $row_name ]->$column_name;
 	}
 
 	/**
-	 * Umrechnungsfaktor fQsol für die Kollektorfläche.
+	 * Umrechnungsfaktor fQsola für die Kollektorfläche.
 	 *
 	 * @return float
 	 */
-	public function fQsol(): float { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+	public function fQsola(): float { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		$column_name = $this->orientierungslug() . '_' . $this->baujahrslug();
-		return $this->table_data[ $this->ausrichtung . '_fQsol' ]->$column_name;
+		$row_name = strtoupper( $this->ausrichtung ) . '_fQsol';
+		return $this->table_data[ $row_name ]->$column_name;
 	}
 
 }

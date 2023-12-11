@@ -3098,7 +3098,7 @@ ______________________________________________________________________________
 
 //-------------------------------------------------------------------------------------------------------------
 
-//  [ ] Berechnung der gesamten Hilfsenergie (Ohne Anteile !!!), bisher nru für eine Heizunganlage mit einem Übertragungssystem später muss das anteilig berechnet werden
+//  [x] Berechnung der gesamten Hilfsenergie (Ohne Anteile !!!), bisher nru für eine Heizunganlage mit einem Übertragungssystem später muss das anteilig berechnet werden
 
 
 
