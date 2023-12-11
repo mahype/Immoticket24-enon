@@ -14,6 +14,7 @@ use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
 use Enev\Schema202302\Calculations\Gebaeude\Keller;
 
 use Enev\Schema202302\Calculations\Anlagentechnik\Lueftung;
+use Enev\Schema202302\Calculations\Anlagentechnik\Photovoltaik_Anlage;
 use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
@@ -597,6 +598,16 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);
+}
+
+if( $energieausweis->pv_info ) {
+	$gebaeude->photovoltaik_anlage( new Photovoltaik_Anlage(
+		gebaeude: $gebaeude,
+		richtung: $energieausweis->pv_richtung,
+		neigung: $energieausweis->pv_neigung,
+		flaeche: $energieausweis->pv_flaeche,
+		baujahr: $energieausweis->pv_baujahr,
+	));
 }
 
 return $calculations;

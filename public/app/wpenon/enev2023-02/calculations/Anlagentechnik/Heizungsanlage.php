@@ -3,11 +3,18 @@
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 
 /**
  * Berechnungen für eine Heizungsanlage.
  */
 abstract class Heizungsanlage {
+	/**
+     * Gebaeude.
+     * 
+     * @var Gebaeude
+     */
+    protected Gebaeude $gebaeude;
 
 	/**
 	 * Erlaubte Typen.
@@ -57,7 +64,7 @@ abstract class Heizungsanlage {
 	 * @param bool   $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
 	 * @param int    $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
 	 */
-	public function __construct( string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
+	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
 		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
 
 		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
@@ -70,6 +77,7 @@ abstract class Heizungsanlage {
 			throw new Calculation_Exception( sprintf( 'Der Energieträger "%s" der Heizungsanlage für den Erzeuger "%s" nicht erlaubt.', $energietraeger, $erzeuger ) );
 		}
 
+		$this->gebaeude					 	= $gebaeude;
 		$this->erzeuger                     = $erzeuger;
 		$this->energietraeger               = $energietraeger;
 		$this->baujahr                      = $baujahr;
@@ -202,9 +210,58 @@ abstract class Heizungsanlage {
 	abstract public function Whg(): float;
 
 	/**
+	 * Korrekturfaktor Heizung im Berech Erzeugung.
+	 * 
+	 * @return float 
+	 */
+	abstract public function ehg(): float;
+
+
+	/**
+	 * Korrekturfaktor Trinkwarmwasser im Bereich Erzeugung.
+	 * 
+	 * @return float 
+	 */
+	abstract public function ewg(): float;
+
+	/**
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function kee(): float {
+		// Hier wird nur WWS berücksichtig, Endenergie WWS, Bei Solaranlage vornadnen dann ist kee=0,5 laut Tab. 59 und Banz Tab. 8 flachkollektoren oder wenn nicht dann kee =0
+		if( $this->gebaeude->trinkwarmwasseranlage()->solarthermie_vorhanden() ) {
+			return 0.5;
+		}
+
+		return 0.0;
+	}
+
+	/**
+	 * Korrigierter Korrekturfaktor für die Heizungsanlage.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function ehg_korrektur(): float {		
+		return 1 + ( $this->ehg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); // Inkl. Korrektur.
+   	}
+
+	/**
 	 * Hilfsenergie für Warmwasser (Wwg).
 	 * 
 	 * @return float;
 	 */
 	abstract public function Wwg(): float;
+
+	public function Qfhges(): float {
+		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1) 
+		return ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
+	}
+
+	public function Qfwges(): float {
+		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
+		return (( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->kee() ) );
+	}
 }

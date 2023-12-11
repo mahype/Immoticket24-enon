@@ -21,7 +21,7 @@ require_once __DIR__ . '/Heizungsanlagen/Dezentral.php';
 class Heizungsanlagen {
 	/**
 	 * Gebäude.
-	 * 
+	 *
 	 * @var Gebaeude
 	 */
 	protected Gebaeude $gebaeude;
@@ -35,9 +35,9 @@ class Heizungsanlagen {
 
 	/**
 	 * Konstruktor.
-	 * 
-	 * @param Gebaeude $gebaeude 
-	 * @return void 
+	 *
+	 * @param Gebaeude $gebaeude
+	 * @return void
 	 */
 	public function __construct( Gebaeude $gebaeude ) {
 		$this->gebaeude = $gebaeude;
@@ -49,7 +49,7 @@ class Heizungsanlagen {
 	 * @var Heizungsanlage
 	 */
 	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null ) {
-		switch( $erzeuger ) {
+		switch ( $erzeuger ) {
 			case 'etagenheizung':
 			case 'standardkessel':
 			case 'niedertemperaturkessel':
@@ -70,9 +70,9 @@ class Heizungsanlagen {
 			case 'elektronachtspeicherheizung':
 			case 'infrarotheizung':
 				$this->heizungsanlagen[] = new Dezentral( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
-				break;			
+				break;
 			default:
-				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );		
+				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
 		}
 	}
 
@@ -87,7 +87,7 @@ class Heizungsanlagen {
 
 	/**
 	 * Anzahl der Heizungsanlagen.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function anzahl(): int {
@@ -131,8 +131,8 @@ class Heizungsanlagen {
 
 	/**
 	 * Ist eine Wärmepumpe vorhanden?
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function waermepumpe_vorhanden(): bool {
 		return $this->heizungstyp_vorhanden( 'waermepumpe' );
@@ -140,8 +140,8 @@ class Heizungsanlagen {
 
 	/**
 	 * Ist ein Biomassekessel vorhanden?
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function biomassekessel_vorhanden(): bool {
 		return $this->heizungstyp_vorhanden( 'biomassekessel' );
@@ -149,9 +149,9 @@ class Heizungsanlagen {
 
 	/**
 	 * Ist ein bestimmter Heizungstyp vorhanden?
-	 * 
+	 *
 	 * @param string $heizungstyp Folgende Heizungstypen können überprüft werden: standardkessel, niedertemperaturkessel, brennwertkessel, brennwertkesselverbessert, kleinthermeniedertemperatur, kleinthermebrennwert, waermepumpe, fernwaerme, elektronachtspeicherheizung, infrarotheizung.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function heizungstyp_vorhanden( string $heizungstyp ) {
@@ -162,5 +162,35 @@ class Heizungsanlagen {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Qfhges für alle Heizungsanlagen.
+	 *
+	 * @return float
+	 */
+	public function Qfhges(): float {
+		$Qfhges = 0;
+
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			$Qfhges += $heizungsanlage->Qfhges();
+		}
+
+		return $Qfhges;
+	}
+
+	/**
+	 * Qfwges für alle Heizungsanlagen.
+	 *
+	 * @return float
+	 */
+	public function Qfwges(): float {
+		$Qfwges = 0;
+
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			$Qfwges += $heizungsanlage->Qfwges();
+		}
+
+		return $Qfwges;
 	}
 }

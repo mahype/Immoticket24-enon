@@ -1,0 +1,126 @@
+<?php
+
+namespace Enev\Schema202302\Calculations\Anlagentechnik;
+
+use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+
+class Photovoltaik_Anlage {
+	/**
+	 * Gebaeude.
+	 *
+	 * @var Gebaeude
+	 */
+	protected Gebaeude $gebaeude;
+
+	/**
+	 * Richtung (Ausrichtung nach Himmelsrichtung).
+	 *
+	 * @var string
+	 */
+	protected string $richtung;
+
+	/**
+	 * Neigung der Anlage in Grad (0, 30, 45, 60, 90 Grad)
+	 *
+	 * @var int
+	 */
+	protected int $neigung;
+
+	/**
+	 * Fläche der Anlage in m².
+	 *
+	 * @var float
+	 */
+	protected float $flaeche;
+
+	/**
+	 * Baujahr.
+	 */
+	protected int $baujahr;
+
+	/**
+	 * Konstruktor.
+	 *
+	 * @param Gebaeude $gebaeude
+	 * @return void
+	 */
+	public function __construct( Gebaeude $gebaeude, string $richtung, int $neigung, float $flaeche, int $baujahr ) {
+		$this->gebaeude = $gebaeude;
+		$this->richtung = $richtung;
+		$this->neigung  = $neigung;
+		$this->baujahr  = $baujahr;
+		$this->flaeche  = $flaeche;
+	}
+
+	/**
+	 * Richtung.
+	 *
+	 * @return string
+	 */
+	public function richtung(): string {
+		return $this->richtung;
+	}
+
+	/**
+	 * Neigung.
+	 *
+	 * @return int
+	 */
+	public function neigung(): int {
+		return $this->neigung;
+	}
+
+	/**
+	 * Fläche.
+	 *
+	 * @return float
+	 */
+	public function flaeche(): float {
+		return $this->flaeche;
+	}
+
+	/**
+	 * Baujahr.
+	 *
+	 * @return int
+	 */
+	public function baujahr(): int {
+		return $this->baujahr;
+	}
+
+	/**
+	 * Ertrag der Photovoltaik-Anlage.
+	 *
+	 * @return float
+	 */
+	public function Pvans(): float {
+		// Berechnung des ansetzbaren Strometrages aus der PV-Anlage
+
+		// Damit wir nicht in den Minusbereich kommen und was wir max. ansetzbarer Stromertrag
+		// if $Qfstrom < $WfPVHP than
+		// $Pvans=$Qfstrom
+		// if $Qfstrom>= $WfPVHP than
+		// $Pvans = $WfPVHP
+		// if Keine PV-Anlage vorhanden than
+		// $Pvans=0
+		// else???
+		//
+	}
+
+	public function QfprodPV(): float {
+
+        // $qfprodPV = (new Tabelle_115( 
+		// Bestimmung Endenergie PV-Anlage im Jahr
+		//
+		// Bestimmung von $qfprodPV, interpolieren nach Tab. 115 mit folgenden Angaben:
+		// if PV-Anlage vorhanden than
+
+		// $QfprodPV=$qfprodPV*$APV // kWh/a;
+
+		// else
+		// $QfprodPV=0
+	}
+
+
+
+}
