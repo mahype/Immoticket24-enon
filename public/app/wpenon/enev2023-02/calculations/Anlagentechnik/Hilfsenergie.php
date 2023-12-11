@@ -513,7 +513,7 @@ class Hilfsenergie {
 	 * 
 	 * @return float
 	 */
-	public function W(): float {
+	public function Wges(): float {
 		// $W=$Wh + $Ww + $Wrv + $WsolPumpe;  // Gesamt
 		return $this->Wh() + $this->Ww() + $this->Wrv() + $this->WsolPumpe();
 	}

@@ -6,11 +6,11 @@ require_once __DIR__ . '/CalculationsCC.php';
 
 $tableNames = new \stdClass();
 
-$tableNames->h_erzeugung                 = 'h_erzeugung2019';
-$tableNames->ww_erzeugung                = 'ww_erzeugung202001';
-$tableNames->energietraeger              = 'energietraeger2021';
-$tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen';
-$tableNames->klimafaktoren               = 'klimafaktoren202301';
+$tableNames->h_erzeugung                 = 'h_erzeugung2019'; // https://din18599.energieausweis-online-erstellen.de/core/wp-admin/admin.php?page=it24ea_h_erzeugung2019
+$tableNames->ww_erzeugung                = 'ww_erzeugung202001'; // https://din18599.energieausweis-online-erstellen.de/core/wp-admin/admin.php?page=it24ea_ww_erzeugung2019
+$tableNames->energietraeger              = 'energietraeger2021'; // https://din18599.energieausweis-online-erstellen.de/core/wp-admin/admin.php?page=it24ea_energietraeger2021
+$tableNames->energietraeger_umrechnungen = 'energietraeger_umrechnungen'; // https://din18599.energieausweis-online-erstellen.de/core/wp-admin/admin.php?page=it24ea_energietraeger_umrechnungen
+$tableNames->klimafaktoren               = 'klimafaktoren202301'; // https://din18599.energieausweis-online-erstellen.de/core/wp-admin/admin.php?page=it24ea_klimafaktoren202301 
 
 $calcCC                         = new CalculationsCC( $energieausweis );
 $calculations['co2_emissionen'] = $calcCC->getBuilding()->getCo2Emissions();

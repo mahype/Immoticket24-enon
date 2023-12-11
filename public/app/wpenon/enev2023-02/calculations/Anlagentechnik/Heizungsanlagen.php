@@ -193,4 +193,21 @@ class Heizungsanlagen {
 
 		return $Qfwges;
 	}
+
+	/**
+	 * Qfstromges für alle Heizungsanlagen.
+	 *
+	 * @return float
+	 */
+	public function Qfstromges(): float {
+		$Qfstromges = 0;
+
+		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+			if( $heizungsanlage->energietraeger() === 'strom' ) {
+				$Qfstromges += $heizungsanlage->Qfhges();
+			}
+		}
+
+		return $Qfstromges;
+	}
 }

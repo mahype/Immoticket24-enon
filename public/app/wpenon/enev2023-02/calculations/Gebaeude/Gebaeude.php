@@ -5,6 +5,7 @@ namespace Enev\Schema202302\Calculations\Gebaeude;
 use Enev\Schema202302\Calculations\Anlagentechnik\Heizsystem;
 use Enev\Schema202302\Calculations\Anlagentechnik\Hilfsenergie;
 use Enev\Schema202302\Calculations\Anlagentechnik\Lueftung;
+use Enev\Schema202302\Calculations\Anlagentechnik\Photovoltaik_Anlage;
 use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
 use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Dach;
@@ -65,21 +66,21 @@ class Gebaeude {
 
 	/**
 	 * Hüllvolumen.
-	 * 
+	 *
 	 * @var float
 	 */
 	private float $huellvolumen;
 
 	/**
 	 * Nutzfläche.
-	 * 
+	 *
 	 * @var float
 	 */
 	private float $nutzflaeche;
 
 	/**
 	 * Monatsdaten
-	 * 
+	 *
 	 * @var Monatsdaten
 	 */
 	protected Monatsdaten $monatsdaten;
@@ -134,15 +135,22 @@ class Gebaeude {
 	private Trinkwarmwasseranlage $trinkwarmwasseranlage;
 
 	/**
+	 * Photovoltaik-Anlage.
+	 *
+	 * @var Photovoltaik_Anlage
+	 */
+	private Photovoltaik_Anlage $photovoltaik_anlage;
+
+	/**
 	 * Lueftung.
-	 * 
+	 *
 	 * @var Lueftung
 	 */
 	private Lueftung $lueftung;
 
 	/**
 	 * Hilfsenergie.
-	 * 
+	 *
 	 * @var Hilfsenergie
 	 */
 	private Hilfsenergie $hilfsenergie;
@@ -189,9 +197,9 @@ class Gebaeude {
 
 		$this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
-		$this->monatsdaten = new Monatsdaten();
-		$this->bauteile   = new Bauteile();
-		$this->heizsystem = new Heizsystem( $this, $standort_heizsystem );
+		$this->monatsdaten  = new Monatsdaten();
+		$this->bauteile     = new Bauteile();
+		$this->heizsystem   = new Heizsystem( $this, $standort_heizsystem );
 		$this->hilfsenergie = new Hilfsenergie( $this );
 	}
 
@@ -233,18 +241,46 @@ class Gebaeude {
 	}
 
 	/**
-	 * Lüftung.
+	 * Photovaltaik-Anlage.
 	 * 
-	 * @param null|Lueftung $lueftung 
-	 * @return Lueftung 
+	 * @param null|Photovoltaik_Anlage $photovoltaik_anlage 
+	 * @return Photovoltaik_Anlage 
 	 * @throws Calculation_Exception 
 	 */
+	public function photovoltaik_anlage( Photovoltaik_Anlage|null $photovoltaik_anlage = null ): Photovoltaik_Anlage {
+		if ( $photovoltaik_anlage !== null ) {
+			$this->photovoltaik_anlage = $photovoltaik_anlage;
+		}
+
+		if ( $this->photovoltaik_anlage === null ) {
+			throw new Calculation_Exception( 'Photovoltaik-Anlage wurde nicht gesetzt.' );
+		}
+
+		return $this->photovoltaik_anlage;
+	}
+
+	/**
+	 * Prüft, ob eine Photovoltaik-Anlage vorhanden ist.
+	 * 
+	 * @return bool 
+	 */
+	public function photovoltaik_anlage_vorhanden(): bool {
+		return $this->photovoltaik_anlage !== null;
+	}
+
+	/**
+	 * Lüftung.
+	 *
+	 * @param null|Lueftung $lueftung
+	 * @return Lueftung
+	 * @throws Calculation_Exception
+	 */
 	public function lueftung( Lueftung|null $lueftung = null ) {
-		if( $lueftung !== null ) {
+		if ( $lueftung !== null ) {
 			$this->lueftung = $lueftung;
 		}
 
-		if( $this->lueftung === null ) {
+		if ( $this->lueftung === null ) {
 			throw new Calculation_Exception( 'Lüftung wurde nicht gesetzt.' );
 		}
 
@@ -410,10 +446,10 @@ class Gebaeude {
 
 	/**
 	 * Handelt es sich um ein Einfamilienhaus?
-	 * 
+	 *
 	 * Das Haus gilt als Mehrfamilienhaus, wenn es mehr als zwei Wohneinheiten hat (Laut BANZ? bzw. DIN18599).
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function ist_einfamilienhaus(): bool {
 		return $this->anzahl_wohnungen() <= 2;
@@ -434,17 +470,17 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellvolumen(): float {
-		if( empty( $this->huellvolumen ) ) {
+		if ( empty( $this->huellvolumen ) ) {
 			$this->huellvolumen = $this->huellvolumen_vollgeschosse() + $this->huellvolumen_keller() + $this->huellvolumen_dach() + $this->huellvolumen_anbau();
 		}
-		
+
 		return $this->huellvolumen;
 	}
 
 	/**
 	 * Hüllvolumen der Vollgeschosse.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function huellvolumen_vollgeschosse(): float {
 		return $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
@@ -452,8 +488,8 @@ class Gebaeude {
 
 	/**
 	 * Hüllvolumen des Kellers.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function huellvolumen_keller(): float {
 		return $this->keller_vorhanden() ? $this->keller->volumen() : 0;
@@ -461,8 +497,8 @@ class Gebaeude {
 
 	/**
 	 * Hüllvolumen des Dachs.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function huellvolumen_dach(): float {
 		return $this->dach_vorhanden() ? $this->dach()->volumen() : 0;
@@ -470,8 +506,8 @@ class Gebaeude {
 
 	/**
 	 * Hüllvolumen des Anbaus.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function huellvolumen_anbau(): float {
 		return $this->anbau_vorhanden() ? $this->anbau->volumen() : 0;
@@ -502,8 +538,8 @@ class Gebaeude {
 
 	/**
 	 * Berechnung ht_wb.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function ht_wb(): float {
 		return 0.1 * $this->huellflaeche();
@@ -531,7 +567,7 @@ class Gebaeude {
 
 	/**
 	 * Aufwandszahl der Heizungsübergabe (ehce).
-	 * 
+	 *
 	 * @return float
 	 */
 	public function ehce(): float {
@@ -540,7 +576,7 @@ class Gebaeude {
 
 	/**
 	 * Flächenbezogene leistung der Übergabe der Heizung (qhce).
-	 * 
+	 *
 	 * @return float
 	 */
 	public function qhce(): float {
@@ -549,8 +585,8 @@ class Gebaeude {
 
 	/**
 	 * Verteilung Heizung (ehd0).
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function ehd0(): float {
 		$this->heizsystem()->ehd0();
@@ -715,10 +751,10 @@ class Gebaeude {
 
 	/**
 	 * Berechnung von pi für ein Jahr..
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function pi(): float {
 		$pi = 0;
@@ -732,10 +768,10 @@ class Gebaeude {
 
 	/**
 	 * Berechnung von pi für einen Monat.
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function pi_monat( $monat ) {
 		return $this->ph_source_monat( $monat );
@@ -763,10 +799,10 @@ class Gebaeude {
 
 	/**
 	 * Ausnutzungsgrad nm für einen Monat.
-	 * 
+	 *
 	 * @param mixed $monat
 	 * @return float
-	 * 
+	 *
 	 * @throws Calculation_Exception
 	 */
 	public function nm_monat( $monat ): float {
@@ -776,23 +812,22 @@ class Gebaeude {
 	/**
 	 * Berechnung von ßhm für einen Monat.
 	 * // Frage: Was ist ßhm?
-	 * 
-	 * @param string $monat 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param string $monat
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function ßhm_monat( string $monat ): float {		
+	public function ßhm_monat( string $monat ): float {
 		return $this->mittlere_belastung()->ßem1( $monat ) * $this->k_monat( $monat );
-	}	
+	}
 
 	/**
 	 * Berechnung von ßhma.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function ßhma() : float
-	{
+	public function ßhma(): float {
 		$ßhm = 0;
 
 		foreach ( $this->monatsdaten->monate() as $monat ) {
@@ -804,27 +839,26 @@ class Gebaeude {
 
 	/**
 	 * ßoutgmth.
-	 * 
+	 *
 	 * Berechnung der mittlere Belastung Erzeuger Nutzwärme
-	 * 
-	 * @param string $monat 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param string $monat
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function ßoutgmth( string $monat ): float {		
+	public function ßoutgmth( string $monat ): float {
 		return $this->ßhm_monat( $monat ) / $this->ßhma();
 	}
 
 	/**
 	 * Berechnung von thm für einen Monat.
-	 * 
-	 * @param string $monat 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param string $monat
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function thm_monat( string $monat ): float
-	{ 
-		if( $this->ßhm_monat( $monat ) > 0.05 ) {
+	public function thm_monat( string $monat ): float {
+		if ( $this->ßhm_monat( $monat ) > 0.05 ) {
 			return $this->monatsdaten->tage( $monat ) * 24;
 		}
 
@@ -833,11 +867,11 @@ class Gebaeude {
 
 	/**
 	 * Berechnung von thm für ein Jahr.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function thm(): float{
+	public function thm(): float {
 		$thm = 0;
 
 		foreach ( $this->monatsdaten->monate() as $monat ) {
@@ -849,13 +883,13 @@ class Gebaeude {
 
 	/**
 	 * Heizwärmebedarf/ Nutzenergie in kWh für einen Monat.
-	 * 
+	 *
 	 * Ph,sink*(1-nm*ym)*thm/1000 = Ph,sink* k*thm/1000.
-	 * 
-	 * @param string $monat 
+	 *
+	 * @param string $monat
 	 * @return float
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function qh_monat( string $monat ): float {
 		return $this->ph_sink_monat( $monat ) * $this->k_monat( $monat ) * $this->thm_monat( $monat ) / 1000;
@@ -864,10 +898,10 @@ class Gebaeude {
 
 	/**
 	 * Heizwärmebedarf/ Nutzenergie im Jahr in kWh.
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function qh(): float {
 		$qh = 0;
@@ -881,31 +915,31 @@ class Gebaeude {
 
 	/**
 	 * Bestimmung von flna.
-	 * 
+	 *
 	 * // NOTE: Was ist flna?
-	 * 
+	 *
 	 * @param string $monat
-	 * 
+	 *
 	 * @return float
 	 */
 	public function flna_monat( $monat ): float {
 		if ( $this->ist_einfamilienhaus() ) {
 			return 1;
-		} 
-		
+		}
+
 		return 1 - ( ( 10 - $this->monatsdaten->temperatur( $monat ) ) / 22 );
 	}
 
 	/**
 	 * Bestimmung von trl.
-	 * 
+	 *
 	 * // Frage: Was ist trl?
-	 * 
+	 *
 	 * @param string $monat
-	 * 
+	 *
 	 * @return float
 	 */
-	public function trl_monat( $monat ): float {		
+	public function trl_monat( $monat ): float {
 		$trl = 24 - $this->flna_monat( $monat ) * 7;
 
 		if ( $trl < 17 ) {
@@ -917,21 +951,21 @@ class Gebaeude {
 
 	/**
 	 * Berechnung der monaltichen Laufzeit (ith,rl).
-	 * 
+	 *
 	 *  // Frage: Was ist ith,rl?
-	 * 
-	 * @param string $monat 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param string $monat
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
-	public function ith_rl_monat( string $monat ): float {		
+	public function ith_rl_monat( string $monat ): float {
 		return $this->thm_monat( $monat ) * 0.042 * $this->trl_monat( $monat );
 	}
 
 	/**
 	 * Berechnung der jährlichen Laufzeit (ith,rl).
-	 * 
+	 *
 	 * @return float
 	 */
 	public function ith_rl(): float {
@@ -946,11 +980,11 @@ class Gebaeude {
 
 	/**
 	 * Zwischenberechnung; Bestimmung von k = (1-nm*ym).
-	 * 
-	 * @param string $monat 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param string $monat
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function k_monat( string $monat ): float {
 		$k = ( 1 - $this->nm_monat( $monat ) * $this->ym_monat( $monat ) );
@@ -981,7 +1015,7 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function nutzflaeche(): float {
-		if( ! empty( $this->nutzflaeche ) ) {
+		if ( ! empty( $this->nutzflaeche ) ) {
 			return $this->nutzflaeche;
 		}
 
@@ -996,15 +1030,69 @@ class Gebaeude {
 
 	/**
 	 * Nutzfläche pro Wohneinheit.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function nutzflaeche_pro_wohneinheit(): float {
 		return $this->nutzflaeche() / $this->anzahl_wohnungen();
 	}
 
-	public function hilfsenergie(): Hilfsenergie
-	{
+	public function hilfsenergie(): Hilfsenergie {
 		return $this->hilfsenergie;
 	}
+
+	public function Qfwges(): float {
+		if ( $this->trinkwarmwasseranlage()->zentral() ) {
+			return $this->heizsystem()->heizungsanlagen()->Qfwges();
+		}
+
+		return $this->trinkwarmwasseranlage()->Qfwges();
+	}
+
+	public function Qfhges(): float {
+		return $this->heizsystem()->heizungsanlagen()->Qfhges();
+	}
+
+	public function Qfgesamt(): float {
+		// (Qfwges + Qws)
+		return $this->Qfhges() + $this->Qfwges() + $this->hilfsenergie()->Wges();
+	}
+
+	public function Qfstrom(): float {
+		// case 1 Zentrale Trinkwassererwärmung
+		// if Stromheizung  oder && Dezentrale Durchlauferhitzter Strom than
+		// $Qfstrom1-3 = $Qfhges1-3+$Qfwges1-3+($Wges/n)
+		// else
+		// $Qfstrom1-3 = ($Wges/n)              , Die gilt für alle fossilen Heizungen und den Gas-Durchlauferhitzter
+		// $Qfstrom= $Qfstrom1-3
+
+		$Qfstrom = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom		
+		$Qfstrom += $this->heizsystem()->heizungsanlagen()->Qfstromges(); // Strom aus mit Strom betriebene Heizungsanlagen (ohne Hilfsenergie)
+
+		if( $this->trinkwarmwasseranlage()->zentral() ) {
+			$Qfstrom += $this->trinkwarmwasseranlage()->Qfwges(); // Strom aus zentraler Trinkwassererwärmung
+		}
+		
+		return $Qfstrom;
+	}
+
+	/**
+	 * Berechnung der flächenbezogenen Endenergie (Brennwert)  (kwh/m^2a).
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function Qf(): float {
+		// $Qf =   $Qfges -  $Pvans
+		$Qf = $this->Qfgesamt();
+
+		if( $this->photovoltaik_anlage_vorhanden() ) {
+			$Qf -= $this->photovoltaik_anlage()->Pvans( $this->Qfstrom() );
+		}
+
+		// $Qf =   $Qf/$calculations['nutzflaeche']
+		return $Qf / $this->nutzflaeche();
+	}
+
+	
 }

@@ -3,6 +3,7 @@
 namespace Enev\Schema202302\Calculations\Anlagentechnik;
 
 use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202302\Calculations\Tabellen\Endenergie_Photovoltaikanlagen;
 
 class Photovoltaik_Anlage {
 	/**
@@ -93,7 +94,7 @@ class Photovoltaik_Anlage {
 	 *
 	 * @return float
 	 */
-	public function Pvans(): float {
+	public function Pvans( float $QfStrom ): float {
 		// Berechnung des ansetzbaren Strometrages aus der PV-Anlage
 
 		// Damit wir nicht in den Minusbereich kommen und was wir max. ansetzbarer Stromertrag
@@ -104,23 +105,56 @@ class Photovoltaik_Anlage {
 		// if Keine PV-Anlage vorhanden than
 		// $Pvans=0
 		// else???
-		//
+
+        if( $QfStrom < $this->WfPVHP() ) {
+            return $QfStrom;
+        }
+
+        return $this->WfPVHP();
 	}
 
 	public function QfprodPV(): float {
+		// Bestimmung von $qfprodPV, interpolieren nach Tab. 115 mit folgenden Angaben:
+		// Abfrage Kunde: PV-Anlage   Ja/Nein
+		// Abfrage Kunde : Ausrichtung der PV-Solaranlage (Nord, Nordost etc.) Dropdown _Menue nach Tab 115
+		// Abfrage Kunde: Neigungswinkel (0, 30, 45, 60, 90°)
+		// Abfrage Kunde: Fläche der PV-Anlage, $APV
 
-        // $qfprodPV = (new Tabelle_115( 
 		// Bestimmung Endenergie PV-Anlage im Jahr
 		//
-		// Bestimmung von $qfprodPV, interpolieren nach Tab. 115 mit folgenden Angaben:
+		//
 		// if PV-Anlage vorhanden than
 
 		// $QfprodPV=$qfprodPV*$APV // kWh/a;
 
 		// else
 		// $QfprodPV=0
+
+		$qfprodPV = ( new Endenergie_Photovoltaikanlagen( $this->neigung(), $this->richtung() ) )->qfProdPVi0();
+		return $qfprodPV * $this->flaeche();
 	}
 
+    /**
+     * Ausnutzungsgrad der PV-Anlage zur Berechnung nutzbaren Stromertrages.
+     * 
+     * @return float 
+     */
+    public function WfPVHP(): float {
+        // Bestimmung von $fPVHP (Ausnutzungsgrad der PV-Anlage zur Berechnung nutzbaren Stromertrages); in Abhängikeit der Ausrichtung nach Tab 118, T12 
+        // $WfPVHP=$QfprodPV*$fPVHP;
 
+        // Tabelle 118
+        $fPVHP = array(
+            'n'  => 0.298,
+            'no' => 0.302,
+            'o'  => 0.343,
+            'so' => 0.388,
+            's'  => 0.408,
+            'sw' => 0.379,
+            'w'  => 0.333,
+            'nw' => 0.303,       
+        );
 
+        return $this->QfprodPV() * $fPVHP[ $this->richtung() ];
+    }
 }

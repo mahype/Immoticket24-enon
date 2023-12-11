@@ -122,7 +122,7 @@ class Trinkwarmwasseranlage {
 	 * @param Gebaeude    $gebaeude               Gebäude.
 	 * @param bool        $zentral                Läuft die Warmwasserversorgung über die Heizungsanlage?
 	 * @param bool        $heizung_im_beheizten_bereich      Liegt die Heizung im beheitzen Bereich?
-	 * @param string|null $erzeuger   Dezentraler Erzeuger (dezentralgaserhitzer oder dezentralelektroerhitzer).
+	 * @param string|null $erzeuger   			  Dezentraler Erzeuger (dezentralgaserhitzer oder dezentralelektroerhitzer).
 	 * @param bool        $mit_warmwasserspeicher Liegt eine Warmwasserspeicher vor?
 	 * @param bool        $mit_zirkulation        Trinkwasserverteilung mit Zirkulation (true) oder ohne (false).
 	 * @param bool        $mit_solarthermie       Wird die Trinkwarmwasseranlage mit Solarthermie betrieben?
@@ -782,5 +782,28 @@ class Trinkwarmwasseranlage {
 	 */
 	public function fbivalent(): float {
 		return $this->gebaeude->heizsystem()->beheizt() ? 1.008 : 1.2096;
+	}
+
+	public function ewg(): float {
+		//      if "Elektrodurchlauferhitzer" than  // Wird nur hydraulischer Durchlauferhitzer wird berücksichtigt (auf der sicheren Seite) // Gilt auch für Elektro-Kleinspeicher
+        //           $ewg = 1.01;
+        //      if "Gasdurchlauferhitzer"   Than
+        //             $ewg = 1.26
+        //      else??
+
+		if( ! $this->zentral() ) {
+			throw new Calculation_Exception( 'ewg kann nur für zentrale Trinkwasseranlagen berechnet werden.' );
+		}
+
+		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+			return 1.01;
+		}
+		
+		return 1.26;
+	}
+
+	public function Qfwges(): float {
+		// (($calculations['QWB']']*$ewd)*$ewg1)
+		return ( $this->QWB() * $this->ewd() ) * $this->ewg();
 	}
 }

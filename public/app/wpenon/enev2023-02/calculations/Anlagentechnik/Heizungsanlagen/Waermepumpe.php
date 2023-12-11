@@ -22,13 +22,6 @@ class Waermepumpe extends Heizungsanlage {
 	protected Jahr $jahr;
 
 	/**
-	 * Gebaeude.
-	 *
-	 * @var Gebaeude
-	 */
-	protected Gebaeude $gebaeude;
-
-	/**
 	 * COP Tabelle.
 	 *
 	 * @var COP
@@ -76,8 +69,7 @@ class Waermepumpe extends Heizungsanlage {
 		bool $einstufig = true,
 		string|null $erde_typ = null,
 	) {
-		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
-		$this->gebaeude        = $gebaeude;
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );		
 		$this->evu_abschaltung = $evu_abschaltung;
 		$this->einstufig       = $einstufig;
 		$this->erde_typ        = $erde_typ;
