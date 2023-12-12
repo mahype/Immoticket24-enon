@@ -208,7 +208,7 @@ class Lueftung {
 			return 1.0;
 		}
 
-		throw new \Exception( 'Hilfsenergie für "%s" kann nicht berechnet werden.' );
+		throw new \Exception( sprintf( 'Hilfsenergie für "%s" kann nicht berechnet werden.', $this->lueftungssystem ) );
 	}
 
 	public function fbetrieb(): float {
