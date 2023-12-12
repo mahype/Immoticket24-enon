@@ -60,7 +60,8 @@ class Fernwaerme extends Heizungsanlage {
 			'fernwaerme' => array(
 				'typ'            => 'fernwaerme',
 				'energietraeger' => array(
-					'fernwaermehzwfossil' => 'Nah-/Fernwärme',
+					'fernwaermekwkwfossil' => 'Nahversorger',
+					'fernwaermehzwfossil' => 'Fernheizwärme',
 				),
 			),
 		);

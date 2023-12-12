@@ -1046,7 +1046,7 @@ class Gebaeude {
 			return $this->heizsystem()->heizungsanlagen()->Qfwges();
 		}
 
-		return $this->trinkwarmwasseranlage()->Qfwges();
+		return $this->trinkwarmwasseranlage()->Qfwges() + $this->trinkwarmwasseranlage()->ews();
 	}
 
 	public function Qfhges(): float {
@@ -1076,6 +1076,22 @@ class Gebaeude {
 		return $Qfstrom;
 	}
 
+	public function Qpges(): float {
+		$Qpges = 0;
+
+		foreach ( $this->heizsystem->heizungsanlagen()->alle() as $heizungsanlage ) {
+			$Qpges += $heizungsanlage->Qpges();
+		}
+
+		if( ! $this->trinkwarmwasseranlage()->zentral() ) {
+			$Qpges += $this->trinkwarmwasseranlage()->Qpges();
+		}
+
+		$Qpges += $this->hilfsenergie()->Wges() * 1.8;
+
+		return $Qpges;
+	}
+
 	/**
 	 * Berechnung der flächenbezogenen Endenergie (Brennwert)  (kwh/m^2a).
 	 * 
@@ -1095,4 +1111,16 @@ class Gebaeude {
 	}
 
 	
+	public function Qp(): float {
+		$Qp = $this->Qpges();
+
+		if( ! $this->photovoltaik_anlage_vorhanden() ) {
+			return $this->Qpges() / $this->nutzflaeche();
+		}
+
+		//  $Qp= $Qpges -  $Pvans *1.8
+		$Qp -= $this->photovoltaik_anlage()->Pvans( $this->Qfstrom() ) * 1.8;
+
+		return $Qp / $this->nutzflaeche();
+	}
 }

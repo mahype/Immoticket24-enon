@@ -499,7 +499,7 @@ class Waermepumpe extends Heizungsanlage {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function eg(): float {
+	public function ehg(): float {
 		// Waeermepumpe Luft
 		if ( $this->erzeuger() === 'waermepumpeluft' ) {
 			if ( $this->einstufig ) {

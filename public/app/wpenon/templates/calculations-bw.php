@@ -923,6 +923,17 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Berechnung von keew: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->keew() ) ); ?></p>
 	<p><?php printf( __( 'Berechnung von keeh: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->keeh() ) ); ?></p>
 
+	<?php if( $gebaeude->photovoltaik_anlage_vorhanden() ): ?>
+	<h3>Photovoltaik</h3>
+	<p><?php printf( __( 'Richtung: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->richtung() ) ); ?></p>
+	<p><?php printf( __( 'Neigung: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->neigung() ) ); ?></p>
+	<p><?php printf( __( 'Fläche: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->flaeche() ) ); ?></p>
+	<p><?php printf( __( 'Baujahr: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->baujahr() ) ); ?></p>
+	<p><?php printf( __( 'QfprodPV: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->QfprodPV() ) ); ?></p>
+	<p><?php printf( __( 'WfPVHP: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->WfPVHP() ) ); ?></p>
+	<p><?php printf( __( 'Pvans: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) ) ); ?></p>
+	<?php endif; ?>
+
 	<h4>Hilfsenergie</h4>
 
 	<p><?php printf( __( 'pg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->pg() ) ); ?></p>
@@ -997,7 +1008,17 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Ww (Hilfsenergie Warmwasser): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Ww() ) ); ?></p>
 	<p><?php printf( __( 'Wrv (Hilfsenergie Lüftung): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrv() ) ); ?></p>
 	<p><?php printf( __( 'WsolPumpe (Hilfsenergie Solarpumpe): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpe() ) ); ?></p>
-	<p><?php printf( __( 'W gesamt (Hilfsenergie Gesamt): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->W() ) ); ?></p>
+	<p><?php printf( __( 'Wges (Hilfsenergie Gesamt): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wges() ) ); ?></p>
+
+	<h3>Endenergie</h3>
+
+	<p><?php printf( __( 'Qfhges: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qfhges() ) ); ?></p>
+	<p><?php printf( __( 'Qfwges: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qfwges() ) ); ?></p>
+	<p><?php printf( __( 'Qfgesamt: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qfgesamt() ) ); ?></p>
+	<p><?php printf( __( 'Qpges: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qpges() ) ); ?></p>
+	<p><?php printf( __( 'Qfstrom: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qfstrom() ) ); ?></p>
+	<p><?php printf( __( 'Qf: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qf() ) ); ?></p>
+	<p><?php printf( __( 'Qp: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qp() ) ); ?></p>
 
 </div>
 

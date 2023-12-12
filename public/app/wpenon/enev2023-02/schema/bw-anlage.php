@@ -50,7 +50,8 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil' => __( 'Nah-/Fernwärme', 'wpenon' ),
+						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
@@ -287,7 +288,7 @@ $anlage = array(
 				),
 				'h_standort'                               => array(
 					'type'        => 'select',
-					'label'       => __( 'Standord der Heizungsanlage', 'wpenon' ),
+					'label'       => __( 'Standort der Heizungsanlage', 'wpenon' ),
 					'description' => __( 'Wählen Sie aus, ob sich die heizungsanlage innerhalb oder außerhalb der thermischen Hülle befindet.', 'wpenon' ),
 					'options'     => array(
 						'innerhalb'  => __( 'innerhalb thermischer Hülle', 'wpenon' ),
@@ -305,36 +306,36 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
-				'h_custom'                                 => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => current_user_can( 'manage_options' ),
-				),
-				'h_custom_primaer'                         => array(
-					'type'     => 'float',
-					'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( 'field::h_custom', true ),
-					),
-				),
-				'h_custom_2'                               => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => current_user_can( 'manage_options' ),
-				),
-				'h_custom_co2'                             => array(
-					'type'     => 'float',
-					'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::h_custom_2', true ),
-					),
-				),
+				// 'h_custom'                                 => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => current_user_can( 'manage_options' ),
+				// ),
+				// 'h_custom_primaer'                         => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( 'field::h_custom', true ),
+				// 	),
+				// ),
+				// 'h_custom_2'                               => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => current_user_can( 'manage_options' ),
+				// ),
+				// 'h_custom_co2'                             => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare',
+				// 		'callback_args' => array( 'field::h_custom_2', true ),
+				// 	),
+				// ),
 				'h_typenschild'                            => array(
 					'type'      => 'image',
 					'label'     => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
@@ -390,7 +391,8 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil' => __( 'Nah-/Fernwärme', 'wpenon' ),
+						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -727,7 +729,8 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermehzwfossil' => __( 'Nah-/Fernwärme', 'wpenon' ),
+						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -1368,7 +1371,7 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'pv_neiung'    => array(
+				'pv_neigung'    => array(
 					'type'     => 'select',
 					'label'    => __( 'Neigung', 'wpenon' ),					
 					'options'  => array( // (0, 30, 45, 60, 90°
@@ -1395,6 +1398,21 @@ $anlage = array(
 					),
 					'unit' => 'm²',
 					'required' => true,
+				),
+				'pv_baujahr'                                => array(
+					'type'                  => 'text',
+					'label'                 => __( 'Baujahr', 'wpenon' ),
+					'description'           => __( 'Welches Baujahr hat die Photovoltaik-Anlage?', 'wpenon' ),
+					'min'                   => 1800,
+					'max'                   => wpenon_get_reference_date( 'Y' ),
+					'required'              => true,
+					'placeholder'           => 'Bitte wählen...',
+					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
+					'validate_dependencies' => array( 'baujahr' ),
+					'display'  => array(
+						'callback'      => 'wpenon_show_on_array_whitelist',
+						'callback_args' => array( 'field::pv_info', array('vorhanden') ),
+					),
 				),
 			),
 		),

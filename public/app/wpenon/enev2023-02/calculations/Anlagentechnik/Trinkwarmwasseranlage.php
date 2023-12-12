@@ -791,8 +791,8 @@ class Trinkwarmwasseranlage {
         //             $ewg = 1.26
         //      else??
 
-		if( ! $this->zentral() ) {
-			throw new Calculation_Exception( 'ewg kann nur für zentrale Trinkwasseranlagen berechnet werden.' );
+		if( $this->zentral() ) {
+			throw new Calculation_Exception( 'Bei Trinkwarmwasser aus Heizungsanlagen bitte ewg() Funktion aus Heizungsanlagen nutzen.' );
 		}
 
 		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
@@ -805,5 +805,37 @@ class Trinkwarmwasseranlage {
 	public function Qfwges(): float {
 		// (($calculations['QWB']']*$ewd)*$ewg1)
 		return ( $this->QWB() * $this->ewd() ) * $this->ewg();
+	}
+
+	public function fp(): float {
+		if( $this->zentral() ) {
+			throw new Calculation_Exception( 'fp kann nur für dezentrale Trinkwasseranlagen genutzt werden.' );
+		}
+		
+		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+			return  1.8;
+		}
+		
+		return 1.1;
+	}
+
+	public function fhshid(): float {
+		if( $this->zentral() ) {
+			throw new Calculation_Exception( 'fhshid kann nur für dezentrale Trinkwasseranlagen genutzt werden.' );
+		}
+
+		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+			return  1.0;
+		}
+		
+		return 1.11;
+	}
+
+	public function Qpges(): float {
+		if( $this->zentral() ) {
+			throw new Calculation_Exception( 'Qpges kann nur für dezentrale Trinkwasseranlagen berechnet werden.' );
+		}
+
+		return $this->Qfwges() * $this->fp() * $this->fhshid();
 	}
 }

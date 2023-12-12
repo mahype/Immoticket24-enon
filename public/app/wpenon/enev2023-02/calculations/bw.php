@@ -33,7 +33,6 @@ use Enev\Schema202302\Calculations\Bauteile\Rolladenkasten;
 use Enev\Schema202302\Calculations\Bauteile\Satteldach;
 use Enev\Schema202302\Calculations\Bauteile\Walmdach;
 use Enev\Schema202302\Calculations\Bauteile\Wand;
-use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 use function Enev\Schema202302\Calculations\Helfer\berechne_fenster_flaeche;
 use function Enev\Schema202302\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
@@ -79,6 +78,7 @@ require_once __DIR__ . '/Bauteile/Satteldach.php';
 require_once __DIR__ . '/Bauteile/Walmdach.php';
 
 require_once __DIR__ . '/Anlagentechnik/Lueftung.php';
+require_once __DIR__ . '/Anlagentechnik/Photovoltaik_Anlage.php';
 
 require_once __DIR__ . '/Tabellen/Mittlere_Belastung_Korrekturfaktor.php';
 

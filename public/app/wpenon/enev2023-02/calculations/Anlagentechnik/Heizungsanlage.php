@@ -227,6 +227,89 @@ abstract class Heizungsanlage {
 	abstract public function ewg(): float;
 
 	/**
+	 * Primärenergiefaktor für einen bestimmten Energieträger.
+	 * 
+	 * Werte aus Tabelle A.1 Teil 1.
+	 * 
+	 * @param string $energietraeger 
+	 * @return float|void 
+	 */
+	protected function fp_energietraeger( string $energietraeger ) {
+		switch( $energietraeger ) {
+			case 'biogas':
+			case 'biooel':
+				return 0.4;
+			case 'holzpellets':
+			case 'holzhackschnitzel':
+			case 'stueckholz':
+				return 0.2;
+			case 'heizoel':
+			case 'erdgas':
+			case 'fluessiggas':
+			case 'steinkohle':
+				return 1.1;
+			case 'braunkohle':
+				return 1.2;
+			case 'fernwaermekwkwfossil':
+				return 0.7;
+			case 'fernwaermehzwfossil':
+				return 1.3;
+			case 'strom':
+				return 1.8;
+		}
+	}
+
+	/**
+	 * Primärenergiefaktor des Energieträgers.
+	 * 
+	 * @return float 
+	 */
+	public function fp(): float {
+		return $this->fp_energietraeger( $this->energietraeger() );
+	}
+
+	/**
+	 * Energieträgerabhängige Umrechnungsfaktor für einen bestimmt Energieträger.
+	 * 
+	 * Werte aus Tabelle B.1 Teil 1.
+	 * 
+	 * @param string $energietraeger 
+	 * @return float|void 
+	 */
+	protected function fhshi_energietraeger( string $energietraeger ) {
+		switch( $energietraeger ) {
+			case 'biooel':
+			case 'heizoel':
+				return 1.06;
+			case 'biogas':
+			case 'erdgas':
+				return 1.11;
+			case 'steinkohle':
+				return 1.04;
+			case 'braunkohle':
+				return 1.07;
+			case 'holzpellets':
+			case 'holzhackschnitzel':
+			case 'stueckholz':
+				return 1.08;
+			case 'heizoel':			
+			case 'fernwaermekwkwfossil':
+			case 'fernwaermehzwfossil':				
+			case 'strom':
+				return 1.0;
+		}
+	}
+
+	/**
+	 * Energieträgerabhängige Umrechnungsfaktor.
+	 * 
+	 * @return float 
+	 */
+	public function fhshi(): float {
+		return $this->fhshi_energietraeger( $this->energietraeger() );
+	}
+
+	/**
 	 *
 	 * @return float
 	 * @throws Calculation_Exception
@@ -265,5 +348,16 @@ abstract class Heizungsanlage {
 	public function Qfwges(): float {
 		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
 		return ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->kee() ) );
+	}
+
+	public function Qpges(): float {
+		// Trinkwarmwasseranlage zentral
+		if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			// $Qpges1=($Qfhges1+$Qfwges1)*($fp1/$fhshi1)
+			return ( $this->Qfhges() + $this->Qfwges() ) * ( $this->fp() / $this->fhshi() );
+		}
+
+		// Trinkwarmwasseranlage dezentral
+		return ( $this->Qfhges() ) * ( $this->fp() / $this->fhshi() );
 	}
 }

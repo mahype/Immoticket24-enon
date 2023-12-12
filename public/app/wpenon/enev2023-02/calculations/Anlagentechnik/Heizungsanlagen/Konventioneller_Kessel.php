@@ -30,13 +30,6 @@ require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Pelletkessel_Hilfsenergi
 
 class Konventioneller_Kessel extends Heizungsanlage {
 	/**
-	 * Gebaeude.
-	 *
-	 * @var Gebaeude
-	 */
-	protected Gebaeude $gebaeude;
-
-	/**
 	 * Konstruktor.
 	 *
 	 * @param Gebaeude $gebaeude Gebäude.
@@ -54,8 +47,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		int $baujahr,
 		int $prozentualer_anteil = 100,
 	) {
-		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
-		$this->gebaeude = $gebaeude;
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
 	}
 
 	/**
