@@ -86,13 +86,6 @@ class Gebaeude {
 	protected Monatsdaten $monatsdaten;
 
 	/**
-	 * Luftwechsel
-	 *
-	 * @var Luftwechsel
-	 */
-	private Luftwechsel $luftwechsel;
-
-	/**
 	 * Mittlere Belastung
 	 *
 	 * @var Mittlere_Belastung
@@ -137,9 +130,9 @@ class Gebaeude {
 	/**
 	 * Photovoltaik-Anlage.
 	 *
-	 * @var Photovoltaik_Anlage
+	 * @var Photovoltaik_Anlage|null
 	 */
-	private Photovoltaik_Anlage $photovoltaik_anlage;
+	private Photovoltaik_Anlage|null $photovoltaik_anlage = null;
 
 	/**
 	 * Lueftung.
