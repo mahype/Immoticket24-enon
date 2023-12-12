@@ -102,7 +102,7 @@ class Lueftung {
 			throw new \Exception( 'Lüftungssystem muss "ohne", "abluft" oder "zu_abluft" sein.' );
 		}
 
-		if ( $art !== 'zentral' && $art !== 'dezentral' ) {
+		if (  $lueftungssystem !== 'ohne' && ( $art !== 'zentral' && $art !== 'dezentral' ) ) {
 			throw new \Exception( 'Lüftungssystem muss "zentral" oder "dezentral" sein.' );
 		}
 
