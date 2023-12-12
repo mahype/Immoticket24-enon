@@ -50,5 +50,4 @@ class Endenergie_Photovoltaikanlagen {
 		$column_name = $this->ausrichtung;
 		return $this->table_data[ $this->neigung ]->$column_name;
 	}
-
 }

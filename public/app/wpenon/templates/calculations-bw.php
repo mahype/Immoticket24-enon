@@ -703,7 +703,7 @@ $jahr = new Jahr();
 				</tr>
 				<tr>
 					<td>e gsamt (ehg)</td>
-					<td><?php echo $heizungsanlage->eg(); ?></td>
+					<td><?php echo $heizungsanlage->ehg(); ?></td>
 				</tr>
 				<tr>
 					<td>ewg</td>

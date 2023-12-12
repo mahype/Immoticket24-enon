@@ -1260,7 +1260,7 @@ $anlage = array(
 				),
 				'l_bedarfsgefuehrt' => array(
 					'type'    => 'checkbox',
-					'label'   => __( 'Ist die Lüftungsanlage bedarfsgeführt?', 'wpenon' ),
+					'label'   => __( 'Lüftungsanlage ist bedarfsgeführt.', 'wpenon' ),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_array_whitelist',
 						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
