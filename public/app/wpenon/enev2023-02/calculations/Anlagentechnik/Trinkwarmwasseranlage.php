@@ -803,6 +803,10 @@ class Trinkwarmwasseranlage {
 	}
 
 	public function Qfwges(): float {
+		if( $this->zentral() ) {
+			return 0;
+		}
+
 		// (($calculations['QWB']']*$ewd)*$ewg1)
 		return ( $this->QWB() * $this->ewd() ) * $this->ewg();
 	}
