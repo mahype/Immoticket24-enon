@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Energieeffizienzklasse Skala</title>
+    <style>
+        .efficiency-scale {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            font-family: sans-serif;
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .efficiency-scale li {
+            padding: 10px 10px;
+            /* Erhöhte Höhe */
+            margin: 0;
+            color: white;
+            font-weight: bold;
+            box-sizing: border-box;
+            flex-grow: 1;
+            text-align: center;
+            border-radius: 0;
+            /* Standardmäßig keine abgerundeten Ecken */
+        }
+
+        .efficiency-scale::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            /* Positioniert das Dreieck so, dass es leicht herausragt */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            /* Leicht gräuliche Umrandung */
+        }
+
+        .efficiency-scale li:first-child {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .efficiency-scale li:last-of-type {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .efficiency-scale li[data-class="A+"] {
+            background-color: #00ff00;
+        }
+
+        .efficiency-scale li[data-class="A"] {
+            background-color: #80ff00;
+        }
+
+        .efficiency-scale li[data-class="B"] {
+            background-color: #c0ff00;
+        }
+
+        .efficiency-scale li[data-class="C"] {
+            background-color: #ffff00;
+        }
+
+        .efficiency-scale li[data-class="D"] {
+            background-color: #ffcc00;
+        }
+
+        .efficiency-scale li[data-class="E"] {
+            background-color: #ff9900;
+        }
+
+        .efficiency-scale li[data-class="F"] {
+            background-color: #ff6600;
+        }
+
+        .efficiency-scale li[data-class="G"] {
+            background-color: #ff3333;
+        }
+
+        .efficiency-scale li[data-class="H"] {
+            background-color: #ff0000;
+        }
+        
+
+        /* Neuer Eintrag für H */
+    </style>
+</head>
+
+<body>
+    <ul class="efficiency-scale">
+        <li data-class="A+">A+</li>
+        <li data-class="A">A</li>
+        <li data-class="B">B</li>
+        <li data-class="C">C</li>
+        <li data-class="D">D</li>
+        <li data-class="E">E</li>
+        <li data-class="F">F</li>
+        <li data-class="G">G</li>
+        <li data-class="H">H</li> <!-- Neuer Eintrag für H -->
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var scaleItems = document.querySelectorAll('.efficiency-scale li');
+            var indicator = document.createElement('div');
+            indicator.style.cssText = 'position: absolute; bottom: 0; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid white;box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);'; // Weißes Dreieck
+            document.querySelector('.efficiency-scale').appendChild(indicator);
+
+            function updateScale(energyClass) {
+                scaleItems.forEach(function (item) {
+                    if (item.getAttribute('data-class') === energyClass) {
+                        indicator.style.left = item.offsetLeft + item.offsetWidth / 2 - 10 + 'px'; // Positioniere das Dreieck
+                    }
+                });
+            }
+
+            function handleResize() {
+                // Rufe die updateScale-Funktion erneut auf, wenn sich die Fenstergröße ändert
+                updateScale('F'); // Beispielweise A+
+            }
+
+            // Füge einen Event-Handler für das resize-Ereignis hinzu
+            window.addEventListener('resize', handleResize);
+
+            // Setze die initiale Energieeffizienzklasse hier
+            updateScale('F'); // Beispielweise A+
+        });
+    </script>
+</body>
+
+</html>
