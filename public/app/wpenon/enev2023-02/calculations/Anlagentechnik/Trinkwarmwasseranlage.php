@@ -804,7 +804,7 @@ class Trinkwarmwasseranlage {
 
 	public function Qfwges(): float {
 		if( $this->zentral() ) {
-			return 0;
+			throw new Calculation_Exception( 'Bei Trinkwarmwasser aus Heizungsanlagen bitte Qfwges() Funktion aus Heizungsanlagen nutzen.' );
 		}
 
 		// (($calculations['QWB']']*$ewd)*$ewg1)

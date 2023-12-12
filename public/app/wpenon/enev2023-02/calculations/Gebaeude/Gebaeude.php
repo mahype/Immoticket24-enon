@@ -1062,7 +1062,7 @@ class Gebaeude {
 		$Qfstrom = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom		
 		$Qfstrom += $this->heizsystem()->heizungsanlagen()->Qfstromges(); // Strom aus mit Strom betriebene Heizungsanlagen (ohne Hilfsenergie)
 
-		if( $this->trinkwarmwasseranlage()->zentral() ) {
+		if( ! $this->trinkwarmwasseranlage()->zentral() ) {
 			$Qfstrom += $this->trinkwarmwasseranlage()->Qfwges(); // Strom aus zentraler Trinkwassererwärmung
 		}
 		
