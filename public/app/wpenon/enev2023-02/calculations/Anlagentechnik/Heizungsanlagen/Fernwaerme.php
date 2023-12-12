@@ -13,13 +13,6 @@ require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaerm
 
 class Fernwaerme extends Heizungsanlage {
 	/**
-	 * Gebaeude.
-	 *
-	 * @var Gebaeude
-	 */
-	protected Gebaeude $gebaeude;
-
-	/**
 	 * Konstruktor.
 	 *
 	 * @param Gebaeude $gebaeude Gebäude.
@@ -37,8 +30,7 @@ class Fernwaerme extends Heizungsanlage {
 		int $baujahr,
 		int $prozentualer_anteil = 100,
 	) {
-		parent::__construct( $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
-		$this->gebaeude = $gebaeude;
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
 	}
 
 	public function eg0(): float {

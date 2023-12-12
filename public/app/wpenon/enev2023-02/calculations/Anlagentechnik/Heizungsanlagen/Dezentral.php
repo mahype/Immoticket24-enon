@@ -8,13 +8,6 @@ use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
 
 class Dezentral extends Heizungsanlage {
     /**
-     * Gebaeude.
-     * 
-     * @var Gebaeude
-     */
-    protected Gebaeude $gebaeude;
-
-    /**
      * Konstruktor.
      * 
      * @param Gebaeude $gebaeude
@@ -29,8 +22,7 @@ class Dezentral extends Heizungsanlage {
      */
     public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 )
     {
-        parent::__construct( $erzeuger, $energietraeger, $baujahr, $heizung_im_beheizten_bereich, $prozentualer_anteil );
-        $this->gebaeude = $gebaeude;
+        parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $heizung_im_beheizten_bereich, $prozentualer_anteil );
     }
 
     /**
