@@ -208,7 +208,7 @@ class Lueftung {
 			return 1.0;
 		}
 
-		throw new \Exception( sprintf( 'Hilfsenergie für "%s" kann nicht berechnet werden.', $this->lueftungssystem ) );
+		return 0;		
 	}
 
 	public function fbetrieb(): float {
@@ -276,11 +276,15 @@ class Lueftung {
 	}
 
 	/**
-	 * Wrvg
+	 * Wrvg - Hilfsenergie für Lüftung.
 	 *
 	 * @return float
 	 */
 	public function Wrvg(): float {
+		if( $this->lueftungssystem === 'ohne' ) {
+			return 0.0;
+		}
+
 		return $this->Wfan() + $this->Wc() + $this->Wpre_h();
 	}
 }
