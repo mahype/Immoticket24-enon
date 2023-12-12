@@ -600,7 +600,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	);
 }
 
-if( $energieausweis->pv_info ) {
+if( $energieausweis->pv_info === 'vorhanden' ) {
 	$gebaeude->photovoltaik_anlage( new Photovoltaik_Anlage(
 		gebaeude: $gebaeude,
 		richtung: $energieausweis->pv_richtung,
