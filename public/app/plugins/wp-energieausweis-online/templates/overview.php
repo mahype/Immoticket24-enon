@@ -203,7 +203,7 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
   </p>
 
   <div class="energy-bar-wrapper">
-    <?php wpenon_get_view()->displaySubTemplate( 'energy-bar', '', $data['energy_bar'] ); ?>
+    <?php //  wpenon_get_view()->displaySubTemplate( 'energy-bar', '', $data['energy_bar'] ); ?>
   </div>
 
   <?php if ( $data['efficiency_class'] ) :
@@ -230,6 +230,6 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
   <div id="calculation-details" class="collapse">
     <h4><?php _e( 'Details zur Berechnung', 'wpenon' ); ?></h4>
     <p><?php _e( 'Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der Kunde hat keinen Zugriff darauf.', 'wpenon' ); ?></p>
-    <?php wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data['calculations'] ); ?>
+    <?php // wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data['calculations'] ); ?>
   </div>
 <?php endif; ?>

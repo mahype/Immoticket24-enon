@@ -610,4 +610,11 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 	));
 }
 
+$calculations['reference'] = 125; // Übernommen aus alter bw.php
+$calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
+$calculations['endenergie'] = $gebaeude->Qf();
+$calculations['primaerenergie'] = $gebaeude->Qp();
+$calculations['co2_emission'] = $gebaeude->Qpges();
+$calculations['ht_b'] = $gebaeude->ht_ges();
+
 return $calculations;

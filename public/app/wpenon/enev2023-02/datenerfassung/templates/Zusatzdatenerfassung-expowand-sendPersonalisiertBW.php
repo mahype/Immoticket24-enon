@@ -7,19 +7,19 @@ require_once dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 if( defined('GEG_XSD') ) {
   $xsd = GEG_XSD;
 } else {
-  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd';
+  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd';
 }
 
 if( defined('GEG_XSD_VERSION') ) {
   $version = GEG_XSD_VERSION;
 } else {
-  $version = 'GEG-2020';
+  $version = 'GEG-2023';
 }
 
 $data = new DataEnevBW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
     <n1:AddressCustomer>
       <n1:Vorname><?php echo $data->get_certificate_buyer_first_name() ?></n1:Vorname>
       <n1:Nachname><?php echo $data->get_certificate_buyer_last_name() ?></n1:Nachname>

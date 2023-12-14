@@ -7,7 +7,6 @@
 
 namespace WPENON\Model;
 
-use CalculationsCC;
 use DateTime;
 use EDD_Payment;
 use Enon\Enon\Standards_Config;
@@ -305,18 +304,26 @@ class Energieausweis {
 	}
 
 	public function getPDF( $output_mode = 'I', $preview = false ) {
-		$old_standards = [
-			'enev2013', 
-			'enev2017',
-			'enev2019',
-			'enev2020-01',
-			'enev2020-02',
-		];
-
-		if( in_array( $this->standard, $old_standards ) ) {
-			$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
-		} else {
-			$pdf = new \WPENON\Model\EnergieausweisPDFGEG( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+		switch( $this->standard ) {
+			case 'enev2013':
+			case 'enev2017':
+			case 'enev2019':
+			case 'enev2020-01':
+			case 'enev2020-02':
+				$pdf = new \WPENON\Model\EnergieausweisPDF( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+				break;
+			case 'enev2021-01':
+			case 'enev2021-02':
+			case 'enev2021-03':
+			case 'enev2021-04':
+			case 'enev2021-05':
+			case 'enev2022-01':
+			case 'enev2023-01':
+				$pdf = new \WPENON\Model\EnergieausweisPDFGEG( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+				break;
+			default: // Current standard
+				$pdf = new \WPENON\Model\EnergieausweisPDF2024( sprintf( __( 'Energieausweis-%s', 'wpenon' ), $this->post->post_title ), $this->type, $this->standard, $preview );
+				break;
 		}
 		
 		if ( $this->isFinalized() ) {

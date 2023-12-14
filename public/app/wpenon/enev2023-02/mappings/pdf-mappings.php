@@ -127,6 +127,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 		case 'regenerativ_art':
 			return wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
 		case 'regenerativ_nutzung':
+			// TODO: Regenerative Nutzung neu einbauen
 			if( 'keine' !== $energieausweis->regenerativ_art ) {
 				return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
 			}
@@ -169,7 +170,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			if( $energieausweis->k_automation === 'yes' )
 			{
-				return 'Keine Inspektion nötig, da Gebäudeautomation';				
+				return 'Keine Inspektion nötig, da Gebäudeautomation';
 			}
 
 			if( ! empty ( $energieausweis->k_inspektion ) ) {
@@ -236,6 +237,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 
 			return null;			
+		// Für Nichtwohngebäude
 		case 's_reference':
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['s_reference'] ) ) {
@@ -243,6 +245,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 
 			return null;
+		// Für Nichtwohngebäude
 		case 's_endenergie':
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['s_endenergie'] ) ) {
@@ -250,6 +253,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 
 			return null;
+		// Für Nichtwohngebäude
 		case 's_primaerenergie':
 			$calculations = $energieausweis->calculate();
 			if ( isset( $calculations['s_primaerenergie'] ) ) {
