@@ -58,7 +58,7 @@ $data = new DataEnevBW( $energieausweis );
       <n1:Gebaeudetyp><?php echo $data->Gebaeudetyp(); ?></n1:Gebaeudetyp>
       <n1:Anzahl-Wohneinheiten><?php echo $data->AnzahlWohneinheiten(); ?></n1:Anzahl-Wohneinheiten>
       <n1:Gebaeudenutzflaeche><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Gebaeudenutzflaeche>
-      <n1:Bedarfswerte-4108-4701>
+      <n1:Bedarfswerte-18599>
         <n1:Wohngebaeude-Anbaugrad><?php echo $data->WohngebaeudeAnbaugrad();?></n1:Wohngebaeude-Anbaugrad>
         <n1:Bruttovolumen><?php echo$data->Bruttovolumen();?></n1:Bruttovolumen>
         <n1:durchschnittliche-Geschosshoehe><?php echo $data->DurchschnittlicheGeschosshoehe();?></n1:durchschnittliche-Geschosshoehe>

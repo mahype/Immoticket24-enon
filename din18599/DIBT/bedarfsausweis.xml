@@ -31,7 +31,7 @@
       <n1:Gebaeudetyp>Zweifamilienhaus</n1:Gebaeudetyp>
       <n1:Anzahl-Wohneinheiten>2</n1:Anzahl-Wohneinheiten>
       <n1:Gebaeudenutzflaeche>177</n1:Gebaeudenutzflaeche>
-      <n1:Bedarfswerte-4108-4701>
+      <n1:Bedarfswerte-18599>
         <n1:Wohngebaeude-Anbaugrad>freistehend</n1:Wohngebaeude-Anbaugrad>
         <n1:Bruttovolumen>552</n1:Bruttovolumen>
         <n1:durchschnittliche-Geschosshoehe>2.75</n1:durchschnittliche-Geschosshoehe>
@@ -266,7 +266,7 @@
         <n1:Primaerenergiebedarf>269.7</n1:Primaerenergiebedarf>
         <n1:Energieeffizienzklasse>H</n1:Energieeffizienzklasse>
         <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
-      </n1:Bedarfswerte-4108-4701>
+      </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich>1</n1:Empfehlungen-moeglich>
     <n1:Keine-Modernisierung-Erweiterung-Vorhaben>true</n1:Keine-Modernisierung-Erweiterung-Vorhaben>

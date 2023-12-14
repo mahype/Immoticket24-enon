@@ -106,7 +106,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 			$this->wpenon_seller_meta    = $paymentmeta->getSellerMeta();
 		}
 
-		$sourceFile = $this->wpenon_pdf_path . 'energieausweis_' . substr( $this->wpenon_type, 1, 1 ) . '_2022.pdf';
+		$sourceFile = $this->wpenon_pdf_path . 'energieausweis_' . substr( $this->wpenon_type, 1, 1 ) . '_2024.pdf';
 		$this->setSourceFile( $sourceFile );
 		
 		for ( $i = 0; $i < 5; $i ++ ) {
