@@ -21,7 +21,7 @@ $anlage = array(
 						'etagenheizung'               => __( 'Etagenheizung', 'wpenon' ),
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
-						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
+						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
 						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
@@ -219,7 +219,7 @@ $anlage = array(
 				),
 				'h_waermepumpe_luft_stufen'                => array(
 					'type'     => 'select',
-					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'label'    => __( 'Stufen', 'wpenon' ),
 					'options'  => array(
 						'einstufig'  => __( 'Einstufig', 'wpenon' ),
 						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
@@ -232,7 +232,7 @@ $anlage = array(
 				),
 				'h_waermepumpe_erde_typ'                   => array(
 					'type'     => 'select',
-					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'label'    => __( 'Art der Geometrie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
@@ -245,7 +245,7 @@ $anlage = array(
 				),
 				'h_evu_abschaltung'                        => array(
 					'type'        => 'select',
-					'label'       => __( 'EVU abschaltung', 'wpenon' ),
+					'label'       => __( 'EVU-Abschaltung', 'wpenon' ),
 					'description' => __( 'Wird ihre Wärmepumpe vom Stromversorger zu verschiedene Zeitpunkten am Tag abgeschaltet?', 'wpenon' ),
 					'options'     => array(
 						'ja'   => __( 'Ja', 'wpenon' ),
@@ -363,7 +363,7 @@ $anlage = array(
 						'etagenheizung'               => __( 'Etagenheizung', 'wpenon' ),
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
-						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
+						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
 						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
@@ -564,7 +564,7 @@ $anlage = array(
 				),
 				'h2_waermepumpe_luft_stufen'               => array(
 					'type'     => 'select',
-					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'label'    => __( 'Stufen', 'wpenon' ),
 					'options'  => array(
 						'einstufig'  => __( 'Einstufig', 'wpenon' ),
 						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
@@ -577,7 +577,7 @@ $anlage = array(
 				),
 				'h2_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'label'    => __( 'Art der Geometrie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
@@ -701,7 +701,7 @@ $anlage = array(
 						'etagenheizung'               => __( 'Etagenheizung', 'wpenon' ),
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
-						'fernwaerme'                  => __( 'Fernwärme', 'wpenon' ),
+						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
 						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
@@ -902,7 +902,7 @@ $anlage = array(
 				),
 				'h3_waermepumpe_luft_stufen'               => array(
 					'type'     => 'select',
-					'label'    => __( 'Stufen (Name!)', 'wpenon' ),
+					'label'    => __( 'Stufen', 'wpenon' ),
 					'options'  => array(
 						'einstufig'  => __( 'Einstufig', 'wpenon' ),
 						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
@@ -915,7 +915,7 @@ $anlage = array(
 				),
 				'h3_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Typ (Name!)', 'wpenon' ),
+					'label'    => __( 'Art der Geometrie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
@@ -1214,7 +1214,7 @@ $anlage = array(
 					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
 					'options'  => array(
 						'ohne'      => __( 'Keine', 'wpenon' ),
-						'zu_abluft' => __( 'Zu- und Abluftalage', 'wpenon' ),
+						'zu_abluft' => __( 'Zu- und Abluftanlage', 'wpenon' ),
 						'abluft'    => __( 'Abluftanlage', 'wpenon' ),
 					),
 					'required' => true,
@@ -1403,7 +1403,7 @@ $anlage = array(
 					'type'                  => 'text',
 					'label'                 => __( 'Baujahr', 'wpenon' ),
 					'description'           => __( 'Welches Baujahr hat die Photovoltaik-Anlage?', 'wpenon' ),
-					'min'                   => 1800,
+					'min'                   => 1980,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
 					'placeholder'           => 'Bitte wählen...',
