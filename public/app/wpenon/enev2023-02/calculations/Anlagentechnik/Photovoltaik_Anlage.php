@@ -134,7 +134,7 @@ class Photovoltaik_Anlage {
 
 		$qfprodPV = ( new Endenergie_Photovoltaikanlagen( $this->neigung(), $this->richtung() ) )->qfProdPVi0();
 
-		// Korrektur für Baujahr vor 2017, da die Werte in der Tabelle für Baujahr 2017 gelten.
+		// Korrektur für Baujahr vor 2017, da die Werte in der Tabelle für Baujahr 2017 gelten (Besprechung mit Jan am 15.12.2023).
 		if( $this->baujahr() < 2017 ) {
 			$qfprodPV *= 0.135 / 0.182;
 		}

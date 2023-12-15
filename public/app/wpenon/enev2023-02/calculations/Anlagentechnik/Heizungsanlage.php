@@ -57,6 +57,20 @@ abstract class Heizungsanlage {
 	protected int $prozentualer_anteil;
 
 	/**
+	 * Qfhges.
+	 * 
+	 * @return float
+	 */
+	protected float $Qfhges;
+
+	/**
+	 * Qfwges.
+	 * 
+	 * @return float
+	 */
+	protected float $Qfwges;
+
+	/**
 	 * Konstruktor.
 	 *
 	 * @param Gebaeude $gebaeude
@@ -212,14 +226,6 @@ abstract class Heizungsanlage {
 	abstract public function Whg(): float;
 
 	/**
-	 * Korrekturfaktor Heizung im Berech Erzeugung.
-	 *
-	 * @return float
-	 */
-	abstract public function ehg(): float;
-
-
-	/**
 	 * Korrekturfaktor Trinkwarmwasser im Bereich Erzeugung.
 	 *
 	 * @return float
@@ -341,23 +347,41 @@ abstract class Heizungsanlage {
 	abstract public function Wwg(): float;
 
 	public function Qfhges(): float {
+		if( isset( $this->Qfhges ) ) {
+			return $this->Qfhges;
+		}
+
 		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)
-		return ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
+		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
+		
+		return $this->Qfhges;
 	}
 
 	public function Qfwges(): float {
+		if( isset( $this->Qfwges ) ) {
+			return $this->Qfwges;
+		}
+
 		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
-		return ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->kee() ) );
+		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->kee() ) );
+
+		return $this->Qfwges;
 	}
 
 	public function Qpges(): float {
+		if( isset( $this->Qpges ) ) {
+			return $this->Qpges;
+		}
+
 		// Trinkwarmwasseranlage zentral
 		if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
 			// $Qpges1=($Qfhges1+$Qfwges1)*($fp1/$fhshi1)
-			return ( $this->Qfhges() + $this->Qfwges() ) * ( $this->fp() / $this->fhshi() );
+			$this->Qpges = ( $this->Qfhges() + $this->Qfwges() ) * ( $this->fp() / $this->fhshi() );
+			return $this->Qpges;
 		}
 
 		// Trinkwarmwasseranlage dezentral
-		return ( $this->Qfhges() ) * ( $this->fp() / $this->fhshi() );
+		$this->Qpges = ( $this->Qfhges() ) * ( $this->fp() / $this->fhshi() );
+		return $this->Qpges;
 	}
 }

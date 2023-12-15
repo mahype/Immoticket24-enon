@@ -59,6 +59,48 @@ class Luftwechsel {
 	protected float $wirkungsgrad;
 
 	/**
+	 * n0_small_buildings
+	 * 
+	 * @var float
+	 */
+	protected float $n0_small_buildings;
+
+	/**
+	 * n0_large_buildings
+	 * 
+	 * @var float
+	 */
+	protected float $n0_large_buildings;
+
+	/**
+	 * fwin1_small_buildings
+	 * 
+	 * @var float
+	 */
+	protected float $fwin1_small_buildings;
+
+	/**
+	 * fwin1_large_buildings
+	 * 
+	 * @var float
+	 */
+	protected float $fwin1_large_buildings;
+
+	/**
+	 * fwin2
+	 * 
+	 * @var float
+	 */
+	protected float $fwin2;
+
+	/**
+	 * h max
+	 * 
+	 * @var float
+	 */
+	protected float $h_max;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Gebaeude  $gebaeude          Gebäude.	 
@@ -99,13 +141,19 @@ class Luftwechsel {
 	 * @return float
 	 */
 	public function h_max(): float {
+		if( isset( $this->h_max ) ) {
+			return $this->h_max;
+		}
+
 		switch ( $this->lueftungssystem ) {
 			case 'zu_abluft':
 			case 'abluft':
-				return ( $this->gebaeude()->ht_ges() + $this->hv() - 0.5 * 0.34 * $this->gebaeude()->huellvolumen_netto() * ( $this->n_wrg() - $this->n_anl() ) ) * 32;
+				$this->h_max = ( $this->gebaeude()->ht_ges() + $this->hv() - 0.5 * 0.34 * $this->gebaeude()->huellvolumen_netto() * ( $this->n_wrg() - $this->n_anl() ) ) * 32;
 			case 'ohne':
-				return ( $this->gebaeude()->ht_ges() + 0.5 * $this->hv() ) * 32;
+				$this->h_max = ( $this->gebaeude()->ht_ges() + 0.5 * $this->hv() ) * 32;
 		}
+
+		return $this->h_max;
 	}
 
 	/**

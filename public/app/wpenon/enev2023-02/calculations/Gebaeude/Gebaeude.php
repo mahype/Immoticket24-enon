@@ -12,7 +12,6 @@ use Enev\Schema202302\Calculations\Bauteile\Dach;
 use Enev\Schema202302\Calculations\Calculation_Exception;
 use Enev\Schema202302\Calculations\Tabellen\Ausnutzungsgrad;
 use Enev\Schema202302\Calculations\Tabellen\Bilanz_Innentemperatur;
-use Enev\Schema202302\Calculations\Tabellen\Luftwechsel;
 use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung;
 use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
 
@@ -168,6 +167,13 @@ class Gebaeude {
 	 * @var int
 	 */
 	private int $c_wirk;
+
+	/**
+	 * Qfwges
+	 * 
+	 * @var float
+	 */
+	private float $Qfwges;
 
 	/**
 	 * Konstruktor
@@ -1035,11 +1041,17 @@ class Gebaeude {
 	}
 
 	public function Qfwges(): float {
-		if ( $this->trinkwarmwasseranlage()->zentral() ) {
-			return $this->heizsystem()->heizungsanlagen()->Qfwges();
+		if( isset( $this->Qfwges ) ) {
+			return $this->Qfwges;
 		}
 
-		return $this->trinkwarmwasseranlage()->Qfwges() + $this->trinkwarmwasseranlage()->ews();
+		if ( $this->trinkwarmwasseranlage()->zentral() ) {
+			$this->Qfwges = $this->heizsystem()->heizungsanlagen()->Qfwges();
+			return $this->Qfwges;
+		}
+
+		$this->Qfwges = $this->trinkwarmwasseranlage()->Qfwges() + $this->trinkwarmwasseranlage()->ews();
+		return $this->Qfwges;
 	}
 
 	public function Qfhges(): float {

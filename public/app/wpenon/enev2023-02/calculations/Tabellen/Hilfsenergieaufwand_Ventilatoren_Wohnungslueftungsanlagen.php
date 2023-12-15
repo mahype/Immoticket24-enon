@@ -42,12 +42,12 @@ class Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen {
 	 * Konstruktor.
 	 *
 	 * @example $a = new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen( 2500, 1989 );
-	 * @param int $flaeche Zielwert für die Spalte.
+	 * @param float $flaeche Zielwert für die Spalte.
 	 * @param int $baujahr Zielwert für die Zeile.
 	 *
 	 * @return void
 	 */
-	public function __construct( int $flaeche, int $baujahr ) {
+	public function __construct( float $flaeche, int $baujahr ) {
 		$this->flaeche    = $flaeche;
 		$this->baujahr    = $baujahr;
 		$this->table_data = wpenon_get_table_results( 'hilfsenergieaufwand_der_ventilatoren' );

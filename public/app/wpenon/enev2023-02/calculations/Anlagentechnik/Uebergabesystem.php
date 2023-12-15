@@ -88,8 +88,6 @@ class Uebergabesystem {
 	 * @param Gebaeude $gebaeude               Gebäude.
 	 * @param string   $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
 	 * @param string   $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
-	 * @param int      $anzahl_wohnungen       Anzahl der Wohnungen.
-	 * @param bool     $heizungsanlage_beheizt Ist die Heizungsanlage beheizt? Wenn der Kunde dies nicht weis, dann nein (false).
 	 * @param string   $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
 	 * @param bool     $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
 	 */

@@ -43,6 +43,13 @@ class Waermepumpe extends Heizungsanlage {
 	protected bool $einstufig;
 
 	/**
+	 * eh gesamt.
+	 * 
+	 * @var float
+	 */
+	protected float $eh_ges;
+
+	/**
 	 * Typ der Erdwärmepumpe.
 	 *
 	 * @var string|null
@@ -494,25 +501,33 @@ class Waermepumpe extends Heizungsanlage {
 	}
 
 	/**
-	 * E gesamt. Enthalten sind auch Speucher, Übergabe- und Verteilverluste (ehg = ehce + ehd + ehs + ehg )
+	 * Eh gesamt. Enthalten sind auch Speucher, Übergabe- und Verteilverluste (eh ges = ehce + ehd + ehs + ehg )
 	 *
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function ehg(): float {
+	public function eh_ges(): float {
+		if( isset( $this->eh_ges ) ) {
+			return $this->eh_ges;
+		}
+
 		// Waeermepumpe Luft
 		if ( $this->erzeuger() === 'waermepumpeluft' ) {
 			if ( $this->einstufig ) {
 				// $ehg = $Qhfwp*/$Qhfwp  ; // Einstufige Wärmepumpe
-				return $this->Qhfwp_Sternchen() / $this->Qhfwp();
+				$this->eh_ges = $this->Qhfwp_Sternchen() / $this->Qhfwp();
+				return $this->eh_ges;
 			} else {
 				// $ehg = 1/(1/($Qhfwp*/$Qhfwp)+0.1); // mehrstufige Wärmepumpe
-				return 1 / ( 1 / ( $this->Qhfwp_Sternchen() / $this->Qhfwp() ) + 0.1 );
+				$this->eh_ges = 1 / ( 1 / ( $this->Qhfwp_Sternchen() / $this->Qhfwp() ) + 0.1 );				
+				return $this->eh_ges;
 			}
 		}
 
 		// Waermenpumpe Wasser & Erde
-		return 1 / $this->COPkorr();
+
+		$this->eh_ges = 1 / $this->COPkorr();
+		return $this->eh_ges;
 	}
 
 	/**
@@ -535,6 +550,16 @@ class Waermepumpe extends Heizungsanlage {
 		}
 
 		return (new Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen( $this->gebaeude->heizsystem()->pn() / 1000, 15 ))->Whg();
+	}
+
+	/**
+	 * Hilfsenergie für Trinkwarmwasserbereitung im Bereich Erzeugung.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function Qfhges(): float {		
+		return $this->gebaeude->qh() * $this->eh_ges() * $this->prozentualer_faktor();
 	}
 
 	/**
