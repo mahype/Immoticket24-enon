@@ -204,7 +204,7 @@ class Heizungsanlagen {
 
 		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
 			if( $heizungsanlage->energietraeger() === 'strom' ) {
-				$Qfstromges += $heizungsanlage->Qfhges();
+				$Qfstromges += $heizungsanlage->Qfhges() + $heizungsanlage->Qfwges();
 			}
 		}
 
