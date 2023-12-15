@@ -118,7 +118,7 @@ class Photovoltaik_Anlage {
 	public function QfprodPV(): float {
 		// Bestimmung von $qfprodPV, interpolieren nach Tab. 115 mit folgenden Angaben:
 		// Abfrage Kunde: PV-Anlage   Ja/Nein
-		// Abfrage Kunde : Ausrichtung der PV-Solaranlage (Nord, Nordost etc.) Dropdown _Menue nach Tab 115
+		// Abfrage Kunde : Ausrichtung der PV-Solaranlage (Nord, Nordost etc.) Dropdown _Menue nach Tab 115 (Tabelle 115 bezieht sich auf PV Anlagen ab 2017 Für PV Anlagen vor 2017 muss der Faktor aus der Tabelle mit 0,135/0,182 multipliziert werden). Siehe DIN 18599 Teil 9 Tabelle B2.
 		// Abfrage Kunde: Neigungswinkel (0, 30, 45, 60, 90°)
 		// Abfrage Kunde: Fläche der PV-Anlage, $APV
 
@@ -133,6 +133,12 @@ class Photovoltaik_Anlage {
 		// $QfprodPV=0
 
 		$qfprodPV = ( new Endenergie_Photovoltaikanlagen( $this->neigung(), $this->richtung() ) )->qfProdPVi0();
+
+		// Korrektur für Baujahr vor 2017, da die Werte in der Tabelle für Baujahr 2017 gelten.
+		if( $this->baujahr() < 2017 ) {
+			$qfprodPV *= 0.135 / 0.182;
+		}
+
 		return $qfprodPV * $this->flaeche();
 	}
 
