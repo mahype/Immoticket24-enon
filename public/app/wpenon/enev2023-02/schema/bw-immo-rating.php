@@ -83,8 +83,8 @@ if ( ! class_exists( '\Enev\Schema202302\Schema\Bedarfsausweis_Schema_Immo_Ratin
 
 			$data['wand_daemmung_jahr'] = array(
 				'type'        => 'select',
-				'label'       => __( 'Zeitraum der nachträglichen Dämmung', 'wpenon' ),
-				'description' => __( 'Wurden eine nachträgliche Dämmung vorgenommen und wenn ja vor wie viel Jahren?', 'wpenon' ),
+				'label'       => __( 'Zeitraum der Dämmung', 'wpenon' ),
+				'description' => __( 'Wurden eine Dämmung vorgenommen und wenn ja vor wie viel Jahren?', 'wpenon' ),
 				'options'     => array(
 					'nein'  => __( 'Keine Verbesserung', 'wpenon' ),
 					'0-5'   => __( 'Vor 0-5 Jahren', 'wpenon' ),
@@ -108,7 +108,7 @@ if ( ! class_exists( '\Enev\Schema202302\Schema\Bedarfsausweis_Schema_Immo_Ratin
 
 			$data['dach_daemmung_jahr'] = array(
 				'type'                  => 'int',
-				'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
+				'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
 				'description'           => sprintf( __( 'Das Jahr in dem die Dämmung vorgenommen wurde.', 'wpenon' ), 'a' ),
 				'min'                   => 1800,
 				'max'                   => wpenon_get_reference_date( 'Y' ),

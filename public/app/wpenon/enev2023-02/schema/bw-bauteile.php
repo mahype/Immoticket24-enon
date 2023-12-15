@@ -96,7 +96,7 @@ $bauteile = array(
 				),
 				'wand_a_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -106,8 +106,8 @@ $bauteile = array(
 				),
 				'wand_a_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -164,7 +164,7 @@ $bauteile = array(
 				),
 				'wand_b_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -174,8 +174,8 @@ $bauteile = array(
 				),
 				'wand_b_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'b' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'b' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -232,7 +232,7 @@ $bauteile = array(
 				),
 				'wand_c_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -242,8 +242,8 @@ $bauteile = array(
 				),
 				'wand_c_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'c' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'c' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -300,7 +300,7 @@ $bauteile = array(
 				),
 				'wand_d_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -310,8 +310,8 @@ $bauteile = array(
 				),
 				'wand_d_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -368,7 +368,7 @@ $bauteile = array(
 				),
 				'wand_e_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -378,8 +378,8 @@ $bauteile = array(
 				),
 				'wand_e_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -436,7 +436,7 @@ $bauteile = array(
 				),
 				'wand_f_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -446,8 +446,8 @@ $bauteile = array(
 				),
 				'wand_f_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -504,7 +504,7 @@ $bauteile = array(
 				),
 				'wand_g_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -514,8 +514,8 @@ $bauteile = array(
 				),
 				'wand_g_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -571,7 +571,7 @@ $bauteile = array(
 				),
 				'wand_h_daemmung'           => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Dämmung', 'wpenon' ),
+					'label'   => __( 'Dämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -581,8 +581,8 @@ $bauteile = array(
 				),
 				'wand_h_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -662,8 +662,8 @@ $bauteile = array(
 				),
 				'anbauwand_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -843,8 +843,8 @@ $bauteile = array(
 				),
 				'dach_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -880,8 +880,8 @@ $bauteile = array(
 				),
 				'decke_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -924,8 +924,8 @@ $bauteile = array(
 				),
 				'anbaudach_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -1004,8 +1004,8 @@ $bauteile = array(
 				),
 				'keller_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -1033,8 +1033,8 @@ $bauteile = array(
 				),
 				'boden_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -1077,8 +1077,8 @@ $bauteile = array(
 				),
 				'anbauboden_daemmung_baujahr'        => array(
 					'type'                  => 'int',
-					'label'                 => __( 'Jahr der nachträglichen Dämmung', 'wpenon' ),
-					'description'           => sprintf( __( 'Geben Sie das Jahr der nachträglichen Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
+					'label'                 => __( 'Jahr der Dämmung', 'wpenon' ),
+					'description'           => sprintf( __( 'Geben Sie das Jahr der Dämmung an Wand %s an.', 'wpenon' ), 'a' ),
 					'min'                   => 1800,					
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
