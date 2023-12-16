@@ -349,7 +349,7 @@ abstract class Heizungsanlage {
 		}
 
 		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
-		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->gebaeude->trinkwarmwasseranlage()->keew() ) );
+		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg_korrektur() * $this->prozentualer_faktor() * ( 1 - $this->gebaeude->trinkwarmwasseranlage()->keew() ) );
 
 		return $this->Qfwges;
 	}
