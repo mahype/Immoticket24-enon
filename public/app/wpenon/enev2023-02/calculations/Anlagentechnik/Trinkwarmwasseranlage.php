@@ -511,7 +511,7 @@ class Trinkwarmwasseranlage {
 			$Ac = $Ac * ( $this->gebaeude->nutzflaeche() / 5000 );
 		}	
 
-		$Ac *= $this->fwb() * $this->fAc();
+		$Ac *= $this->fwb();
 
 		return $Ac;
 	}
