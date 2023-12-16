@@ -157,33 +157,16 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	}
 
 	/**
-	 * Bestimmung von $ewg.
-	 *
-	 * @return float
-	 * @throws Calculation_Exception
-	 */
-	public function ewg(): float {
-		return $this->ewg0() * $this->fbjw() * $this->fegtw();		
-	}
-
-	/**
-	 * ewg_korrektur.
+	 * ewg
 	 * 
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function ewg_korrektur(): float {
-		return 1 + ( $this->ewg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
-	}
-
-	/**
-	 * Korrekturfaktor ehg.
-	 *
-	 * @return float
-	 */
-	public function ehg(): float {
-		// $eg=$eg0*$fbj*$fegt
-		return $this->eg0() * $this->fbj() * $this->fegt();
+	public function ewg(): float {
+		// Basis ewg Wert
+		$ewg = $this->ewg0() * $this->fbjw() * $this->fegtw();
+		// Korrekturfaktor für Kessel
+		return 1 + ( $ewg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
 	}
 
 	/**
@@ -192,8 +175,11 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function ehg_korrektur(): float {		
- 		return 1 + ( $this->ehg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); // Inkl. Korrektur.
+	public function ehg(): float {
+		// Basis ehg Wert
+		$ehg = $this->eg0() * $this->fbj() * $this->fegt();
+		// Korrekturfaktor für Kessel
+ 		return 1 + ( $ehg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); 
 	}
 
 	/**

@@ -651,6 +651,14 @@ $jahr = new Jahr();
 				</tr>
 			</table>
 
+			<h5>Weitere Werte</h5>
+			<table>
+				<tr>
+					<th>MCO2</th>
+					<td><?php echo $heizungsanlage->MCO2(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'waermepumpe' ) : ?>
 			<table>
 				<tr>
@@ -728,6 +736,14 @@ $jahr = new Jahr();
 				</tr>
 			</table>
 
+			<h5>Weitere Werte</h5>
+			<table>
+				<tr>
+					<th>MCO2</th>
+					<td><?php echo $heizungsanlage->MCO2(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'fernwaerme' ) : ?>
 			<table>
 				<tr>
@@ -785,6 +801,14 @@ $jahr = new Jahr();
 				</tr>
 			</table>
 
+			<h5>Weitere Werte</h5>
+			<table>
+				<tr>
+					<th>MCO2</th>
+					<td><?php echo $heizungsanlage->MCO2(); ?></td>
+				</tr>
+			</table>
+
 		<?php elseif ( $heizungsanlage->kategorie() === 'dezentral' ) : ?>
 			<table>
 				<tr>
@@ -823,6 +847,14 @@ $jahr = new Jahr();
 				<tr>
 					<th>Wwg</th>
 					<td><?php echo $heizungsanlage->Wwg(); ?></td>
+				</tr>
+			</table>
+
+			<h5>Weitere Werte</h5>
+			<table>
+				<tr>
+					<th>MCO2</th>
+					<td><?php echo $heizungsanlage->MCO2(); ?></td>
 				</tr>
 			</table>
 		<?php endif; ?>

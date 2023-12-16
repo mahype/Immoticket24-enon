@@ -71,6 +71,13 @@ abstract class Heizungsanlage {
 	protected float $Qfwges;
 
 	/**
+	 * Qpges.
+	 * 
+	 * @return float
+	 */
+	protected float $Qpges;
+
+	/**
 	 * Konstruktor.
 	 *
 	 * @param Gebaeude $gebaeude
@@ -282,7 +289,7 @@ abstract class Heizungsanlage {
 	 * @param string $energietraeger 
 	 * @return float|void 
 	 */
-	protected function fhshi_energietraeger( string $energietraeger ) {
+	protected function fhshi_energietraeger( string $energietraeger ): float {
 		switch( $energietraeger ) {
 			case 'biooel':
 			case 'heizoel':
@@ -311,18 +318,51 @@ abstract class Heizungsanlage {
 	 * 
 	 * @return float 
 	 */
-	public function fhshi(): float {
-		return $this->fhshi_energietraeger( $this->energietraeger() );
+	protected function co2_energietraeger(): float {
+		switch( $this->energietraeger() ) {
+			case 'biooel':
+				return 210;
+			case 'heizoel':
+				return 310;
+			case 'biogas':
+				return 140;
+			case 'erdgas':
+				return 240;
+			case 'steinkohle':
+				return 400;
+			case 'braunkohle':
+				return 430;
+			case 'holzpellets':
+			case 'holzhackschnitzel':
+			case 'stueckholz':
+				return 20;		
+			case 'fernwaermekwkwfossil':
+				return 300;
+			case 'fernwaermehzwfossil':		
+				return 400;
+			case 'strom':
+				return 560;
+		}
+	}
+	
+	/**
+	 * Berechnung der CO2-Emissionen in Gramm.
+	 * 
+	 * @return float 
+	 * 
+	 * @throws Calculation_Exception 
+	 */
+	public function MCO2(): float {
+		return  $this->Qfges() * $this->fhshi() * $this->co2_energietraeger();
 	}
 
 	/**
-	 * Korrigierter Korrekturfaktor für die Heizungsanlage.
-	 *
-	 * @return float
-	 * @throws Calculation_Exception
+	 * Energieträgerabhängige Umrechnungsfaktor (Umrechnungsfaktor Heizwert Brennwert).
+	 * 
+	 * @return float 
 	 */
-	public function ehg_korrektur(): float {
-		return 1 + ( $this->ehg() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); // Inkl. Korrektur.
+	public function fhshi(): float {
+		return $this->fhshi_energietraeger( $this->energietraeger() );
 	}
 
 	/**
@@ -338,9 +378,13 @@ abstract class Heizungsanlage {
 		}
 
 		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)
-		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
+		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg() * $this->prozentualer_faktor();
 		
 		return $this->Qfhges;
+	}
+
+	public function Qfges(): float {
+		return $this->Qfhges() + $this->Qfwges();
 	}
 
 	public function Qfwges(): float {
@@ -348,8 +392,10 @@ abstract class Heizungsanlage {
 			return $this->Qfwges;
 		}
 
+		// ewg
+
 		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
-		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg_korrektur() * $this->prozentualer_faktor() * ( 1 - $this->gebaeude->trinkwarmwasseranlage()->keew() ) );
+		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->gebaeude->trinkwarmwasseranlage()->keew() ) );
 
 		return $this->Qfwges;
 	}

@@ -1071,7 +1071,7 @@ class Gebaeude {
 		// $Qfstrom1-3 = ($Wges/n)              , Die gilt für alle fossilen Heizungen und den Gas-Durchlauferhitzter
 		// $Qfstrom= $Qfstrom1-3
 
-		$Qfstrom = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom		
+		$Qfstrom = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom
 		$Qfstrom += $this->heizsystem()->heizungsanlagen()->Qfstromges(); // Strom aus mit Strom betriebene Heizungsanlagen (ohne Hilfsenergie)
 
 		if( ! $this->trinkwarmwasseranlage()->zentral() ) {
@@ -1095,6 +1095,25 @@ class Gebaeude {
 		$Qpges += $this->hilfsenergie()->Wges() * 1.8;
 
 		return $Qpges;
+	}
+
+	public function MCO2(): float {
+		$MCO2 = 0;
+
+		foreach ( $this->heizsystem->heizungsanlagen()->alle() as $heizungsanlage ) {
+			$MCO2 += $heizungsanlage->MCO2();
+		}
+
+		// Was ist mit Trinkwarwasser?
+
+		// if( ! $this->trinkwarmwasseranlage()->zentral() ) {
+		// 	$MCO2 += $this->trinkwarmwasseranlage()->MCO2();
+		// }
+
+		// Was ist mit Strom aus Hilfsenergie?
+		// $MCO2 += $this->hilfsenergie()->Wges() * 1.8;
+
+		return $MCO2;
 	}
 
 	/**
