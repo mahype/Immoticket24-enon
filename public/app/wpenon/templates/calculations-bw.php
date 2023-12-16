@@ -599,20 +599,12 @@ $jahr = new Jahr();
 					<td><?php echo $heizungsanlage->ehg(); ?></td>
 				</tr>
 				<tr>
-					<th>ehg korrektur</th>
-					<td><?php echo $heizungsanlage->ehg_korrektur(); ?></td>
-				</tr>
-				<tr>
 					<th>ewg0</th>
 					<td><?php echo $heizungsanlage->ewg0(); ?></td>
 				</tr>
 				<tr>
 					<th>ewg</th>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
-				</tr>
-				<tr>
-					<th>ewg korrektur</th>
-					<td><?php echo $heizungsanlage->ewg_korrektur(); ?></td>
 				</tr>
 			</table>
 			<h5>Hilfsenergie</h5>
