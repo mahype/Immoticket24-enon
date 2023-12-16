@@ -498,6 +498,11 @@ class Hilfsenergie {
 		return $this->Wrvce() + $this->Wrvd() + $this->Wrvs() + $this->gebaeude->lueftung()->Wrvg();
 	}
 
+	public function WsolPumpeg(): float {
+		// $WsolPumpeg=0.025*$Qwsola1;
+		return 0.025 * $this->gebaeude->trinkwarmwasseranlage()->Qwsola();
+	}
+
 	/**
 	 * Hilfsenergie Solar.
 	 * 
@@ -505,7 +510,7 @@ class Hilfsenergie {
 	 */
 	public function WsolPumpe(): float {
 		// $WsolPumpe=$WsolPumpece + WsolPumped + WsolPumpes + WsolPumpeg; // Solarpumpe 
-		return $this->WsolPumpece() + $this->WsolPumped() + $this->WsolPumpes();
+		return $this->WsolPumpece() + $this->WsolPumped() + $this->WsolPumpes() + $this->WsolPumpeg();
 	}
 
 	/**
