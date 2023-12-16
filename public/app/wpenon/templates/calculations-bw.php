@@ -949,6 +949,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Wrvce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wrvce() ) ); ?></p>
 	<p><?php printf( __( 'Wwce: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->Wwce() ) ); ?></p>
 	<p><?php printf( __( 'WsolPumpece: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpece() ) ); ?></p>
+	<p><?php printf( __( 'WsolPumpeg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->hilfsenergie()->WsolPumpeg() ) ); ?></p>
 
 	<h5>Bestimmung der Hilfsenergie_Verteilung Wd</h5>
 
