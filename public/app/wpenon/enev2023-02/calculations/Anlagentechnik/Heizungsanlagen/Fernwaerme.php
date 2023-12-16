@@ -94,7 +94,7 @@ class Fernwaerme extends Heizungsanlage {
 	}
 
 	/**
-     * Erzeugung Korrekturfaktur für die Heizungsanlage.
+     * Erzeugung Korrekturfaktur für die Heizungsanlage (Ein Ehg Korrigiert wird nicht berechnet laut 18599 Teil 12 Seite 334).
      * 
      * @return float 
      */

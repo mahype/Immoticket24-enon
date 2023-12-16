@@ -352,7 +352,7 @@ abstract class Heizungsanlage {
 		}
 
 		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)
-		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
+		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg_korrektur() * $this->prozentualer_faktor();
 		
 		return $this->Qfhges;
 	}
