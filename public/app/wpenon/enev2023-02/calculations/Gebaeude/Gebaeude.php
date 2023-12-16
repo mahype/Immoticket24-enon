@@ -1097,6 +1097,12 @@ class Gebaeude {
 		return $Qpges;
 	}
 
+	/**
+	 * Berechnung der CO2-Emissionen (kg).
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function MCO2(): float {
 		$MCO2 = 0;
 
@@ -1114,6 +1120,10 @@ class Gebaeude {
 		// $MCO2 += $this->hilfsenergie()->Wges() * 1.8;
 
 		return $MCO2;
+	}
+
+	public function MCO2a(): float {
+		return $this->MCO2() / $this->nutzflaeche();
 	}
 
 	/**

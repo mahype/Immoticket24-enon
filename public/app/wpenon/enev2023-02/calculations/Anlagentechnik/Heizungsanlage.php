@@ -346,14 +346,14 @@ abstract class Heizungsanlage {
 	}
 	
 	/**
-	 * Berechnung der CO2-Emissionen in Gramm.
+	 * Berechnung der CO2-Emissionen in kg.
 	 * 
 	 * @return float 
 	 * 
 	 * @throws Calculation_Exception 
 	 */
 	public function MCO2(): float {
-		return  $this->Qfges() * $this->fhshi() * $this->co2_energietraeger();
+		return  $this->Qfges() * $this->fhshi() * $this->co2_energietraeger() / 1000; // in kg
 	}
 
 	/**

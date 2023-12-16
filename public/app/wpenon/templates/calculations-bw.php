@@ -1049,5 +1049,9 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'Qf: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qf() ) ); ?></p>
 	<p><?php printf( __( 'Qp: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->Qp() ) ); ?></p>
 
+	<h3>CO2</h3>
+	<p><?php printf( __( 'CO2 Emissionen in Kg: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->MCO2() ) ); ?></p>
+	<p><?php printf( __( 'CO2 Emissionen in Kg/m2: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->MCO2a() ) ); ?></p>
+
 </div>
 
