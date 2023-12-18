@@ -123,15 +123,41 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, $has_unit );
 				default:
 					return '';
-			}
+			}	
 		case 'regenerativ_art':
-			return wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
-		case 'regenerativ_nutzung':
-			// TODO: Regenerative Nutzung neu einbauen
-			if( 'keine' !== $energieausweis->regenerativ_art ) {
-				return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
+			if ( $energieausweis->mode == 'v' ) {
+				return wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
 			}
-			return 'Keine';
+
+			$erneuerbare_energien = array();
+
+			if( $energieausweis->solarthermie_info == 'vorhanden' ) {
+				$erneuerbare_energien[] = 'Solarthermie';
+			}
+
+			if( $energieausweis->pv_info == 'vorhanden' ) {
+				$erneuerbare_energien[] = 'Photovoltaik';
+			}
+
+			return count( $erneuerbare_energien ) > 0 ? implode( ', ', $erneuerbare_energien ) : 'Keine';		
+		case 'regenerativ_nutzung':
+			if( $energieausweis->mode == 'v') {
+				if( 'keine' !== $energieausweis->regenerativ_art ) {
+					return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
+				}
+				
+				return 'Keine';
+			}
+
+			if( $energieausweis->solarthermie_info == 'vorhanden' ) {
+				$erneuerbare_energien[] = 'Warmwasser';
+			}
+
+			if( $energieausweis->pv_info == 'vorhanden' ) {
+				$erneuerbare_energien[] = 'Strom';
+			}
+
+			return count( $erneuerbare_energien ) > 0 ? implode( ', ', $erneuerbare_energien ) : 'Keine';
 		case 'lueftungsart':
 			$l_info = $energieausweis->l_info;
 			if ( $l_info == 'anlage' ) {
@@ -290,7 +316,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return null;
 		case 'verfahren':
-			return 'din-v-4108-6';
+			if( $energieausweis->mode == 'v') {
+				return 'din-v-4108-6';
+			}
+			return 'din-v-18599';
 		case 'regelung_absatz5':
 			return false;
 		case 'verfahren_vereinfacht':

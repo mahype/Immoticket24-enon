@@ -187,9 +187,9 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 					$x = $this->GetX();
 
 					$this->SetY( $this->GetY() + 0.64 );
-					$this->SetX( $x + 8 );
+					$this->SetX( $x + 6 );
 					$this->WriteCell( $this->GetData( 'regenerativ_art' ), 'L', 0, 63, $this->wpenon_fonts['default'][3] - 0.64 );
-					$this->SetX( $x + 95 );
+					$this->SetX( $x + 91 );
 					$this->WriteCell( $this->GetData( 'regenerativ_nutzung' ), 'L', 2, 45, $this->wpenon_fonts['default'][3] - 0.64 );
 					$this->SetX( $x );
 
@@ -346,11 +346,11 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 						$verfahren = $this->GetData( 'verfahren' );
 						switch ( $verfahren ) {
 							case 'din-v-18599':
-								$this->CheckBox( 114, 134 );
+								$this->CheckBox( 114, 134.5 );	
 								break;
 							case 'din-v-4108-6':
-							default:
-								$this->CheckBox( 114, 128.5 );
+							default:							
+								$this->CheckBox( 114, 127.9 );
 								break;
 						}
 						if ( $this->GetData( 'regelung_absatz5' ) ) {
@@ -496,10 +496,14 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 						$this->WriteCell( $this->GetData( 'energietraeger_warmwasser' ), 'L', 2, 104.5, 5.5 );
 						$x = $this->GetX();
 						$this->SetY( $this->GetY() + 0.64 );
+
+
+
 						$this->SetX( $x + 8 );
 						$this->WriteCell( $this->GetData( 'regenerativ_art' ), 'L', 0, 63, $this->wpenon_fonts['default'][3] - 0.64 );
 						$this->SetX( $x + 96 );
 						$this->WriteCell( $this->GetData( 'regenerativ_nutzung' ), 'L', 2, 45, $this->wpenon_fonts['default'][3] - 0.64 );
+						
 						$this->SetX( $x );
 						$image = $this->GetData( 'thumbnail_id', 0, true );
 						if ( $image ) {
