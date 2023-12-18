@@ -197,16 +197,16 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 					$lueftungsart = $this->GetData( 'lueftungsart' );		
 
 					switch ( $lueftungsart ) {
-						case 'fenster':
+						case 'ohne':
 							$this->CheckBox( $x + 2.4, $y + 3.3 );
 							break;
-						case 'schacht':
+						case 'schacht': // TODO: Gibt es nicht mehr zur Auswahl
 							$this->CheckBox( $x + 2.4, $y + 7.0 );
 							break;
-						case 'mitgewinnung':
+						case 'zu_abluft':
 							$this->CheckBox( $x + 34.7, $y + 3.4 );
 							break;
-						case 'ohnegewinnung':
+						case 'abluft':
 							$this->CheckBox( $x + 34.7, $y + 7 );
 							break;
 						default:
@@ -214,7 +214,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 					}
 					
 					if ( $this->GetData( 'kuehlung' ) ) {
-						$this->CheckBox( $x + 34.7, $y + 12.0 );
+						$this->CheckBox( $x + 34.7, $y + 12.4 );
 
 						if ( $this->GetData( 'inspektionspflichtige_klimaanlagen' ) ) {
 							$y = $this->getY();
@@ -232,17 +232,17 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 					$anlass = $this->GetData( 'anlass' );
 					switch ( $anlass ) {
 						case 'neubau':
-							$this->CheckBox( $x + 2.4, $y + 9.1 );
+							$this->CheckBox( $x + 2.4, $y + 9.4 );
 							break;
 						case 'modernisierung':
-							$this->CheckBox( $x + 45, $y + 9.1 );
+							$this->CheckBox( $x + 45, $y + 9.4 );
 							break;
 						case 'verkauf':
 							$this->CheckBox( $x + 2.2, $y + 13 );
 							break;
 						case 'sonstiges':
 						default:
-							$this->CheckBox( $x + 94.3, $y + 9.1 );
+							$this->CheckBox( $x + 94.3, $y + 9.4 );
 							break;
 					}
 					
