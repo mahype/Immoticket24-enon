@@ -3238,7 +3238,7 @@ ______________________________________________________________________________
 
 //----------------------
 
-// [ ] Berechnung des Endenergiebedarfs für den Energiepass (Endergebenis Endenergie)
+// [ ] Berechnung des Endenergiebedarfs für den Energiepass (Endergebenis Endenergie) Heizwert.
 
 // Berechnung der Endenergie unter Berücksichtigung des ansetztbaren Stromertrages der PV-Anlage (kWh/a)
 
@@ -3315,7 +3315,7 @@ ______________________________________________________________________________
 //       $Qp= $Qpges -  $Pvans *1.8              
 
 
-// TODO: Berechnung der Primärenergie mit PV-Einfluss (kwh/m^2a)
+// TODO: Berechnung der Primärenergie mit PV-Einfluss (kwh/m^2a) Brennwert - 
 
 //       $Qp= $Qp/$calculations['nutzflaeche']
 
