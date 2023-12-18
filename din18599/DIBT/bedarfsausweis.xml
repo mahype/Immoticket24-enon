@@ -1,161 +1,93 @@
 
 <n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2023" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
-    <n1:Registriernummer>BW-2023-004855733</n1:Registriernummer>
+  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2023" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
+    <n1:Registriernummer>AA-2023-000000000</n1:Registriernummer>
     <n1:Ausstellungsdatum>2023-12-13</n1:Ausstellungsdatum>
-    <n1:Bundesland>Baden-Württemberg</n1:Bundesland>
-    <n1:Postleitzahl>753XX</n1:Postleitzahl>
+    <n1:Bundesland>Nordrhein-Westfalen</n1:Bundesland>
+    <n1:Postleitzahl>426XX</n1:Postleitzahl>
     <n1:Gebaeudeteil>Ganzes Gebäude</n1:Gebaeudeteil>
-    <n1:Baujahr-Gebaeude>1969</n1:Baujahr-Gebaeude>
-    <n1:Altersklasse-Gebaeude>1969...1978</n1:Altersklasse-Gebaeude>
-    <n1:Baujahr-Waermeerzeuger>2020</n1:Baujahr-Waermeerzeuger>
-    <n1:Altersklasse-Waermeerzeuger>ab 2017</n1:Altersklasse-Waermeerzeuger>
-    <n1:wesentliche-Energietraeger-Heizung>Erdgas</n1:wesentliche-Energietraeger-Heizung>
-    <n1:wesentliche-Energietraeger-Warmwasser>Erdgas</n1:wesentliche-Energietraeger-Warmwasser>
-    <n1:Erneuerbare-Art>keine</n1:Erneuerbare-Art>
-    <n1:Erneuerbare-Verwendung>keine</n1:Erneuerbare-Verwendung>
-    <n1:Lueftungsart-Fensterlueftung>true</n1:Lueftungsart-Fensterlueftung>
+    <n1:Baujahr-Gebaeude>1980</n1:Baujahr-Gebaeude>
+    <n1:Altersklasse-Gebaeude>1979...1983</n1:Altersklasse-Gebaeude>
+    <n1:Baujahr-Waermeerzeuger>1980, 1995, 2020</n1:Baujahr-Waermeerzeuger>
+    <n1:Altersklasse-Waermeerzeuger>1979...1983</n1:Altersklasse-Waermeerzeuger>
+    <n1:wesentliche-Energietraeger-Heizung>Holzpellets, Erdgas</n1:wesentliche-Energietraeger-Heizung>
+    <n1:wesentliche-Energietraeger-Warmwasser>Strom</n1:wesentliche-Energietraeger-Warmwasser>
+    <n1:Erneuerbare-Art>Solarthermie, Photovoltaik</n1:Erneuerbare-Art>
+    <n1:Erneuerbare-Verwendung>Warmwasser, Strom</n1:Erneuerbare-Verwendung>
+    <n1:Lueftungsart-Fensterlueftung>false</n1:Lueftungsart-Fensterlueftung>
     <n1:Lueftungsart-Schachtlueftung>false</n1:Lueftungsart-Schachtlueftung>
     <n1:Lueftungsart-Anlage-o-WRG>false</n1:Lueftungsart-Anlage-o-WRG>
     <n1:Lueftungsart-Anlage-m-WRG>false</n1:Lueftungsart-Anlage-m-WRG>
     <n1:Kuehlungsart-passive-Kuehlung>false</n1:Kuehlungsart-passive-Kuehlung>
-    <n1:Kuehlungsart-Strom>false</n1:Kuehlungsart-Strom>
+    <n1:Kuehlungsart-Strom>true</n1:Kuehlungsart-Strom>
     <n1:Kuehlungsart-Waerme>false</n1:Kuehlungsart-Waerme>
     <n1:Kuehlungsart-gelieferte-Kaelte>false</n1:Kuehlungsart-gelieferte-Kaelte>
-          <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
-        <n1:Treibhausgasemissionen>59.39</n1:Treibhausgasemissionen>
-    <n1:Ausstellungsanlass>Sonstiges</n1:Ausstellungsanlass>
+          <n1:Anzahl-Klimanlagen>1</n1:Anzahl-Klimanlagen>
+      <n1:Anlage-groesser-12kW-ohneGA>false</n1:Anlage-groesser-12kW-ohneGA>
+      <n1:Anlage-groesser-12kW-mitGA>true</n1:Anlage-groesser-12kW-mitGA>
+      <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
+      <n1:Faelligkeitsdatum-Inspektion>2100-01-01</n1:Faelligkeitsdatum-Inspektion>
+        <n1:Treibhausgasemissionen>26.23</n1:Treibhausgasemissionen>
+    <n1:Ausstellungsanlass>Vermietung-Verkauf</n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer>true</n1:Datenerhebung-Eigentuemer>
     <n1:Wohngebaeude>
       <n1:Gebaeudetyp>Zweifamilienhaus</n1:Gebaeudetyp>
-      <n1:Anzahl-Wohneinheiten>2</n1:Anzahl-Wohneinheiten>
-      <n1:Gebaeudenutzflaeche>177</n1:Gebaeudenutzflaeche>
+      <n1:Anzahl-Wohneinheiten>1</n1:Anzahl-Wohneinheiten>
+      <n1:Gebaeudenutzflaeche>2200</n1:Gebaeudenutzflaeche>
       <n1:Bedarfswerte-18599>
         <n1:Wohngebaeude-Anbaugrad>freistehend</n1:Wohngebaeude-Anbaugrad>
-        <n1:Bruttovolumen>552</n1:Bruttovolumen>
-        <n1:durchschnittliche-Geschosshoehe>2.75</n1:durchschnittliche-Geschosshoehe>
+        <n1:Bruttovolumen>0</n1:Bruttovolumen>
+        <n1:durchschnittliche-Geschosshoehe>2.5</n1:durchschnittliche-Geschosshoehe>
+                <n1:Bauteil-Opak>
+          <n1:Flaechenbezeichnung>Flachdach</n1:Flaechenbezeichnung>
+          <n1:Flaeche>2500</n1:Flaeche>
+          <n1:U-Wert>0.6</n1:U-Wert>
+                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
+                    <n1:grenztAn>Aussenluft</n1:grenztAn>
+          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
+          <n1:Vorhangfassade>false</n1:Vorhangfassade>
+        </n1:Bauteil-Opak>
                 <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung>Außenwand a</n1:Flaechenbezeichnung>
-          <n1:Flaeche>47</n1:Flaeche>
-          <n1:U-Wert>1</n1:U-Wert>
-                    <n1:Ausrichtung>SW</n1:Ausrichtung>
+          <n1:Flaeche>110</n1:Flaeche>
+          <n1:U-Wert>0.8</n1:U-Wert>
+                    <n1:Ausrichtung>S</n1:Ausrichtung>
                     <n1:grenztAn>Aussenluft</n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Opak>
                 <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung>Außenwand b</n1:Flaechenbezeichnung>
-          <n1:Flaeche>33</n1:Flaeche>
-          <n1:U-Wert>1</n1:U-Wert>
-                    <n1:Ausrichtung>SO</n1:Ausrichtung>
+          <n1:Flaeche>110</n1:Flaeche>
+          <n1:U-Wert>0.8</n1:U-Wert>
+                    <n1:Ausrichtung>O</n1:Ausrichtung>
                     <n1:grenztAn>Aussenluft</n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Opak>
                 <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung>Außenwand c</n1:Flaechenbezeichnung>
-          <n1:Flaeche>47</n1:Flaeche>
-          <n1:U-Wert>1</n1:U-Wert>
-                    <n1:Ausrichtung>NO</n1:Ausrichtung>
+          <n1:Flaeche>110</n1:Flaeche>
+          <n1:U-Wert>0.8</n1:U-Wert>
+                    <n1:Ausrichtung>N</n1:Ausrichtung>
                     <n1:grenztAn>Aussenluft</n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Opak>
                 <n1:Bauteil-Opak>
           <n1:Flaechenbezeichnung>Außenwand d</n1:Flaechenbezeichnung>
-          <n1:Flaeche>33</n1:Flaeche>
-          <n1:U-Wert>1</n1:U-Wert>
-                    <n1:Ausrichtung>NW</n1:Ausrichtung>
+          <n1:Flaeche>110</n1:Flaeche>
+          <n1:U-Wert>0.8</n1:U-Wert>
+                    <n1:Ausrichtung>W</n1:Ausrichtung>
                     <n1:grenztAn>Aussenluft</n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Opak>
                 <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Kellerdecke</n1:Flaechenbezeichnung>
-          <n1:Flaeche>88</n1:Flaeche>
-          <n1:U-Wert>1</n1:U-Wert>
-                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
-                    <n1:grenztAn>Raumluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Oberste Geschossdecke</n1:Flaechenbezeichnung>
-          <n1:Flaeche>88</n1:Flaeche>
-          <n1:U-Wert>0.6</n1:U-Wert>
-                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
-                    <n1:grenztAn>Raumluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Heizkörpernischen Wand a</n1:Flaechenbezeichnung>
-          <n1:Flaeche>7</n1:Flaeche>
-          <n1:U-Wert>2</n1:U-Wert>
-                    <n1:Ausrichtung>SW</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Heizkörpernischen Wand b</n1:Flaechenbezeichnung>
-          <n1:Flaeche>5</n1:Flaeche>
-          <n1:U-Wert>2</n1:U-Wert>
-                    <n1:Ausrichtung>SO</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Heizkörpernischen Wand c</n1:Flaechenbezeichnung>
-          <n1:Flaeche>7</n1:Flaeche>
-          <n1:U-Wert>2</n1:U-Wert>
-                    <n1:Ausrichtung>NO</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Heizkörpernischen Wand d</n1:Flaechenbezeichnung>
-          <n1:Flaeche>5</n1:Flaeche>
-          <n1:U-Wert>2</n1:U-Wert>
-                    <n1:Ausrichtung>NW</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Rollladenkästen Wand a</n1:Flaechenbezeichnung>
-          <n1:Flaeche>1</n1:Flaeche>
-          <n1:U-Wert>1.8</n1:U-Wert>
-                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Rollladenkästen Wand b</n1:Flaechenbezeichnung>
-          <n1:Flaeche>1</n1:Flaeche>
-          <n1:U-Wert>1.8</n1:U-Wert>
-                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Rollladenkästen Wand c</n1:Flaechenbezeichnung>
-          <n1:Flaeche>1</n1:Flaeche>
-          <n1:U-Wert>1.8</n1:U-Wert>
-                    <n1:Ausrichtung>HOR</n1:Ausrichtung>
-                    <n1:grenztAn>Aussenluft</n1:grenztAn>
-          <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
-          <n1:Vorhangfassade>false</n1:Vorhangfassade>
-        </n1:Bauteil-Opak>
-                <n1:Bauteil-Opak>
-          <n1:Flaechenbezeichnung>Rollladenkästen Wand d</n1:Flaechenbezeichnung>
-          <n1:Flaeche>1</n1:Flaeche>
-          <n1:U-Wert>1.8</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Boden</n1:Flaechenbezeichnung>
+          <n1:Flaeche>2500</n1:Flaeche>
+          <n1:U-Wert>0.8</n1:U-Wert>
                     <n1:Ausrichtung>HOR</n1:Ausrichtung>
                     <n1:grenztAn>Aussenluft</n1:grenztAn>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
@@ -163,108 +95,69 @@
         </n1:Bauteil-Opak>
           
                 <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Fenster Wand a</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Fenster Wand Außenwand a</n1:Flaechenbezeichnung>
+          <n1:Flaeche>27</n1:Flaeche>
+          <n1:U-Wert>2.7</n1:U-Wert>
           <n1:g-Wert>0.6</n1:g-Wert>
-          <n1:Ausrichtung>SW</n1:Ausrichtung>
+          <n1:Ausrichtung>S</n1:Ausrichtung>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
                 <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Fenster Wand b</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Fenster Wand Außenwand b</n1:Flaechenbezeichnung>
+          <n1:Flaeche>27</n1:Flaeche>
+          <n1:U-Wert>2.7</n1:U-Wert>
           <n1:g-Wert>0.6</n1:g-Wert>
-          <n1:Ausrichtung>SO</n1:Ausrichtung>
+          <n1:Ausrichtung>O</n1:Ausrichtung>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
                 <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Fenster Wand c</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Fenster Wand Außenwand c</n1:Flaechenbezeichnung>
+          <n1:Flaeche>27</n1:Flaeche>
+          <n1:U-Wert>2.7</n1:U-Wert>
           <n1:g-Wert>0.6</n1:g-Wert>
-          <n1:Ausrichtung>NO</n1:Ausrichtung>
+          <n1:Ausrichtung>N</n1:Ausrichtung>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
                 <n1:Bauteil-Transparent>
-          <n1:Flaechenbezeichnung>Fenster Wand d</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Fenster Wand Außenwand d</n1:Flaechenbezeichnung>
+          <n1:Flaeche>27</n1:Flaeche>
+          <n1:U-Wert>2.7</n1:U-Wert>
           <n1:g-Wert>0.6</n1:g-Wert>
-          <n1:Ausrichtung>NW</n1:Ausrichtung>
+          <n1:Ausrichtung>W</n1:Ausrichtung>
           <n1:Glasdach-Lichtband-Lichtkuppel>false</n1:Glasdach-Lichtband-Lichtkuppel>
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
                         <n1:Bauteil-Dach>
-          <n1:Flaechenbezeichnung>Fenster Wand a</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
-        </n1:Bauteil-Dach>
-                <n1:Bauteil-Dach>
-          <n1:Flaechenbezeichnung>Fenster Wand b</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
-        </n1:Bauteil-Dach>
-                <n1:Bauteil-Dach>
-          <n1:Flaechenbezeichnung>Fenster Wand c</n1:Flaechenbezeichnung>
-          <n1:Flaeche>15</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
-        </n1:Bauteil-Dach>
-                <n1:Bauteil-Dach>
-          <n1:Flaechenbezeichnung>Fenster Wand d</n1:Flaechenbezeichnung>
-          <n1:Flaeche>10</n1:Flaeche>
-          <n1:U-Wert>1.1</n1:U-Wert>
+          <n1:Flaechenbezeichnung>Flachdach</n1:Flaechenbezeichnung>
+          <n1:Flaeche>2500</n1:Flaeche>
+          <n1:U-Wert>0.6</n1:U-Wert>
         </n1:Bauteil-Dach>
                 <n1:Waermebrueckenzuschlag>0.1</n1:Waermebrueckenzuschlag>
-        <n1:Transmissionswaermeverlust>36854</n1:Transmissionswaermeverlust>
-        <n1:Luftdichtheit>normal</n1:Luftdichtheit>
-        <n1:Lueftungswaermeverlust>8272</n1:Lueftungswaermeverlust>
-        <n1:Solare-Waermegewinne>9262</n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne>7739</n1:Interne-Waermegewinne>
-                <n1:Heizungsanlage>
-          <n1:Waermeerzeuger-Bauweise-4701>Brennwertkessel (ab 1995)</n1:Waermeerzeuger-Bauweise-4701>
-          <n1:Nennleistung>0</n1:Nennleistung>
-          <n1:Waermeerzeuger-Baujahr>2020</n1:Waermeerzeuger-Baujahr>
-          <n1:Anzahl-baugleiche>1</n1:Anzahl-baugleiche>
-          <n1:Energietraeger>Erdgas</n1:Energietraeger>
-          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
-          <n1:Emissionsfaktor>240</n1:Emissionsfaktor>
-        </n1:Heizungsanlage>
+        <n1:Transmissionswaermesenken>3746</n1:Transmissionswaermesenken>
+        <n1:Luftdichtheit>geprüft</n1:Luftdichtheit>
+        <n1:Lueftungswaermeverlust>0</n1:Lueftungswaermeverlust>
+        <n1:Solare-Waermegewinne>0</n1:Solare-Waermegewinne>
+        <n1:Interne-Waermegewinne>0</n1:Interne-Waermegewinne>
                 <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle>false</n1:Heizungsanlage-innerhalb-Huelle>        
-                <n1:Trinkwarmwasseranlage>
-          <n1:Trinkwarmwassererzeuger-Bauweise-4701>über Heizungsanlage beheizter Speicher</n1:Trinkwarmwassererzeuger-Bauweise-4701>
-          <n1:Trinkwarmwassererzeuger-Baujahr>2020</n1:Trinkwarmwassererzeuger-Baujahr>
-          <n1:Anzahl-baugleiche>1</n1:Anzahl-baugleiche>
-        </n1:Trinkwarmwasseranlage>
                 <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
         <n1:Trinkwarmwasserverteilung-Zirkulation>true</n1:Trinkwarmwasserverteilung-Zirkulation>
         <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
-        <n1:spezifischer-Transmissionswaermeverlust-Ist>1.07</n1:spezifischer-Transmissionswaermeverlust-Ist>
+        <n1:spezifischer-Transmissionswaermeverlust-Ist>4301.99</n1:spezifischer-Transmissionswaermeverlust-Ist>
         <n1:Innovationsklausel>false</n1:Innovationsklausel>
         <n1:Quartiersregelung>false</n1:Quartiersregelung>
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand>0</n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand>0</n1:Endenergiebedarf-Hoechstwert-Bestand>
         <n1:Treibhausgasemissionen-Hoechstwert-Bestand>0</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
-                <n1:Energietraeger-Liste>
-          <n1:Energietraegerbezeichnung>Erdgas</n1:Energietraegerbezeichnung>
-          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
-          <n1:Endenergiebedarf-Heizung-spezifisch>212.52</n1:Endenergiebedarf-Heizung-spezifisch>
-          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>0</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
-          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>27.31</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
-          <n1:Endenergiebedarf-Beleuchtung-spezifisch>0</n1:Endenergiebedarf-Beleuchtung-spezifisch>
-          <n1:Endenergiebedarf-Lueftung-spezifisch>0</n1:Endenergiebedarf-Lueftung-spezifisch>
-          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>239.83</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
-        </n1:Energietraeger-Liste>
-                <n1:Endenergiebedarf-Waerme-AN>239.8</n1:Endenergiebedarf-Waerme-AN>
-        <n1:Endenergiebedarf-Hilfsenergie-AN>212.5</n1:Endenergiebedarf-Hilfsenergie-AN>
-        <n1:Endenergiebedarf-Gesamt>243.09</n1:Endenergiebedarf-Gesamt>
-        <n1:Primaerenergiebedarf>269.7</n1:Primaerenergiebedarf>
-        <n1:Energieeffizienzklasse>H</n1:Energieeffizienzklasse>
+                <n1:Endenergiebedarf-Waerme-AN>0</n1:Endenergiebedarf-Waerme-AN>
+        <n1:Endenergiebedarf-Hilfsenergie-AN>0</n1:Endenergiebedarf-Hilfsenergie-AN>
+        <n1:Endenergiebedarf-Gesamt>182.68</n1:Endenergiebedarf-Gesamt>
+        <n1:Primaerenergiebedarf>131</n1:Primaerenergiebedarf>
+        <n1:Energieeffizienzklasse>E</n1:Energieeffizienzklasse>
         <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
       </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
@@ -273,29 +166,22 @@
             
       <n1:Modernisierungsempfehlungen>
         <n1:Nummer>1</n1:Nummer>
-        <n1:Bauteil-Anlagenteil>Sonstiges</n1:Bauteil-Anlagenteil>
-        <n1:Massnahmenbeschreibung>Solare Unterstützung für Warmwasser und Heizung</n1:Massnahmenbeschreibung>
-        <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
-      </n1:Modernisierungsempfehlungen>
-        
-      <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>2</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Außenwand gg. Erdreich</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>3</n1:Nummer>
-        <n1:Bauteil-Anlagenteil>Kellerdecke</n1:Bauteil-Anlagenteil>
-        <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 12 cm oder mehr</n1:Massnahmenbeschreibung>
+        <n1:Nummer>2</n1:Nummer>
+        <n1:Bauteil-Anlagenteil>Dach</n1:Bauteil-Anlagenteil>
+        <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>4</n1:Nummer>
-        <n1:Bauteil-Anlagenteil>oberste Geschossdecke</n1:Bauteil-Anlagenteil>
-        <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
+        <n1:Nummer>3</n1:Nummer>
+        <n1:Bauteil-Anlagenteil>Fenster</n1:Bauteil-Anlagenteil>
+        <n1:Massnahmenbeschreibung>Maximaler Uw - Wert bei 1,3 [W/m²K]</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
             </n1:Energieausweis-Daten>

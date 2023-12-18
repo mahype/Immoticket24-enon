@@ -50,7 +50,7 @@ class Bauteile implements Transmissionswaerme {
 	/**
 	 * Gibt alle Bauteile zurück.
 	 *
-	 * @return Bauteile[]
+	 * @return Bauteil[]
 	 */
 	public function alle(): array {
 		return $this->elemente;
@@ -93,6 +93,66 @@ class Bauteile implements Transmissionswaerme {
 
 				if ( $seite !== null && ( ! method_exists( $bauteil, 'seite' ) || $bauteil->seite() !== $seite ) ) {
 					$found = false;
+				}
+
+				return $found;
+			}
+		);
+
+		return new Bauteile( $elemente );
+	}
+
+	public function opak(): Bauteile {
+		$elemente = array_filter(
+			$this->elemente,
+			function ( $bauteil ) {
+				$found = true;
+
+				$reflect = new \ReflectionClass( $bauteil );
+				$class = $reflect->getShortName();
+
+				if( $class === 'Fenster' || $class === 'Anbaufenster' ) {
+					$found = false;
+				}
+
+				return $found;
+			}
+		);
+
+		return new Bauteile( $elemente );
+	}
+
+	public function transparent(): Bauteile {
+		$elemente = array_filter(
+			$this->elemente,
+			function ( $bauteil ) {
+				$found = false;
+
+				$reflect = new \ReflectionClass( $bauteil );
+				$class = $reflect->getShortName();
+
+				if( $class === 'Fenster' || $class === 'Anbaufenster' ) {
+					$found = true;
+				}
+
+				return $found;
+			}
+		);
+
+		return new Bauteile( $elemente );
+	}
+
+	public function dach(): Bauteile {
+		$elemente = array_filter(
+			$this->elemente,
+			function ( $bauteil ) {
+				$found = false;
+
+				$reflect = new \ReflectionClass( $bauteil );
+				$class = $reflect->getShortName();
+
+				if( $class === 'Flachdach' || $class === 'Satteldach' || $class === 'Walmdach'  || $class === 'Pultdach' || $class === 'Anbaudecke' ) {
+					$found = true;
 				}
 
 				return $found;

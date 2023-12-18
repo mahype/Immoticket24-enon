@@ -21,6 +21,7 @@ use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
 use Enev\Schema202302\Calculations\Bauteile\Anbaudecke;
 use Enev\Schema202302\Calculations\Bauteile\Anbaufenster;
 use Enev\Schema202302\Calculations\Bauteile\Anbauwand;
+use Enev\Schema202302\Calculations\Bauteile\Bauteile;
 use Enev\Schema202302\Calculations\Bauteile\Boden;
 use Enev\Schema202302\Calculations\Bauteile\Decke;
 use Enev\Schema202302\Calculations\Bauteile\Fenster;
@@ -610,11 +611,72 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 	));
 }
 
+
+$calculations['bauteile'][] = array();
+
+// Opake Bauteile
+foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {	
+	$data = array(
+		'modus' => 'opak',
+		'key' => $bauteil->name(),
+		'name' => $bauteil->name(),
+		'a' => $bauteil->flaeche(),
+		'u' => $bauteil->uwert(),
+	);
+
+	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
+		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
+	}	
+
+	$calculations['bauteile'][] = $data;
+}
+
+// Transparente Bauteile
+foreach( $gebaeude->bauteile()->transparent()->alle() AS $bauteil ) {	
+	$data = array(
+		'modus' => 'transparent',
+		'key' => $bauteil->name(),
+		'name' => $bauteil->name(),
+		'a' => $bauteil->flaeche(),
+		'u' => $bauteil->uwert(),
+	);
+
+	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
+		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
+	}	
+
+	$calculations['bauteile'][] = $data;
+}
+
+// Dach
+foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {	
+	$data = array(
+		'modus' => 'dach',
+		'key' => $bauteil->name(),
+		'name' => $bauteil->name(),
+		'a' => $bauteil->flaeche(),
+		'u' => $bauteil->uwert(),
+	);
+
+	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
+		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
+	}	
+
+	$calculations['bauteile'][] = $data;
+}
+
+
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
+
+// TODO: Check ob die Werte korrekt eingesetz wurden
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
 $calculations['ht_b'] = $gebaeude->ht_ges();
+$calculations['qt'] = $gebaeude->bauteile()->ht(); 
+$calculations['qs'] = $gebaeude->qi_solar();
+$calculations['qi'] = $gebaeude->qi();
+
 
 return $calculations;

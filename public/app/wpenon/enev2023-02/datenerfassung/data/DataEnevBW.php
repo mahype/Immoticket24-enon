@@ -103,6 +103,50 @@ class DataEnevBW extends DataEnev {
     }
 
     /**
+     * Erneuerbare Art
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function ErneuerbareArt() : string
+    {
+        $erneuerbare_energien = array();
+
+        if( $this->energieausweis->solarthermie_info == 'vorhanden' ) {
+            $erneuerbare_energien[] = 'Solarthermie';
+        }
+
+        if( $this->energieausweis->pv_info == 'vorhanden' ) {
+            $erneuerbare_energien[] = 'Photovoltaik';
+        }
+
+        return count( $erneuerbare_energien ) > 0 ? implode( ', ', $erneuerbare_energien ) : 'Keine';		
+    }
+
+    /**
+     * Erneuerbare Verwendung
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function ErneuerbareVerwendung() : string
+    {
+        if( $this->energieausweis->solarthermie_info == 'vorhanden' ) {
+            $erneuerbare_energien[] = 'Warmwasser';
+        }
+
+        if( $this->energieausweis->pv_info == 'vorhanden' ) {
+            $erneuerbare_energien[] = 'Strom';
+        }
+
+        return count( $erneuerbare_energien ) > 0 ? implode( ', ', $erneuerbare_energien ) : 'Keine';
+    }
+
+
+
+    /**
      * Baujahr Gebäude
      * 
      * @return string

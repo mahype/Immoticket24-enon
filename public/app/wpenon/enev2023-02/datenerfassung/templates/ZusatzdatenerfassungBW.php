@@ -86,7 +86,7 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Vorhangfassade>false</n1:Vorhangfassade>
         </n1:Bauteil-Transparent>
         <?php endforeach; ?>
-        <?php foreach( $data->BauteileTransparent() AS $bauteil ): ?>
+        <?php foreach( $data->BauteileDach() AS $bauteil ): ?>
         <n1:Bauteil-Dach>
           <n1:Flaechenbezeichnung><?php echo $bauteil->Flaechenbezeichnung(); ?></n1:Flaechenbezeichnung>
           <n1:Flaeche><?php echo $bauteil->Flaeche(); ?></n1:Flaeche>
@@ -94,9 +94,9 @@ $data = new DataEnevBW( $energieausweis );
         </n1:Bauteil-Dach>
         <?php endforeach; ?>
         <n1:Waermebrueckenzuschlag><?php echo $data->Waermebrueckenzuschlag(); ?></n1:Waermebrueckenzuschlag>
-        <n1:Transmissionswaermeverlust><?php echo $data->Transmissionswaermeverlust(); ?></n1:Transmissionswaermeverlust>
+        <n1:Transmissionswaermesenken><?php echo $data->Transmissionswaermeverlust(); ?></n1:Transmissionswaermesenken>
         <n1:Luftdichtheit><?php echo $data->Luftdichtheit(); ?></n1:Luftdichtheit>
-        <n1:Lueftungswaermeverlust><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermeverlust>
+        <n1:Lueftungswaermesenken><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermesenken>
         <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
         <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
         <?php foreach( $data->Heizungsanlagen() AS $heizungsanlage ): ?>
@@ -147,7 +147,7 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Primaerenergiebedarf><?php echo $data->Primaerenergiebedarf(); ?></n1:Primaerenergiebedarf>
         <n1:Energieeffizienzklasse><?php echo $data->Energieeffizienzklasse(); ?></n1:Energieeffizienzklasse>
         <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
-      </n1:Bedarfswerte-4108-4701>
+      </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich><?php echo $data->EmpfehlungenMoeglich(); ?></n1:Empfehlungen-moeglich>
     <n1:Keine-Modernisierung-Erweiterung-Vorhaben>true</n1:Keine-Modernisierung-Erweiterung-Vorhaben>
