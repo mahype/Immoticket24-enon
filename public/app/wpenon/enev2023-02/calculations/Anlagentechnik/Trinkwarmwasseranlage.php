@@ -399,7 +399,7 @@ class Trinkwarmwasseranlage {
 	 */
 	public function keew(): float {
 		// 0,5 * fqsol
-		return 0.5 * $this->fQsola(); // Zum jetzigen Zeitpunkt ist keew immer 0.5, da wir keine Solarthermie in der Heizung haben.
+		return 0.5 * $this->fQsola();
 	}
 
 	/**

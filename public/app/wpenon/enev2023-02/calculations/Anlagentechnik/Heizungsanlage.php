@@ -387,6 +387,12 @@ abstract class Heizungsanlage {
 		return $this->Qfhges() + $this->Qfwges();
 	}
 
+	/**
+	 * Primärenergiewert.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Qfwges(): float {
 		if( isset( $this->Qfwges ) ) {
 			return $this->Qfwges;
@@ -400,6 +406,12 @@ abstract class Heizungsanlage {
 		return $this->Qfwges;
 	}
 
+	/**
+	 * Primärenergiewert Brennwertbezogen.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Qpges(): float {
 		if( isset( $this->Qpges ) ) {
 			return $this->Qpges;

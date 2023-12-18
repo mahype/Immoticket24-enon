@@ -1144,7 +1144,12 @@ class Gebaeude {
 		return $Qf / $this->nutzflaeche();
 	}
 
-	
+	/**
+	 * Berechnung der flächenbezogenen Endenergie (Primärenergie)  (kwh/m^2a).
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Qp(): float {
 		$Qp = $this->Qpges();
 
