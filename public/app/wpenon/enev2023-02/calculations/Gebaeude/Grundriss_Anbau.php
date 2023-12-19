@@ -16,10 +16,10 @@ class Grundriss_Anbau extends Grundriss {
 	protected function init_formen() {
 		$this->formen = array(
 			'a' => array(
-				'b'      => array( true ),
-				't'      => array( true ),
-				'b2'     => array( 'b' ),
-				't2'     => array( 't - s1' ),
+				'b'      => array( true, 0 ),
+				't'      => array( true, 1 ),
+				'b2'     => array( 'b', 2 ),
+				't2'     => array( 't - s1', 3 ),
 				's1'     => array( true ),								
 				'waende' => array( 'b', 'b2', 't', 't2' ),
 				'fla'    => array(
@@ -27,10 +27,10 @@ class Grundriss_Anbau extends Grundriss {
 				),
 			),
 			'b' => array(
-				'b'   => array( true ),				
-				't'   => array( true ),				
-				'b2'  => array( 'b - s2' ),
-				's1'  => array( true ),
+				'b'   => array( true, 0  ),				
+				't'   => array( true, 1  ),				
+				'b2'  => array( 'b - s2', 2  ),
+				's1'  => array( true, 3  ),
 				's2'  => array( true ),
 				't2'  => array( 't - s1' ),				
 				'waende' => array( 'b', 'b2', 't', 't2' ),
