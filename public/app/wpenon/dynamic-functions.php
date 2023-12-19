@@ -624,49 +624,44 @@ function wpenon_immoticket24_show_uebergabe_2024( $h1_erzeugung, $h2_erzeugung, 
 	return false;
 }
 
-function wpenon_immoticket24_get_auslegungstemperaturen_2024( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) {
+function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
 	switch( $h_uebergabe ) {
+		case 'elektroheizungsflaechen':
+			return false;			
 		case 'flaechenheizung':
 			if( wpenon_waermepumpe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
-				$auslegungstemperaturen = array( '35/28' => __( '35/28°', 'wpenon' ) );
+				return false;
 			}
-			break;
+			return true;
 		case 'heizkoerper':
-			if( wpenon_standardkessel_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
-				$auslegungstemperaturen = array( '55/45' => __( '55/45°', 'wpenon' ) );
+			if( wpenon_erzeuger_vorhanden( 'standardkessel', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
+				return false;
 			}
-			break;
+			if( wpenon_erzeuger_vorhanden( 'niedertemperaturkessel', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
+				return false;
+			}
+			if( wpenon_erzeuger_vorhanden( 'brennwertkessel', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
+				return false;
+			}
+			return true;
 		default:
-			$auslegungstemperaturen = array(
-				'90/70' => __( '90/70°', 'wpenon' ),
-				'70/55' => __( '70/55°', 'wpenon' ),
-				'55/45' => __( '55/45°', 'wpenon' ),
-				'35/28' => __( '35/28°', 'wpenon' ),
-			);
-			break;
+			return true;
 	}
-
-	return $auslegungstemperaturen;
 }
 
-function wpenon_waermepumpe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
-	if ( $h1_erzeugung === 'waermepumpeluft' || $h1_erzeugung === 'waermepumpewasser' || $h1_erzeugung === 'waermepumpeerde' ) {
-		return true;
-	}
-
-	if ( $h2_erzeugung === 'waermepumpeluft' || $h2_erzeugung === 'waermepumpewasser' || $h2_erzeugung === 'waermepumpeerde' ) {
-		return true;
-	}
-
-	if ( $h3_erzeugung === 'waermepumpeluft' || $h3_erzeugung === 'waermepumpewasser' || $h3_erzeugung === 'waermepumpeerde' ) {
+function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
+	if ( $h1_erzeugung === $erzeuger || $h2_erzeugung === $erzeuger || $h3_erzeugung === $erzeuger ) {
 		return true;
 	}
 
 	return false;
 }
 
-function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
-	if ( $h1_erzeugung === $erzeuger || $h2_erzeugung === $erzeuger || $h3_erzeugung === $erzeuger ) {
+function wpenon_waermepumpe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
+	if( 
+		wpenon_erzeuger_vorhanden( 'waermepumpeluft', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ||
+		wpenon_erzeuger_vorhanden( 'waermepumpewasser', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) || 
+		wpenon_erzeuger_vorhanden( 'waermepumpeerde', $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
 		return true;
 	}
 

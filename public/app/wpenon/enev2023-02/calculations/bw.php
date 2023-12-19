@@ -578,13 +578,45 @@ if ( $energieausweis->h3_info ) {
 	}
 }
 
+// Automatische Berechnung der Auslegungstemperaturen.
+switch( $energieausweis->h_uebergabe ) {
+	case 'elektroheizungsflaechen':
+		$auslegungstemperaturen = null;	
+		break;
+	case 'flaechenheizung':
+		if( wpenon_waermepumpe_vorhanden( $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
+			$auslegungstemperaturen = '35/28';
+			break;
+		}
+		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
+		break;
+	case 'heizkoerper':
+		if( wpenon_erzeuger_vorhanden( 'standardkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
+			$auslegungstemperaturen = '90/70';
+			break;
+		}
+		if( wpenon_erzeuger_vorhanden( 'niedertemperaturkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
+			$auslegungstemperaturen = '70/55';
+			break;
+		}
+		if( wpenon_erzeuger_vorhanden( 'brennwertkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
+			$auslegungstemperaturen = '55/45';
+			break;
+		}
+		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
+		break;
+	default:
+		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
+		break;
+}
+
 // Wir rechnen vorerst nur mit einem Übergabesystem.
 if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
-			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
+			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
 			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
@@ -595,7 +627,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
-			auslegungstemperaturen: $energieausweis->h_uebergabe_auslegungstemperaturen,
+			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);

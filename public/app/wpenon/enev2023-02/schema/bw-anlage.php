@@ -1070,22 +1070,16 @@ $anlage = array(
 				'h_uebergabe_auslegungstemperaturen' => array(
 					'type'        => 'select',
 					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),
-					'options'     => array(
-						'callback'      => 'wpenon_immoticket24_get_auslegungstemperaturen_2024',
-						'callback_args' => array(
-							'field::h2_info',
-							'field::h3_info',
-							'field::h_erzeugung',
-							'field::h2_erzeugung',
-							'field::h3_erzeugung'
-						),
-					),
+					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),					
 					'options'     => array(
 						'90/70' => __( '90/70°', 'wpenon' ),
 						'70/55' => __( '70/55°', 'wpenon' ),
 						'55/45' => __( '55/45°', 'wpenon' ),
 						'35/28' => __( '35/28°', 'wpenon' ),
+					),
+					'display'  => array(
+						'callback'      => 'wpenon_show_auslegungstemperaturen',
+						'callback_args' => array( 'field::h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung' ),
 					),
 					'required'    => true,
 				),
