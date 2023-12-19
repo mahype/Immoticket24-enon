@@ -652,7 +652,7 @@ $bauteile = array(
 				),
 				'anbauwand_daemmung'        => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Anbau-Wanddämmung', 'wpenon' ),
+					'label'   => __( 'Anbau-Wanddämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 23,
 					'display' => array(
@@ -832,7 +832,7 @@ $bauteile = array(
 				),
 				'dach_daemmung'      => array(
 					'type'        => 'int',
-					'label'       => __( 'Nachträgliche Dachdämmung', 'wpenon' ),
+					'label'       => __( 'Dachdämmung', 'wpenon' ),
 					'description' => __( 'Falls das Dach nachträglich gedämmt worden ist, geben Sie hier dessen Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 30,
@@ -869,7 +869,7 @@ $bauteile = array(
 				),
 				'decke_daemmung'     => array(
 					'type'        => 'int',
-					'label'       => __( 'Nachträgliche Deckendämmung', 'wpenon' ),
+					'label'       => __( 'Deckendämmung', 'wpenon' ),
 					'description' => __( 'Falls die Oberste Geschossdecke nachträglich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 30,
@@ -914,7 +914,7 @@ $bauteile = array(
 				),
 				'anbaudach_daemmung' => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Anbau-Dachdämmung', 'wpenon' ),
+					'label'   => __( 'Anbau-Dachdämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 30,
 					'display' => array(
@@ -993,7 +993,7 @@ $bauteile = array(
 				),
 				'keller_daemmung'     => array(
 					'type'        => 'int',
-					'label'       => __( 'Nachträgliche Kellerwanddämmung', 'wpenon' ),
+					'label'       => __( 'Kellerwanddämmung', 'wpenon' ),
 					'description' => __( 'Falls die Kellerwände nachträglich gedämmt worden sind, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 23,
@@ -1026,7 +1026,7 @@ $bauteile = array(
 				),
 				'boden_daemmung'      => array(
 					'type'        => 'int',
-					'label'       => __( 'Nachträgliche Bodendämmung', 'wpenon' ),
+					'label'       => __( 'Bodendämmung', 'wpenon' ),
 					'description' => __( 'Falls die Bodenplatte / Kellerdecke nachträglich gedämmt worden ist, geben Sie hier deren Dämmstärke in Zentimetern an.', 'wpenon' ),
 					'unit'        => 'cm',
 					'max'         => 25,
@@ -1067,7 +1067,7 @@ $bauteile = array(
 				),
 				'anbauboden_daemmung' => array(
 					'type'    => 'int',
-					'label'   => __( 'Nachträgliche Anbau-Bodendämmung', 'wpenon' ),
+					'label'   => __( 'Anbau-Bodendämmung', 'wpenon' ),
 					'unit'    => 'cm',
 					'max'     => 25,
 					'display' => array(
