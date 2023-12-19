@@ -89,7 +89,7 @@ $jahr = new Jahr();
 		<th>U-Wert</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
-	<th>Dämmstärke</th>
+		<th>Dämmstärke</th>
 	</tr>
 	<?php foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) : ?>
 	<tr>
@@ -98,7 +98,7 @@ $jahr = new Jahr();
 		<td><?php echo str_replace( '.', ',', $wand->uwert() ); ?> W/(m<sup>2</sup>K)</td>
 		<td><?php echo str_replace( '.', ',', $wand->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->ht() ); ?> W/K</td>
-	<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> m</td>
+	<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 	</tr>
 	<?php endforeach; ?>
 	</table>
