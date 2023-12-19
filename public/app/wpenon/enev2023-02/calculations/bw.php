@@ -678,5 +678,4 @@ $calculations['qt'] = $gebaeude->bauteile()->ht();
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();
 
-
 return $calculations;

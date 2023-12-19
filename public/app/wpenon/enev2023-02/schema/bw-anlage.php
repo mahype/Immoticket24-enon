@@ -22,7 +22,6 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
-						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 				),
@@ -1063,11 +1062,25 @@ $anlage = array(
 						'flaechenheizung'         => __( 'Flächenheizung Fußboden/Wandheizung', 'wpenon' ),
 					),
 					'required'    => true,
+					'display'  => array(
+						'callback'      => 'wpenon_immoticket24_show_uebergabe_2024',
+						'callback_args' => array( 'field::h1_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
+					),
 				),
 				'h_uebergabe_auslegungstemperaturen' => array(
 					'type'        => 'select',
 					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
 					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),
+					'options'     => array(
+						'callback'      => 'wpenon_immoticket24_get_auslegungstemperaturen_2024',
+						'callback_args' => array(
+							'field::h2_info',
+							'field::h3_info',
+							'field::h_erzeugung',
+							'field::h2_erzeugung',
+							'field::h3_erzeugung'
+						),
+					),
 					'options'     => array(
 						'90/70' => __( '90/70°', 'wpenon' ),
 						'70/55' => __( '70/55°', 'wpenon' ),
@@ -1232,7 +1245,7 @@ $anlage = array(
 				),
 				'l_art'             => array(
 					'type'     => 'select',
-					'label'    => __( 'Art (Name!)', 'wpenon' ),
+					'label'    => __( 'Art', 'wpenon' ),
 					'options'  => array(
 						'zentral'   => __( 'Zentral', 'wpenon' ),
 						'dezentral' => __( 'Dezentral', 'wpenon' ),

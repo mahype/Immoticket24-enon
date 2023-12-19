@@ -608,6 +608,71 @@ function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeu
 	return true;
 }
 
+function wpenon_immoticket24_show_uebergabe_2024( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) {
+	if ( $h1_erzeugung !== 'infrarotheizung' && $h1_erzeugung !== 'elektronachtspeicherheizung' ) {
+		return true;
+	}
+
+	if ( $h2_info && $h2_erzeugung !== 'infrarotheizung' && $h2_erzeugung !== 'elektronachtspeicherheizung' ) {
+		return true;
+	}
+
+	if ( $h3_info && $h3_erzeugung !== 'infrarotheizung' && $h3_erzeugung !== 'elektronachtspeicherheizung' ) {
+		return true;
+	}
+
+	return false;
+}
+
+function wpenon_immoticket24_get_auslegungstemperaturen_2024( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) {
+	switch( $h_uebergabe ) {
+		case 'flaechenheizung':
+			if( wpenon_waermepumpe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
+				$auslegungstemperaturen = array( '35/28' => __( '35/28°', 'wpenon' ) );
+			}
+			break;
+		case 'heizkoerper':
+			if( wpenon_standardkessel_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) ) {
+				$auslegungstemperaturen = array( '55/45' => __( '55/45°', 'wpenon' ) );
+			}
+			break;
+		default:
+			$auslegungstemperaturen = array(
+				'90/70' => __( '90/70°', 'wpenon' ),
+				'70/55' => __( '70/55°', 'wpenon' ),
+				'55/45' => __( '55/45°', 'wpenon' ),
+				'35/28' => __( '35/28°', 'wpenon' ),
+			);
+			break;
+	}
+
+	return $auslegungstemperaturen;
+}
+
+function wpenon_waermepumpe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
+	if ( $h1_erzeugung === 'waermepumpeluft' || $h1_erzeugung === 'waermepumpewasser' || $h1_erzeugung === 'waermepumpeerde' ) {
+		return true;
+	}
+
+	if ( $h2_erzeugung === 'waermepumpeluft' || $h2_erzeugung === 'waermepumpewasser' || $h2_erzeugung === 'waermepumpeerde' ) {
+		return true;
+	}
+
+	if ( $h3_erzeugung === 'waermepumpeluft' || $h3_erzeugung === 'waermepumpewasser' || $h3_erzeugung === 'waermepumpeerde' ) {
+		return true;
+	}
+
+	return false;
+}
+
+function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
+	if ( $h1_erzeugung === $erzeuger || $h2_erzeugung === $erzeuger || $h3_erzeugung === $erzeuger ) {
+		return true;
+	}
+
+	return false;
+}
+
 function wpenon_immoticket24_show_ww_erzeugung( $ww_info, $h_erzeugung ) {
 	if ( 'ww' === $ww_info ) {
 		return true;
