@@ -342,13 +342,13 @@ $jahr = new Jahr();
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
-		<?php foreach ( $gebaeude->bauteile()->filter( 'Anbaudecke' )->alle() as $boeden ) : ?>
+		<?php foreach ( $gebaeude->bauteile()->filter( 'Anbaudecke' )->alle() as $decke ) : ?>
 		<tr>
 		<td><?php echo $boeden->name(); ?></td>
-		<td><?php echo str_replace( '.', ',', $boeden->flaeche() ); ?> m<sup>2</sup></td>
-		<td><?php echo str_replace( '.', ',', $boeden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
-		<td><?php echo str_replace( '.', ',', $boeden->fx() ); ?></td>
-		<td><?php echo str_replace( '.', ',', $boeden->ht() ); ?> W/K</td>
+		<td><?php echo str_replace( '.', ',', $decke->flaeche() ); ?> m<sup>2</sup></td>
+		<td><?php echo str_replace( '.', ',', $decke->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo str_replace( '.', ',', $decke->fx() ); ?></td>
+		<td><?php echo str_replace( '.', ',', $decke->ht() ); ?> W/K</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>

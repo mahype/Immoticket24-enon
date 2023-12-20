@@ -258,7 +258,7 @@ if ( $energieausweis->anbau ) {
 		new Anbaudecke(
 			name: sprintf( __( 'Anbau-Dach', 'wpenon' ) ),
 			grundriss: $grundriss_anbau,
-			uwert: uwert( 'decke_' . $energieausweis->anbaudecke_bauart, $energieausweis->anbau_baujahr ),
+			uwert: uwert( 'decke_' . $energieausweis->anbaudach_bauart, $energieausweis->anbau_baujahr ),
 			daemmung: $energieausweis->anbaudach_daemmung,
 		)
 	);
@@ -516,8 +516,8 @@ $gebaeude->trinkwarmwasseranlage(
 );
 
 /**
-* Heizsysteme
-*/
+ * Heizsysteme
+ */
 $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
 $h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieausweis->h_deckungsanteil : 100;
@@ -529,7 +529,7 @@ if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erz
 	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h_waermepumpe_luft_einstufig = true;
 	} else {
-		$h_waermepumpe_luft_einstufig = false;	
+		$h_waermepumpe_luft_einstufig = false;
 	}
 
 	$h_waermepumpe_erde_typ = $energieausweis->h_erzeugung === 'waermepumpeerde' ? $energieausweis->h_waermepumpe_erde_typ : null;
