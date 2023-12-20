@@ -316,7 +316,7 @@ abstract class Heizungsanlage {
 	}
 
 	/**
-	 * Energieträgerabhängige Umrechnungsfaktor.
+	 * CO2 Emissionen des Energieträgers Aus der
 	 * 
 	 * @return float 
 	 */
@@ -330,6 +330,8 @@ abstract class Heizungsanlage {
 				return 140;
 			case 'erdgas':
 				return 240;
+			case 'fluessiggas':
+				return 270;
 			case 'steinkohle':
 				return 400;
 			case 'braunkohle':
