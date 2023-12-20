@@ -58,6 +58,11 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme {
 			foreach ( $this->spalten() as $spalte ) {
 				$spalten_keys[]   = $spalte;
 				$spalten_teile  = explode( '.', $spalte );
+
+				if( ! isset( $spalten_teile[1] ) ) {
+					$spalten_teile[1] = 0;
+				}
+
 				$spalten_name = 'bhg_' . $spalten_teile[0] . '_' . $spalten_teile[1];
 				$spalten_values[] = $this->table_data[ $zeile ]->$spalten_name;
 			}
