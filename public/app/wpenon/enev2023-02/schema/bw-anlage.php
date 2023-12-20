@@ -242,21 +242,6 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-				'h_evu_abschaltung'                        => array(
-					'type'        => 'select',
-					'label'       => __( 'EVU-Abschaltung', 'wpenon' ),
-					'description' => __( 'Wird ihre Wärmepumpe vom Stromversorger zu verschiedene Zeitpunkten am Tag abgeschaltet?', 'wpenon' ),
-					'options'     => array(
-						'ja'   => __( 'Ja', 'wpenon' ),
-						'nein' => __( 'Nein', 'wpenon' ),
-					),
-					'default'     => 'nein',
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', array( 'waermepumpeluft', 'waermepumpewasser', 'waermepumpeerde' ) ),
-					),
-					'required'    => true,
-				),
 				'h_deckungsanteil'                         => array(
 					'type'        => 'int',
 					'label'       => __( 'Deckungsanteil der Heizungsanlage', 'wpenon' ),

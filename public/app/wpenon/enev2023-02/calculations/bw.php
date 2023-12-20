@@ -523,7 +523,8 @@ $energietraeger = $energieausweis->$energietraeger_name;
 $h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieausweis->h_deckungsanteil : 100;
 
 if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
-	$h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
+	// $h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
+	$h_evu_abschaltung = true; // EVU wird immer auf true gesetzt, damit weniger Fragen aufkommen. Die Werte sollten dadurch schlechter werden (Michael: 2023-12-20)
 
 	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h_waermepumpe_luft_einstufig = true;
