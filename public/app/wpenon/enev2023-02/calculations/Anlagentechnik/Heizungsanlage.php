@@ -294,6 +294,8 @@ abstract class Heizungsanlage {
 			case 'biooel':
 			case 'heizoel':
 				return 1.06;
+			case 'fluessiggas':
+				return 1.09;
 			case 'biogas':
 			case 'erdgas':
 				return 1.11;
