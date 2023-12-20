@@ -108,6 +108,15 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	}
 
 	/**
+	 * Dämmung des Bauteils.
+	 *
+	 * @return float
+	 */
+	public function daemmung(): float {
+		return $this->daemmung;
+	}
+	
+	/**
 	 * Volumen kniestock.
 	 *
 	 * @return float
@@ -169,4 +178,20 @@ abstract class Dach extends Bauteil implements Transmissionswaerme {
 	 * @return void
 	 */
 	abstract protected function berechnen(): void;
+
+	/**
+	 * U-Wert des Bauteils.
+	 *
+	 * @return float
+	 */
+	public function uwert(): float {
+		if ( $this->daemmung() === 0 ) {
+			return $this->uwert;
+		}
+
+		$daemmung = $this->daemmung / 100.0;
+		$uwert    = 1.0 / ( 1.0 / $this->uwert + $daemmung / 0.04 );
+
+		return $uwert;
+	}
 }
