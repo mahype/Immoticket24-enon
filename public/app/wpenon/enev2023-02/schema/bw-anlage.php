@@ -1206,50 +1206,53 @@ $anlage = array(
 					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
 					'options'  => array(
 						'ohne'      => __( 'Keine', 'wpenon' ),
-						'zu_abluft' => __( 'Zu- und Abluftanlage', 'wpenon' ),
-						'abluft'    => __( 'Abluftanlage', 'wpenon' ),
+						'zu_abluft' => __( 'Lüftungsanlage mit Wärmerückgewinnung', 'wpenon' ),
+						'abluft'    => __( 'Lüftungsanlage ohne Wärmerückgewinnung', 'wpenon' ),
 					),
 					'required' => true,
 				),
-				'l_baujahr'         => array(
-					'type'     => 'int',
-					'label'    => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
-					'min'      => 1800,
-					'max'      => wpenon_get_reference_date( 'Y' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
-					),
-				),
-				'l_art'             => array(
-					'type'     => 'select',
-					'label'    => __( 'Art', 'wpenon' ),
-					'options'  => array(
-						'zentral'   => __( 'Zentral', 'wpenon' ),
-						'dezentral' => __( 'Dezentral', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
-					),
-					'required' => true,
-					'required' => true,
-				),
-				'l_wirkungsgrad'    => array(
-					'type'     => 'select',
-					'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),
-					'options'  => array(
-						'0'  => __( 'bis 59%', 'wpenon' ),
-						'60' => __( 'bis 79%', 'wpenon' ),
-						'80' => __( 'ab 80%', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::l_info', 'zu_abluft' ),
-					),
-					'required' => true,
-				),
+				// NOTE: Wird nicht verwendet
+				// 'l_baujahr'         => array(
+				// 	'type'     => 'int',
+				// 	'label'    => __( 'Baujahr der Lüftungsanlage', 'wpenon' ),
+				// 	'min'      => 1800,
+				// 	'max'      => wpenon_get_reference_date( 'Y' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
+				// 	),
+				// ),
+				// NOTE: Unterschied ist zu marginal, daher wird mit dezentral (schlechterer Wert gerechnet) (Christian: Mail vom 2023-12-20)
+				// 'l_art'             => array(
+				// 	'type'     => 'select',
+				// 	'label'    => __( 'Art', 'wpenon' ),
+				// 	'options'  => array(
+				// 		'zentral'   => __( 'Zentral', 'wpenon' ),
+				// 		'dezentral' => __( 'Dezentral', 'wpenon' ),
+				// 	),
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
+				// 	),
+				// 	'required' => true,
+				// 	'required' => true,
+				// ),
+				// NOTE: Wirkungsgrad wird in die Spalte des schlechtesten Wertes geschoben (Michael: 2023-12-20)
+				// 'l_wirkungsgrad'    => array(
+				// 	'type'     => 'select',
+				// 	'label'    => __( 'Wärmerückgewinnung', 'wpenon' ),
+				// 	'options'  => array(
+				// 		'0'  => __( 'bis 59%', 'wpenon' ),
+				// 		'60' => __( 'bis 79%', 'wpenon' ),
+				// 		'80' => __( 'ab 80%', 'wpenon' ),
+				// 	),
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::l_info', 'zu_abluft' ),
+				// 	),
+				// 	'required' => true,
+				// ),
 				'l_bedarfsgefuehrt' => array(
 					'type'    => 'checkbox',
 					'label'   => __( 'Lüftungsanlage ist bedarfsgeführt.', 'wpenon' ),

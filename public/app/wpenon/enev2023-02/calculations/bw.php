@@ -414,7 +414,7 @@ switch ( $energieausweis->keller ) {
 				name: sprintf( __( 'Kellerboden', 'wpenon' ) ),
 				flaeche: $kellerflaeche,
 				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
-				daemmung: $energieausweis->anbauboden_daemmung,
+				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
 
@@ -424,7 +424,7 @@ switch ( $energieausweis->keller ) {
 					name: sprintf( __( 'Boden', 'wpenon' ) ),
 					flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
 					uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
-					daemmung: $energieausweis->anbauboden_daemmung,
+					daemmung: $energieausweis->boden_daemmung,
 				)
 			);
 		}
@@ -473,10 +473,13 @@ $gebaeude->lueftung(
 	new Lueftung(
 		gebaeude: $gebaeude,
 		lueftungssystem: $energieausweis->l_info,
-		art: $energieausweis->l_art,
+		// art: $energieausweis->l_art, // NOTE: Unterschied ist zu marginal, daher wird mit dezentral (schlechterer Wert gerechnet) (Christian: 2023-12-20)
+		art: 'dezentral',
 		bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
 		gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
-		wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
+		// wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
+		wirkungsgrad: 0 // NOTE: Wirkungsgrad wird in die Spalte des schlechtesten Wertes geschoben (Michael: 2023-12-20) 
+		// TODO: Feld im Backend erstellen, damit der Wert angepasst werden kann.
 	)
 );
 
@@ -524,7 +527,7 @@ $h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieau
 
 if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
 	// $h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
-	$h_evu_abschaltung = true; // EVU wird immer auf true gesetzt, damit weniger Fragen aufkommen. Die Werte sollten dadurch schlechter werden (Michael: 2023-12-20)
+	$h_evu_abschaltung = true; // NOTE: EVU wird immer auf true gesetzt, damit weniger Fragen aufkommen. Die Werte sollten dadurch schlechter werden (Michael: 2023-12-20)
 
 	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h_waermepumpe_luft_einstufig = true;
