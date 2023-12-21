@@ -203,9 +203,7 @@ abstract class Heizungsanlage {
 	/**
 	 * Nutzbare Wärme.
 	 *
-	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
-	 *                                       Wenn nicht angegeben, wird der Wert aus dem Konstruktor verwendet. Es können auch andere Auslegungstemperaturen
-	 *                                       als die der Heizungsanlage angesetzt werden (beispielsweise die des Übergabesystems).
+	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.                                       
 	 *
 	 * @return float Anteils nutzbarer Wärme von Heizungsanlagen (fa-h) aus Tabelle 141 / Teil 12, anteilig für die Heizungsanlage.
 	 */
