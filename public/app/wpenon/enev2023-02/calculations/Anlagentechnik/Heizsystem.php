@@ -94,6 +94,15 @@ class Heizsystem {
 	}
 
 	/**
+	 * Übergabesystem vorhanden?
+	 * 
+	 * @return bool 
+	 */
+	public function uebergabesystem_vorhanden(): bool {
+		return count( $this->uebergabesysteme()->alle() ) > 0;
+	}
+
+	/**
 	 * Pufferspeicher.
 	 *
 	 * @param Pufferspeicher|null $pufferspeicher
