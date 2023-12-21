@@ -612,7 +612,7 @@ function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_er
 	$h2_info        = filter_var( $h2_info, FILTER_VALIDATE_BOOLEAN );
 	$h3_info        = filter_var( $h3_info, FILTER_VALIDATE_BOOLEAN );
 
-	if( ! wpenon_show_uebergabe( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
 		return false;
 	}
 
@@ -640,7 +640,7 @@ function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_er
 	}
 }
 
-function wpenon_show_uebergabe( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info,  $h3_info ) {
+function wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info,  $h3_info ) {
 	$erzeuger_mit_uebergabe = array( 
 		'standardkessel',
 		'niedertemperaturkessel',
