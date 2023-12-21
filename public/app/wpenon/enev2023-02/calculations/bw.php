@@ -475,7 +475,8 @@ $gebaeude->lueftung(
 		lueftungssystem: $energieausweis->l_info,
 		// art: $energieausweis->l_art, // NOTE: Unterschied ist zu marginal, daher wird mit dezentral (schlechterer Wert gerechnet) (Christian: 2023-12-20)
 		art: 'dezentral',
-		bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt,
+		// bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, // NOTE: Lüftungsanlage wird aus Vereinfachung immmer bedarfsgeführt betrachtet (Christian: Mail vom 2023-12-21)
+		bedarfsgefuehrt: true,
 		gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
 		// wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
 		wirkungsgrad: 0 // NOTE: Wirkungsgrad wird in die Spalte des schlechtesten Wertes geschoben (Michael: 2023-12-20) 
