@@ -30,9 +30,9 @@ class Grundriss_Anbau extends Grundriss {
 				'b'   => array( true, 0  ),				
 				't'   => array( true, 1  ),				
 				'b2'  => array( 'b - s2', 2  ),
-				's1'  => array( true, 3  ),
-				's2'  => array( true ),
-				't2'  => array( 't - s1' ),				
+				't2'  => array( 't - s1', 3 ),				
+				's1'  => array( true ),
+				's2'  => array( true ),				
 				'waende' => array( 'b', 'b2', 't', 't2' ),
 				'fla' => array(
 					array( 's2', 't2' ),
