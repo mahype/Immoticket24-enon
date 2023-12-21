@@ -588,9 +588,6 @@ if ( $energieausweis->h3_info ) {
 
 // Automatische Berechnung der Auslegungstemperaturen.
 switch( $energieausweis->h_uebergabe ) {
-	case 'elektroheizungsflaechen':
-		$auslegungstemperaturen = null;	
-		break;
 	case 'flaechenheizung':
 		if( wpenon_waermepumpe_vorhanden( $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
 			$auslegungstemperaturen = '35/28';
@@ -614,7 +611,7 @@ switch( $energieausweis->h_uebergabe ) {
 		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
 		break;
 	default:
-		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
+		$auslegungstemperaturen = null;	
 		break;
 }
 
