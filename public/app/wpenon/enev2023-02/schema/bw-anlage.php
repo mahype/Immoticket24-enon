@@ -1041,7 +1041,6 @@ $anlage = array(
 				'h_uebergabe'                        => array(
 					'type'        => 'select',
 					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
-					'description' => __( 'Falls Sie den mit Gas oder Öl betriebenen Typ der Heizungsanlage nicht bestimmen können, wählen Sie den Niedertemperaturkessel.', 'wpenon' ),
 					'options'     => array(
 						'elektroheizungsflaechen' => __( 'Elektroheizungsflächen', 'wpenon' ),
 						'heizkoerper'             => __( 'Heizkörper', 'wpenon' ),
