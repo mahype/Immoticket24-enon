@@ -216,19 +216,20 @@ $anlage = array(
 						),
 					),
 				),
-				'h_waermepumpe_luft_stufen'                => array(
-					'type'     => 'select',
-					'label'    => __( 'Stufen', 'wpenon' ),
-					'options'  => array(
-						'einstufig'  => __( 'Einstufig', 'wpenon' ),
-						'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_erzeugung', 'waermepumpeluft' ),
-					),
-					'required' => true,
-				),
+				// NOTE: Wärmepumpen werden aufgrund der Vereinfachung immer Einstufig gerechnet (Michael & Crhistian: 2023-12-21)
+				// 'h_waermepumpe_luft_stufen'                => array(
+				// 	'type'     => 'select',
+				// 	'label'    => __( 'Stufen', 'wpenon' ),
+				// 	'options'  => array(
+				// 		'einstufig'  => __( 'Einstufig', 'wpenon' ),
+				// 		'mehrstufig' => __( 'Mehrstufig', 'wpenon' ),
+				// 	),
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::h_erzeugung', 'waermepumpeluft' ),
+				// 	),
+				// 	'required' => true,
+				// ),
 				'h_waermepumpe_erde_typ'                   => array(
 					'type'     => 'select',
 					'label'    => __( 'Art der Geometrie', 'wpenon' ),

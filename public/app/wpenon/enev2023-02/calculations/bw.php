@@ -529,11 +529,14 @@ if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erz
 	// $h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
 	$h_evu_abschaltung = true; // NOTE: EVU wird immer auf true gesetzt, damit weniger Fragen aufkommen. Die Werte sollten dadurch schlechter werden (Michael: 2023-12-20)
 
-	if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
-		$h_waermepumpe_luft_einstufig = true;
-	} else {
-		$h_waermepumpe_luft_einstufig = false;
-	}
+	// NOTE: Wärmepumpen werden aufgrund der Vereinfachung immer Einstufig gerechnet (Michael & Crhistian: 2023-12-21)
+	// if( $energieausweis->h_erzeugung === 'waermepumpeluft' && $energieausweis->h_waermepumpe_luft_stufen === 'einstufig' ) {
+	// 	$h_waermepumpe_luft_einstufig = true;
+	// } else {
+	// 	$h_waermepumpe_luft_einstufig = false;
+	// }
+
+	$h_waermepumpe_luft_einstufig = true;
 
 	$h_waermepumpe_erde_typ = $energieausweis->h_erzeugung === 'waermepumpeerde' ? $energieausweis->h_waermepumpe_erde_typ : null;
 
