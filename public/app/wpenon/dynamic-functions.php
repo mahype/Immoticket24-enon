@@ -608,23 +608,14 @@ function wpenon_immoticket24_show_h_energietraeger( $erzeugung_vorhanden, $erzeu
 	return true;
 }
 
-function wpenon_immoticket24_show_uebergabe_2024( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) {
-	if ( $h1_erzeugung !== 'infrarotheizung' && $h1_erzeugung !== 'elektronachtspeicherheizung' ) {
-		return true;
+function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) {#
+	$h2_info        = filter_var( $h2_info, FILTER_VALIDATE_BOOLEAN );
+	$h3_info        = filter_var( $h3_info, FILTER_VALIDATE_BOOLEAN );
+
+	if( ! wpenon_show_uebergabe( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+		return false;
 	}
 
-	if ( $h2_info && $h2_erzeugung !== 'infrarotheizung' && $h2_erzeugung !== 'elektronachtspeicherheizung' ) {
-		return true;
-	}
-
-	if ( $h3_info && $h3_erzeugung !== 'infrarotheizung' && $h3_erzeugung !== 'elektronachtspeicherheizung' ) {
-		return true;
-	}
-
-	return false;
-}
-
-function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
 	switch( $h_uebergabe ) {
 		case 'elektroheizungsflaechen':
 			return false;			
@@ -647,6 +638,38 @@ function wpenon_show_auslegungstemperaturen( $h_uebergabe, $h1_erzeugung, $h2_er
 		default:
 			return true;
 	}
+}
+
+function wpenon_show_uebergabe( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info,  $h3_info ) {
+	$erzeuger_mit_uebergabe = array( 
+		'standardkessel',
+		'niedertemperaturkessel',
+		'brennwertkessel',
+		'waermepumpeluft',
+		'waermepumpewasser',
+		'waermepumpeerde',
+		'etagenheizung',
+		'fernwaerme',
+	 );
+	
+	$h2_info        = filter_var( $h2_info, FILTER_VALIDATE_BOOLEAN );
+	$h3_info        = filter_var( $h3_info, FILTER_VALIDATE_BOOLEAN );
+
+	// Wenn einer der Erzeuger mit Übergabe vorhanden ist, dann wird die Übergabe angezeigt
+
+	if( in_array( $h1_erzeugung, $erzeuger_mit_uebergabe ) ) {
+		return true;
+	}
+
+	if( $h2_info && in_array( $h2_erzeugung, $erzeuger_mit_uebergabe ) ) {
+		return true;
+	}
+
+	if( $h3_info && in_array( $h3_erzeugung, $erzeuger_mit_uebergabe ) ) {
+		return true;
+	}
+
+	return false;
 }
 
 function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {

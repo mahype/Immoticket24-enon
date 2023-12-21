@@ -1031,13 +1031,13 @@ $anlage = array(
 							1978,
 						),
 					),
-				),
-			),
-		),
-		'uebergabesystem' => array(
-			'title'       => __( 'Übergabesystem', 'wpenon' ),
-			'description' => __( 'Machen Sie hier Angaben zum Übergabesystem des Gebäudes.', 'wpenon' ),
-			'fields'      => array(
+		 		),
+		// 	),
+		// ),
+		// 'uebergabesystem' => array(
+		// 	'title'       => __( 'Übergabesystem', 'wpenon' ),
+		// 	'description' => __( 'Machen Sie hier Angaben zum Übergabesystem des Gebäudes.', 'wpenon' ),
+		// 	'fields'      => array(
 				'h_uebergabe'                        => array(
 					'type'        => 'select',
 					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
@@ -1049,8 +1049,8 @@ $anlage = array(
 					),
 					'required'    => true,
 					'display'  => array(
-						'callback'      => 'wpenon_immoticket24_show_uebergabe_2024',
-						'callback_args' => array( 'field::h1_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
+						'callback'      => 'wpenon_show_uebergabe',
+						'callback_args' => array( 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
 					),
 				),
 				'h_uebergabe_auslegungstemperaturen' => array(
@@ -1065,7 +1065,7 @@ $anlage = array(
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_show_auslegungstemperaturen',
-						'callback_args' => array( 'field::h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung' ),
+						'callback_args' => array( 'field::h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
 					),
 					'required'    => true,
 				),
