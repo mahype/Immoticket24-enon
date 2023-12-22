@@ -564,25 +564,25 @@ if ( $energieausweis->h2_info ) {
 	} else {
 		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil );
 	}
-}
 
-if ( $energieausweis->h3_info ) {
-	$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
-	$energietraeger = $energieausweis->$energietraeger_name;
-
-	if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieauswies->h3_waermepumpe_luft_stufen === 'einstufig' ) {
-		$h3_waermepumpe_luft_einstufig = true;
-	} else {
-		$h3_waermepumpe_luft_einstufig = false;	
-	}
-
-	$h3_waermepumpe_erde_typ = $energieausweis->h3_erzeugung === 'waermepumpeerde' ? $energieausweis->h3_waermepumpe_erde_typ : null;
-
-	if( $energieausweis->h3_erzeugung === 'waermepumpeluft' || $energieausweis->h3_erzeugung === 'waermepumpewasser' || $energieausweis->h3_erzeugung === 'waermepumpeerde' ) {
-		$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;	
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung, $h3_waermepumpe_luft_einstufig, $h3_waermepumpe_erde_typ );
-	} else {
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil );
+	if ( $energieausweis->h3_info ) {
+		$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
+		$energietraeger = $energieausweis->$energietraeger_name;
+	
+		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieauswies->h3_waermepumpe_luft_stufen === 'einstufig' ) {
+			$h3_waermepumpe_luft_einstufig = true;
+		} else {
+			$h3_waermepumpe_luft_einstufig = false;	
+		}
+	
+		$h3_waermepumpe_erde_typ = $energieausweis->h3_erzeugung === 'waermepumpeerde' ? $energieausweis->h3_waermepumpe_erde_typ : null;
+	
+		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' || $energieausweis->h3_erzeugung === 'waermepumpewasser' || $energieausweis->h3_erzeugung === 'waermepumpeerde' ) {
+			$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;	
+			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung, $h3_waermepumpe_luft_einstufig, $h3_waermepumpe_erde_typ );
+		} else {
+			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil );
+		}
 	}
 }
 
