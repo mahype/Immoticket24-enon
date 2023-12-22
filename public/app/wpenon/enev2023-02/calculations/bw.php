@@ -586,34 +586,93 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 
-// Automatische Berechnung der Auslegungstemperaturen.
-switch( $energieausweis->h_uebergabe ) {
-	case 'flaechenheizung':
-		if( wpenon_waermepumpe_vorhanden( $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
-			$auslegungstemperaturen = '35/28';
-			break;
-		}
-		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
-		break;
-	case 'heizkoerper':
-		if( wpenon_erzeuger_vorhanden( 'standardkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
-			$auslegungstemperaturen = '90/70';
-			break;
-		}
-		if( wpenon_erzeuger_vorhanden( 'niedertemperaturkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
-			$auslegungstemperaturen = '70/55';
-			break;
-		}
-		if( wpenon_erzeuger_vorhanden( 'brennwertkessel', $energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung ) ) {
-			$auslegungstemperaturen = '55/45';
-			break;
-		}
-		$auslegungstemperaturen = $energieausweis->h_uebergabe_auslegungstemperaturen;
-		break;
-	default:
-		$auslegungstemperaturen = null;	
-		break;
+function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp) {
+	switch ($flaechenheizungstyp) {
+		case 'fussbodenheizung':
+		case 'wandheizung':
+			return '35/28';
+		case 'deckenheizung':
+			return '55/45';
+		default:
+			throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
+	}
 }
+
+function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp) {
+	if( empty( $uebergabe ) ) {
+		return null;
+	}
+
+    switch ($erzeuger) {
+        case 'standardkessel':
+            return ($uebergabe === 'heizkoerper') ? '90/70' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+        case 'niedertemperaturkessel':
+        case 'etagenheizung':
+            return ($uebergabe === 'heizkoerper') ? '70/55' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+        case 'brennwertkessel':
+        case 'waermepumpeluft':
+        case 'waermepumpewasser':
+        case 'waermepumpeerde':
+        case 'fernwaerme':
+            return ($uebergabe === 'heizkoerper') ? '55/45' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+        default:
+            return null;
+    }
+}
+
+function wpenon_auslegungstemperatur( $heizungen ) {
+	$auslegungstemperaturen = array();
+
+	foreach( $heizungen as $heizung ) {		
+		// Ermittle alle Auslegungstemperaturen.
+		$auslegungstemperatur = wpenon_auslegungstemperaturen( $heizung['erzeugung'], $heizung['uebergabe'], $heizung['flaechenheizungstyp'] );
+
+		if( $auslegungstemperatur === null ) {
+			continue;
+		}
+		
+		$temperaturen = explode ( '/',  $auslegungstemperatur );
+		$auslegungstemperaturen[ $temperaturen[0] ] = $auslegungstemperatur;
+	}
+
+	if( empty( $auslegungstemperaturen ) ) {
+		return null;
+	}
+
+	// Ermittle die niedrigste Auslegungstemperatur.
+	$auslegungstemperatur = min( array_keys( $auslegungstemperaturen ) );
+
+	return $auslegungstemperaturen[ $auslegungstemperatur ];
+}
+
+$heizungen[] = array(
+	'uebergabe' => $energieausweis->h_uebergabe,
+	'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+	'erzeugung' => $energieausweis->h_erzeugung,
+);
+
+if( $energieausweis->h2_info ) {
+	$heizungen[] = array(
+		'uebergabe' => $energieausweis->h_uebergabe,
+		'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+		'erzeugung' => $energieausweis->h2_erzeugung,
+	);
+
+	if( $energieausweis->h3_info ) {
+		$heizungen[] = array(
+			'uebergabe' => $energieausweis->h_uebergabe,
+			'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+			'erzeugung' => $energieausweis->h3_erzeugung,
+		);
+	}
+}
+
+$auslegungstemperaturen = wpenon_auslegungstemperatur( $heizungen );
+
+// $auslegungstemperaturen = '70/55';
 
 // Wir rechnen vorerst nur mit einem Übergabesystem.
 if( $energieausweis->h_uebergabe === 'flaechenheizung' ){

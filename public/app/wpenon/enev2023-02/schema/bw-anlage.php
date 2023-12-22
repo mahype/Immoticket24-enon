@@ -1046,7 +1046,6 @@ $anlage = array(
 					'type'        => 'select',
 					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
 					'options'     => array(
-						'elektroheizungsflaechen' => __( 'Elektroheizungsflächen', 'wpenon' ),
 						'heizkoerper'             => __( 'Heizkörper', 'wpenon' ),
 						'flaechenheizung'         => __( 'Flächenheizung Fußboden/Wandheizung', 'wpenon' ),
 					),
@@ -1056,22 +1055,23 @@ $anlage = array(
 						'callback_args' => array( 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
 					),
 				),
-				'h_uebergabe_auslegungstemperaturen' => array(
-					'type'        => 'select',
-					'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
-					'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),					
-					'options'     => array(
-						'90/70' => __( '90/70°', 'wpenon' ),
-						'70/55' => __( '70/55°', 'wpenon' ),
-						'55/45' => __( '55/45°', 'wpenon' ),
-						'35/28' => __( '35/28°', 'wpenon' ),
-					),
-					'display'  => array(
-						'callback'      => 'wpenon_show_auslegungstemperaturen',
-						'callback_args' => array( 'field::h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
-					),
-					'required'    => true,
-				),
+				// Auslegunstemperaturen werden automatisch bestimmt
+				// 'h_uebergabe_auslegungstemperaturen' => array(
+				// 	'type'        => 'select',
+				// 	'label'       => __( 'Auslegungstemperaturen', 'wpenon' ),
+				// 	'description' => __( 'Wählen Sie die Auslegungstemperaturen des Übergabesystems.', 'wpenon' ),					
+				// 	'options'     => array(
+				// 		'90/70' => __( '90/70°', 'wpenon' ),
+				// 		'70/55' => __( '70/55°', 'wpenon' ),
+				// 		'55/45' => __( '55/45°', 'wpenon' ),
+				// 		'35/28' => __( '35/28°', 'wpenon' ),
+				// 	),
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_auslegungstemperaturen',
+				// 		'callback_args' => array( 'field::h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info' ),
+				// 	),
+				// 	'required'    => true,
+				// ),
 				'h_uebergabe_flaechenheizungstyp'    => array(
 					'type'     => 'select',
 					'label'    => __( 'Typ der Flächenheizung', 'wpenon' ),
