@@ -205,7 +205,7 @@ class Heizsystem {
 	 * @param int            $anzahl_wohnungen
 	 * @return float
 	 * @throws Calculation_Exception
-	 */
+	 */ 
 	public function ehd1(): float {
 		return $this->ehd0() * $this->fßd();
 	}
@@ -224,7 +224,7 @@ class Heizsystem {
 		// Da dies aber später Pflicht wird, muss das später noch angepasst werden.
 		$fhydr = 1.06;
 
-		return $this->ßhce() * $this->ehce() * $fhydr;
+		return $this->ßhce() * $this->uebergabesysteme()->erstes()->ehce() * $fhydr;
 	}
 
 	/**
@@ -241,15 +241,6 @@ class Heizsystem {
 		}
 
 		return ( new Mittlere_Belastung_Korrekturfaktor( $this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $this->ßhd() ) )->fßd();
-	}
-
-	/**
-	 * Aufwandszahl der Heizungsübergabe (ehce).
-	 *
-	 * @return float
-	 */
-	public function ehce(): float {
-		return $this->uebergabesysteme()->erstes()->ehce();
 	}
 
 	/**

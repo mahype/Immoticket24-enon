@@ -565,15 +565,6 @@ class Gebaeude {
 	}
 
 	/**
-	 * Aufwandszahl der Heizungsübergabe (ehce).
-	 *
-	 * @return float
-	 */
-	public function ehce(): float {
-		return $this->heizsystem()->uebergabesysteme()->erstes()->ehce();
-	}
-
-	/**
 	 * Flächenbezogene leistung der Übergabe der Heizung (qhce).
 	 *
 	 * @return float

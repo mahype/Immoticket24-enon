@@ -5,6 +5,7 @@
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
 
+use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesysteme;
 use Enev\Schema202302\Calculations\Helfer\Jahr;
 
 use function Enev\Schema202302\Calculations\Helfer\fum;
@@ -466,7 +467,7 @@ $jahr = new Jahr();
 			<th>ßhma</th>
 			<th>thm</th>
 			<th>ith_rl</th>
-			<th>Qi (kWh)</th>
+			<th>Qi<sub>ges</sub> (kWh)</th>
 			<th>Q<sub>w,b</sub> (kWh)</th>
 			<th>Q<sub>h,b</sub> (kWh)</th>
 		</tr>
@@ -549,16 +550,6 @@ $jahr = new Jahr();
 
 	<h3>Heizungsanlage</h3>
 	
-    HIER
-    <?php
-   // var_dump(dirname( __FILE__ ));
-   // var_dump(dirname(dirname( __FILE__ ) ). '/enev2023-02/calculations/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php');
-//require ( dirname (dirname( __FILE__ )) . '/enev2023-02/calculations/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php' );
-//$a= new Umlaufwasserheizer_Hilfsenergieaufwand( 11, 0.1 );
-//echo $a->fphgaux();
-//exit;
-?>
-<hr>
 	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
 		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
 			<table>
@@ -866,14 +857,13 @@ $jahr = new Jahr();
 		<td><?php echo $uebergabesystem->typ(); ?></td>
 		<td><?php echo $uebergabesystem->auslegungstemperaturen(); ?></td>
 		<td><?php echo $uebergabesystem->prozentualer_anteil(); ?></td>
-		<td><?php echo str_replace( '.', ',', $uebergabesystem->ehce() ); ?></td>
+		<td><?php echo str_replace( '.', ',', $uebergabesystem->ehce() ); ?></td>		
 	<?php endforeach; ?>	
 	</table>
 
 	<h3>Heizsystem</h3>
 
 	<p><?php printf( __( 'Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon' ), $gebaeude->heizsystem()->fa_h() ); ?></p>
-	<p><?php printf( __( 'Aufwandszahl für freie Heizflächen (ehce): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->heizsystem()->ehce() ) ); ?></p>	
 	<p><?php printf( __( 'Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->heizsystem()->ßhce() ) ); ?></p>
 	<p><?php printf( __( 'Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->heizsystem()->qhce() ) ); ?></p>
 	<p><?php printf( __( 'ßhd: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->heizsystem()->ßhd() ) ); ?></p>

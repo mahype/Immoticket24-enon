@@ -328,10 +328,9 @@ class Waermepumpe extends Heizungsanlage {
 		// $calculations['qh']*$UebergabeAufwandszahl['ehce']*$ehdkorr*$ehs;
 
 		$heizsystem = $this->gebaeude->heizsystem();
-		$uebergabe  = $heizsystem->uebergabesysteme()->erstes();
 
 		$qh            = $this->gebaeude->qh();
-		$ehce          = $uebergabe->ehce();
+		$ehce          = $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce();
 		$ehd_korrektur = $heizsystem->ehd_korrektur();
 		$ehs           = $heizsystem->ehs();
 
