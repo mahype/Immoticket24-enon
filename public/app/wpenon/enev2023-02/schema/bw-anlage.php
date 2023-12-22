@@ -620,42 +620,42 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder'           => 'Bitte wählen...',
 				),
-				'h2_custom'                                => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( 'field::h2_info', true ),
-					),
-				),
-				'h2_custom_primaer'                        => array(
-					'type'     => 'float',
-					'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_custom', 'field::h2_info' ), array( true, true ) ),
-					),
-				),
-				'h2_custom_2'                              => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_info' ), array( true ) ),
-					),
-				),
-				'h2_custom_co2'                            => array(
-					'type'     => 'float',
-					'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_custom_2', 'field::h2_info' ), array( true, true ) ),
-					),
-				),
+				// 'h2_custom'                                => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( 'field::h2_info', true ),
+				// 	),
+				// ),
+				// 'h2_custom_primaer'                        => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h2_custom', 'field::h2_info' ), array( true, true ) ),
+				// 	),
+				// ),
+				// 'h2_custom_2'                              => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h2_info' ), array( true ) ),
+				// 	),
+				// ),
+				// 'h2_custom_co2'                            => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h2_custom_2', 'field::h2_info' ), array( true, true ) ),
+				// 	),
+				// ),
 				'h2_typenschild'                           => array(
 					'type'      => 'image',
 					'label'     => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
@@ -963,42 +963,42 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder'           => 'Bitte wählen...',
 				),
-				'h3_custom'                                => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
-					),
-				),
-				'h3_custom_primaer'                        => array(
-					'type'     => 'float',
-					'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h3_custom', 'field::h3_info' ), array( true, true ) ),
-					),
-				),
-				'h3_custom_2'                              => array(
-					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
-					),
-				),
-				'h3_custom_co2'                            => array(
-					'type'     => 'float',
-					'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
-					'required' => true,
-					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( 'field::h3_custom_2', true ),
-					),
-				),
+				// 'h3_custom'                                => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
+				// 	),
+				// ),
+				// 'h3_custom_primaer'                        => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'Primärenergiefaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h3_custom', 'field::h3_info' ), array( true, true ) ),
+				// 	),
+				// ),
+				// 'h3_custom_2'                              => array(
+				// 	'type'        => 'checkbox',
+				// 	'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+				// 	'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+				// 	'display'     => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( array( 'field::h2_info', 'field::h3_info' ), array( true, true ) ),
+				// 	),
+				// ),
+				// 'h3_custom_co2'                            => array(
+				// 	'type'     => 'float',
+				// 	'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
+				// 	'required' => true,
+				// 	'display'  => array(
+				// 		'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+				// 		'callback_args' => array( 'field::h3_custom_2', true ),
+				// 	),
+				// ),
 				'h3_typenschild'                           => array(
 					'type'      => 'image',
 					'label'     => __( 'Foto des Typenschilds der Heizungsanlage oder Foto der Heizungsanlage', 'wpenon' ),
