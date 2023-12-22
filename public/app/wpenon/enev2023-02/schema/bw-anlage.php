@@ -359,12 +359,17 @@ $anlage = array(
 				),
 				'h2_energietraeger_standardkessel'         => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
-						'erdgas'      => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'      => __( 'Biogas', 'wpenon' ),
+						'heizoel'           => __( 'Heizöl', 'wpenon' ),
+						'erdgas'            => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'            => __( 'Biogas', 'wpenon' ),
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
+						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
+						'steinkohle'        => __( 'Steinkohle', 'wpenon' ),
+						'braunkohle'        => __( 'Braunkohle', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -374,7 +379,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_fernwaerme'             => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
 						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
@@ -387,7 +392,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_niedertemperaturkessel' => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'     => __( 'Heizöl', 'wpenon' ),
 						'erdgas'      => __( 'Erdgas', 'wpenon' ),
@@ -402,7 +407,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_brennwertkessel'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'           => __( 'Heizöl', 'wpenon' ),
 						'erdgas'            => __( 'Erdgas', 'wpenon' ),
@@ -420,7 +425,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_etagenheizung'          => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'     => __( 'Heizöl', 'wpenon' ),
 						'erdgas'      => __( 'Erdgas', 'wpenon' ),
@@ -435,7 +440,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_waermepumpeluft'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -448,7 +453,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_waermepumpewasser'      => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -461,7 +466,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_waermepumpeerde'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -474,7 +479,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_pelletfeuerung'         => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
@@ -487,7 +492,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_elektronachtspeicherheizung' => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -504,7 +509,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_infrarotheizung'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -517,7 +522,7 @@ $anlage = array(
 				),
 				'h2_energietraeger_zentral_elektrisch'     => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -697,12 +702,17 @@ $anlage = array(
 				),
 				'h3_energietraeger_standardkessel'         => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'heizoel'     => __( 'Heizöl', 'wpenon' ),
-						'erdgas'      => __( 'Erdgas', 'wpenon' ),
-						'fluessiggas' => __( 'Flüssiggas', 'wpenon' ),
-						'biogas'      => __( 'Biogas', 'wpenon' ),
+						'heizoel'           => __( 'Heizöl', 'wpenon' ),
+						'erdgas'            => __( 'Erdgas', 'wpenon' ),
+						'fluessiggas'       => __( 'Flüssiggas', 'wpenon' ),
+						'biogas'            => __( 'Biogas', 'wpenon' ),
+						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
+						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
+						'stueckholz'        => __( 'Stückholz', 'wpenon' ),
+						'steinkohle'        => __( 'Steinkohle', 'wpenon' ),
+						'braunkohle'        => __( 'Braunkohle', 'wpenon' ),
 					),
 					'display'  => array(
 						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
@@ -712,7 +722,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_fernwaerme'             => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
 						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
@@ -725,7 +735,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_niedertemperaturkessel' => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'     => __( 'Heizöl', 'wpenon' ),
 						'erdgas'      => __( 'Erdgas', 'wpenon' ),
@@ -740,7 +750,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_brennwertkessel'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'           => __( 'Heizöl', 'wpenon' ),
 						'erdgas'            => __( 'Erdgas', 'wpenon' ),
@@ -758,7 +768,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_etagenheizung'          => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'heizoel'     => __( 'Heizöl', 'wpenon' ),
 						'erdgas'      => __( 'Erdgas', 'wpenon' ),
@@ -773,7 +783,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_waermepumpeluft'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -786,7 +796,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_waermepumpewasser'      => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -799,7 +809,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_waermepumpeerde'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -812,7 +822,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_pelletfeuerung'         => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'holzpellets'       => __( 'Holzpellets', 'wpenon' ),
 						'holzhackschnitzel' => __( 'Holzhackschnitzel', 'wpenon' ),
@@ -825,7 +835,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_elektronachtspeicherheizung' => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -842,7 +852,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_infrarotheizung'        => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -855,7 +865,7 @@ $anlage = array(
 				),
 				'h3_energietraeger_zentral_elektrisch'     => array(
 					'type'     => 'select',
-					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
+					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
 						'strom' => __( 'Strom', 'wpenon' ),
 					),
@@ -1032,12 +1042,6 @@ $anlage = array(
 						),
 					),
 		 		),
-		// 	),
-		// ),
-		// 'uebergabesystem' => array(
-		// 	'title'       => __( 'Übergabesystem', 'wpenon' ),
-		// 	'description' => __( 'Machen Sie hier Angaben zum Übergabesystem des Gebäudes.', 'wpenon' ),
-		// 	'fields'      => array(
 				'h_uebergabe'                        => array(
 					'type'        => 'select',
 					'label'       => __( 'Typ des Übergabesystems', 'wpenon' ),
