@@ -88,18 +88,18 @@ $jahr = new Jahr();
 		<th>Bauteil</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
-		<th>Dämmstärke</th>
 	</tr>
 	<?php foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) : ?>
 	<tr>
 		<td><?php echo $wand->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $wand->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $wand->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->ht() ); ?> W/K</td>
-	<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 	</tr>
 	<?php endforeach; ?>
 	</table>
@@ -156,7 +156,7 @@ $jahr = new Jahr();
 	<tr>
 		<th>Bauteil</th>    
 		<th>Fläche</th>
-		<th>U-Wert</th>
+		<th>U-Wert</th>		
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
 	</tr>
@@ -182,14 +182,16 @@ $jahr = new Jahr();
 		<th>Fläche</th>
 	<th>Höhe</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
 		<tr>
 		<td><?php echo $gebaeude->dach()->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->flaeche() ); ?> m<sup>2</sup></td>
-	<td><?php echo str_replace( '.', ',', $gebaeude->dach()->hoehe() ); ?> m</td>
-		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->hoehe() ); ?> m</td>
+		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->dach()->ht() ); ?> W/K</td>
 		</tr>
@@ -201,6 +203,7 @@ $jahr = new Jahr();
 		<th>Bauteil</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
@@ -209,6 +212,7 @@ $jahr = new Jahr();
 		<td><?php echo $decke->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $decke->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $decke->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $decke->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $decke->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $decke->ht() ); ?> W/K</td>
 		</tr>
@@ -222,6 +226,7 @@ $jahr = new Jahr();
 		<th>Bauteil</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
@@ -230,6 +235,7 @@ $jahr = new Jahr();
 		<td><?php echo $boden->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $boden->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $boden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo str_replace( '.', ',', $boden->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $boden->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $boden->ht() ); ?> W/K</td>
 		</tr>
@@ -249,6 +255,7 @@ $jahr = new Jahr();
 		<th>Wand</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
 	</tr>
@@ -257,6 +264,7 @@ $jahr = new Jahr();
 		<td><?php echo $wand->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $wand->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $wand->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->ht() ); ?> W/K</td>
 		</tr>
@@ -266,6 +274,7 @@ $jahr = new Jahr();
 		<td><?php echo $wand->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $wand->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $wand->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->ht() ); ?> W/K</td>
 		</tr>
@@ -282,6 +291,7 @@ $jahr = new Jahr();
 		<th>Wand</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
 	</tr>
@@ -290,6 +300,7 @@ $jahr = new Jahr();
 		<td><?php echo $wand->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $wand->uwert() ); ?> W/(m<sup>2</sup>K)</td>
+		<td><?php echo str_replace( '.', ',', $wand->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $wand->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $wand->ht() ); ?> W/K</td>
 		</tr>
@@ -299,7 +310,7 @@ $jahr = new Jahr();
 	<tr>
 		<th>Fenster</th>    
 		<th>Fläche</th>
-		<th>U-Wert</th>
+		<th>U-Wert</th>		
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>
 	</tr>
@@ -320,6 +331,7 @@ $jahr = new Jahr();
 		<th>Bauteil</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
@@ -328,6 +340,7 @@ $jahr = new Jahr();
 		<td><?php echo $boeden->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $boeden->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $boeden->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo str_replace( '.', ',', $boeden->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $boeden->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $boeden->ht() ); ?> W/K</td>
 		</tr>
@@ -340,6 +353,7 @@ $jahr = new Jahr();
 		<th>Bauteil</th>    
 		<th>Fläche</th>
 		<th>U-Wert</th>
+		<th>Dämmung</th>
 		<th>Fx Faktor</th>
 		<th>Transmissionswärmekoeffizient ht</th>    
 	</tr>
@@ -348,6 +362,7 @@ $jahr = new Jahr();
 		<td><?php echo $boeden->name(); ?></td>
 		<td><?php echo str_replace( '.', ',', $decke->flaeche() ); ?> m<sup>2</sup></td>
 		<td><?php echo str_replace( '.', ',', $decke->uwert() ); ?> W/(m<sup>2</sup>K)</td>    
+		<td><?php echo str_replace( '.', ',', $decke->daemmung() ); ?> cm</td>
 		<td><?php echo str_replace( '.', ',', $decke->fx() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $decke->ht() ); ?> W/K</td>
 		</tr>
