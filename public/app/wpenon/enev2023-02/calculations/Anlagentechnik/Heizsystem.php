@@ -165,7 +165,7 @@ class Heizsystem {
 				case '35/28':
 					return $this->standort === 'innerhalb' ? 1.019 : 1.028;
 				default:
-					throw new Calculation_Exception( 'Auslegungstemperatur nicht bekannt' );
+					return 0;
 			}
 		}
 
@@ -179,7 +179,7 @@ class Heizsystem {
 			case '35/28':
 				return $this->standort === 'innerhalb' ? 1.016 : 1.024;
 			default:
-				throw new Calculation_Exception( 'Auslegungstemperatur nicht bekannt' );
+				return 0;
 		}
 	}
 
@@ -236,6 +236,10 @@ class Heizsystem {
 	 * @throws Calculation_Exception
 	 */
 	public function fßd(): float {
+		if ( $this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+			return 1;
+		}
+
 		return ( new Mittlere_Belastung_Korrekturfaktor( $this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $this->ßhd() ) )->fßd();
 	}
 
@@ -282,7 +286,7 @@ class Heizsystem {
 		}
 
 		/**
-		 * Wir berecnen fh-a des Heizungsystems, indem wir alle Heizungsanlagen sowie Übergabesysteme durchlaufen
+		 * Wir berecnen fa-h des Heizungsystems, indem wir alle Heizungsanlagen sowie Übergabesysteme durchlaufen
 		 * und den fa-h Wert anhand der Auslegungstemperaturen des Übergabesystems ermitteln. Die Werte werden
 		 * anteilig der einzelnen Heizungsanlagen und Übergabesysteme gewichtet.
 		 */

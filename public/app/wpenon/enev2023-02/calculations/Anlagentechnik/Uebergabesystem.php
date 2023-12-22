@@ -28,9 +28,10 @@ class Uebergabesystem {
 		'heizkoerper',
 		'flaechenheizung',
 	);
-	
+
 	/**
 	 * Erlaubte Flächenheizungstypen.
+	 *
 	 * @var string[]
 	 */
 	protected $flaechenheizungstypen = array(
@@ -64,9 +65,9 @@ class Uebergabesystem {
 	/**
 	 * Auslegungstemperaturen.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected string $auslegungstemperaturen;
+	protected string|null $auslegungstemperaturen;
 
 	/**
 	 * Prozentualer Anteil der Heizungsanlage im Heizsystem
@@ -85,16 +86,16 @@ class Uebergabesystem {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param Gebaeude $gebaeude               Gebäude.
-	 * @param string   $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
-	 * @param string   $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
-	 * @param string   $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
-	 * @param bool     $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
+	 * @param Gebaeude    $gebaeude               Gebäude.
+	 * @param string      $typ                    Typ des Übergabesystems (elektroheizungsflaechen, heizkoerper, fussbodenheizung, wandheizung, deckenheizung).
+	 * @param string|null $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
+	 * @param string      $prozentualer_anteil    Prozentualer Anteil des Übergabesystems im Heizsystem.
+	 * @param bool        $mindestdaemmung        Ist die Mindestdämmung vorhanden? Wenn der Kunde dies nicht weis, dann nein (false). Wird nur bei flaechenheizungen benötigt.
 	 */
 	public function __construct(
 		Gebaeude $gebaeude,
 		string $typ,
-		string $auslegungstemperaturen,
+		string|null $auslegungstemperaturen,
 		int $prozentualer_anteil = 100,
 		string $flaechenheizungstyp = null,
 		bool $mindestdaemmung = false
@@ -105,7 +106,7 @@ class Uebergabesystem {
 		}
 
 		// Check der Auslegungstemperaturen.
-		if ( ! in_array( $auslegungstemperaturen, $this->erlaubte_auslegungstemperaturen ) ) {
+		if ( null !== $auslegungstemperaturen && ! in_array( $auslegungstemperaturen, $this->erlaubte_auslegungstemperaturen ) ) {
 			throw new Calculation_Exception( 'Auslegungstemperaturen nicht bekannt.' );
 		}
 
@@ -113,7 +114,7 @@ class Uebergabesystem {
 		$this->typ                    = $typ;
 		$this->auslegungstemperaturen = $auslegungstemperaturen;
 		$this->prozentualer_anteil    = $prozentualer_anteil;
-		$this->flaechenheizungstyp	  = $flaechenheizungstyp;
+		$this->flaechenheizungstyp    = $flaechenheizungstyp;
 		$this->mindestdaemmung        = $mindestdaemmung;
 	}
 
@@ -129,9 +130,9 @@ class Uebergabesystem {
 	/**
 	 * Auslegungstemperaturen.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function auslegungstemperaturen(): string {
+	public function auslegungstemperaturen(): string|null {
 		return $this->auslegungstemperaturen;
 	}
 
@@ -263,7 +264,7 @@ class Uebergabesystem {
 	 */
 	public function qhce(): float {
 		return $this->gebaeude->lueftung()->h_max_spezifisch() * $this->ehce();
-	}	
+	}
 
 	/**
 	 * Verteilung Heizung (ehd0).
@@ -295,5 +296,5 @@ class Uebergabesystem {
 			case '35/28':
 				return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.016 : 1.024;
 		}
-	}	
+	}
 }

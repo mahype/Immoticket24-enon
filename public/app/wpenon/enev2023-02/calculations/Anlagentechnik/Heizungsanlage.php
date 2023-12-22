@@ -219,7 +219,7 @@ abstract class Heizungsanlage {
 			case '35/28':
 				return $this->heizung_im_beheizten_bereich() ? 0.057 : 0.008;
 			default:
-				throw new Calculation_Exception( 'Auslegungstemperaturen müssen entweder "90/70", "70/55", "55/45" oder "35/28" sein.' );
+				return 0;
 		}
 	}
 

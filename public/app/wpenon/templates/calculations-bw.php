@@ -437,8 +437,8 @@ $jahr = new Jahr();
 		<th>P*H<sub>sink</sub> (W)</th>    
 		<th>PH<sub>sink</sub> (W)</th>    
 		<th>PH<sub>source</sub> (W)</th>
-		<th>Q<sub>h,b</sub> (kWh)</th>
 		<th>Q<sub>w,b</sub> (kWh)</th>
+		<th>Q<sub>h,b</sub> (kWh)</th>
 	</tr>
 		<?php foreach ( $jahr->monate() as $monat ) : ?>
 		<tr>
@@ -446,8 +446,8 @@ $jahr = new Jahr();
 		<td><?php echo str_replace( '.', ',', $gebaeude->psh_sink_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->ph_sink_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->ph_source_monat( $monat->slug() ) ); ?></td>
-		<td><?php echo str_replace( '.', ',', $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->QWB_monat( $monat->slug() ) ); ?></td>
+		<td><?php echo str_replace( '.', ',', $gebaeude->qh_monat( $monat->slug() ) ); ?></td>
 		</tr>
 		<?php endforeach; ?>
 		<tr>
@@ -455,8 +455,8 @@ $jahr = new Jahr();
 		<td></td>
 		<td></td>
 		<td></td>
-		<td><?php echo str_replace( '.', ',', $gebaeude->qh() ); ?></td>
 		<td><?php echo str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->QWB() ); ?></td>
+		<td><?php echo str_replace( '.', ',', $gebaeude->qh() ); ?></td>
 		</tr>
 	</table>
 
@@ -475,7 +475,7 @@ $jahr = new Jahr();
 			<td><?php echo str_replace( '.', ',', $gebaeude->thm() ); ?></td>
 			<td><?php echo str_replace( '.', ',', $gebaeude->ith_rl() ); ?></td>
 			<td><?php echo str_replace( '.', ',', $gebaeude->qi() ); ?></td>
-			<td><?php echo str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->QWB() ); ?></td>
+			<td><?php echo str_replace( '.', ',', $gebaeude->trinkwarmwasseranlage()->QWB() ); ?></td>			
 			<td><?php echo str_replace( '.', ',', $gebaeude->qh() ); ?></td>
 		</tr>
 	</table>

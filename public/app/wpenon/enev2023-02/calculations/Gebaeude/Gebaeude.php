@@ -583,15 +583,6 @@ class Gebaeude {
 	}
 
 	/**
-	 * Verteilung Heizung (ehd0).
-	 *
-	 * @return float
-	 */
-	public function ehd0(): float {
-		$this->heizsystem()->ehd0();
-	}
-
-	/**
 	 * Wärmesenken als Leistung in W für einen Monat.
 	 *
 	 * @param  string $monat

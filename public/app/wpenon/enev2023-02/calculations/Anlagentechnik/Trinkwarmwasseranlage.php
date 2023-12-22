@@ -522,6 +522,10 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function fQsola(): float {
+		if( ! $this->solarthermie_vorhanden() ) {
+			return 0;
+		}
+		
 		return (new Umrechnungsfaktoren_Kollektorflaeche( $this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr ))->fQsola();
 	}
 
@@ -540,6 +544,10 @@ class Trinkwarmwasseranlage {
 	 * @return float
 	 */
 	public function Qwsola(): float {
+		if( ! $this->solarthermie_vorhanden() ) {
+			return 0;
+		}
+		
 		$Qwsola = $this->Qwsola0();
 
 		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {

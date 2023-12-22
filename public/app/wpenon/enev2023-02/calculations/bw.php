@@ -631,7 +631,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
-			typ: $energieausweis->h_uebergabe,
+			typ: ! empty( $energieausweis->h_uebergabe ) ? $energieausweis->h_uebergabe : 'elektroheizungsflaechen',
 			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
