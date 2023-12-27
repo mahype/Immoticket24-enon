@@ -152,7 +152,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return true;
 		case 'inspektion_faelligkeit':
-			if( $energieausweis->k_leistung !== 'groesser' )
+			if( $energieausweis->k_info !== 'vorhanden' || $energieausweis->k_leistung !== 'groesser' )
 			{
 				return '';				
 			}
