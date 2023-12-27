@@ -17,6 +17,7 @@ if ( function_exists( 'edd_get_download_price' ) ) {
 
 $standard = new Standards_Config();
 $oldStandard = $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2021-07-08' );
+$din18599ready = ! $standard->isStandardOlderThenDate( $data['meta']['standard_unformatted'], '2023-12-28' );
 
 if( $oldStandard )
 {
@@ -230,6 +231,10 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
   <div id="calculation-details" class="collapse">
     <h4><?php _e( 'Details zur Berechnung', 'wpenon' ); ?></h4>
     <p><?php _e( 'Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der Kunde hat keinen Zugriff darauf.', 'wpenon' ); ?></p>
+    <?php if( $din18599ready ) : ?>
     <?php wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data['calculations'] ); ?>
+    <?php else : ?>
+    <?php wpenon_get_view()->displaySubTemplate( 'calculations-old', $data['template_suffix'], $data['calculations'] ); ?>
+    <?php endif; ?>
   </div>
 <?php endif; ?>
