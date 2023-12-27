@@ -149,6 +149,8 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				return 'Keine';
 			}
 
+			$erneuerbare_energien = array();
+
 			if( $energieausweis->solarthermie_info == 'vorhanden' ) {
 				$erneuerbare_energien[] = 'Warmwasser';
 			}
