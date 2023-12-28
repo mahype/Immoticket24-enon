@@ -19,7 +19,7 @@ class Prevent_Completion {
      * @var []
      */
     private $checks = [
-        'check_energy',
+        // 'check_energy',
         'check_end_energy',
         'check_heater_consumption',
         'check_heater_consumption_for_estimation',
