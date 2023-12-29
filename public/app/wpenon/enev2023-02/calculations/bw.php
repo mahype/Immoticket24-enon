@@ -702,8 +702,8 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 		gebaeude: $gebaeude,
 		richtung: $energieausweis->pv_richtung,
 		neigung: $energieausweis->pv_neigung,
-		flaeche: $energieausweis->pv_flaeche,
-		baujahr: $energieausweis->pv_baujahr,
+		flaeche: floatval( $energieausweis->pv_flaeche ),
+		baujahr: intval( $energieausweis->pv_baujahr ),
 	));
 }
 
