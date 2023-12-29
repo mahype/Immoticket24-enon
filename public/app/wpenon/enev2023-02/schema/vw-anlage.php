@@ -286,13 +286,12 @@ $anlage = array(
 				'h_energietraeger'                              => array(
 					'type'  => 'hidden',
 					'value' => array(
-						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
+						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung_vw',
 						'callback_args' => array(
 							'field::h_erzeugung',
 							'field::h_energietraeger_standardkessel',
 							'field::h_energietraeger_niedertemperaturkessel',
 							'field::h_energietraeger_brennwertkessel',
-							false,
 							'field::h_energietraeger_kleinthermeniedertemperatur',
 							'field::h_energietraeger_kleinthermebrennwert',
 							'field::h_energietraeger_fernwaerme',
