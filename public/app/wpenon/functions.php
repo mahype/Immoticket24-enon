@@ -1039,8 +1039,11 @@ function wpenon_immoticket24_get_energietraeger_name_2021( $slug, $is_with_units
 		), array( 'energietraeger' ), true );
 	}
 
-	if( $slug == 'fernwaermekwkfossil' || $slug == 'fernwaermehzwfossil' ) {
-		return 'Fernwärme';
+	switch( $slug ) {
+		case 'fernwaermekwkfossil':
+			return 'Nahversorgung';
+		case 'fernwaermehzwfossil':
+			return 'Fernheizwärme';
 	}
 
 	$energietraeger_name = wpenon_get_table_results( 'energietraeger2021', array(
