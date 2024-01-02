@@ -261,7 +261,7 @@ abstract class Heizungsanlage {
 				return 1.1;
 			case 'braunkohle':
 				return 1.2;
-			case 'fernwaermekwkwfossil':
+			case 'fernwaermekwkfossil':
 				return 0.7;
 			case 'fernwaermehzwfossil':
 				return 1.3;
@@ -306,7 +306,7 @@ abstract class Heizungsanlage {
 			case 'stueckholz':
 				return 1.08;
 			case 'heizoel':			
-			case 'fernwaermekwkwfossil':
+			case 'fernwaermekwkfossil':
 			case 'fernwaermehzwfossil':				
 			case 'strom':
 				return 1.0;
@@ -338,7 +338,7 @@ abstract class Heizungsanlage {
 			case 'holzhackschnitzel':
 			case 'stueckholz':
 				return 20;		
-			case 'fernwaermekwkwfossil':
+			case 'fernwaermekwkfossil':
 				return 300;
 			case 'fernwaermehzwfossil':		
 				return 400;

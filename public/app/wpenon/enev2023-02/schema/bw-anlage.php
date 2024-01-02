@@ -49,7 +49,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermekwkfossil' => __( 'Nahversorger', 'wpenon' ),
 						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
@@ -199,13 +199,12 @@ $anlage = array(
 				'h_energietraeger'                         => array(
 					'type'  => 'hidden',
 					'value' => array(
-						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
+						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung_bw',
 						'callback_args' => array(
 							'field::h_erzeugung',
 							'field::h_energietraeger_standardkessel',
 							'field::h_energietraeger_niedertemperaturkessel',
 							'field::h_energietraeger_brennwertkessel',
-							'field::h_energietraeger_brennwertkesselverbessert',
 							'field::h_energietraeger_etagenheizung',
 							'field::h_energietraeger_fernwaerme',
 							'field::h_energietraeger_waermepumpeluft',
@@ -381,7 +380,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der 2. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermekwkfossil' => __( 'Nahversorger', 'wpenon' ),
 						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
@@ -536,7 +535,7 @@ $anlage = array(
 				'h2_energietraeger'                        => array(
 					'type'  => 'hidden',
 					'value' => array(
-						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
+						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung_bw',
 						'callback_args' => array(
 							'field::h2_erzeugung',
 							'field::h2_energietraeger_standardkessel',
@@ -724,7 +723,7 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Energieträger der 3. Heizungsanlage', 'wpenon' ),
 					'options'  => array(
-						'fernwaermekwkwfossil' => __( 'Nahversorger', 'wpenon' ),
+						'fernwaermekwkfossil' => __( 'Nahversorger', 'wpenon' ),
 						'fernwaermehzwfossil' => __( 'Fernheizwärme', 'wpenon' ),
 					),
 					'display'  => array(
@@ -879,7 +878,7 @@ $anlage = array(
 				'h3_energietraeger'                        => array(
 					'type'  => 'hidden',
 					'value' => array(
-						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung',
+						'callback'      => 'wpenon_immoticket24_get_energietraeger_by_erzeugung_bw',
 						'callback_args' => array(
 							'field::h3_erzeugung',
 							'field::h3_energietraeger_standardkessel',

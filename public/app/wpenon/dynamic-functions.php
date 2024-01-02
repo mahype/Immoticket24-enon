@@ -541,7 +541,7 @@ function wpenon_immoticket24_get_energietraeger_unit( $energietraeger ) {
 	), array( 'einheit' ), true );
 }
 
-function wpenon_immoticket24_get_energietraeger_by_erzeugung(
+function wpenon_immoticket24_get_energietraeger_by_erzeugung_bw(
 	$erzeugung,
 	$energietraeger_standardkessel,
 	$energietraeger_niedertemperaturkessel,
