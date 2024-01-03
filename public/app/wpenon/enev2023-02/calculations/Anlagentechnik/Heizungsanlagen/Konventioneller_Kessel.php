@@ -68,6 +68,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'holzpellets'       => 'Holzpellets',
 					'holzhackschnitzel' => 'Holzhackschnitzel',
 					'stueckholz'        => 'Stückholz',
+					'steinkohle' => 'Steinkohle',
+					'braunkohle' => 'Braunkohle',
 				),
 			),
 			'niedertemperaturkessel' => array(
