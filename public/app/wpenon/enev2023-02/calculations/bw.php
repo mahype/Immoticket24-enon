@@ -528,9 +528,9 @@ $h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieau
 
 if( $_GET['debug'] ) {
 	$file = fopen( __DIR__ . '/debug.txt', 'w' );
-	fwrite( $file, print_r( $energieausweis, true ) );
 	fwrite( $file, print_r( 'Prozentualer Anteil (energieausweis->h_deckungsanteil): ' . $h_prozentualer_anteil, true ) );
 	fwrite( $file, print_r( 'Prozentualer Anteil (h_prozentualer_anteil): ' . $h_prozentualer_anteil, true ) );
+	fwrite( $file, print_r( $energieausweis, true ) );
 	fclose( $file );
 }
 
