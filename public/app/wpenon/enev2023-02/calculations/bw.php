@@ -441,7 +441,7 @@ switch ( $energieausweis->keller ) {
 				name: sprintf( __( 'Kellerboden', 'wpenon' ) ),
 				flaeche: $kellerflaeche,
 				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
-				daemmung: $energieausweis->anbauboden_daemmung,
+				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
 
@@ -451,7 +451,7 @@ switch ( $energieausweis->keller ) {
 					name: sprintf( __( 'Boden', 'wpenon' ) ),
 					flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
 					uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
-					daemmung: $energieausweis->anbauboden_daemmung,
+					daemmung: $energieausweis->boden_daemmung,
 				)
 			);
 		}
@@ -464,7 +464,7 @@ switch ( $energieausweis->keller ) {
 				name: sprintf( __( 'Boden', 'wpenon' ) ),
 				flaeche: $gebaeude->grundriss()->flaeche(),
 				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
-				daemmung: $energieausweis->anbauboden_daemmung,
+				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
 }
