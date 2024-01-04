@@ -524,7 +524,7 @@ $gebaeude->trinkwarmwasseranlage(
  */
 $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
-$h_prozentualer_anteil = isset( $energieausweis->h_deckungsanteil ) ? $energieausweis->h_deckungsanteil : 100;
+$h_prozentualer_anteil = ! isset( $energieausweis->h_deckungsanteil ) || $energieausweis->h_deckungsanteil === 0 ? 100 : $energieausweis->h_deckungsanteil;
 
 if( $_GET['debug'] ) {
 	$file = fopen( __DIR__ . '/debug.txt', 'w' );
