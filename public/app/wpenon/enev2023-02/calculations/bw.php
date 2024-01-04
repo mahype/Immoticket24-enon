@@ -526,13 +526,13 @@ $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
 $h_prozentualer_anteil = ! isset( $energieausweis->h_deckungsanteil ) || $energieausweis->h_deckungsanteil === 0 ? 100 : $energieausweis->h_deckungsanteil;
 
-if( $_GET['debug'] ) {
-	$file = fopen( __DIR__ . '/debug.txt', 'w' );
-	fwrite( $file, print_r( 'Prozentualer Anteil (energieausweis->h_deckungsanteil): ' . $h_prozentualer_anteil, true ) );
-	fwrite( $file, print_r( 'Prozentualer Anteil (h_prozentualer_anteil): ' . $h_prozentualer_anteil, true ) );
-	fwrite( $file, print_r( $energieausweis, true ) );
-	fclose( $file );
-}
+// if( $_GET['debug'] ) {
+// 	$file = fopen( __DIR__ . '/debug.txt', 'w' );
+// 	fwrite( $file, print_r( 'Prozentualer Anteil (energieausweis->h_deckungsanteil): ' . $h_prozentualer_anteil, true ) );
+// 	fwrite( $file, print_r( 'Prozentualer Anteil (h_prozentualer_anteil): ' . $h_prozentualer_anteil, true ) );
+// 	fwrite( $file, print_r( $energieausweis, true ) );
+// 	fclose( $file );
+// }
 
 if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
 	// $h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
