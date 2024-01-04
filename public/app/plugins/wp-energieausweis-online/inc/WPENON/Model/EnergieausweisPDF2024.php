@@ -195,23 +195,21 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 
 					$y            = $this->GetY();
 					$lueftungsart = $this->GetData( 'lueftungsart' );
-					
-					if( $_GET['debug'] ) {
-						echo 'Lueftungsart: ' . $lueftungsart . '<br>';
-						exit;
-					}
 
 					switch ( $lueftungsart ) {
 						case 'ohne':
+						case 'fenster':
 							$this->CheckBox( $x + 2.4, $y + 3.3 );
 							break;
 						case 'schacht': // TODO: Gibt es nicht mehr zur Auswahl
 							$this->CheckBox( $x + 2.4, $y + 7.0 );
 							break;
 						case 'zu_abluft':
+						case 'mitgewinnung':
 							$this->CheckBox( $x + 34.7, $y + 3.4 );
 							break;
 						case 'abluft':
+						case 'ohnegewinnung':
 							$this->CheckBox( $x + 34.7, $y + 7 );
 							break;
 						default:
