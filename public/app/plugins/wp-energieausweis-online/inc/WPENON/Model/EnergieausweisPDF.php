@@ -253,9 +253,8 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 						$lueftungsart = $this->GetData( 'lueftungsart' );
 
 						if( $_GET['debug'] ) {
-							$file = fopen( dirname( ABSPATH ) . '/debug.txt', 'w' );
-							fwrite($file, "Lueftungsart: " . $lueftungsart );
-							fclose($file);
+							echo 'Lueftungsart: ' . $lueftungsart . '<br>';
+							exit;
 						}
 
 						switch ( $lueftungsart ) {
