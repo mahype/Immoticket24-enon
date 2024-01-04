@@ -194,7 +194,12 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 					$this->SetX( $x );
 
 					$y            = $this->GetY();
-					$lueftungsart = $this->GetData( 'lueftungsart' );		
+					$lueftungsart = $this->GetData( 'lueftungsart' );
+					
+					if( $_GET['debug'] ) {
+						echo 'Lueftungsart: ' . $lueftungsart . '<br>';
+						exit;
+					}
 
 					switch ( $lueftungsart ) {
 						case 'ohne':

@@ -252,11 +252,6 @@ class EnergieausweisPDF extends \WPENON\Util\UFPDI {
 						$y            = $this->GetY();
 						$lueftungsart = $this->GetData( 'lueftungsart' );
 
-						if( $_GET['debug'] ) {
-							echo 'Lueftungsart: ' . $lueftungsart . '<br>';
-							exit;
-						}
-
 						switch ( $lueftungsart ) {
 							case 'fenster':
 								$this->CheckBox( $x + 2.8, $y + 4.4 );
