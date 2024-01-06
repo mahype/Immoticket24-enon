@@ -502,6 +502,18 @@ switch ( $energieausweis->ww_info ) {
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h_erzeugung;
 		break;
+	case 'h2':
+		$ww_zentral = true;
+		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
+		$mit_warmwasserspeicher = false;
+		$ww_erzeuger = $energieausweis->h2_erzeugung;
+		break;
+	case 'h3':
+		$ww_zentral = true;
+		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
+		$mit_warmwasserspeicher = false;
+		$ww_erzeuger = $energieausweis->h3_erzeugung;
+		break;
 }
 
 $gebaeude->trinkwarmwasseranlage(
