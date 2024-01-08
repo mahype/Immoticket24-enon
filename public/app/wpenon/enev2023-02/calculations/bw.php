@@ -703,7 +703,8 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
-			mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
+			// mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
+			mindestdaemmung: true
 		)
 	);		
 } else {

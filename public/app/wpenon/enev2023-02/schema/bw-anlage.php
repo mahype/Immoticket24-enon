@@ -1085,15 +1085,15 @@ $anlage = array(
 					),
 					'required' => true,
 				),
-
-				'h_uebergabe_mindestdaemmung'        => array(
-					'type'    => 'checkbox',
-					'label'   => __( 'Die Flächenheizung erreicht die Mindestdämmung.', 'wpenon' ),
-					'display' => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h_uebergabe', array( 'flaechenheizung' ) ),
-					),
-				),
+				// Wert ist standardmäßig auf true gesetzt, da davon ausgegangen wird, dass die Flächenheizung die Mindestdämmung erreicht
+				// 'h_uebergabe_mindestdaemmung'        => array(
+				// 	'type'    => 'checkbox',
+				// 	'label'   => __( 'Die Flächenheizung erreicht die Mindestdämmung.', 'wpenon' ),
+				// 	'display' => array(
+				// 		'callback'      => 'wpenon_show_on_array_whitelist',
+				// 		'callback_args' => array( 'field::h_uebergabe', array( 'flaechenheizung' ) ),
+				// 	),
+				// ),
 
 			),
 		),
