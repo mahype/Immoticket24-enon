@@ -348,7 +348,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung/Elektro-Direktheizgerät', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
-						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+//						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 					'display'     => array(
@@ -691,7 +691,7 @@ $anlage = array(
 						'infrarotheizung'             => __( 'Infrarotheizung/Elektro-Direktheizgerät', 'wpenon' ),
 						'elektronachtspeicherheizung' => __( 'Elektro-Nachtspeicher', 'wpenon' ),
 						'fernwaerme'                  => __( 'Nah-/Fernwärme', 'wpenon' ),
-						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
+// 						'zentral_elektrisch'          => __( 'Zentral elektrisch beheizte Wärmeerzeuger', 'wpenon' ),
 					),
 					'required'    => true,
 					'display'     => array(
