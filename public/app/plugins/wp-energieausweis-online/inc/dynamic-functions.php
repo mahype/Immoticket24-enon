@@ -19,7 +19,7 @@ function wpenon_ajax_dynamic_callback() {
 	}
 
 	if ( ! is_callable( $_POST['callback'] ) ) {
-		die( 'error::' . __( 'Ungültige Anfrage: Die Callback-Funktion existiert nicht.', 'wpenon' ) );
+		die( 'error::' . sprintf( __( 'Ungültige Anfrage: Die Callback-Funktion "%s" existiert nicht.', 'wpenon' ), $_POST['callback'] ) );
 	}
 
 	$args = $_POST['callback_args'];
