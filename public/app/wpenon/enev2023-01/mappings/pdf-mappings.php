@@ -93,7 +93,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 				print_r( 'EM: ' . $energieausweis->mode );
 				print_r( 'Erzeugung: ' . $energieausweis->h_erzeugung );
 				print_r( 'Energietraeger: ' . $energieausweis->h_energietraeger );					
-				print_r( 'Energieausweis: ' . $energieausweis );					
+				print_r( $energieausweis );					
 				echo '</pre>';
 				exit;
 			}
