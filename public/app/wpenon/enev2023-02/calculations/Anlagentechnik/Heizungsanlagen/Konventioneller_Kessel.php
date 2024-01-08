@@ -32,11 +32,13 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param Gebaeude $gebaeude Gebäude.
-	 * @param string   $erzeuger Erzeuger (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
-	 * @param string   $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).
-	 * @param int      $baujahr Baujahr der Heizung.
-	 * @param int      $prozentualer_anteil Prozentualer Anteil der Heizungsanlage im Heizsystem.
+	 * @param Gebaeude   $gebaeude Gebäude.
+	 * @param string     $erzeuger Erzeuger (standardkessel, niedertemperaturkessel, brennwertkessel, kleinthermeniedertemperatur, kleinthermebrennwert, pelletfeuerung, gasraumheizer, oelofenverdampfungsverbrenner).
+	 * @param string     $energietraeger $energietraeger Energieträger (heizoel, erdgas, fluessiggas, biogas, holzpellets, holzhackschnitzel).
+	 * @param int        $baujahr Baujahr der Heizung.
+	 * @param int        $prozentualer_anteil Prozentualer Anteil der Heizungsanlage im Heizsystem.
+	 * @param float|null $fp                  Manuell gesetzter Primärenergiefaktor.
+	 * @param float|null $fco2                Manuell gesetzter CO2 Emissionsfaktor.
 	 *
 	 * @return void
 	 */
@@ -46,8 +48,10 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		string $energietraeger,
 		int $baujahr,
 		int $prozentualer_anteil = 100,
+		float|null $fp = null,
+		float|null $fco2 = null
 	) {
-		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil, $fp, $fco2 );
 	}
 
 	/**
@@ -68,8 +72,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 					'holzpellets'       => 'Holzpellets',
 					'holzhackschnitzel' => 'Holzhackschnitzel',
 					'stueckholz'        => 'Stückholz',
-					'steinkohle' => 'Steinkohle',
-					'braunkohle' => 'Braunkohle',
+					'steinkohle'        => 'Steinkohle',
+					'braunkohle'        => 'Braunkohle',
 				),
 			),
 			'niedertemperaturkessel' => array(
@@ -130,12 +134,12 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 	public function fegtw(): float {
 		$fegt = ( new Aufwandszahlen_Heizwaermeerzeugung(
-				$this->erzeuger(),
-				$this->energietraeger(),
-				$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(),
-				$this->ßwg(),
-				$this->heizung_im_beheizten_bereich()
-			)
+			$this->erzeuger(),
+			$this->energietraeger(),
+			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(),
+			$this->ßwg(),
+			$this->heizung_im_beheizten_bereich()
+		)
 		)->fegtw();
 
 		return $fegt;
@@ -160,9 +164,9 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 	/**
 	 * ewg
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function ewg(): float {
 		// Basis ewg Wert
@@ -173,15 +177,15 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 	/**
 	 * Korrigierter Korrekturfaktor für die Heizungsanlage.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function ehg(): float {
 		// Basis ehg Wert
 		$ehg = $this->eg0() * $this->fbj() * $this->fegt();
 		// Korrekturfaktor für Kessel
- 		return 1 + ( $ehg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() ); 
+		return 1 + ( $ehg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
 	}
 
 	/**
@@ -252,17 +256,17 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 		// Holz bei Standard- und Brennwertkesseln.
 		// Kesseltyp nicht abgefragt, da Holz nur bei Standard- und Brennwertkesseln möglich ist.
-		
+
 		// if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-		// 	if ( $this->baujahr() >= 1995 ) {
-		// 		return 1.0;
-		// 	} else {
-		// 		return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
-		// 	}
+		// if ( $this->baujahr() >= 1995 ) {
+		// return 1.0;
+		// } else {
+		// return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
+		// }
 		// }
 
 		// if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
-		// 	return 1.0;
+		// return 1.0;
 		// }
 
 		// return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->fphgaux();
@@ -285,22 +289,21 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 		// Holz bei Standard- und Brennwertkesseln.
 		// Kesseltyp nicht abgefragt, da Holz nur bei Standard- und Brennwertkesseln möglich ist.
-		
+
 		// $ßhg = 1;
 		// if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-		// 	if ( $this->baujahr() >= 1995 ) {
-		// 		return 1.0;
-		// 	} else {
-		// 		return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
-		// 	}
+		// if ( $this->baujahr() >= 1995 ) {
+		// return 1.0;
+		// } else {
+		// return ( new Korrekturfaktoren_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
+		// }
 		// }
 
 		// if ( $this->erzeuger() === 'brennwertkessel' || $this->erzeuger() === 'etagenheizung' ) {
-		// 	return 1.0;
+		// return 1.0;
 		// }
 
 		// return ( new Korrekturfaktoren_Gas_Spezial_Heizkessel( $this->gebaeude->heizsystem()->pn(), $ßhg) )->fphgaux();
-
 
 		return 1; // Norm sagt nicht klar aus, welcher Wert hier verwendet werden soll. Seite 130/131 Teil 12 völlig missverständlich.
 	}
@@ -377,7 +380,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 			return ( new Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
 		}
 
-		if( $this->erzeuger() === 'standardkessel' ) { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
+		if ( $this->erzeuger() === 'standardkessel' ) { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
 			return 0.15;
 		}
 
@@ -407,24 +410,24 @@ class Konventioneller_Kessel extends Heizungsanlage {
 
 	/**
 	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Whg(): float {
 		// $Whg= $fphgaux*$Phgaux*($calculations['ith,rl']-$twpn)+$PhauxP0*(8760-$calculations['ith,rl']);
- 		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
+		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
 	}
-	
+
 	/**
 	 * Hilfsenergie für Warmwasser.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function Wwg(): float {
-		if( ! $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
-			return 0.0;	
+		if ( ! $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+			return 0.0;
 		}
-		
+
 		return $this->fpwgaux() * $this->Pwgaux() * $this->twpn();
-    }
+	}
 }
