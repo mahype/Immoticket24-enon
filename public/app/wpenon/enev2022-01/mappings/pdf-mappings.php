@@ -90,15 +90,6 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			$energietraeger = array();
 			if ( $energieausweis->mode == 'b' ) {
 				$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger );
-
-				if( $_GET['debug'] == 'true' ) {
-					echo '<pre>';
-					print_r( 'Erzeugung: ' . $energieausweis->h_erzeugung );
-					print_r( 'Energietraeger: ' . $energieausweis->h_energietraeger );					
-					echo '</pre>';
-					exit;
-				}
-
 				if ( $energieausweis->h2_info ) {
 					$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger );
 					if ( $energieausweis->h3_info ) {
