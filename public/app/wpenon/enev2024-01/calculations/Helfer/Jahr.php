@@ -1,8 +1,8 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Helfer;
+namespace Enev\Schema202401\Calculations\Helfer;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Calculation_Exception;
 
 require_once __DIR__ . '/Monat.php';
 

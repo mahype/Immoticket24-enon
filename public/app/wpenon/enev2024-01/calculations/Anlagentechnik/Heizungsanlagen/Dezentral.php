@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen;
+namespace Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlagen;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlage;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
 
 class Dezentral extends Heizungsanlage {
     /**

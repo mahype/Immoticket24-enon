@@ -1,11 +1,11 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Waermeabgabe_Pufferspeicher;
-use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Pufferspeicher_Korrekturfaktor;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Waermeabgabe_Pufferspeicher;
+use Enev\Schema202401\Calculations\Tabellen\Mittlere_Belastung_Pufferspeicher_Korrekturfaktor;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Waermeabgabe_Pufferspeicher.php';

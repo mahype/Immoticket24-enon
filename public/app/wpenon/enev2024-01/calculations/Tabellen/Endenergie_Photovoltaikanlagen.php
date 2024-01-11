@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Tabellen;
+namespace Enev\Schema202401\Calculations\Tabellen;
 
 /**
  * Jährliche Endenergie aus Photovoltaikanlagen (flächenbezogen) aus Tabelle 115.

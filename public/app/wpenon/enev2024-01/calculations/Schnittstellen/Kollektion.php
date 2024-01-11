@@ -1,3 +1,3 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Schnittstellen;
+namespace Enev\Schema202401\Calculations\Schnittstellen;

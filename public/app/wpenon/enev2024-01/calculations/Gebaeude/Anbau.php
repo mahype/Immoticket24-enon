@@ -1,8 +1,8 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Gebaeude;
+namespace Enev\Schema202401\Calculations\Gebaeude;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Calculation_Exception;
 
 /**
  * Diese Klasse repräsentiert einen Anbau für ein Gebäude.

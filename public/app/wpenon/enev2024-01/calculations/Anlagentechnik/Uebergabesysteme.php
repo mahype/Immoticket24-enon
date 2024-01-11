@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
 require __DIR__ . '/Uebergabesystem.php';
 

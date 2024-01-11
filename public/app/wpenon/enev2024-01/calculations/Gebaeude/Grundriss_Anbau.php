@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Gebaeude;
+namespace Enev\Schema202401\Calculations\Gebaeude;
 
 require_once __DIR__ . '/Grundriss.php';
 

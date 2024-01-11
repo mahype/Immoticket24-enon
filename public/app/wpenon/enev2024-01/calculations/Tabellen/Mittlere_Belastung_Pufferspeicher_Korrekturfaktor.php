@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Tabellen;
+namespace Enev\Schema202401\Calculations\Tabellen;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Calculation_Exception;
 
-use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
+use function Enev\Schema202401\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 

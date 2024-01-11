@@ -1,8 +1,8 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Gebaeude;
+namespace Enev\Schema202401\Calculations\Gebaeude;
 
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss;
 
 /**
  * Abstrakte Klasse für ein Dach.

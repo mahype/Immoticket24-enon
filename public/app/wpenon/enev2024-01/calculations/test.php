@@ -4,9 +4,9 @@ require_once __DIR__ . '/Gebaeude/Grundriss.php';
 require_once __DIR__ . '/Gebaeude/Grundriss_Anbau.php';
 require_once __DIR__ . '/Gebaeude/Anbau.php';
 
-use Enev\Schema202302\Calculations\Gebaeude\Anbau;
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
+use Enev\Schema202401\Calculations\Gebaeude\Anbau;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss_Anbau;
 
 // $grundriss = new Grundriss( 'b', 'so' );
 

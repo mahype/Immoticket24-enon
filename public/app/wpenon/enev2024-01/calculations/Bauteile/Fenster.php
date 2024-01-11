@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202401\Calculations\Bauteile;
 
-use Enev\Schema202302\Calculations\Helfer\Jahr;
-use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
-use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
+use Enev\Schema202401\Calculations\Helfer\Jahr;
+use Enev\Schema202401\Calculations\Schnittstellen\Transmissionswaerme;
+use Enev\Schema202401\Calculations\Tabellen\Monatsdaten;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Monatsdaten.php';
 
@@ -13,7 +13,7 @@ require_once __DIR__ . '/Bauteil.php';
 /**
  * Bauteil Fenster.
  *
- * @package Enev\Schema202302\Calculations\Bauteile
+ * @package Enev\Schema202401\Calculations\Bauteile
  */
 class Fenster extends Bauteil implements Transmissionswaerme {
 	/**

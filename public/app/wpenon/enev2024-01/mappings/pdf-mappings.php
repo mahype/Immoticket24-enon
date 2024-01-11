@@ -5,7 +5,7 @@ require_once dirname( dirname( __FILE__ ) ) . '/calculations/CalculationsCC.php'
 function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
 	if( isset( $energieausweis ) && $energieausweis->mode == 'v' )
 	{		
-		$calcCC = new Enev\Schema202302\Calculations\CalculationsCC( $energieausweis );
+		$calcCC = new Enev\Schema202401\Calculations\CalculationsCC( $energieausweis );
 	}
 
 	switch ( $context ) {

@@ -9,7 +9,7 @@ require_once dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/BW_Modernizations.php';
 
-use Enev\Schema202302\Modernizations\BW_Modernizations;
+use Enev\Schema202401\Modernizations\BW_Modernizations;
 
 /**
  * Bedarfsausweis-Spezifische Daten für Enev

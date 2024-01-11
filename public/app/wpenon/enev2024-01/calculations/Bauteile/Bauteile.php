@@ -1,8 +1,8 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202401\Calculations\Bauteile;
 
-use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+use Enev\Schema202401\Calculations\Schnittstellen\Transmissionswaerme;
 
 require_once dirname( __DIR__ ) . '/Schnittstellen/Transmissionwaerme.php';
 

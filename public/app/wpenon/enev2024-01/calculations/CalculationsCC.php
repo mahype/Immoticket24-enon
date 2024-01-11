@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations;
+namespace Enev\Schema202401\Calculations;
 
 require dirname( __DIR__ ) . '/vendor/autoload.php';
 

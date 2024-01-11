@@ -1,13 +1,13 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen;
+namespace Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlagen;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\COP;
-use Enev\Schema202302\Calculations\Tabellen\Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen;
-use Enev\Schema202302\Calculations\Helfer\Jahr;
+use Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlage;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\COP;
+use Enev\Schema202401\Calculations\Tabellen\Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen;
+use Enev\Schema202401\Calculations\Helfer\Jahr;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/COP.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen.php';
@@ -564,7 +564,7 @@ class Waermepumpe extends Heizungsanlage {
 	/**
 	 * Hilfsenergie für Warmwasserbereitung.
 	 * 
-	 * @return Enev\Schema202302\Calculations\Anlagentechnik\float; 
+	 * @return Enev\Schema202401\Calculations\Anlagentechnik\float; 
 	 */
 	public function Wwg(): float {	
         return 0;
