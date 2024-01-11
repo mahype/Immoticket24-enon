@@ -1,11 +1,11 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Tabellen;
+namespace Enev\Schema202401\Calculations\Tabellen;
 
 /**
  * Daten aus der Tabelle Monatsdaten.
  * 
- * @package Enev\Schema202302\Calculations\Tabellen
+ * @package Enev\Schema202401\Calculations\Tabellen
  */
 class Monatsdaten {
     /**

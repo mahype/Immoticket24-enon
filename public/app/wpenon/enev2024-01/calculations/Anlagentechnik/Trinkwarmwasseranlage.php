@@ -1,15 +1,15 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Monatsdaten;
-use Enev\Schema202302\Calculations\Tabellen\Thermische_Solaranlagen;
-use Enev\Schema202302\Calculations\Tabellen\Umrechnungsfaktoren_Kollektorflaeche;
-use Enev\Schema202302\Calculations\Tabellen\Waermeverlust_Trinkwasserspeicher;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Monatsdaten;
+use Enev\Schema202401\Calculations\Tabellen\Thermische_Solaranlagen;
+use Enev\Schema202401\Calculations\Tabellen\Umrechnungsfaktoren_Kollektorflaeche;
+use Enev\Schema202401\Calculations\Tabellen\Waermeverlust_Trinkwasserspeicher;
 
-use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
+use function Enev\Schema202401\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Thermische_Solaranlagen.php';

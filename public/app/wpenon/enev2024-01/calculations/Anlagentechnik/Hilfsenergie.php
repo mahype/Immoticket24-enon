@@ -1,16 +1,16 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Differenzdruck_Waermeerzeuger;
-use Enev\Schema202302\Calculations\Tabellen\Differenzdruck_Leitungslaenge;
-use Enev\Schema202302\Calculations\Tabellen\Hilfsenergieaufwand_Ladepumpe;
-use Enev\Schema202302\Calculations\Tabellen\Intermittierender_Pumpenbetrieb;
-use Enev\Schema202302\Calculations\Tabellen\TERMpumpe;
-use Enev\Schema202302\Calculations\Tabellen\Volumenstrom_im_Auslegungspunkt;
-use Enev\Schema202302\Calculations\Tabellen\Laufzeit_Zirkulationspumpe;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Differenzdruck_Waermeerzeuger;
+use Enev\Schema202401\Calculations\Tabellen\Differenzdruck_Leitungslaenge;
+use Enev\Schema202401\Calculations\Tabellen\Hilfsenergieaufwand_Ladepumpe;
+use Enev\Schema202401\Calculations\Tabellen\Intermittierender_Pumpenbetrieb;
+use Enev\Schema202401\Calculations\Tabellen\TERMpumpe;
+use Enev\Schema202401\Calculations\Tabellen\Volumenstrom_im_Auslegungspunkt;
+use Enev\Schema202401\Calculations\Tabellen\Laufzeit_Zirkulationspumpe;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Differenzdruck_Leitungslaenge.php';
 require_once dirname( __DIR__ ) . '/Tabellen/Differenzdruck_Waermeerzeuger.php';

@@ -5,40 +5,40 @@
  * @package wpenon
  */
 
-namespace Enev\Schema202302\Calculations;
+namespace Enev\Schema202401\Calculations;
 
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
-use Enev\Schema202302\Calculations\Gebaeude\Anbau;
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss_Anbau;
-use Enev\Schema202302\Calculations\Gebaeude\Keller;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202401\Calculations\Gebaeude\Anbau;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss_Anbau;
+use Enev\Schema202401\Calculations\Gebaeude\Keller;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Lueftung;
-use Enev\Schema202302\Calculations\Anlagentechnik\Photovoltaik_Anlage;
-use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesystem;
-use Enev\Schema202302\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
-use Enev\Schema202302\Calculations\Bauteile\Anbauboden;
-use Enev\Schema202302\Calculations\Bauteile\Anbaudecke;
-use Enev\Schema202302\Calculations\Bauteile\Anbaufenster;
-use Enev\Schema202302\Calculations\Bauteile\Anbauwand;
-use Enev\Schema202302\Calculations\Bauteile\Bauteile;
-use Enev\Schema202302\Calculations\Bauteile\Boden;
-use Enev\Schema202302\Calculations\Bauteile\Decke;
-use Enev\Schema202302\Calculations\Bauteile\Fenster;
-use Enev\Schema202302\Calculations\Bauteile\Flachdach;
-use Enev\Schema202302\Calculations\Bauteile\Heizkoerpernische;
-use Enev\Schema202302\Calculations\Bauteile\Kellerboden;
-use Enev\Schema202302\Calculations\Bauteile\Kellerwand;
-use Enev\Schema202302\Calculations\Bauteile\Pultdach;
-use Enev\Schema202302\Calculations\Bauteile\Rolladenkasten;
-use Enev\Schema202302\Calculations\Bauteile\Satteldach;
-use Enev\Schema202302\Calculations\Bauteile\Walmdach;
-use Enev\Schema202302\Calculations\Bauteile\Wand;
+use Enev\Schema202401\Calculations\Anlagentechnik\Lueftung;
+use Enev\Schema202401\Calculations\Anlagentechnik\Photovoltaik_Anlage;
+use Enev\Schema202401\Calculations\Anlagentechnik\Uebergabesystem;
+use Enev\Schema202401\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
+use Enev\Schema202401\Calculations\Bauteile\Anbauboden;
+use Enev\Schema202401\Calculations\Bauteile\Anbaudecke;
+use Enev\Schema202401\Calculations\Bauteile\Anbaufenster;
+use Enev\Schema202401\Calculations\Bauteile\Anbauwand;
+use Enev\Schema202401\Calculations\Bauteile\Bauteile;
+use Enev\Schema202401\Calculations\Bauteile\Boden;
+use Enev\Schema202401\Calculations\Bauteile\Decke;
+use Enev\Schema202401\Calculations\Bauteile\Fenster;
+use Enev\Schema202401\Calculations\Bauteile\Flachdach;
+use Enev\Schema202401\Calculations\Bauteile\Heizkoerpernische;
+use Enev\Schema202401\Calculations\Bauteile\Kellerboden;
+use Enev\Schema202401\Calculations\Bauteile\Kellerwand;
+use Enev\Schema202401\Calculations\Bauteile\Pultdach;
+use Enev\Schema202401\Calculations\Bauteile\Rolladenkasten;
+use Enev\Schema202401\Calculations\Bauteile\Satteldach;
+use Enev\Schema202401\Calculations\Bauteile\Walmdach;
+use Enev\Schema202401\Calculations\Bauteile\Wand;
 
-use function Enev\Schema202302\Calculations\Helfer\berechne_fenster_flaeche;
-use function Enev\Schema202302\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
-use function Enev\Schema202302\Calculations\Helfer\berechne_rolladenkasten_flaeche;
-use function Enev\Schema202302\Calculations\Tabellen\uwert;
+use function Enev\Schema202401\Calculations\Helfer\berechne_fenster_flaeche;
+use function Enev\Schema202401\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
+use function Enev\Schema202401\Calculations\Helfer\berechne_rolladenkasten_flaeche;
+use function Enev\Schema202401\Calculations\Tabellen\uwert;
 
 require_once __DIR__ . '/Helfer/Jahr.php';
 require_once __DIR__ . '/Helfer/Math.php';

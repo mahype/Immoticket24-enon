@@ -1,12 +1,12 @@
 <?php
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202401\Calculations\Bauteile;
 
-use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+use Enev\Schema202401\Calculations\Schnittstellen\Transmissionswaerme;
 
 /**
  * Diese Klasse repräsentiert eine Wand.
  *
- * @package Enev\Schema202302\Calculations\Bauteile
+ * @package Enev\Schema202401\Calculations\Bauteile
  */
 class Wand extends Bauteil implements Transmissionswaerme {
 

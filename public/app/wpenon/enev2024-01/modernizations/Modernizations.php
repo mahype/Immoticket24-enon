@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Modernizations;
+namespace Enev\Schema202401\Modernizations;
 
 use WPENON\Model\Energieausweis;
 

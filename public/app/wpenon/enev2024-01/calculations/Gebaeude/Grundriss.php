@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Gebaeude;
+namespace Enev\Schema202401\Calculations\Gebaeude;
 
 require_once dirname( __DIR__ ) . '/Calculation_Exception.php';
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Calculation_Exception;
 
 /**
  * Die Klasse Grundriss repräsentiert einen Grundriss eines Gebäudes.

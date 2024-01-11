@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Helfer;
+namespace Enev\Schema202401\Calculations\Helfer;
 
 /**
  * Berechnung der Fensterflächen anhand der Größe der Maße der Wand.
@@ -9,7 +9,7 @@ namespace Enev\Schema202302\Calculations\Helfer;
  * @param float $innere_wandhoehe  Höhe der Wand in Metern (Lichte Höhe)
  * @param float $wanddicke  Dicke der Wand in Metern.
  *
- * @package Enev\Schema202302\Calculations\Bauteile
+ * @package Enev\Schema202401\Calculations\Bauteile
  */
 function berechne_fenster_flaeche( float $wandlaenge, float $innere_wandhoehe, float $wanddicke ): float {
 	$innere_wandlaenge = $wandlaenge - $wanddicke * 2;
@@ -21,7 +21,7 @@ function berechne_fenster_flaeche( float $wandlaenge, float $innere_wandhoehe, f
  * 
  * @param float $fensterflaeche Fläche des Fensters in m².
  *
- * @package Enev\Schema202302\Calculations\Bauteile
+ * @package Enev\Schema202401\Calculations\Bauteile
  */
 function berechne_rolladenkasten_flaeche( float $fensterflaeche ): float {
 	return 0.1 * $fensterflaeche;

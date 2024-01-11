@@ -1,11 +1,11 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Tabellen;
+namespace Enev\Schema202401\Calculations\Tabellen;
 
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Helfer\Jahr;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Helfer\Jahr;
 
-use function Enev\Schema202302\Calculations\Helfer\interpolate_value;
+use function Enev\Schema202401\Calculations\Helfer\interpolate_value;
 
 require_once dirname( __DIR__ ) . '/Helfer/Math.php';
 require_once dirname( __DIR__ ) . '/Helfer/Jahr.php';

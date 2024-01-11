@@ -1,11 +1,11 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Faktor_Anlagensysteme_Wohnungslueftungsanlagen;
-use Enev\Schema202302\Calculations\Tabellen\Faktor_Baujahr_Anlagensysteme;
-use Enev\Schema202302\Calculations\Tabellen\Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Faktor_Anlagensysteme_Wohnungslueftungsanlagen;
+use Enev\Schema202401\Calculations\Tabellen\Faktor_Baujahr_Anlagensysteme;
+use Enev\Schema202401\Calculations\Tabellen\Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen;
 
 require_once dirname( __DIR__ ) . '/Tabellen/Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen.php';
 

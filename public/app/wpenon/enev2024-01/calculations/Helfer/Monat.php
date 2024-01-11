@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Helfer;
+namespace Enev\Schema202401\Calculations\Helfer;
 
 /**
  * Klasse zur Darstellung eines Monats.

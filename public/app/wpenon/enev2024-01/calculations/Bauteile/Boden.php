@@ -1,9 +1,9 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202401\Calculations\Bauteile;
 
-use Enev\Schema202302\Calculations\Gebaeude\Grundriss;
-use Enev\Schema202302\Calculations\Schnittstellen\Transmissionswaerme;
+use Enev\Schema202401\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202401\Calculations\Schnittstellen\Transmissionswaerme;
 
 require_once __DIR__ . '/Bauteil.php';
 

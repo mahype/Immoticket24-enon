@@ -8,7 +8,7 @@ require_once dirname( __FILE__ ) . '/Energietraeger.php';
 require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/VW_Modernizations.php';
 
-use Enev\Schema202302\Modernizations\VW_Modernizations;
+use Enev\Schema202401\Modernizations\VW_Modernizations;
 
 /**
  * Data Enev Bedarsausweis
@@ -23,7 +23,7 @@ class DataEnevVW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    private Enev\Schema202302\Calculations\CalculationsCC $calculations;
+    private Enev\Schema202401\Calculations\CalculationsCC $calculations;
 
     /**
      * Berechnungen Bedarfsausweis
@@ -32,11 +32,11 @@ class DataEnevVW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function calculations() : Enev\Schema202302\Calculations\CalculationsCC
+    public function calculations() : Enev\Schema202401\Calculations\CalculationsCC
     {
         if ( empty( $this->calculations ) )
         {
-            $this->calculations = new Enev\Schema202302\Calculations\CalculationsCC( $this->energieausweis );
+            $this->calculations = new Enev\Schema202401\Calculations\CalculationsCC( $this->energieausweis );
         }
 
         return $this->calculations;

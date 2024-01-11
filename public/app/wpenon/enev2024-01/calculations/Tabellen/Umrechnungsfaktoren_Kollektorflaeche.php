@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
-namespace Enev\Schema202302\Calculations\Tabellen;
+namespace Enev\Schema202401\Calculations\Tabellen;
 
 /**
  * Umrechnungsfaktoren_Kollektorflaeche aus Tablle 63, Tabelle 64 und Tabelle 65.

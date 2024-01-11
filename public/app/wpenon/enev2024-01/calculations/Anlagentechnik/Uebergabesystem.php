@@ -1,10 +1,10 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik;
+namespace Enev\Schema202401\Calculations\Anlagentechnik;
 
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
 
 /**

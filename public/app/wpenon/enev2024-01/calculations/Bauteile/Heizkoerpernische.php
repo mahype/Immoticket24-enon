@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Bauteile;
+namespace Enev\Schema202401\Calculations\Bauteile;
 
 class Heizkoerpernische extends Bauteil {
 	/**

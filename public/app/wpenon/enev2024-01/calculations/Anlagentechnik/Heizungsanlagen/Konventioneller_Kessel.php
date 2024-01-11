@@ -1,19 +1,19 @@
 <?php
 
-namespace Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlagen;
+namespace Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlagen;
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Heizungsanlage;
-use Enev\Schema202302\Calculations\Calculation_Exception;
-use Enev\Schema202302\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
-use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
-use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
-use Enev\Schema202302\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
-use Enev\Schema202302\Calculations\Tabellen\Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel;
-use Enev\Schema202302\Calculations\Tabellen\Brennwertkessel_Hilfsenergieaufwand;
-use Enev\Schema202302\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassererwaermung;
-use Enev\Schema202302\Calculations\Tabellen\Umlaufwasserheizer_Hilfsenergieaufwand;
-use Enev\Schema202302\Calculations\Tabellen\Pelletkessel_Hilfsenergieaufwand;
+use Enev\Schema202401\Calculations\Anlagentechnik\Heizungsanlage;
+use Enev\Schema202401\Calculations\Calculation_Exception;
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202401\Calculations\Tabellen\Aufwandszahlen_Brennwertkessel;
+use Enev\Schema202401\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung;
+use Enev\Schema202401\Calculations\Tabellen\Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor;
+use Enev\Schema202401\Calculations\Tabellen\Aufwandszahlen_Umlaufwasserheizer;
+use Enev\Schema202401\Calculations\Tabellen\Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel;
+use Enev\Schema202401\Calculations\Tabellen\Brennwertkessel_Hilfsenergieaufwand;
+use Enev\Schema202401\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassererwaermung;
+use Enev\Schema202401\Calculations\Tabellen\Umlaufwasserheizer_Hilfsenergieaufwand;
+use Enev\Schema202401\Calculations\Tabellen\Pelletkessel_Hilfsenergieaufwand;
 
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
 require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
