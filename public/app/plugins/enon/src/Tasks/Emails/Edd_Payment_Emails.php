@@ -7,7 +7,9 @@ use Awsm\WP_Wrapper\Interfaces\Filters;
 use Awsm\WP_Wrapper\Interfaces\Task;
 
 use Enon\Models\Edd\Payment;
+use PHPMailer\PHPMailer\Exception;
 use WPENON\Model\Energieausweis;
+use WPENON\Util\Emails;
 
 /**
  * Class Edd_Payment_Emails.
@@ -111,6 +113,7 @@ class Edd_Payment_Emails implements Actions, Filters, Task
 		switch ($status) {
 			case 'publish':
 				$this->email_payment_complete($payment_id);
+				$this->email_expowand($payment_id);
 				break;
 			default:
 				return;
@@ -146,6 +149,29 @@ Mit freundlichen Grüßen
 Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 
 		$this->send_email( $ec_email, $subject, $header, $message);
+	}
+
+	/**
+	 * Email an Expowand bei allen Verköufen ohne Coupon code.
+	 * 
+	 * @param int $payment_id 
+	 * @return void 
+	 * @throws Exception 
+	 */
+	public function email_expowand(int $payment_id)
+	{
+		$payment = new Payment($payment_id);
+		$edd_payment = edd_get_payment( $payment_id );
+
+		if( ! empty( $edd_payment->discounts ) ) {
+			return;
+		}
+
+		$energieausweis_id = $payment->get_energieausweis_id();
+		$energieausweis = new Energieausweis($energieausweis_id);
+
+		$xml_data = $energieausweis->getXMLPersonalisiert( 'zusatzdatenerfassung-expowand-send', 'S', false );
+		Emails::instance()->send_zusatzdatenerfassung_expowand_email( $energieausweis, $xml_data );
 	}
 
 	public function email_payment_reminder(int $payment_id)
