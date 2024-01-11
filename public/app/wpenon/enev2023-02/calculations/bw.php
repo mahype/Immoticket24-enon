@@ -606,66 +606,72 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 
-function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp) {
-	switch ($flaechenheizungstyp) {
-		case 'fussbodenheizung':
-		case 'wandheizung':
-			return '35/28';
-		case 'deckenheizung':
-			return '55/45';
-		default:
-			throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
-	}
-}
-
-function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp) {
-	if( empty( $uebergabe ) ) {
-		return null;
-	}
-
-    switch ($erzeuger) {
-        case 'standardkessel':
-            return ($uebergabe === 'heizkoerper') ? '90/70' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
-
-        case 'niedertemperaturkessel':
-        case 'etagenheizung':
-            return ($uebergabe === 'heizkoerper') ? '70/55' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
-
-        case 'brennwertkessel':
-        case 'waermepumpeluft':
-        case 'waermepumpewasser':
-        case 'waermepumpeerde':
-        case 'fernwaerme':
-            return ($uebergabe === 'heizkoerper') ? '55/45' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
-
-        default:
-            return null;
-    }
-}
-
-function wpenon_auslegungstemperatur( $heizungen ) {
-	$auslegungstemperaturen = array();
-
-	foreach( $heizungen as $heizung ) {		
-		// Ermittle alle Auslegungstemperaturen.
-		$auslegungstemperatur = wpenon_auslegungstemperaturen( $heizung['erzeugung'], $heizung['uebergabe'], $heizung['flaechenheizungstyp'] );
-
-		if( $auslegungstemperatur === null ) {
-			continue;
+if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_temperatur_flaechenheizungen' ) )  {
+	function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp) {
+		switch ($flaechenheizungstyp) {
+			case 'fussbodenheizung':
+			case 'wandheizung':
+				return '35/28';
+			case 'deckenheizung':
+				return '55/45';
+			default:
+				throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
 		}
-		
-		$temperaturen = explode ( '/',  $auslegungstemperatur );
-		$auslegungstemperaturen[ $temperaturen[0] ] = $auslegungstemperatur;
 	}
+}
 
-	if( empty( $auslegungstemperaturen ) ) {
-		return null;
+if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_auslegungstemperaturen' ) )  {
+	function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp) {
+		if( empty( $uebergabe ) ) {
+			return null;
+		}
+
+		switch ($erzeuger) {
+			case 'standardkessel':
+				return ($uebergabe === 'heizkoerper') ? '90/70' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+			case 'niedertemperaturkessel':
+			case 'etagenheizung':
+				return ($uebergabe === 'heizkoerper') ? '70/55' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+			case 'brennwertkessel':
+			case 'waermepumpeluft':
+			case 'waermepumpewasser':
+			case 'waermepumpeerde':
+			case 'fernwaerme':
+				return ($uebergabe === 'heizkoerper') ? '55/45' : wpenon_temperatur_flaechenheizungen($flaechenheizungstyp);
+
+			default:
+				return null;
+		}
 	}
+}
 
-	// Ermittle die niedrigste Auslegungstemperatur.
-	$auslegungstemperatur = min( array_keys( $auslegungstemperaturen ) );
+if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_auslegungstemperatur' ) )  {
+	function wpenon_auslegungstemperatur( $heizungen ) {
+		$auslegungstemperaturen = array();
 
-	return $auslegungstemperaturen[ $auslegungstemperatur ];
+		foreach( $heizungen as $heizung ) {		
+			// Ermittle alle Auslegungstemperaturen.
+			$auslegungstemperatur = wpenon_auslegungstemperaturen( $heizung['erzeugung'], $heizung['uebergabe'], $heizung['flaechenheizungstyp'] );
+
+			if( $auslegungstemperatur === null ) {
+				continue;
+			}
+			
+			$temperaturen = explode ( '/',  $auslegungstemperatur );
+			$auslegungstemperaturen[ $temperaturen[0] ] = $auslegungstemperatur;
+		}
+
+		if( empty( $auslegungstemperaturen ) ) {
+			return null;
+		}
+
+		// Ermittle die niedrigste Auslegungstemperatur.
+		$auslegungstemperatur = min( array_keys( $auslegungstemperaturen ) );
+
+		return $auslegungstemperaturen[ $auslegungstemperatur ];
+	}
 }
 
 $heizungen[] = array(

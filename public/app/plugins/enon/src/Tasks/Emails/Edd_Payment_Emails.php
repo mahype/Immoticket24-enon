@@ -163,7 +163,7 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 		$payment = new Payment($payment_id);
 		$edd_payment = edd_get_payment( $payment_id );
 
-		if( ! empty( $edd_payment->discounts ) ) {
+		if( $edd_payment->discounts !== "none" ) {
 			return;
 		}
 
