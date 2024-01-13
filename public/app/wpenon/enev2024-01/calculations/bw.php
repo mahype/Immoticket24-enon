@@ -606,7 +606,7 @@ if ( $energieausweis->h2_info ) {
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_temperatur_flaechenheizungen' ) )  {
+if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_temperatur_flaechenheizungen' ) )  {
 	function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp) {
 		switch ($flaechenheizungstyp) {
 			case 'fussbodenheizung':
@@ -620,7 +620,7 @@ if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_temperatur_flaeche
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_auslegungstemperaturen' ) )  {
+if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_auslegungstemperaturen' ) )  {
 	function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp) {
 		if( empty( $uebergabe ) ) {
 			return null;
@@ -647,7 +647,7 @@ if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_auslegungstemperat
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202302\Calculations\wpenon_auslegungstemperatur' ) )  {
+if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_auslegungstemperatur' ) )  {
 	function wpenon_auslegungstemperatur( $heizungen ) {
 		$auslegungstemperaturen = array();
 
