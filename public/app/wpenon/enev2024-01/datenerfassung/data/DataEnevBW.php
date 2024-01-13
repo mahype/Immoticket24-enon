@@ -133,6 +133,8 @@ class DataEnevBW extends DataEnev {
      */
     public function ErneuerbareVerwendung() : string
     {
+        $erneuerbare_energien = [];
+        
         if( $this->energieausweis->solarthermie_info == 'vorhanden' ) {
             $erneuerbare_energien[] = 'Warmwasser';
         }
