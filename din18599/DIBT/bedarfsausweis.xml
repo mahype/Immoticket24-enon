@@ -1,16 +1,16 @@
 
 <n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd">
   <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2023" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
-    <n1:Registriernummer>AA-2023-000000000</n1:Registriernummer>
-    <n1:Ausstellungsdatum>2023-12-13</n1:Ausstellungsdatum>
+    <n1:Registriernummer>AA-2024-000000000</n1:Registriernummer>
+    <n1:Ausstellungsdatum>2024-01-16</n1:Ausstellungsdatum>
     <n1:Bundesland>Nordrhein-Westfalen</n1:Bundesland>
     <n1:Postleitzahl>426XX</n1:Postleitzahl>
     <n1:Gebaeudeteil>Ganzes Gebäude</n1:Gebaeudeteil>
     <n1:Baujahr-Gebaeude>1980</n1:Baujahr-Gebaeude>
     <n1:Altersklasse-Gebaeude>1979...1983</n1:Altersklasse-Gebaeude>
-    <n1:Baujahr-Waermeerzeuger>1980, 1995, 2020</n1:Baujahr-Waermeerzeuger>
+    <n1:Baujahr-Waermeerzeuger>1980, 2020</n1:Baujahr-Waermeerzeuger>
     <n1:Altersklasse-Waermeerzeuger>1979...1983</n1:Altersklasse-Waermeerzeuger>
-    <n1:wesentliche-Energietraeger-Heizung>Holzpellets, Erdgas</n1:wesentliche-Energietraeger-Heizung>
+    <n1:wesentliche-Energietraeger-Heizung>Strom</n1:wesentliche-Energietraeger-Heizung>
     <n1:wesentliche-Energietraeger-Warmwasser>Strom</n1:wesentliche-Energietraeger-Warmwasser>
     <n1:Erneuerbare-Art>Solarthermie, Photovoltaik</n1:Erneuerbare-Art>
     <n1:Erneuerbare-Verwendung>Warmwasser, Strom</n1:Erneuerbare-Verwendung>
@@ -27,7 +27,7 @@
       <n1:Anlage-groesser-12kW-mitGA>true</n1:Anlage-groesser-12kW-mitGA>
       <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
       <n1:Faelligkeitsdatum-Inspektion>2100-01-01</n1:Faelligkeitsdatum-Inspektion>
-        <n1:Treibhausgasemissionen>26.23</n1:Treibhausgasemissionen>
+        <n1:Treibhausgasemissionen>111.52</n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass>Vermietung-Verkauf</n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer>true</n1:Datenerhebung-Eigentuemer>
@@ -137,10 +137,34 @@
         </n1:Bauteil-Dach>
                 <n1:Waermebrueckenzuschlag>0.1</n1:Waermebrueckenzuschlag>
         <n1:Transmissionswaermesenken>3746</n1:Transmissionswaermesenken>
-        <n1:Luftdichtheit>geprüft</n1:Luftdichtheit>
-        <n1:Lueftungswaermeverlust>0</n1:Lueftungswaermeverlust>
-        <n1:Solare-Waermegewinne>0</n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne>0</n1:Interne-Waermegewinne>
+        <n1:Luftdichtheit>Gebäudekategorie III</n1:Luftdichtheit>
+        <n1:Lueftungswaermesenken>0</n1:Lueftungswaermesenken>
+        <n1:Waermequellen-durch-solare-Einstrahlung>33951</n1:Waermequellen-durch-solare-Einstrahlung>
+        <n1:Interne-Waermequellen>73695</n1:Interne-Waermequellen>
+
+        <!--- Eigentlich nur für Nichtwohngebäude -->
+        <n1:Zone>
+          <n1:Zonenbezeichnung>Wohngebaeude</n1:Zonenbezeichnung>
+          <n1:Nutzung>42:Wohnen (EFH)</n1:Nutzung>
+          <n1:Nettogrundflaeche-Zone>2200</n1:Nettogrundflaeche-Zone>
+          <n1:mittlere-lichte-Raumhoehe>2.5</n1:mittlere-lichte-Raumhoehe>
+          <n1:Sonnenschutz-System>Kein Sonnen- und/oder Blendschutz</n1:Sonnenschutz-System>
+          <n1:Beleuchtungs-System>keine Bewertung der Beleuchtung (Zone: Wohnen)</n1:Beleuchtungs-System>
+          <n1:Beleuchtungs-Verteilung>keine Bewertung der Beleuchtung vorhanden (Zone:Wohnen)</n1:Beleuchtungs-Verteilung>
+          <n1:Praesenzkontrolle-Kunstlicht>false</n1:Praesenzkontrolle-Kunstlicht>
+          <n1:Tageslichtabhaengige-Kontrollsysteme>false</n1:Tageslichtabhaengige-Kontrollsysteme>
+          <n1:Endenergiebedarf-Heizung>423811.9455784</n1:Endenergiebedarf-Heizung>
+          <n1:Endenergiebedarf-Trinkwarmwasser>24248.575</n1:Endenergiebedarf-Trinkwarmwasser>
+          <n1:Endenergiebedarf-Befeuchtung>0</n1:Endenergiebedarf-Befeuchtung>
+          <n1:Endenergiebedarf-Kuehlung>0</n1:Endenergiebedarf-Kuehlung><!-- Check mit Jan -->
+          <n1:Endenergiebedarf-Beleuchtung>0</n1:Endenergiebedarf-Beleuchtung>
+          <n1:Endenergiebedarf-Lufttransport>0</n1:Endenergiebedarf-Lufttransport><!-- Check mit Jan -->
+          <n1:Endenergiebedarf-Hilfsenergie>15743.079990966</n1:Endenergiebedarf-Hilfsenergie><!-- Check mit Jan -->
+        </n1:Zone>
+        <!--- Eigentlich nur für Nichtwohngebäude -->
+
+        <n1:Solare-Waermegewinne>33951</n1:Solare-Waermegewinne>
+        <n1:Interne-Waermegewinne>73695</n1:Interne-Waermegewinne>
                 <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle>false</n1:Heizungsanlage-innerhalb-Huelle>        
@@ -155,9 +179,9 @@
         <n1:Treibhausgasemissionen-Hoechstwert-Bestand>0</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
                 <n1:Endenergiebedarf-Waerme-AN>0</n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN>0</n1:Endenergiebedarf-Hilfsenergie-AN>
-        <n1:Endenergiebedarf-Gesamt>182.68</n1:Endenergiebedarf-Gesamt>
-        <n1:Primaerenergiebedarf>131</n1:Primaerenergiebedarf>
-        <n1:Energieeffizienzklasse>E</n1:Energieeffizienzklasse>
+        <n1:Endenergiebedarf-Gesamt>207.05</n1:Endenergiebedarf-Gesamt>
+        <n1:Primaerenergiebedarf>372.7</n1:Primaerenergiebedarf>
+        <n1:Energieeffizienzklasse>H</n1:Energieeffizienzklasse>
         <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
       </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
@@ -166,20 +190,27 @@
             
       <n1:Modernisierungsempfehlungen>
         <n1:Nummer>1</n1:Nummer>
+        <n1:Bauteil-Anlagenteil>Heizung</n1:Bauteil-Anlagenteil>
+        <n1:Massnahmenbeschreibung>Austausch der Heizungsanlage</n1:Massnahmenbeschreibung>
+        <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
+      </n1:Modernisierungsempfehlungen>
+        
+      <n1:Modernisierungsempfehlungen>
+        <n1:Nummer>2</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Außenwand gg. Erdreich</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>2</n1:Nummer>
+        <n1:Nummer>3</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Dach</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>3</n1:Nummer>
+        <n1:Nummer>4</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Fenster</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Maximaler Uw - Wert bei 1,3 [W/m²K]</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>

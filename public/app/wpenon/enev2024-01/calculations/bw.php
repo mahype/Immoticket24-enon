@@ -810,8 +810,13 @@ $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
 $calculations['ht_b'] = $gebaeude->ht_ges();
+$calculations['qfh_ges'] = $gebaeude->Qfhges();
+$calculations['qfw_ges'] = $gebaeude->Qfwges();
+$calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
+
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();
+$calculations['qh'] = $gebaeude->qh();
 
 return $calculations;

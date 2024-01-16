@@ -97,6 +97,30 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Transmissionswaermesenken><?php echo $data->Transmissionswaermeverlust(); ?></n1:Transmissionswaermesenken>
         <n1:Luftdichtheit><?php echo $data->Luftdichtheit(); ?></n1:Luftdichtheit>
         <n1:Lueftungswaermesenken><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermesenken>
+        <n1:Waermequellen-durch-solare-Einstrahlung><?php echo round( $data->calculations('qs') ); ?></n1:Waermequellen-durch-solare-Einstrahlung>
+        <n1:Interne-Waermequellen><?php echo round( $data->calculations('qi') ); ?></n1:Interne-Waermequellen>
+
+        <!--- Eigentlich nur für Nichtwohngebäude -->
+        <n1:Zone>
+          <n1:Zonenbezeichnung>Wohngebaeude</n1:Zonenbezeichnung>
+          <n1:Nutzung><?php echo $data->Nutzung(); ?></n1:Nutzung>
+          <n1:Nettogrundflaeche-Zone><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Nettogrundflaeche-Zone>
+          <n1:mittlere-lichte-Raumhoehe><?php echo $data->DurchschnittlicheGeschosshoehe(); ?></n1:mittlere-lichte-Raumhoehe>
+          <n1:Sonnenschutz-System>Kein Sonnen- und/oder Blendschutz</n1:Sonnenschutz-System>
+          <n1:Beleuchtungs-System>keine Bewertung der Beleuchtung (Zone: Wohnen)</n1:Beleuchtungs-System>
+          <n1:Beleuchtungs-Verteilung>keine Bewertung der Beleuchtung vorhanden (Zone:Wohnen)</n1:Beleuchtungs-Verteilung>
+          <n1:Praesenzkontrolle-Kunstlicht>false</n1:Praesenzkontrolle-Kunstlicht>
+          <n1:Tageslichtabhaengige-Kontrollsysteme>false</n1:Tageslichtabhaengige-Kontrollsysteme>
+          <n1:Endenergiebedarf-Heizung><?php echo $data->calculations('qfh_ges'); ?></n1:Endenergiebedarf-Heizung>
+          <n1:Endenergiebedarf-Trinkwarmwasser><?php echo $data->calculations('qfw_ges'); ?></n1:Endenergiebedarf-Trinkwarmwasser>
+          <n1:Endenergiebedarf-Befeuchtung>0</n1:Endenergiebedarf-Befeuchtung>
+          <n1:Endenergiebedarf-Kuehlung>0</n1:Endenergiebedarf-Kuehlung><!-- Check mit Jan -->
+          <n1:Endenergiebedarf-Beleuchtung>0</n1:Endenergiebedarf-Beleuchtung>
+          <n1:Endenergiebedarf-Lufttransport>0</n1:Endenergiebedarf-Lufttransport><!-- Check mit Jan -->
+          <n1:Endenergiebedarf-Hilfsenergie><?php echo $data->calculations('w_ges'); ?></n1:Endenergiebedarf-Hilfsenergie><!-- Check mit Jan -->
+        </n1:Zone>
+        <!--- Eigentlich nur für Nichtwohngebäude -->
+
         <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
         <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
         <?php foreach( $data->Heizungsanlagen() AS $heizungsanlage ): ?>

@@ -308,10 +308,26 @@ class DataEnevBW extends DataEnev {
     public function Luftdichtheit()
     {
         if ( $this->energieausweis->dichtheit ) {
-            return 'geprüft';
+            return 'Gebäudekategorie I';
         }
 
-        return 'normal';
+        return 'Gebäudekategorie III';
+    }
+
+    /**
+     * Nutzung.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Nutzung()
+    {
+        if( $this->energieausweis->wohnungen  <= 2 ) {
+            return '42:Wohnen (EFH)';
+        } else {
+            return '43:Wohnen (MFH)';
+        }
     }
 
     /**
@@ -566,6 +582,16 @@ class DataEnevBW extends DataEnev {
     public function EndenergiebedarfWaermeAN()
     {
         return round( (float) $this->calculations( 'qh_e_b' ) + $this->calculations( 'qw_e_b' ), 1 );
+    }
+
+    /**
+     * Endenergiebedarf Heizung.
+     * 
+     * @return string
+     */
+    public function EndenergiebedarfHeizung()
+    {
+        return round( (float) $this->calculations( 'qh' ), 1 );
     }
 
     /**
