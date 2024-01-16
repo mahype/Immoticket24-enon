@@ -48,7 +48,7 @@ class Heizungsanlagen {
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null ) {
+	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null, $fp, $fco2 ) {
 		switch ( $erzeuger ) {
 			case 'etagenheizung':
 			case 'standardkessel':
@@ -57,19 +57,19 @@ class Heizungsanlagen {
 			case 'brennwertkesselverbessert': // ???
 			case 'kleinthermeniedertemperatur':
 			case 'kleinthermebrennwert':
-				$this->heizungsanlagen[] = new Konventioneller_Kessel( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
+				$this->heizungsanlagen[] = new Konventioneller_Kessel( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
 				break;
 			case 'waermepumpeluft':
 			case 'waermepumpewasser':
 			case 'waermepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung, $einstufig, $h_waermepumpe_erde_typ );
+				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung, $einstufig, $h_waermepumpe_erde_typ, $fp, $fco2 );
 				break;
 			case 'fernwaerme':
-				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
+				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
 				break;
 			case 'elektronachtspeicherheizung':
 			case 'infrarotheizung':
-				$this->heizungsanlagen[] = new Dezentral( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil );
+				$this->heizungsanlagen[] = new Dezentral( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
 				break;
 			default:
 				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
