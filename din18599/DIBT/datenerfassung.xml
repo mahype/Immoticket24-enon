@@ -1,0 +1,16 @@
+<root xmlns="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd">
+    <Authentifizierung>
+        <Aussteller_ID_DIBT>roland.harsche@immoticket24.de</Aussteller_ID_DIBT>
+        <Aussteller_PWD_DIBT>425db9305b333168d75e911944dd512a</Aussteller_PWD_DIBT>
+    </Authentifizierung>
+    <EnEV-Nachweis>
+        <Ausstellungsdatum>2024-01-16</Ausstellungsdatum>
+        <Bundesland>Nordrhein-Westfalen</Bundesland>
+        <Postleitzahl>42697</Postleitzahl>
+    </EnEV-Nachweis>
+    <Energieausweis-Daten>
+        <Gebaeudeart>Wohngebäude</Gebaeudeart>
+        <Art>Energiebedarfsausweis</Art>
+        <Neubau>0</Neubau>
+    </Energieausweis-Daten>
+</root>
