@@ -19,9 +19,10 @@ $art = $energieausweis->mode == 'b' ? 'Energiebedarfsausweis' : 'Energieverbrauc
         <Aussteller_PWD_DIBT><?php echo $pass; ?></Aussteller_PWD_DIBT>
     </Authentifizierung>
     <EnEV-Nachweis>
-        <Ausstellungsdatum><?php echo date('Y-m-d' ); ?></Ausstellungsdatum>
+        <Ausstellungsdatum><?php echo date('d.m.Y' ); ?></Ausstellungsdatum>
         <Bundesland><?php echo $energieausweis->adresse_bundesland; ?></Bundesland>
         <Postleitzahl><?php echo $energieausweis->adresse_plz; ?></Postleitzahl>
+        <Gesetzesgrundlage>GEG-2020</Gesetzesgrundlage>
     </EnEV-Nachweis>
     <Energieausweis-Daten>
         <Gebaeudeart>Wohngebäude</Gebaeudeart>
