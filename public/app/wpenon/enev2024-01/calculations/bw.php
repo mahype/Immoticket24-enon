@@ -714,10 +714,23 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 		)
 	);		
 } else {
+	$h2_info = $energieausweis->h2_info;
+	$h3_info = $energieausweis->h2_info;
+	
+	$h_erzeugung = $energieausweis->h_erzeugung;
+	$h2_erzeugung = $energieausweis->h2_erzeugung;
+	$h3_erzeugung = $energieausweis->h3_erzeugung;
+
+	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+		$uebergabe_typ = 'elektroheizungsflaechen';
+	} else {
+		$uebergabe_typ =  $energieausweis->h_uebergabe;
+	}
+
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
-			typ: ! empty( $energieausweis->h_uebergabe ) ? $energieausweis->h_uebergabe : 'elektroheizungsflaechen',
+			typ: $uebergabe_typ,
 			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
