@@ -88,6 +88,7 @@ class Lueftung {
 	 * @param bool      $bedarfsgefuehrt   Ist das Lüftungssystem bedarfsgeführt?
 	 * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7,andere).
 	 * @param float|int $wirkungsgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
+	 * @param int       $baujahr           Baujahr der Lüftungsanlage.
 	 */
 	public function __construct(
 		Gebaeude $gebaeude,

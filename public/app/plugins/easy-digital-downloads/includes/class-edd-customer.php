@@ -52,7 +52,7 @@ class EDD_Customer {
 	 *
 	 * @since 2.6
 	 */
-	public $emails;
+	public $emails = array();
 
 	/**
 	 * The customer's name

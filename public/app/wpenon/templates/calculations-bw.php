@@ -5,11 +5,7 @@
  * @author Felix Arntz <felix-arntz@leaves-webdesign.com>
  */
 
-use Enev\Schema202302\Calculations\Anlagentechnik\Uebergabesysteme;
-use Enev\Schema202302\Calculations\Helfer\Jahr;
-
-use function Enev\Schema202302\Calculations\Helfer\fum;
-
+require_once __DIR__ . '/helfer.php';
 
 $gebaeude = $data['gebaeude'];
 
