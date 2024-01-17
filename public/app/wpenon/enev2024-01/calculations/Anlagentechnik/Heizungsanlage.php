@@ -318,7 +318,7 @@ abstract class Heizungsanlage {
 	 * 
 	 * @return float 
 	 */
-	protected function co2_energietraeger(): float {
+	public function co2_energietraeger(): float {
 		switch( $this->energietraeger() ) {
 			case 'biooel':
 				return 210;

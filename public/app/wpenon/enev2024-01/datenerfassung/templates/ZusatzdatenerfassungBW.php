@@ -7,19 +7,19 @@ require_once dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 if( defined('GEG_XSD') ) {
   $xsd = GEG_XSD;
 } else {
-  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd';
+  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
 }
 
 if( defined('GEG_XSD_VERSION') ) {
   $version = GEG_XSD_VERSION;
 } else {
-  $version = 'GEG-2023';
+  $version = 'GEG-2024';
 }
 
 $data = new DataEnevBW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2024-01-01">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
@@ -50,6 +50,21 @@ $data = new DataEnevBW( $energieausweis );
     <?php else: ?>
       <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
     <?php endif; ?>
+    <?php
+    /**
+     * Dieser Abschnitt muss noch abgeklärt werden, da nicht klar ist, welche Anlagen wie gerechnet werden können, damit man auf die 65% nach §71 GEG kommt.
+     */
+    ?>
+    <n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>false</n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>
+    <n1:EE-Angabe-Warmwasser>false</n1:EE-Angabe-Warmwasser>
+    <n1:EE-Angabe-Heizung>false</n1:EE-Angabe-Heizung>
+    <n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>true</n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>
+    <n1:Nutzung-bei-Bestandsanlagen>true</n1:Nutzung-bei-Bestandsanlagen>
+    <?php
+    /**
+     * Ende des nach §71 zu klärenden Abschnitts.
+     */
+    ?>
     <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
@@ -99,43 +114,24 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Lueftungswaermesenken><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermesenken>
         <n1:Waermequellen-durch-solare-Einstrahlung><?php echo round( $data->calculations('qs') ); ?></n1:Waermequellen-durch-solare-Einstrahlung>
         <n1:Interne-Waermequellen><?php echo round( $data->calculations('qi') ); ?></n1:Interne-Waermequellen>
-
-        <!--- Eigentlich nur für Nichtwohngebäude -->
-        <n1:Zone>
-          <n1:Zonenbezeichnung>Wohngebaeude</n1:Zonenbezeichnung>
-          <n1:Nutzung><?php echo $data->Nutzung(); ?></n1:Nutzung>
-          <n1:Nettogrundflaeche-Zone><?php echo $data->Gebaeudenutzflaeche(); ?></n1:Nettogrundflaeche-Zone>
-          <n1:mittlere-lichte-Raumhoehe><?php echo $data->DurchschnittlicheGeschosshoehe(); ?></n1:mittlere-lichte-Raumhoehe>
-          <n1:Sonnenschutz-System>Kein Sonnen- und/oder Blendschutz</n1:Sonnenschutz-System>
-          <n1:Beleuchtungs-System>keine Bewertung der Beleuchtung (Zone: Wohnen)</n1:Beleuchtungs-System>
-          <n1:Beleuchtungs-Verteilung>keine Bewertung der Beleuchtung vorhanden (Zone:Wohnen)</n1:Beleuchtungs-Verteilung>
-          <n1:Praesenzkontrolle-Kunstlicht>false</n1:Praesenzkontrolle-Kunstlicht>
-          <n1:Tageslichtabhaengige-Kontrollsysteme>false</n1:Tageslichtabhaengige-Kontrollsysteme>
-          <n1:Endenergiebedarf-Heizung><?php echo $data->calculations('qfh_ges'); ?></n1:Endenergiebedarf-Heizung>
-          <n1:Endenergiebedarf-Trinkwarmwasser><?php echo $data->calculations('qfw_ges'); ?></n1:Endenergiebedarf-Trinkwarmwasser>
-          <n1:Endenergiebedarf-Befeuchtung>0</n1:Endenergiebedarf-Befeuchtung>
-          <n1:Endenergiebedarf-Kuehlung>0</n1:Endenergiebedarf-Kuehlung><!-- Check mit Jan -->
-          <n1:Endenergiebedarf-Beleuchtung>0</n1:Endenergiebedarf-Beleuchtung>
-          <n1:Endenergiebedarf-Lufttransport>0</n1:Endenergiebedarf-Lufttransport><!-- Check mit Jan -->
-          <n1:Endenergiebedarf-Hilfsenergie><?php echo $data->calculations('w_ges'); ?></n1:Endenergiebedarf-Hilfsenergie><!-- Check mit Jan -->
-        </n1:Zone>
-        <!--- Eigentlich nur für Nichtwohngebäude -->
-
-        <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
         <?php foreach( $data->Heizungsanlagen() AS $heizungsanlage ): ?>
-        <n1:Heizungsanlage>
-          <n1:Waermeerzeuger-Bauweise-4701><?php echo $heizungsanlage->WaermeerzeugerBauweise4701(); ?></n1:Waermeerzeuger-Bauweise-4701>
+        <n1:Heizsystem>
+					<n1:Waermeerzeuger-Bauweise-18599><?php echo $heizungsanlage->WaermeerzeugerBauweise18599(); ?></n1:Waermeerzeuger-Bauweise-18599>
           <n1:Nennleistung><?php echo $heizungsanlage->Nennleistung(); ?></n1:Nennleistung>
           <n1:Waermeerzeuger-Baujahr><?php echo $heizungsanlage->WaermeerzeugerBaujahr(); ?></n1:Waermeerzeuger-Baujahr>
           <n1:Anzahl-baugleiche><?php echo $heizungsanlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
           <n1:Energietraeger><?php echo $heizungsanlage->Energietraeger(); ?></n1:Energietraeger>
           <n1:Primaerenergiefaktor><?php echo $heizungsanlage->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
           <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
-        </n1:Heizungsanlage>
+				</n1:Heizsystem>
         <?php endforeach; ?>
-        <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
+        <n1:Pufferspeicher-Nenninhalt><?php echo $data->calculations('V_s'); ?></n1:Pufferspeicher-Nenninhalt>
+        <n1:Auslegungstemperatur><?php echo $data->Auslegungstemperatur(); ?></n1:Auslegungstemperatur>
+        <n1:Heizsystem-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizsystem-innerhalb-Huelle>
+
+        <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
+        <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
+        <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>        
         <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
         <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
         <n1:Trinkwarmwasseranlage>

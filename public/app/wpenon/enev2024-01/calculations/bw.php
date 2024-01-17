@@ -802,6 +802,19 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 }
 
 
+$calculations['anlagendaten'] = array();
+foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+	$anlage = array();
+	$anlage['art'] = 'heizung';
+	$anlage['slug'] = $heizungsanlage->erzeuger();
+	$anlage['baujahr'] = $heizungsanlage->baujahr();
+	$anlage['energietraeger_slug'] = $heizungsanlage->energietraeger();
+	$anlage['energietraeger_primaer'] = $heizungsanlage->fp();
+	$anlage['energietraeger_co2'] = $heizungsanlage->co2_energietraeger();
+
+	$calculations['anlagendaten'][] = $anlage;
+}
+
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
@@ -813,6 +826,9 @@ $calculations['ht_b'] = $gebaeude->ht_ges();
 $calculations['qfh_ges'] = $gebaeude->Qfhges();
 $calculations['qfw_ges'] = $gebaeude->Qfwges();
 $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
+
+$calculations['auslegungstemperaturen'] = $auslegungstemperaturen;
+$calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();

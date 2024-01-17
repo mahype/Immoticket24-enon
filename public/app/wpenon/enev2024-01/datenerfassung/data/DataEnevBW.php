@@ -406,25 +406,13 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Heizkreisauslegungstemperatur() : string
+    public function Auslegungstemperatur() : string
     {
-        $anteil_max   = 0;
-        $hktemp       = '';
-        foreach( $this->calculations( 'anlagendaten' ) AS $key => $anlage )
-        {
-            if ( $anlage['art'] == 'heizung' ) {
-                if ( $anlage['deckungsanteil'] > $anteil_max ) {
-                    $anteil_max = $anlage['deckungsanteil'];
-                    $hktemp     = $anlage['heizkreistemperatur'];
-                }
-            }
+        if( ! empty( $this->calculations( 'auslegungstemperatur' ) ) ) {
+            return $this->calculations( 'auslegungstemperatur' ); 
         }
 
-        if ( $hktemp == '70/55°' ) {
-            return $hktemp;
-        }
-
-		return '55/45';
+		return 'nur Einzelraum-Heizgeräte';
     }
 
     /**
@@ -436,7 +424,7 @@ class DataEnevBW extends DataEnev {
      */
     public function HeizungsanlageInnerhalbHuelle() : string
     {
-        if ( $this->energieausweis->speicherung_standort == 'innerhalb' ) {
+        if ( $this->energieausweis->h_standort == 'innerhalb' ) {
             return 'true';
         }
 

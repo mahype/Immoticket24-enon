@@ -1,7 +1,7 @@
 <?php
 
 
-$xsl_filename = __DIR__ . '/kontrolldatei-dibt-2023.xsl';
+$xsl_filename = __DIR__ . '/kontrolldatei-dibt-2024.xsl';
 $xml_filename = __DIR__ . '/bedarfsausweis.xml';
 
 $xsldoc = new DOMDocument();

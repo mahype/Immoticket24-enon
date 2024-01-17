@@ -1,8 +1,8 @@
 
-<n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2023" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
+<n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2024" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2024-01-01">
     <n1:Registriernummer>AA-2024-000000000</n1:Registriernummer>
-    <n1:Ausstellungsdatum>2024-01-16</n1:Ausstellungsdatum>
+    <n1:Ausstellungsdatum>2024-01-17</n1:Ausstellungsdatum>
     <n1:Bundesland>Nordrhein-Westfalen</n1:Bundesland>
     <n1:Postleitzahl>426XX</n1:Postleitzahl>
     <n1:Gebaeudeteil>Ganzes Gebäude</n1:Gebaeudeteil>
@@ -17,7 +17,7 @@
     <n1:Lueftungsart-Fensterlueftung>false</n1:Lueftungsart-Fensterlueftung>
     <n1:Lueftungsart-Schachtlueftung>false</n1:Lueftungsart-Schachtlueftung>
     <n1:Lueftungsart-Anlage-o-WRG>false</n1:Lueftungsart-Anlage-o-WRG>
-    <n1:Lueftungsart-Anlage-m-WRG>false</n1:Lueftungsart-Anlage-m-WRG>
+    <n1:Lueftungsart-Anlage-m-WRG>true</n1:Lueftungsart-Anlage-m-WRG>
     <n1:Kuehlungsart-passive-Kuehlung>false</n1:Kuehlungsart-passive-Kuehlung>
     <n1:Kuehlungsart-Strom>true</n1:Kuehlungsart-Strom>
     <n1:Kuehlungsart-Waerme>false</n1:Kuehlungsart-Waerme>
@@ -27,7 +27,7 @@
       <n1:Anlage-groesser-12kW-mitGA>true</n1:Anlage-groesser-12kW-mitGA>
       <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
       <n1:Faelligkeitsdatum-Inspektion>2100-01-01</n1:Faelligkeitsdatum-Inspektion>
-        <n1:Treibhausgasemissionen>111.52</n1:Treibhausgasemissionen>
+        <n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>false</n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>    <n1:EE-Angabe-Warmwasser>false</n1:EE-Angabe-Warmwasser>    <n1:EE-Angabe-Heizung>false</n1:EE-Angabe-Heizung>    <n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>true</n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>    <n1:Nutzung-bei-Bestandsanlagen>true</n1:Nutzung-bei-Bestandsanlagen>    <n1:Treibhausgasemissionen>111.52</n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass>Vermietung-Verkauf</n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer>true</n1:Datenerhebung-Eigentuemer>
@@ -141,31 +141,19 @@
         <n1:Lueftungswaermesenken>0</n1:Lueftungswaermesenken>
         <n1:Waermequellen-durch-solare-Einstrahlung>33951</n1:Waermequellen-durch-solare-Einstrahlung>
         <n1:Interne-Waermequellen>73695</n1:Interne-Waermequellen>
-
-        <!--- Eigentlich nur für Nichtwohngebäude -->
-        <n1:Zone>
-          <n1:Zonenbezeichnung>Wohngebaeude</n1:Zonenbezeichnung>
-          <n1:Nutzung>42:Wohnen (EFH)</n1:Nutzung>
-          <n1:Nettogrundflaeche-Zone>2200</n1:Nettogrundflaeche-Zone>
-          <n1:mittlere-lichte-Raumhoehe>2.5</n1:mittlere-lichte-Raumhoehe>
-          <n1:Sonnenschutz-System>Kein Sonnen- und/oder Blendschutz</n1:Sonnenschutz-System>
-          <n1:Beleuchtungs-System>keine Bewertung der Beleuchtung (Zone: Wohnen)</n1:Beleuchtungs-System>
-          <n1:Beleuchtungs-Verteilung>keine Bewertung der Beleuchtung vorhanden (Zone:Wohnen)</n1:Beleuchtungs-Verteilung>
-          <n1:Praesenzkontrolle-Kunstlicht>false</n1:Praesenzkontrolle-Kunstlicht>
-          <n1:Tageslichtabhaengige-Kontrollsysteme>false</n1:Tageslichtabhaengige-Kontrollsysteme>
-          <n1:Endenergiebedarf-Heizung>423811.9455784</n1:Endenergiebedarf-Heizung>
-          <n1:Endenergiebedarf-Trinkwarmwasser>24248.575</n1:Endenergiebedarf-Trinkwarmwasser>
-          <n1:Endenergiebedarf-Befeuchtung>0</n1:Endenergiebedarf-Befeuchtung>
-          <n1:Endenergiebedarf-Kuehlung>0</n1:Endenergiebedarf-Kuehlung><!-- Check mit Jan -->
-          <n1:Endenergiebedarf-Beleuchtung>0</n1:Endenergiebedarf-Beleuchtung>
-          <n1:Endenergiebedarf-Lufttransport>0</n1:Endenergiebedarf-Lufttransport><!-- Check mit Jan -->
-          <n1:Endenergiebedarf-Hilfsenergie>15743.079990966</n1:Endenergiebedarf-Hilfsenergie><!-- Check mit Jan -->
-        </n1:Zone>
-        <!--- Eigentlich nur für Nichtwohngebäude -->
-
+                <n1:Heizsystem>
+					<n1:Waermeerzeuger-Bauweise-18599>Sonstiges</n1:Waermeerzeuger-Bauweise-18599>
+          <n1:Nennleistung>0</n1:Nennleistung>
+          <n1:Waermeerzeuger-Baujahr>1980</n1:Waermeerzeuger-Baujahr>
+          <n1:Anzahl-baugleiche>1</n1:Anzahl-baugleiche>
+          <n1:Energietraeger>Strom netzbezogen</n1:Energietraeger>
+          <n1:Primaerenergiefaktor>1.8</n1:Primaerenergiefaktor>
+          <n1:Emissionsfaktor>560000</n1:Emissionsfaktor>
+				</n1:Heizsystem>
+        
         <n1:Solare-Waermegewinne>33951</n1:Solare-Waermegewinne>
         <n1:Interne-Waermegewinne>73695</n1:Interne-Waermegewinne>
-                <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
+        <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
         <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle>false</n1:Heizungsanlage-innerhalb-Huelle>        
                 <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
