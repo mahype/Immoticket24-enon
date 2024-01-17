@@ -231,7 +231,7 @@ $anlage = array(
 				// ),
 				'h_waermepumpe_erde_typ'                   => array(
 					'type'     => 'select',
-					'label'    => __( 'Art der Geometrie', 'wpenon' ),
+					'label'    => __( 'Art der Geothermie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
@@ -566,7 +566,7 @@ $anlage = array(
 				// ),
 				'h2_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Art der Geometrie', 'wpenon' ),
+					'label'    => __( 'Art der Geothermie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
@@ -909,7 +909,7 @@ $anlage = array(
 				// ),
 				'h3_waermepumpe_erde_typ'                  => array(
 					'type'     => 'select',
-					'label'    => __( 'Art der Geometrie', 'wpenon' ),
+					'label'    => __( 'Art der Geothermie', 'wpenon' ),
 					'options'  => array(
 						'erdsonde'     => __( 'Erdsonde', 'wpenon' ),
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
