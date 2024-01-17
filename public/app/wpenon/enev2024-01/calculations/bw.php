@@ -494,6 +494,8 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->ww_erzeugung;
+		$ww_energietraeger = $energieausweis->ww_energietraeger;
+		$ww_baujahr = $energieausweis->ww_baujahr;
 		break;
 	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
@@ -501,18 +503,24 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h_erzeugung;
+		$ww_energietraeger = $energieausweis->h_energietraeger;
+		$ww_baujahr = $energieausweis->h_baujahr;
 		break;
 	case 'h2':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h2_erzeugung;
+		$ww_energietraeger = $energieausweis->h2_energietraeger;
+		$ww_baujahr = $energieausweis->h2_baujahr;
 		break;
 	case 'h3':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h3_erzeugung;
+		$ww_energietraeger = $energieausweis->h3_energietraeger;
+		$ww_baujahr = $energieausweis->h3_baujahr;
 		break;
 }
 
@@ -815,6 +823,13 @@ foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage )
 	$calculations['anlagendaten'][] = $anlage;
 }
 
+$calculations['anlagendaten'][] = array(
+	'art' => 'warmwasser',
+	'slug' => $ww_erzeuger,
+	'baujahr' => $ww_baujahr,
+	'energietraeger' => $ww_energietraeger,
+);
+
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
@@ -830,9 +845,17 @@ $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
 $calculations['auslegungstemperaturen'] = $auslegungstemperaturen;
 $calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
+$calculations['ht'] = $gebaeude->ht_ges();
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();
 $calculations['qh'] = $gebaeude->qh();
+
+$calculations['photovoltaik'] = array();
+
+if( $gebaeude->photovoltaik_anlage_vorhanden() ) {
+	$calculations['photovoltaik']['ertrag'] = $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() );
+}
+
 
 return $calculations;

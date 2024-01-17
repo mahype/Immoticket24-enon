@@ -492,6 +492,11 @@ class DataEnevBW extends DataEnev {
         return 'true';
     }
 
+    public function Transmissionswaermetransferkoeffizient()
+    {
+        return round( (float) $this->calculations( 'ht' ), 2 );
+    }
+
     /**
      * spezifischer-Transmissionswaermeverlust-Ist
      * 

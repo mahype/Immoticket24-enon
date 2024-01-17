@@ -122,24 +122,36 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Anzahl-baugleiche><?php echo $heizungsanlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
           <n1:Energietraeger><?php echo $heizungsanlage->Energietraeger(); ?></n1:Energietraeger>
           <n1:Primaerenergiefaktor><?php echo $heizungsanlage->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
-          <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
+          <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor><?php // Klären ?>
 				</n1:Heizsystem>
         <?php endforeach; ?>
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->calculations('V_s'); ?></n1:Pufferspeicher-Nenninhalt>
         <n1:Auslegungstemperatur><?php echo $data->Auslegungstemperatur(); ?></n1:Auslegungstemperatur>
         <n1:Heizsystem-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizsystem-innerhalb-Huelle>
 
+        <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
+        <n1:Warmwasserbereitungssystem><?php // Klären mit Michael - Bauweise nach 18599 ist nicht 100% klar ?>
+          <n1:Trinkwarmwassererzeuger-Bauweise-18599><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBauweise18599(); ?></n1:Trinkwarmwassererzeuger-Bauweise-18599>
+					<n1:Trinkwarmwassererzeuger-Baujahr><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBaujahr(); ?></n1:Trinkwarmwassererzeuger-Baujahr>
+					<n1:Anzahl-baugleiche><?php echo $trinkwasseranlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
+        </n1:Warmwasserbereitungssystem>
+        <?php endforeach; ?>
+        <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
+				<n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
+        <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
+        <n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php echo $data->Transmissionswaermetransferkoeffizient(); ?></n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php // Klären - Wurde das richtige ht genommen? ?>
+        <?php if( count( $data->calculations('photovoltaik') ) > 0 ): ?>
+        <n1:angerechneter-lokaler-erneuerbarer-Strom><?php echo round( $data->calculations('photovoltaik')['ertrag'], 2 ); ?></n1:angerechneter-lokaler-erneuerbarer-Strom><?php // Klären - röße des Abzugs (in kWh/a m2) bei der Primärenergie bzw. bei der Endenergie für den gebäudenah erzeugten Strom aus erneuerbarer Energie nach der entsprechenden Bilanzierungsregel? ?>
+        <?php endif; ?>       
+        <n1:Innovationsklausel>false</n1:Innovationsklausel>
+        <n1:Quartiersregelung>false</n1:Quartiersregelung>
+        <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo round( $data->calculations('endenergie'), 2 ); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php // Klären, ob so korrekt ?>
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo round( $data->calculations('co2_emissionen'), 2 ); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php // Klären, ob so korrekt ?>
+
         <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
         <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>        
-        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
-        <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
-        <n1:Trinkwarmwasseranlage>
-          <n1:Trinkwarmwassererzeuger-Bauweise-4701><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBauweise4701(); ?></n1:Trinkwarmwassererzeuger-Bauweise-4701>
-          <n1:Trinkwarmwassererzeuger-Baujahr><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBaujahr(); ?></n1:Trinkwarmwassererzeuger-Baujahr>
-          <n1:Anzahl-baugleiche><?php echo $trinkwasseranlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
-        </n1:Trinkwarmwasseranlage>
-        <?php endforeach; ?>
+        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>     
         <n1:Trinkwarmwasserspeicher-Nenninhalt><?php echo $data->TrinkwarmwasserspeicherNenninhalt(); ?></n1:Trinkwarmwasserspeicher-Nenninhalt>
         <n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
         <n1:Vereinfachte-Datenaufnahme><?php echo $data->VereinfachteDatenaufnahme(); ?></n1:Vereinfachte-Datenaufnahme>
