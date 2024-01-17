@@ -572,8 +572,8 @@ $anlage = array(
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeerde' ),
+						'callback'      => 'wpenon_show_on_array_whitelist_2',
+						'callback_args' => array( 'field::h2_erzeugung', 'waermepumpeerde', 'field::h2_info', 'true' ),
 					),
 					'required' => true,
 				),
@@ -915,8 +915,8 @@ $anlage = array(
 						'erdkollektor' => __( 'Erdkollektor', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeerde' ),
+						'callback'      => 'wpenon_show_on_array_whitelist_2',
+						'callback_args' => array( 'field::h3_erzeugung', 'waermepumpeerde', 'field::h2_info', 'true' ),
 					),
 					'required' => true,
 				),

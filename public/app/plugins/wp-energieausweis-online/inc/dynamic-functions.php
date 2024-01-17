@@ -48,10 +48,10 @@ if ( file_exists( WPENON_DATA_PATH . '/dynamic-functions.php' ) ) {
 
 if ( ! function_exists( 'wpenon_show_on_bool_compare_and_is_admin' ) ) {
 	function wpenon_show_on_bool_compare_and_is_admin( $value, $required_values, $relation = 'AND' ) {
-		if( current_user_can( 'manage_options' ) && wpenon_show_on_bool_compare( $value, $required_values, $relation ) ) {
+		if ( current_user_can( 'manage_options' ) && wpenon_show_on_bool_compare( $value, $required_values, $relation ) ) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }
@@ -65,7 +65,7 @@ if ( ! function_exists( 'wpenon_show_on_bool_compare' ) ) {
 		$required_values = array_map( '\WPENON\Util\Parse::boolean', $required_values );
 
 		$results = array();
-		for ( $key = 0; $key < count( $value ); $key ++ ) {
+		for ( $key = 0; $key < count( $value ); $key++ ) {
 			if ( isset( $required_values[ $key ] ) && $value[ $key ] === $required_values[ $key ] ) {
 				$results[] = $value[ $key ];
 			}
@@ -129,6 +129,18 @@ if ( ! function_exists( 'wpenon_show_on_array_whitelist' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wpenon_show_on_array_whitelist_2' ) ) {
+	function wpenon_show_on_array_whitelist_2( $value1, $whitelist1, $value2, $whitelist2 ) {
+		$whitelist1 = \WPENON\Util\Parse::arr( $whitelist1 );
+		$whitelist2 = \WPENON\Util\Parse::arr( $whitelist2 );
+		if ( in_array( $value1, $whitelist1 ) && in_array( $value2, $whitelist2 ) ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
 if ( ! function_exists( 'wpenon_show_on_array_blacklist' ) ) {
 	function wpenon_show_on_array_blacklist( $value, $blacklist ) {
 		$blacklist = \WPENON\Util\Parse::arr( $blacklist );
@@ -172,7 +184,7 @@ if ( ! function_exists( 'wpenon_show_on_array_dynamic_blacklist' ) ) {
 }
 
 if ( ! function_exists( 'wpenon_show_on_not_empty' ) ) {
-	function wpenon_show_on_not_empty ( $value ) {
+	function wpenon_show_on_not_empty( $value ) {
 		if ( empty( $value ) ) {
 			return true;
 		}
@@ -245,7 +257,7 @@ if ( ! function_exists( 'wpenon_get_value_by_sum' ) ) {
 		foreach ( $dependency_values as $name => $value ) {
 			if ( ! isset( $dependency_statuses[ $name ] ) || \WPENON\Util\Parse::boolean( $dependency_statuses[ $name ] ) ) {
 				$value = call_user_func( '\WPENON\Util\Parse::' . $parse_type, $value );
-				$sum   -= $value;
+				$sum  -= $value;
 			} elseif ( $cancel ) {
 				break;
 			}
@@ -260,12 +272,17 @@ if ( ! function_exists( 'wpenon_get_value_by_sum' ) ) {
 
 if ( ! function_exists( 'wpenon_get_location_by_plz' ) ) {
 	function wpenon_get_location_by_plz( $plz, $field = 'ort' ) {
-		$location = wpenon_get_table_results( 'regionen', array(
-			'postleitzahl' => array(
-				'value'   => $plz,
-				'compare' => '='
-			)
-		), array(), true );
+		$location = wpenon_get_table_results(
+			'regionen',
+			array(
+				'postleitzahl' => array(
+					'value'   => $plz,
+					'compare' => '=',
+				),
+			),
+			array(),
+			true
+		);
 		if ( $location ) {
 			if ( isset( $location->$field ) ) {
 				return $location->$field;
