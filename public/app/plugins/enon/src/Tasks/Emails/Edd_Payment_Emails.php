@@ -170,6 +170,10 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 		$energieausweis_id = $payment->get_energieausweis_id();
 		$energieausweis = new Energieausweis($energieausweis_id);
 
+		if ( $energieausweis->anlass !== 'verkauf' ) {
+			return;
+		}
+
 		$xml_data = $energieausweis->getXMLPersonalisiert( 'zusatzdatenerfassung-expowand-send', 'S', false );
 		Emails::instance()->send_zusatzdatenerfassung_expowand_email( $energieausweis, $xml_data );
 	}
