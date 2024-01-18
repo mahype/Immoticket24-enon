@@ -64,7 +64,7 @@ $data = new DataEnevBW( $energieausweis );
       <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
     <?php endif; ?>
     <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
-    <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass() === "Vermietung-Verkauf" ? "Verkauf": $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
+    <n1:Ausstellungsanlass><?php echo $data->AusstellungsanlassExpowand(); ?></n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer><?php echo $data->DatenerhebungEigentuemer(); ?></n1:Datenerhebung-Eigentuemer>
     <n1:Wohngebaeude>
