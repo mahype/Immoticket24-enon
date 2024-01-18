@@ -103,25 +103,13 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme {
 		} elseif ( $this->zeile_zielwert > 80 && $this->zeile_zielwert <= 90 ) {
 			return array( 80, 90 );
 		} elseif ( $this->zeile_zielwert > 90 && $this->zeile_zielwert <= 100 ) {
-			return array( 90, 100 );
-		} elseif ( $this->zeile_zielwert > 100 && $this->zeile_zielwert <= 120 ) {
-			return array( 100, 120 );
-		} elseif ( $this->zeile_zielwert > 120 && $this->zeile_zielwert <= 140 ) {
-			return array( 120, 140 );
-		} elseif ( $this->zeile_zielwert > 140 && $this->zeile_zielwert <= 160 ) {
-			return array( 140, 160 );
-		} elseif ( $this->zeile_zielwert > 160 && $this->zeile_zielwert <= 180 ) {
-			return array( 160, 180 );
-		} elseif ( $this->zeile_zielwert > 180 && $this->zeile_zielwert <= 200 ) {
-			return array( 180, 200 );
-		} elseif ( $this->zeile_zielwert > 200 && $this->zeile_zielwert <= 250 ) {
-			return array( 200, 250 );
-		} elseif ( $this->zeile_zielwert > 250 && $this->zeile_zielwert <= 300 ) {
-			return array( 250, 300 );
-		} elseif ( $this->zeile_zielwert > 300 && $this->zeile_zielwert <= 350 ) {
-			return array( 300, 350 );
-		} elseif ( $this->zeile_zielwert > 350 && $this->zeile_zielwert <= 400 ) {
-			return array( 350, 400 );
+			return array( 90, 100 );		
+		} elseif ( $this->zeile_zielwert > 100 && $this->zeile_zielwert <= 200 ) {
+			return array( 100, 200 );
+		} elseif ( $this->zeile_zielwert > 200 && $this->zeile_zielwert <= 300 ) {
+			return array( 200, 300 );
+		} elseif ( $this->zeile_zielwert > 300 && $this->zeile_zielwert <= 400 ) {
+			return array( 300, 400 );
 		} else {
 			return array( 400 );
 		}
