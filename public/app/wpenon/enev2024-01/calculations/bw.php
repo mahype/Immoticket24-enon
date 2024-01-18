@@ -833,7 +833,43 @@ $calculations['anlagendaten'][] = array(
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
-// TODO: Check ob die Werte korrekt eingesetz wurden
+$calculations['energietraeger'] = array();
+
+foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+	$energietraeger = $heizungsanlage->energietraeger();
+
+	if( ! isset( $calculations['energietraeger'][ $energietraeger ] ) ) {
+		$calculations['energietraeger'][ $energietraeger ] = array(
+			'primaerfaktor' => 0,
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger'][ $energietraeger ]['primaerfaktor'] += $heizungsanlage->fp();
+	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] = $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
+
+	if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+
+	}
+	
+}
+
+if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
+	$calculations['energietraeger'][ $ww_energietraeger ] = array(
+		'primaerfaktor' => 0,
+		'qh_e_b' => 0,	
+		'qw_e_b' => 0,
+		'ql_e_b' => 0,
+		'q_e_b' => 0,
+	);
+}
+
+$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] += $gebaeude->trinkwarmwasseranlage()->fp();
+
+
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();

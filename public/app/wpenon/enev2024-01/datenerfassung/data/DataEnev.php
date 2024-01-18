@@ -764,6 +764,27 @@ abstract class DataEnev {
         }
     }
 
+
+    /**
+     * Ausstellungsanlass
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AusstellungsanlassExpowand() : string
+    {
+        switch( $this->energieausweis->anlass )
+        {
+            case 'vermietung':
+                return 'Vermietung';
+            case 'verkauf':
+                return 'Verkauf';
+            default:
+                return 'Sonstiges';
+        }
+    }
+
     /**
      * Datenerhebung-Aussteller
      * 
