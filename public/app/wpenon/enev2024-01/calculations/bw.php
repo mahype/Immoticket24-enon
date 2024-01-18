@@ -494,6 +494,7 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->ww_erzeugung;
+		$ww_energietraeger = 'strom';
 		break;
 	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
@@ -501,18 +502,21 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h_erzeugung;
+		$ww_energietraeger = $energieausweis->h_energietraeger;		
 		break;
 	case 'h2':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h2_erzeugung;
+		$ww_energietraeger = $energieausweis->h2_energietraeger;
 		break;
 	case 'h3':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h3_erzeugung;
+		$ww_energietraeger = $energieausweis->h3_energietraeger;
 		break;
 }
 
@@ -801,11 +805,47 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 	$calculations['bauteile'][] = $data;
 }
 
-
+// TODO: Check ob die Werte korrekt eingesetz wurden
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
-// TODO: Check ob die Werte korrekt eingesetz wurden
+$calculations['energietraeger'] = array();
+
+foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+	$energietraeger = $heizungsanlage->energietraeger();
+
+	if( ! isset( $calculations['energietraeger'][ $energietraeger ] ) ) {
+		$calculations['energietraeger'][ $energietraeger ] = array(
+			'primaerfaktor' => 0,
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger'][ $energietraeger ]['primaerfaktor'] += $heizungsanlage->fp();
+	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] = $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
+
+	if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+
+	}
+	
+}
+
+if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
+	$calculations['energietraeger'][ $ww_energietraeger ] = array(
+		'primaerfaktor' => 0,
+		'qh_e_b' => 0,	
+		'qw_e_b' => 0,
+		'ql_e_b' => 0,
+		'q_e_b' => 0,
+	);
+}
+
+$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] += $gebaeude->trinkwarmwasseranlage()->fp();
+
+
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
