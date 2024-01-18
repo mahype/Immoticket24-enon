@@ -2,7 +2,7 @@
 <n1:GEG-Energieausweis xmlns:n1="https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd">
   <n1:Energieausweis-Daten Gesetzesgrundlage="GEG-2024" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2024-01-01">
     <n1:Registriernummer>AA-2024-000000000</n1:Registriernummer>
-    <n1:Ausstellungsdatum>2024-01-17</n1:Ausstellungsdatum>
+    <n1:Ausstellungsdatum>2024-01-18</n1:Ausstellungsdatum>
     <n1:Bundesland>Nordrhein-Westfalen</n1:Bundesland>
     <n1:Postleitzahl>426XX</n1:Postleitzahl>
     <n1:Gebaeudeteil>Ganzes Gebäude</n1:Gebaeudeteil>
@@ -10,7 +10,7 @@
     <n1:Altersklasse-Gebaeude>1979...1983</n1:Altersklasse-Gebaeude>
     <n1:Baujahr-Waermeerzeuger>1980, 2020</n1:Baujahr-Waermeerzeuger>
     <n1:Altersklasse-Waermeerzeuger>1979...1983</n1:Altersklasse-Waermeerzeuger>
-    <n1:wesentliche-Energietraeger-Heizung>Strom</n1:wesentliche-Energietraeger-Heizung>
+    <n1:wesentliche-Energietraeger-Heizung>Erdgas</n1:wesentliche-Energietraeger-Heizung>
     <n1:wesentliche-Energietraeger-Warmwasser>Strom</n1:wesentliche-Energietraeger-Warmwasser>
     <n1:Erneuerbare-Art>Solarthermie, Photovoltaik</n1:Erneuerbare-Art>
     <n1:Erneuerbare-Verwendung>Warmwasser, Strom</n1:Erneuerbare-Verwendung>
@@ -27,7 +27,12 @@
       <n1:Anlage-groesser-12kW-mitGA>true</n1:Anlage-groesser-12kW-mitGA>
       <n1:Anlage-groesser-70kW>false</n1:Anlage-groesser-70kW>
       <n1:Faelligkeitsdatum-Inspektion>2100-01-01</n1:Faelligkeitsdatum-Inspektion>
-        <n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>false</n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>    <n1:EE-Angabe-Warmwasser>false</n1:EE-Angabe-Warmwasser>    <n1:EE-Angabe-Heizung>false</n1:EE-Angabe-Heizung>    <n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>true</n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>    <n1:Nutzung-bei-Bestandsanlagen>true</n1:Nutzung-bei-Bestandsanlagen>    <n1:Treibhausgasemissionen>111.52</n1:Treibhausgasemissionen>
+            <n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>false</n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>
+    <n1:EE-Angabe-Warmwasser>false</n1:EE-Angabe-Warmwasser>
+    <n1:EE-Angabe-Heizung>false</n1:EE-Angabe-Heizung>
+    <n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>true</n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>
+    <n1:Nutzung-bei-Bestandsanlagen>true</n1:Nutzung-bei-Bestandsanlagen>
+        <n1:Treibhausgasemissionen>58.01</n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass>Vermietung-Verkauf</n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller>false</n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer>true</n1:Datenerhebung-Eigentuemer>
@@ -140,23 +145,35 @@
         <n1:Luftdichtheit>Gebäudekategorie III</n1:Luftdichtheit>
         <n1:Lueftungswaermesenken>0</n1:Lueftungswaermesenken>
         <n1:Waermequellen-durch-solare-Einstrahlung>33951</n1:Waermequellen-durch-solare-Einstrahlung>
-        <n1:Interne-Waermequellen>73695</n1:Interne-Waermequellen>
+        <n1:Interne-Waermequellen>92106</n1:Interne-Waermequellen>
                 <n1:Heizsystem>
-					<n1:Waermeerzeuger-Bauweise-18599>Sonstiges</n1:Waermeerzeuger-Bauweise-18599>
+					<n1:Waermeerzeuger-Bauweise-18599>Niedertemperatur-Heizkessel als Gas-Spezial-Heizkessel</n1:Waermeerzeuger-Bauweise-18599>
           <n1:Nennleistung>0</n1:Nennleistung>
           <n1:Waermeerzeuger-Baujahr>1980</n1:Waermeerzeuger-Baujahr>
           <n1:Anzahl-baugleiche>1</n1:Anzahl-baugleiche>
-          <n1:Energietraeger>Strom netzbezogen</n1:Energietraeger>
-          <n1:Primaerenergiefaktor>1.8</n1:Primaerenergiefaktor>
-          <n1:Emissionsfaktor>560000</n1:Emissionsfaktor>
-				</n1:Heizsystem>
-        
-        <n1:Solare-Waermegewinne>33951</n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne>73695</n1:Interne-Waermegewinne>
-        <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur>55/45</n1:Heizkreisauslegungstemperatur>
-        <n1:Heizungsanlage-innerhalb-Huelle>false</n1:Heizungsanlage-innerhalb-Huelle>        
+          <n1:Energietraeger>Erdgas</n1:Energietraeger>
+          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
+          <n1:Emissionsfaktor>240000</n1:Emissionsfaktor>				</n1:Heizsystem>
+                <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>
+        <n1:Auslegungstemperatur>nur Einzelraum-Heizgeräte</n1:Auslegungstemperatur>
+        <n1:Heizsystem-innerhalb-Huelle>true</n1:Heizsystem-innerhalb-Huelle>
+
+                <n1:Warmwasserbereitungssystem>          <n1:Trinkwarmwassererzeuger-Bauweise-18599>Elektro-Durchlauferhitzer</n1:Trinkwarmwassererzeuger-Bauweise-18599>
+					<n1:Trinkwarmwassererzeuger-Baujahr>2020</n1:Trinkwarmwassererzeuger-Baujahr>
+					<n1:Anzahl-baugleiche>1</n1:Anzahl-baugleiche>
+        </n1:Warmwasserbereitungssystem>
                 <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
+				<n1:Trinkwarmwasserverteilung-Zirkulation>true</n1:Trinkwarmwasserverteilung-Zirkulation>
+        <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
+        <n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist>4301.99</n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist>                <n1:angerechneter-lokaler-erneuerbarer-Strom>8292.26</n1:angerechneter-lokaler-erneuerbarer-Strom>               
+        <n1:Innovationsklausel>false</n1:Innovationsklausel>
+        <n1:Quartiersregelung>false</n1:Quartiersregelung>
+        <n1:Primaerenergiebedarf-Hoechstwert-Bestand>226.94</n1:Primaerenergiebedarf-Hoechstwert-Bestand>        <n1:Treibhausgasemissionen-Hoechstwert-Bestand>58.01</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
+        <n1:Solare-Waermegewinne>33951</n1:Solare-Waermegewinne>
+        <n1:Interne-Waermegewinne>92106</n1:Interne-Waermegewinne>
+        <n1:Pufferspeicher-Nenninhalt>0</n1:Pufferspeicher-Nenninhalt>        
+        <n1:Heizungsanlage-innerhalb-Huelle>true</n1:Heizungsanlage-innerhalb-Huelle>     
+        <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
         <n1:Trinkwarmwasserverteilung-Zirkulation>true</n1:Trinkwarmwasserverteilung-Zirkulation>
         <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
         <n1:spezifischer-Transmissionswaermeverlust-Ist>4301.99</n1:spezifischer-Transmissionswaermeverlust-Ist>
@@ -165,11 +182,31 @@
         <n1:Primaerenergiebedarf-Hoechstwert-Bestand>0</n1:Primaerenergiebedarf-Hoechstwert-Bestand>
         <n1:Endenergiebedarf-Hoechstwert-Bestand>0</n1:Endenergiebedarf-Hoechstwert-Bestand>
         <n1:Treibhausgasemissionen-Hoechstwert-Bestand>0</n1:Treibhausgasemissionen-Hoechstwert-Bestand>
+                <n1:Energietraeger-Liste>
+          <n1:Energietraegerbezeichnung>Erdgas</n1:Energietraegerbezeichnung>
+          <n1:Primaerenergiefaktor>1.1</n1:Primaerenergiefaktor>
+          <n1:Endenergiebedarf-Heizung-spezifisch>460466.23</n1:Endenergiebedarf-Heizung-spezifisch>
+          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>0</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
+          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>24247.58</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
+          <n1:Endenergiebedarf-Beleuchtung-spezifisch>0</n1:Endenergiebedarf-Beleuchtung-spezifisch>
+          <n1:Endenergiebedarf-Lueftung-spezifisch>0</n1:Endenergiebedarf-Lueftung-spezifisch>
+          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>484713.8</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
+        </n1:Energietraeger-Liste>
+                <n1:Energietraeger-Liste>
+          <n1:Energietraegerbezeichnung>Strom netzbezogen</n1:Energietraegerbezeichnung>
+          <n1:Primaerenergiefaktor>1.8</n1:Primaerenergiefaktor>
+          <n1:Endenergiebedarf-Heizung-spezifisch>0</n1:Endenergiebedarf-Heizung-spezifisch>
+          <n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>0</n1:Endenergiebedarf-Kuehlung-Befeuchtung-spezifisch>
+          <n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>0</n1:Endenergiebedarf-Trinkwarmwasser-spezifisch>
+          <n1:Endenergiebedarf-Beleuchtung-spezifisch>0</n1:Endenergiebedarf-Beleuchtung-spezifisch>
+          <n1:Endenergiebedarf-Lueftung-spezifisch>15342.43</n1:Endenergiebedarf-Lueftung-spezifisch>
+          <n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>15342.43</n1:Endenergiebedarf-Energietraeger-Gesamtgebaeude-spezifisch>
+        </n1:Energietraeger-Liste>
                 <n1:Endenergiebedarf-Waerme-AN>0</n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN>0</n1:Endenergiebedarf-Hilfsenergie-AN>
-        <n1:Endenergiebedarf-Gesamt>207.05</n1:Endenergiebedarf-Gesamt>
-        <n1:Primaerenergiebedarf>372.7</n1:Primaerenergiebedarf>
-        <n1:Energieeffizienzklasse>H</n1:Energieeffizienzklasse>
+        <n1:Endenergiebedarf-Gesamt>226.94</n1:Endenergiebedarf-Gesamt>
+        <n1:Primaerenergiebedarf>239.2</n1:Primaerenergiebedarf>
+        <n1:Energieeffizienzklasse>G</n1:Energieeffizienzklasse>
         <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
       </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
@@ -178,27 +215,20 @@
             
       <n1:Modernisierungsempfehlungen>
         <n1:Nummer>1</n1:Nummer>
-        <n1:Bauteil-Anlagenteil>Heizung</n1:Bauteil-Anlagenteil>
-        <n1:Massnahmenbeschreibung>Austausch der Heizungsanlage</n1:Massnahmenbeschreibung>
-        <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
-      </n1:Modernisierungsempfehlungen>
-        
-      <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>2</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Außenwand gg. Erdreich</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>3</n1:Nummer>
+        <n1:Nummer>2</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Dach</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Dämmstärken von mindestens 14 cm oder mehr</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>
       </n1:Modernisierungsempfehlungen>
         
       <n1:Modernisierungsempfehlungen>
-        <n1:Nummer>4</n1:Nummer>
+        <n1:Nummer>3</n1:Nummer>
         <n1:Bauteil-Anlagenteil>Fenster</n1:Bauteil-Anlagenteil>
         <n1:Massnahmenbeschreibung>Maximaler Uw - Wert bei 1,3 [W/m²K]</n1:Massnahmenbeschreibung>
         <n1:Modernisierungskombination>in Zusammenhang mit größerer Modernisierung</n1:Modernisierungskombination>

@@ -848,18 +848,37 @@ foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage )
 		);
 	}
 
+	$calculations['energietraeger'][ $energietraeger ]['slug'] = $heizungsanlage->energietraeger();
 	$calculations['energietraeger'][ $energietraeger ]['primaerfaktor'] += $heizungsanlage->fp();
-	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] = $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
+	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisc
+	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
 
-	if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
-
+	if( $gebaeude->trinkwarmwasseranlage()->zentral() ) {
+		$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
+		$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
 	}
-	
 }
 
-if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
-	$calculations['energietraeger'][ $ww_energietraeger ] = array(
-		'primaerfaktor' => 0,
+if( ! $gebaeude->trinkwarmwasseranlage()->zentral() ) {
+	if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
+		$calculations['energietraeger'][ $ww_energietraeger ] = array(
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger'][ $ww_energietraeger ]['slug'] = $gebaeude->trinkwarmwasseranlage()->energietraeger();
+	$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] = $gebaeude->trinkwarmwasseranlage()->fp();
+	$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+}
+
+
+if( ! isset( $calculations['energietraeger']['strom'] ) ) {
+	$calculations['energietraeger']['strom'] = array(
+		'primaerfaktor' => 1.8,
 		'qh_e_b' => 0,	
 		'qw_e_b' => 0,
 		'ql_e_b' => 0,
@@ -867,7 +886,8 @@ if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
 	);
 }
 
-$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] += $gebaeude->trinkwarmwasseranlage()->fp();
+$calculations['energietraeger']['strom']['ql_e_b'] += $gebaeude->lueftung()->Wrvg();
+$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 
 
 $calculations['endenergie'] = $gebaeude->Qf();
