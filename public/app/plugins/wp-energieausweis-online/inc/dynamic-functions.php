@@ -292,23 +292,3 @@ if ( ! function_exists( 'wpenon_get_location_by_plz' ) ) {
 		return null;
 	}
 }
-
-if ( ! function_exists( 'wpenon_greater_than' ) ) {
-	function wpenon_greater_than( $field, $value ) {
-		if ( (int) $field > $value ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-if ( ! function_exists( 'wpenon_lower_than' ) ) {
-	function wpenon_lower_than( $field, $value ) {
-		if ( (int) $field < $value ) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}

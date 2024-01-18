@@ -18,9 +18,6 @@ class VW_Modernizations extends Modernizations {
 	 * @since 1.0.0
 	 */
 	protected function needs_wand() {
-        if ( !isset($this->energieausweis->wand_staerke ) ) {
-            return false;
-        }
 		if ( $this->energieausweis->wand_staerke >= 40 ) {
 			return false;		
 		}

@@ -22,10 +22,6 @@ $bauteile = array(
 					'type'    => 'int',
 					'label'   => __( 'Wandstärke', 'wpenon' ),
 					'unit'    => 'cm',
-                    'display'     => array(
-						'callback'      => 'wpenon_lower_than',
-						'callback_args' => array( 'field::baujahr', 1978 ),
-					),
 				),
 				'decke_daemmung_on' => array(
 					'type'        => 'select',
