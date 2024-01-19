@@ -810,6 +810,7 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 }
 
 
+// Heizungsanlagen
 $calculations['anlagendaten'] = array();
 foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
 	$anlage = array();
@@ -818,7 +819,8 @@ foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage )
 	$anlage['baujahr'] = $heizungsanlage->baujahr();
 	$anlage['energietraeger_slug'] = $heizungsanlage->energietraeger();
 	$anlage['energietraeger_primaer'] = $heizungsanlage->fp();
-	$anlage['energietraeger_co2'] = $heizungsanlage->co2_energietraeger();
+	$anlage['energietraeger_co2'] = $heizungsanlage->MCO2();
+	$anlage['emissionsfaktor'] = $heizungsanlage->co2_energietraeger();
 
 	$calculations['anlagendaten'][] = $anlage;
 }
@@ -859,6 +861,7 @@ foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage )
 	}
 }
 
+// Trinkwarmwasseranlage
 if( ! $gebaeude->trinkwarmwasseranlage()->zentral() ) {
 	if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
 		$calculations['energietraeger'][ $ww_energietraeger ] = array(
@@ -875,19 +878,22 @@ if( ! $gebaeude->trinkwarmwasseranlage()->zentral() ) {
 	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
 }
 
+// Lüftung
+if( $gebaeude->lueftung()->Wrvg() > 0 ){
+	if( ! isset( $calculations['energietraeger']['strom'] ) ) {
+		$calculations['energietraeger']['strom'] = array(
+			'slug' => 'strom',
+			'primaerfaktor' => 1.8,
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
 
-if( ! isset( $calculations['energietraeger']['strom'] ) ) {
-	$calculations['energietraeger']['strom'] = array(
-		'primaerfaktor' => 1.8,
-		'qh_e_b' => 0,	
-		'qw_e_b' => 0,
-		'ql_e_b' => 0,
-		'q_e_b' => 0,
-	);
+	$calculations['energietraeger']['strom']['ql_e_b'] += $gebaeude->lueftung()->Wrvg();
+	$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 }
-
-$calculations['energietraeger']['strom']['ql_e_b'] += $gebaeude->lueftung()->Wrvg();
-$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 
 
 $calculations['endenergie'] = $gebaeude->Qf();
@@ -901,7 +907,8 @@ $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
 $calculations['auslegungstemperaturen'] = $auslegungstemperaturen;
 $calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
-$calculations['ht'] = $gebaeude->ht_ges();
+$calculations['ht'] = $gebaeude->bauteile()->ht();
+
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();

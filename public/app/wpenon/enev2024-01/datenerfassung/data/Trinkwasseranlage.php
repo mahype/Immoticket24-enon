@@ -97,11 +97,11 @@ class Trinkwasseranlage {
             case 'etagenheizung':
                 return 'Brennwertkessel (Öl/Gas)';
             case 'waermepumpeluft':
-                return 'Elektrisch angetriebene Luft/Wasser-Wärmepumpe"';
+                return 'Elektrisch angetriebene Luft/Wasser-Wärmepumpe';
             case 'waermepumpewasser':
                 return 'Elektrisch angetriebene Wasser/Wasser-Wärmepumpe';                                    
             case 'waermepumpeerde':
-                return '"Elektrisch angetriebene Sole/Wasser-Wärmepumpe';                    
+                return 'Elektrisch angetriebene Sole/Wasser-Wärmepumpe';                    
             case 'dezentralelektroerhitzer':
                 return 'Elektro-Durchlauferhitzer'; 
             case 'dezentralgaserhitzer':

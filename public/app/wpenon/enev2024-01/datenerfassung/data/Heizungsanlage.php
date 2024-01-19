@@ -51,36 +51,59 @@ class Heizungsanlage {
     {
         switch ( $this->data['slug'] )
         {
-            case 'direktheizgeraet':
-                return 'Dezentrales elektrisches Direktheizgerät';
             case 'standardkessel':
-                return $this->data['baujahr'] >=  1995 ? 'Standard-Heizkessel (ab 1995)': 'Standard-Heizkessel als Gas-Spezial-Heizkessel';
+                switch( $this->data['energietraeger_slug'] ) {
+                    case 'heizoel':
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return '';
+                    case 'holzpellets':                      
+                        return 'Standard-Heizkessel als Pelletkessel';
+                    case 'holzhackschnitzel':
+                        return 'Standard-Heizkessel als Hackschnitzelkessel';
+                    case 'stueckholz':
+                    case 'steinkohle':
+                    case 'braunkohle':                                       
+                    default:
+                        return '';                    
+                }
             case 'niedertemperaturkessel':
-                return $this->data['baujahr'] >=  1995 ? 'Niedertemperatur-Heizkessel (ab 1995)': 'Niedertemperatur-Heizkessel als Gas-Spezial-Heizkessel';
+                switch( $this->data['energietraeger_slug'] ) {
+                    case 'heizoel':
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return '';                                     
+                    default:
+                        return '';                    
+                }
             case 'brennwertkessel':
-                return $this->data['baujahr'] >=  1995 ? 'Brennwertkessel (ab 1995)': 'Brennwertkessel (bis 1994)';
-            case 'brennwertkesselverbessert':
-                return 'Brennwertkessel-verbessert';
+                switch( $this->data['energietraeger_slug'] ) {
+                    case 'heizoel':
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return '';
+                    case 'holzpellets':                      
+                        return 'Brennwertkessel (Pellet)';
+                    case 'holzhackschnitzel':                        
+                    case 'stueckholz':                      
+                    default:
+                        return '';                    
+                }
             case 'fernwaerme':
-                return 'Fern-/Nahwärme';
+                return '';
             case 'waermepumpeluft':
-                return 'Elektrisch betriebene Luft/Wasser-Heizungswärmepumpe';
+                return 'Elektrisch angetriebene Luft/Wasser-Heizungswärmepumpe';
             case 'waermepumpewasser':
-                return 'Elektrisch betriebene Wasser/Wasser-Heizungswärmepumpe';
+                return 'Elektrisch angetriebene Wasser/Wasser-Heizungswärmepumpe';
             case 'waermepumpeerde':
-                return 'Elektrisch betriebene Sole/Wasser-Heizungswärmepumpe';
-            case 'oelofen':
-                return 'Ölbefeuerter Einzelofen';
-            case 'gasraumheizer':
-                return 'Gasraumheizer, schornsteingebunden';
-            case 'kohleholzofen':
-                return 'Kachelofen';
-            case 'nachtspeicher':
-                return 'Zentral elektrisch beheizte Wärmeerzeuger';
-            case 'solaranlage':
-                return 'Solare Heizungsunterstützung';
-            case 'kleinthermeniedertemperatur':
-            case 'kleinthermebrennwert':
+                return 'Elektrisch angetriebene Sole/Wasser-Heizungswärmepumpe';
+            case 'infrarotheizung':
+            case 'elektronachtspeicherheizung':
+                return 'Dezentrales elektrisches Direktheizgerät';            
+            case 'etagenheizung':
             default:
                 return 'Sonstiges';
         }
@@ -143,19 +166,15 @@ class Heizungsanlage {
             case 'braunkohle':
                 return 'Braunkohle';
             case 'stueckholz':
-                return 'Holz';
-            case 'holzhackschnitzel':
-                return 'Holz';
+            case 'holzhackschnitzel':                
             case 'holzpellets':
                 return 'Holz';
             case 'strom':
                 return 'Strom netzbezogen'; // NEU
             case 'fernwaermehzwfossil':
-                return 'Nah-/Fernwärme aus Heizwerken, fossiler Brennstoff (Gasförmige und flüssige Brennstoffe) bzw. Energieträger'; // NEU
-            case 'sonneneinstrahlung':
-                return 'Wärme (Erdwärme, Geothermie, Solarthermie, Umgebungswärme)'; // NEU
-            case 'koks':
-                return 'Sonstiges';                                         
+                return 'Nah-/Fernwärme aus Heizwerken, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger';
+            case 'fernwaermekwkfossil':
+                return 'Nah-/Fernwärme aus KWK, fossiler Brennstoff (Stein-/Braunkohle) bzw. Energieträger';
         }
     }
 
@@ -166,6 +185,6 @@ class Heizungsanlage {
 
     public function Emissionsfaktor()
     {
-        return $this->data['energietraeger_co2'] * 1000; // Neu
+        return round( $this->data['emissionsfaktor'] ); // Neu
     }
 }

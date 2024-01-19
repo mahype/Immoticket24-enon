@@ -9,6 +9,7 @@ require_once dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/BW_Modernizations.php';
 
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202401\Modernizations\BW_Modernizations;
 
 /**
@@ -24,7 +25,7 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    private $calculations;    
+    private $calculations;
 
     /**
      * Berechnungen Bedarfsausweis
@@ -41,6 +42,18 @@ class DataEnevBW extends DataEnev {
         }
 
         return $this->calculations[ $slug ];
+    }
+
+    /**
+     * Gebäude Objekt
+     * 
+     * @return Gebaeude
+     * 
+     * @since 1.0.0
+     */
+    public function gebaeude() : Gebaeude
+    {
+        return $this->calculations( 'gebaeude' );
     }
 
     /**
@@ -494,7 +507,8 @@ class DataEnevBW extends DataEnev {
 
     public function Transmissionswaermetransferkoeffizient()
     {
-        return round( (float) $this->calculations( 'ht' ), 2 );
+        $gebaeude = $this->calculations( 'gebaeude' );
+        return round( $gebaeude->bauteile()->ht() / $gebaeude->bauteile()->flaeche(), 2 );        
     }
 
     /**
@@ -559,7 +573,7 @@ class DataEnevBW extends DataEnev {
         $daten = [];
         foreach( $this->calculations('energietraeger') AS $energietraeger )
         {
-            $daten[] = new EndenergieEnergietraeger( $energietraeger );
+            $daten[] = new EndenergieEnergietraeger( $energietraeger, $this->gebaeude()->nutzflaeche() );
         }
 
         return $daten;
