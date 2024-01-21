@@ -588,7 +588,7 @@ class DataEnevBW extends DataEnev {
      */
     public function EndenergiebedarfWaermeAN()
     {
-        return round( (float) $this->calculations( 'qh_e_b' ) + $this->calculations( 'qw_e_b' ), 1 );
+        return round( (float) ( $this->calculations( 'qfh_ges' ) + $this->calculations( 'qfw_ges' ) ) / $this->gebaeude()->nutzflaeche()  , 1 );
     }
 
     /**
@@ -610,7 +610,7 @@ class DataEnevBW extends DataEnev {
      */
     public function EndenergiebedarfHilfsenergieAN()
     {
-        return round( (float) $this->calculations( 'qh_e_b' ), 1 );
+        return round( (float) $this->calculations( 'w_ges' ) /  $this->gebaeude()->nutzflaeche(), 1 );
     }
 
     /**
