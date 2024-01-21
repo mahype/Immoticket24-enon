@@ -899,7 +899,7 @@ if( $gebaeude->lueftung()->Wrvg() > 0 ){
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
-$calculations['ht_b'] = $gebaeude->ht_ges();
+$calculations['ht_strich'] = $gebaeude->ht_strich();
 $calculations['qfh_ges'] = $gebaeude->Qfhges();
 $calculations['qfw_ges'] = $gebaeude->Qfwges();
 $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();

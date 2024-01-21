@@ -140,7 +140,7 @@ $data = new DataEnevBW( $energieausweis );
           <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
         <n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php echo $data->Transmissionswaermetransferkoeffizient(); ?></n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php // Klären - Wurde das richtige ht genommen? Hab an der Stelle hier $gebaeude->bauteile()->ht() / $gebauede->bauteile()->flaeche() gerechnet  ?>
         <?php if( count( $data->calculations('photovoltaik') ) > 0 ): ?>
-        <n1:angerechneter-lokaler-erneuerbarer-Strom><?php echo round( $data->calculations('photovoltaik')['ertrag'], 2 ); ?></n1:angerechneter-lokaler-erneuerbarer-Strom><?php // Klären - röße des Abzugs (in kWh/a m2) bei der Primärenergie bzw. bei der Endenergie für den gebäudenah erzeugten Strom aus erneuerbarer Energie nach der entsprechenden Bilanzierungsregel? ?>
+        <n1:angerechneter-lokaler-erneuerbarer-Strom><?php echo round( $data->calculations('photovoltaik')['ertrag'], 2 ); ?></n1:angerechneter-lokaler-erneuerbarer-Strom><?php // Klären - Größe des Abzugs (in kWh/a m2) bei der Primärenergie bzw. bei der Endenergie für den gebäudenah erzeugten Strom aus erneuerbarer Energie nach der entsprechenden Bilanzierungsregel? ?>
         <?php endif; ?>       
         <n1:Innovationsklausel>false</n1:Innovationsklausel>
         <n1:Quartiersregelung>false</n1:Quartiersregelung>

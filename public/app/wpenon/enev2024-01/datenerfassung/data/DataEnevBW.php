@@ -508,7 +508,7 @@ class DataEnevBW extends DataEnev {
     public function Transmissionswaermetransferkoeffizient()
     {
         $gebaeude = $this->calculations( 'gebaeude' );
-        return round( $gebaeude->bauteile()->ht() / $gebaeude->bauteile()->flaeche(), 2 );        
+        return round( $gebaeude->ht_strich(), 2 );
     }
 
     /**
