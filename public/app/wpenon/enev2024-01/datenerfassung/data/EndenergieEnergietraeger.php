@@ -73,7 +73,7 @@ class EndenergieEnergietraeger {
     }
     
     public function EndenergiebedarfLueftungspezifisch(){
-        return round( $this->data['ql_e_b'], 2 );
+        return round( $this->data['ql_e_b'] / $this->nutzflaeche, 2 );
     }
 
     public function EndenergiebedarfEnergietraegerGesamtgebaeudespezifisch(){
