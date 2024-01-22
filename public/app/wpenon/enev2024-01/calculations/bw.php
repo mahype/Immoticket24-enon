@@ -729,7 +729,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$h2_erzeugung = $energieausweis->h2_erzeugung;
 	$h3_erzeugung = $energieausweis->h3_erzeugung;
 
-	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
 		$uebergabe_typ = 'elektroheizungsflaechen';
 	} else {
 		$uebergabe_typ =  $energieausweis->h_uebergabe;
@@ -756,7 +756,7 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 }
 
 
-$calculations['bauteile'][] = array();
+$calculations['bauteile'] = array();
 
 // Opake Bauteile
 foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {	
@@ -895,7 +895,7 @@ if( $gebaeude->lueftung()->Wrvg() > 0 ){
 	$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 }
 
-
+$calculations['huellvolumen'] = $gebaeude->huellvolumen();
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
