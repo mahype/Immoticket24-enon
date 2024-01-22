@@ -66,18 +66,17 @@ class Trinkwasseranlage {
                         return 'Standard-Heizkessel als Hackschnitzelkessel';                    
                     case 'steinkohle':
                     case 'braunkohle':
-                        return 'Standard-Heizkessel als Feststoffkessel (fossiler und biogener Brennstoff)'; // Auch möglich für Biomasse, Holz, Holzpellet, Hackschnitzel. Mit Michael klären!
+                        return 'Standard-Heizkessel als Feststoffkessel (fossiler und biogener Brennstoff)';
                     default:
                         return;             
                 }
             case 'niedertemperaturkessel':
                 switch( $this->data['energietraeger'] ) {
-                    case 'heizoel':
-                        return 'Niedertemperatur-Heizkessel als Gebläsekessel'; // Auch als Gas möglich. Mit Michael klären!
+                    case 'heizoel':                        
                     case 'erdgas':
                     case 'fluessiggas':
                     case 'biogas':
-                        return 'Niedertemperatur-Heizkessel als Gas-Spezial-Heizkessel';                                     
+                        return 'Niedertemperatur-Heizkessel als Gebläsekessel';
                     default:
                         return ''; 
                 }
