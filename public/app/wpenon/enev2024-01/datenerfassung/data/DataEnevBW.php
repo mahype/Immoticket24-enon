@@ -352,7 +352,7 @@ class DataEnevBW extends DataEnev {
      */
     public function Lueftungswaermeverlust()
     {
-        return (int) $this->calculations( 'qv' );
+        return (int) $this->calculations( 'hv' );
     }
 
     /**

@@ -578,7 +578,7 @@ if ( $energieausweis->h2_info ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieauswies->h2_waermepumpe_luft_stufen === 'einstufig' ) {
+	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieausweis->h2_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h2_waermepumpe_luft_einstufig = true;
 	} else {
 		$h2_waermepumpe_luft_einstufig = false;	
@@ -597,7 +597,7 @@ if ( $energieausweis->h2_info ) {
 		$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 		$energietraeger = $energieausweis->$energietraeger_name;
 	
-		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieauswies->h3_waermepumpe_luft_stufen === 'einstufig' ) {
+		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieausweis->h3_waermepumpe_luft_stufen === 'einstufig' ) {
 			$h3_waermepumpe_luft_einstufig = true;
 		} else {
 			$h3_waermepumpe_luft_einstufig = false;	
@@ -729,7 +729,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$h2_erzeugung = $energieausweis->h2_erzeugung;
 	$h3_erzeugung = $energieausweis->h3_erzeugung;
 
-	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
 		$uebergabe_typ = 'elektroheizungsflaechen';
 	} else {
 		$uebergabe_typ =  $energieausweis->h_uebergabe;
@@ -756,7 +756,7 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 }
 
 
-$calculations['bauteile'][] = array();
+$calculations['bauteile'] = array();
 
 // Opake Bauteile
 foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {	
@@ -895,7 +895,7 @@ if( $gebaeude->lueftung()->Wrvg() > 0 ){
 	$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 }
 
-
+$calculations['huellvolumen'] = $gebaeude->huellvolumen();
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
@@ -904,10 +904,11 @@ $calculations['qfh_ges'] = $gebaeude->Qfhges();
 $calculations['qfw_ges'] = $gebaeude->Qfwges();
 $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
 
-$calculations['auslegungstemperaturen'] = $auslegungstemperaturen;
+$calculations['auslegungstemperatur'] = $auslegungstemperaturen;
 $calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
 $calculations['ht'] = $gebaeude->bauteile()->ht();
+$calculations['hv'] = $gebaeude->lueftung()->hv();
 
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
