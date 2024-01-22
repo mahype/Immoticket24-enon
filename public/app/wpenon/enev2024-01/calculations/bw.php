@@ -904,7 +904,7 @@ $calculations['qfh_ges'] = $gebaeude->Qfhges();
 $calculations['qfw_ges'] = $gebaeude->Qfwges();
 $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
 
-$calculations['auslegungstemperaturen'] = $auslegungstemperaturen;
+$calculations['auslegungstemperatur'] = $auslegungstemperaturen;
 $calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
 $calculations['ht'] = $gebaeude->bauteile()->ht();
