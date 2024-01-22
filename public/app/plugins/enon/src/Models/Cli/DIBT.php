@@ -1,9 +1,10 @@
 <?php
 
+ini_set('display_errors','Off');
+
 namespace Enon\Models\Cli;
 
 use WPENON\Model\Energieausweis;
-use WPENON\Model\EnergieausweisXML;
 
 /**
  * DIBT mass function for CLI.
@@ -68,9 +69,7 @@ class DIBT extends \WP_CLI_Command {
 
 		if( isset($assoc_args['xsd']) ) {
 			$xsd = $assoc_args['xsd'];
-		} else {
-			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
-		}
+		} 
 
 		if( isset($assoc_args['version']) ) {
 			$version = $assoc_args['version'];
