@@ -14,7 +14,7 @@ class DIBT extends \WP_CLI_Command {
 	/**
 	 * Scrub posts.
 	 *
-	 * OPTIONS
+	 * ## OPTIONS
 	 *
 	 * --date=<date>
 	 * : Test XML until this date.
@@ -23,10 +23,13 @@ class DIBT extends \WP_CLI_Command {
 	 * : XSD Schema. Default: https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd
 	 * 
 	 * [--version=<xsd_version>]
-	 * : XSD version. Default: 'GEG-2023'
+	 * : XSD version. Default: 'GEG-2024'
 	 * 
 	 * [--schema=<schema_name>]
 	 * : Schema name. Default: 'enev2022-01'
+	 * 
+	 * [--type=<type>]
+	 * : Type (vw/bw). Default: 'none'
 	 *
 	 * ## EXAMPLES
 	 *
@@ -55,16 +58,28 @@ class DIBT extends \WP_CLI_Command {
 			),
 		);
 
+		if( isset($assoc_args['type']) && $assoc_args['type'] === 'vw' ) {
+			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd';
+			$version = 'GEG-2020';
+		} elseif( isset($assoc_args['type']) && $assoc_args['type'] === 'bw' ) {
+			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
+			$version = 'GEG-2024';
+		}
+
 		if( isset($assoc_args['xsd']) ) {
 			$xsd = $assoc_args['xsd'];
 		} else {
-			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd';
+			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
 		}
 
 		if( isset($assoc_args['version']) ) {
 			$version = $assoc_args['version'];
+		} 
+
+		if( isset($assoc_args['type']) ) {
+			$type = $assoc_args['type'];
 		} else {
-			$version = 'GEG-2020';
+			$type = 'none';
 		}
 
 		if( isset($assoc_args['schema_name']) ) {
@@ -96,6 +111,10 @@ class DIBT extends \WP_CLI_Command {
 		foreach($post_ids AS $post_id) {
 			$energy_certificate = new Energieausweis($post_id);
 
+			if( $energy_certificate->wpenon_type !== $type && $type !== 'none' ) {				
+				continue;
+			}
+
 			if( $energy_certificate->schema_name !== $schema_name ) {
 				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because of other schema.' );
 				continue;
@@ -126,7 +145,7 @@ class DIBT extends \WP_CLI_Command {
 				}
 			}
 
-			unlink($xml_file);
+			// unlink($xml_file);
 		}
 
 		fclose($log);
