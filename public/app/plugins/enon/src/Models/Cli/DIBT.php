@@ -148,7 +148,7 @@ class DIBT extends \WP_CLI_Command {
 				}
 			}
 
-			// unlink($xml_file);
+			unlink($xml_file);
 		}
 
 		fclose($log);
