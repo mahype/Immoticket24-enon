@@ -23,7 +23,7 @@ $gesetzesgrundlage = $energieausweis->mode == 'b' ? 'GEG-2024' : 'GEG-2020';
         <Ausstellungsdatum><?php echo date('d.m.Y' ); ?></Ausstellungsdatum>
         <Bundesland><?php echo $energieausweis->adresse_bundesland; ?></Bundesland>
         <Postleitzahl><?php echo $energieausweis->adresse_plz; ?></Postleitzahl>
-        <Gesetzesgrundlage>GEG-2020</Gesetzesgrundlage>
+        <Gesetzesgrundlage><?php echo $gesetzesgrundlage; ?></Gesetzesgrundlage>
     </EnEV-Nachweis>
     <Energieausweis-Daten>
         <Gebaeudeart>Wohngebäude</Gebaeudeart>
