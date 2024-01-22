@@ -8,9 +8,12 @@
 class EndenergieEnergietraeger {
     protected $data;
 
-    public function __construct( array $data )
+    protected $nutzflaeche;
+
+    public function __construct( array $data, float $nutzflaeche )
     {
         $this->data = $data;
+        $this->nutzflaeche = $nutzflaeche;
     }
 
     public function Energietraegerbezeichnung(){
@@ -54,7 +57,7 @@ class EndenergieEnergietraeger {
     }
 
     public function EndenergiebedarfHeizungspezifisch(){
-        return round( $this->data['qh_e_b'], 2 );
+        return round( $this->data['qh_e_b'] / $this->nutzflaeche, 2 );
     }
 
     public function EndenergiebedarfKuehlungBefeuchtungspezifisch(){
@@ -62,7 +65,7 @@ class EndenergieEnergietraeger {
     }
 
     public function EndenergiebedarfTrinkwarmwasserspezifisch(){
-        return round( $this->data['qw_e_b'], 2 );
+        return round( $this->data['qw_e_b'] / $this->nutzflaeche, 2 );
     }
 
     public function EndenergiebedarfBeleuchtungspezifisch(){
@@ -70,10 +73,10 @@ class EndenergieEnergietraeger {
     }
     
     public function EndenergiebedarfLueftungspezifisch(){
-        return round( $this->data['ql_e_b'], 2 );
+        return round( $this->data['ql_e_b'] / $this->nutzflaeche, 2 );
     }
 
     public function EndenergiebedarfEnergietraegerGesamtgebaeudespezifisch(){
-        return round( $this->data['q_e_b'], 2 );
+        return round( $this->data['q_e_b'] / $this->nutzflaeche, 2 );
     }
 }

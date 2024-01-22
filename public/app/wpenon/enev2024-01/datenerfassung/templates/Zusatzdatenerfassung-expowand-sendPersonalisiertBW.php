@@ -64,7 +64,7 @@ $data = new DataEnevBW( $energieausweis );
       <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
     <?php endif; ?>
     <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
-    <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
+    <n1:Ausstellungsanlass><?php echo $data->AusstellungsanlassExpowand(); ?></n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
     <n1:Datenerhebung-Eigentuemer><?php echo $data->DatenerhebungEigentuemer(); ?></n1:Datenerhebung-Eigentuemer>
     <n1:Wohngebaeude>
@@ -124,7 +124,7 @@ $data = new DataEnevBW( $energieausweis );
         </n1:Heizungsanlage>
         <?php endforeach; ?>
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
+        <n1:Heizkreisauslegungstemperatur><?php echo $data->Auslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
         <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
         <n1:Trinkwarmwasseranlage>

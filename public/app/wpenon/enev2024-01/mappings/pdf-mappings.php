@@ -291,8 +291,8 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			return null;
 		case 'ht':
 			$calculations = $energieausweis->calculate();
-			if ( isset( $calculations['ht_b'] ) ) {
-				return $calculations['ht_b'];
+			if ( isset( $calculations['ht_strich'] ) ) {
+				return $calculations['ht_strich'];
 			}
 
 			return null;

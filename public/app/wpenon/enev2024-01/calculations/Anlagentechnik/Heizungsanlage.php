@@ -318,7 +318,7 @@ abstract class Heizungsanlage {
 	 * 
 	 * @return float 
 	 */
-	protected function co2_energietraeger(): float {
+	public function co2_energietraeger(): float {
 		switch( $this->energietraeger() ) {
 			case 'biooel':
 				return 210;
@@ -374,6 +374,12 @@ abstract class Heizungsanlage {
 	 */
 	abstract public function Wwg(): float;
 
+	/**
+	 * Endenergiebedarf für Heizung.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Qfhges(): float {
 		if( isset( $this->Qfhges ) ) {
 			return $this->Qfhges;

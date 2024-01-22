@@ -545,6 +545,15 @@ class Gebaeude {
 	}
 
 	/**
+	 * HT'
+	 * 
+	 * @return float
+	 */
+	public function ht_strich(): float {
+		return $this->ht_ges() / $this->huellflaeche();
+	}
+
+	/**
 	 * Zeitkonstante Tau.
 	 *
 	 * @return float

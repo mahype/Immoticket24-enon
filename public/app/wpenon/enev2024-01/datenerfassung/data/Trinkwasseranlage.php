@@ -47,6 +47,77 @@ class Trinkwasseranlage {
         }
     }
     
+    public function TrinkwarmwassererzeugerBauweise18599()
+    {
+        switch ( $this->data['slug'] )
+        {
+            case 'standardkessel':
+                switch( $this->data['energietraeger'] ) {
+                    case 'heizoel':
+                    case 'stueckholz':
+                        return 'Standard-Heizkessel als Umstell-/Wechselbrandkessel';
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return 'Standard-Heizkessel als Gas-Spezial-Heizkessel';
+                    case 'holzpellets':                      
+                        return 'Standard-Heizkessel als Pelletkessel';
+                    case 'holzhackschnitzel':
+                        return 'Standard-Heizkessel als Hackschnitzelkessel';                    
+                    case 'steinkohle':
+                    case 'braunkohle':
+                        return 'Standard-Heizkessel als Feststoffkessel (fossiler und biogener Brennstoff)';
+                    default:
+                        return;             
+                }
+            case 'niedertemperaturkessel':
+                switch( $this->data['energietraeger'] ) {
+                    case 'heizoel':                        
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return 'Niedertemperatur-Heizkessel als Gebläsekessel';
+                    default:
+                        return ''; 
+                }
+            case 'brennwertkessel':
+                switch( $this->data['energietraeger'] ) {
+                    case 'heizoel':
+                    case 'erdgas':
+                    case 'fluessiggas':
+                    case 'biogas':
+                        return 'Brennwertkessel (Öl/Gas)';
+                    case 'holzpellets':                      
+                        return 'Brennwertkessel (Pellet)';
+                    case 'holzhackschnitzel':                        
+                    case 'stueckholz':
+                        return 'Heizungsanlage zur Nutzung von Biomasse';            
+                    default:
+                        return '';
+                }
+            case 'fernwaerme':
+                return 'Hausübergabestation zum Anschluss an ein Wärmenetz';
+            case 'waermepumpeluft':
+                return 'Elektrisch angetriebene Luft/Wasser-Heizungswärmepumpe';
+            case 'waermepumpewasser':
+                return 'Elektrisch angetriebene Wasser/Wasser-Heizungswärmepumpe';
+            case 'waermepumpeerde':
+                return 'Elektrisch angetriebene Sole/Wasser-Heizungswärmepumpe';
+            case 'infrarotheizung':
+                return 'Dezentrale elektrische Direktheizung';
+            case 'elektronachtspeicherheizung':
+                return 'Dezentral elektrisch beheizte Speicherheizung';            
+            case 'etagenheizung':
+                return 'Niedertemperatur-Heizkessel als Umlaufwasserheizer';
+            case 'dezentralelektroerhitzer':
+                return 'Elektro-Durchlauferhitzer';
+            case 'dezentralgaserhitzer':
+                return 'Gas-Durchlauferhitzer';
+            default:
+                return 'Sonstiges';
+        }
+    }
+    
     public function TrinkwarmwassererzeugerBaujahr()
     {
         return $this->data['baujahr'];

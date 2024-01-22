@@ -819,6 +819,14 @@ class Trinkwarmwasseranlage {
 		return ( $this->QWB() * $this->ewd() ) * $this->ewg();
 	}
 
+	public function energietraeger(): string {
+		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+			return 'strom';
+		}
+		
+		return 'gas';
+	}
+
 	public function fp(): float {
 		if( $this->zentral() ) {
 			throw new Calculation_Exception( 'fp kann nur für dezentrale Trinkwasseranlagen genutzt werden.' );
