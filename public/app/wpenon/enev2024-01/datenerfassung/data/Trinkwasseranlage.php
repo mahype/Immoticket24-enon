@@ -109,6 +109,10 @@ class Trinkwasseranlage {
                 return 'Dezentral elektrisch beheizte Speicherheizung';            
             case 'etagenheizung':
                 return 'Niedertemperatur-Heizkessel als Umlaufwasserheizer';
+            case 'dezentralelektroerhitzer':
+                return 'Elektro-Durchlauferhitzer';
+            case 'dezentralgaserhitzer':
+                return 'Gas-Durchlauferhitzer';
             default:
                 return 'Sonstiges';
         }
