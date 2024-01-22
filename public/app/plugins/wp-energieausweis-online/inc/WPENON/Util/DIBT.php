@@ -77,8 +77,13 @@ class DIBT {
 
 				libxml_use_internal_errors(true);
 				$standard = new Standards_Config();				
-				$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassung.xsd';
 
+				if( $energieausweis->mode == 'b' ) {
+					$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassungBW.xsd';
+				} else {
+					$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassungVW.xsd';
+				}
+				
 				$domDoc = new DOMDocument();
 				$domDoc->loadXML( $doc );
 
