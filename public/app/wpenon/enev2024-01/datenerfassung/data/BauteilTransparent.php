@@ -9,7 +9,9 @@ class BauteilTransparent extends Bauteil
 {
     public function GWert()
     {
-        switch ( $this->data['bauart'] ) {
+		$bauart = isset( $this->data['bauart'] ) ? $this->data['bauart'] : '';
+
+        switch ( $bauart ) {
 			case 'holzeinfach':
 				return 0.87;
 			default:
