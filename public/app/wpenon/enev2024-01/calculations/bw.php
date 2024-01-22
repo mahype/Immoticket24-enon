@@ -908,6 +908,7 @@ $calculations['auslegungstemperatur'] = $auslegungstemperaturen;
 $calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
 
 $calculations['ht'] = $gebaeude->bauteile()->ht();
+$calculations['hv'] = $gebaeude->lueftung()->hv();
 
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
