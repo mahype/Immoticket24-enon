@@ -91,7 +91,7 @@ class Trinkwasseranlage {
                         return 'Brennwertkessel (Pellet)';
                     case 'holzhackschnitzel':                        
                     case 'stueckholz':
-                        return 'Heizungsanlage zur Nutzung von Biomasse';  // Gibt es nicht für Trinkwarmwasser          
+                        return 'Standard-Heizkessel als Gebläsekessel (fossiler und biogener Brennstoff)';  // Gibt es nicht für Trinkwarmwasser          
                     default:
                         return '';
                 }
