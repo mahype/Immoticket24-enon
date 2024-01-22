@@ -124,7 +124,7 @@ $data = new DataEnevBW( $energieausweis );
         </n1:Heizungsanlage>
         <?php endforeach; ?>
         <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
+        <n1:Heizkreisauslegungstemperatur><?php echo $data->Auslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
         <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
         <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
         <n1:Trinkwarmwasseranlage>
