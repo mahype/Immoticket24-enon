@@ -917,7 +917,7 @@ $calculations['qh'] = $gebaeude->qh();
 $calculations['photovoltaik'] = array();
 
 if( $gebaeude->photovoltaik_anlage_vorhanden() ) {
-	$calculations['photovoltaik']['ertrag'] = round( $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) );
+	$calculations['photovoltaik']['ertrag'] = round( $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) / $gebaeude->nutzflaeche() );
 }
 
 
