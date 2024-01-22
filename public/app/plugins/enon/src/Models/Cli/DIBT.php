@@ -104,6 +104,14 @@ class DIBT extends \WP_CLI_Command {
 			mkdir($working_dir);
 		}
 
+		\WP_CLI::line( 'Check with following settings:' );
+		\WP_CLI::line( '================================' );
+		\WP_CLI::line( 'XSD: ' . $xsd );
+		\WP_CLI::line( 'Version: ' . $version );
+		\WP_CLI::line( 'Schema: ' . $schema_name );
+		\WP_CLI::line( 'Type: ' . $type );
+		\WP_CLI::line( '================================' );	
+
 		$xsd_file = dirname( dirname( ABSPATH ) ) . '/tmp/' . basename($xsd);
 		file_put_contents($xsd_file, file_get_contents($xsd));
 
