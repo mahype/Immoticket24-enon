@@ -22,6 +22,7 @@ class EndenergieEnergietraeger {
             case 'heizoel':
                 return 'Heizöl';
             case 'erdgas':
+            case 'gas':
                 return 'Erdgas';            
             case 'biooel':
                 return 'Bioöl';
