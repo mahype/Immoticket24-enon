@@ -54,29 +54,32 @@ class Heizungsanlage {
             case 'standardkessel':
                 switch( $this->data['energietraeger_slug'] ) {
                     case 'heizoel':
+                    case 'stueckholz':
+                        return 'Standard-Heizkessel als Umstell-/Wechselbrandkessel';
                     case 'erdgas':
                     case 'fluessiggas':
                     case 'biogas':
-                        return '';
+                        return 'Standard-Heizkessel als Gas-Spezial-Heizkessel';
                     case 'holzpellets':                      
                         return 'Standard-Heizkessel als Pelletkessel';
                     case 'holzhackschnitzel':
-                        return 'Standard-Heizkessel als Hackschnitzelkessel';
-                    case 'stueckholz':
+                        return 'Standard-Heizkessel als Hackschnitzelkessel';                    
                     case 'steinkohle':
-                    case 'braunkohle':                                       
+                    case 'braunkohle':
+                        return 'Standard-Heizkessel als Feststoffkessel (fossiler und biogener Brennstoff)'; // Auch möglich für Biomasse, Holz, Holzpellet, Hackschnitzel. Mit Michael klären!
                     default:
-                        return '';                    
+                        return;             
                 }
             case 'niedertemperaturkessel':
                 switch( $this->data['energietraeger_slug'] ) {
                     case 'heizoel':
+                        return 'Niedertemperatur-Heizkessel als Gebläsekessel'; // Auch als Gas möglich. Mit Michael klären!
                     case 'erdgas':
                     case 'fluessiggas':
                     case 'biogas':
-                        return '';                                     
+                        return 'Niedertemperatur-Heizkessel als Gas-Spezial-Heizkessel';                                     
                     default:
-                        return '';                    
+                        return ''; 
                 }
             case 'brennwertkessel':
                 switch( $this->data['energietraeger_slug'] ) {
@@ -84,16 +87,17 @@ class Heizungsanlage {
                     case 'erdgas':
                     case 'fluessiggas':
                     case 'biogas':
-                        return '';
+                        return 'Brennwertkessel (Öl/Gas)';
                     case 'holzpellets':                      
                         return 'Brennwertkessel (Pellet)';
                     case 'holzhackschnitzel':                        
-                    case 'stueckholz':                      
+                    case 'stueckholz':
+                        return 'Heizungsanlage zur Nutzung von Biomasse';            
                     default:
-                        return '';                    
+                        return '';
                 }
             case 'fernwaerme':
-                return '';
+                return 'Hausübergabestation zum Anschluss an ein Wärmenetz';
             case 'waermepumpeluft':
                 return 'Elektrisch angetriebene Luft/Wasser-Heizungswärmepumpe';
             case 'waermepumpewasser':
@@ -101,9 +105,11 @@ class Heizungsanlage {
             case 'waermepumpeerde':
                 return 'Elektrisch angetriebene Sole/Wasser-Heizungswärmepumpe';
             case 'infrarotheizung':
+                return 'Dezentrale elektrische Direktheizung';
             case 'elektronachtspeicherheizung':
-                return 'Dezentrales elektrisches Direktheizgerät';            
+                return 'Dezentral elektrisch beheizte Speicherheizung';            
             case 'etagenheizung':
+                return 'Niedertemperatur-Heizkessel als Umlaufwasserheizer';
             default:
                 return 'Sonstiges';
         }
