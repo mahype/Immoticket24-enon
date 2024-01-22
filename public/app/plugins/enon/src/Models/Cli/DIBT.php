@@ -1,10 +1,10 @@
 <?php
 
-ini_set('display_errors','Off');
-
 namespace Enon\Models\Cli;
 
 use WPENON\Model\Energieausweis;
+
+ini_set('display_errors','Off');
 
 /**
  * DIBT mass function for CLI.
