@@ -98,6 +98,7 @@ class DIBT {
 						$errorMailContent.= '<div style="margin-top:20px">';
 						$errorMailContent.= sprintf( "<b>Fehler %d:</b> %s", $key + 1, $error->message );
 						$errorMailContent.= sprintf( "<br />On line %d column %d", $error->line, $error->column );
+						$errorMailContent.= sprintf( "<br />Validation file %s", $xsdFile );
 						$errorMailContent.= '</div>';
 					}
 
