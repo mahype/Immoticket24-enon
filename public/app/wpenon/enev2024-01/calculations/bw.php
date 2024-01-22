@@ -578,7 +578,7 @@ if ( $energieausweis->h2_info ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieauswies->h2_waermepumpe_luft_stufen === 'einstufig' ) {
+	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieausweis->h2_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h2_waermepumpe_luft_einstufig = true;
 	} else {
 		$h2_waermepumpe_luft_einstufig = false;	
@@ -597,7 +597,7 @@ if ( $energieausweis->h2_info ) {
 		$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 		$energietraeger = $energieausweis->$energietraeger_name;
 	
-		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieauswies->h3_waermepumpe_luft_stufen === 'einstufig' ) {
+		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieausweis->h3_waermepumpe_luft_stufen === 'einstufig' ) {
 			$h3_waermepumpe_luft_einstufig = true;
 		} else {
 			$h3_waermepumpe_luft_einstufig = false;	
