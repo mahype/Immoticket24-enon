@@ -12,6 +12,7 @@ if( defined( 'WPENON_DEBUG' ) && WPENON_DEBUG === true )
 }
 
 $art = $energieausweis->mode == 'b' ? 'Energiebedarfsausweis' : 'Energieverbrauchsausweis';
+$gesetzesgrundlage = $energieausweis->mode == 'b' ? 'GEG-2024' : 'GEG-2020';
 
 ?><root xmlns="https://energieausweis.dibt.de/schema/SchemaDatenErfassung.xsd">
     <Authentifizierung>
