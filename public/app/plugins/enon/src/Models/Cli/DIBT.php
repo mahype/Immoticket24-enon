@@ -70,7 +70,7 @@ class DIBT extends \WP_CLI_Command {
 		if( isset($assoc_args['schema_name']) ) {
 			$schema_name = $assoc_args['schema_name'];
 		} else {
-			$schema_name = 'enev2023-01';
+			$schema_name = 'enev2024-01';
 		}
 
 		define('GEG_XSD', $xsd);
@@ -99,7 +99,7 @@ class DIBT extends \WP_CLI_Command {
 			if( $energy_certificate->schema_name !== $schema_name ) {
 				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because of other schema.' );
 				continue;
-			}elseif( ! $energy_certificate->isFinalized()  ) {
+			} elseif ( ! $energy_certificate->isFinalized()  ) {
 				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because certificate is not finalized.' );
 				continue;
 			}else {
