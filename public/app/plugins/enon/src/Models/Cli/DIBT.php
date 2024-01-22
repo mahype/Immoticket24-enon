@@ -114,14 +114,10 @@ class DIBT extends \WP_CLI_Command {
 				continue;
 			}
 
-			if( $energy_certificate->schema_name !== $schema_name ) {
-				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because of other schema.' );
+			if( $energy_certificate->schema_name !== $schema_name ) {				
 				continue;
-			} elseif ( ! $energy_certificate->isFinalized()  ) {
-				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because certificate is not finalized.' );
+			} elseif ( ! $energy_certificate->isFinalized()  ) {				
 				continue;
-			}else {
-				\WP_CLI::line( 'Checking ' . $energy_certificate->post_title . '...' );
 			}
 
 			$xml = $energy_certificate->getXML('zusatzdatenerfassung', 'S', false);
