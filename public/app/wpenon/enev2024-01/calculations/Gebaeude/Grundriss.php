@@ -421,49 +421,51 @@ class Grundriss {
 	 * @throws Exception
 	 */
 	public function flaeche(): float {
-		if( ! isset( $this->flaeche ) ) {
-			$flaeche = 0;
+		if( isset( $this->flaeche ) ) {
+			return $this->flaeche;
+		}
 
-			foreach ( $this->flaechenberechnungsformel() as $_produkt ) {
-				$produkt = 1.0;
-				for ( $i = 0; $i < 2; $i++ ) {
-					$_faktor          = $_produkt[ $i ];
-					$faktor           = 0.0;
-					$current_operator = '+';
-					$_faktor          = explode( ' ', $_faktor );
-	
-					foreach ( $_faktor as $t ) {
-						switch ( $t ) {
-							case '+':
-							case '-':
-								$current_operator = $t;
-								break;
-							default:
-								switch ( $current_operator ) {
-									case '+':
-										$faktor += $this->wand_laenge( $t );
-										break;
-									case '-':
-										$faktor -= $this->wand_laenge( $t );
-										break;
-									default:
-								}
-						}
+		$flaeche = 0;
+		foreach ( $this->flaechenberechnungsformel() as $_produkt ) {
+			$produkt = 1.0;
+			for ( $i = 0; $i < 2; $i++ ) {
+				$_faktor          = $_produkt[ $i ];
+				$faktor           = 0.0;
+				$current_operator = '+';
+				$_faktor          = explode( ' ', $_faktor );
+
+				foreach ( $_faktor as $t ) {
+					switch ( $t ) {
+						case '+':
+						case '-':
+							$current_operator = $t;
+							break;
+						default:
+							switch ( $current_operator ) {
+								case '+':
+									$faktor += $this->wand_laenge( $t );
+									break;
+								case '-':
+									$faktor -= $this->wand_laenge( $t );
+									break;
+								default:
+							}
 					}
-	
-					if ( $faktor < 0.0 ) {
-						$faktor = 0.0;
-					}
-	
-					$produkt *= $faktor;
 				}
-				$flaeche += $produkt;
+
+				if ( $faktor < 0.0 ) {
+					$faktor = 0.0;
+				}
+
+				$produkt *= $faktor;
 			}
+			$flaeche += $produkt;
+		}
 
-			$this->flaeche = $flaeche;
-		}		
+		$this->flaeche = $flaeche;
 
-		return $this->flaeche;
+		return $flaeche;
+
 	}
 
 	/**
