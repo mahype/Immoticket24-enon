@@ -3,7 +3,8 @@
 namespace Enon\Models\Cli;
 
 use WPENON\Model\Energieausweis;
-use WPENON\Model\EnergieausweisXML;
+
+ini_set('display_errors','Off');
 
 /**
  * DIBT mass function for CLI.
@@ -14,7 +15,7 @@ class DIBT extends \WP_CLI_Command {
 	/**
 	 * Scrub posts.
 	 *
-	 * OPTIONS
+	 * ## OPTIONS
 	 *
 	 * --date=<date>
 	 * : Test XML until this date.
@@ -23,10 +24,13 @@ class DIBT extends \WP_CLI_Command {
 	 * : XSD Schema. Default: https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd
 	 * 
 	 * [--version=<xsd_version>]
-	 * : XSD version. Default: 'GEG-2023'
+	 * : XSD version. Default: 'GEG-2024'
 	 * 
 	 * [--schema=<schema_name>]
 	 * : Schema name. Default: 'enev2022-01'
+	 * 
+	 * [--type=<type>]
+	 * : Type (vw/bw). Default: 'none'
 	 *
 	 * ## EXAMPLES
 	 *
@@ -55,22 +59,32 @@ class DIBT extends \WP_CLI_Command {
 			),
 		);
 
+		if( isset($assoc_args['type']) && $assoc_args['type'] === 'vw' ) {
+			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd';
+			$version = 'GEG-2020';
+		} elseif( isset($assoc_args['type']) && $assoc_args['type'] === 'bw' ) {
+			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
+			$version = 'GEG-2024';
+		}
+
 		if( isset($assoc_args['xsd']) ) {
 			$xsd = $assoc_args['xsd'];
-		} else {
-			$xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2020_V1_0.xsd';
-		}
+		} 
 
 		if( isset($assoc_args['version']) ) {
 			$version = $assoc_args['version'];
+		} 
+
+		if( isset($assoc_args['type']) ) {
+			$type = $assoc_args['type'];
 		} else {
-			$version = 'GEG-2020';
+			$type = 'none';
 		}
 
 		if( isset($assoc_args['schema_name']) ) {
 			$schema_name = $assoc_args['schema_name'];
 		} else {
-			$schema_name = 'enev2023-01';
+			$schema_name = 'enev2024-01';
 		}
 
 		define('GEG_XSD', $xsd);
@@ -90,20 +104,28 @@ class DIBT extends \WP_CLI_Command {
 			mkdir($working_dir);
 		}
 
+		\WP_CLI::line( 'Check with following settings:' );
+		\WP_CLI::line( '================================' );
+		\WP_CLI::line( 'XSD: ' . $xsd );
+		\WP_CLI::line( 'Version: ' . $version );
+		\WP_CLI::line( 'Schema: ' . $schema_name );
+		\WP_CLI::line( 'Type: ' . $type );
+		\WP_CLI::line( '================================' );	
+
 		$xsd_file = dirname( dirname( ABSPATH ) ) . '/tmp/' . basename($xsd);
 		file_put_contents($xsd_file, file_get_contents($xsd));
 
 		foreach($post_ids AS $post_id) {
 			$energy_certificate = new Energieausweis($post_id);
 
-			if( $energy_certificate->schema_name !== $schema_name ) {
-				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because of other schema.' );
+			if( $energy_certificate->wpenon_type !== $type && $type !== 'none' ) {				
 				continue;
-			}elseif( ! $energy_certificate->isFinalized()  ) {
-				\WP_CLI::line( 'Skipping ' . $energy_certificate->post_title . ' because certificate is not finalized.' );
+			}
+
+			if( $energy_certificate->schema_name !== $schema_name ) {				
 				continue;
-			}else {
-				\WP_CLI::line( 'Checking ' . $energy_certificate->post_title . '...' );
+			} elseif ( ! $energy_certificate->isFinalized()  ) {				
+				continue;
 			}
 
 			$xml = $energy_certificate->getXML('zusatzdatenerfassung', 'S', false);
