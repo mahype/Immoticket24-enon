@@ -457,7 +457,10 @@ class Logs {
 		 *
 		 * @param string  $capability Email logs page manage capability.
 		 */
-		return apply_filters( 'wp_mail_smtp_pro_emails_logs_logs_get_manage_capability', 'manage_options' );
+		return apply_filters(
+			'wp_mail_smtp_pro_emails_logs_logs_get_manage_capability',
+			wp_mail_smtp()->get_capability_manage_options()
+		);
 	}
 
 	/**
@@ -500,7 +503,7 @@ class Logs {
 			);
 
 			$settings['lang_code']                           = sanitize_key( WP::get_language_code() );
-			$settings['bulk_resend_email_confirmation_text'] = esc_html__( 'Are you sure you want to resend selected emails?', 'wp-mail-smtp-pro' );
+			$settings['bulk_resend_email_confirmation_text'] = Resend::prepare_resend_confirmation_content( false, true );
 			$settings['bulk_resend_email_processing_text']   = esc_html__( 'Queuing emails...', 'wp-mail-smtp-pro' );
 		} else {
 			$email = new Email( intval( $_GET['email_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
