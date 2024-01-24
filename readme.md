@@ -59,7 +59,7 @@ Das Deployment erfolgt über Github Actions jeweils über die entsprechenden Bra
 - staging - https://staging.energieausweis-online-erstellen.de
 - din18599 - https://din18599.energieausweis-online-erstellen.de
 
-Hierbei wird der jeweilige Branch auf den Server deployed. Die Skripte dazu liegen in .github/workflows. Prinzipiell wird hier ein git pull gemacht und die composer depencies installiert.
+Hierbei wird der jeweilige Branch auf den Server deployed. Die Skripte dazu liegen in .github/workflows. Prinzipiell wird hier ein git pull gemacht und die composer depencies upgedated.
 
 
 
