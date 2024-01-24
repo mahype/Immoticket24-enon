@@ -41,6 +41,8 @@ https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/easy-di
 
 Bisher berücksichtigte Sicherheitslücken:
 
+- Easy Digital Downloads <= 3.2.5 - Authenticated (Contributor+) Stored Cross-Site Scripting
+- Easy Digital Downloads <= 3.1.5 - Missing Authorization
 - Easy Digital Downloads <= 3.1.1.4.2 - Cross-Site Request Forgery via edd_trigger_upgrades
 - Easy Digital Downloads 3.1 - 3.1.1.4.1 - Unauthenticated Arbitrary Password Reset to Privilege Escalation
 - Easy Digital Downloads <= 3.1.0.4 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode
