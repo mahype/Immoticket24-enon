@@ -32,6 +32,23 @@ Weboberfläche: https://robot.your-server.de/
 
 Alle Plugins aus dem WordPress Repository werden über composer aktuell gehalten. Bei den Pro Plugins erfolgt das Update zunächst lokal und wird dann mit einem Commit pro upgedatetem Plugin in das Repository gepusht. 
 
+In der lokalen Entwicklungsinstanz werden die möglichen Updates nicht angezeigt. 
+Eine liste, welche Plugins aktulisierbar sind, kann per wp-cli angezeigt werden.
+```bash
+wp plugin status
+```
+
+Auch wenn über das Backend die Aktualisierungs-Funktion nicht verfügbar ist, können Plugins (und Themes) per wp-cli aktualisiert werden.
+
+Beispiel für das Plugin shariff.
+```bash
+wp plugin update shariff
+```
+Be
+
+Plugins, die nicht aus dem wordpress.org Repository verteilt werden, können unter umständen ( ein dritt Plugin  mit  identischen slug ist im wordpress.org Repository vorhanden ) melden das  Updates vorliegen, obwohl das Plugin aktuell ist und bei dem Versuche diese per wp-cli zu aktualisieren kommt die Fehlermeldung 
+"version higher than expected".
+
 IN KEINEM FALL darf das EDD Plugin aktualisiert werden. Allerdings muss das Plugin auf die neuesten Sicherheitslücken gecheckt werden und im Zweifel Bugfixes per Hand eingearbetet werden.
 
 ### Bisher berücksichte Sicherheitslücken in EDD
