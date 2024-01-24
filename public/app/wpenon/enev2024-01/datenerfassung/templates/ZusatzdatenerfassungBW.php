@@ -7,19 +7,19 @@ require_once dirname( dirname( __FILE__ ) ) . '/data/DataEnevBW.php';
 if( defined('GEG_XSD') ) {
   $xsd = GEG_XSD;
 } else {
-  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2023_V1_0.xsd';
+  $xsd = 'https://energieausweis.dibt.de/schema/Kontrollsystem-GEG-2024_V1_0.xsd';
 }
 
 if( defined('GEG_XSD_VERSION') ) {
   $version = GEG_XSD_VERSION;
 } else {
-  $version = 'GEG-2023';
+  $version = 'GEG-2024';
 }
 
 $data = new DataEnevBW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2022-10-21">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2024-01-01">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
@@ -50,6 +50,21 @@ $data = new DataEnevBW( $energieausweis );
     <?php else: ?>
       <n1:Keine-inspektionspflichtige-Anlage>true</n1:Keine-inspektionspflichtige-Anlage>
     <?php endif; ?>
+    <?php
+    /**
+     * Dieser Abschnitt muss noch abgeklärt werden, da nicht klar ist, welche Anlagen wie gerechnet werden können, damit man auf die 65% nach §71 GEG kommt.
+     */
+    ?>
+    <n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>false</n1:Nutzung-zur-Erfuellung-von-EE-neue-Anlage>
+    <n1:EE-Angabe-Warmwasser>false</n1:EE-Angabe-Warmwasser>
+    <n1:EE-Angabe-Heizung>false</n1:EE-Angabe-Heizung>
+    <n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>true</n1:Keine-Pauschale-Erfuellungsoptionen-Anlagentyp>
+    <n1:Nutzung-bei-Bestandsanlagen>true</n1:Nutzung-bei-Bestandsanlagen>
+    <?php
+    /**
+     * Ende des nach §71 zu klärenden Abschnitts.
+     */
+    ?>
     <n1:Treibhausgasemissionen><?php echo $data->Treibhausgasemissionen(); ?></n1:Treibhausgasemissionen>
     <n1:Ausstellungsanlass><?php echo $data->Ausstellungsanlass(); ?></n1:Ausstellungsanlass>
     <n1:Datenerhebung-Aussteller><?php echo $data->DatenerhebungAussteller(); ?></n1:Datenerhebung-Aussteller>
@@ -97,39 +112,44 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Transmissionswaermesenken><?php echo $data->Transmissionswaermeverlust(); ?></n1:Transmissionswaermesenken>
         <n1:Luftdichtheit><?php echo $data->Luftdichtheit(); ?></n1:Luftdichtheit>
         <n1:Lueftungswaermesenken><?php echo $data->Lueftungswaermeverlust(); ?></n1:Lueftungswaermesenken>
-        <n1:Solare-Waermegewinne><?php echo $data->SolareWaermegewinne(); ?></n1:Solare-Waermegewinne>
-        <n1:Interne-Waermegewinne><?php echo $data->InterneWaermegewinne(); ?></n1:Interne-Waermegewinne>
+        <n1:Waermequellen-durch-solare-Einstrahlung><?php echo round( $data->calculations('qs') ); ?></n1:Waermequellen-durch-solare-Einstrahlung>
+        <n1:Interne-Waermequellen><?php echo round( $data->calculations('qi') ); ?></n1:Interne-Waermequellen>
         <?php foreach( $data->Heizungsanlagen() AS $heizungsanlage ): ?>
-        <n1:Heizungsanlage>
-          <n1:Waermeerzeuger-Bauweise-4701><?php echo $heizungsanlage->WaermeerzeugerBauweise4701(); ?></n1:Waermeerzeuger-Bauweise-4701>
+        <n1:Heizsystem>
+					<n1:Waermeerzeuger-Bauweise-18599><?php echo $heizungsanlage->WaermeerzeugerBauweise18599(); ?></n1:Waermeerzeuger-Bauweise-18599><?php // Was bei Nah/Fernwärme? ?>
           <n1:Nennleistung><?php echo $heizungsanlage->Nennleistung(); ?></n1:Nennleistung>
           <n1:Waermeerzeuger-Baujahr><?php echo $heizungsanlage->WaermeerzeugerBaujahr(); ?></n1:Waermeerzeuger-Baujahr>
           <n1:Anzahl-baugleiche><?php echo $heizungsanlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
           <n1:Energietraeger><?php echo $heizungsanlage->Energietraeger(); ?></n1:Energietraeger>
           <n1:Primaerenergiefaktor><?php echo $heizungsanlage->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
           <n1:Emissionsfaktor><?php echo $heizungsanlage->Emissionsfaktor(); ?></n1:Emissionsfaktor>
-        </n1:Heizungsanlage>
-        <?php endforeach; ?>
-        <n1:Pufferspeicher-Nenninhalt><?php echo $data->PufferspeicherNenninhalt(); ?></n1:Pufferspeicher-Nenninhalt>
-        <n1:Heizkreisauslegungstemperatur><?php echo $data->Heizkreisauslegungstemperatur(); ?></n1:Heizkreisauslegungstemperatur>
-        <n1:Heizungsanlage-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizungsanlage-innerhalb-Huelle>        
-        <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
-        <n1:Trinkwarmwasseranlage>
-          <n1:Trinkwarmwassererzeuger-Bauweise-4701><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBauweise4701(); ?></n1:Trinkwarmwassererzeuger-Bauweise-4701>
-          <n1:Trinkwarmwassererzeuger-Baujahr><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBaujahr(); ?></n1:Trinkwarmwassererzeuger-Baujahr>
-          <n1:Anzahl-baugleiche><?php echo $trinkwasseranlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
-        </n1:Trinkwarmwasseranlage>
-        <?php endforeach; ?>
-        <n1:Trinkwarmwasserspeicher-Nenninhalt><?php echo $data->TrinkwarmwasserspeicherNenninhalt(); ?></n1:Trinkwarmwasserspeicher-Nenninhalt>
-        <n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
-        <n1:Vereinfachte-Datenaufnahme><?php echo $data->VereinfachteDatenaufnahme(); ?></n1:Vereinfachte-Datenaufnahme>
-        <n1:spezifischer-Transmissionswaermeverlust-Ist><?php echo $data->SpezifischerTransmissionswaermeverlustIst(); ?></n1:spezifischer-Transmissionswaermeverlust-Ist>
+				</n1:Heizsystem>
+          <?php endforeach; ?>
+          <n1:Pufferspeicher-Nenninhalt><?php echo round( $data->calculations('V_s') ); ?></n1:Pufferspeicher-Nenninhalt>
+          <n1:Auslegungstemperatur><?php echo $data->Auslegungstemperatur(); ?></n1:Auslegungstemperatur>
+          <n1:Heizsystem-innerhalb-Huelle><?php echo $data->HeizungsanlageInnerhalbHuelle(); ?></n1:Heizsystem-innerhalb-Huelle>
+          <?php foreach( $data->Trinkwasseranlagen() AS $trinkwasseranlage ): ?>
+          <n1:Warmwasserbereitungssystem><?php // Klären mit Michael - Bauweise nach 18599 ist nicht 100% klar ?>
+            <n1:Trinkwarmwassererzeuger-Bauweise-18599><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBauweise18599(); ?></n1:Trinkwarmwassererzeuger-Bauweise-18599>
+            <n1:Trinkwarmwassererzeuger-Baujahr><?php echo $trinkwasseranlage->TrinkwarmwassererzeugerBaujahr(); ?></n1:Trinkwarmwassererzeuger-Baujahr>
+            <n1:Anzahl-baugleiche><?php echo $trinkwasseranlage->AnzahlBaugleiche(); ?></n1:Anzahl-baugleiche>
+          </n1:Warmwasserbereitungssystem>
+          <?php endforeach; ?>
+          <n1:Trinkwarmwasserspeicher-Nenninhalt>0</n1:Trinkwarmwasserspeicher-Nenninhalt>
+          <n1:Trinkwarmwasserverteilung-Zirkulation><?php echo $data->TrinkwarmwasserverteilungZirkulation(); ?></n1:Trinkwarmwasserverteilung-Zirkulation>
+          <n1:Vereinfachte-Datenaufnahme>true</n1:Vereinfachte-Datenaufnahme>
+        <n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php echo $data->Transmissionswaermetransferkoeffizient(); ?></n1:spezifischer-Transmissionswaermetransferkoeffizient-Ist><?php // Klären - Wurde das richtige ht genommen? Hab an der Stelle hier $gebaeude->bauteile()->ht() / $gebauede->bauteile()->flaeche() gerechnet  ?>
+        <?php if( count( $data->calculations('photovoltaik') ) > 0 ): ?>
+        <n1:angerechneter-lokaler-erneuerbarer-Strom><?php echo round( $data->calculations('photovoltaik')['ertrag'], 2 ); ?></n1:angerechneter-lokaler-erneuerbarer-Strom><?php // Klären - Größe des Abzugs (in kWh/a m2) bei der Primärenergie bzw. bei der Endenergie für den gebäudenah erzeugten Strom aus erneuerbarer Energie nach der entsprechenden Bilanzierungsregel? ?>
+        <?php endif; ?>       
         <n1:Innovationsklausel>false</n1:Innovationsklausel>
         <n1:Quartiersregelung>false</n1:Quartiersregelung>
-        <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand>
-        <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand>
-        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand>
-        <?php foreach( $data->EndenergieEnergietraeger() AS $energietraeger ): ?>
+        <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo $data->PrimaerenergiebedarfHoechstwertBestand(); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php // Klären, ob so korrekt, derzeit 0. Übernommen aus alten Daten. ?>
+        <n1:Endenergiebedarf-Hoechstwert-Bestand><?php echo $data->EndenergiebedarfHoechstwertBestand(); ?></n1:Endenergiebedarf-Hoechstwert-Bestand><?php // Klären, ob so korrekt, derzeit 0. Übernommen aus alten Daten. ?>
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo $data->TreibhausgasemissionenHoechstwertBestand(); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php // Klären, ob so korrekt, war vorher immer 0 ?><?php /*
+        <n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php echo round( $data->calculations('endenergie'), 2 ); ?></n1:Primaerenergiebedarf-Hoechstwert-Bestand><?php // Klären, ob so korrekt ?>
+        <n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php echo round( $data->calculations('co2_emissionen'), 2 ); ?></n1:Treibhausgasemissionen-Hoechstwert-Bestand><?php // Klären, ob so korrekt, war vorher immer 0 ?>        
+        */ ?><?php foreach( $data->EndenergieEnergietraeger() AS $energietraeger ): ?>
         <n1:Energietraeger-Liste>
           <n1:Energietraegerbezeichnung><?php echo $energietraeger->Energietraegerbezeichnung(); ?></n1:Energietraegerbezeichnung>
           <n1:Primaerenergiefaktor><?php echo $energietraeger->Primaerenergiefaktor(); ?></n1:Primaerenergiefaktor>
@@ -144,13 +164,14 @@ $data = new DataEnevBW( $energieausweis );
         <n1:Endenergiebedarf-Waerme-AN><?php echo $data->EndenergiebedarfWaermeAN(); ?></n1:Endenergiebedarf-Waerme-AN>
         <n1:Endenergiebedarf-Hilfsenergie-AN><?php echo $data->EndenergiebedarfHilfsenergieAN(); ?></n1:Endenergiebedarf-Hilfsenergie-AN>
         <n1:Endenergiebedarf-Gesamt><?php echo $data->EndenergiebedarfGesamt(); ?></n1:Endenergiebedarf-Gesamt>
-        <n1:Primaerenergiebedarf><?php echo $data->Primaerenergiebedarf(); ?></n1:Primaerenergiebedarf>
-        <n1:Energieeffizienzklasse><?php echo $data->Energieeffizienzklasse(); ?></n1:Energieeffizienzklasse>
-        <n1:nicht-verschaerft-nach-GEG-34>true</n1:nicht-verschaerft-nach-GEG-34>
+        <n1:Primaerenergiebedarf-AN><?php echo $data->Primaerenergiebedarf(); ?></n1:Primaerenergiebedarf-AN>
+        <n1:Energieeffizienzklasse><?php echo $data->Energieeffizienzklasse(); ?></n1:Energieeffizienzklasse><?php // Stimmt nicht mit dem überein, was in der Auswertung steht. ?>
+        <n1:Anteil-an-Waermeenergiebedarf-Berechnung>true</n1:Anteil-an-Waermeenergiebedarf-Berechnung>
+        <n1:Weitere-Eintraege-und-Erlaeuterungen-in-der-Anlage>false</n1:Weitere-Eintraege-und-Erlaeuterungen-in-der-Anlage>
       </n1:Bedarfswerte-18599>
     </n1:Wohngebaeude>
     <n1:Empfehlungen-moeglich><?php echo $data->EmpfehlungenMoeglich(); ?></n1:Empfehlungen-moeglich>
-    <n1:Keine-Modernisierung-Erweiterung-Vorhaben>true</n1:Keine-Modernisierung-Erweiterung-Vorhaben>
+    <n1:Modernisierung-Erweiterung-genehmigungspflichtiges-Vorhaben>false</n1:Modernisierung-Erweiterung-genehmigungspflichtiges-Vorhaben><?php // Klären ?>
     <?php if(  $data->EmpfehlungenMoeglich() == 'true' ): ?>
       <?php foreach( $data->Modernisierungsempfehlungen() AS $key => $modernisierungsempfehlung ): ?>  
       <n1:Modernisierungsempfehlungen>

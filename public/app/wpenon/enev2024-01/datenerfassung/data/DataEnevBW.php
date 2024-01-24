@@ -9,6 +9,7 @@ require_once dirname( __FILE__ ) . '/Trinkwasseranlage.php';
 require_once dirname( __FILE__ ) . '/Moderniserungsempfehlung.php';
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/modernizations/BW_Modernizations.php';
 
+use Enev\Schema202401\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202401\Modernizations\BW_Modernizations;
 
 /**
@@ -24,7 +25,7 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    private $calculations;    
+    private $calculations;
 
     /**
      * Berechnungen Bedarfsausweis
@@ -41,6 +42,18 @@ class DataEnevBW extends DataEnev {
         }
 
         return $this->calculations[ $slug ];
+    }
+
+    /**
+     * Gebäude Objekt
+     * 
+     * @return Gebaeude
+     * 
+     * @since 1.0.0
+     */
+    public function gebaeude() : Gebaeude
+    {
+        return $this->calculations( 'gebaeude' );
     }
 
     /**
@@ -308,10 +321,26 @@ class DataEnevBW extends DataEnev {
     public function Luftdichtheit()
     {
         if ( $this->energieausweis->dichtheit ) {
-            return 'geprüft';
+            return 'Gebäudekategorie I';
         }
 
-        return 'normal';
+        return 'Gebäudekategorie III';
+    }
+
+    /**
+     * Nutzung.
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function Nutzung()
+    {
+        if( $this->energieausweis->wohnungen  <= 2 ) {
+            return '42:Wohnen (EFH)';
+        } else {
+            return '43:Wohnen (MFH)';
+        }
     }
 
     /**
@@ -323,7 +352,7 @@ class DataEnevBW extends DataEnev {
      */
     public function Lueftungswaermeverlust()
     {
-        return (int) $this->calculations( 'qv' );
+        return (int) $this->calculations( 'hv' );
     }
 
     /**
@@ -390,25 +419,13 @@ class DataEnevBW extends DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Heizkreisauslegungstemperatur() : string
+    public function Auslegungstemperatur() : string
     {
-        $anteil_max   = 0;
-        $hktemp       = '';
-        foreach( $this->calculations( 'anlagendaten' ) AS $key => $anlage )
-        {
-            if ( $anlage['art'] == 'heizung' ) {
-                if ( $anlage['deckungsanteil'] > $anteil_max ) {
-                    $anteil_max = $anlage['deckungsanteil'];
-                    $hktemp     = $anlage['heizkreistemperatur'];
-                }
-            }
+        if( ! empty( $this->calculations( 'auslegungstemperatur' ) ) ) {
+            return $this->calculations( 'auslegungstemperatur' ); 
         }
 
-        if ( $hktemp == '70/55°' ) {
-            return $hktemp;
-        }
-
-		return '55/45';
+		return 'nur Einzelraum-Heizgeräte';
     }
 
     /**
@@ -420,7 +437,7 @@ class DataEnevBW extends DataEnev {
      */
     public function HeizungsanlageInnerhalbHuelle() : string
     {
-        if ( $this->energieausweis->speicherung_standort == 'innerhalb' ) {
+        if ( $this->energieausweis->h_standort == 'innerhalb' ) {
             return 'true';
         }
 
@@ -488,6 +505,12 @@ class DataEnevBW extends DataEnev {
         return 'true';
     }
 
+    public function Transmissionswaermetransferkoeffizient()
+    {
+        $gebaeude = $this->calculations( 'gebaeude' );
+        return round( $gebaeude->ht_strich(), 2 );
+    }
+
     /**
      * spezifischer-Transmissionswaermeverlust-Ist
      * 
@@ -550,7 +573,7 @@ class DataEnevBW extends DataEnev {
         $daten = [];
         foreach( $this->calculations('energietraeger') AS $energietraeger )
         {
-            $daten[] = new EndenergieEnergietraeger( $energietraeger );
+            $daten[] = new EndenergieEnergietraeger( $energietraeger, $this->gebaeude()->nutzflaeche() );
         }
 
         return $daten;
@@ -565,7 +588,17 @@ class DataEnevBW extends DataEnev {
      */
     public function EndenergiebedarfWaermeAN()
     {
-        return round( (float) $this->calculations( 'qh_e_b' ) + $this->calculations( 'qw_e_b' ), 1 );
+        return round( (float) ( $this->calculations( 'qfh_ges' ) + $this->calculations( 'qfw_ges' ) ) / $this->gebaeude()->nutzflaeche()  , 1 );
+    }
+
+    /**
+     * Endenergiebedarf Heizung.
+     * 
+     * @return string
+     */
+    public function EndenergiebedarfHeizung()
+    {
+        return round( (float) $this->calculations( 'qh' ), 1 );
     }
 
     /**
@@ -577,7 +610,7 @@ class DataEnevBW extends DataEnev {
      */
     public function EndenergiebedarfHilfsenergieAN()
     {
-        return round( (float) $this->calculations( 'qh_e_b' ), 1 );
+        return round( (float) $this->calculations( 'w_ges' ) /  $this->gebaeude()->nutzflaeche(), 1 );
     }
 
     /**

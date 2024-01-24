@@ -50,6 +50,16 @@ class Add_Admin_Pages implements Task, Actions {
 	 */
 	public function add_actions() {
 		add_action( 'admin_menu', array( $this, 'enon_menu' ) );
+		add_action( 'admin_menu', array( $this, 'remove_affiliate_submenu' ), 11 );
+	}
+
+	/**
+	 * Remove AffiliateWP submenu 'affiliate-wp-visits'
+	 *
+	 * @since 1.0.0
+	 */
+	public function remove_affiliate_submenu() {
+		remove_submenu_page( 'affiliate-wp', 'affiliate-wp-visits' );
 	}
 
 	/**
