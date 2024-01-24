@@ -103,10 +103,10 @@ class Sub_Commands extends Base {
 	 *
 	 * [--payment_email=<email>]
 	 * : Affiliate payment email. If not specified, the user account email will be used.
-	 * 
+	 *
 	 * [--rate=<float>]
 	 * : Referral rate. If not specified, the default rate will be used.
-	 * 
+	 *
 	 * [--rate_type=<type>]
 	 * : Referral rate type. Accepts 'percentage', 'flat', or any custom rate type.
 	 *
@@ -194,15 +194,16 @@ class Sub_Commands extends Base {
 		}
 
 		// Grab flag values.
-		$data['payment_email']   = Utils\get_flag_value( $assoc_args, 'payment_email', '' );
-		$data['rate']            = Utils\get_flag_value( $assoc_args, 'rate', '' );
-		$data['rate_type']       = Utils\get_flag_value( $assoc_args, 'rate_type', '' );
-		$data['status']          = Utils\get_flag_value( $assoc_args, 'status', '' );
-		$data['earnings']        = Utils\get_flag_value( $assoc_args, 'earnings', 0 );
-		$data['referrals']       = Utils\get_flag_value( $assoc_args, 'referrals', 0 );
-		$data['visits']          = Utils\get_flag_value( $assoc_args, 'visits', 0 );
-		$data['flat_rate_basis'] = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', '' );
-		$data['user_id']         = $user->ID;
+		$data['payment_email']       = Utils\get_flag_value( $assoc_args, 'payment_email', '' );
+		$data['rate']                = Utils\get_flag_value( $assoc_args, 'rate', '' );
+		$data['rate_type']           = Utils\get_flag_value( $assoc_args, 'rate_type', '' );
+		$data['status']              = Utils\get_flag_value( $assoc_args, 'status', '' );
+		$data['earnings']            = Utils\get_flag_value( $assoc_args, 'earnings', 0 );
+		$data['referrals']           = Utils\get_flag_value( $assoc_args, 'referrals', 0 );
+		$data['visits']              = Utils\get_flag_value( $assoc_args, 'visits', 0 );
+		$data['flat_rate_basis']     = Utils\get_flag_value( $assoc_args, 'flat_rate_basis', '' );
+		$data['user_id']             = $user->ID;
+		$data['registration_method'] = 'wp_cli';
 
 		// Add the affiliate.
 		$affiliate = affwp_add_affiliate( $data );

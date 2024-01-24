@@ -197,7 +197,7 @@
       css_module_attributes['border-style']='none';
       css_module_attributes['background']='';
 
-      var css_google_fonts = [];
+      var css_bunny_fonts = [];
 
       var editing_element_id = false;
       var border_styles = ['none','solid','dashed','dotted','double','groove','hidden','inset','outset','ridge'];
@@ -625,7 +625,7 @@
 
          });
 
-         refresh_google_fonts();
+         refresh_bunny_fonts();
          // Setup Events
 
 
@@ -1342,11 +1342,11 @@
 
 //Fonts
 
-      function get_google_font_variants(font){
+      function get_bunny_font_variants(font){
         return_font_variants=[];
 
-        if(typeof ucp_admin_editor_variables.ucp_google_fonts[get_google_font_slug(font)] !== 'undefined'){
-          var font_variants = ucp_admin_editor_variables.ucp_google_fonts[get_google_font_slug(font)].variants.split(',');
+        if(typeof ucp_admin_editor_variables.ucp_bunny_fonts[get_bunny_font_slug(font)] !== 'undefined'){
+          var font_variants = ucp_admin_editor_variables.ucp_bunny_fonts[get_bunny_font_slug(font)].variants.split(',');
           var font_has_bold = false;
           for(variant in font_variants){
              if( font_variants[variant].indexOf('italic') == -1 ){
@@ -1371,38 +1371,38 @@
         return return_font_variants;
       }
 
-      function refresh_google_fonts(){
-        var css_google_fonts = [];
+      function refresh_bunny_fonts(){
+        var css_bunny_fonts = [];
         for(module in css_styles){
           for(element_class in css_styles[module]){
               for(attr in css_styles[module][element_class]){
                 if(attr == 'font-family'){
-                  google_font_slug = css_styles[module][element_class][attr].replace(/ /g,'+').trim();
-                  if(typeof css_google_fonts[google_font_slug] === 'undefined' && google_font_slug != 'Helvetica+Neue'){
-                    css_google_fonts[google_font_slug]=[];
+                  bunny_font_slug = css_styles[module][element_class][attr].replace(/ /g,'+').trim();
+                  if(typeof css_bunny_fonts[bunny_font_slug] === 'undefined' && bunny_font_slug != 'Helvetica+Neue'){
+                    css_bunny_fonts[bunny_font_slug]=[];
                   }
 
 
-                  if( typeof css_styles[module][element_class]['font-weight'] !== 'undefined' && $.inArray(css_styles[module][element_class]['font-weight'], css_google_fonts[google_font_slug] )){
-                    css_google_fonts[google_font_slug].push(css_styles[module][element_class]['font-weight']);
+                  if( typeof css_styles[module][element_class]['font-weight'] !== 'undefined' && $.inArray(css_styles[module][element_class]['font-weight'], css_bunny_fonts[bunny_font_slug] )){
+                    css_bunny_fonts[bunny_font_slug].push(css_styles[module][element_class]['font-weight']);
                   }
                 }
              }
           }
         }
 
-        var google_font_string = '';
-        for(font in css_google_fonts){
-          google_font_string+=font;
-          if(css_google_fonts[font].length > 0){
-            google_font_string+=':'+css_google_fonts[font].join(',');
+        var bunny_font_string = '';
+        for(font in css_bunny_fonts){
+          bunny_font_string+=font;
+          if(css_bunny_fonts[font].length > 0){
+            bunny_font_string+=':'+css_bunny_fonts[font].join(',');
           }
-          google_font_string+='|';
+          bunny_font_string+='|';
         }
-        google_font_string = google_font_string.substring(0, google_font_string.length - 1);
+        bunny_font_string = bunny_font_string.substring(0, bunny_font_string.length - 1);
 
         ucp_iframe.jQuery('#ucp-google-fonts-loader').remove();
-        ucp_iframe.jQuery('<link/>', { rel: 'stylesheet', id:'ucp-google-fonts-loader', href: 'https://fonts.googleapis.com/css?family='+google_font_string }).appendTo('#ucp-template');
+        ucp_iframe.jQuery('<link/>', { rel: 'stylesheet', id:'ucp-google-fonts-loader', href: 'https://fonts.bunny.net/css?family='+bunny_font_string }).appendTo('#ucp-template');
       }
 
       function get_font_variant(element_id){
@@ -1870,12 +1870,12 @@
             var current_font = ucp_iframe.jQuery('[data-element-id="' + element_id +'"]').children().last().css("font-family").split(',')[0].replace(/"/g,'').trim();
             element_options_html+='<select id="'+element_id+'_font_family" name="'+element_id+'_font_family" data-apply="css" data-property="font-family">';
 
-              for(font in ucp_admin_editor_variables.ucp_google_fonts){
+              for(font in ucp_admin_editor_variables.ucp_bunny_fonts){
                  element_options_html+='<option value="'+font+'"';
-                 if(current_font == ucp_admin_editor_variables.ucp_google_fonts[font]['name']){
+                 if(current_font == ucp_admin_editor_variables.ucp_bunny_fonts[font]['name']){
                    element_options_html+=' selected="selected" ';
                  }
-                 element_options_html+='>'+ucp_admin_editor_variables.ucp_google_fonts[font]['name']+'</option>';
+                 element_options_html+='>'+ucp_admin_editor_variables.ucp_bunny_fonts[font]['name']+'</option>';
               }
             element_options_html+='</select>';
 
@@ -1886,7 +1886,7 @@
 
 
 
-            var font_variants = get_google_font_variants(current_font);
+            var font_variants = get_bunny_font_variants(current_font);
 
             for(variant in font_variants){
                element_options_html+='<option value="'+font_variants[variant]+'"';
@@ -2478,7 +2478,7 @@
                     var font_variants_id = sidebar_field.attr('id').replace('_family','_weight');
                     current_font_weight = $('#'+font_variants_id).val();
 
-                    var font_weights = get_google_font_variants(sidebar_field.val());
+                    var font_weights = get_bunny_font_variants(sidebar_field.val());
                     var font_weights_html = '';
 
                     css_styles[module_id][element_class]['font-weight'] = 'regular';
@@ -2493,13 +2493,13 @@
                        }
                     }
                     $('#'+font_variants_id).empty().append(font_weights_html);
-                    refresh_google_fonts();
+                    refresh_bunny_fonts();
                   } else if(sidebar_field.data('property') == 'border-width'){
                     css_styles[module_id][element_class][sidebar_field.data('property')]=sidebar_field.val()+'px';
                   } else {
                     css_styles[module_id][element_class][sidebar_field.data('property')]=sidebar_field.val();
                     if(sidebar_field.data('property') == 'font-weight'){
-                      refresh_google_fonts();
+                      refresh_bunny_fonts();
                     }
                   }
                 }
@@ -3245,7 +3245,7 @@
             return self.indexOf(value) === index;
         }
 
-        function get_google_font_slug(name)
+        function get_bunny_font_slug(name)
         {
             return name.toLowerCase().replace(/ /g,'_').replace(/[^\w-]+/g,'');
         }

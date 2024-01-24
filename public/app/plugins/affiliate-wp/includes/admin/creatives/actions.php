@@ -37,6 +37,28 @@ function affwp_process_add_creative( $data ) {
 add_action( 'affwp_add_creative', 'affwp_process_add_creative' );
 
 /**
+ * Add creative meta
+ *
+ * @param int   $creative_id The Creative ID.
+ * @param array $args Creative arguments.
+ *
+ * @since 2.17.0
+ */
+function affwp_process_add_creative_meta( int $creative_id, array $args ) {
+
+	if ( 'qr_code' !== $args['type'] ) {
+		return; // Bail if it is not a QR Code.
+	}
+
+	affwp_save_qrcode_colors(
+		$creative_id,
+		$args['qrcode_code_color'] ?? '',
+		$args['qrcode_bg_color'] ?? ''
+	);
+}
+add_action( 'affwp_insert_creative', 'affwp_process_add_creative_meta', 10, 2 );
+
+/**
  * Process creative deletion requests
  *
  * @since 1.2
@@ -64,6 +86,11 @@ function affwp_process_creative_deletion( $data ) {
 	$to_delete = array_map( 'absint', $data['affwp_creative_ids'] );
 
 	foreach ( $to_delete as $creative_id ) {
+
+		// Delete meta data.
+		affiliatewp_delete_creative_meta( $creative_id, 'qrcode_code_color' );
+		affiliatewp_delete_creative_meta( $creative_id, 'qrcode_bg_color' );
+
 		affwp_delete_creative( $creative_id );
 	}
 
@@ -90,6 +117,23 @@ function affwp_process_update_creative( $data ) {
 	}
 
 	if ( affwp_update_creative( $data ) ) {
+
+		// Update QR Code colors if is QR Code type, otherwise delete meta.
+		if ( 'qr_code' === $data['type'] ) {
+
+			if ( isset( $data['qrcode_code_color'], $data['qrcode_bg_color'] ) ) {
+
+				affwp_save_qrcode_colors(
+					$data['creative_id'],
+					$data['qrcode_code_color'],
+					$data['qrcode_bg_color']
+				);
+			}
+		} else {
+			affiliatewp_delete_creative_meta( $data['creative_id'], 'qrcode_code_color' );
+			affiliatewp_delete_creative_meta( $data['creative_id'], 'qrcode_bg_color' );
+		}
+
 		wp_safe_redirect( affwp_admin_url( 'creatives', array( 'action' => 'edit_creative', 'affwp_notice' => 'creative_updated', 'creative_id' => $data['creative_id'] ) ) );
 		exit;
 	} else {
@@ -99,3 +143,33 @@ function affwp_process_update_creative( $data ) {
 
 }
 add_action( 'affwp_update_creative', 'affwp_process_update_creative' );
+
+/**
+ * Save QR Code color metadata.
+ *
+ * @since 2.17.0
+ *
+ * @param int    $creative_id The Creative ID.
+ * @param string $code_color The Code Color.
+ * @param string $bg_color The BG Color.
+ */
+function affwp_save_qrcode_colors( int $creative_id, string $code_color = '', string $bg_color = '' ) {
+
+	$colors = affiliatewp_get_qrcode_default_colors();
+
+	affiliatewp_update_creative_meta(
+		$creative_id,
+		'qrcode_code_color',
+		empty( $code_color )
+			? $colors['code']
+			: sanitize_text_field( $code_color )
+	);
+
+	affiliatewp_update_creative_meta(
+		$creative_id,
+		'qrcode_bg_color',
+		empty( $bg_color )
+			? $colors['bg']
+			: sanitize_text_field( $bg_color )
+	);
+}

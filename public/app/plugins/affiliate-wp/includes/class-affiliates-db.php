@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Affiliate Database Abstraction Layer
  *
@@ -8,6 +8,8 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
+
+#[AllowDynamicProperties]
 
 /**
  * Implements a database abstraction layer for querying affiliates.
@@ -188,6 +190,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			'order'        => 'DESC',
 			'orderby'      => 'affiliate_id',
 			'fields'       => '',
+			'connected_to' => null,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -272,6 +275,14 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 				$where .= "WHERE `status` = '" . $status . "' ";
 			}
 		}
+
+		$where .= $this->add_connected_to_clauses(
+			$where,
+			$args['connected_to']['get_connectable'] ?? '',
+			$args['connected_to']['where_connectable'] ?? '', // If this is group you should have a where_group_type.
+			$args['connected_to']['where_id'] ?? 0,
+			$args['connected_to']['where_group_type'] ?? '',
+		);
 
 		$search       = '';
 		$join         = '';

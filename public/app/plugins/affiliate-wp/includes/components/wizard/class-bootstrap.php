@@ -195,6 +195,7 @@ class Bootstrap {
 		check_ajax_referer( 'affwpwizard-admin-nonce', 'nonce' );
 
 		$setup_intent = get_option( 'affwp_setup_intent' );
+		$settings     = get_option( 'affwp_settings' );
 
 		// Paypal is recommended so intent should default to true.
 		if ( ! isset( $setup_intent['intent_setup_paypal'] ) ) {
@@ -207,6 +208,15 @@ class Bootstrap {
 					array( 'intent_setup_paypal' => 1 ),
 				)
 			);
+		}
+
+		// Sync with settings, in case the user has changed it.
+		if ( isset( $settings['paypal_payouts'] ) ) {
+			$setup_intent['intent_setup_paypal'] = $settings['paypal_payouts'];
+		}
+
+		if ( isset( $settings['manual_payouts'] ) ) {
+			$setup_intent['intent_manual_payouts'] = $settings['manual_payouts'];
 		}
 
 		// check lifetime commissions status.
@@ -562,11 +572,13 @@ class Bootstrap {
 		// Update the intention to setup PayPal Payouts for later use on the setup screen.
 		if ( 'intent_setup_paypal' === $setting ) {
 			$updated_intent['intent_setup_paypal'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
+			$settings['paypal_payouts'] = $updated_intent['intent_setup_paypal'];
 		}
 
 		// Update the intention to pay manually for later use on the setup screen.
 		if ( 'intent_manual_payouts' === $setting ) {
 			$updated_intent['intent_manual_payouts'] = isset( $_POST['value'] ) && '1' === sanitize_text_field( $_POST['value'] ) ? 1 : 0;
+			$settings['manual_payouts'] = $updated_intent['intent_manual_payouts'];
 		}
 
 		// Commissions and Growth Tools Step

@@ -12,9 +12,9 @@ use AffWP\Core\License\License_Data;
 
 /**
  * Checks if a license upgrade is required.
- * 
+ *
  * @since 2.15.0
- * 
+ *
  * @param string $license_level Minimum license level required. Default is 'plus'.
  * @return bool True if upgrade is required, false otherwise. Default is true.
  */
@@ -42,4 +42,29 @@ function affwp_is_upgrade_required( $license_level = 'plus' ) {
     }
 
     return true;
+}
+
+/**
+ * Retrieve the license status.
+ *
+ * @since 2.17.0
+ * @since 2.18.1 License_Data can return false, so removed string string return type.
+ *
+ * @return string|bool|mixed|void The license status (expired, invalid, valid)
+ */
+function affwp_get_license_status() {
+	return ( new License_Data() )->check_status();
+}
+
+/**
+ * Determines whether the user has access to the PRO features.
+ *
+ * This function not only checks if the user has a PRO license installed but also validates if it is currently valid.
+ *
+ * @since 2.17.0
+ *
+ * @return bool Whether the user has access to PRO features or not.
+ */
+function affwp_can_access_pro_features() : bool {
+	return true !== affwp_is_upgrade_required( 'pro' ) && affwp_get_license_status() === 'valid';
 }

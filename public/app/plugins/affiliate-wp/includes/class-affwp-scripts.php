@@ -71,6 +71,39 @@ final class Scripts {
 	}
 
 	/**
+	 * Get scripts version.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @return string
+	 */
+	public function get_version() : string {
+		return $this->version;
+	}
+
+	/**
+	 * Get suffix to be used when loading files.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @return string
+	 */
+	public function get_suffix() : string {
+		return $this->suffix;
+	}
+
+	/**
+	 * Get the path to the JS folder.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @return string
+	 */
+	public function get_path() : string {
+		return $this->path;
+	}
+
+	/**
 	 * Register all hooks.
 	 *
 	 * We run at a lower priority than the default, so we make sure we can overwrite styles in old files like form.css
@@ -99,9 +132,55 @@ final class Scripts {
 	 */
 	public function register_scripts() : void {
 
-		if ( ! ( affwp_is_affiliate_area() || affwp_is_admin_page() ) ) {
-			return; // Restrict to affiliate area and admin only.
+		// Register admin-only scripts.
+		if ( affwp_is_admin_page() ) {
+			$this->register_admin_scripts();
 		}
+
+		// Register all other scripts.
+		$this->register_namespace_scripts();
+	}
+
+	/**
+	 * Register admin-only scripts and styles.
+	 *
+	 * @since 2.18.0
+	 */
+	private function register_admin_scripts() {
+
+		// Font Awesome.
+		wp_register_style(
+			'font-awesome',
+			sprintf(
+				'%s/assets/fonts/font-awesome/font-awesome.min.css',
+				AFFILIATEWP_PLUGIN_URL
+			),
+			array(),
+			$this->version
+		);
+
+		wp_register_style(
+			'jquery-confirm',
+			"{$this->path}vendor/jquery-confirm/jquery-confirm.min.css",
+			array( 'font-awesome' ),
+			$this->version
+		);
+
+		wp_enqueue_script(
+			'jquery-confirm',
+			"{$this->path}vendor/jquery-confirm/jquery-confirm.min.js",
+			array( 'jquery' ),
+			$this->version,
+			true
+		);
+	}
+
+	/**
+	 * Register scripts to use within our namespace.
+	 *
+	 * @since 2.18.0
+	 */
+	private function register_namespace_scripts() {
 
 		wp_register_style(
 			'affiliatewp-modal',
@@ -158,11 +237,49 @@ final class Scripts {
 			true
 		);
 
+		// Register Crypto.
+		wp_register_script(
+			'md5',
+			"{$this->path}vendor/crypto/md5.min.js",
+			array(),
+			$this->version,
+			true
+		);
+
+		wp_register_script(
+			'affiliatewp-crypto',
+			"{$this->path}affiliatewp-crypto{$this->suffix}.js",
+			array( 'md5' ),
+			$this->version,
+			true
+		);
+
 		// Register infinite scroll dependencies.
 		wp_register_script(
 			'affiliatewp-infinite-scroll',
 			"{$this->path}affiliatewp-infinite-scroll{$this->suffix}.js",
 			array( $this->namespace ),
+			$this->version,
+			true
+		);
+
+		// Register QR Code dependencies.
+		wp_register_script(
+			'node-qrcode',
+			"{$this->path}vendor/qrcode/node-qrcode-build.min.js",
+			array(),
+			$this->version,
+			true
+		);
+
+		wp_register_script(
+			'affiliatewp-qrcode',
+			"{$this->path}affiliatewp-qrcode{$this->suffix}.js",
+			array(
+				$this->namespace,
+				'affiliatewp-crypto',
+				'node-qrcode',
+			),
 			$this->version,
 			true
 		);
@@ -209,7 +326,6 @@ final class Scripts {
 			if ( wp_style_is( $dependency, 'registered' ) ) {
 				wp_enqueue_style( $dependency );
 			}
-
 		}
 
 		// Enqueue the script.

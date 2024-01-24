@@ -33,7 +33,8 @@ const settings = {
 	icon,
 	supports: {
 		html: false,
-		lightBlockWrapper: true
+		lightBlockWrapper: true,
+		multiple: false
 	},
 	edit,
 	save,

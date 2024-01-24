@@ -20,15 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @param \WP_User $user Current user object.
  */
 function affwp_user_profile_fields( $user ) {
-  
+
 	if( ! current_user_can( 'manage_affiliates' ) ) {
 		return;
 	}
 
 	if( isset( $_GET['register_affiliate'] ) && 1 == absint( $_GET['register_affiliate'] ) ) {
 		$affiliate_id = affwp_add_affiliate( array(
-			'user_id'        => $user->ID,
-			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
+			'user_id'             => $user->ID,
+			'dynamic_coupon'      => affiliate_wp()->settings->get( 'require_approval' ) ? '' : 1,
+			'registration_method' => 'admin_user_profile',
 		) );
 	} else {
 		$affiliate_id = affwp_get_affiliate_id( $user->ID );
@@ -93,7 +94,7 @@ function affwp_user_profile_fields( $user ) {
 			</td>
 		</tr>
 
-		<?php 
+		<?php
 		if ( ! affiliate_wp()->emails->is_email_disabled()
 			&& ( $affiliate && ! in_array( $affiliate->status, array( 'active', 'inactive' ), true ) )
 			&& affwp_email_notification_enabled( 'affiliate_application_accepted_email' )

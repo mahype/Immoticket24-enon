@@ -356,12 +356,7 @@ class Affiliate_WP_Shortcodes {
 			return '';
 		}
 
-		return do_shortcode(
-			wp_kses(
-				$content,
-				affwp_kses()
-			)
-		);
+		return do_shortcode( $content );
 	}
 
 	/**
@@ -381,12 +376,7 @@ class Affiliate_WP_Shortcodes {
 			return '';
 		}
 
-		return do_shortcode(
-			wp_kses(
-				$content,
-				affwp_kses()
-			)
-		);
+		return do_shortcode( $content );
 	}
 
 	/**

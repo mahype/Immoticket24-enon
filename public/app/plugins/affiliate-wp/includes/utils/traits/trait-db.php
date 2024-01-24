@@ -10,6 +10,8 @@
  * @author      Aubrey Portwood <aubrey@awesomeomotive.com>
  */
 
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- We escape DB queries because we have to use str_replace.
+
 namespace AffiliateWP\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,43 +39,59 @@ trait DB {
 	 * Does a column (in a table) exist in the database?
 	 *
 	 * @since  2.12.0
+	 * @since  2.18.0 Updated to use lower-level SQL.
+	 * @since  2.18.2 Now default to `$this->table_name`.
 	 *
-	 * @param  string $table  The table name.
-	 * @param  string $column The column.
+	 * @param  string $table          The table name.
+	 * @param  string $column         The column.
+	 *
 	 * @return bool
 	 *
 	 * @throws \InvalidArgumentException If you do not supply non-empty strings for either `$table` or `$column`.
 	 */
-	protected function column_exists( $table, $column ) {
+	protected function column_exists( string $table = '', string $column = '' ) {
+
+		if ( empty( $table ) && isset( $this->table_name ) ) {
+			$table = $this->table_name;
+		}
 
 		if ( ! $this->is_string_and_nonempty( $table ) ) {
-			throw new \InvalidArgumentException( '$table must be a non-empty string.' );
+			throw new \InvalidArgumentException( '$table must be a non-empty string.' ); // Error.
 		}
 
 		if ( ! $this->is_string_and_nonempty( $column ) ) {
-			throw new \InvalidArgumentException( '$column must be a non-empty string.' );
+			throw new \InvalidArgumentException( '$column must be a non-empty string.' ); // Error.
 		}
 
 		if ( ! $this->table_exists( $table ) ) {
-			return false;
+			return false; // Test for the table first.
 		}
 
 		global $wpdb;
 
-		$results = $wpdb->get_var(
-			$wpdb->prepare(
-
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared  -- We have to use str_replace here because $wpdb->prepare adds ''.
-				str_replace(
-					'{table_name}',
-					$wpdb->_real_escape( $table ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We escape here because we have to use str_replace.
-					'SHOW COLUMNS FROM {table_name} LIKE %s'
-				),
-				$column
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- We are trusting $table.
+		$results = $wpdb->get_results(
+			sprintf(
+				'DESC `%1$s` -- %2$s %3$s',
+				$table,
+				$column,
+				wp_generate_uuid4() // Avoids reporting duplicate queries to Query Monitor.
 			)
-		);
+		); // Note: Same as check_column() but will just check for Field.
 
-		return $column === $results;
+		if ( ! is_countable( $results ) ) {
+			return false;
+		}
+
+		foreach ( $results as $row ) {
+
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Snake case here comes from SQL.
+			if ( ( $row->Field ?? '' ) === $column ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -95,7 +113,7 @@ trait DB {
 	 * @throws \Exception                If you try and use this method w/out `$this::$table_name` being unset.
 	 * @throws \InvalidArgumentException If `$sql` is not a string.
 	 */
-	private function inject_table_name( $sql ) {
+	protected function inject_table_name( $sql ) {
 
 		if ( ! isset( $this->table_name ) || ! $this->is_string_and_nonempty( $this->table_name ) ) {
 			throw new \Exception( '$this::$table_name needs to be set to a non-empty string in order to use this method.' );
@@ -114,25 +132,46 @@ trait DB {
 	 * Does a table exist?
 	 *
 	 * @since  2.12.0
+	 * @since  2.18.2 No longer throws errors.
+	 * @since  2.18.2 Now default to `$this->table_name`.
 	 *
 	 * @param  string $table The table in the database.
-	 * @return bool
 	 *
-	 * @throws \InvalidArgumentException If you do not supply a non-empty string for `$table`.
+	 * @return bool
 	 */
-	private function table_exists( $table ) {
+	protected function table_exists( string $table = '' ) : bool {
+
+		if ( empty( $table ) && isset( $this->table_name ) ) {
+			$table = $this->table_name;
+		}
 
 		if ( ! $this->is_string_and_nonempty( $table ) ) {
-			throw new \InvalidArgumentException( '$table must be a non-empty string.' );
+			return false; // Empty table name.
 		}
 
 		global $wpdb;
 
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ) !== $table ) {
-			return false;
-		}
-
-		return true;
+		return $table === $wpdb->get_var(
+			$wpdb->prepare(
+				str_replace(
+					array(
+						'{uuid4}',
+					),
+					array(
+						wp_generate_uuid4(),
+					),
+					'
+						SELECT `TABLE_NAME`
+						FROM INFORMATION_SCHEMA.TABLES
+						WHERE `table_schema` = %s
+						AND `table_name` = %s
+						LIMIT 1; -- {uuid4}
+					'
+				),
+				DB_NAME,
+				$table
+			)
+		);
 	}
 
 	/**
@@ -151,17 +190,21 @@ trait DB {
 
 		$data_type = $wpdb->get_var(
 			$wpdb->prepare(
-				'SELECT DATA_TYPE
+				'
+					SELECT DATA_TYPE
 					FROM INFORMATION_SCHEMA.COLUMNS
-						WHERE `table_name` = %s
-						AND `column_name` = %s
-						AND `table_schema` = %s',
+					WHERE `table_name` = %s
+					AND `column_name` = %s
+					AND `table_schema` = %s
+				',
 				$table_name,
 				$column_name,
 				DB_NAME
 			)
 		);
 
-		return is_string( $data_type ) ? $data_type : false;
+		return is_string( $data_type )
+			? $data_type
+			: false;
 	}
 }

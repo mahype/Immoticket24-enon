@@ -8,10 +8,12 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.2
  */
-use AffWP\Core\License\License_Data;
 
 $creative   = affwp_get_creative( absint( $_GET['creative_id'] ?? 0 ) );
 $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $creative->is_before_migration_time( 'date_updated' );
+
+// QR Code meta data.
+$qrcode_settings = $creative->get_qrcode_settings();
 
 ?>
 <div class="wrap">
@@ -30,7 +32,7 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 		 */
 		do_action( 'affwp_edit_creative_top', $creative ); ?>
 
-		<table class="form-table" data-current-context="<?php echo $creative->get_type(); ?>">
+		<table class="form-table" data-current-context="<?php echo esc_attr( $creative->get_type() ); ?>">
 
 			<tr class="form-row form-required" data-row="name">
 
@@ -50,12 +52,12 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 							data-private="<?php echo $is_private ? 'yes' : 'no'; ?>"
 						>
 						<?php echo $is_private ? sprintf(
-								'<span class="affwp-admin-creative-name-warning">%s</span>',
-								affwp_icon_tooltip(
-									'Enter a more descriptive name for this creative. The Notes field below contains the original name for your reference.',
-									'warning',
-									false
-								)
+							'<span class="affwp-admin-creative-name-warning">%s</span>',
+							affwp_icon_tooltip(
+								esc_html__( 'Enter a more descriptive name for this creative. The Notes field below contains the original name for your reference.', 'affiliate-wp' ),
+								'warning',
+								false
+							)
 						) : ''; ?>
 					</div>
 
@@ -97,16 +99,41 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 				<td>
 					<select name="type" id="type">
 						<?php foreach ( affwp_get_creative_types() as $creative_type => $label ) : ?>
-							<option value="<?php echo esc_attr( $creative_type ); ?>" <?php selected( $creative->get_type(), $creative_type ); ?>>
+
+							<?php
+							$show_education = 'qr_code' === $creative_type && ! affwp_can_access_pro_features();
+							$education_name = $show_education
+								? esc_html__( 'QR Code Creatives', 'affiliate-wp' )
+								: '';
+							$education_utm  = $show_education
+								? esc_html__( 'qr-code-creative-type', 'affiliate-wp' )
+								: '';
+							?>
+
+							<option
+								value="<?php echo esc_attr( $creative_type ); ?>"
+								<?php selected( $creative->get_type(), $creative_type ); ?>
+								class="<?php echo esc_attr( affiliatewp_get_pro_feature_option_classes( 'qr_code', $creative_type, $creative->get_type() ) ); ?>"
+								<?php
+
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+								echo affiliatewp_tag_attr( 'data-name', $education_name );
+
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+								echo affiliatewp_tag_attr( 'data-utm-content', $education_utm );
+
+								?>
+							>
 								<?php echo esc_html( $label ); ?>
 							</option>
+
 						<?php endforeach; ?>
 					</select>
 					<p class="description"><?php esc_html_e( 'Select the type of the creative.', 'affiliate-wp' ); ?></p>
 				</td>
 			</tr>
 
-			<tr class="form-row form-required <?php echo esc_attr( 'image' !== $creative->get_type() ? ' affwp-hidden' : '' ); ?>" data-row="image">
+			<tr class="form-row form-required" data-row="image">
 
 				<th scope="row">
 					<label for="image"><?php esc_html_e( 'Image', 'affiliate-wp' ); ?></label>
@@ -167,8 +194,103 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 				</th>
 
 				<td>
-					<input type="text" name="url" id="url" value="<?php echo esc_url( $creative->url ); ?>" class="regular-text" />
+					<input
+						type="text"
+						name="url"
+						id="url"
+						value="<?php echo esc_url_raw( $creative->url ); ?>"
+						class="regular-text"
+						<?php echo $creative->get_type() === 'qr_code' ? 'disabled="disabled"' : ''; ?>
+					>
 					<p class="description"><?php esc_html_e( 'The URL this creative should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+				</td>
+
+			</tr>
+
+			<tr class="form-row" data-row="qr_preview">
+
+				<th scope="row">
+					<label for="url"><?php esc_html_e( 'QR Code', 'affiliate-wp' ); ?></label>
+				</th>
+
+				<td>
+					<?php if ( ! affwp_can_access_pro_features() ) : ?>
+
+						<p class="qrcode-inline-notice description">
+							<?php esc_html_e( 'QR Code creatives allow for seamless, scannable promotions, ensuring your affiliates capture mobile audiences effectively. While your current QR Code still works for your affiliates, editing and customization are exclusive to the Pro plan.', 'affiliate-wp' ); ?>
+						</p>
+						<?php if ( affwp_is_upgrade_required( 'pro' ) !== true ) : ?>
+
+							<p class="qrcode-inline-notice-cta description" >
+								<a href="<?php echo esc_url_raw( affwp_admin_url( 'settings' ) ); ?>" target="_blank" rel="noopener noreferrer">
+									<strong><?php esc_html_e( 'Enter Your License Key Now to Unlock and Customize Your QR Code Campaigns', 'affiliate-wp' ); ?></strong>
+								</a>
+							</p>
+
+						<?php else : ?>
+
+							<p class="qrcode-inline-notice-cta description">
+								<a href="<?php echo esc_url_raw( affwp_admin_upgrade_link( 'affiliatewp-creatives-edit', 'Upgrade to AffiliateWP Pro' ) ); ?>" target="_blank" rel="noopener noreferrer">
+									<strong><?php esc_html_e( 'Upgrade to Pro Now to Unlock and Customize Your QR Code Campaigns', 'affiliate-wp' ); ?></strong>
+								</a>
+							</p>
+
+						<?php endif; ?>
+
+					<?php endif; ?>
+
+					<div id="qr-code">
+
+						<p><strong><?php esc_html_e( 'Preview', 'affiliate-wp' ); ?></strong></p>
+						<div id="qr-preview" data-settings="<?php echo esc_attr( wp_json_encode( $qrcode_settings ) ); ?>"></div>
+
+					</div>
+
+					<div>
+
+						<label for="qrcode-url"><strong><?php esc_html_e( 'URL', 'affiliate-wp' ); ?></strong></label>
+						<div class="affwp-education-modal-input-wrapper">
+							<input
+								type="text"
+								name="url"
+								id="qrcode-url"
+								placeholder="<?php echo esc_url_raw( home_url() ); ?>"
+								value="<?php echo esc_url_raw( $creative->url ); ?>"
+								class="regular-text affwp-qrcode-url-field"
+								<?php echo $creative->get_type() === 'qr_code' && affwp_can_access_pro_features() ? '' : 'disabled="disabled"'; ?>
+							>
+							<span
+								<?php echo $creative->get_type() === 'qr_code' && affwp_can_access_pro_features() ? '' : ' class="affwp-education-modal"'; ?>
+								data-name="<?php esc_html_e( 'QR Code Creatives', 'affiliate-wp' ); ?>"
+								data-utm-content="<?php esc_html_e( 'QR Code Creative Type', 'affiliate-wp' ); ?>"
+							></span>
+						</div>
+						<p class="description"><?php esc_html_e( 'The URL the QR code should link to. Based on your Referral Settings, the affiliate&#8217;s ID or username will be automatically appended.', 'affiliate-wp' ); ?></p>
+
+					</div>
+
+					<?php if ( affwp_can_access_pro_features() ) : ?>
+
+						<div id="qrcode-color-pickers">
+
+							<div class="qrcode-color-picker-container" data-default-color="<?php echo esc_attr( affiliatewp_get_qrcode_default_colors()['code'] ); ?>">
+								<label for="qrcode-code-color" class="color-picker-label"><strong><?php esc_html_e( 'Code Color', 'affiliate-wp' ); ?></strong></label>
+								<input id="qrcode-code-color" type="text" class="affwp-color-picker" value="<?php echo esc_attr( $qrcode_settings['color']['dark'] ); ?>" name="qrcode_code_color" />
+							</div>
+
+							<div class="qrcode-color-picker-container" data-default-color="<?php echo esc_attr( affiliatewp_get_qrcode_default_colors()['bg'] ); ?>">
+								<label for="qrcode-bg-color" class="color-picker-label"><strong><?php esc_html_e( 'Background Color', 'affiliate-wp' ); ?></strong></label>
+								<input id="qrcode-bg-color" type="text" class="affwp-color-picker" value="<?php echo esc_attr( $qrcode_settings['color']['light'] ); ?>" name="qrcode_bg_color" />
+							</div>
+
+						</div>
+
+						<p class="qrcode-disclaimer description" style="display:none;">
+							<strong><?php esc_html_e( 'Remember to test the QR code with your new colors to ensure it remains scannable.', 'affiliate-wp' ); ?></strong>
+						</p>
+
+					<?php endif; ?>
+
 				</td>
 
 			</tr>
@@ -208,9 +330,31 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 
 				<td>
 					<select name="status" id="status">
-						<option value="active"<?php selected( 'active', $creative->status ); ?>><?php esc_html_e( 'Active', 'affiliate-wp' ); ?></option>
-						<option value="inactive"<?php selected( 'inactive',  $creative->status ); ?>><?php esc_html_e( 'Inactive', 'affiliate-wp' ); ?></option>
-						<option value="scheduled" class="<?php echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'addProBadge' : '' ); ?>" <?php selected( 'scheduled',  $creative->status ); ?>><?php esc_html_e( 'Scheduled', 'affiliate-wp' ); ?></option>
+
+						<?php foreach ( affwp_get_creative_statuses() as $status_key => $label ) : ?>
+
+							<?php
+							$show_education = 'scheduled' === $status_key && ! affwp_can_access_pro_features();
+							$education_name = $show_education
+								? esc_html__( 'Scheduled Creatives', 'affiliate-wp' )
+								: '';
+							$education_utm  = $show_education
+								? esc_html__( 'scheduled-creatives', 'affiliate-wp' )
+								: '';
+							?>
+
+							<option
+								value="<?php echo esc_attr( $status_key ); ?>"
+								<?php selected( $creative->status, $status_key ); ?>
+								class="<?php echo esc_attr( affiliatewp_get_pro_feature_option_classes( 'scheduled', $status_key, $creative->status ) ); ?>"
+								<?php echo affiliatewp_tag_attr( 'data-name', $education_name ); ?>
+								<?php echo affiliatewp_tag_attr( 'data-utm-content', $education_utm ); ?>
+							>
+								<?php echo esc_html( $label ); ?>
+							</option>
+
+						<?php endforeach; ?>
+
 					</select>
 					<p class="description"><?php esc_html_e( 'Select the status of the creative. A creative can be Active, Inactive, or Scheduled.', 'affiliate-wp' ); ?></p>
 				</td>
@@ -226,9 +370,7 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 					<?php if ( true === affwp_is_upgrade_required( 'pro' ) ) : ?>
 						<div class="affwp-upgrade-setting-cta">
 							<p>
-								<?php
-								echo esc_html( 'Scheduling allows you to set start and end dates for your creatives, giving you more flexibility and control over your affiliate campaigns.', 'affiliate-wp' )
-								?>
+								<?php esc_html_e( 'Scheduling allows you to set start and end dates for your creatives, giving you more flexibility and control over your affiliate campaigns.', 'affiliate-wp' ); ?>
 							</p>
 							<h4>
 								<a href="<?php echo esc_url( affwp_admin_upgrade_link( 'affiliatewp-creatives-edit', 'Upgrade to AffiliateWP Pro' ) ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Upgrade to AffiliateWP Pro to Unlock Creative Scheduling', 'affiliate-wp' ); ?></a>
@@ -241,14 +383,14 @@ $is_private = 'private' === get_option( 'affwp_creative_name_privacy', '' ) && $
 						<input type="text" class="affwp-schedule-creative-datepicker" autocomplete="off" id="start_date" name="start_date"
 							value="<?php echo '0000-00-00 00:00:00' === $creative->start_date ? '' : esc_attr( affwp_date_i18n( strtotime( $creative->start_date ), 'm/d/Y' ) ); ?>"
 							placeholder="<?php esc_html_e( 'mm/dd/yyyy', 'affiliate-wp' ); ?>"
-							<?php  echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'disabled' : '' ) ?>/>
+							<?php echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'disabled' : '' ); ?>/>
 						<p class="description"><?php esc_html_e( 'Start date.', 'affiliate-wp' ); ?></p>
 					</div>
 					<div>
 						<input type="text" class="affwp-schedule-creative-datepicker" autocomplete="off" name="end_date"
 							value="<?php echo '0000-00-00 00:00:00' === $creative->end_date ? '' : esc_attr( affwp_date_i18n( strtotime( $creative->end_date ), 'm/d/Y' ) ); ?>"
 							placeholder="<?php esc_html_e( 'mm/dd/yyyy', 'affiliate-wp' ); ?>"
-							<?php  echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'disabled' : '' ) ?>/>
+							<?php echo esc_attr( true === affwp_is_upgrade_required( 'pro' ) ? 'disabled' : '' ); ?>/>
 						<p class="description"><?php esc_html_e( 'End date.', 'affiliate-wp' ); ?></p>
 					</div>
 					<p class="affwp-schedule-description"><?php echo esc_html( affwp_get_creative_schedule_desc( $creative ) ); ?></p>

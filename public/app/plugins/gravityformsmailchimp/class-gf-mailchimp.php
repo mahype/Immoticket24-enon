@@ -361,6 +361,10 @@ class GFMailChimp extends GFFeedAddOn {
 	 * @return void
 	 */
 	public function maybe_update_auth_creds() {
+		if ( rgget( 'subview' ) !== $this->_slug ) {
+			return;
+		}
+
 		$payload = $this->get_oauth_payload();
 
 		// No payload, bail.

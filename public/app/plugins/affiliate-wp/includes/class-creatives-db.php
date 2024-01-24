@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Creatives Database Abstraction Layer
  *
@@ -8,6 +8,8 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.9
  */
+
+#[AllowDynamicProperties]
 
 /**
  * Class Affiliate_WP_Creatives_DB
@@ -224,16 +226,41 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			}
 		}
 
+		$where .= $this->add_connected_to_clauses(
+			$where,
+			$args['connected_to']['get_connectable'] ?? '',
+			$args['connected_to']['where_connectable'] ?? '', // If this is group you should have a where_group_type.
+			$args['connected_to']['where_id'] ?? 0,
+			$args['connected_to']['where_group_type'] ?? '',
+		);
+
 		// Type.
 		if ( is_string( $args['type'] ) && 'any' !== $args['type'] ) {
 			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
 			$where .= "`type` {$args['type_compare']} '" . esc_sql( $args['type'] ) . "' ";
 		}
 
+		// Support selecting specific types per query.
+		if ( is_array( $args['type'] ) ) {
+
+			$type_values = array_map(
+				function( $value ) {
+
+					global $wpdb;
+
+					return $wpdb->prepare( "'%s'", esc_sql( $value ) );
+				},
+				$args['type']
+			);
+
+			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
+			$where .= '`type` IN (' . implode( ',', $type_values ) . ') ';
+		}
+
 		// Hide empty.
 		if ( $args['hide_empty'] ) {
 			$where .= empty( $where ) ? 'WHERE ' : 'AND ';
-			$where .= "( (`type` = 'text_link' AND `text` != '') OR (`type` = 'image' AND image != '') ) ";
+			$where .= "( (`type` = 'text_link' AND `text` != '') OR (`type` = 'image' AND image != '') OR (`type` = 'qr_code' AND url != '') ) ";
 		}
 
 		// Creatives for a date or date range.
@@ -389,7 +416,7 @@ class Affiliate_WP_Creatives_DB extends Affiliate_WP_DB {
 			 *
 			 * @param array $add The creative data being added.
 			 */
-			do_action( 'affwp_insert_creative', $add );
+			do_action( 'affwp_insert_creative', $add, $args );
 			return $add;
 		}
 

@@ -42,20 +42,31 @@ class Affiliate_WP_Register {
 	 * Connect the affiliate to the default group.
 	 *
 	 * @since 2.13.0
+	 * @since 2.17.2 Update to validate the addition of the affiliate to the default group
+	 *               without checking each connection until it gets to the one that is
+	 *               the connected affiliate and group (default group) which causes
+	 *               timeouts when many affiliates are in the default group.
+	 * @since 2.18.3 Updated `$affiliate_id` parameter to not be strictly `int` because it is
+	 *               possible to send `null` from other functions.
 	 *
 	 * @param int $affiliate_id The Affiliate ID (zero if invalid).
-	 *
-	 * @throws \Exception                 If there is a programatic reason this failed.
-	 * @throws \InvalidArgumentException  If the `$affiliate_id` does not corrilate to a valid affiliate.
 	 */
-	public function add_new_affiliates_to_default_group( int $affiliate_id = 0 ) : void {
+	public function add_new_affiliates_to_default_group( $affiliate_id = 0 ) : void {
+
+		if ( is_null( $affiliate_id ) ) {
+			return; // Can't add a null affiliate to default group.
+		}
 
 		if ( ! $this->is_numeric_and_gt_zero( $affiliate_id ) ) {
 			return; // We might get a zero from the hook, meaning the Affiliate ID is not a valid ID.
 		}
 
 		if ( false === affwp_get_affiliate( $affiliate_id ) ) {
-			throw new \InvalidArgumentException( "Not a valid affiliate ID: {$affiliate_id}." );
+			return; // Affiliate with that ID does not exist.
+		}
+
+		if ( $this->is_numeric_and_gt_zero( affwp_get_affiliate_group_id( $affiliate_id ) ) ) {
+			return; // They are already in a group, they can only be in one group at a time (probably the add/edit screen).
 		}
 
 		$default_group = $this->get_default_group();
@@ -94,31 +105,11 @@ class Affiliate_WP_Register {
 			),
 		);
 
-		if ( ! $this->is_numeric_and_gt_zero( $connection_id ) ) {
-			return; // Connection failed for some other reason.
+		if ( $this->is_numeric_and_gt_zero( $connection_id ) ) {
+			return; // Success, we connected the group (default) to the affiliate.
 		}
 
-		// Verify the affiliate was connected to the default group.
-		if ( in_array(
-
-			// Find this ID.
-			intval( $affiliate_id ),
-
-			// In this list of affiliates connected to the default group.
-			affiliate_wp()->connections->get_connected(
-				'affiliate', // Get affiliates.
-				'group', // Connected to a group.
-
-				// With this ID.
-				intval( $default_group->get_id() )
-			),
-			true
-		) ) {
-			return; // Verified affiliate is connected to the default group.
-		}
-
-		// There's no reason, if there's a default group, that we can't connect the affiliate to it unless we have something wrong programatically.
-		throw new \Exception( "Unable to connect affiliate with ID {$affiliate_id} to default group '{$default_group->getid()}'." );
+		affiliate_wp()->utils->log( "Unable to add Affiliate w/ ID #{$affiliate_id} to Default Affiliate Group w/ ID #{$default_group->get_id()}." );
 	}
 
 	/**
@@ -217,6 +208,7 @@ class Affiliate_WP_Register {
 
 		if ( isset( $_POST['affwp_post_id'] ) && isset( $_POST['affwp_block_hash'] ) ) {
 
+			// affwp_block_hash should be the hash of the registration form...
 			$block_form = affiliate_wp()->editor->get_submission_form( $_POST['affwp_post_id'], $_POST['affwp_block_hash'] );
 
 			if ( is_wp_error( $block_form ) ) {
@@ -409,6 +401,23 @@ class Affiliate_WP_Register {
 		// only log the user in if there are no errors
 		if ( empty( $this->errors ) ) {
 			$affiliate_id = $this->register_user( $user_email );
+
+
+			// Register the date when the Terms of use were accepted.
+			if (
+				// Shortcode field name.
+				filter_input( INPUT_POST, 'affwp_tos' ) === 'on' ||
+
+				// Block field name.
+				filter_input( INPUT_POST, 'affwp_agree_to_our_terms_of_use_and_privacy_policy_terms-of-use' ) === '1'
+			) {
+
+				affwp_update_affiliate_meta(
+					$affiliate_id,
+					'tos_acceptance_date',
+					strtotime( gmdate( 'Y-m-d H:i:s' ) )
+				);
+			}
 
 			if ( $block_form instanceof \AffWP\Core\Registration\Form_Container && false !== $affiliate_id ) {
 				$custom_fields = array();
@@ -731,11 +740,13 @@ class Affiliate_WP_Register {
 		$status = affiliate_wp()->settings->get( 'require_approval' ) ? 'pending' : 'active';
 
 		affwp_add_affiliate( array(
-			'user_id'        => $user_id,
-			'payment_email'  => ! empty( $_POST['affwp_payment_email'] ) ? sanitize_text_field( $_POST['affwp_payment_email'] ) : $user_email,
-			'status'         => $status,
-			'website_url'    => $website_url,
-			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
+			'user_id'             => $user_id,
+			'payment_email'       => ! empty( $_POST['affwp_payment_email'] ) ? sanitize_text_field( $_POST['affwp_payment_email'] ) : $user_email,
+			'status'              => $status,
+			'website_url'         => $website_url,
+			'dynamic_coupon'      => affiliate_wp()->settings->get( 'require_approval' ) ? '' : 1,
+			'registration_method' => 'affiliate_registration_form',
+			'registration_url'    => esc_url_raw( home_url( $_SERVER['REQUEST_URI'] ) )
 		) );
 
 		if ( ! is_user_logged_in() ) {
@@ -810,7 +821,7 @@ class Affiliate_WP_Register {
 	 */
 	public function auto_register_user_as_affiliate( $user_id = 0 ) {
 
-		if ( ! affiliate_wp()->settings->get( 'auto_register' ) ) {
+		if ( ! $this->auto_register_enabled() ) {
 			return;
 		}
 
@@ -818,9 +829,15 @@ class Affiliate_WP_Register {
 			return;
 		}
 
+		// Affiliate and WP user account are already being created via the Add New affiliate screen.
+		if ( did_action( 'affwp_add_affiliate' ) ) {
+			return;
+		}
+
 		$affiliate_id = affwp_add_affiliate( array(
-			'user_id'        => $user_id,
-			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
+			'user_id'             => $user_id,
+			'dynamic_coupon'      => affiliate_wp()->settings->get( 'require_approval' ) ? '' : 1,
+			'registration_method' => 'auto_register_new_users',
 		) );
 
 		if ( ! $affiliate_id ) {
@@ -919,7 +936,7 @@ class Affiliate_WP_Register {
 	 */
 	public function add_as_affiliate( $context ) {
 
-		if ( affiliate_wp()->settings->get( 'auto_register' ) ) {
+		if ( $this->auto_register_enabled() ) {
 			return;
 		}
 
@@ -965,7 +982,7 @@ class Affiliate_WP_Register {
 	 */
 	public function process_add_as_affiliate( $user_id = 0 ) {
 
-		if ( affiliate_wp()->settings->get( 'auto_register' ) ) {
+		if ( $this->auto_register_enabled() ) {
 			return;
 		}
 
@@ -984,8 +1001,9 @@ class Affiliate_WP_Register {
 
 		// add the affiliate
 		affwp_add_affiliate( array(
-			'user_id'        => $user_id,
-			'dynamic_coupon' => isset( $_POST['dynamic_coupon'] ) ? $_POST['dynamic_coupon'] : '',
+			'user_id'             => $user_id,
+			'dynamic_coupon'      => isset( $_POST['dynamic_coupon'] ) ? $_POST['dynamic_coupon'] : '',
+			'registration_method' => 'admin_add_new_user',
 		) );
 
 	}
@@ -998,7 +1016,7 @@ class Affiliate_WP_Register {
 	 */
 	function scripts() {
 
-		if ( affiliate_wp()->settings->get( 'auto_register' ) ) {
+		if ( $this->auto_register_enabled() ) {
 			return;
 		}
 
@@ -1044,6 +1062,34 @@ class Affiliate_WP_Register {
 
 		<?php endif;
 
+	}
+
+	/**
+	 * Check if "Automatically register new user accounts as affiliates" is enabled.
+	 *
+	 * Also checks the old "auto_register" setting name for versions prior to 2.18.0.
+	 * @since 2.18.0
+	 *
+	 * @return bool
+	 */
+	public function auto_register_enabled() {
+		$new_setting = 'auto_register_new_users' === affiliate_wp()->settings->get( 'additional_registration_modes' );
+
+		// If the new setting is enabled, return true immediately.
+		if ( $new_setting ) {
+			return true;
+		}
+
+		// Check the old setting only if necessary.
+		$old_setting = affiliate_wp()->settings->get( 'auto_register' );
+
+		// If the old setting is enabled, return true.
+		if ( $old_setting ) {
+			return true;
+		}
+
+		// If neither setting is enabled, return false.
+		return false;
 	}
 
 }

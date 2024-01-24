@@ -1,7 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+#[AllowDynamicProperties]
 
 /**
  * Allows plugins to use their own update API.

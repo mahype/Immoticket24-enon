@@ -249,6 +249,18 @@ class Affiliate_WP_Upgrades {
 			$this->v2160_upgrade();
 		}
 
+		if ( version_compare( $this->version, '2.16.3', '<' ) ) {
+			$this->v2163_upgrade();
+		}
+
+		if ( version_compare( $this->version, '2.17.0', '<' ) ) {
+			$this->v2170_upgrade();
+		}
+
+		if ( version_compare( $this->version, '2.18.0', '<' ) ) {
+			$this->v2180_upgrade();
+		}
+
 		// Inconsistency between current and saved version.
 		if ( version_compare( $this->version, AFFILIATEWP_VERSION, '<>' ) ) {
 			$this->upgraded = true;
@@ -1386,6 +1398,84 @@ class Affiliate_WP_Upgrades {
 					: 'pending'
 			);
 
+		}
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.16.3.
+	 *
+	 * @access  private
+	 * @since   2.16.3
+	 */
+	private function v2163_upgrade() {
+		require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/class-usage.php';
+
+		$usage_tracking = new Affiliate_WP_Usage_Tracking();
+
+		// Track first registered affiliate.
+		$usage_tracking->track_first_affiliate();
+
+		// Track first referral.
+		$usage_tracking->track_first_referral();
+
+		// Track first payout.
+		$usage_tracking->track_first_payout();
+
+		// Track first creative.
+		$usage_tracking->track_first_creative( 0, array() );
+
+		/**
+		 * Installs before v2.10.0 won't have the affwp_first_installed option row.
+		 * If it doesn't exist, create it based on the post date of the current Affiliate Area page.
+		 */
+		if ( ! get_option( 'affwp_first_installed' ) ) {
+			add_option( 'affwp_first_installed', strtotime( get_post_field( 'post_date', affwp_get_affiliate_area_page_id() ) ), '', 'no' );
+		}
+
+		// Remove older affwp_last_checkin option row.
+		if ( get_option( 'affwp_last_checkin' ) ) {
+			delete_option( 'affwp_last_checkin' );
+		}
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.17.0.
+	 *
+	 * @since 2.17.0
+	 */
+	private function v2170_upgrade() {
+
+		affiliate_wp()->creative_meta->create_table();
+
+		@affiliate_wp()->utils->log( 'Upgrade: The creativemeta table was created.' );
+
+		$this->upgraded = true;
+	}
+
+	/**
+	 * Perform database upgrades for version 2.18.0.
+	 *
+	 * @since 2.18.0
+	 */
+	private function v2180_upgrade() {
+		// Get all settings.
+		$settings = affiliate_wp()->settings->get_all();
+
+		// User has Auto Register New Users option enabled.
+		if ( ! empty( $settings['auto_register'] ) ) {
+
+			// Enable our new setting under "Additional Registration Modes".
+			$settings['additional_registration_modes'] = 'auto_register_new_users';
+
+			// Unset the old setting.
+			unset( $settings['auto_register'] );
+
+			// Update the affwp_settings option.
+			update_option( 'affwp_settings', $settings );
 		}
 
 		$this->upgraded = true;

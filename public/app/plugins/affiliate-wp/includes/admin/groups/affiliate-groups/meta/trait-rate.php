@@ -67,9 +67,7 @@ trait Rate {
 
 		$global_setting = affiliate_wp()->settings->get(
 			'referral_rate',
-			isset( $settings['general']['referral_rate']['std'] )
-				? $settings['general']['referral_rate']['std']
-				: 20
+			$settings['commissions']['referral_rate']['std'] ?? 20
 		);
 
 		ob_start();

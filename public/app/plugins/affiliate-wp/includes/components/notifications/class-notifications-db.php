@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Notifications Database
  *
@@ -13,6 +13,8 @@ namespace AffWP\Components\Notifications;
 
 use AffWP\Utils;
 
+#[AllowDynamicProperties]
+
 /**
  * Notifications database class.
  *
@@ -21,6 +23,15 @@ use AffWP\Utils;
  * @see Affiliate_WP_DB
  */
 class Notifications_DB extends \Affiliate_WP_DB {
+
+	/**
+	 * REST API.
+	 *
+	 * @since Unknown
+	 *
+	 * @var null
+	 */
+	public $REST = null; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase
 
 	/**
 	 * Cache group for queries.

@@ -9,6 +9,11 @@
  * @since       1.0
  */
 
+// phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Spaces before comments OK.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Space above comments ok.
+
+use Automattic\WooCommerce\Utilities\OrderUtil;
+
 /**
  * Implements an integration for WooCommerce.
  *
@@ -81,6 +86,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		add_action( 'wc-pending_to_trash',    array( $this, 'revoke_referral' ), 10 );
 		add_action( 'wc-processing_to_trash', array( $this, 'revoke_referral' ), 10 );
 		add_action( 'wc-on-hold_to_trash',    array( $this, 'revoke_referral' ), 10 );
+		add_action( 'woocommerce_trash_order', array( $this, 'revoke_referral' ), 10 );
 
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 
@@ -111,9 +117,19 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		add_action( 'edited_product_cat', array( $this, 'save_product_category_rate' ) );
 		add_action( 'create_product_cat', array( $this, 'save_product_category_rate' ) );
 
-		// Filter Orders list table to add a referral column.
-		add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_orders_column' ) );
-		add_action( 'manage_posts_custom_column', array( $this, 'render_orders_referral_column' ), 10, 2 );
+		if ( true === $this->is_hpos_enabled() ) {
+
+			// HPOS usage is enabled.
+			add_filter( 'woocommerce_shop_order_list_table_columns', array( $this, 'add_orders_column' ) );
+			add_action( 'woocommerce_shop_order_list_table_custom_column', array( $this, 'render_orders_referral_column' ), 10, 2 );
+
+		} else { // Traditional CPT-based orders are in use.
+
+			// Filter Orders list table to add a referral column.
+			add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_orders_column' ) );
+			add_action( 'manage_posts_custom_column', array( $this, 'render_orders_referral_column' ), 10, 2 );
+
+		}
 
 		// Per product referral rate types
 		add_filter( 'affwp_calc_referral_amount', array( $this, 'calculate_referral_amount_type' ), 10, 5 );
@@ -136,6 +152,19 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 */
 	public function plugin_is_active() {
 		return class_exists( 'WooCommerce' );
+	}
+
+	/**
+	 * Determines whether HPOS is in use.
+	 *
+	 * @since 2.20.0
+	 *
+	 * @return bool
+	 */
+	private function is_hpos_enabled() : bool {
+
+		return class_exists( \Automattic\WooCommerce\Utilities\OrderUtil::class )
+			&& \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
 	}
 
 	/**
@@ -239,7 +268,10 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 			return false; // Completed Referral already created for this reference.
 		}
 
-		$cart_shipping = $this->order->get_total_shipping();
+		$cart_discount = true === version_compare( WC()->version, '3.0.0', '>=' ) 
+			? $this->order->get_shipping_total() 
+			: $this->order->get_total_shipping();
+
 
 		if ( ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
 			$cart_shipping += $this->order->get_shipping_tax();
@@ -335,7 +367,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				'amount'      => $amount,
 				'visit_id'    => $visit_id,
 				'order_total' => $this->get_order_total(),
-				'products'    => $this->get_products(),
+				'products'    => $this->get_products( $order_id ),
 			)
 		);
 
@@ -453,6 +485,12 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				$product['name'] .= ' ' . sprintf( __( '(Variation ID %d)', 'affiliate-wp' ), $product['variation_id'] );
 			}
 
+			// Get the categories associated with the download.
+			$categories = get_the_terms( $product['product_id'], 'product_cat' );
+
+			// Get the first category ID for the product.
+			$category_id = $categories && ! is_wp_error( $categories ) ? $categories[0]->term_id : 0;
+
 			/**
 			 * Filters an individual WooCommerce products line as stored in the referral record.
 			 *
@@ -473,7 +511,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				'name'            => $product['name'],
 				'id'              => $product['product_id'],
 				'price'           => $amount,
-				'referral_amount' => $this->calculate_referral_amount( $amount, $order_id, $product['product_id'] )
+				'referral_amount' => $this->calculate_referral_amount( $amount, $order_id, empty( $product['variation_id'] ) ? $product['product_id'] : $product['variation_id'], 0, $category_id )
 			), $product, $order_id );
 
 		}
@@ -553,15 +591,28 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 * Revoke the referral associated with the given order ID
 	 *
 	 * @since 2.1
+	 * @since 2.20.0 Added support for HPOS.
 	*/
 	public function revoke_referral( $order_id = 0 ) {
 
-		if ( is_a( $order_id, 'WP_Post' ) ) {
-			$order_id = $order_id->ID;
-		}
+		// Bail if not a shop order.
+		if ( true === $this->is_hpos_enabled() ) {
 
-		if( 'shop_order' != get_post_type( $order_id ) ) {
-			return;
+			$order_id = is_object( $order_id ) ? $order_id->get_id() : $order_id;
+
+			if ( 'shop_order' !== OrderUtil::get_order_type( $order_id ) ) {
+				return;
+			}
+
+		} else {
+
+			$order_id = is_a( $order_id, 'WP_Post' ) ? $order_id->ID : $order_id;
+
+			// Without HPOS, get the post type.
+			if ( 'shop_order' !== get_post_type( $order_id ) ) {
+				return;
+			}
+
 		}
 
 		$this->reject_referral( $order_id, true );
@@ -588,6 +639,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 * Sets up the reference link.
 	 *
 	 * @since 1.0
+	 * @since 2.20.0 Added support for HPOS.
 	 *
 	 * @param int             $reference Referral reference (order number).
 	 * @param \AffWP\Referral $referral  Current referral object.
@@ -602,10 +654,13 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		}
 
-		$url       = get_edit_post_link( $reference );
+		$url = ( true === $this->is_hpos_enabled() )
+			? admin_url( sprintf( 'admin.php?page=wc-orders&action=edit&id=%s', $reference ) )
+			: get_edit_post_link( $reference );
+
 		$reference = $this->parse_reference( $reference );
 
-		return '<a href="' . esc_url( $url ) . '">' . $reference . '</a>';
+		return sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $reference );
 	}
 
 	/**
@@ -1054,11 +1109,117 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 					delete_post_meta( $variation_id, '_affwp_' . $this->context . '_referrals_disabled' );
 
 				}
-
 			}
+		}
+	}
 
+	/**
+	 * Is a Product ID in a WooCommerce Order?
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param int $product_id The variation ID.
+	 * @param int $order      The Order ID (Reference).
+	 *
+	 * @return bool
+	 */
+	private function product_id_is_in_order( $product_id, $order ) : bool {
+
+		return in_array(
+			intval( $product_id ),
+			array_filter(
+				array_map(
+
+					// Get all the ID's from each Product (object) into an array.
+					function( $product ) {
+
+						if ( ! is_a( $product, '\WC_Order_Item' ) ) {
+							return 0;
+						}
+
+						return intval( $product->get_product_id() ?? 0 );
+					},
+
+					// The list of products in the order (objects).
+					$order->get_items() ?? array()
+				),
+
+				// Filter out any invalid products with ID 0 from array_map().
+				function ( $product_id ) {
+					return is_numeric( $product_id ) && intval( $product_id ) > 0;
+				}
+			),
+			true
+		);
+	}
+
+	/**
+	 * Is a Variation ID in a WooCommerce Order?
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param int $variation_id The variation ID.
+	 * @param int $order The Order ID (Reference).
+	 *
+	 * @return bool
+	 */
+	private function variation_id_is_in_order( $variation_id, $order ) : bool {
+
+		return in_array(
+			intval( $variation_id ),
+			array_filter(
+				array_map(
+
+					function( $product ) {
+
+						if ( ! is_a( $product, '\WC_Order_Item' ) ) {
+							return 0;
+						}
+
+						return intval( $product->get_variation_id() ?? 0 );
+					},
+
+					// The list of products in the order (objects).
+					$order->get_items() ?? array()
+				),
+
+				// Filter out any invalid products with ID 0 from array_map().
+				function ( $variation_id ) {
+					return is_numeric( $variation_id ) && intval( $variation_id ) > 0;
+				}
+			),
+			true
+		);
+	}
+
+	/**
+	 * Is a Product (ID) & Order (Reference) from WooCommerce?
+	 *
+	 * @since 2.20.0
+	 *
+	 * @param int $product_id_or_variation_id The Product ID (that should be in the order).
+	 * @param int $order_id                   The Order ID (Reference).
+	 *
+	 * @return bool True if the order and product are in WooCommerce (and the product is in the order).
+	 */
+	private function is_in_woo_order( $product_id_or_variation_id, $order_id ) : bool {
+
+		if ( ! is_numeric( $order_id ) || ! is_numeric( $product_id_or_variation_id ) ) {
+			return false; // The order and product ID's need to be numeric.
 		}
 
+		if ( ! function_exists( 'wc_get_order' ) ) {
+			return false;
+		}
+
+		$order = wc_get_order( intval( $order_id ) ); // Can be an Order object or false.
+
+		if ( ! is_a( $order, '\WC_Order' ) ) {
+			return false;
+		}
+
+		return $this->product_id_is_in_order( $product_id_or_variation_id, $order ) ||
+			$this->variation_id_is_in_order( $product_id_or_variation_id, $order );
 	}
 
 	/**
@@ -1069,10 +1230,8 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	*/
 	public function calculate_referral_amount_type( $referral_amount, $affiliate_id, $amount, $reference, $product_id ) {
 
-		if ( ! defined( 'WOOCOMMERCE_CHECKOUT' ) ) {
-
-			return $referral_amount;
-
+		if ( ! $this->is_in_woo_order( $product_id, $reference ) ) {
+			return $referral_amount; // The product is not in a WooCommerce order.
 		}
 
 		// Check if the current referral amount is from an affiliate rate.
@@ -1558,25 +1717,40 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 *
 	 * @access public
 	 * @since  2.1.11
+	 * @since 2.20.0 Added support for HPOS.
 	 *
-	 * @param string $column_name Name of column being rendered.
+	 * @param string     $column_name Name of column being rendered.
+	 * @param object|int $order_or_id Order object if HPOS is enabled or order ID.
 	 * @return void.
 	 */
-	public function render_orders_referral_column( $column_name, $order_id ) {
+	public function render_orders_referral_column( string $column_name, $order_or_id ) {
 
-		if ( get_post_type( $order_id ) == 'shop_order' && 'referral' === $column_name ) {
-
-			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
-
-			if ( ! is_wp_error( $referral ) && 'failed' !== $referral->status ) {
-				echo '<a href="' . affwp_admin_url( 'referrals', array( 'referral_id' => $referral->referral_id, 'action' => 'edit_referral' ) ) . '">#' . $referral->referral_id . '</a>';
-			} else {
-				echo '<span aria-hidden="true">&mdash;</span>';
-
-			}
-
+		// Bail if not the column we want.
+		if ( 'referral' !== $column_name ) {
+			return;
 		}
 
+		// Bail if not a shop order.
+		if ( true === $this->is_hpos_enabled() ) {
+
+			// HPOS usage is enabled, so we need to get the id.
+			$order_or_id = $order_or_id->get_id();
+
+			if ( 'shop_order' !== OrderUtil::get_order_type( $order_or_id ) ) {
+				return;
+			}
+
+		} elseif ( 'shop_order' !== get_post_type( $order_or_id ) ) {
+			return;
+		}
+
+		// Get the referral.
+		$referral = affwp_get_referral_by( 'reference', $order_or_id, $this->context );
+
+		// Render the referral ID with link to edit screen if it exists. Otherwise, return a dash.
+		echo ( ! is_wp_error( $referral ) && 'failed' !== $referral->status )
+			? sprintf( '<a href="%s">#%d</a>', affwp_admin_url( 'referrals', array( 'referral_id' => $referral->referral_id, 'action' => 'edit_referral' ) ), $referral->referral_id )
+			: '<span aria-hidden="true">&mdash;</span>';
 	}
 
 	/**

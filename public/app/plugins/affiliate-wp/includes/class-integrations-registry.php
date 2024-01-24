@@ -139,7 +139,7 @@ class Integrations_Registry extends Utils\Registry {
 	 * @return array List of supported integration features.
 	 */
 	private function supports_whitelist() {
-		$supports = array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons' );
+		$supports = array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons', 'affiliate_signup_widget' );
 
 		/**
 		 * Filters the supported integration features.
@@ -330,6 +330,12 @@ class Integrations_Registry extends Utils\Registry {
 			'supports' => array( 'sales_reporting', 'manual_coupons' ),
 		) );
 
+		// Elementor
+		$this->add_integration( 'elementor', array(
+			'name'     => 'Elementor',
+			'class'    => '\Affiliate_WP_Elementor',
+		) );
+
 		// Formidable Pro
 		$this->add_integration( 'formidablepro', array(
 			'name'  => 'Formidable Pro',
@@ -433,7 +439,7 @@ class Integrations_Registry extends Utils\Registry {
 		$this->add_integration( 'woocommerce', array(
 			'name'     => 'WooCommerce',
 			'class'    => '\Affiliate_WP_WooCommerce',
-			'supports' => array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons' ),
+			'supports' => array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons', 'affiliate_signup_widget' ),
 		) );
 
 		// WP EasyCart

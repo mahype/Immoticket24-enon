@@ -55,9 +55,13 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 	/**
 	 * Construct
 	 *
+	 * @param string $connector_id The Connector ID if there is one.
+	 *
+	 * @since 2.18.0 (Aubrey Portwood) Updated to accept a matching connector ID if there is one.
+	 *
 	 * @since 2.12.0
 	 */
-	public function __construct() {
+	public function __construct( string $connector_id = '' ) {
 
 		$this->item_plural  = __( 'Creatives', 'affiliate-wp' );
 		$this->item_single  = __( 'Creative', 'affiliate-wp' );
@@ -80,6 +84,6 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 			),
 		);
 
-		parent::__construct();
+		parent::__construct( $connector_id );
 	}
 }

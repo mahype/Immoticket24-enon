@@ -47,6 +47,7 @@ function AffiliateWPFieldTermsOfUse( { attributes, setAttributes, isSelected, re
 	} = attributes;
 
 	const [placeholder, setPlaceholder] = useState( false );
+	const [newLink, setNewLink] = useState( attributes.link );
 
 	const LinkControl = __stableLinkControl
 		? __stableLinkControl
@@ -86,6 +87,22 @@ function AffiliateWPFieldTermsOfUse( { attributes, setAttributes, isSelected, re
 		return () => { setPlaceholder( false ) }
 
 	}, [link]);
+
+	const updateLink = (newLink) => {
+		setNewLink(newLink);
+
+		setAttributes({
+			link: newLink.url,
+			id: 'URL' !== newLink.type ? newLink.id : undefined,
+			// Set the label for the first time.
+			label: sprintf(
+				// translators: %1$s: open link tag, %2$s close link tag
+				__( 'Agree to our %1$sTerms of Use and Privacy Policy%2$s', 'affiliate-wp' ),
+				`<a href="${newLink.url}" target="_blank">`,
+				'</a>'
+			)
+		})
+	};
 
 	return (
 		<div {...blockProps}>
@@ -167,23 +184,9 @@ function AffiliateWPFieldTermsOfUse( { attributes, setAttributes, isSelected, re
 			<p>{ __( 'Select your Affiliate Terms of Use page below.', 'affiliate-wp' ) } <ExternalLink href={ affwp_blocks.terms_of_use_generator }>{ __( 'Create one using a template', 'affiliate-wp' ) }</ExternalLink></p>
 
 			<LinkControl
+				value={newLink}
+				onChange={updateLink}
 				searchInputPlaceholder={ __( 'Select a Terms of Use Page', 'affiliate-wp' ) }
-				value={{
-					url: attributes.url,
-				}}
-				onChange={(value) => {
-					setAttributes({
-						link: value.url,
-						id: 'URL' !== value.type ? value.id : undefined,
-						// Set the label for the first time.
-						label: sprintf(
-							// translators: %1$s: open link tag, %2$s close link tag
-							__( 'Agree to our %1$sTerms of Use and Privacy Policy%2$s', 'affiliate-wp' ),
-							`<a href="${value.url}" target="_blank">`,
-							'</a>'
-						)
-					})
-				}}
 				settings={ [] }
 				suggestionsQuery={{ type: "post", subtype: 'page' }}
 			/>
