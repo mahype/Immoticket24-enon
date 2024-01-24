@@ -104,7 +104,7 @@ $have_users_to_delete      = $to_delete_count > $total_invalid_count;
 			<li>
 				<?php
 				/* translators: 1: Affiliate ID, 2: Affiliate name */
-				printf( _x( 'ID #%1$d: %1$s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, $name );
+				echo esc_html( sprintf( _x( 'ID #%1$d: %2$s', 'Affiliate ID, affiliate name', 'affiliate-wp' ), $affiliate_id, $name ) );
 				?>
 				<input type="hidden" name="affwp_affiliate_ids[]" value="<?php echo esc_attr( $affiliate_id ); ?>"/>
 			</li>

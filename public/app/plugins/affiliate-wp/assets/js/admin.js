@@ -5,14 +5,17 @@ jQuery(document).ready(function($) {
 	var file_frame;
 	window.formfield = '';
 
+	// TO DO: Need to determine ideal size for these
+	// And move this to be more global as we use it in other places in our settings.
+	const affwpSelect2Width = '175px';
+
 	$('body').on('click', '.affwp_settings_upload_button', function(e) {
 
 		e.preventDefault();
 
 		var button = $(this);
 
-		window.formfield = $(this).parent().prev();
-
+		window.formfield = $(this).prev();
 		// If the media frame already exists, reopen it.
 		if( file_frame ) {
 			file_frame.open();
@@ -51,6 +54,10 @@ jQuery(document).ready(function($) {
 			selection.each( function( attachment, index ) {
 				attachment = attachment.toJSON();
 				window.formfield.val(attachment.url);
+
+				// Dispatch a custom event with the new URL
+				var event = new CustomEvent('mediaURLChanged', { detail: { url: attachment.url } });
+				document.dispatchEvent(event);
 			});
 		});
 
@@ -537,15 +544,168 @@ jQuery(document).ready(function($) {
 	 */
 	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-settings' ] ) > -1 ) {
 
-		const recaptchaScoreThresholdField = $( '#recaptcha_score_threshold' );
+		// Accordions.
+		$( '.affwp-accordion' ).each( function() {
 
-		$( 'input[name="affwp_settings[recaptcha_type]"]' ).on( 'change', function( e ) {
-			if ( 'v3' !== e.target.value ){
-				recaptchaScoreThresholdField.hide();
-				return
+			const $accordion = $( this );
+
+			$accordion.find( '> .affwp-accordion-item > .affwp-accordion-title' ).on( 'click', function( e ) {
+
+				e.stopPropagation();
+
+				const $accordionItem = $( this ).parent();
+
+				// Close other accordion items.
+				if ( $accordion.data( 'toggle' ) !== undefined ) {
+					$accordionItem.siblings().not( $accordionItem.get( 0 ) ).addClass( 'affwp-accordion-collapsed' );
+				}
+
+				// Toggle the clicked item.
+				$accordionItem.toggleClass( 'affwp-accordion-collapsed' );
+			} );
+
+		} );
+
+		// Visibility.
+		function affwpShouldFieldBeVisible( fieldVal, expectedVal, compare ) {
+
+			if ( ['==', '==='].includes( compare ) && fieldVal == expectedVal ) {
+				return true;
 			}
 
-			recaptchaScoreThresholdField.show();
+			if ( ['!=', '<>'].includes( compare ) && fieldVal != expectedVal ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		function affwpIsVisible( $field, expectedValue, comparison ) {
+
+			const tag = $field.get( 0 ).tagName;
+
+			if ( tag === 'INPUT' && $field.attr( 'type' ) === 'radio' ) {
+				return affwpShouldFieldBeVisible( $field.filter( ':checked' ).val(), expectedValue, comparison );
+			}
+
+			if ( tag === 'INPUT' && $field.attr( 'type' ) === 'checkbox' ) {
+				return affwpShouldFieldBeVisible( $field.is( ':checked' ), expectedValue, comparison );
+			}
+
+			if ( tag === 'SELECT' ) {
+				return affwpShouldFieldBeVisible( $field.val(), expectedValue, comparison );
+			}
+		}
+
+		// Field visibility.
+		$( 'tr[data-visibility]' ).each( function() {
+
+			const $row    = $( this );
+			const $form   = $( '#affwp-settings-form' );
+			const ruleset = $row.data( 'visibility' );
+			const $field  = $form.find( `input[name="affwp_settings[${ruleset.rule.required_field}]"]` );
+			const comparison = ruleset.rule.hasOwnProperty( 'compare' )
+				? ruleset.rule.compare
+				: '=='
+
+ 			$field.on( 'change', function () {
+
+				if ( affwpIsVisible( $field, ruleset.rule.value, comparison ) ) {
+					$row.show();
+					return;
+				}
+
+				$row.hide();
+			} );
+		} );
+
+		// Section visibility.
+		$( '.affwp-section[data-visibility]' ).each( function() {
+
+			const $section = $( this );
+			const $form   = $( '#affwp-settings-form' );
+			const ruleset = $section.data( 'visibility' );
+			const $field  = $form.find( `input[name="affwp_settings[${ruleset.required_field}]"]` );
+			const comparison = ruleset.hasOwnProperty( 'compare' )
+				? ruleset.compare
+				: '=='
+
+			$field.on( 'change', function () {
+
+				if ( affwpIsVisible( $field, ruleset.value, comparison ) ) {
+					$section.show();
+					return;
+				}
+
+				$section.hide();
+			} );
+		} );
+
+		// Select2
+
+		$( '#affwp-settings-form select' ).each( function() {
+
+			const $select = $( this );
+			const $row = $select.closest( 'tr' );
+
+			if (
+				[ 'portal_menu_links', 'affiliate_area_tabs_list' ].includes( $row.attr( 'id' ) ) ||
+				$row.hasClass( 'affwp-ignore-select2' )
+			) {
+				return; // Skip for repeater fields
+			}
+
+			$row.addClass( 'affwp-select2-initialized' );
+
+			$select.select2( {
+				width: '240px',
+				minimumResultsForSearch: -1,
+				/**
+				 * Format the dropdown options.
+				 * Add a pro badge to the QR Code option addProBadge class is present.
+				 *
+				 * @param  {Object} option The option object.
+				 * @return {Object}        The option with or without the pro badge.
+				 */
+				templateResult ( option ) {
+
+					if ( ! option.id ) {
+						return option.text;
+					}
+
+					if ( option.element.classList.contains( 'addProBadge' ) ) {
+						return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
+					}
+
+					return option.text;
+				},
+				/**
+				 * Format the selected option.
+				 * Add a pro badge to the option addProBadge class is present.
+				 *
+				 * @param  {Object} option The option object.
+				 * @return {Object}       The option with or without the pro badge.
+				 */
+				templateSelection( option ) {
+
+					if ( ! option.id ) {
+						return option.text;
+					}
+
+					if ( option.element.classList.contains( 'addProBadge' ) ) {
+						return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
+					}
+
+					return option.text;
+				},
+			} ).on( 'change', function( e ) {
+				$( document ).trigger( 'affiliatewp_on_select_change', [e] );
+			} );
+		} );
+
+		// Open the Type select2 dropdown when clicking on the Type label.
+		$( '.affwp-select2-initialized label' ).on( 'click', function() {
+			$( this ).closest( 'tr' ).find( 'select' ).select2( 'open' );
 		} );
 	}
 
@@ -664,7 +824,137 @@ jQuery(document).ready(function($) {
 	// Used in Affiliate WP Creative add/edit screen.
 	if ( $.inArray( pagenow, [ 'affiliates_page_affiliate-wp-creatives' ] ) > -1 ) {
 
-		$( '#affwp_edit_creative' ).on( 'submit', function( e ) {
+		/* eslint-disable no-undef */
+		if ( typeof affiliatewp !== 'undefined' && affiliatewp.has( 'qrcode' ) ) {
+
+			// Print QR Codes in admin list table.
+			$( '#the-list .column-preview' ).each( function() {
+
+				const $qrCode = $( this ).find( '.affwp-qrcode-preview' );
+
+				affiliatewp.qrcode(
+					$qrCode.get( 0 ),
+					$qrCode.data( 'url' ),
+					affiliatewp.parseArgs(
+						typeof $qrCode.data( 'settings' ) === 'object' ? $qrCode.data( 'settings' ) : {},
+						{
+							width: 80,
+							height: 80,
+							margin: 3,
+							errorCorrectionLevel: 'H'
+						}
+					)
+				);
+			} );
+
+			// Print QR Codes in add/edit screens.
+			const qrPreviewEl = document.getElementById( 'qr-preview' );
+
+			if ( qrPreviewEl ) {
+
+				const qrSettings = affiliatewp.parseArgs(
+					qrPreviewEl.dataset.settings
+						? JSON.parse( qrPreviewEl.dataset.settings )
+						: {
+							color: {
+								dark: '#444444',
+								light: '#FFFFFF'
+							}
+						},
+					{
+						width: 200,
+						height: 200,
+						margin: 3
+					}
+				);
+
+				// affwpCreativeUrls is globally available.
+				affiliatewp.qrcode( qrPreviewEl, affwpCreativeUrls.creativeUrl, qrSettings );
+
+				// Store the last input event (setTimeout) handler.
+				let inputHandler;
+
+				const getColorSettings = () => {
+
+					return {
+						dark: $( '#qrcode-code-color' ).val(),
+						light: $( '#qrcode-bg-color' ).val(),
+					};
+				}
+
+				// Function to update QR Code colors without generating a new QR Code.
+				const updateColors = () => {
+
+					const color = getColorSettings();
+
+					const existingQR = qrPreviewEl.firstChild;
+
+					if ( existingQR ) {
+						$( existingQR ).find( 'path:eq(0)' ).css( 'fill', color.light );
+						$( existingQR ).find( 'path:eq(1)' ).css( 'stroke', color.dark );
+					}
+				}
+
+				// Update the QR Code after stopping typing.
+				$( '.form-table #qrcode-url' ).on( 'input', function() {
+
+					const newUrl = $( this ).val();
+					const color = getColorSettings();
+
+					// Clean previous handler.
+					clearTimeout( inputHandler );
+
+					inputHandler = setTimeout(function() {
+						// Remove previous QR Code.
+						qrPreviewEl.removeChild( qrPreviewEl.firstChild );
+
+						// Generate the new QR Code.
+						affiliatewp.qrcode(
+							qrPreviewEl,
+							newUrl === '' ? affwpCreativeUrls.siteUrl : newUrl,
+							affiliatewp.parseArgs( { color }, qrSettings )
+						);
+
+						// Add/Remove updated class for a visual cue.
+						$( qrPreviewEl ).addClass( 'qr-code-updated' );
+
+						setTimeout( () => {
+							$( qrPreviewEl ).removeClass( 'qr-code-updated' );
+						}, 200 );
+
+					}, 1000 );
+				} );
+
+				// Attach color picker.
+				$( '.affwp-color-picker' ).wpColorPicker({
+					clear: function() {
+						updateColors();
+					},
+					change: function( event, ui ) {
+
+						$( this ).val( ui.color.toString() );
+
+						updateColors();
+
+						$( '.qrcode-disclaimer' ).fadeIn();
+					}
+				} );
+
+				// Manipulate the Clear button to set the default colors when clicked.
+				$( '.wp-picker-clear' ).on( 'click', function() {
+
+					const $self = $( this );
+					const color = $self.closest( '.qrcode-color-picker-container' ).data( 'default-color' );
+
+					$self.closest( '.qrcode-color-picker-container' ).find( 'input.affwp-color-picker' )
+						.val( color )
+						.trigger( 'change' );
+				} );
+			}
+		} // End QR Code generation.
+		/* eslint-enable no-undef */
+
+		$( '#affwp_add_creative, #affwp_edit_creative' ).on( 'submit', function( e ) {
 
 			const $name = $( '#name' );
 
@@ -680,7 +970,6 @@ jQuery(document).ready(function($) {
 
 			// Any other conditions submit normally.
 			return true;
-
 		} );
 
 		// Object to cache values based on a context.
@@ -690,31 +979,85 @@ jQuery(document).ready(function($) {
 			},
 			image: {
 				text: ""
+			},
+			qr_code: {
+				text: ""
 			}
 		};
 
-		// TO DO: Need to determine ideal size for these
-		// And move this to be more global as we use it in other places in our settings.
-		const affwpSelect2Width = '175px';
+		// Used to store the previous selected type.
+		let prevType = $( '#type' ).val();
 
-		$('select#type').select2( {
+		$( '.form-table #type' ).select2( {
 			width: affwpSelect2Width,
 			minimumResultsForSearch: -1,
-		} ).on( 'change', function( e ) {
-			// jQuery field objects.
-			const $text  = $( '#text' );
-			const $type  = $( '#type' );
-			const $image = $( '#image' );
+			/**
+			 * Format the dropdown options.
+			 * Add a pro badge to the QR Code option addProBadge class is present.
+			 *
+			 * @param  {Object} option The option object.
+			 * @return {Object}        The option with or without the pro badge.
+			 */
+			templateResult ( option ) {
 
-			// Reset the require property from all.
+				if ( ! option.id ) {
+					return option.text;
+				}
+
+				if (
+					'qr_code' === option.id &&
+					option.element.classList.contains( 'addProBadge' )
+				) {
+					return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
+				}
+
+				return option.text;
+			},
+			/**
+			 * Format the selected option.
+			 * Add a pro badge to the QR Code option addProBadge class is present.
+			 *
+			 * @param  {Object} option The option object.
+			 * @return {Object}       The option with or without the pro badge.
+			 */
+			templateSelection( option ) {
+
+				if ( ! option.id ) {
+					return option.text;
+				}
+
+				if (
+					'qr_code' === option.id &&
+					 option.element.classList.contains( 'addProBadge' )
+				) {
+					return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
+				}
+
+				return option.text;
+			},
+		} ).on( 'change', function( e ) {
+
+			// jQuery field objects.
+			const $text      = $( '#text' );
+			const $type      = $( '#type' );
+			const $image     = $( '#image' );
+			const $url       = $( '#url' );
+			const $qrCodeUrl = $( '#qrcode-url' );
+
+			// Reset the 'required' property from all.
 			$text.attr( 'required', false );
 			$image.attr( 'required', false );
 
-			// Check which is the previous type. For now only image and text_link are supported, so we can easily guess.
-			const prevType = $type.val() === 'image' ? 'text_link' : 'image';
+			// Set disabled attributes to their default states.
+			$url.attr( 'disabled', false );
+			$qrCodeUrl.attr( 'disabled', true );
+			$qrCodeUrl.closest( '.affwp-education-modal-input-wrapper' ).find( 'span' ).removeClass( 'affwp-education-modal' );
 
 			// Save the current text value to the context object.
 			contexts[prevType].text = $text.val();
+
+			// Update the previous type with the selected type.
+			prevType = $type.val();
 
 			// Populate the text field with the current context value.
 			$text.val( contexts[ $type.val() ].text );
@@ -722,19 +1065,47 @@ jQuery(document).ready(function($) {
 			// Change the context of the form table, so we know which fields to show/hide.
 			$( '.form-table' ).attr( 'data-current-context', $( this ).val() );
 
-			// Show image if type equals image.
+			// Make image required.
 			if ( $type.val() === 'image' ) {
-				$image
-					.attr( 'required', true )
-					.closest( '.form-row' )
-						.removeClass( 'affwp-hidden' );
+				$image.attr( 'required', true );
 				return;
 			}
 
-			$text.attr( 'required', true );
+			// Text is required for Text Links.
+			if ( $type.val() === 'text_link' ) {
+				$text.attr( 'required', true );
+			}
 
-			// Otherwise hide the image field.
-			$image.closest( '.form-row' ).addClass( 'affwp-hidden' );
+			// User do not have a valid license anymore and is trying to edit a QR Code creative.
+			if ( $type.val() === 'qr_code' && $type.find( 'option:selected' ).hasClass( 'affwp-education-notice' ) ) {
+				$url.attr( 'disabled', true );
+				$qrCodeUrl.closest( '.affwp-education-modal-input-wrapper' ).find( 'span' ).addClass( 'affwp-education-modal' );
+				return;
+			}
+
+			// QR Code has a different URL field, so we disable the original one.
+			if ( $type.val() === 'qr_code' ) {
+				$url.attr( 'disabled', true );
+				$qrCodeUrl.attr( 'disabled', false );
+			}
+		} );
+
+		// Prevent from selecting pro features.
+		$( '#type' ).on( 'select2:selecting', function( e ) {
+
+			if ( ! $( e.target ).hasClass( 'select2-hidden-accessible' ) ) {
+				return; // Not a select2.
+			}
+
+			const selectedOptionClass = e.params.args.data.element.className;
+
+			// Check if product education modal should be displayed.
+			if ( ! ( selectedOptionClass && selectedOptionClass.includes( 'affwp-education-modal' ) ) ) {
+				return;
+			}
+
+			// Prevent option from being selected.
+			e.preventDefault();
 		} );
 
 		// Open the Type select2 dropdown when clicking on the Type label.
@@ -851,5 +1222,7 @@ jQuery(document).ready(function($) {
 			.removeClass( 'button-disabled' )
 			.attr( 'disabled', false );
 	} );
+
+
 
  } );

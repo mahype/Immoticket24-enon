@@ -577,10 +577,11 @@ final class DB extends \Affiliate_WP_DB {
 						WHERE
 							type = %s
 							AND
-							BINARY title = %s
+							BINARY title = %s -- %s
 					',
 					$args['type'],
-					$args['title']
+					$args['title'],
+					wp_generate_uuid4() // Helps reduce duplicate queries being reported to Query Monitor.
 				)
 			)
 		);
@@ -642,8 +643,15 @@ final class DB extends \Affiliate_WP_DB {
 
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injection OK.
-		$meta = $wpdb->get_var( $wpdb->prepare( $this->inject_table_name( 'SELECT meta FROM {table_name} WHERE group_id = %d' ), $group_id ) );
+		$meta = $wpdb->get_var(
+			$wpdb->prepare(
+
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name injection OK.
+				$this->inject_table_name( 'SELECT meta FROM {table_name} WHERE group_id = %d -- %s' ),
+				$group_id,
+				wp_generate_uuid4() // Helps reduce duplicate queries reported to Query Monitor.
+			)
+		);
 
 		if ( ! is_string( $meta ) ) {
 
@@ -898,7 +906,7 @@ final class DB extends \Affiliate_WP_DB {
 		$results = $wpdb->get_results(
 			$this->inject_table_name( // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See self::inject_table_name() for justification.
 				sprintf(
-					'SELECT group_id FROM {table_name} %s %s %s %s %s %s %s',
+					'SELECT group_id FROM {table_name} %s %s %s %s %s %s %s -- %s',
 
 					// WHERE, etc.
 					$this->where_sql(),
@@ -909,7 +917,8 @@ final class DB extends \Affiliate_WP_DB {
 					// ORDER BY, ORDER, LIMIT, OFFSET (should always be last).
 					$this->orderby_sql( $args['orderby'], $args['order'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->_real_escape in method.
 					$this->limit_sql( $args['number'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
-					$this->offset_sql( $args['offset'] ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
+					$this->offset_sql( $args['offset'] ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are properly $wpdb->prepare in method.
+					wp_generate_uuid4() // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Used to reduce duplicate queries reported to Query Monitor.
 				)
 			)
 		);
@@ -1076,8 +1085,9 @@ final class DB extends \Affiliate_WP_DB {
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We properly prepare table name in inject_table_name().
 			$this->inject_table_name(
 				$wpdb->prepare(
-					'SELECT group_id from {table_name} WHERE group_id = %d',
-					$group_id
+					'SELECT group_id from {table_name} WHERE group_id = %d -- %s',
+					$group_id,
+					wp_generate_uuid4() // Helps reduce duplicate queries reported to Query Monitor.
 				)
 			)
 		);
@@ -1223,23 +1233,26 @@ final class DB extends \Affiliate_WP_DB {
 			return;
 		}
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		global $wpdb;
 
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- dbDelta in newer versions of PHP can throw warnings.
-		@dbDelta(
-			"
-			CREATE TABLE {$this->table_name} (
+		$wpdb->query(
 
-				group_id bigint(20)     NOT NULL AUTO_INCREMENT,
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No need for prepare here.
+			$this->inject_table_name(
+				'
+					CREATE TABLE `{table_name}` (
 
-				`type`     varchar(191) NOT NULL,
-				`title`    varchar(191) NOT NULL,
-				`meta`     varchar(191) NOT NULL,
+						`group_id` bigint(20)   NOT NULL AUTO_INCREMENT,
 
-				PRIMARY KEY (group_id)
+						`type`     varchar(191) NOT NULL,
+						`title`    varchar(191) NOT NULL,
+						`meta`     varchar(191) NOT NULL,
 
-			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-			"
+						PRIMARY KEY (`group_id`)
+
+					) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+				'
+			)
 		);
 
 		if ( $this->table_exists( $this->table_name ) ) {
@@ -1541,6 +1554,10 @@ final class DB extends \Affiliate_WP_DB {
 	 * @throws \Exception If we cannot upgrade the column.
 	 */
 	private function maybe_convert_meta_to_longtext() : void {
+
+		if ( ! $this->table_exists( $this->table_name ) ) {
+			return; // The table hasn't even been created, try again later.
+		}
 
 		if ( 'longtext' === $this->get_column_type( $this->table_name, 'meta' ) ) {
 			return; // It's been converted.

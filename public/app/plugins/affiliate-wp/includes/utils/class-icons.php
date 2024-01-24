@@ -98,20 +98,34 @@ class Icons {
 	 * @return void
 	 */
 	public static function render( string $icon, string $fallback_text = '', array $svg_attrs = array() ) : void {
+		echo self::generate( $icon, $fallback_text, $svg_attrs );
+	}
+
+	/**
+	 * Retrieves an icon, with an optional text fallback.
+	 *
+	 * @since 2.17.0
+	 *
+	 * @param string $icon          The icon name.
+	 * @param string $fallback_text A fallback text if for some reason the SVG icon can not be displayed.
+	 * @param array  $svg_attrs     SVG html attributes to replace.
+	 *
+	 * @return void
+	 */
+	public static function generate( string $icon, string $fallback_text = '', array $svg_attrs = array() ) : string {
 
 		try {
 
-			echo wp_kses( self::get( $icon, $svg_attrs ), self::$kses );
+			return wp_kses( self::get( $icon, $svg_attrs ), self::$kses );
 
 		} catch ( Exception $e ) {
 
 			if ( empty( $fallback_text ) ) {
 
-				echo esc_html( $icon );
-				return;
+				return esc_html( $icon );
 			}
 
-			echo esc_html( $fallback_text );
+			return esc_html( $fallback_text );
 		}
 	}
 

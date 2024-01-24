@@ -953,7 +953,6 @@ class Affiliate_WP_Admin_Notices {
 			update_option( 'affwp_creative_name_privacy', 'public' );
 
 			return;
-
 		}
 
 		$this->add_notice(
@@ -1018,7 +1017,6 @@ class Affiliate_WP_Admin_Notices {
 				},
 			)
 		);
-
 	}
 
 	/**
@@ -1082,21 +1080,50 @@ class Affiliate_WP_Admin_Notices {
 		}
 
 		foreach ( affiliate_wp()->integrations->get_discontinued_integrations() as $slug => $info ) {
-			$this->add_notice( "{$slug}_discontinued_integration_enabled", array(
-				'class'   => 'notice notice-info',
-				'message' => function() use ( $info ) {
-					$message  = '<p>';
-					/* translators: 1: Integration name, 2: URL to the discontinued integrations guide */
-					$message .= sprintf( __( 'AffiliateWP is ending official support for the <strong>%1$s</strong> integration beginning %2$s. See <a href="%3$s" target="_blank">this guide</a> for more information.', 'affiliate-wp' ),
-						$info['label'],
-						$info['date'],
-						esc_url( 'https://affiliatewp.com/docs/discontinued-integrations/' )
-					);
-					$message .= '</p>';
 
-					return $message;
-				},
-			) );
+			if ( ! isset( $info['label'] ) ) {
+				throw new \Exception( 'label must be set.' );
+			}
+
+			if ( ! isset( $info['date'] ) ) {
+				throw new \Exception( 'date must be set.' );
+			}
+
+			$this->add_notice(
+				"{$slug}_discontinued_integration_enabled",
+				array(
+					'class'   => 'notice notice-info',
+					'message' => function() use ( $info ) {
+
+						ob_start();
+
+						?>
+
+						<p>
+							<?php
+
+							echo wp_kses_post(
+								sprintf(
+									// Translators: %1$s is the name of the integration, %2$s is the date, and %3$s is the link to the documentation.
+									__( 'AffiliateWP is ending official support for the <strong>%1$s</strong> %4$s beginning %2$s. See <a href="%3$s" target="_blank">this guide</a> for more information.', 'affiliate-wp' ),
+									esc_html( $info['label'] ),
+									esc_html( $info['date'] ),
+									esc_url( 'https://affiliatewp.com/docs/discontinued-integrations/' ),
+									$info['count'] ?? 0 > 1
+										? __( 'integrations', 'affiliate-wp' )
+										: __( 'integration', 'affiliate-wp' ),
+								)
+							);
+
+							?>
+						</p>
+
+						<?php
+
+						return ob_get_clean();
+					},
+				)
+			);
 		}
 	}
 

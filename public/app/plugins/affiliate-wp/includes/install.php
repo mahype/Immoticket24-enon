@@ -16,6 +16,7 @@ use AffWP\Components\Notifications\Notifications_DB;
  *
  * @since 0.1
  * @since 2.14.0 Included support for custom_links features.
+ * @since 2.20.1 Updated to properly add rewrite and flush them in order, see https://github.com/awesomemotive/affiliate-wp/issues/5023
  */
 function affiliate_wp_install() {
 
@@ -33,6 +34,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->visits         = new Affiliate_WP_Visits_DB;
 	$affiliate_wp_install->campaigns      = new Affiliate_WP_Campaigns_DB;
 	$affiliate_wp_install->creatives      = new Affiliate_WP_Creatives_DB;
+	$affiliate_wp_install->creative_meta  = new AffiliateWP\Creatives\Meta\DB();
 	$affiliate_wp_install->sales          = new Affiliate_WP_Sales_DB;
 	$affiliate_wp_install->settings       = new Affiliate_WP_Settings;
 	$affiliate_wp_install->rewrites       = new Affiliate_WP_Rewrites;
@@ -49,6 +51,7 @@ function affiliate_wp_install() {
 	$affiliate_wp_install->visits->create_table();
 	$affiliate_wp_install->campaigns->create_table();
 	$affiliate_wp_install->creatives->create_table();
+	$affiliate_wp_install->creative_meta->create_table();
 	$affiliate_wp_install->sales->create_table();
 	$affiliate_wp_install->affiliates->payouts->create_table();
 	$affiliate_wp_install->affiliates->coupons->create_table();
@@ -134,8 +137,8 @@ function affiliate_wp_install() {
 		update_option( 'affwp_display_setup_screen', true );
 	}
 
-	// Clear rewrite rules
-	$affiliate_wp_install->rewrites->flush_rewrites();
+	$affiliate_wp_install->rewrites->rewrites(); // Add rewrite rules.
+	$affiliate_wp_install->rewrites->flush_rewrites(); // Flush rewrite cache.
 
 	$completed_upgrades = array(
 		'upgrade_v20_recount_unpaid_earnings',
@@ -147,6 +150,7 @@ function affiliate_wp_install() {
 		'upgrade_v274_calculate_campaigns',
 		'upgrade_v281_convert_failed_referrals',
 		'upgrade_v2140_set_creative_type',
+		'upgrade_v2160_update_creative_names',
 	);
 
 	// Set past upgrade routines complete for all sites.
@@ -195,7 +199,7 @@ register_activation_hook( AFFILIATEWP_PLUGIN_FILE, 'affiliate_wp_install' );
 function affiliate_wp_check_if_installed() {
 
 	// This is mainly for network-activated installs.
-	if( ! get_option( 'affwp_is_installed' ) ) {
+	if ( ! get_option( 'affwp_is_installed' ) ) {
 		affiliate_wp_install();
 	}
 }

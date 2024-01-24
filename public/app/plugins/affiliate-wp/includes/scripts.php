@@ -94,6 +94,12 @@ function affwp_admin_scripts() {
 		wp_enqueue_media();
 	}
 
+	// Enqueue Select2 for Setting Screens.
+	if ( 'affiliate-wp-settings' === affwp_get_current_screen() ) {
+		affwp_enqueue_style( 'affwp-select2' );
+		affwp_enqueue_script( 'affwp-select2' );
+	}
+
 	wp_enqueue_script( 'jquery-ui-datepicker' );
 
 	// Enqueue postbox for core meta boxes.
@@ -198,6 +204,7 @@ add_action( 'admin_enqueue_scripts', 'affwp_admin_styles' );
  * This is separated so it can be selectively executed outside of affwp admin pages.
  *
  * @since 2.0
+ * @since 2.17.0 Conditionally loads QR Code library if on a Creative page.
  */
 function affwp_enqueue_admin_js() {
 
@@ -233,6 +240,13 @@ function affwp_enqueue_admin_js() {
 		'creativeUpgradeNoticeNo'   => __( 'Review & Rename Creatives', 'affiliate-wp' ),
 		'creativeUpgradeNoticeYes'  => __( 'Make Creative Names Visible', 'affiliate-wp' ),
 		'creativeUpdateNameConfirm' => __( 'This creative’s name has not been updated and affiliates will see it as “Creative” on your website.', 'affiliate-wp' ),
+		'creativeQRCodeFeatUpgReq'  => __( 'Please upgrade to PRO to use the QR Code type feature.', 'affiliate-wp' ),
+		'proFeatureOnly'            => __( 'Upgrade to Pro to access this feature.', 'affiliate-wp' ),
+		'proFeatureOnlyUnlicensed'  => __( 'Enter your license key to access this Pro feature.', 'affiliate-wp' ),
+		'license'                   => array(
+			'isPro'        => affwp_is_upgrade_required( 'pro' ) !== true,
+			'hasProAccess' => affwp_can_access_pro_features(),
+		),
 	) );
 
 	// Alpine and in-plugin notifcations.
@@ -244,6 +258,59 @@ function affwp_enqueue_admin_js() {
 
 	// Setup Screen page.
 	wp_register_script( 'affiliate-wp-setup-screen', AFFILIATEWP_PLUGIN_URL . "assets/js/setup-screen{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION, true );
+
+	if ( ! affwp_is_admin_page( 'affiliate-wp-creatives' ) ) {
+		return;
+	}
+
+	// Loads the QR Code script to the Creative pages.
+	affiliatewp_load_qrcode_admin_scripts();
+}
+
+/**
+ * Load resources for QR Code features for the admin screens.
+ *
+ * @since 2.17.0
+ *
+ * @return void
+ */
+function affiliatewp_load_qrcode_admin_scripts() {
+
+	// Enqueue the QR Code scripts.
+	affiliate_wp()->scripts->enqueue( 'affiliatewp-qrcode' );
+
+	$action = filter_input( INPUT_GET, 'action' );
+
+	if ( ! in_array( $action, array( 'add_creative', 'edit_creative' ), true ) ) {
+		return; // We don't need to load any other resources.
+	}
+
+	// Enqueue the color picker.
+	wp_enqueue_style( 'wp-color-picker' );
+	wp_enqueue_script( 'wp-color-picker' );
+
+	$creative_url = '';
+
+	if ( 'edit_creative' === $action ) {
+
+		$creative     = affwp_get_creative( absint( $_GET['creative_id'] ?? 0 ) );
+		$creative_url = $creative->url ?? '';
+	}
+
+	$urls = wp_json_encode(
+		array(
+			'creativeUrl' => ! empty( $creative_url )
+				? esc_js( $creative_url )
+				: get_site_url(),
+			'siteUrl'     => get_site_url(),
+		)
+	);
+
+	wp_add_inline_script(
+		'affwp-admin',
+		"const affwpCreativeUrls = {$urls};",
+		'before'
+	);
 }
 
 /**

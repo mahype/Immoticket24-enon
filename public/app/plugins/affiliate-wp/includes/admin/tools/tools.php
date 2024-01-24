@@ -590,13 +590,13 @@ add_action( 'affwp_tools_tab_system_info', 'affwp_system_info_tab' );
  * @return array $html Allowed HTML tags.
  */
 function affwp_tools_wp_kses_allowed_html( $html, $context ) {
-	
+
 	if ( 'terms_of_use_generator' !== affwp_get_current_tools_tab() || 'post' !== $context ) {
 		return $html;
 	}
 
-	return array_merge( 
-		$html, 
+	return array_merge(
+		$html,
 		array(
 			'span' => array(
 				'x-text' => 1,
@@ -952,7 +952,7 @@ function affwp_debug_tab() {
 								<?php foreach ( affwp_debug_get_option_keys() as $key ) :
 									$value = get_option( $key, '' );
 
-									if ( 'affwp_last_checkin' === $key ) {
+									if ( 'affwp_usage_tracking_last_checkin' === $key ) {
 										$value = affwp_date_i18n( $value, 'datetime' );
 									}
 									?>
@@ -1008,7 +1008,7 @@ function affwp_debug_get_option_keys() {
 	$keys = array(
 		'affwp_version',
 		'affwp_version_upgraded_from',
-		'affwp_last_checkin',
+		'affwp_usage_tracking_last_checkin',
 		'affwp_js_works',
 		'affwp_is_installed',
 		'affwp_alltime_earnings',

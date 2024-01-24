@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Utilities Bootstrap
  *
@@ -10,6 +10,8 @@
  */
 
 use AffWP\Utils;
+
+#[AllowDynamicProperties]
 
 /**
  * Utilities class for AffiliateWP.

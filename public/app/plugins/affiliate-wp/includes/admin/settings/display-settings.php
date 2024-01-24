@@ -85,36 +85,348 @@ function affwp_admin_header() {
 add_action( 'in_admin_header', 'affwp_admin_header', 1 );
 
 /**
+ * Renders the settings fields for a particular settings section.
+ *
+ * Copied mostly verbatim from `do_settings_section()` with the addition of
+ * setting a unique id attribute for the table row elements.
+ *
+ * @param string $page Slug title of the admin page whose settings fields you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ *
+ * @throws Exception When a field is not registered.
+ *
+ * @since 2.7
+ * @since 2.18.0 Support to display sections of settings.
+ *
+ * @global array $wp_settings_fields Storage array of settings fields and their pages/sections.
+ */
+function affwp_do_settings_fields( string $page, string $section ) {
+
+	global $wp_settings_fields;
+
+	if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
+		return;
+	}
+
+	$tab_name     = str_replace( 'affwp_settings_', '', $section );
+	$tab_sections = affiliate_wp()->settings->get_sections( $tab_name );
+
+	if ( empty( $tab_sections ) ) {
+		return; // No sections registered for this tab.
+	}
+
+	ob_start();
+
+	?>
+
+	<div class="affwp-accordion-disabled"> <!-- Remove -disabled to activate the accordion again. -->
+
+	<?php foreach ( $tab_sections as $tab_handle => $tab_section ) : ?>
+
+		<?php
+
+		if ( empty( $tab_section['fields'] ) ) {
+			continue; // Can't render sections without fields.
+		}
+
+		$section_classes = array(
+			'affwp-section',
+			'affwp-accordion-item',
+			$tab_section['class'],
+		);
+
+		?>
+
+		<div
+			class="<?php echo esc_attr( trim( implode( ' ', $section_classes ) ) ); ?>"
+			id="<?php echo esc_attr( str_replace( '_', '-', $tab_handle ) ); ?>-settings"
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+			echo affiliatewp_tag_attr( 'data-visibility', $tab_section['visibility'] );
+			?>
+		>
+
+			<div class="affwp-section-title affwp-accordion-title">
+				<h2>
+					<?php echo esc_html( $tab_section['title'] ); ?>
+					<?php if ( $tab_section['is_pro'] && ! affwp_can_access_pro_features() ) : ?>
+						<span class="affwp-settings-label-pro">Pro</span>
+					<?php endif; ?>
+				</h2>
+				<?php if ( ! empty( $tab_section['help_text'] ) ) : ?>
+					<p class="affwp-section-help-text affwp-accordion-subtitle"><?php echo wp_kses( $tab_section['help_text'], affwp_kses() ); ?></p>
+				<?php endif; ?>
+			</div>
+
+			<div class="affwp-accordion-content">
+
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- No need to escape.
+				echo call_user_func(
+					"affiliatewp_section_template_{$tab_section['template']}",
+					$page,
+					$section,
+					$tab_section['fields']
+				);
+				?>
+
+			</div>
+
+		</div>
+
+	<?php endforeach; ?>
+
+	<?php
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped at this point.
+	echo ob_get_clean();
+}
+
+/**
+ * Render a section using the table template.
+ *
+ * @param string $page Slug title of the admin page whose settings field you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ * @param array  $fields The array of fields to render.
+ *
+ * @throws Exception When a field is not registered.
+ *
+ * @return string
+ */
+function affiliatewp_section_template_table( string $page, string $section, array $fields ) : string {
+
+	ob_start();
+
+	?>
+
+	<table class="form-table">
+
+		<?php foreach ( $fields as $field_key ) : ?>
+
+			<?php
+
+			$field = affiliatewp_get_field_from_settings( $page, $section, $field_key );
+
+			if ( false === $field ) {
+				continue; // Field doesn't exist, skip it.
+			}
+
+			// Append the necessary classes.
+			$classes   = explode( ' ', $field['args']['class'] );
+			$classes[] = 'affwp-setting-row';
+			$classes   = implode( ' ', array_filter( $classes ) );
+
+			// Check if we need to display the pro badge.
+			$show_label_pro_badge =
+				! isset( $field['args']['education_modal']['options'] ) &&
+				! affwp_can_access_pro_features() &&
+				! empty( $field['args']['education_modal'] ) &&
+				(
+					(
+						isset( $field['args']['education_modal']['show_pro_badge'] ) &&
+						true === $field['args']['education_modal']['show_pro_badge']
+					) ||
+					! isset( $field['args']['education_modal']['show_pro_badge'] )
+				);
+
+			?>
+
+			<tr
+				<?php
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+				echo affiliatewp_tag_attr( 'id', $field['args']['id'] );
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+				echo affiliatewp_tag_attr( 'class', trim( $classes ) );
+
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+				echo affiliatewp_tag_attr( 'data-visibility', $field['args']['visibility'] );
+
+				?>
+			>
+				<th scope="row">
+					<div>
+						<?php if ( empty( $field['args']['label_for'] ) ) : ?>
+
+							<?php
+							$label_for = sprintf(
+								'affwp_settings[%s]%s',
+								$field['args']['id'],
+								isset( $field['args']['options'] ) && ! empty( $field['args']['options'] )
+									? sprintf( '[%s]', array_keys( $field['args']['options'] )[0] )
+									: ''
+							);
+							?>
+
+							<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
+							<label<?php echo affiliatewp_tag_attr( 'for', $label_for ); ?>>
+								<?php echo wp_kses( $field['title'], affwp_kses() ); ?>
+							</label>
+
+						<?php else : ?>
+
+							<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
+							<label<?php echo affiliatewp_tag_attr( 'for', $field['args']['label_for'] ); ?>>
+								<?php echo wp_kses( $field['title'], affwp_kses() ); ?>
+							</label>
+
+						<?php endif; ?>
+
+						<?php if ( $show_label_pro_badge ) : ?>
+							<span class="affwp-settings-label-pro">Pro</span>
+						<?php endif; ?>
+					</div>
+				</th>
+				<td><?php call_user_func( $field['callback'], $field['args'] ); ?></td>
+			</tr>
+
+		<?php endforeach; ?>
+
+	</table>
+
+	<?php
+
+	return ob_get_clean();
+}
+
+/**
+ * Render a section using the table template.
+ *
+ * @param string $page Slug title of the admin page whose settings field you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ * @param array  $field_groups Groups of fields to render.
+ *
+ * @throws Exception When a field is not registered.
+ *
+ * @return string
+ */
+function affiliatewp_section_template_affiliate_signup_widget( string $page, string $section, array $field_groups ) : string {
+
+	ob_start();
+
+	?>
+
+	<div class="affwp-admin-affiliate-signup-widget-wrapper">
+
+		<div class="affwp-admin-customizer-field-groups">
+
+			<?php foreach ( $field_groups as $field_group ) : ?>
+
+				<?php if ( is_string( $field_group[0] ) ) : ?>
+
+					<?php
+
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+					echo affiliatewp_section_template_table( $page, $section, $field_group );
+
+					?>
+
+				<?php endif; ?>
+
+				<?php if ( is_array( $field_group[0] ) ) : ?>
+
+					<div class="affwp-accordion" data-toggle data-theme="light">
+
+						<?php foreach ( $field_group as $group_key => $group ) : ?>
+
+							<div class="affwp-settings-group affwp-accordion-item<?php echo 0 === $group_key ? '' : ' affwp-accordion-collapsed'; ?>">
+
+								<div class="affwp-accordion-title">
+									<h3><?php echo esc_html( $group['title'] ?? "Group {$group_key}" ); ?></h3>
+								</div>
+
+								<div class="affwp-accordion-content">
+
+									<?php
+
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
+									echo affiliatewp_section_template_table( $page, $section, $group['settings'] ?? array() );
+
+									?>
+
+								</div>
+
+							</div>
+
+						<?php endforeach; ?>
+					</div>
+
+				<?php endif; ?>
+
+			<?php endforeach; ?>
+		</div>
+
+		<div class="affwp-admin-affiliate-signup-widget-preview">
+			<?php do_action( 'affwp_admin_affiliate_signup_widget_preview' ); ?>
+		</div>
+
+	</div>
+	<?php
+
+	return ob_get_clean();
+}
+
+/**
+ * Retrieve a field from the $wp_settings_fields global.
+ *
+ * @since 2.18.0
+ * @since 2.18.2 We don't throw exception if the field doesn't exist anymore, returning false instead.
+ *
+ * @param string $page Slug title of the admin page whose settings field you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ * @param string $field_key The array of fields to render.
+ *
+ * @return mixed|false The field key. False in case the setting is not registered.
+ */
+function affiliatewp_get_field_from_settings( string $page, string $section, string $field_key ) {
+
+	global $wp_settings_fields;
+
+	$field_internal_key = "affwp_settings[{$field_key}]";
+
+	if ( ! isset( $wp_settings_fields[ $page ][ $section ][ $field_internal_key ] ) ) {
+		return false;
+	}
+
+	return $wp_settings_fields[ $page ][ $section ][ $field_internal_key ];
+}
+
+/**
  * Options Page
  *
  * Renders the options page contents.
  *
  * @since 1.0
- * @return void
+ *
+ * @throws Exception If the field is not registered.
  */
 function affwp_settings_admin() {
 
-	$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], affwp_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
+	$active_tab = affiliate_wp()->settings->get_active_tab();
 
 	ob_start();
+
 	?>
+
 	<div class="wrap">
 		<h2 class="nav-tab-wrapper">
 			<?php affwp_navigation_tabs( affwp_get_settings_tabs(), $active_tab, array( 'settings-updated' => false ) ); ?>
 		</h2>
 		<div id="tab_container">
-			<form method="post" action="options.php">
-				<table class="form-table">
+			<form id="affwp-settings-form" method="post" action="options.php">
 				<?php
 				settings_fields( 'affwp_settings' );
 				affwp_do_settings_fields( 'affwp_settings_' . $active_tab, 'affwp_settings_' . $active_tab );
 				?>
-				</table>
 				<?php submit_button(); ?>
 			</form>
 		</div><!-- #tab_container-->
 	</div><!-- .wrap -->
+
 	<?php
+
+	 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
 	echo ob_get_clean();
 }
 
@@ -123,31 +435,13 @@ function affwp_settings_admin() {
  * Retrieves the settings tabs.
  *
  * @since 1.0
+ * @since 2.18.0 We now use Settings::get_tabs() method to retrieve tabs.
  *
  * @return array $tabs Settings tabs.
  */
-function affwp_get_settings_tabs() {
+function affwp_get_settings_tabs() : array {
 
-	$tabs                    = array();
-	$tabs['general']         = __( 'General', 'affiliate-wp' );
-	$tabs['integrations']    = __( 'Integrations', 'affiliate-wp' );
-	$tabs['opt_in_forms']    = __( 'Opt-In Form', 'affiliate-wp' );
-	$tabs['emails']          = __( 'Emails', 'affiliate-wp' );
-	$tabs['misc']            = __( 'Misc', 'affiliate-wp' );
-	$tabs['payouts_service'] = __( 'Payouts Service', 'affiliate-wp' );
-
-	if ( affwp_get_dynamic_coupons_integrations() ) {
-		$tabs['coupons'] = __( 'Coupons', 'affiliate-wp' );
-	}
-
-	/**
-	 * Filters the list of settings tabs.
-	 *
-	 * @since 1.0
-	 *
-	 * @param array $tabs Settings tabs.
-	 */
-	return apply_filters( 'affwp_settings_tabs', $tabs );
+	return affiliate_wp()->settings->get_tabs();
 }
 
 /**

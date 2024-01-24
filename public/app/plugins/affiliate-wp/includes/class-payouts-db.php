@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Payouts Database Abstraction Layer
  *
@@ -8,6 +8,8 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.9
  */
+
+#[AllowDynamicProperties]
 
 /**
  * Core class that implements a database layer for payouts.
