@@ -153,7 +153,7 @@ class License {
 			wp_send_json_error( $generic_error );
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_options() ) ) {
 			wp_send_json_error( $generic_error );
 		}
 
@@ -187,6 +187,7 @@ class License {
 	 * Redefine admin area Settings page License Key field content.
 	 *
 	 * @since 1.5.0
+	 * @since 3.11.0 Removed name attribute of license key input element.
 	 *
 	 * @param Options $options The plugin options.
 	 * @param bool    $echo    Whether to output HTML.
@@ -216,7 +217,7 @@ class License {
 
 			<div class="wp-mail-smtp-setting-field-row">
 				<input type="password" id="wp-mail-smtp-setting-license-key"
-							 value="<?php echo esc_attr( $key ); ?>" name="wp-mail-smtp[license][key]"
+							 value="<?php echo esc_attr( $key ); ?>"
 							 class="wp-mail-smtp-setting-license-key<?php echo ! empty( $input_class ) ? ' ' . esc_attr( $input_class ) : ''; ?>"
 							 <?php echo ( $options->is_const_defined( 'license', 'key' ) || $is_valid ) ? 'disabled' : ''; ?>
 				/>
@@ -689,7 +690,7 @@ class License {
 	public function notices( $below_h2 = false ) {
 
 		// Only users with sufficient capability can see the notices.
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_options() ) ) {
 			return;
 		}
 
@@ -949,6 +950,20 @@ class License {
 			empty( $saved_license['is_expired'] ) &&
 			empty( $saved_license['is_disabled'] ) &&
 			empty( $saved_license['is_invalid'] );
+	}
+
+	/**
+	 * Check whether the license is expired.
+	 *
+	 * @since 3.11.0
+	 *
+	 * @return bool
+	 */
+	public function is_expired() {
+
+		$saved_license = Options::init()->get_group( 'license' );
+
+		return ! empty( $saved_license['is_expired'] );
 	}
 
 	/**
