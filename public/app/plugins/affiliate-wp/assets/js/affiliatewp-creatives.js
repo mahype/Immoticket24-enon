@@ -38,7 +38,11 @@
 			modalItem: '[data-modal]',
 			copyTextarea: '.affwp-copy-textarea-content',
 			creativeClone: '.affwp-creative-clone',
-			copyTooltip: 'button[data-action="copy"]:not(.affwp-tooltip-initialized)'
+			copyTooltip: 'button[data-action="copy"]:not(.affwp-tooltip-initialized)',
+			qrCodeActive: '.fancybox__slide.is-selected .affwp-qrcode-modal-preview',
+			qrCodePreview: '.affwp-qrcode-preview',
+			qrCodeModalPreview: '.affwp-qrcode-modal-preview',
+			qrCodeModalDownloadButton: '.fancybox__slide.is-selected .affwp-button[data-download]'
 		},
 
 		/**
@@ -72,6 +76,9 @@
 
 			// Bind other actions.
 			this.initActions();
+
+			// Generate QR Codes.
+			this.generateQRCodes();
 		},
 
 		/**
@@ -140,6 +147,29 @@
 					// Once the modal open, we get rid of the temporary creative to avoid conflicts.
 					document.querySelector( '.affwp-creative-clone' ).remove();
 				} )
+				.onDone( () => {
+
+					document.querySelectorAll( this.selectors.qrCodeModalPreview ).forEach( ( qrCodeElement ) => {
+
+						if (
+							! ( qrCodeElement instanceof Element ) ||
+							qrCodeElement.classList.contains( 'affwp-qrcode-initialized' )
+						) {
+							return; // Bail if it is not an Element or already initialized.
+						}
+
+						affiliatewp.qrcode(
+							qrCodeElement,
+							qrCodeElement.dataset.url,
+							affiliatewp.parseArgs(
+								this.parseQRCodeSettings( qrCodeElement ),
+								{
+									format: 'png'
+								}
+							)
+						);
+					} );
+				} )
 				.onLoading( () => {
 					this.hideAllTooltips();
 				} )
@@ -157,6 +187,24 @@
 
 					}
 				);
+		},
+
+		/**
+		 * Retrieve and parse QR Code settings from an HTML Element.
+		 *
+		 * @param {Element} qrCodeElement The reference element for analyzing the data.
+		 *
+		 * @since 2.17.0
+		 */
+		parseQRCodeSettings( qrCodeElement ) {
+
+			if ( ! ( qrCodeElement instanceof Element ) ) {
+				throw new Error( `Expected Element, got ${typeof qrCodeElement}` );
+			}
+
+			return qrCodeElement.hasAttribute( 'data-settings' ) && typeof JSON.parse( qrCodeElement.dataset.settings ) === 'object'
+				? JSON.parse( qrCodeElement.dataset.settings )
+				: {}
 		},
 
 		/**
@@ -190,6 +238,7 @@
 					},
 					on: {
 						loadMore: () => {
+							this.generateQRCodes();
 							this.makeClickableItems();
 						}
 					}
@@ -240,8 +289,156 @@
 				this.handleCopyContent( event.target );
 			} );
 
+			// Download action.
+			document.addEventListener( 'click', ( event ) => {
+
+				if ( ! event.target.classList.contains( 'affwp-download-button' ) ) {
+					return; // Bail if it is not the download button.
+				}
+
+				event.preventDefault();
+
+				if ( event.target.dataset.type === 'qr_code' ) {
+					this.handleQRCodeDownload( event.target );
+					return;
+				}
+
+				this.handleImageDownloadFromButton(
+					event.target.dataset.download,
+					event.target.dataset.href
+				);
+			} );
+
+			// Print action.
+			document.addEventListener( 'click', ( event ) => {
+
+				if ( ! event.target.classList.contains( 'affwp-print-button' ) ) {
+					return; // Bail if it is not the print button.
+				}
+
+				// Get the content to be printed.
+				const sourceEl = document.querySelector( '.fancybox__slide.is-selected .affwp-qrcode-modal-preview' );
+
+				// Create a new element to be appended
+				let targetEl = document.getElementById( 'affwp-printable-area' );
+
+				// Document is already in the DOM.
+				if ( targetEl ) {
+
+					// Update the contents.
+					targetEl.innerHTML = sourceEl.innerHTML;
+
+					// Call print method.
+					window.print();
+
+					return;
+				}
+
+				// Create a new element.
+				targetEl = document.createElement( 'div' );
+
+				targetEl.id        = 'affwp-printable-area';
+				targetEl.innerHTML = sourceEl.innerHTML;
+
+				// Append to the end of the document.
+				document.body.appendChild( targetEl );
+
+				// Call print method.
+				window.print();
+			} );
+
 			// Handle view details click for other columns.
 			this.makeClickableItems();
+		},
+
+		/**
+		 * Handle download button for images QR Codes.
+		 *
+		 * @since 2.17.2
+		 *
+		 * @param {string} clickedEl The element clicked.
+		 */
+		handleQRCodeDownload( clickedEl ) {
+
+			// Get the visible QR Code.
+			const qrCodeElement = document.querySelector( this.selectors.qrCodeActive );
+
+			// Generate a new QR Code object.
+			const qrCodeDownload = affiliatewp.qrcode();
+
+			// Update the QR Code settings.
+			qrCodeDownload.updateSettings(
+				qrCodeElement.hasAttribute( 'data-settings' ) && typeof JSON.parse( qrCodeElement.dataset.settings ) === 'object'
+					? JSON.parse( qrCodeElement.dataset.settings )
+					: {}
+			);
+
+			// Generate a new PNG file in background and downloaded it.
+			qrCodeDownload.createPNG(
+				qrCodeElement.dataset.url,
+				( downloadUrl ) => {
+					this.handleImageDownloadFromButton( clickedEl.dataset.download, downloadUrl );
+				}
+			);
+		},
+
+		/**
+		 * Handle image download for HTML buttons.
+		 *
+		 * @since 2.17.2
+		 *
+		 * @param {string} filename The name of the file.
+		 * @param {string} downloadUrl The URL to be used as href for the temp anchor element.
+		 */
+		handleImageDownloadFromButton( filename, downloadUrl ) {
+
+			const downloadLink = document.createElement( 'a' );
+
+			downloadLink.download = filename;
+			downloadLink.href = downloadUrl;
+
+			// External images cannot be downloaded, so we make sure they at least open in a new tab.
+			downloadLink.target = '_blank';
+
+			downloadLink.click();
+			downloadLink.remove();
+		},
+
+		/**
+		 * Generate QR Codes.
+		 *
+		 * @since 2.17.0
+		 */
+		generateQRCodes() {
+
+			if ( ! affiliatewp.has( 'qrcode' ) ) {
+				throw new Error( 'Missing QR Code script. Ensure affiliatewp.qrcode is loaded correctly.' );
+			}
+
+			document.querySelectorAll( this.selectors.qrCodePreview ).forEach( ( qrCodeElement ) => {
+
+				if (
+					qrCodeElement.classList.contains( 'affwp-qrcode-initialized' ) ||
+					! qrCodeElement.hasAttribute( 'data-url' )
+				) {
+					return; // Already generated or don't contain a URL to generate.
+				}
+
+				const qrCodeSettings = qrCodeElement.hasAttribute( 'data-settings' ) && typeof JSON.parse( qrCodeElement.dataset.settings ) === 'object'
+					? JSON.parse( qrCodeElement.dataset.settings )
+					: {};
+
+				affiliatewp.qrcode(
+					qrCodeElement,
+					qrCodeElement.dataset.url,
+					affiliatewp.parseArgs(
+						qrCodeSettings,
+						{
+							format: 'png'
+						}
+					)
+				);
+			} );
 		},
 
 		/**
@@ -351,7 +548,7 @@
 				return; // Copy is not enabled in this browser.
 			}
 
-			navigator.clipboard.writeText(content)
+			navigator.clipboard.writeText( content )
 				.then( () => {
 					if ( successCallback && typeof successCallback === 'function' ) {
 						successCallback();

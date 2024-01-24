@@ -10,11 +10,14 @@
  */
 
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Empty spaces before comments below, easier for reading.
+// phpcs:disable Squiz.Commenting.BlockComment.HasEmptyLineBefore -- Empty lines before comment blocks okay.
 
 /**
  * Determines if the specified user ID is an affiliate.
  *
  * If no user ID is given, it will check the currently logged in user
+ *
+ * @param int $user_id The User ID.
  *
  * @since 1.0
  * @return bool
@@ -29,14 +32,25 @@ function affwp_is_affiliate( $user_id = 0 ) {
  * If no user ID is given, it will check the currently logged in user
  *
  * @since 1.0
- * @since 2.0.3 The current user is no longer taken into consideration in the admin
- *              or if doing Ajax when `$user_id` is empty.
+ * @since 2.0.3  The current user is no longer taken into consideration in the admin
+ *               or if doing Ajax when `$user_id` is empty.
+ * @since 2.18.2 Added $affiliate_id to wp cache.
+ * @since 2.19.1 Removed WP Cache, see https://github.com/awesomemotive/affiliate-wp/issues/5003
  *
- * @param int $user_id Optional. User ID. Default is the ID of the current user.
- * @return int|false Affiliate ID, or false if the current user isn't logged-in or `$user_id` is empty.
+ * @param  int $user_id    Optional. User ID. Default is the ID of the current user.
+ * @return int|string|null The value for affiliate_id in the database for the given user_id,
+ *                         or false if the current user isn't logged-in or `$user_id` is empty.
  */
 function affwp_get_affiliate_id( $user_id = 0 ) {
 
+	/*
+	 * What does this code do?
+	 *
+	 * I can't grok this, why is this here? Do you understand this?
+	 *
+	 * If you do, please share it with the team it needs to be refactored
+	 * so someone can understand what it's doing and why.
+	 */
 	if ( empty( $user_id ) ) {
 		$is_admin_doing_ajax = is_admin() || wp_doing_ajax();
 
@@ -47,16 +61,8 @@ function affwp_get_affiliate_id( $user_id = 0 ) {
 		}
 	}
 
-	$cache_key    = md5( 'affwp_get_affiliate_id' . $user_id );
-	$affiliate_id = wp_cache_get( $cache_key, 'affiliates' );
-
-	if( false === $affiliate_id ) {
-
-		$affiliate_id = affiliate_wp()->affiliates->get_column_by( 'affiliate_id', 'user_id', $user_id );
-
-	}
-
-	return $affiliate_id;
+	// Note, adding a check to see if this is numeric, or casting as an int, can break the Affiliate Portal.
+	return affiliate_wp()->affiliates->get_column_by( 'affiliate_id', 'user_id', $user_id );
 }
 
 
@@ -1285,26 +1291,29 @@ function affwp_get_affiliate_campaigns( $affiliate = 0, $args = array() ) {
  *
  * @since 1.0
  * @since 2.6 Added support for a `$dynamic_coupon` argument.
+ * @since 2.18.0 Added support for `$registration_method` and `$registration_url` arguments.
  *
  * @see Affiliate_WP_DB_Affiliates::add()
  *
  * @param array $data {
  *     Optional. Array of arguments for adding a new affiliate. Default empty array.
  *
- *     @type string $status          Affiliate status. Default 'active'.
- *     @type string $date_registered Date the affiliate was registered. Default is the current time.
- *     @type string $rate            Affiliate-specific referral rate.
- *     @type string $rate_type       Rate type. Accepts 'percentage' or 'flat'.
- *     @type string $payment_email   Affiliate payment email.
- *     @type int    $earnings        Affiliate earnings. Default 0.
- *     @type int    $referrals       Number of affiliate referrals.
- *     @type int    $visits          Number of visits.
- *     @type int    $user_id         User ID used to correspond to the affiliate.
- *     @type string $user_name       User login. Used to retrieve the affiliate ID if `affiliate_id` and
- *                                   `user_id` not given.
- *     @type string $notes           Notes about the affiliate for use by administrators.
- *     @type string $website_url     The affiliate's website URL.
- *     @type bool   $dynamic_coupon  Set to true if a dynamic coupon should be created for the new affiliate.
+ *     @type string $status              Affiliate status. Default 'active'.
+ *     @type string $date_registered     Date the affiliate was registered. Default is the current time.
+ *     @type string $rate                Affiliate-specific referral rate.
+ *     @type string $rate_type           Rate type. Accepts 'percentage' or 'flat'.
+ *     @type string $payment_email       Affiliate payment email.
+ *     @type int    $earnings            Affiliate earnings. Default 0.
+ *     @type int    $referrals           Number of affiliate referrals.
+ *     @type int    $visits              Number of visits.
+ *     @type int    $user_id             User ID used to correspond to the affiliate.
+ *     @type string $user_name           User login. Used to retrieve the affiliate ID if `affiliate_id` and
+ *                                       `user_id` not given.
+ *     @type string $notes               Notes about the affiliate for use by administrators.
+ *     @type string $website_url         The affiliate's website URL.
+ *     @type bool   $dynamic_coupon      Set to true if a dynamic coupon should be created for the new affiliate.
+ *     @type string $registration_method The method used to register the affiliate.
+ *     @type string $registration_url    The URL where the affiliate was registered.
  * }
  * @return int|false The ID for the newly-added affiliate, otherwise false.
  */
@@ -1365,16 +1374,18 @@ function affwp_add_affiliate( $data = array() ) {
 	}
 
 	$args = array(
-		'user_id'          => $user_id,
-		'status'           => $status,
-		'rate'             => ! empty( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '',
-		'rate_type'        => ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '',
-		'flat_rate_basis'  => ! empty( $data['flat_rate_basis'] ) ? sanitize_text_field( $data['flat_rate_basis'] ) : '',
-		'payment_email'    => ! empty( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '',
-		'notes'            => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
-		'website_url'      => ! empty( $data['website_url'] ) ? sanitize_text_field( $data['website_url'] ) : '',
-		'date_registered'  => ! empty( $data['date_registered'] ) ? $data['date_registered'] : '',
-		'dynamic_coupon'   => ! empty( $data['dynamic_coupon'] ) ? $data['dynamic_coupon'] : '',
+		'user_id'             => $user_id,
+		'status'              => $status,
+		'rate'                => ! empty( $data['rate'] ) ? sanitize_text_field( $data['rate'] ) : '',
+		'rate_type'           => ! empty( $data['rate_type'] ) ? sanitize_text_field( $data['rate_type'] ) : '',
+		'flat_rate_basis'     => ! empty( $data['flat_rate_basis'] ) ? sanitize_text_field( $data['flat_rate_basis'] ) : '',
+		'payment_email'       => ! empty( $data['payment_email'] ) ? sanitize_text_field( $data['payment_email'] ) : '',
+		'notes'               => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
+		'website_url'         => ! empty( $data['website_url'] ) ? sanitize_text_field( $data['website_url'] ) : '',
+		'date_registered'     => ! empty( $data['date_registered'] ) ? $data['date_registered'] : '',
+		'dynamic_coupon'      => ! empty( $data['dynamic_coupon'] ) ? $data['dynamic_coupon'] : '',
+		'registration_method' => ! empty( $data['registration_method'] ) ? sanitize_text_field( $data['registration_method'] ) : '',
+		'registration_url'    => ! empty( $data['registration_url'] ) ? sanitize_text_field( $data['registration_url'] ) : '',
 	);
 
 	$affiliate_id = affiliate_wp()->affiliates->add( $args );
@@ -1386,6 +1397,14 @@ function affwp_add_affiliate( $data = array() ) {
 		// Add or delete affiliate notes
 		if ( ! empty( $args['notes'] ) ) {
 			affwp_update_affiliate_meta( $affiliate_id, 'notes', $args['notes'] );
+		}
+
+		// Add registration method.
+		affwp_update_affiliate_meta( $affiliate_id, 'registration_method', ! empty( $args['registration_method']) ? $args['registration_method'] : 'api' );
+
+		// Add registration URL.
+		if ( ! empty( $args['registration_url'] ) ) {
+			affwp_update_affiliate_meta( $affiliate_id, 'registration_url', $args['registration_url'] );
 		}
 
 		// Enable referral notifications by default for new affiliates.
@@ -1767,6 +1786,32 @@ function affwp_get_affiliate_base_url() {
 }
 
 /**
+ * Retrieve an affiliate referral url for the current user.
+ *
+ * It can be safely used under AJAX requests.
+ *
+ * @since 2.17.0
+ *
+ * @param string $url The URL to append the referral data. Leave blank to use site default.
+ *
+ * @return string The final URL.
+ */
+function affwp_get_current_user_affiliate_referral_url( string $url = '' ) : string {
+
+	return urldecode(
+		affwp_get_affiliate_referral_url(
+			array_filter(
+				array(
+					'base_url'     => $url,
+					'affiliate_id' => affwp_get_affiliate_id( get_current_user_id() ),
+					'format'       => affwp_get_referral_format(),
+				)
+			)
+		)
+	);
+}
+
+/**
  * Retrieves the page ID for the Affiliate Area page.
  *
  * @since 1.8
@@ -1876,6 +1921,17 @@ function affwp_get_affiliate_area_tabs() {
 }
 
 /**
+ * Get the default first Affiliate Area tab slug.
+ *
+ * @since 2.17.0
+ *
+ * @return string First tab
+ */
+function affwp_get_first_affiliate_area_tab(){
+	return 'urls';
+}
+
+/**
  * Retrieves the active Affiliate Area tab slug.
  *
  * @since 1.8.1
@@ -1883,7 +1939,18 @@ function affwp_get_affiliate_area_tabs() {
  * @return string Active tab if valid, empty string otherwise.
  */
 function affwp_get_active_affiliate_area_tab() {
-	$active_tab = ! empty( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : '';
+
+	// Bail if not in the affiliate area.
+	if ( false === affwp_is_affiliate_area() ) {
+		return '';
+	}
+
+	// If empty, return default first tab.
+	if ( empty( filter_input( INPUT_GET, 'tab', FILTER_UNSAFE_RAW ) ) ) {
+		return affwp_get_first_affiliate_area_tab();
+	}
+
+	$active_tab = sanitize_text_field( $_GET['tab'] );
 	$tabs = affwp_get_affiliate_area_tabs();
 
 	foreach ( $tabs as $tab_slug => $tab_title ) {
@@ -2120,11 +2187,25 @@ function affwp_get_payouts_service_account( $affiliate_id = 0 ) {
  * Determines whether the current page is the Affiliate Area or not.
  *
  * @since 2.6.2
+ * @since 2.17.2 Updated to check for shortcode, not just the affiliate area
+ *               page. Some pages can contain the shortcode.
+ * @since 2.18.0 Updated in case `get_the_content()` is `null`.
  *
  * @return bool True if the current page is the Affiliate Area, false if not.
  */
 function affwp_is_affiliate_area() {
-	return get_the_ID() === affwp_get_affiliate_area_page_id();
+
+	if ( get_the_ID() === affwp_get_affiliate_area_page_id() ) {
+		return true; // It's the page set in the settings.
+	}
+
+	$the_content = get_the_content( null, false, get_post( get_the_ID() ) );
+
+	if ( ! is_string( $the_content ) ) {
+		return false; // No content, no shortcode.
+	}
+
+	return stristr( $the_content, '[affiliate_area' );
 }
 
 /**
@@ -2361,4 +2442,45 @@ function affwp_get_affiliate_group_id( int $affiliate_id ) {
 
 	// Send back the single group the affiliate is in.
 	return absint( current( $connected_affiliate_groups ) );
+}
+
+/**
+ * Get registration method totals.
+ *
+ * @since 2.18.0
+ *
+ * @return array|WP_Error Array of registration methods with a count of each or WP_Error on failure.
+ */
+function affiliatewp_get_registration_method_totals() {
+	global $wpdb;
+
+	$table_name = affiliate_wp()->affiliate_meta->table_name;
+
+	// Prepare the SQL query to get the count of affiliates for each registration method.
+	$results = $wpdb->get_results(
+		"
+			SELECT meta_value AS registration_method, COUNT(*) AS count
+			FROM {$table_name}
+			WHERE meta_key = 'registration_method'
+			GROUP BY meta_value
+		",
+	ARRAY_A
+	);
+
+	// Check for any database errors.
+	if ( $wpdb->last_error ) {
+		// Create a WP_Error object and return it.
+		return new WP_Error( 'database_error', "There was an error executing the query: {$wpdb->last_error}" );
+	}
+
+	// Initialize an empty array to hold the final result.
+	$registration_method_totals = array();
+
+	// Loop through the results and build the new array.
+	foreach ( $results as $result ) {
+		$registration_method_totals[ $result['registration_method'] ] = (int) $result['count'];
+	}
+
+	// Return the new array.
+	return $registration_method_totals;
 }

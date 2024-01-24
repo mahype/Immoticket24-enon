@@ -232,25 +232,6 @@ class License_Data {
 				'url'        => home_url(),
 			);
 
-			/**
-			 * Filters whether to send site data.
-			 *
-			 * @since 1.0
-			 *
-			 * @param bool $send Whether to send site data. Default true.
-			 */
-			if ( apply_filters( 'affwp_send_site_data', true ) ) {
-
-				// Send checkins once per week.
-				$last_checked = get_option( 'affwp_last_checkin', false );
-
-				if ( ! is_numeric( $last_checked ) || $last_checked < strtotime( '-1 week', current_time( 'timestamp' ) ) ) {
-
-					$api_params['site_data'] = $this->get_site_data();
-
-				}
-			}
-
 			// Call the custom API.
 			$response = wp_remote_post( $request_url, array(
 				'timeout'   => 15,
@@ -278,12 +259,6 @@ class License_Data {
 			affiliate_wp()->settings->set( array( 'license_status' => $license_data) );
 
 			set_transient( 'affwp_license_check', $status, DAY_IN_SECONDS );
-
-			if ( ! empty( $api_params['site_data'] ) ) {
-
-				update_option( 'affwp_last_checkin', current_time( 'timestamp' ) );
-
-			}
 
 		}
 
@@ -323,64 +298,6 @@ class License_Data {
 		}
 
 		return $license_type;
-	}
-
-	/**
-	 * Retrieves site data (plugin versions, integrations, etc) to be sent along with the license check.
-	 *
-	 * @since 1.9
-	 * @since 2.9 Extracted this from the Settings class.
-	 * @access public
-	 *
-	 * @return array
-	 */
-	public function get_site_data() {
-
-		$data = array();
-
-		$theme_data = wp_get_theme();
-		$theme      = $theme_data->Name . ' ' . $theme_data->Version;
-
-		$data['php_version']   = phpversion();
-		$data['affwp_version'] = AFFILIATEWP_VERSION;
-		$data['wp_version']    = get_bloginfo( 'version' );
-		$data['server']        = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
-		$data['install_date']  = get_post_field( 'post_date', affwp_get_affiliate_area_page_id() );
-		$data['multisite']     = is_multisite();
-		$data['url']           = home_url();
-		$data['theme']         = $theme;
-
-		// Retrieve current plugin information.
-		if ( ! function_exists( 'get_plugins' ) ) {
-			include ABSPATH . '/wp-admin/includes/plugin.php';
-		}
-
-		$plugins        = array_keys( get_plugins() );
-		$active_plugins = get_option( 'active_plugins', array() );
-
-		foreach ( $plugins as $key => $plugin ) {
-			if ( in_array( $plugin, $active_plugins ) ) {
-				// Remove active plugins from list so we can show active and inactive separately.
-				unset( $plugins[ $key ] );
-			}
-		}
-
-		$data['active_plugins']   = $active_plugins;
-		$data['inactive_plugins'] = $plugins;
-		$data['locale']           = get_locale();
-		$data['integrations']     = affiliate_wp()->integrations->get_enabled_integrations();
-		$data['affiliates']       = affiliate_wp()->affiliates->count( array( 'number' => -1 ) );
-		$data['creatives']        = affiliate_wp()->creatives->count( array( 'number' => -1 ) );
-		$data['customers']        = affiliate_wp()->customers->count( array( 'number' => -1 ) );
-		$data['payouts']          = affiliate_wp()->affiliates->payouts->count( array( 'number' => -1 ) );
-		$data['referrals']        = affiliate_wp()->referrals->count( array( 'number' => -1 ) );
-		$data['consumers']        = affiliate_wp()->REST->consumers->count( array( 'number' => -1 ) );
-		$data['visits']           = affiliate_wp()->visits->count( array( 'number' => -1 ) );
-		$data['referral_rate']    = affiliate_wp()->settings->get( 'referral_rate' );
-		$data['flat_rate_basis']  = affiliate_wp()->settings->get( 'flat_rate_basis' );
-		$data['rate_type']        = affiliate_wp()->settings->get( 'referral_rate_type' );
-
-		return $data;
 	}
 
 }

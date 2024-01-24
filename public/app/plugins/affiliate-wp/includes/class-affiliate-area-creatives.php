@@ -108,7 +108,14 @@ class Affiliate_Area_Creatives {
 	 */
 	public function __construct() {
 
-		$this->content_kses = affwp_kses();
+		$this->content_kses = affwp_kses(
+			array(
+				'span' => array(
+					'data-url'      => true,
+					'data-settings' => true,
+				),
+			)
+		);
 
 		$this->hooks();
 	}
@@ -123,7 +130,7 @@ class Affiliate_Area_Creatives {
 		// General purpose hooks.
 		add_action( 'init', array( $this, 'save_view_type_cookie' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ), 5 ); // Must run before form.css.
-		add_action( 'template_redirect', array( $this, 'handle_download_creative_request' ) );
+		add_action( 'body_class', array( $this, 'body_class' ) );
 
 		// Ajax hooks.
 		add_action( 'wp_ajax_affwp_show_creative_modal', array( $this, 'handle_modal_request' ) );
@@ -132,6 +139,26 @@ class Affiliate_Area_Creatives {
 		// UI hooks.
 		add_action( 'wp_footer', array( $this, 'modal_container' ) );
 		add_action( 'affwp_filter_creative_category_dropdown', array( $this, 'add_query_params_to_form' ), 10, 0 );
+	}
+
+	/**
+	 * Add our classes to the body.
+	 *
+	 * @since 2.17.2
+	 *
+	 * @param array $classes Array of classes to append to the body.
+	 *
+	 * @return array
+	 */
+	public function body_class( array $classes ) : array {
+
+		return array_merge(
+			$classes,
+			array(
+				'affwp-affiliate-area',
+				$this->is_creatives_tab() ? 'affwp-affiliate-area-creatives' : '',
+			)
+		);
 	}
 
 	/**
@@ -152,6 +179,7 @@ class Affiliate_Area_Creatives {
 				'affiliatewp-modal',
 				'affiliatewp-tooltip',
 				'affiliatewp-infinite-scroll',
+				'affiliatewp-qrcode',
 			)
 		);
 
@@ -244,10 +272,11 @@ class Affiliate_Area_Creatives {
 				apply_filters(
 					'affwp_affiliate_dashboard_creatives_args',
 					wp_parse_args(
-						$this->get_query_args(),
+						$this->get_args_from_url(),
 						array(
 							'number' => apply_filters( 'affwp_unlimited', -1, 'creatives_type_count' ),
 							'fields' => array( 'creative_id', 'type' ),
+							'type'   => 'any',
 						)
 					)
 				)
@@ -337,25 +366,25 @@ class Affiliate_Area_Creatives {
 	 */
 	public function fetch_creatives() : self {
 
-		$this->creatives = affiliate_wp()->creative->get_affiliate_creatives(
-			/**
-			 * Filter arguments used to show creatives on the affiliate area creatives tab.
-			 *
-			 * @since 2.16.0
-			 *
-			 * @param array   $args Arguments.
-			 */
-			apply_filters(
-				'affwp_affiliate_dashboard_creatives_args',
-				wp_parse_args(
-					$this->get_query_args(),
-					array(
-						'number' => $this->get_items_per_page(),
-						'offset' => $this->get_items_per_page() * ( $this->get_current_page() - 1 ),
-					)
+		/**
+		 * Filter arguments used to show creatives on the affiliate area creatives tab.
+		 *
+		 * @since 2.16.0
+		 *
+		 * @param array $args Arguments.
+		 */
+		$args = apply_filters(
+			'affwp_affiliate_dashboard_creatives_args',
+			wp_parse_args(
+				$this->get_query_args(),
+				array(
+					'number' => $this->get_items_per_page(),
+					'offset' => $this->get_items_per_page() * ( $this->get_current_page() - 1 ),
 				)
 			)
 		);
+
+		$this->creatives = affiliate_wp()->creative->get_affiliate_creatives( $args );
 
 		return $this;
 	}
@@ -385,17 +414,27 @@ class Affiliate_Area_Creatives {
 	 * Check if user is in the creative's area.
 	 *
 	 * @since 2.16.0
+	 * @since 2.18.0 Updated to also consider the Portal Creatives Tab.
 	 *
 	 * @return bool Whether is creative's tab or not.
 	 */
 	public function is_creatives_tab() : bool {
 
+		if (
+			function_exists( 'affwp_is_portal_enabled' ) &&
+			function_exists( 'affwp_is_affiliate_portal' ) &&
+			affwp_is_portal_enabled() &&
+			affwp_is_affiliate_portal( 'creatives' )
+		) {
+			return true;
+		}
+
 		return affwp_is_affiliate_area() &&
-		filter_input(
-			INPUT_GET,
-			'tab',
-			FILTER_SANITIZE_FULL_SPECIAL_CHARS
-		) === 'creatives';
+			filter_input(
+				INPUT_GET,
+				'tab',
+				FILTER_SANITIZE_FULL_SPECIAL_CHARS
+			) === 'creatives';
 	}
 
 	/**
@@ -494,6 +533,7 @@ class Affiliate_Area_Creatives {
 			array(
 				'number' => apply_filters( 'affwp_unlimited', -1, 'creatives_type_count' ),
 				'fields' => array( 'creative_id', 'type' ),
+				'type'   => 'any',
 			)
 		);
 
@@ -522,7 +562,12 @@ class Affiliate_Area_Creatives {
 	public function types_menu() : void {
 
 		$types_count = $this->types_count();
-		$cat         = (string) filter_input( INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( count( $types_count ) === 1 ) {
+			return; // Bail if we have only one type to display.
+		}
+
+		$cat = (string) filter_input( INPUT_GET, 'cat', FILTER_SANITIZE_NUMBER_INT );
 
 		ob_start();
 
@@ -544,6 +589,16 @@ class Affiliate_Area_Creatives {
 
 			<?php foreach ( affwp_get_creative_types( true ) as $type_key => $type_label ) : ?>
 
+				<?php
+
+				$count = $types_count[ $type_key ] ?? 0;
+
+				if ( 0 === $count ) {
+					continue; // Do not display empty menus.
+				}
+
+				?>
+
 				<li<?php echo $this->is_tab_active( $type_key ) ? ' class="active"' : ''; ?>>
 					<a href="<?php echo esc_url_raw( $this->generate_tab_url_from_current_url( "type={$type_key}&cat={$cat}" ) ); ?>">
 						<?php
@@ -551,7 +606,7 @@ class Affiliate_Area_Creatives {
 						echo sprintf(
 							'%s <span>(%d)</span>',
 							esc_html( $type_label ),
-							esc_html( $types_count[ $type_key ] ?? 0 )
+							esc_html( $count )
 						);
 
 						?>
@@ -690,6 +745,7 @@ class Affiliate_Area_Creatives {
 	 * Return the Download button HTML.
 	 *
 	 * @since 2.16.0
+	 * @since 2.17.0 Changed download strategy to use native browser downloads `<a download>`.
 	 *
 	 * @param int    $creative_id The creative ID.
 	 * @param string $button_text The button label. Also used as fallback text when using icons.
@@ -702,29 +758,44 @@ class Affiliate_Area_Creatives {
 		string $use_icon = 'download'
 	) : string {
 
-		$nonce = wp_create_nonce( "affwp-download-creative-{$creative_id}" );
+		$creative = affwp_get_creative( $creative_id ?? 0 );
+
+		if ( ! $creative || $creative->get_type() === 'text' ) {
+			return ''; // It is not a Creative or doesn't allow downloads.
+		}
 
 		$button_text = empty( $button_text )
 			? __( 'Download', 'affiliate-wp' )
 			: $button_text;
 
 		$button_classes = sprintf(
-			'affwp-creatives-list-action affwp-button affwp-button--as-%s',
+			'button affwp-creatives-list-action affwp-button affwp-button--as-%s affwp-download-button',
 			empty( $use_icon ) ? 'text' : 'icon'
 		);
 
 		ob_start();
 
+		$creative_type = $creative->get_type();
+
+		$download_filename = strtolower(
+			sprintf(
+				'%1$s.%2$s',
+				sanitize_title( $creative->get_name() ),
+				'qr_code' === $creative_type
+					? 'png'
+					: $creative->get_media_metadata()['ext']
+			)
+		);
 		?>
 
-		<form class="affwp-creatives-download-form" method="post" action="">
-			<input type="hidden" name="creative_id" value="<?php echo absint( $creative_id ); ?>">
-			<input type="hidden" name="nonce" value="<?php echo esc_attr( $nonce ); ?>">
-			<input type="hidden" name="affiliatewp_download_creative" value="<?php echo esc_attr( $button_text ); ?>">
-			<button type="submit" class="<?php echo esc_attr( $button_classes ); ?>">
-				<?php Icons::render( $use_icon, $button_text ); ?>
-			</button>
-		</form>
+		<button
+			class="<?php echo esc_attr( $button_classes ); ?>"
+			data-download="<?php echo esc_html( $download_filename ); ?>"
+			data-type="<?php echo esc_attr( $creative_type ); ?>"
+			data-href="<?php echo esc_url_raw( 'qr_code' === $creative_type ? '' : $creative->get_image() ); ?>"
+		>
+			<?php Icons::render( $use_icon, $button_text ); ?>
+		</button>
 
 		<?php
 
@@ -861,19 +932,16 @@ class Affiliate_Area_Creatives {
 
 		?>
 
-
 		<div class="affwp-creative affwp-creatives-list-body affwp-creatives-table-row" data-type="<?php echo esc_attr( $creative->get_type() ); ?>">
 
 				<div data-column="name" class="affwp-creatives-table-cell">
 					<div class="affwp-creative-name-wrap">
 						<div class="affwp-creative-preview">
 							<?php
-
 							echo wp_kses(
-								$creative->get_preview( 'medium' ),
+								$creative->get_preview(),
 								$this->content_kses,
 							);
-
 							?>
 						</div>
 
@@ -982,12 +1050,10 @@ class Affiliate_Area_Creatives {
 				>
 					<div class="affwp-creative-preview" data-content="name">
 						<?php
-
 						echo wp_kses(
-							$creative->get_preview( 'medium' ),
+							$creative->get_preview(),
 							$this->content_kses,
 						);
-
 						?>
 					</div>
 
@@ -1068,7 +1134,28 @@ class Affiliate_Area_Creatives {
 
 			<div class="affwp-creative-section-preview">
 				<div class="affwp-creative-section-title"><?php esc_html_e( 'Preview', 'affiliate-wp' ); ?></div>
-				<div class="affwp-creative-preview"><?php echo wp_kses( $creative->get_preview( 'full' ), $this->content_kses ); ?></div>
+				<div class="affwp-creative-preview">
+					<?php if ( 'qr_code' === $creative->type ) : ?>
+
+						<span
+							class="affwp-qrcode-modal-preview"
+							data-url="<?php echo esc_url_raw( affwp_get_current_user_affiliate_referral_url( $creative->get_url() ) ); ?>"
+							data-settings="<?php echo esc_attr( wp_json_encode( $creative->get_qrcode_settings() ) ); ?>">
+						</span>
+
+					<?php else : ?>
+
+						<?php
+
+						echo wp_kses(
+							$creative->get_preview( 'full' ),
+							$this->content_kses,
+						);
+
+						?>
+
+					<?php endif; ?>
+				</div>
 
 				<?php if ( $creative->get_type() === 'image' ) : ?>
 
@@ -1103,10 +1190,31 @@ class Affiliate_Area_Creatives {
 					</div>
 
 				<?php endif; // Is Image. ?>
+
+				<?php if ( $creative->get_type() === 'qr_code' ) : ?>
+
+					<div class="affwp-creative-details">
+						<div>
+							<div class="affwp-creative-file-extension">
+								<?php esc_html_e( 'PNG File', 'affiliate-wp' ); ?>
+							</div>
+						</div>
+
+						<button class="affwp-print-button">
+							<?php esc_html_e( 'Print', 'affiliate-wp' ); ?>
+						</button>
+
+						<?php echo $this->download_button( $creative->ID, 'Download QR Code', '', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
+					</div>
+
+				<?php endif; ?>
 			</div>
 
-			<?php echo $this->copy_button( $creative->ID, '', '', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
+			<?php if ( in_array( $creative->get_type(), array( 'text_link', 'image' ), true ) ) : ?>
 
+				<?php echo $this->copy_button( $creative->ID, '', '', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
+
+			<?php endif; ?>
 		</div>
 
 		<?php
@@ -1136,85 +1244,6 @@ class Affiliate_Area_Creatives {
 		<?php
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Properly escaped later.
 		echo ob_get_clean();
-	}
-
-	/**
-	 * Handle a creative download request.
-	 *
-	 * @since 2.16.0
-	 *
-	 * @return void
-	 */
-	public function handle_download_creative_request() : void {
-
-		if ( ! filter_input( INPUT_POST, 'affiliatewp_download_creative' ) ) {
-			return; // It is not a download request.
-		}
-
-		$creative_id = filter_input( INPUT_POST, 'creative_id', FILTER_SANITIZE_NUMBER_INT );
-
-		// Security check.
-		if ( ! check_ajax_referer( "affwp-download-creative-{$creative_id}", 'nonce', false ) ) {
-
-			wp_die( esc_html_e( 'Please refresh the page and try again', 'affiliate-wp' ) );
-
-		}
-
-		$creative = affwp_get_creative( $creative_id );
-
-		if ( $creative->get_type() !== 'image' ) {
-			wp_die( esc_html_e( 'This type of creative can not be downloaded.', 'affiliate-wp' ) );
-		}
-
-		$image_url = $creative->get_image();
-
-		if ( empty( $image_url ) ) {
-			wp_die( esc_html_e( 'Invalid image URL.', 'affiliate-wp' ) );
-		}
-
-		// Get the image data using wp_remote_get().
-		$image_data = wp_remote_get(
-			$image_url,
-			array(
-				'sslverify' => ( false === ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ),
-			)
-		);
-
-		if ( is_wp_error( $image_data ) ) {
-			wp_die( esc_html__( 'Error fetching the image.', 'affiliate-wp' ) );
-		}
-
-		if ( ! in_array(
-			pathinfo(
-				$image_url,
-				PATHINFO_EXTENSION
-			),
-			array(
-				'jpg',
-				'jpeg',
-				'png',
-				'gif',
-			),
-			true
-		) ) {
-
-			wp_die( esc_html__( 'Invalid image file.', 'affiliate-wp' ) );
-		}
-
-		// Set proper content headers.
-		$image_info = wp_remote_retrieve_headers( $image_data );
-
-		$content_type = $image_info['content-type'] ?? 'application/octet-stream';
-		$file_name    = basename( $image_url );
-
-		header( "Content-Disposition: attachment; filename=\"$file_name\"" );
-		header( "Content-Type: $content_type" );
-
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo wp_remote_retrieve_body( $image_data );
-
-		exit;
-
 	}
 
 	/**

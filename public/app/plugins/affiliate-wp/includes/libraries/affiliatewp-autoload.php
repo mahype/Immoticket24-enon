@@ -42,6 +42,7 @@ $autoload = array(
 	'AffWP\Utils\Environment_Checker',
 	'AffiliateWP\Utils\Icons',
 	'AffiliateWP\Affiliate_Area_Creatives',
+	'AffiliateWP\Admin\Starting_Affiliate_ID',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {

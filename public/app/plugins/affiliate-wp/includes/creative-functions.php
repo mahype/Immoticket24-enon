@@ -13,6 +13,7 @@
  * Retrieves the creative object.
  *
  * @since 1.1.4
+ * @since 2.17.0 Check if is a PRO license before retrieving QR Code Creatives.
  *
  * @param int|AffWP\Creative $creative Creative ID or object.
  * @return AffWP\Creative|false Creative object, otherwise false.
@@ -50,15 +51,25 @@ function affwp_add_creative( array $data = array() ) {
 		'image'       => isset( $data['type'] ) && 'image' === $data['type'] && ! empty( $data['image'] )
 			? esc_url( $data['image'] )
 			: '',
-		'type'        => isset( $data['type'] ) && in_array( $data['type'], array_keys( affwp_get_creative_types() ), true )
-			? sanitize_text_field( $data['type'] )
-			: '',
+		'type'        => affwp_parse_creative_type( $data['type'] ),
 		'status'      => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date'        => ! empty( $data['date'] ) ? $data['date'] : '',
 		'notes'       => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
 		'start_date'  => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
 		'end_date'    => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
+
+	// Append the QR Code colors data to be saved as metadata after inserting the creative.
+	if ( 'qr_code' === $args['type'] ) {
+
+		$args = array_merge(
+			$args,
+			array(
+				'qrcode_code_color' => $data['qrcode_code_color'] ?? '',
+				'qrcode_bg_color'   => $data['qrcode_bg_color'] ?? '',
+			)
+		);
+	}
 
 	// Check the start and end dates and maybe change the status.
 	$args['status'] = affwp_determine_schedule_status( $args['status'], $args['start_date'], $args['end_date'] );
@@ -68,6 +79,26 @@ function affwp_add_creative( array $data = array() ) {
 	}
 
 	return false;
+}
+
+/**
+ * Correctly parses the Creative's type, returning the sanitized value,
+ * at the same time check if the type is allowed for the active customer's license
+ * and fallback to text if is not.
+ *
+ * @since 2.17.0
+ *
+ * @param string $type The type to analyze.
+ *
+ * @return string The parsed type.
+ */
+function affwp_parse_creative_type( string $type ) : string {
+
+	if ( in_array( $type, array_keys( affwp_get_creative_types() ), true ) ) {
+		return sanitize_text_field( $type );
+	}
+
+	return '';
 }
 
 /**
@@ -96,15 +127,25 @@ function affwp_update_creative( array $data = array() ) : bool {
 		'attachment_id' => 'image' === $data['type'] && ! empty( $data['image'] )
 			? attachment_url_to_postid( esc_url( $data['image'] ) )
 			: 0,
-		'type'          => isset( $data['type'] ) && in_array( $data['type'], array_keys( affwp_get_creative_types() ), true )
-			? sanitize_text_field( $data['type'] )
-			: '',
+		'type'          => affwp_parse_creative_type( $data['type'] ),
 		'status'        => ! empty( $data['status'] ) ? sanitize_text_field( $data['status'] ) : '',
 		'date_updated'  => gmdate( 'Y-m-d H:i:s' ),
 		'notes'         => ! empty( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
 		'start_date'    => ! empty( $data['start_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['start_date'] ) ) : '',
 		'end_date'      => ! empty( $data['end_date'] ) && false === affwp_is_upgrade_required( 'pro' ) ? gmdate( 'Y-m-d H:i:s', strtotime( $data['end_date'] ) ) : '',
 	);
+
+	// Append the QR Code colors data to be saved as metadata after inserting the creative.
+	if ( 'qr_code' === $args['type'] ) {
+
+		$args = array_merge(
+			$args,
+			array(
+				'qrcode_code_color' => $data['qrcode_code_color'] ?? '',
+				'qrcode_bg_color'   => $data['qrcode_bg_color'] ?? '',
+			)
+		);
+	}
 
 	// Check the start and end dates and maybe change the status.
 	$args['status'] = affwp_determine_schedule_status( $args['status'], $args['start_date'], $args['end_date'] );
@@ -306,6 +347,7 @@ function affwp_get_creative_by( $field, $value ) {
  *
  * @since 2.14.0
  * @since 2.16.0 Added plural argument.
+ * @since 2.17.0 Added QR Code type.
  *
  * @return array Key/value pairs of types where key is the type and the value is the label.
  */
@@ -315,12 +357,14 @@ function affwp_get_creative_types( bool $use_plurals = false ) : array {
 
 		return array(
 			'image'     => __( 'Images', 'affiliate-wp' ),
+			'qr_code'   => __( 'QR Codes', 'affiliate-wp' ),
 			'text_link' => __( 'Text Links', 'affiliate-wp' ),
 		);
 	}
 
 	return array(
 		'image'     => __( 'Image', 'affiliate-wp' ),
+		'qr_code'   => __( 'QR Code', 'affiliate-wp' ),
 		'text_link' => __( 'Text Link', 'affiliate-wp' ),
 	);
 }
@@ -409,7 +453,8 @@ function affwp_get_creative_status_label( $creative_or_status = 0 ) {
  *
  * @return array Key/value pairs of statuses where key is the status and the value is the label.
  */
-function affwp_get_creative_statuses() {
+function affwp_get_creative_statuses() : array {
+
 	return array(
 		'active'    => __( 'Active', 'affiliate-wp' ),
 		'inactive'  => __( 'Inactive', 'affiliate-wp' ),
@@ -696,4 +741,3 @@ function affwp_has_scheduling_feature( $creative_or_id ) : bool {
 
 	return true;
 }
-

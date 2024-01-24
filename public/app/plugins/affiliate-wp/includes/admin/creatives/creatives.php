@@ -18,6 +18,8 @@ require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/class-list-table
 
 function affwp_creatives_admin() {
 
+	$creative = affwp_get_creative( absint( $_GET['creative_id'] ?? 0 ) );
+
 	if ( isset( $_GET['action'] ) && 'view_creative' == $_GET['action'] ) {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/view.php';
@@ -26,7 +28,7 @@ function affwp_creatives_admin() {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/new.php';
 
-	} else if ( isset( $_GET['action'] ) && 'edit_creative' == $_GET['action'] ) {
+	} else if ( isset( $_GET['action'] ) && 'edit_creative' == $_GET['action'] && $creative ) {
 
 		include AFFILIATEWP_PLUGIN_DIR . 'includes/admin/creatives/edit.php';
 

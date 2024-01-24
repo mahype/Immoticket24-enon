@@ -44,7 +44,7 @@ class Affiliate_WP_Admin_Menu {
 	 */
 	public function change_affiliates_admin_menu_title_to_affiliatewp() {
 
-		$old_menu_title = __( 'Affiliates', 'affiliate-wp' );
+		$old_menu_title = 'Affiliates';
 
 		global $menu;
 
@@ -72,8 +72,8 @@ class Affiliate_WP_Admin_Menu {
 		global $submenu;
 
 		add_menu_page(
-			__( 'AffiliateWP', 'affiliate-wp' ),
-			__( 'Affiliates', 'affiliate-wp' ), // Note, the reason we still have "Affiliates" here is because of backwards compatibility with get_current_screen()->id in which changing this would change the WP_Screen->id. See $this->change_affiliates_admin_menu_title_to_affiliatewp() docblock.
+			'AffiliateWP',
+			'Affiliates', // Note, the reason we still have "Affiliates" here is because of backwards compatibility with get_current_screen()->id in which changing this would change the WP_Screen->id. See $this->change_affiliates_admin_menu_title_to_affiliatewp() docblock.
 			'view_affiliate_reports',
 			'affiliate-wp',
 			'affwp_affiliates_dashboard',

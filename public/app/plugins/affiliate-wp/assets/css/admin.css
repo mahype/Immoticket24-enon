@@ -390,6 +390,48 @@ table.creatives .affwp-tooltip-content::after {
 	display: block;
 }
 
+.form-table[data-current-context="qr_code"] [data-row="text"],
+.form-table[data-current-context="qr_code"] [data-row="url"],
+.form-table:not([data-current-context="qr_code"]) [data-row="qr_preview"],
+.form-table:not([data-current-context="image"]) [data-row="image"] {
+	display: none;
+}
+
+.form-row td label,
+.form-row #qr-code p {
+	margin-bottom: 0.5rem;
+}
+
+.form-row td label {
+	display: block;
+}
+
+#qr-preview {
+	width: 200px;
+	height: 200px;
+	border-radius: 4px;
+	overflow: hidden;
+	border: 1px solid #8c8f94;
+	margin-bottom: 1.5rem;
+}
+
+.qr-code-updated {
+	animation: qrCodeUpdated 0.2s forwards;
+}
+
+@keyframes qrCodeUpdated {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
 .affwp-schedule-description {
 	font-weight: 600;
 }
@@ -1368,40 +1410,26 @@ tr.group-row span.set-default {
 
 /** / Creative Privacy */
 
-/* Pro label */
-.affwp-settings-label-pro {
-	color: #455673;
-	padding: 6px 10px;
-	background-color: #f1f1f6;
-	border: 1px solid #f1f1f6;
-	height: 22.28px;
-	text-transform: uppercase;
-	font-size: 13px;
-	margin-left: 16px;
-	border-radius: 4px;
+
+/* Make the Pro label appear on the same line */
+.affiliates_page_affiliate-wp-settings .select2-results__option,
+#select2-status-container, #select2-status-results li,
+#select2-type-container, #select2-type-results li {
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
 	align-items: center;
-	flex: none;
-	order: 1;
-	flex-grow: 0;
-	box-sizing: border-box;
-	font-weight: 400;
+	justify-content: space-between;
+	line-height: unset;
 }
 
-/* Make the Pro label appear on the same line as the Scheduled status option */
-span#select2-status-container, #select2-status-results li {
-	display: flex;
-	align-items: center;
-}
 /* Make select2 inputs same width */
+.affiliates_page_affiliate-wp-settings .select2-container,
 #affwp_add_creative .select2-container,
 #affwp_edit_creative .select2-container {
 	width: 175px;
 }
 
 /* Make the select2 selection vertically centered */
+.affiliates_page_affiliate-wp-settings .select2-container--default .select2-selection--single,
 #affwp_add_creative .select2-container--default .select2-selection--single,
 #affwp_edit_creative .select2-container--default .select2-selection--single {
 	display: grid;
@@ -1475,3 +1503,771 @@ span#select2-status-container, #select2-status-results li {
 	color: #D63638;
 }
 
+.affwp-section {
+	padding: 0;
+	margin-bottom: 2rem;
+}
+
+.affwp-section-title {
+	border-bottom: 1px solid #e4e4e4;
+	padding: 32px 0;
+	margin-bottom: 0;
+}
+
+.affwp-section.affwp-section-pro-access-only .affwp-section-title h2 {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.affwp-section:first-child .affwp-section-title {
+	border-top: 0;
+}
+
+.affwp-section-title h2 {
+	color: #222;
+	font-size: 20px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.affwp-section-title .affwp-section-help-text {
+	margin: 10px 0 0;
+	color: #555;
+	font-size: 14px;
+}
+
+/* Admin settings */
+
+.affwp-missing-addon-for-active-setting {
+	padding: 10px;
+	background: rgba( 255, 255, 255, 0.5 );
+	display: inline-block;
+	margin-top: 10px!important;
+	border: 1px solid lightgray;
+}
+
+.affwp-missing-addon-for-active-setting::before {
+	content: "\f12a";
+	font-family: FontAwesome;
+	margin-right: 5px;
+	color: #d63638;
+}
+
+.affwp-missing-addon-for-active-setting span {
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.affwp-admin-affiliate-signup-widget-wrapper {
+	display: flex;
+	gap: 4rem;
+}
+
+.affwp-admin-affiliate-signup-widget-preview {
+	max-width: 980px;
+	width: 100%;
+	margin-top: 28px;
+}
+
+/* Pro label */
+.affwp-settings-label-pro {
+    border-radius: 4px;
+    background: #dcdcde;
+    color: #50575e;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    padding: 0.125rem 0.375rem;
+    align-items: center;
+	text-transform: uppercase;
+}
+
+#affwp-settings-form .form-table th > div {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+/* Accordion */
+
+.affwp-accordion {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.affwp-accordion .affwp-accordion-title {
+	cursor: pointer;
+	position: relative;
+}
+
+.affwp-accordion .affwp-accordion-title h3 {
+	margin: 0;
+}
+
+.affwp-accordion .affwp-accordion-item {
+	min-width: 320px;
+}
+
+.affwp-accordion .affwp-accordion-title::after {
+	content: '\f077';
+	font-family: 'FontAwesome';
+	font-weight: 900;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.affwp-accordion .affwp-accordion-item.affwp-accordion-collapsed .affwp-accordion-content,
+.affwp-accordion .affwp-accordion-item.affwp-accordion-collapsed .affwp-accordion-subtitle {
+	display: none;
+}
+
+.affwp-setting-row {
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.affwp-setting-row fieldset .affwp-settings-label-pro {
+	margin-left: 0.5rem;
+}
+
+.affwp-accordion-content .form-table th {
+	padding: 32px 10px 32px 0;
+}
+
+.affwp-accordion-content .form-table td {
+	padding: 24px 10px;
+}
+
+.affwp-accordion[data-theme="light"] {
+	gap: 10px;
+}
+
+.affwp-accordion[data-theme="light"] .affwp-accordion-title {
+	background: white;
+	padding: 1rem;
+	margin: 0;
+}
+
+.affwp-accordion[data-theme="light"] .affwp-accordion-title::after {
+	right: 20px;
+}
+
+.affwp-accordion[data-theme="light"] .affwp-accordion-content {
+	padding: 20px;
+}
+
+.affwp-accordion .affwp-accordion-item.affwp-accordion-collapsed .affwp-section-title {
+	margin-bottom: 0;
+	border-bottom: 0;
+}
+
+.affwp-accordion .affwp-accordion-item.affwp-accordion-collapsed .affwp-accordion-title::after {
+	content: '\f078';
+	font-family: 'FontAwesome';
+	font-weight: 900;
+}
+
+#growth-tools .affwp-accordion-title {
+	border-bottom: 0;
+}
+
+#the-list .column-preview .affwp-qrcode-preview {
+	width: 80px;
+	height: 80px;
+	display: block;
+}
+
+#qrcode-color-pickers {
+	padding-top: 20px;
+	display: flex;
+	gap: 1rem;
+}
+
+#qrcode-color-pickers > div {
+	position: relative;
+}
+
+#qrcode-color-pickers .wp-picker-holder {
+	position: absolute;
+	left: 0;
+	top: 95px;
+	z-index: 10;
+}
+
+#qrcode-color-pickers .wp-picker-input-wrap:not(.hidden) {
+	display: flex;
+}
+.qrcode-inline-notice {
+	max-width: 1100px;
+}
+
+.qrcode-inline-notice-cta {
+	padding-bottom: 20px;
+}
+
+.affwp-education-modal-input-wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.affwp-education-modal-input-wrapper .affwp-education-modal {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/* Product Education | jQuery Confirm Styles */
+
+body div.jconfirm *,
+body div.jconfirm *::before,
+body div.jconfirm *::after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	animation: none;
+	background: #ffffff;
+	border-radius: 6px;
+	border-top-style: solid;
+	border-top-width: 4px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	padding-top: 34px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons {
+	grid-column: 1 / -1;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default {
+	border-top-width: 0;
+	padding-top: 25px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default .jconfirm-title-c {
+	margin-bottom: 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default .jconfirm-title-c .jconfirm-icon-c {
+	font-size: 44px;
+	margin-bottom: -6px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm {
+	background-color: #44a2a7;
+	border-color: #44a2a7;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm:hover {
+	background-color: #69b6ba;
+	border-color: #69b6ba;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red {
+	border-top-color: #d63638 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red .jconfirm-title-c .jconfirm-icon-c {
+	color: #d63638 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm {
+	background-color: #d63638;
+	border-color: #d63638;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm:hover {
+	background-color: #b32d2e;
+	border-color: #b32d2e;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red {
+	border-top-color: #E34F43 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red .jconfirm-title-c .jconfirm-icon-c {
+	color: #E34F43 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm {
+	background-color: #E34F43;
+	border-color: #E34F43;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm:hover {
+	background-color: rgba(227, 79, 67, 0.9);
+	border-color: rgba(227, 79, 67, 0.9);
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-yellow {
+	border-top-color: #ffb900 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-yellow .jconfirm-title-c .jconfirm-icon-c {
+	color: #ffb900 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-yellow button.btn-confirm {
+	background-color: #ffb900;
+	border-color: #ffb900;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-yellow button.btn-confirm:hover {
+	background-color: #ffaa00;
+	border-color: #ffaa00;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-lightgreen {
+	border-top-color: #44a2a7 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-lightgreen .jconfirm-title-c .jconfirm-icon-c {
+	color: #44a2a7 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-lightgreen button.btn-confirm {
+	background-color: #44a2a7;
+	border-color: #44a2a7;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-lightgreen button.btn-confirm:hover {
+	background-color: #69b6ba;
+	border-color: #69b6ba;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-green {
+	border-top-color: #00a32a !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-green .jconfirm-title-c .jconfirm-icon-c {
+	color: #00a32a !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-green button.btn-confirm {
+	background-color: #00a32a;
+	border-color: #00a32a;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-green button.btn-confirm:hover {
+	background-color: #008a20;
+	border-color: #008a20;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-closeIcon {
+	color: transparent;
+	font-family: FontAwesome;
+	height: 14px;
+	opacity: 1;
+	right: 10px;
+	top: 10px;
+	width: 14px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-closeIcon:after {
+	color: #bbbbbb;
+	content: "\f00d";
+	font-size: 16px;
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-closeIcon:hover:after {
+	color: #777777 !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c {
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-weight: 600;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c .jconfirm-icon-c {
+	font-size: 47px;
+	margin: 0;
+	-ms-transform: none !important;
+	transform: none !important;
+	-webkit-transition: none !important;
+	transition: none !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c .jconfirm-icon-c + .jconfirm-title {
+	margin-top: 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c .jconfirm-title {
+	color: #444444;
+	display: block;
+	line-height: 30px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane {
+	display: block;
+	margin-bottom: 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content {
+	color: #444444;
+	font-size: 16px;
+	line-height: 24px;
+	margin-bottom: 0;
+	overflow: inherit;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content.lite-upgrade p {
+	color: #777777;
+	font-size: 18px;
+	padding: 0 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p {
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0 0 16px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p:last-of-type {
+	margin: 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p.large {
+	font-size: 18px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p.small {
+	font-size: 14px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=text],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=number],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=email],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=url],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=password],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=search],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content input[type=tel],
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content textarea,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content select {
+	margin: 10px 2px;
+	width: calc(100% - 4px);
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .already-purchased {
+	display: block;
+	grid-row: 5;
+	grid-column: 1 / -1;
+	color: #bbbbbb;
+	font-size: 14px;
+	margin-top: 15px;
+	text-decoration: underline;
+	text-align: center;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .already-purchased:hover {
+	color: #777777;
+	text-decoration: underline;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .discount-note {
+	grid-row: 4;
+	grid-column: 1 / -1;
+	margin: 25px 0 0 0;
+	text-align: center;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .discount-note p {
+	background-color: #fcf9e8;
+	color: #777777;
+	font-size: 16px;
+	margin: 0 -30px;
+	padding: 22px 52px 12px 52px;
+	position: relative;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .discount-note p:after {
+	top: -16px;
+	background-color: #ffffff;
+	border-radius: 50%;
+	color: #00a32a;
+	content: "\f058";
+	display: inline-block;
+	font: normal normal normal 14px FontAwesome;
+	font-size: 26px;
+	margin-right: -18px;
+	padding: 5px 6px;
+	position: absolute;
+	right: 50%;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .discount-note span {
+	color: #00a32a;
+	font-weight: 700;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .discount-note a {
+	color: #777777;
+	display: block;
+	margin-top: 12px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .feature-video {
+	margin: 30px 0 0 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .pro-feature-video {
+	margin: 15px 0 10px 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box input[type=text]:not(.choices__input) {
+	display: block;
+	width: 99%;
+	border: 1px solid #d6d6d6;
+	padding: 10px !important;
+	box-shadow: none;
+	margin: 10px 1px 1px 1px !important;
+	line-height: 1 !important;
+	outline: 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box input[type=text]:not(.choices__input):focus {
+	border-color: #007cba;
+	box-shadow: 0 0 0 1px #007cba;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box #affwp-edu-modal-license-key {
+	margin-top: 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button {
+	min-width: 83px;
+	background: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	color: #777777;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	outline: none;
+	padding: 11px 17px;
+	text-transform: none;
+	transition-property: all;
+	transition-duration: 0.15s;
+	transition-timing-function: ease-out;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button:hover {
+	background: #eeeeee;
+	border-color: #cccccc;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button[disabled] {
+	cursor: no-drop;
+	pointer-events: none;
+	opacity: .6;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm {
+	color: #ffffff;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm .affwp-spinner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	vertical-align: top;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button + button {
+	margin-left: 20px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-block {
+	display: block;
+	margin: 0 0 10px 0 !important;
+	text-align: center;
+	width: 100%;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-normal-case {
+	text-transform: none !important;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button i {
+	margin: 0 10px 0 0;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box .error {
+	color: #d63638;
+	display: none;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box.affwp-providers-account-add-modal .jconfirm-content .description {
+	font-size: 13px;
+	line-height: 1.4;
+	margin-top: 15px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box #affwp-embed-shortcode {
+	margin: 20px 0;
+	text-align: center;
+	font-size: 24px;
+	padding: 8px 5px;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box #affwp-embed-shortcode:disabled {
+	color: #333333;
+}
+
+body div.jconfirm .jconfirm-box-container .jconfirm-box button[disabled] {
+	cursor: no-drop;
+}
+
+body div.jconfirm.jconfirm-affwp-education .jconfirm-content-pane {
+	height: auto !important;
+	min-height: fit-content;
+}
+
+/* Spinner styling */
+.affwp-spinner {
+	margin: auto;
+	padding: 0;
+	width: 2rem;
+	height: 2rem;
+}
+
+.affwp-spinner svg {
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+	animation: affwp-spinner-rotate 2s linear infinite;
+}
+
+.affwp-spinner svg * {
+	stroke-width: 2.75;
+	fill: none;
+}
+
+.affwp-spinner svg *:first-child {
+	stroke: rgba(0, 0, 0, 0.1);
+}
+
+.affwp-spinner svg *:last-child {
+	stroke: rgba(17, 24, 28, 0.8);
+	animation: affwp-spinner-dash 2s ease-in-out infinite;
+}
+
+@keyframes affwp-spinner-rotate {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes affwp-spinner-dash {
+	0% {
+		stroke-dasharray: 1, 150;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 90, 150;
+		stroke-dashoffset: -35;
+	}
+	100% {
+		stroke-dasharray: 90, 150;
+		stroke-dashoffset: -124;
+	}
+}
+
+/* Toggle switch */
+.affwp-toggle {
+	margin-bottom: 1rem;
+}
+
+.affwp-toggle__label-text {
+	margin-left: 0.5rem;
+	order: 2;
+}
+
+.affwp-toggle__switch {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.affwp-toggle__input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	z-index: 1;
+}
+
+.affwp-toggle__slider {
+	position: relative;
+	cursor: pointer;
+	width: 30px;
+	height: 17px;
+	background-color: #ccc;
+	transition: .4s;
+}
+
+.affwp-toggle__slider:before {
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: .4s;
+}
+
+.affwp-toggle__input:checked + .affwp-toggle__slider {
+	background-color: #2196F3;
+}
+
+.affwp-toggle__input:focus + .affwp-toggle__slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+.affwp-toggle__input:checked + .affwp-toggle__slider:before {
+	transform: translateX(13px);
+}
+
+.affwp-toggle__slider--round {
+	border-radius: 17px;
+}
+
+.affwp-toggle__slider--round:before {
+	border-radius: 50%;
+}
+
+/* Affiliates > Name Column + Gravatar */
+body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info {
+	display: flex;
+	align-items: start;
+}
+
+body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info a {
+	word-break: break-word;
+}
+
+body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info img {
+	margin-right: 10px;
+	display: block;
+}

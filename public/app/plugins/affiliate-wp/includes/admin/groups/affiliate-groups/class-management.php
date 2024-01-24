@@ -75,12 +75,15 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 	/**
 	 * Construct
 	 *
+	 * @param string $connector_id The Connector ID if there is one.
+	 *
 	 * @since 2.13.0
 	 * @since 2.14.0 Column values for rate-type, flat-rate-basis, and rate are all
 	 *                  consolidated in the `includes/admin/affiliates/groups/meta/trait-referral-rate.php`
 	 *                  trait `column_value` method.
+	 * @since 2.18.0 (Aubrey Portwood) Updated to accept a matching connector ID if there is one.
 	 */
-	public function __construct() {
+	public function __construct( string $connector_id = '' ) {
 
 		$this->item_plural  = __( 'Affiliates', 'affiliate-wp' );
 		$this->item_single  = __( 'Affiliate', 'affiliate-wp' );
@@ -143,7 +146,7 @@ final class Management extends \AffiliateWP\Admin\Groups\Management {
 			),
 		);
 
-		parent::__construct();
+		parent::__construct( $connector_id );
 	}
 
 	/* phpcs:ignore Squiz.Commenting.FunctionComment.Missing -- This is documented in the parent class. */

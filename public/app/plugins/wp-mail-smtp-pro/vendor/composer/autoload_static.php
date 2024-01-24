@@ -4,11 +4,9 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
+class ComposerStaticInit295984e5919e750baa7d7284cfe56164
 {
     public static $files = array (
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'fd9257bb880ab5f4be390036629103e0' => __DIR__ . '/../..' . '/vendor_prefixed/mtdowling/jmespath.php/src/JmesPath.php',
         '5ad7967b1a31e5a58909b0c9259a44c4' => __DIR__ . '/../..' . '/vendor_prefixed/aws/aws-sdk-php/src/functions.php',
         'e3e111437f37e10e6bcab5eacc08fb6f' => __DIR__ . '/../..' . '/vendor_prefixed/guzzlehttp/promises/src/functions_include.php',
@@ -42,6 +40,7 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Composer\\Installers\\AglInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AglInstaller.php',
         'Composer\\Installers\\AimeosInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AimeosInstaller.php',
         'Composer\\Installers\\AnnotateCmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/AnnotateCmsInstaller.php',
@@ -181,7 +180,6 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
         'WPMailSMTP\\Admin\\Pages\\VersusTab' => __DIR__ . '/../..' . '/src/Admin/Pages/VersusTab.php',
         'WPMailSMTP\\Admin\\ParentPageAbstract' => __DIR__ . '/../..' . '/src/Admin/ParentPageAbstract.php',
         'WPMailSMTP\\Admin\\PluginsInstallSkin' => __DIR__ . '/../..' . '/src/Admin/PluginsInstallSkin.php',
-        'WPMailSMTP\\Admin\\PluginsInstallUpgrader' => __DIR__ . '/../..' . '/src/Admin/PluginsInstallUpgrader.php',
         'WPMailSMTP\\Admin\\Review' => __DIR__ . '/../..' . '/src/Admin/Review.php',
         'WPMailSMTP\\Admin\\SetupWizard' => __DIR__ . '/../..' . '/src/Admin/SetupWizard.php',
         'WPMailSMTP\\Compatibility\\Compatibility' => __DIR__ . '/../..' . '/src/Compatibility/Compatibility.php',
@@ -201,6 +199,7 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
         'WPMailSMTP\\Helpers\\DB' => __DIR__ . '/../..' . '/src/Helpers/DB.php',
         'WPMailSMTP\\Helpers\\Helpers' => __DIR__ . '/../..' . '/src/Helpers/Helpers.php',
         'WPMailSMTP\\Helpers\\PluginImportDataRetriever' => __DIR__ . '/../..' . '/src/Helpers/PluginImportDataRetriever.php',
+        'WPMailSMTP\\Helpers\\UI' => __DIR__ . '/../..' . '/src/Helpers/UI.php',
         'WPMailSMTP\\MailCatcher' => __DIR__ . '/../..' . '/src/MailCatcher.php',
         'WPMailSMTP\\MailCatcherInterface' => __DIR__ . '/../..' . '/src/MailCatcherInterface.php',
         'WPMailSMTP\\MailCatcherTrait' => __DIR__ . '/../..' . '/src/MailCatcherTrait.php',
@@ -334,6 +333,7 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\Providers\\SparkPost\\Subscriber' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/Providers/SparkPost/Subscriber.php',
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\SubscriberInterface' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/SubscriberInterface.php',
         'WPMailSMTP\\Pro\\Emails\\Logs\\Webhooks\\Webhooks' => __DIR__ . '/../..' . '/src/Pro/Emails/Logs/Webhooks/Webhooks.php',
+        'WPMailSMTP\\Pro\\Emails\\TestEmail' => __DIR__ . '/../..' . '/src/Pro/Emails/TestEmail.php',
         'WPMailSMTP\\Pro\\License\\License' => __DIR__ . '/../..' . '/src/Pro/License/License.php',
         'WPMailSMTP\\Pro\\License\\Updater' => __DIR__ . '/../..' . '/src/Pro/License/Updater.php',
         'WPMailSMTP\\Pro\\MailCatcher' => __DIR__ . '/../..' . '/src/Pro/MailCatcher.php',
@@ -347,6 +347,14 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
         'WPMailSMTP\\Pro\\Providers\\AmazonSES\\Identity' => __DIR__ . '/../..' . '/src/Pro/Providers/AmazonSES/Identity.php',
         'WPMailSMTP\\Pro\\Providers\\AmazonSES\\Mailer' => __DIR__ . '/../..' . '/src/Pro/Providers/AmazonSES/Mailer.php',
         'WPMailSMTP\\Pro\\Providers\\AmazonSES\\Options' => __DIR__ . '/../..' . '/src/Pro/Providers/AmazonSES/Options.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Api\\Client' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Api/Client.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Api\\OneTimeToken' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Api/OneTimeToken.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Api\\Response' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Api/Response.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Api\\SiteId' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Api/SiteId.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Auth' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Auth.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Mailer' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Mailer.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Options' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Options.php',
+        'WPMailSMTP\\Pro\\Providers\\Gmail\\Provider' => __DIR__ . '/../..' . '/src/Pro/Providers/Gmail/Provider.php',
         'WPMailSMTP\\Pro\\Providers\\Outlook\\AttachmentsUploader' => __DIR__ . '/../..' . '/src/Pro/Providers/Outlook/AttachmentsUploader.php',
         'WPMailSMTP\\Pro\\Providers\\Outlook\\Auth' => __DIR__ . '/../..' . '/src/Pro/Providers/Outlook/Auth.php',
         'WPMailSMTP\\Pro\\Providers\\Outlook\\Mailer' => __DIR__ . '/../..' . '/src/Pro/Providers/Outlook/Mailer.php',
@@ -1083,9 +1091,9 @@ class ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit01ace3996dfdae254a9c9b0de8a411c8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit295984e5919e750baa7d7284cfe56164::$classMap;
 
         }, null, ClassLoader::class);
     }

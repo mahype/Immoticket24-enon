@@ -48,7 +48,7 @@ class Affiliate_WP_Rewrites {
 	 */
 	public function maybe_flush_rewrites() {
 
-		if( get_option( 'affwp_flush_rewrites' ) ) {
+		if ( get_option( 'affwp_flush_rewrites' ) ) {
 
 			$this->flush_rewrites();
 

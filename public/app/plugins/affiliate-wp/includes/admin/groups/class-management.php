@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase
 /**
  * Group Admin UI Management
  *
@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 affwp_require_util_traits( 'data', 'nonce' );
+
+#[AllowDynamicProperties]
 
 /**
  * Group Admin UI Management
@@ -271,13 +273,27 @@ abstract class Management {
 	private $view = '';
 
 	/**
+	 * Connector ID.
+	 *
+	 * @since Unknown
+	 *
+	 * @var string
+	 */
+	private string $connector_id = '';
+
+	/**
 	 * Construct.
 	 *
+	 * @param string $connector_id The same id as the connector, if there is one.
+	 *
 	 * @since 2.12.0
+	 * @since 2.18.0 Introduced matching connector ID.
 	 */
-	public function __construct() {
+	public function __construct( string $connector_id = '' ) {
 
 		$this->errors = new \WP_Error();
+
+		$this->connector_id = $connector_id;
 
 		$this->validate_properties();
 
@@ -628,14 +644,14 @@ abstract class Management {
 			throw new \Exception( 'group is not a registered connectable.' );
 		}
 
-		// The connections to this group.
-		$connected = affiliate_wp()->connections->get_connected(
+		$connected_count = affiliate_wp()->connections->get_connected(
 			$this->item,
 			'group',
-			$group->group_id
+			$group->group_id,
+			'count'
 		);
 
-		if ( ! is_array( $connected ) ) {
+		if ( ! is_numeric( $connected_count ) ) {
 			return 0; // Fail gracefully.
 		}
 
@@ -657,23 +673,32 @@ abstract class Management {
 		if ( ! $this->has_connector() ) {
 
 			// Just return the count, we have nowhere to link to (via the connector).
-			return is_array( $connected )
-				? count( $connected )
-				: 0;
+			return intval( $connected_count );
 		}
 
 		// Form a valid nonce for linking to filtered view.
 		$filter_items_nonce_name = $this->nonce_action( 'filter', 'items' );
 		$filter_items_nonce      = wp_create_nonce( $filter_items_nonce_name );
 
+		$connector_id = $this->get_connector_id();
+
 		// Return a link to the list view.
 		return sprintf(
 			'<a href="%s">%s</a>',
-			"?page=affiliate-wp-{$this->item}s&filter-{$this->item}-{$this->group_type}-top={$group->group_id}&{$filter_items_nonce_name}={$filter_items_nonce}",
-			is_array( $connected )
-				? count( $connected )
-				: 0
+			"?page=affiliate-wp-{$this->item}s&filter-{$connector_id}-top={$group->group_id}&{$filter_items_nonce_name}={$filter_items_nonce}",
+			$connected_count
 		);
+	}
+
+	/**
+	 * Get the matching connector ID.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @return string
+	 */
+	private function get_connector_id() : string {
+		return $this->connector_id;
 	}
 
 	/**
@@ -1213,6 +1238,10 @@ abstract class Management {
 			return false; // No item to use for broadcasting filter below.
 		}
 
+		if ( empty( $this->get_connector_id() ) ) {
+			return false;
+		}
+
 		// The connector should broadcast to use, through this filter, if a connector is connected.
 		return apply_filters( "{$this->hook_prefix}_{$this->item}_has_connector", false );
 	}
@@ -1472,7 +1501,7 @@ abstract class Management {
 				'number' => apply_filters( 'affwp_unlimited', -1, 'get_total_groups' ),
 				'type'   => $this->group_type,
 			),
-			true
+			true // Get just the count.
 		);
 	}
 
@@ -2247,6 +2276,10 @@ abstract class Management {
 	 * @throws \InvalidArgumentException If there are any issues with the class properties.
 	 */
 	private function validate_properties() {
+
+		if ( ! is_string( $this->connector_id ) ) {
+			throw new \InvalidArgumentException( 'self::connector_id must be a string. ' );
+		}
 
 		if ( ! $this->is_string_and_nonempty( $this->page_title ) ) {
 			throw new \InvalidArgumentException( 'self::page_title must be a non-empty string. ' );

@@ -1,4 +1,4 @@
-<?php
+<?php  // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Sales Database Abstraction Layer
  *
@@ -10,6 +10,8 @@
  */
 
 use AffWP\Utils\Processors\SQL_Fields_Processor;
+
+#[AllowDynamicProperties]
 
 /**
  * Implements a database abstraction for querying sales records.

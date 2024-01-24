@@ -361,7 +361,7 @@ table.affwp-table {
 	width: 100%;
 	height: 100%;
 	vertical-align: top;
-	animation: f-spinner-rotate 2s linear infinite;
+	animation: affwp-spinner-rotate 2s linear infinite;
 }
 
 .affwp-spinner svg * {
@@ -375,7 +375,7 @@ table.affwp-table {
 
 .affwp-spinner svg *:last-child {
 	stroke: rgba(17, 24, 28, 0.8);
-	animation: f-spinner-dash 2s ease-in-out infinite;
+	animation: affwp-spinner-dash 2s ease-in-out infinite;
 }
 
 @keyframes affwp-spinner-rotate {
@@ -520,7 +520,6 @@ table.affwp-table {
 	flex-direction: column;
 }
 
-.affwp-creatives-table-cell[data-column="date_updated"],
 .affwp-creatives-view--as-grid .affwp-creative-name {
 	white-space: nowrap;
 }
@@ -594,6 +593,16 @@ table.affwp-table {
 	max-height: var(--affwp-creative-preview-width);
 }
 
+.affwp-qrcode-preview svg {
+	width: 100%;
+	height: auto;
+}
+
+.affwp-qrcode-modal-preview {
+	width: 256px;
+	height: 256px;
+}
+
 #affwp-creatives-modal {
 	width: 100%;
 	max-width: 960px;
@@ -625,10 +634,19 @@ table.affwp-table {
 	margin-top: 2rem;
 }
 
+.affwp-print-button {
+	margin-left: auto;
+}
+
+#affwp-printable-area {
+	display: none;
+}
+
 .affwp-creative-details {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 1rem;
 }
 
 .affwp-creative-details > div {
@@ -736,6 +754,13 @@ table.affwp-table {
 	gap: 0.5rem;
 }
 
+/* Keep the button inactive until have a proper href */
+.affwp-button[download][href=""] {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
 @media (min-width: 768px) {
 	.affwp-creatives-view--as-list .affwp-creative {
 		flex-direction: row;
@@ -778,10 +803,6 @@ table.affwp-table {
 		font-size: 0.875rem;
 	}
 
-	.affwp-creative-size {
-		white-space: nowrap;
-	}
-
 	.affwp-creatives-list-header {
 		display: flex;
 		gap: 1.5rem;
@@ -796,7 +817,7 @@ table.affwp-table {
 		.affwp-creatives-list-header
 		> div:first-child,
 	.affwp-creatives-view--as-list .affwp-creative > div:first-child {
-		flex-grow: 4;
+		flex-grow: 3;
 	}
 
 	.affwp-creatives-list-header > div:first-child,
@@ -904,5 +925,26 @@ table.affwp-table {
 		visibility: visible;
 		opacity: 1;
 		padding: 10px 0;
+	}
+}
+
+@media print {
+	body.affwp-affiliate-area-creatives * {
+		display: none;
+	}
+
+	#affwp-printable-area {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	#affwp-printable-area img {
+		display: inline-block;
 	}
 }

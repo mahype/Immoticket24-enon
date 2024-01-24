@@ -91,24 +91,24 @@ class Trinkwasseranlage {
                         return 'Brennwertkessel (Pellet)';
                     case 'holzhackschnitzel':                        
                     case 'stueckholz':
-                        return 'Heizungsanlage zur Nutzung von Biomasse';            
+                        return 'Standard-Heizkessel als Gebläsekessel (fossiler und biogener Brennstoff)';  // Gibt es nicht für Trinkwarmwasser          
                     default:
                         return '';
                 }
             case 'fernwaerme':
-                return 'Hausübergabestation zum Anschluss an ein Wärmenetz';
+                return 'Fern-/Nahwärme';
             case 'waermepumpeluft':
-                return 'Elektrisch angetriebene Luft/Wasser-Heizungswärmepumpe';
+                return 'Elektrisch angetriebene Luft/Wasser-Wärmepumpe';
             case 'waermepumpewasser':
-                return 'Elektrisch angetriebene Wasser/Wasser-Heizungswärmepumpe';
+                return 'Elektrisch angetriebene Wasser/Wasser-Wärmepumpe';
             case 'waermepumpeerde':
-                return 'Elektrisch angetriebene Sole/Wasser-Heizungswärmepumpe';
-            case 'infrarotheizung':
-                return 'Dezentrale elektrische Direktheizung';
-            case 'elektronachtspeicherheizung':
-                return 'Dezentral elektrisch beheizte Speicherheizung';            
+                return 'Elektrisch angetriebene Sole/Wasser-Wärmepumpe';
             case 'etagenheizung':
                 return 'Niedertemperatur-Heizkessel als Umlaufwasserheizer';
+            case 'dezentralelektroerhitzer':
+                return 'Elektro-Durchlauferhitzer';
+            case 'dezentralgaserhitzer':
+                return 'Gas-Durchlauferhitzer';
             default:
                 return 'Sonstiges';
         }
