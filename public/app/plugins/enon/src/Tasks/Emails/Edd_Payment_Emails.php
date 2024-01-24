@@ -174,6 +174,12 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 			return;
 		}
 
+		$reseller_id = get_post_meta( $energieausweis_id, 'reseller_id', true);
+        
+        if( ! empty( $reseller_id ) ) {
+            return;
+        }
+
 		$xml_data = $energieausweis->getXMLPersonalisiert( 'zusatzdatenerfassung-expowand-send', 'S', false );
 		Emails::instance()->send_zusatzdatenerfassung_expowand_email( $energieausweis, $xml_data );
 	}

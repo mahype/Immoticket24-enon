@@ -77,8 +77,13 @@ class DIBT {
 
 				libxml_use_internal_errors(true);
 				$standard = new Standards_Config();				
-				$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassung.xsd';
 
+				if( $energieausweis->mode == 'b' ) {
+					$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassungBW.xsd';
+				} else {
+					$xsdFile = $standard->getStandardsPath() . '/datenerfassung/xsd/zusatzdatenerfassungVW.xsd';
+				}
+				
 				$domDoc = new DOMDocument();
 				$domDoc->loadXML( $doc );
 
@@ -93,6 +98,7 @@ class DIBT {
 						$errorMailContent.= '<div style="margin-top:20px">';
 						$errorMailContent.= sprintf( "<b>Fehler %d:</b> %s", $key + 1, $error->message );
 						$errorMailContent.= sprintf( "<br />On line %d column %d", $error->line, $error->column );
+						$errorMailContent.= sprintf( "<br />Validation file %s", $xsdFile );
 						$errorMailContent.= '</div>';
 					}
 

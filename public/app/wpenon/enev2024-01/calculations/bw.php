@@ -494,6 +494,8 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->ww_erzeugung;
+		$ww_energietraeger = $energieausweis->ww_energietraeger;
+		$ww_baujahr = $energieausweis->ww_baujahr;
 		break;
 	// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
@@ -501,18 +503,24 @@ switch ( $energieausweis->ww_info ) {
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h_erzeugung;
+		$ww_energietraeger = $energieausweis->h_energietraeger;
+		$ww_baujahr = $energieausweis->h_baujahr;
 		break;
 	case 'h2':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h2_erzeugung;
+		$ww_energietraeger = $energieausweis->h2_energietraeger;
+		$ww_baujahr = $energieausweis->h2_baujahr;
 		break;
 	case 'h3':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
 		$mit_warmwasserspeicher = false;
 		$ww_erzeuger = $energieausweis->h3_erzeugung;
+		$ww_energietraeger = $energieausweis->h3_energietraeger;
+		$ww_baujahr = $energieausweis->h3_baujahr;
 		break;
 }
 
@@ -570,7 +578,7 @@ if ( $energieausweis->h2_info ) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieauswies->h2_waermepumpe_luft_stufen === 'einstufig' ) {
+	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieausweis->h2_waermepumpe_luft_stufen === 'einstufig' ) {
 		$h2_waermepumpe_luft_einstufig = true;
 	} else {
 		$h2_waermepumpe_luft_einstufig = false;	
@@ -589,7 +597,7 @@ if ( $energieausweis->h2_info ) {
 		$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 		$energietraeger = $energieausweis->$energietraeger_name;
 	
-		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieauswies->h3_waermepumpe_luft_stufen === 'einstufig' ) {
+		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieausweis->h3_waermepumpe_luft_stufen === 'einstufig' ) {
 			$h3_waermepumpe_luft_einstufig = true;
 		} else {
 			$h3_waermepumpe_luft_einstufig = false;	
@@ -721,7 +729,7 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	$h2_erzeugung = $energieausweis->h2_erzeugung;
 	$h3_erzeugung = $energieausweis->h3_erzeugung;
 
-	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
 		$uebergabe_typ = 'elektroheizungsflaechen';
 	} else {
 		$uebergabe_typ =  $energieausweis->h_uebergabe;
@@ -748,7 +756,7 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 }
 
 
-$calculations['bauteile'][] = array();
+$calculations['bauteile'] = array();
 
 // Opake Bauteile
 foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {	
@@ -802,16 +810,116 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 }
 
 
+// Heizungsanlagen
+$calculations['anlagendaten'] = array();
+foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+	$anlage = array();
+	$anlage['art'] = 'heizung';
+	$anlage['slug'] = $heizungsanlage->erzeuger();
+	$anlage['baujahr'] = $heizungsanlage->baujahr();
+	$anlage['energietraeger_slug'] = $heizungsanlage->energietraeger();
+	$anlage['energietraeger_primaer'] = $heizungsanlage->fp();
+	$anlage['energietraeger_co2'] = $heizungsanlage->MCO2();
+	$anlage['emissionsfaktor'] = $heizungsanlage->co2_energietraeger();
+
+	$calculations['anlagendaten'][] = $anlage;
+}
+
+$calculations['anlagendaten'][] = array(
+	'art' => 'warmwasser',
+	'slug' => $ww_erzeuger,
+	'baujahr' => $ww_baujahr,
+	'energietraeger' => $ww_energietraeger,
+);
+
 $calculations['reference'] = 125; // Übernommen aus alter bw.php
 $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
-// TODO: Check ob die Werte korrekt eingesetz wurden
+$calculations['energietraeger'] = array();
+
+foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+	$energietraeger = $heizungsanlage->energietraeger();
+
+	if( ! isset( $calculations['energietraeger'][ $energietraeger ] ) ) {
+		$calculations['energietraeger'][ $energietraeger ] = array(
+			'primaerfaktor' => 0,
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger'][ $energietraeger ]['slug'] = $heizungsanlage->energietraeger();
+	$calculations['energietraeger'][ $energietraeger ]['primaerfaktor'] += $heizungsanlage->fp();
+	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisc
+	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
+
+	if( $gebaeude->trinkwarmwasseranlage()->zentral() ) {
+		$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
+		$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
+	}
+}
+
+// Trinkwarmwasseranlage
+if( ! $gebaeude->trinkwarmwasseranlage()->zentral() ) {
+	if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
+		$calculations['energietraeger'][ $ww_energietraeger ] = array(
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger'][ $ww_energietraeger ]['slug'] = $gebaeude->trinkwarmwasseranlage()->energietraeger();
+	$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] = $gebaeude->trinkwarmwasseranlage()->fp();
+	$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+}
+
+// Lüftung
+if( $gebaeude->lueftung()->Wrvg() > 0 ){
+	if( ! isset( $calculations['energietraeger']['strom'] ) ) {
+		$calculations['energietraeger']['strom'] = array(
+			'slug' => 'strom',
+			'primaerfaktor' => 1.8,
+			'qh_e_b' => 0,	
+			'qw_e_b' => 0,
+			'ql_e_b' => 0,
+			'q_e_b' => 0,
+		);
+	}
+
+	$calculations['energietraeger']['strom']['ql_e_b'] += $gebaeude->lueftung()->Wrvg();
+	$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
+}
+
+$calculations['huellvolumen'] = $gebaeude->huellvolumen();
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
 $calculations['co2_emissionen'] = $gebaeude->MCO2a();
-$calculations['ht_b'] = $gebaeude->ht_ges();
+$calculations['ht_strich'] = $gebaeude->ht_strich();
+$calculations['qfh_ges'] = $gebaeude->Qfhges();
+$calculations['qfw_ges'] = $gebaeude->Qfwges();
+$calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
+
+$calculations['auslegungstemperatur'] = $auslegungstemperaturen;
+$calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
+
+$calculations['ht'] = $gebaeude->bauteile()->ht();
+$calculations['hv'] = $gebaeude->lueftung()->hv();
+
 $calculations['qt'] = $gebaeude->bauteile()->ht(); 
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();
+$calculations['qh'] = $gebaeude->qh();
+
+$calculations['photovoltaik'] = array();
+
+if( $gebaeude->photovoltaik_anlage_vorhanden() ) {
+	$calculations['photovoltaik']['ertrag'] = round( $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) / $gebaeude->nutzflaeche() );
+}
+
 
 return $calculations;
