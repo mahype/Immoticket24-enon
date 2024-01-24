@@ -24,10 +24,9 @@ Ist alles korrekt eingerichtet, ist keine Passworteingabe mehr notwendig.
 
 ## Backup
 
-Der Backupspace liegt bei Hetzner. Dazu gibt es einen Zugang zur Weboberfläche zur Administration und einen FTP Zugang zum Download der Backups.
+Der Backupspace liegt bei Hetzner. Dazu gibt es einen Zugang zur Weboberfläche zur Administration und einen FTP Zugang zum Download der Backups. Die Zugangsdaten sind im Passwortmanager hinterlegt.
 
 Weboberfläche: https://robot.your-server.de/
-FTP: Die Zugangsdaten sind im Passwortmanager hinterlegt.
 
 ## Update der Webseite
 
