@@ -482,7 +482,8 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function huellvolumen_vollgeschosse(): float {
-		return $this->grundriss->flaeche() * $this->geschossanzahl() * $this->geschosshoehe();
+		// Fläche * ( Geschossanzahl * Geschosshöhe (Wandhöhe + 0,25 für Decke) + 0,25 für Boden Gesamtgebäude )
+		return $this->grundriss->flaeche() * ( $this->geschossanzahl() * $this->geschosshoehe() + 0.25 );
 	}
 
 	/**

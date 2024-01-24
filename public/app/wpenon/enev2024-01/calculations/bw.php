@@ -431,7 +431,7 @@ switch ( $energieausweis->keller ) {
 
 		break;
 	case 'unbeheizt':
-		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, $energieausweis->keller_hoehe );
+		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, 0 );
 		$gebaeude->keller( $keller );
 
 		$kellerflaeche = $gebaeude->grundriss()->flaeche() * $energieausweis->keller_groesse / 100;
@@ -458,6 +458,7 @@ switch ( $energieausweis->keller ) {
 
 		break;
 	case 'nicht-vorhanden':
+	case 'unbeheizt':
 	default:
 		$gebaeude->bauteile()->hinzufuegen(
 			new Boden(
