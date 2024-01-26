@@ -349,17 +349,14 @@ class Prevent_Completion {
             return true;
         }
 
-        $heaters = [
-            'h_erzeugung',
-            'h2_erzeugung',
-            'h3_erzeugung',
-        ];
+        $count = 1; // Erste Heizungsanlage wird immer mitgezählt
 
-        $count = 0;
-        foreach( $heaters AS $heater ) {
-            if ( ! empty( $this->energy_certificate->$heater ) ) {
-                $count++;
-            }
+        if( $this->energy_certificate->h2_info ) {
+            $count++;
+        }
+
+        if( $this->energy_certificate->h3_info ) {
+            $count++;
         }
 
         if ( $count < 2 ) {
