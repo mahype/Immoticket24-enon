@@ -334,7 +334,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	// }
 
 	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-	$uwert_fenster   = uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+	$uwert_fenster   = ! empty( $energieausweis->fenster_uwert ) ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
 
 	$fenster = new Fenster(
