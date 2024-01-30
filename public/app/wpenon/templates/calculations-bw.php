@@ -560,8 +560,9 @@ $jahr = new Jahr();
 	<h2>Heizsystem</h2>
 
 	<h3>Heizungsanlage</h3>
-	
-	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>
+	<?php $i = 1; ?>
+	<?php foreach ( $gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage ) : ?>		
+		<h4><?php echo 'Heizungsanlage ' . $i++; ?></h4>
 		<?php if ( $heizungsanlage->kategorie() === 'konventioneller_kessel' ) : ?>
 			<table>
 				<tr>
@@ -607,6 +608,14 @@ $jahr = new Jahr();
 				<tr>
 					<th>ewg</th>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+				<tr>
+					<th>fco2 (CO2 Emissiomnsfaktor)</th>
+					<td><?php echo $heizungsanlage->fco2(); ?></td>
+				</tr>
+				<tr>
+					<th>fp (Primärenergiefaktor)</th>
+					<td><?php echo $heizungsanlage->fp(); ?></td>
 				</tr>
 			</table>
 			<h5>Hilfsenergie</h5>
@@ -715,6 +724,14 @@ $jahr = new Jahr();
 					<td>ewg</td>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
 				</tr>
+				<tr>
+					<th>fco2 (CO2 Emissiomnsfaktor)</th>
+					<td><?php echo $heizungsanlage->fco2(); ?></td>
+				</tr>
+				<tr>
+					<th>fp (Primärenergiefaktor)</th>
+					<td><?php echo $heizungsanlage->fp(); ?></td>
+				</tr>
 			</table>
 
 			<h5>Hilfsenergie</h5>
@@ -780,6 +797,14 @@ $jahr = new Jahr();
 					<td>ewg</td>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
 				</tr>
+				<tr>
+					<th>fco2 (CO2 Emissiomnsfaktor)</th>
+					<td><?php echo $heizungsanlage->fco2(); ?></td>
+				</tr>
+				<tr>
+					<th>fp (Primärenergiefaktor)</th>
+					<td><?php echo $heizungsanlage->fp(); ?></td>
+				</tr>
 			</table>
 
 			<h5>Hilfsenergie</h5>
@@ -828,6 +853,14 @@ $jahr = new Jahr();
 				<tr>
 					<td>ewg</td>
 					<td><?php echo $heizungsanlage->ewg(); ?></td>
+				</tr>
+				<tr>
+					<th>fco2 (CO2 Emissiomnsfaktor)</th>
+					<td><?php echo $heizungsanlage->fco2(); ?></td>
+				</tr>
+				<tr>
+					<th>fp (Primärenergiefaktor)</th>
+					<td><?php echo $heizungsanlage->fp(); ?></td>
 				</tr>
 			</table>
 

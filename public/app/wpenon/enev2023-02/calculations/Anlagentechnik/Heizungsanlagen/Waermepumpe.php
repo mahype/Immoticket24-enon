@@ -44,7 +44,7 @@ class Waermepumpe extends Heizungsanlage {
 
 	/**
 	 * eh gesamt.
-	 * 
+	 *
 	 * @var float
 	 */
 	protected float $eh_ges;
@@ -59,10 +59,15 @@ class Waermepumpe extends Heizungsanlage {
 	/**
 	 * Konstruktor.
 	 *
-	 * @param Gebaeude $gebaeude Gebäude.
-	 * @param string   $erzeuger Erzeuger (waermepumpeluft, waermepumpeerde, waermepumpewasser).
-	 * @param int      $baujahr Baujahr der Heizung.
-	 * @param int      $prozentualer_anteil Prozentualer Anteil der Heizungsanlage im Heizsystem.
+	 * @param Gebaeude    $gebaeude Gebäude.
+	 * @param string      $erzeuger Erzeuger (waermepumpeluft, waermepumpeerde, waermepumpewasser).
+	 * @param int         $baujahr Baujahr der Heizung.
+	 * @param int         $prozentualer_anteil Prozentualer Anteil der Heizungsanlage im Heizsystem.
+	 * @param bool        $evu_abschaltung Findet eine EVU Abschalung statt?
+	 * @param bool        $einstufig Einstufig oder mehrstufig?
+	 * @param string|null $erde_typ Typ der Erdwärmepumpe.
+	 * @param float|null  $fp Faktor für die Primärenergie.
+	 * @param float|null  $fco2 Faktor für CO2.
 	 *
 	 * @return void
 	 */
@@ -75,8 +80,10 @@ class Waermepumpe extends Heizungsanlage {
 		bool $evu_abschaltung = false,
 		bool $einstufig = true,
 		string|null $erde_typ = null,
+		float|null $fp = null,
+		float|null $fco2 = null
 	) {
-		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil );		
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil, $fp, $fco2 );
 		$this->evu_abschaltung = $evu_abschaltung;
 		$this->einstufig       = $einstufig;
 		$this->erde_typ        = $erde_typ;
@@ -506,7 +513,7 @@ class Waermepumpe extends Heizungsanlage {
 	 * @throws Calculation_Exception
 	 */
 	public function eh_ges(): float {
-		if( isset( $this->eh_ges ) ) {
+		if ( isset( $this->eh_ges ) ) {
 			return $this->eh_ges;
 		}
 
@@ -518,7 +525,7 @@ class Waermepumpe extends Heizungsanlage {
 				return $this->eh_ges;
 			} else {
 				// $ehg = 1/(1/($Qhfwp*/$Qhfwp)+0.1); // mehrstufige Wärmepumpe
-				$this->eh_ges = 1 / ( 1 / ( $this->Qhfwp_Sternchen() / $this->Qhfwp() ) + 0.1 );				
+				$this->eh_ges = 1 / ( 1 / ( $this->Qhfwp_Sternchen() / $this->Qhfwp() ) + 0.1 );
 				return $this->eh_ges;
 			}
 		}
@@ -531,10 +538,10 @@ class Waermepumpe extends Heizungsanlage {
 
 	/**
 	 * Hilfsenergie für Heizunganlage im Bereich Erzeugung.
-	 * 
+	 *
 	 * @return float
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function Whg(): float {
 		// T12. Seite 144 Defintion der NOrm, dass sowohl Heizung und TWW mit dem einen Wert aus Tab96 berücksichtigt ist.
@@ -548,25 +555,25 @@ class Waermepumpe extends Heizungsanlage {
 			return 0.00;
 		}
 
-		return (new Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen( $this->gebaeude->heizsystem()->pn() / 1000, 15 ))->Whg();
+		return ( new Hilfsenergie_Primaerseite_Sole_Wasser_Waermepumpen( $this->gebaeude->heizsystem()->pn() / 1000, 15 ) )->Whg();
 	}
 
 	/**
 	 * Hilfsenergie für Trinkwarmwasserbereitung im Bereich Erzeugung.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
-	public function Qfhges(): float {		
+	public function Qfhges(): float {
 		return $this->gebaeude->qh() * $this->eh_ges() * $this->prozentualer_faktor();
 	}
 
 	/**
 	 * Hilfsenergie für Warmwasserbereitung.
-	 * 
-	 * @return Enev\Schema202302\Calculations\Anlagentechnik\float; 
+	 *
+	 * @return Enev\Schema202302\Calculations\Anlagentechnik\float;
 	 */
-	public function Wwg(): float {	
-        return 0;
-    }
+	public function Wwg(): float {
+		return 0;
+	}
 }
