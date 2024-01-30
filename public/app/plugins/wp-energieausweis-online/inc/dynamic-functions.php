@@ -56,6 +56,16 @@ if ( ! function_exists( 'wpenon_show_on_bool_compare_and_is_admin' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wpenon_show_on_is_admin' ) ) {
+	function wpenon_show_on_is_admin() {
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+}
+
 if ( ! function_exists( 'wpenon_show_on_bool_compare' ) ) {
 	function wpenon_show_on_bool_compare( $value, $required_values, $relation = 'AND' ) {
 		$value           = \WPENON\Util\Parse::arr( $value );

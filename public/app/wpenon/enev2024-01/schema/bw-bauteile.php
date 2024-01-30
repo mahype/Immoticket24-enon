@@ -881,11 +881,11 @@ $bauteile = array(
 				'fenster_uwert' => array(
 					'type' => 'float',
 					'label' => __('U-Wert des Fensters', 'wpenon'),
-					'description' => __('Geben Sie den bei dreifach verglasten Fenstern den U-Wert des Fensters an.', 'wpenon'),
-					'required' => true,
-					'display'     => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::fenster_bauart', 'waermedaemmglas' ),
+					'description' => __('Geben Sie den bei dreifach verglasten Fenstern den U-Wert des Fensters an. Wird hier nichts oder 0 angegeben, wird der Wert von 0,9 aus der Uwert Tabelle genommen.', 'wpenon'),
+					'required' => false,
+					'display'               => array(
+						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
+						'callback_args'         => array( 'field::fenster_bauart', 'waermedaemmglas' ),
 					),
 				),
 				'fenster_baujahr' => array(
