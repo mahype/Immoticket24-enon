@@ -216,7 +216,8 @@ if ( $energieausweis->anbau ) {
 	$anbauwand_bauart_feldname = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
 	$anbauwand_bauart_name     = $energieausweis->$anbauwand_bauart_feldname;
 	$uwert_anbau_wand    = uwert( 'wand_' . $anbauwand_bauart_name, $energieausweis->anbau_baujahr );
-	$uwert_anbau_fenster = uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+
+	$uwert_anbau_fenster = $energieausweis->anbaufenster_uwert_info ? $energieausweis->anbaufenster_uwert:  uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 
 	foreach ( $gebaeude->anbau()->grundriss()->waende() as $wand ) {
 		$anbauwand = new Anbauwand(
@@ -334,7 +335,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	// }
 
 	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-	$uwert_fenster   = ! empty( $energieausweis->fenster_uwert ) ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
 
 	$fenster = new Fenster(
@@ -556,12 +557,12 @@ $h_prozentualer_anteil = ! isset( $energieausweis->h_deckungsanteil ) || $energi
 // }
 
 $fp = null;
-if( $energieausweis->h_custom ) {
+if( $energieausweis->h_custom_primaer_info ) {
 	$fp = $energieausweis->h_custom_primaer;
 }
 
 $fco2 = null;
-if( $energieausweis->h_custom_2 ) {
+if( $energieausweis->h_custom_co2_info ) {
 	$fco2 = $energieausweis->h_custom_co2;
 }
 
@@ -582,7 +583,7 @@ if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erz
 
 	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, $h_evu_abschaltung, $h_waermepumpe_luft_einstufig, $h_waermepumpe_erde_typ, $fp, $fco2 );
 } else {
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, $fp, $fco2 );
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, false, false, null, $fp, $fco2 );
 }
 
 if ( $energieausweis->h2_info ) {
@@ -598,12 +599,12 @@ if ( $energieausweis->h2_info ) {
 	$h2_waermepumpe_erde_typ = $energieausweis->h2_erzeugung === 'waermepumpeerde' ? $energieausweis->h2_waermepumpe_erde_typ : null;
 
 	$fp_2 = null;
-	if( $energieausweis->h2_custom ) {
-		$fp_2 = $energieausweis->h_custom_primaer;
+	if( $energieausweis->h2_custom_primaer_info ) {
+		$fp_2 = $energieausweis->h2_custom_primaer;
 	}
 
 	$fco2_2 = null;
-	if( $energieausweis->h2_custom_2 ) {
+	if( $energieausweis->h2_custom_co2_info ) {
 		$fco2_2 = $energieausweis->h2_custom_co2;
 	}
 
@@ -611,7 +612,7 @@ if ( $energieausweis->h2_info ) {
 		$h2_evu_abschaltung = $energieausweis->h2_evu_abschaltung === 'ja' ? true : false;	
 		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, $h2_evu_abschaltung, $h2_waermepumpe_luft_einstufig, $h2_waermepumpe_erde_typ, $fp_2, $fco2_2 );
 	} else {
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, $fp_2, $fco2_2 );
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, false, false, null, $fp_2, $fco2_2 );
 	}
 
 	if ( $energieausweis->h3_info ) {
@@ -627,12 +628,12 @@ if ( $energieausweis->h2_info ) {
 		$h3_waermepumpe_erde_typ = $energieausweis->h3_erzeugung === 'waermepumpeerde' ? $energieausweis->h3_waermepumpe_erde_typ : null;
 
 		$fp_3 = null;
-		if( $energieausweis->h3_custom ) {
+		if( $energieausweis->h3_custom_primaer_info ) {
 			$fp_3 = $energieausweis->h3_custom_primaer;
 		}
 
 		$fco2_3 = null;
-		if( $energieausweis->h3_custom_2 ) {
+		if( $energieausweis->h3_custom_co2_info ) {
 			$fco2_3 = $energieausweis->h3_custom_co2;
 		}
 	
@@ -640,7 +641,7 @@ if ( $energieausweis->h2_info ) {
 			$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;	
 			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung, $h3_waermepumpe_luft_einstufig, $h3_waermepumpe_erde_typ, $fp_3, $fco2_3 );
 		} else {
-			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $fp_3, $fco2_3 );
+			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, false, false, null, $fp_3, $fco2_3 );
 		}
 	}
 }
@@ -851,7 +852,7 @@ foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage )
 	$anlage['energietraeger_slug'] = $heizungsanlage->energietraeger();
 	$anlage['energietraeger_primaer'] = $heizungsanlage->fp();
 	$anlage['energietraeger_co2'] = $heizungsanlage->MCO2();
-	$anlage['emissionsfaktor'] = $heizungsanlage->co2_energietraeger();
+	$anlage['emissionsfaktor'] = $heizungsanlage->fco2();
 
 	$calculations['anlagendaten'][] = $anlage;
 }

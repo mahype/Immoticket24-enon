@@ -22,8 +22,8 @@ class Dezentral extends Heizungsanlage {
 	 * @return void
 	 * @throws Calculation_Exception
 	 */
-	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100, float|null $fp = null, float|null $fco2 = null ) {
-		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $heizung_im_beheizten_bereich, $prozentualer_anteil, $fp, $fco2 );
+	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, float|null $fp = null, float|null $fco2 = null ) {
+		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil, $fp, $fco2 );
 	}
 
 	/**

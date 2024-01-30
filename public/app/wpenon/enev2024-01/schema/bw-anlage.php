@@ -290,10 +290,10 @@ $anlage = array(
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
 				),
-				'h_custom'                                 => array(
+				'h_custom_primaer_info'                                 => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
 					'display'     => current_user_can( 'manage_options' ),
 				),
 				'h_custom_primaer'                         => array(
@@ -302,13 +302,13 @@ $anlage = array(
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( 'field::h_custom', true ),
+						'callback_args' => array( 'field::h_custom_primaer_info', true ),
 					),
 				),
-				'h_custom_2'                               => array(
+				'h_custom_co2_info'                               => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
-					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
+					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
 					'display'     => current_user_can( 'manage_options' ),
 				),
 				'h_custom_co2'                             => array(
@@ -316,8 +316,8 @@ $anlage = array(
 					'label'    => __( 'CO2 Emmissionsfaktor', 'wpenon' ),
 					'required' => true,
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_bool_compare',
-						'callback_args' => array( 'field::h_custom_2', true ),
+						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+						'callback_args' => array( 'field::h_custom_co2_info', true ),
 					),
 				),
 				'h_typenschild'                            => array(
@@ -619,7 +619,7 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder'           => 'Bitte wählen...',
 				),
-				'h2_custom'                                => array(
+				'h2_custom_primaer_info'                                => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
@@ -634,10 +634,10 @@ $anlage = array(
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_custom', 'field::h2_info' ), array( true, true ) ),
+						'callback_args' => array( array( 'field::h2_custom_primaer_info', 'field::h2_info' ), array( true, true ) ),
 					),
 				),
-				'h2_custom_2'                              => array(
+				'h2_custom_co2_info'                              => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
@@ -652,7 +652,7 @@ $anlage = array(
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h2_custom_2', 'field::h2_info' ), array( true, true ) ),
+						'callback_args' => array( array( 'field::h2_custom_co2_info', 'field::h2_info' ), array( true, true ) ),
 					),
 				),
 				'h2_typenschild'                           => array(
@@ -962,7 +962,7 @@ $anlage = array(
 					'validate_dependencies' => array( 'baujahr' ),
 					'placeholder'           => 'Bitte wählen...',
 				),
-				'h3_custom'                                => array(
+				'h3_custom_primaer_info'                                => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte Primärenergiefaktoren verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
@@ -977,10 +977,10 @@ $anlage = array(
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( array( 'field::h3_custom', 'field::h3_info' ), array( true, true ) ),
+						'callback_args' => array( array( 'field::h3_custom_primaer_info', 'field::h3_info' ), array( true, true ) ),
 					),
 				),
-				'h3_custom_2'                              => array(
+				'h3_custom_co2_info'                              => array(
 					'type'        => 'checkbox',
 					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
@@ -995,7 +995,7 @@ $anlage = array(
 					'required' => true,
 					'display'  => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args' => array( 'field::h3_custom_2', true ),
+						'callback_args' => array( 'field::h3_custom_co2_info', true ),
 					),
 				),
 				'h3_typenschild'                           => array(
