@@ -77,9 +77,7 @@ trait Flat_Rate_Basis {
 		$global_rate_type = is_null( $global_rate_type )
 			? affiliate_wp()->settings->get(
 				'referral_rate_type',
-				isset( $settings['general']['referral_rate_type']['std'] )
-					? $settings['general']['referral_rate_type']['std']
-					: 'percentage'
+				$settings['commissions']['referral_rate_type']['std'] ?? 'percentage'
 			)
 			: $global_rate_type;
 
@@ -95,9 +93,7 @@ trait Flat_Rate_Basis {
 		$global_setting = is_null( $global_setting )
 			? affiliate_wp()->settings->get(
 				'flat_rate_basis',
-				isset( $settings['general']['flat_rate_basis']['std'] )
-					? $settings['general']['flat_rate_basis']['std']
-					: 'percentage'
+				$settings['commissions']['flat_rate_basis']['std'] ?? 'percentage'
 			)
 			: $global_setting;
 

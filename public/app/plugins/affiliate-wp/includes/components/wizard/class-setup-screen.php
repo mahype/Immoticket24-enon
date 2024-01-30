@@ -630,9 +630,9 @@ class Setup_Screen {
 				'<p>%1$s</p><p class="affwp-desc-offer"><span>%2$s</span> %3$s</p>',
 				esc_html__( 'Using the Affiliate Portal addon, you can give your affiliates a premium experience, ensuring they have everything they need to perform.', 'affiliate-wp' ),
 				esc_html__( 'Special Upgrade Offer:', 'affiliate-wp' ),
-				esc_html__( 'Get 50% off the regular price, automatically applied at checkout.', 'affiliate-wp' )
+				esc_html__( 'Get 60% off the regular price, automatically applied at checkout.', 'affiliate-wp' )
 			);
-			$step['button_text']   = esc_html__( 'Upgrade to Pro and Save 50%', 'affiliate-wp' );
+			$step['button_text']   = esc_html__( 'Upgrade to Pro and Save 60%', 'affiliate-wp' );
 			$step['button_action'] = 'upgrade';
 			$step['button_plugin'] = esc_url( $this->config['downloads_url'] );
 
@@ -729,8 +729,9 @@ class Setup_Screen {
 		$user_id = get_current_user_id();
 
 		$params = array(
-			'user_id' => $user_id,
-			'status'  => 'active',
+			'user_id'             => $user_id,
+			'status'              => 'active',
+			'registration_method' => 'setup_screen',
 		);
 		if ( false === affwp_add_affiliate( $params ) ) {
 			wp_send_json_error(

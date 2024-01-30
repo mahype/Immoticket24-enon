@@ -409,6 +409,12 @@ abstract class Heizungsanlage {
 	 */
 	abstract public function Wwg(): float;
 
+	/**
+	 * Endenergiebedarf für Heizung.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
 	public function Qfhges(): float {
 		if ( isset( $this->Qfhges ) ) {
 			return $this->Qfhges;

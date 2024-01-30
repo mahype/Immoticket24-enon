@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.11.1] - 2024-01-23
+### Fixed:
+- Setup Wizard texts.
+- Compatibility for List-Unsubscribe header.
+
+## [3.11.0] - 2023-12-12
+### Added:
+- One-click setup for Gmail mailer (the easiest way to set up Gmail mailer).
+- Filter to customize the capability required for managing the plugin.
+
+### Changed:
+- Hide test tab movement notice for new users.
+- Improved keyboard navigation styles for the Setup Wizard.
+- Removed `WPMailSMTP\Admin\PluginsInstallUpgrader` class and switched to the WordPress Core `Plugin_Upgrader` class.
+
+### Fixed:
+- Fatal error in the Pro Site Health module if the Lite module was not loaded.
+- PHP deprecation notices in the Setup Wizard on WordPress 6.4 and above.
+- PHP deprecation notice for `mb_convert_encoding` function on PHP 8.2 and above.
+
+## [3.10.1] - 2023-11-15
+### Added:
+- Cleanup of duplicate Action Scheduler tasks.
+
+### Fixed:
+- Compatibility issue with Action Scheduler lower than 3.3.0.
+
+## [3.10.0] - 2023-11-07
+### Added:
+- Connection (mailer) selector for single and bulk emails resend.
+- Ability to switch additional connection to the primary connection.
+- Ability to trigger alert when deliverability verification process detects a hard bounce.
+- Allow visibility toggle of the Amazon SES Identities through the PHP constant `WPMS_AMAZONSES_DISPLAY_IDENTITIES`.
+- Filter that allows to use self website Google OAuth redirect URL.
+
+### Changed:
+- Improved plugin settings UI.
+- Replaced our moment.js library with the WP Core's bundled one.
+
+### Fixed:
+- Translation strings on the Dashboard widget.
+- Error when email content failed to be encoded while click link tracking injection.
+- Missing "Delete Connection" link on the single additional connection page for some connections.
+
 ## [3.9.0] - 2023-08-29
 ### Added:
 - Pro plugin translations for: Spanish (Spain), German, Portuguese (Brazil), Italian, French, Japanese, Polish, Dutch, Russian, Turkish.
@@ -19,6 +63,7 @@ All notable changes to this project will be documented in this file.
 - Debug Event details popup scrolling.
 - Email logs import from the WP Mail Logging plugin caused by long non-English subjects.
 - Conflict with other plugins (Alt Manager) that made the WP Plugins install page unusable.
+- Fixed: Missed email sending debug log for the Brevo mailer.
 
 ## [3.8.2] - 2023-07-18
 ### Changed:

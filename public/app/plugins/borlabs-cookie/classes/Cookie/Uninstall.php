@@ -127,12 +127,14 @@ class Uninstall
                     $tableNameCookieConsentLog = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_consent_log';
                     $tableNameContentBlocker = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_content_blocker';
                     $tableNameScriptBlocker = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_script_blocker';
+                    $tableNameStatistics = $wpdb->prefix . $blogData->blog_id . '_borlabs_cookie_statistics';
 
                     $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookies . '`');
                     $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookieGroups . '`');
                     $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookieConsentLog . '`');
                     $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameContentBlocker . '`');
                     $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameScriptBlocker . '`');
+                    $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameStatistics . '`');
 
                     switch_to_blog($blogData->blog_id);
 
@@ -212,11 +214,13 @@ class Uninstall
         $tableNameCookieConsentLog = $wpdb->prefix . 'borlabs_cookie_consent_log';
         $tableNameContentBlocker = $wpdb->prefix . 'borlabs_cookie_content_blocker';
         $tableNameScriptBlocker = $wpdb->prefix . 'borlabs_cookie_script_blocker';
+        $tableNameStatistics = $wpdb->prefix . 'borlabs_cookie_statistics';
 
         $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookies . '`');
         $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookieGroups . '`');
         $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameCookieConsentLog . '`');
         $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameContentBlocker . '`');
         $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameScriptBlocker . '`');
+        $wpdb->query('DROP TABLE IF EXISTS `' . $tableNameStatistics . '`');
     }
 }

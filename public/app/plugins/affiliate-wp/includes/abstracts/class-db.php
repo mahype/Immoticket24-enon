@@ -9,6 +9,11 @@
  * @since       1.9
  */
 
+// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.MissingReplacements, WordPress.DB.PreparedSQL.NotPrepared -- We do our own escaping sometimes.
+// phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- This is okay from Oct 12, 2023 on...
+// phpcs:disable Squiz.PHP.CommentedOutCode.Found -- Code comments are OK.
+
+
 /**
  * Affiliate_WP_DB base class.
  *
@@ -186,7 +191,13 @@ abstract class Affiliate_WP_DB {
 			return false;
 		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $this->primary_key = '%s' LIMIT 1;", $row_id ) );
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT $column FROM $this->table_name WHERE $this->primary_key = '%s' LIMIT 1; -- %s",
+				$row_id,
+				wp_generate_uuid4() // Helps reduce duplicate queries reported to Query Monitor.
+			)
+		);
 	}
 
 	/**
@@ -208,7 +219,25 @@ abstract class Affiliate_WP_DB {
 			return false;
 		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT $column FROM $this->table_name WHERE $column_where = %s LIMIT 1;", $column_value ) );
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				str_replace(
+					array(
+						'{column}',
+						'{this->table_name}',
+						'{column_where}',
+					),
+					array(
+						$column,
+						$this->table_name,
+						$column_where,
+					),
+					'SELECT `{column}` FROM `{this->table_name}` WHERE `{column_where}` = %s LIMIT 1; -- %s'
+				),
+				$column_value,
+				wp_generate_uuid4() // Used to eliminate duplicate queries.
+			)
+		);
 	}
 
 	/**
@@ -226,13 +255,16 @@ abstract class Affiliate_WP_DB {
 	public function get_results( $clauses, $args, $callback = '' ) {
 		global $wpdb;
 
-
 		if ( true === $clauses['count'] ) {
 
 			$key = $this->table_name . '.' . $this->primary_key;
 
 			$results = $wpdb->get_var(
-				"SELECT COUNT(${key}) FROM {$this->table_name} {$clauses['join']} {$clauses['where']};"
+				str_replace(
+					'{uuid4}',
+					wp_generate_uuid4(), // Helps reduce duplicate queries reported to Query Monitor.
+					"SELECT COUNT(${key}) FROM {$this->table_name} {$clauses['join']} {$clauses['where']}; -- {uuid4}"
+				)
 			);
 
 			$results = absint( $results );
@@ -804,5 +836,160 @@ abstract class Affiliate_WP_DB {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * Add clauses for items connected to.
+	 *
+	 * This interacts with the connections DB table to get items (like affiliates for instance)
+	 * that are connected to a specific item in the connections table (e.g. a group).
+	 *
+	 * To understand the parameters, see \AffiliateWP\Connections\DB::get_connected(),
+	 * as this uses similar arguments.
+	 *
+	 * @since 2.17.2
+	 *
+	 * @param string $where              The current where string (we need this to determine WHERE or AND).
+	 * @param string $get_connectable    The connectable of the item you are requesting (e.g. for `get_affiliates`, would be `affiliate`).
+	 * @param string $where_connectable  The connectable you want connected to the item (e.g. for `affiliate`, e.g. `group`).
+	 * @param string $where_id           The ID of the connectable from above that the `$get_connectable` would be connected to.
+	 * @param string $where_group_type   Any group type associated when `$where_connectable` is a `group`.
+	 *
+	 * @return string Where clauses.
+	 */
+	protected function add_connected_to_clauses(
+		string $where,
+		string $get_connectable = '',
+		string $where_connectable = '',
+		string $where_id = '',
+		string $where_group_type = '' // Only used for groups.
+	) : string {
+
+		if (
+			empty( $get_connectable ) ||
+			empty( $where_connectable ) ||
+			! is_numeric( $where_id )
+		) {
+			return '';
+		}
+
+		if (
+			false === affiliate_wp()->connections->is_registered_connectable( $get_connectable ) ||
+			false === affiliate_wp()->connections->is_registered_connectable( $where_connectable )
+		) {
+			return ''; // You can only query registered connectables (helps against SQL injection).
+		}
+
+		if ( 'group' === $where_connectable && empty( $where_group_type ) ) {
+			return ''; // If you specify a `group` as the `$where_connectable` you must supply a group type.
+		}
+
+		$connected_clause = stristr( strtolower( $where ), 'where' )
+			? 'AND' // WHERE is already there, use AND.
+			: 'WHERE'; // Always start off the SQL with WHERE.
+
+		global $wpdb;
+
+		// Not connected to anything from the $where_connectable...
+		if ( 0 === intval( $where_id ) ) {
+
+			// Groups are special, they have a group types...
+			if ( 'group' === $where_connectable ) {
+
+				return $wpdb->prepare(
+					str_replace(
+						array(
+							'{connected_clause}',
+							'{get_connectable_primary_key}',
+							'{get_connectable}',
+							'{where_connectable}',
+							'{connections_table}',
+							'{where_connectable_primary_key}',
+							'{where_connectable_table}',
+						),
+						array(
+							/* {connected_clause} */ $wpdb->_real_escape( $connected_clause ),
+							/* {get_connctable_primary_key} */ $wpdb->_real_escape( affiliate_wp()->connections->get_connectable_api( $get_connectable )->primary_key ),
+							/* {get_connectable} */ $wpdb->_real_escape( $get_connectable ),
+							/* {where_connectable} */ $where_connectable,
+							/* {connections_table} */ $wpdb->_real_escape( affiliate_wp()->connections->table_name ),
+							/* {where_connectable_primary_key} */ $wpdb->_real_escape( affiliate_wp()->connections->get_connectable_api( $where_connectable )->primary_key ),
+							/* {where_connectable_table} */ $wpdb->_real_escape( affiliate_wp()->connections->get_connectable_api( $where_connectable )->table_name ),
+						),
+
+						/*
+						 * E.g.:
+						 *
+						 *    ; The affiliate should not be in a list of...
+						 *    WHERE `affiliate_id` NOT IN (
+						 *
+						 *      ; ...affiliates that are connected to...
+						 *      SELECT `affiliate` FROM wp_affiliate_wp_connections WHERE `group` IN (
+						 *
+						 *        ; ..any affiliate group.
+						 *        SELECT `group_id` FROM wp_affiliate_wp_groups WHERE `type` = 'affiliate-group'
+						 *      )
+						 *    )
+						 *
+						 * Here we don't know what group type you mean, so you have to send it to us (%s).
+						 */
+						'
+							{connected_clause} `{get_connectable_primary_key}` NOT IN (
+								SELECT `{get_connectable}` FROM {connections_table} WHERE `{where_connectable}` IN (
+									SELECT `{where_connectable_primary_key}` FROM {where_connectable_table} WHERE `type` = %s
+								)
+							)
+						'
+					),
+					$where_group_type
+				);
+			}
+		}
+
+		/*
+		 * Create sub-query for the connections DB table to get items connected to another item.
+		 *
+		 * E.g. For Affiliates connected to an Affiliate Group:
+		 *
+		 *     WHERE `affiliate_id` IN (
+		 *         SELECT
+		 *             `affiliate`
+		 *         FROM
+		 *             affiliate_wp_connections
+		 *         WHERE
+		 *             `group` = 1
+		 *      )
+		 *
+		 * Note, we trust the `group` ID to be the right group type before you send it.
+		 */
+		return $wpdb->prepare(
+			str_replace(
+				array(
+					'{connected_clause}',
+					'{get_connectable_primary_key}',
+					'{get_connectable}',
+					'{connections_table}',
+					'{where_connectable}',
+				),
+				array(
+					/* {connected_clause} */ $wpdb->_real_escape( $connected_clause ),
+					/* {get_connctable_primary_key} */ $wpdb->_real_escape( affiliate_wp()->connections->get_connectable_api( $get_connectable )->primary_key ),
+					/* {For get_connectable} */ $wpdb->_real_escape( $get_connectable ),
+					/* {connections_table} */ $wpdb->_real_escape( affiliate_wp()->connections->table_name ),
+					/* {where_connectable} */ $wpdb->_real_escape( $where_connectable ),
+				),
+				'
+					{connected_clause} `{get_connectable_primary_key}` IN (
+						SELECT
+							`{get_connectable}`
+						FROM
+							{connections_table}
+						WHERE
+							`{where_connectable}` = %d
+					)
+				'
+			),
+			$where_id
+		);
 	}
 }

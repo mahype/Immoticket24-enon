@@ -1062,7 +1062,7 @@ abstract class Connector {
 			throw new \InvalidArgumentException( '$connectable must be a non-empty string.' );
 		}
 
-		$api = $this->get_connectable_api( $connectable );
+		$api = affiliate_wp()->connections->get_connectable_api( $connectable );
 
 		return $api->primary_key;
 	}
@@ -1757,11 +1757,6 @@ abstract class Connector {
 			return $args;
 		}
 
-		check_admin_referer(
-			$this->nonce_action( 'filter', 'items' ),
-			$this->nonce_action( 'filter', 'items' )
-		);
-
 		$opposing_connectable = $this->get_opposing_connectable( $item_connectable );
 
 		if ( $this->none_filter_item_is_selected() ) {
@@ -1769,7 +1764,12 @@ abstract class Connector {
 			return array_merge(
 				$args,
 				array(
-					'exclude' => $this->get_items_with_opposing_connections( $item_connectable ),
+					'connected_to' => array(
+						'get_connectable'    => $item_connectable, // e.g. affiliate.
+						'where_connectable'  => $opposing_connectable, // e.g. group.
+						'where_group_type'   => $this->get_connectable_group_type( $opposing_connectable ), // Will be empty if not group opposing connection.
+						'where_id'           => 0, // Zero means connected to no groups.
+					),
 				)
 			);
 		}
@@ -1780,20 +1780,18 @@ abstract class Connector {
 			return $args;
 		}
 
-		$items = $this->get_connected_item_ids_of(
-			intval( $selected_item ),
-			$opposing_connectable
-		);
-
 		return array_merge(
 			$args,
-			empty( $items )
-				? array(
-					"{$item_connectable}_id" => -1, // Show 0 items in list table.
-				)
-				: array(
-					'include' => array_map( 'intval', $items ),
-				)
+
+			// Add arguments that will cause SQL to get items (e.g. affiliates) connected to (e.g. group).
+			array(
+				'connected_to' => array(
+					'get_connectable'    => $item_connectable, // e.g. affiliate.
+					'where_connectable'  => $opposing_connectable, // e.g. group.
+					'where_group_type'   => $this->get_connectable_group_type( $opposing_connectable ), // Will be empty if not group opposing connection.
+					'where_id'           => $selected_item,
+				),
+			),
 		);
 	}
 
@@ -1998,7 +1996,7 @@ abstract class Connector {
 	 *
 	 * @return string The group type for the connectable.
 	 */
-	protected function get_connectable_group_type( string $connectable ) : string {
+	public function get_connectable_group_type( string $connectable ) : string {
 		return $this->connectable_args[ $connectable ]['group_type'] ?? '';
 	}
 
@@ -2049,7 +2047,7 @@ abstract class Connector {
 
 		$get_items = "get_{$connectable}s";
 
-		$api = $this->get_connectable_api( $connectable );
+		$api = affiliate_wp()->connections->get_connectable_api( $connectable );
 
 		if ( ! method_exists( $api, $get_items ) ) {
 			throw new \Exception( "Cannot find API method {$get_items}( array ) for connectable: {$connectable}." );
@@ -2132,7 +2130,7 @@ abstract class Connector {
 			$get_method = 'get_object'; // The Affiliate_WP_DB_Affiliates class has no get_affiliate() method.
 		}
 
-		$api = $this->get_connectable_api( $item_connectable );
+		$api = affiliate_wp()->connections->get_connectable_api( $item_connectable );
 
 		if ( ! method_exists( $api, $get_method ) ) {
 			throw new \Exception( "Cannot find API method affiliate_wp()->{$get_method}( array ) for connectable: {$item_connectable}." );
@@ -2969,61 +2967,22 @@ abstract class Connector {
 
 			if (
 				is_multisite() &&
-					! $this->table_exists( $this->get_connectable_api( $connectable )->table_name ) &&
-						is_callable( array( $this->get_connectable_api( $connectable ), 'create_table' ) )
+					! $this->table_exists( affiliate_wp()->connections->get_connectable_api( $connectable )->table_name ) &&
+						is_callable( array( affiliate_wp()->connections->get_connectable_api( $connectable ), 'create_table' ) )
 			) {
 
 				// Sometimes, on multisite, the table hasn't been created yet, let's try and do that here directly.
-				$this->get_connectable_api( $connectable )->create_table();
+				affiliate_wp()->connections->get_connectable_api( $connectable )->create_table();
 			}
 
 			affiliate_wp()->connections->register_connectable(
 				array(
 					'name'   => $connectable,
-					'table'  => $this->get_connectable_api( $connectable )->table_name,
-					'column' => $this->get_connectable_api( $connectable )->primary_key,
+					'table'  => affiliate_wp()->connections->get_connectable_api( $connectable )->table_name,
+					'column' => affiliate_wp()->connections->get_connectable_api( $connectable )->primary_key,
 				)
 			);
 		}
-	}
-
-	/**
-	 * Get a connectable's API from `affiliate_wp()`.
-	 *
-	 * @since 2.15.0
-	 *
-	 * @param string $connectable The connectable.
-	 *
-	 * @return mixed The API attached to `affiliate_wp()->$api`.
-	 *
-	 * @throws \InvalidArgumentException If you pass an empty connectable (would never work).
-	 * @throws \Exception                If there is no API for the connectable (the whole things falls apart).
-	 */
-	private function get_connectable_api( string $connectable ) {
-
-		if ( empty( $connectable ) ) {
-			throw new \InvalidArgumentException( '$connectable must be a non-empty string.' );
-		}
-
-		$api = '';
-
-		if ( 'affiliate' === $connectable ) {
-			$api = 'affiliates';
-		}
-
-		if ( 'creative' === $connectable ) {
-			$api = 'creatives';
-		}
-
-		if ( 'group' === $connectable ) {
-			$api = 'groups';
-		}
-
-		if ( empty( $api ) ) {
-			throw new \Exception( "Cannot determine affiliate_wp() API for '{$connectable}'." );
-		}
-
-		return affiliate_wp()->$api;
 	}
 
 	/**

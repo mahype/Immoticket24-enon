@@ -106,7 +106,7 @@ function affwp_tools_system_info_report() {
 	$return .= "\n" . '-- AffiliateWP Registration Settings' . "\n\n";
 	$return .= 'Allow Affiliate Registrations:    ' . ( $settings->get( 'allow_affiliate_registration' ) ? "True\n" : "False\n" );
 	$return .= 'Require Approval:                 ' . ( $settings->get( 'require_approval' )  ? "True\n" : "False\n" );
-	$return .= 'Auto Register New Users:          ' . ( $settings->get( 'auto_register' ) ? "True\n" : "False\n" );
+	$return .= 'Auto Register New Users:          ' . ( affiliate_wp()->register->auto_register_enabled() ? "True\n" : "False\n" );
 	$return .= 'Affiliate Area Forms              ' . ( $settings->get( 'affiliate_area_forms' ) ? $settings->get( 'affiliate_area_forms' ) . "\n" : "Default\n" );
 	$return .= 'Required Registration Fields:     ' . ( $settings->get( 'required_registration_fields' ) ? implode( ', ', array_values( $settings->get( 'required_registration_fields', array() ) ) ) . "\n" : "None\n" );
 

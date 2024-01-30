@@ -59,7 +59,7 @@ function affwp_creative_category_manager() {
 	require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/creative-categories/class-management.php';
 
 	// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache instance.
-	return $instance = new \AffiliateWP\Admin\Groups\Creative_Categories\Management();
+	return $instance = new \AffiliateWP\Admin\Groups\Creative_Categories\Management( 'creative-categories' );
 }
 add_action( 'plugins_loaded', 'affwp_creative_category_manager', 10 );
 

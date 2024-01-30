@@ -519,7 +519,7 @@ abstract class DataEnev {
      */
     public function LueftungsartFensterlueftung() : string
     {        
-        if ( $this->energieausweis->l_info == 'fenster' ) {
+        if ( $this->energieausweis->l_info == 'ohne' ) {
             return 'true';
         }
 
@@ -551,10 +551,8 @@ abstract class DataEnev {
      */
     public function LueftungsartAnlageOWRG() : string
     {        
-        if ( $this->energieausweis->l_info == 'anlage' ) {
-            if ( substr( $this->energieausweis->l_erzeugung, 0, 4 ) == 'ohne' ) {
-                return 'true';
-            }
+        if ( $this->energieausweis->l_info == 'abluft' ) {            
+            return 'true';
         }
 
         return 'false';
@@ -570,10 +568,8 @@ abstract class DataEnev {
      */
     public function LueftungsartAnlageMWRG() : string
     {        
-        if ( $this->energieausweis->l_info == 'anlage' ) {
-            if ( substr( $this->energieausweis->l_erzeugung, 0, 3 ) == 'mit' ) {
-                return 'true';
-            }
+        if ( $this->energieausweis->l_info == 'zu_abluft' ) {
+            return 'true';
         }
 
         return 'false';
@@ -763,6 +759,27 @@ abstract class DataEnev {
             case 'vermietung':
             case 'verkauf':
                 return 'Vermietung-Verkauf';
+            default:
+                return 'Sonstiges';
+        }
+    }
+
+
+    /**
+     * Ausstellungsanlass
+     * 
+     * @return string
+     * 
+     * @since 1.0.0
+     */
+    public function AusstellungsanlassExpowand() : string
+    {
+        switch( $this->energieausweis->anlass )
+        {
+            case 'vermietung':
+                return 'Vermietung';
+            case 'verkauf':
+                return 'Verkauf';
             default:
                 return 'Sonstiges';
         }

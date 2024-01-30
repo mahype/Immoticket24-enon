@@ -676,7 +676,7 @@ final class DB extends \Affiliate_WP_DB {
 	}
 
 	/**
-	 * Disconnect a connection in the databse.
+	 * Disconnect a connection in the database.
 	 *
 	 * @since  2.12.0
 	 *
@@ -814,16 +814,23 @@ final class DB extends \Affiliate_WP_DB {
 	 * @since 2.12.0
 	 * @since 2.15.0 Connectables are registered in the case they are not due to plugin
 	 *                  loading priority.
+	 * @since 2.17.2 Updated to allow asking for the count instead of the entire list.
 	 *
 	 * @param string $get_connectable   The registered connectable ids to get from the database.
 	 * @param string $where_connectable The registered connectable that they must be connected to.
 	 * @param int    $where_id          The id of the connectable that they have to be connected to.
+	 * @param string $return            Set to `count` to get the count or `list` for a list of connectables.
 	 *
-	 * @return array An `array` of ids connected to the connectable.
+	 * @return mixed An `array` of ids connected items to the connectable, or an `int` if you set `$return` to `count`.
 	 *
 	 * @throws \InvalidArgumentException If you do not supply valid parameters.
 	 */
-	public function get_connected( $get_connectable = '', $where_connectable = '', $where_id = false ) {
+	public function get_connected(
+		string $get_connectable = '',
+		string $where_connectable = '',
+		$where_id = false,
+		$return = 'list'
+	) {
 
 		affwp_register_connectables();
 
@@ -839,6 +846,10 @@ final class DB extends \Affiliate_WP_DB {
 			throw new \InvalidArgumentException( "\$where_connectable must be set to a string set to a registered connectablea and {$where_connectable} is not." );
 		}
 
+		if ( ! $this->string_is_one_of( $return, array( 'count', 'list' ) ) ) {
+			throw new \InvalidArgumentException( '$return can only be count or list (defaults to list).' );
+		}
+
 		if (
 			false === $this->id_in_database(
 				$this->get_registered_connectable( $where_connectable, 'table' ),
@@ -848,12 +859,16 @@ final class DB extends \Affiliate_WP_DB {
 		) {
 
 			// The thing you are asking for is no longer in the database, so nothing can be connected to it.
-			return array();
+			return ( 'count' === $return ) ? 0 : array();
 		}
 
 		global $wpdb;
 
-		$results = $wpdb->get_results(
+		$wpdb_query = ( 'count' === $return )
+			? 'get_var' // Get the count.
+			: 'get_results'; // Get an array (list).
+
+		$results = $wpdb->$wpdb_query(
 
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See parent::inject_table_name() for justification.
 			$this->inject_table_name(
@@ -864,24 +879,38 @@ final class DB extends \Affiliate_WP_DB {
 
 						// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
 						array(
+							'{count_or_list}',
 							'{get_connectable_name}',
 							'{where_connectable_name}',
+							'{uuid4}',
 						),
 
 						// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
 						array(
+
+							// Get a list of connectables or the count.
+							'list' === $return // phpcs:ignore -- Not sure what WP is throwing here.
+
+								// Get the connectables.
+								? '`{get_connectable_name}`' // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
+
+								// Get the count of the connectables.
+								: 'COUNT(`{get_connectable_name}`)', // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
+
+							// The connectables.
 							$wpdb->_real_escape( $this->get_registered_connectable( $get_connectable, 'name' ) ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
 							$wpdb->_real_escape( $this->get_registered_connectable( $where_connectable, 'name' ) ), // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- See notes above.
+							wp_generate_uuid4(),
 						),
 						'
-						SELECT
-							`{get_connectable_name}`
-						FROM
-							{table_name}
-						WHERE
-							`{where_connectable_name}` = %d
-						AND
-							`{get_connectable_name}` IS NOT NULL
+							SELECT
+								{count_or_list}
+							FROM
+								{table_name}
+							WHERE
+								`{where_connectable_name}` = %d
+							AND
+								`{get_connectable_name}` IS NOT NULL -- {uuid4}
 						'
 					),
 					$where_id
@@ -889,15 +918,23 @@ final class DB extends \Affiliate_WP_DB {
 			)
 		);
 
+		// Might be a count.
+		if ( 'count' === $return && is_numeric( $results ) ) {
+			return intval( $results ); // You asked for the count, we'll hand it over.
+		}
+
+		// List should be an array...
 		if ( ! is_array( $results ) ) {
 
+			// But it's not...
 			return new \WP_Error(
 				'results_not_array',
-				'Expected an array, but got something else.',
+				'Expected an array (or an integer), but got something else.',
 				$results
 			);
 		}
 
+		// Pluck just the ID's from the connectables (objects).
 		$ids = $this->pluck_property_from_objects(
 			$results,
 			$this->get_registered_connectable( $get_connectable, 'name' )
@@ -1372,11 +1409,12 @@ final class DB extends \Affiliate_WP_DB {
 
 			// phpcs:ignore  -- $wpdb->prepare() will add tick marks, and we don't want that here (same for ignores in sprintf below).
 			sprintf(
-				'SELECT `%s` from `%s` WHERE `%s` = %d',
+				'SELECT `%s` from `%s` WHERE `%s` = %d -- %s',
 				(string) $column, // phpcs:ignore.
 				(string) $table, // phpcs:ignore.
 				(string) $column, // phpcs:ignore.
-				intval( $id ) // phpcs:ignore.
+				intval( $id ), // phpcs:ignore.
+				wp_generate_uuid4() // Helps reduce duplicate queries reported to Query Monitor.
 			)
 		);
 
@@ -1804,24 +1842,27 @@ final class DB extends \Affiliate_WP_DB {
 			return;
 		}
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		global $wpdb;
 
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- dbDelta in newer versions of PHP can throw warnings.
-		@dbDelta(
-			"
-			CREATE TABLE {$this->table_name} (
+		$wpdb->query(
 
-				connection_id bigint(20) NOT NULL AUTO_INCREMENT,
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No prepare needed here.
+			$this->inject_table_name(
+				'
+					CREATE TABLE `{table_name}` (
 
-				`date`          varchar(191) NOT NULL,
-				`group`         bigint(20),
-				`creative`      bigint(20),
-				`affiliate`     bigint(20),
+						`connection_id` bigint(20) NOT NULL AUTO_INCREMENT,
 
-				PRIMARY KEY (connection_id)
+						`date`          varchar(191) NOT NULL,
+						`group`         bigint(20),
+						`creative`      bigint(20),
+						`affiliate`     bigint(20),
 
-			) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-			"
+						PRIMARY KEY (`connection_id`)
+
+					) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+				'
+			)
 		);
 
 		if ( $this->table_exists( $this->table_name ) ) {
@@ -2015,18 +2056,57 @@ final class DB extends \Affiliate_WP_DB {
 		foreach ( array( 'affiliate' ) as $column ) {
 
 			if ( $this->column_exists( $this->table_name, $column ) ) {
-				continue;
+				continue; // See if the column already exists.
 			}
 
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- $column is not a dynamic value.
 			$wpdb->query( $this->inject_table_name( "ALTER TABLE {table_name} ADD `{$column}` bigint(20) AFTER `creative`" ) );
 
 			if ( $this->column_exists( $this->table_name, $column ) ) {
-				continue;
+				continue; // Make sure the column exists.
 			}
 
 			// Let someone know we couldn't make this column.
 			throw new \Exception( "Unable to add '{$column}' column to the '{$this->table_name}' table." );
 		}
+	}
+
+	/**
+	 * Get a connectable's API from `affiliate_wp()`.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @param string $connectable The connectable.
+	 *
+	 * @return mixed The API attached to `affiliate_wp()->$api`.
+	 *
+	 * @throws \InvalidArgumentException If you pass an empty connectable (would never work).
+	 * @throws \Exception                If there is no API for the connectable (the whole things falls apart).
+	 */
+	public function get_connectable_api( string $connectable ) {
+
+		if ( empty( $connectable ) ) {
+			throw new \InvalidArgumentException( '$connectable must be a non-empty string.' );
+		}
+
+		$api = '';
+
+		if ( 'affiliate' === $connectable ) {
+			$api = 'affiliates';
+		}
+
+		if ( 'creative' === $connectable ) {
+			$api = 'creatives';
+		}
+
+		if ( 'group' === $connectable ) {
+			$api = 'groups';
+		}
+
+		if ( empty( $api ) ) {
+			throw new \Exception( "Cannot determine affiliate_wp() API for '{$connectable}'." );
+		}
+
+		return affiliate_wp()->$api;
 	}
 }

@@ -5,6 +5,7 @@
  * This class handles Custom Links actions.
  *
  * @package     AffiliateWP
+ * @subpackage  AffiliateArea
  * @copyright   Copyright (c) 2023 Awesome Motive, inc
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       2.14.0
@@ -12,13 +13,6 @@
  */
 
 class Affiliate_WP_Custom_Links {
-
-	/**
-	 * Feedback messages.
-	 *
-	 * @var array
-	 */
-	private array $messages = array();
 
 	/**
 	 * Custom links found.
@@ -36,23 +30,6 @@ class Affiliate_WP_Custom_Links {
 
 		// Add our hooks.
 		$this->hooks();
-
-		// Set our messages.
-		$this->messages = array(
-			'invalid_url'                     => __( 'Please enter a valid URL for this site', 'affiliate-wp' ),
-			'save_failed'                     => __( 'Failed to save link - please try again', 'affiliate-wp' ),
-			'invalid_request'                 => __( 'Invalid request - reload the page and try again', 'affiliate-wp' ),
-			'custom_link_btn_create'          => __( 'Create Custom Link', 'affiliate-wp' ),
-			'custom_link_btn_update'          => __( 'Update Custom Link', 'affiliate-wp' ),
-			'copied'                          => __( 'Link copied!', 'affiliate-wp' ),
-			'saving'                          => __( 'Saving...', 'affiliate-wp' ),
-			'copy_affiliate_link'             => __( 'Copy link', 'affiliate-wp' ),
-			'edit_affiliate_link'             => __( 'Edit link', 'affiliate-wp' ),
-			'successfully_created'            => __( 'Link created', 'affiliate-wp' ),
-			'successfully_created_and_copied' => __( 'Link created and copied to clipboard', 'affiliate-wp' ),
-			'successfully_updated'            => __( 'Link updated', 'affiliate-wp' ),
-			'successfully_updated_and_copied' => __( 'Link updated and copied to clipboard', 'affiliate-wp' ),
-		);
 	}
 
 	/**
@@ -78,7 +55,7 @@ class Affiliate_WP_Custom_Links {
 		if ( ! check_ajax_referer( 'affiliate-wp-custom-link', 'nonce', false ) ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html( $this->messages['invalid_request'] ),
+					'message' => esc_html__( 'Invalid request - reload the page and try again', 'affiliate-wp' ),
 				)
 			);
 
@@ -97,7 +74,7 @@ class Affiliate_WP_Custom_Links {
 		if ( filter_var( $args['link'], FILTER_VALIDATE_URL ) === false ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html( $this->messages['invalid_url'] ),
+					'message' => esc_html__( 'Please enter a valid URL for this site', 'affiliate-wp' ),
 				)
 			);
 
@@ -113,7 +90,7 @@ class Affiliate_WP_Custom_Links {
 		if ( false === $custom_link ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html( $this->messages['save_failed'] ),
+					'message' => esc_html__( 'Failed to save link - please try again', 'affiliate-wp' ),
 				)
 			);
 
@@ -132,8 +109,8 @@ class Affiliate_WP_Custom_Links {
 		wp_send_json_success(
 			array(
 				'message' => $updated
-					? esc_html( $this->messages['successfully_updated'] )
-					: esc_html( $this->messages['successfully_created'] ),
+					? esc_html__( 'Link updated', 'affiliate-wp' )
+					: esc_html__( 'Link created', 'affiliate-wp' ),
 				'updated' => $updated,
 				'fields'  => array(
 					'ID'               => absint( $custom_link->ID ),
@@ -172,7 +149,21 @@ class Affiliate_WP_Custom_Links {
 		$json = wp_json_encode(
 			array(
 				'template' => $this->row_template(),
-				'i18n'     => $this->messages,
+				'i18n'     => array(
+					'invalid_url'                     => __( 'Please enter a valid URL for this site', 'affiliate-wp' ),
+					'save_failed'                     => __( 'Failed to save link - please try again', 'affiliate-wp' ),
+					'invalid_request'                 => __( 'Invalid request - reload the page and try again', 'affiliate-wp' ),
+					'custom_link_btn_create'          => __( 'Create Custom Link', 'affiliate-wp' ),
+					'custom_link_btn_update'          => __( 'Update Custom Link', 'affiliate-wp' ),
+					'copied'                          => __( 'Link copied!', 'affiliate-wp' ),
+					'saving'                          => __( 'Saving...', 'affiliate-wp' ),
+					'copy_affiliate_link'             => __( 'Copy link', 'affiliate-wp' ),
+					'edit_affiliate_link'             => __( 'Edit link', 'affiliate-wp' ),
+					'successfully_created'            => __( 'Link created', 'affiliate-wp' ),
+					'successfully_created_and_copied' => __( 'Link created and copied to clipboard', 'affiliate-wp' ),
+					'successfully_updated'            => __( 'Link updated', 'affiliate-wp' ),
+					'successfully_updated_and_copied' => __( 'Link updated and copied to clipboard', 'affiliate-wp' ),
+				),
 				'nonce'    => wp_create_nonce( 'affiliate-wp-custom-link' ),
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 			)
@@ -234,7 +225,6 @@ class Affiliate_WP_Custom_Links {
 	public function render( int $affiliate_id ): void {
 		ob_start();
 
-		affwp_enqueue_script( 'affwp-tippy', 'force_tooltip_scripts' );
 		affwp_enqueue_script( 'affwp-custom-link', 'force_custom_link_scripts' );
 		?>
 
@@ -282,6 +272,7 @@ class Affiliate_WP_Custom_Links {
 			<tbody>
 			<?php
 			foreach ( $this->custom_links as $custom_link ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is safe.
 				echo $this->render_template(
 					$row_template,
 					array(
@@ -298,6 +289,7 @@ class Affiliate_WP_Custom_Links {
 
 		<?php
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
 		echo ob_get_clean();
 	}
 
@@ -323,13 +315,13 @@ class Affiliate_WP_Custom_Links {
 						{{link}}
 					</span>
 					<div class="affwp-custom-link-actions">
-						<button class="affwp-tooltip affwp-tooltip-button-copy" data-tippy-content="<?php echo esc_attr( $this->messages['copy_affiliate_link'] ); ?>">
+						<button class="affwp-tooltip affwp-tooltip-button-copy" data-tippy-content="<?php esc_attr_e( 'Copy link', 'affiliate-wp' ); ?>">
 							<span class="affwp-copy-custom-link affwp-custom-link-action affwp-custom-link">
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.25 -0.25 24.5 24.5" stroke-width="2" height="20" width="20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M16.75 4.5V1.75C16.75 1.19772 16.3023 0.75 15.75 0.75H1.75C1.19772 0.75 0.75 1.19771 0.75 1.75V15.75C0.75 16.3023 1.19772 16.75 1.75 16.75H4.5"></path><path stroke="currentColor" stroke-linejoin="round" d="M7.25 8.25C7.25 7.69771 7.69772 7.25 8.25 7.25H22.25C22.8023 7.25 23.25 7.69772 23.25 8.25V22.25C23.25 22.8023 22.8023 23.25 22.25 23.25H8.25C7.69771 23.25 7.25 22.8023 7.25 22.25V8.25Z"></path></svg>
 							</span>
 						</button>
 
-						<button class="affwp-tooltip affwp-tooltip-edit" data-tippy-content="<?php echo esc_attr( $this->messages['edit_affiliate_link'] ); ?>">
+						<button class="affwp-tooltip affwp-tooltip-edit" data-tippy-content="<?php esc_attr_e( 'Edit link', 'affiliate-wp' ); ?>">
 							<span class="affwp-edit-custom-link affwp-custom-link-action">
 								<svg viewBox="-0.25 -0.25 24.5 24.5" xmlns="http://www.w3.org/2000/svg" stroke-width="2" height="20" width="20"><path d="M13.045,14.136l-3.712.531.53-3.713,9.546-9.546A2.25,2.25,0,0,1,22.591,4.59Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18.348 2.469L21.53 5.651" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18.75,14.25v7.5a1.5,1.5,0,0,1-1.5,1.5h-15a1.5,1.5,0,0,1-1.5-1.5v-15a1.5,1.5,0,0,1,1.5-1.5h7.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>
 							</span>

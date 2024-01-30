@@ -75,6 +75,10 @@ class Keller {
      * @return float
      */
     public function wand_hoehe(): float {
+        if ( $this->hoehe === 0.0 ) {
+            return 0;
+        }
+        
         return $this->hoehe + 0.25;
     }
 

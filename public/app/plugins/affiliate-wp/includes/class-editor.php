@@ -24,8 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class Affiliate_WP_Editor {
 
-	private static $current_form = 0;
-
 	/**
 	 * Set to true if blocks_init has ran.
 	 *
@@ -415,7 +413,7 @@ final class Affiliate_WP_Editor {
 			return '';
 		}
 
-		return wp_kses( $content, affwp_kses() );
+		return $content;
 	}
 
 	/**
@@ -432,7 +430,7 @@ final class Affiliate_WP_Editor {
 			return '';
 		}
 
-		return wp_kses( $content, affwp_kses() );
+		return $content;
 	}
 
 	/**
@@ -1201,7 +1199,7 @@ final class Affiliate_WP_Editor {
 			array(
 				'label'    => isset( $atts['label'] ) && ! empty( $atts['label'] ) ? $atts['label'] : $this->terms_of_use_defaults()['label'],
 				'style'    => isset( $atts['style'] ) ? $atts['style'] : '',
-				'id'       => isset( $atts['id'] ) ? $atts['id'] : 0,
+				'id'       => isset( $atts['id'] ) ? $atts['id'] : $this->terms_of_use_defaults()['id'],
 				'required' => isset( $atts['required'] ) ? '' : 'required',
 
 			)
@@ -1743,9 +1741,11 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Renders the form submit button.
 	 *
-	 * @param array    $atts     Block attributes.
+	 * @since 2.18.0 (Aubrey Portwood) Updated to use self::get_parent_form() to obtain the proper form for the registration button.
+	 *
+	 * @param array    $atts    Block attributes.
 	 * @param string   $content Block contents.
-	 * @param WP_Block $block WP Block object.
+	 * @param WP_Block $block   WP Block object.
 	 *
 	 * @return false|string Form submit button markup. Empty string if no form could be found.
 	 */
@@ -1754,7 +1754,7 @@ final class Affiliate_WP_Editor {
 		$block_context = isset( $block->context ) ? $block->context : '';
 		$redirect      = isset( $block_context['affiliatewp/redirect'] ) ? $block_context['affiliatewp/redirect'] : '';
 		$btn_text      = isset( $atts['text'] ) ? $atts['text'] : __( 'Register', 'affiliate-wp' );
-		$form          = $this->get_current_form();
+		$form          = $this->get_parent_form( $block ); // Get the parent submission form the button is in.
 		$post_id       = get_the_ID();
 		$hash_data     = $this->get_submission_forms_hash_data( $post_id );
 		$form_hash     = '';
@@ -1840,36 +1840,70 @@ final class Affiliate_WP_Editor {
 		?>
 
 		<?php
-		self::$current_form++;
+
 		return ob_get_clean();
 	}
 
 	/**
-	 * Retrieve the form for the current post.
+	 * Get the parent submission form the button is in.
 	 *
-	 * @since 2.8
+	 * @since 2.18.0
 	 *
-	 * @return Registration\Form_Container|WP_Error The current registration form container, or a WP_Error object if not
-	 *                                              found.
+	 * @param WP_Block $block The button block.
+	 *
+	 * @return \AffWP\Core\Registration\Form_Field_Container|WP_Error The parent submission form or error.
 	 */
-	protected function get_current_form() {
-		$submission_forms = $this->get_submission_forms( get_the_ID() );
+	private function get_parent_form( WP_Block $block ) {
 
-		if ( isset( $submission_forms[ self::$current_form ] ) ) {
-			$submission_form = $submission_forms[ self::$current_form ];
-		} else {
-			$submission_form = new WP_Error(
-				'submission_form_not_found',
-				'The provided submission form could not be found',
+		if ( 'affiliatewp/field-register-button' !== $block->name ) {
+
+			return new WP_Error(
+				'not_registration_button_block',
+				__( "Can only find parent of 'affiliatewp/field-register-button' block type." ),
 				array(
-					'current_form'     => self::$current_form,
-					'post_id'          => get_the_ID(),
-					'submission_forms' => $submission_forms,
+					'block' => $block,
 				)
 			);
 		}
 
-		return $submission_form;
+		foreach ( $this->get_submission_forms( get_the_ID() ) as $form ) {
+
+			if ( empty( $form->get_block_name() ) ) {
+				continue; // There is no way to get the parent form if the block name is empty.
+			}
+
+			// Note, the parent block name may also be empty, that's why we did the test before.
+			if ( $this->get_block_parent_name( $block ) !== $form->get_block_name() ) {
+				continue; // Skip forms that don't have the parent's block name.
+			}
+
+			return $form;
+		}
+
+		return new WP_Error(
+			'no_parent_submission_form',
+			sprintf(
+				// Translators: %s is the name of the block, e.g. affiliatewp/field-register-button.
+				__( 'No parent found for block: %s' ),
+				$block->name
+			),
+			array(
+				'block' => $block,
+			)
+		);
+	}
+
+	/**
+	 * Get a blocks (parent) name.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @param WP_Block $block The block.
+	 *
+	 * @return string Empty if none.
+	 */
+	private function get_block_parent_name( WP_Block $block ) : string {
+		return $block->block_type->parent[0] ?? '';
 	}
 
 	/**
@@ -1963,8 +1997,15 @@ final class Affiliate_WP_Editor {
 		$form_types = $this->get_submission_form_types();
 
 		foreach ( $form_types as $type ) {
+
 			if ( is_array( $block ) && "affiliatewp/{$type}" === $block['blockName'] ) {
-				return new Registration\Form_Container( array( 'fields' => $this->get_submission_form_fields( $block ) ) );
+
+				return new Registration\Form_Container(
+					array(
+						'fields'     => $this->get_submission_form_fields( $block ),
+						'block_name' => $block['blockName'] ?? '',
+					)
+				);
 			}
 		}
 
@@ -2013,10 +2054,12 @@ final class Affiliate_WP_Editor {
 				}
 
 				foreach ( $block['innerBlocks'] as $inner_block ) {
+
 					$forms_found[] = new Registration\Form_Container(
 						array(
 							'fields'      => $this->get_submission_form_fields( $inner_block ),
 							'block_attrs' => isset( $inner_block['attrs'] ) ? $inner_block['attrs'] : array(),
+							'block_name'  => $inner_block['blockName'] ?? '',
 						)
 					);
 				}
@@ -2027,6 +2070,7 @@ final class Affiliate_WP_Editor {
 		}
 
 		foreach ( $form_types as $type ) {
+
 			if ( 'affiliate-area' === $type ) {
 				continue;
 			}
@@ -2068,6 +2112,7 @@ final class Affiliate_WP_Editor {
 					array(
 						'fields'      => $this->get_submission_form_fields( $block ),
 						'block_attrs' => isset( $block['attrs'] ) ? $block['attrs'] : array(),
+						'block_name'  => $block['blockName'] ?? '',
 					)
 				);
 			}
@@ -2117,7 +2162,7 @@ final class Affiliate_WP_Editor {
 	 * @since 2.8
 	 *
 	 * @param int        $post_id The post ID containing the form.
-	 * @param string|int $hash    Submission form hash.
+	 * @param string|int $hash    Submission form hash (registration form).
 	 *
 	 * @return Registration\Form_Container|\WP_Error
 	 */
@@ -2141,20 +2186,24 @@ final class Affiliate_WP_Editor {
 		$forms = $this->get_submission_forms( $post_id );
 
 		foreach ( $forms as $form ) {
-			/**
-			 * @var $form Registration\Form_Container
-			 */
+
 			$form_hash = 'checksum' === $hash_data['method']
 				? $form->get_checksum()
 				: $form->get_hash();
 
-			// phpcs:disable WordPress.PHP.StrictComparisons
-			if ( in_array( $form_hash, $hash_data['hashes'], true ) && $form_hash == $hash ) {
-				return $form;
+			if ( ! in_array( $form_hash, $hash_data['hashes'], true ) ) {
+				continue; // Form hash is not in hashes for this post.
 			}
-			// phpcs:enable
+
+			// If the hash from the registration form is in the hashes for this post and the hash matches the form hash.
+			if ( (string) $form_hash !== (string) $hash ) {
+				continue; // Not the right form.
+			}
+
+			return $form; // It's this form, because the hash matches...
 		}
 
+		// Couldn't find the form.
 		return new \WP_Error(
 			'submission_form_not_found',
 			__( 'A form for the provided hash could not be found', 'affiliate-wp' ),
