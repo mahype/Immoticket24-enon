@@ -878,14 +878,19 @@ $bauteile = array(
 					'options' => wpenon_immoticket24_get_fenster_bauarten(),
 					'required' => true,
 				),
+				'fenster_uwert_info'                               => array(
+					'type'        => 'checkbox',
+					'label'       => __( 'Benutzerdefinierte U-Wert verwenden?', 'wpenon' ),
+					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
+					'display'     => current_user_can( 'manage_options' ),
+				),
 				'fenster_uwert' => array(
 					'type' => 'float',
-					'label' => __('U-Wert des Fensters', 'wpenon'),
-					'description' => __('Geben Sie den bei dreifach verglasten Fenstern den U-Wert des Fensters an. Wird hier nichts oder 0 angegeben, wird der Wert von 0,9 aus der Uwert Tabelle genommen.', 'wpenon'),
+					'label' => __('U-Wert der Fenster', 'wpenon'),
 					'required' => false,
 					'display'               => array(
 						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
-						'callback_args'         => array( 'field::fenster_bauart', 'waermedaemmglas' ),
+						'callback_args'         => array( 'field::fenster_uwert_info', true ),
 					),
 				),
 				'fenster_baujahr' => array(
@@ -915,6 +920,21 @@ $bauteile = array(
 					'display' => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array( array( 'field::anbau' ), array( true ) ),
+					),
+				),
+				'anbaufenster_uwert_info'                               => array(
+					'type'        => 'checkbox',
+					'label'       => __( 'Benutzerdefinierte U-Wert verwenden?', 'wpenon' ),
+					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
+					'display'     => current_user_can( 'manage_options' ),
+				),
+				'anbaufenster_uwert' => array(
+					'type' => 'float',
+					'label' => __('U-Wert der Fenster', 'wpenon'),
+					'required' => false,
+					'display'               => array(
+						'callback'              => 'wpenon_show_on_bool_compare_and_is_admin',
+						'callback_args'         => array( 'field::anbaufenster_uwert_info', true ),
 					),
 				),
 				'anbaufenster_baujahr' => array(
