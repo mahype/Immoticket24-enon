@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'Euclid Enercity';
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+    src: url('/app/reseller/fonts/EuclidEnercity-Light.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Euclid Enercity';
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url('/app/reseller/fonts/EuclidEnercity-Regular.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Euclid Enercity';
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    src: url('/app/reseller/fonts/EuclidEnercity-Medium.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Euclid Enercity';
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: url('/app/reseller/fonts/EuclidEnercity-Bold.woff2') format('woff2');
+  }
+  
+  body {
+      font-family: Euclid Enercity,sans-serif;
+  }
+  
+  .wpenon-wrapper h2 {
+   background-image: linear-gradient(90deg, rgb(153, 0, 153) 0px, rgb(255, 0, 0) 100%);
+   display:inline;
+   text-transform: none;
+   font-size: 36px;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+  }
+  
+  .wpenon-wrapper #group-basisdaten, .wpenon-wrapper .overview-meta {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .form-control {
+    border-color: rgb(244, 208, 222);
+    border-radius: 4px;
+    border-width: 2px;
+    padding: 16px 8px;
+    cursor: text;
+    font-size: 18px;
+    font-family: Euclid Enercity,sans-serif;
+  }
+  .wpenon-wrapper .form-group label {
+    font-weight: normal;
+    color: rgb(199, 18, 92);
+  }
+  
+  .page .btn-primary {
+    font-family: Euclid Enercity,sans-serif;
+    background-image: none;
+    background-color: rgb(199, 18, 92);
+    border-radius: 1.5625rem;
+    font-weight: 500;
+    font-size: 1.125rem;
+    padding: 10px 50px;
+  }

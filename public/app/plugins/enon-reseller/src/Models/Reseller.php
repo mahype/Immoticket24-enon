@@ -120,20 +120,7 @@ class Reseller
 	}
 
 	public function get_iframe_js()
-	{
-		global $wp;
-		$page = $wp->request;
-
-		$post = get_post();
-		if( $post->post_type === 'download') {
-			$ec = new Energieausweis($post->ID);
-			$type = $ec->get_type();
-		}elseif( $page === 'energieausweis2/bedarfsausweis-wohngebaeude' ) {
-			$type = 'bw';
-		}elseif( $page === 'energieausweis2/verbrauchsausweis-wohngebaeude' ) {
-			$type = 'vw';
-		}
-
+	{	
 		$js = 'jQuery( document ).ready( function ( $ ) {
 			let get_document_height = function () {
 			  var body = document.body,
