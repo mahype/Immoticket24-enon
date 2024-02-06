@@ -432,8 +432,8 @@ $anlage = array(
 						'biogas'      => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h2_erzeugung', 'etagenheizung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h2_info', 'field::h2_erzeugung', 'etagenheizung' ),
 					),
 					'required' => true,
 				),
@@ -775,8 +775,8 @@ $anlage = array(
 						'biogas'      => __( 'Biogas', 'wpenon' ),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array( 'field::h3_erzeugung', 'etagenheizung' ),
+						'callback'      => 'wpenon_immoticket24_show_h_energietraeger',
+						'callback_args' => array( 'field::h3_info', 'field::h3_erzeugung', 'etagenheizung' ),
 					),
 					'required' => true,
 				),
