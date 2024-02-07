@@ -634,7 +634,7 @@ function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_filter
             } );
             break;
 
-        case 'check_gevm':
+        case 'check_evm':
             $payments_query->__set( 'meta_query', array(
                 'key'     => '_edd_payment_meta',
                 'value'   => 'check_evm',
