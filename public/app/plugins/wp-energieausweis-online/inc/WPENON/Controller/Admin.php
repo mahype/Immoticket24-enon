@@ -395,6 +395,16 @@ class Admin
                 'purchase_id' => $payment->ID,
             ), admin_url('edit.php?post_type=download&page=edd-payment-history')).'">'.__('Rechnung ansehen', 'wpenon').'</a>';
 
+        // Add a link to view the receipt without the header
+        if(current_user_can('administrator')) {
+            $cart_details = edd_get_payment_meta_cart_details( $payment->ID );
+
+            if ( is_array( $cart_details ) && count( $cart_details ) > 0 ) {
+                $item = $cart_details[0];
+                $url = add_query_arg( 'hide_common', '1', \WPENON\Model\EnergieausweisManager::getVerifiedPermalink( $item['id'], 'receipt-view' ) );
+                $row_actions['wpenon_receipt_hide_view'] = '<a href="'. $url.'">'.__('Rechnung ohne Kopf', 'wpenon').'</a>';
+            }
+        }
         return $row_actions;
     }
 
