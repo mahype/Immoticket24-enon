@@ -309,6 +309,7 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	}
 
 	$fensterflaeche = $heizkoerpernische_flaeche = $rolladenkaesten_flaeche = 0.0;
+	$wand_ursprungsflaeche = $wand->flaeche();
 
 	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
 	if ( $gebaeude->dach_vorhanden() ) {
@@ -330,9 +331,10 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 
 	// TODO: Berechnung ggf. auch mit Abzug der Schnittfläche des Anbaus.
 	// NOTE: Vorher ausgelassen, da dies in den originalen Berechnungen auch nicht berücksichtigt wurde.	
-	// if( $gebaeude->anbau_vorhanden() ) {
-	// 	$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
-	// }
+	if( $gebaeude->anbau_vorhanden() ) {
+		$ueberlappung_wandlaenge = $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
+		$wand_laenge -= $ueberlappung_wandlaenge;
+	}
 
 	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
