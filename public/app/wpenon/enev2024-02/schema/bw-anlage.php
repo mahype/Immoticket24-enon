@@ -1208,9 +1208,8 @@ $anlage = array(
 					'type'     => 'select',
 					'label'    => __( 'Lüftungsanlage', 'wpenon' ),
 					'options'  => array(
-						'ohne'      => __( 'Keine', 'wpenon' ),
-						'zu_abluft' => __( 'Lüftungsanlage mit Wärmerückgewinnung', 'wpenon' ),
-						'abluft'    => __( 'Lüftungsanlage ohne Wärmerückgewinnung', 'wpenon' ),
+						'nicht_vorhanden' => __( 'nicht vorhanden', 'wpenon' ),
+						'vorhanden'       => __( 'vorhanden', 'wpenon' ),
 					),
 					'required' => true,
 				),
@@ -1265,10 +1264,11 @@ $anlage = array(
 				// 		'callback_args' => array( 'field::l_info', array( 'zu_abluft', 'abluft' ) ),
 				// 	),
 				// ),
-				'dichtheit'         => array(
-					'type'  => 'checkbox',
-					'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),
-				),
+				// NOTE: 08.02.2024 - Vereinfachung des Lüftungssystems mit Jan. Dichtheitsprüfung wird automatisch ermittelt - Issue #618
+				// 'dichtheit'         => array(
+				// 	'type'  => 'checkbox',
+				// 	'label' => __( 'Wurde eine Dichtheitsprüfung (z.B. Blower-Door-Test) erfolgreich durchgeführt?', 'wpenon' ),
+				// ),
 				'k_info'            => array(
 					'type'     => 'select',
 					'label'    => __( 'Gebäudekühlung', 'wpenon' ),
