@@ -87,7 +87,7 @@ class Lueftung {
 	 * @param string    $art   			   Lüftungsyystemn (zentral oder dezentral).
 	 * @param bool      $bedarfsgefuehrt   Ist das Lüftungssystem bedarfsgeführt?
 	 * @param string    $gebaeudedichtheit Kategorie der Gebäudedichtheit (din_4108_7,andere).
-	 * @param float|int $wirkungsgrad      Der Wirklungsgrad der wärmerückgewinnung (nur bei Zu- und Abluft)
+	 * @param float|int $wirkungsgrad      Der Wirklungsgrad der wärmerückgewinnung in Prozent (nur bei Zu- und Abluft)
 	 * @param int       $baujahr           Baujahr der Lüftungsanlage.
 	 */
 	public function __construct(
@@ -163,6 +163,15 @@ class Lueftung {
 	 */
 	public function luftwechsel(): Luftwechsel {
 		return $this->luftwechsel;
+	}
+
+	/**
+	 * Wirkungsgrad der Wärmerückgewinnung.
+	 * 
+	 * @return float
+	 */
+	public function wirkungsgrad(): float {
+		return $this->wirkungsgrad;
 	}
 
 	/**

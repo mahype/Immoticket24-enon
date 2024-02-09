@@ -166,6 +166,15 @@ class Lueftung {
 	}
 
 	/**
+	 * Wirkungsgrad der Wärmerückgewinnung.
+	 * 
+	 * @return float
+	 */
+	public function wirkungsgrad(): float {
+		return $this->wirkungsgrad;
+	}
+
+	/**
 	 * Luftechselvolumen (Hv ges = 𝑛 × 𝑐 × 𝑝 × 𝑉).
 	 *
 	 * @return float
