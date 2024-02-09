@@ -55,7 +55,6 @@ class Loader extends Task_Loader {
         $this->add_task( Setup_Edd::class, $this->logger() );
 		$this->add_task( Filter_EDD_Emails::class );
 		$this->add_task( Add_Costum_Fees_Subsidies_Consultation::class );
-		$this->add_task( Add_Costum_Fee_PVA_Consultation::class );
 		$this->add_task( Add_Costum_Fees_EVM::class );
 
 		if ( is_admin() && ! wp_doing_ajax() ) {
