@@ -192,7 +192,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			$baujahr_limit = new DateTime( '2008-10' );			
 
-			if ( $k_baujahr < $baujahr_limit ) {
+			if ( $k_baujahr < $baujahr_limit && empty( $energieausweis->k_inspektion ) ) {
 				return '12/2022';
 			}
 
