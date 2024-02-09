@@ -52,7 +52,7 @@ class Luftwechsel {
 	protected string $gebaeudedichtheit;
 
 	/**
-	 * Efficiency.
+	 * Efficiency in percent (54%, 60%, 80%...).
 	 *
 	 * @var float
 	 */
