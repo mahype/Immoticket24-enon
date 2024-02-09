@@ -309,7 +309,6 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	}
 
 	$fensterflaeche = $heizkoerpernische_flaeche = $rolladenkaesten_flaeche = 0.0;
-	$wand_ursprungsflaeche = $wand->flaeche();
 
 	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
 	if ( $gebaeude->dach_vorhanden() ) {
@@ -329,28 +328,13 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 	 */	
 	$wand_laenge = $gebaeude->grundriss()->wand_laenge( $wand->seite() );
 
-	if( $gebaeude->anbau_vorhanden() ) {
-		$wand_laenge_uberlappung = $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
-		$wand_laenge_ohne_ueberlappung = $wand_laenge - $wand_laenge_uberlappung;
+	// TODO: Berechnung ggf. auch mit Abzug der Schnittfläche des Anbaus.
+	// NOTE: Vorher ausgelassen, da dies in den originalen Berechnungen auch nicht berücksichtigt wurde.	
+	// if( $gebaeude->anbau_vorhanden() ) {
+	// 	$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
+	// }
 
-		// Bei wie vielen Stockwerken entsteht eine Überlappung mit dem Anbau?
-		$anzahl_ueberlappende_geschosse = ceil( $gebaeude->anbau()->hoehe() / $gebaeude->geschosshoehe() );
-		$anzahl_ueberlappende_geschosse = $anzahl_ueberlappende_geschosse > $gebaeude->geschossanzahl() ? $gebaeude->geschossanzahl() : $anzahl_ueberlappende_geschosse;
-
-		$anzahl_nicht_ueberlappende_geschosse = ( $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse ) > 0 ? $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse : 0;
-
-		// Berechne Fensterflächen an Wänden, wo eine Überlappung vorhanden ist
-		$fensterflaeche_1  = berechne_fenster_flaeche( $wand_laenge_ohne_ueberlappung, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $anzahl_ueberlappende_geschosse;		
-
-		// Berechne Fensterflächen an Wänden, wo keine Überlappung vorhanden ist
-		$fensterflaeche_2  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $anzahl_nicht_ueberlappende_geschosse;
-
-		$fensterflaeche = $fensterflaeche_1 + $fensterflaeche_2;
-
-	} else {
-		$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-	}
-	
+	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
 	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
 
