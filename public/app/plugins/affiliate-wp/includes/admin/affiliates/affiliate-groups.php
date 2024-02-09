@@ -59,6 +59,6 @@ function affwp_affiliate_groups_manager() {
 	require_once untrailingslashit( AFFILIATEWP_PLUGIN_DIR ) . '/includes/admin/groups/affiliate-groups/class-management.php';
 
 	// phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found -- Used to cache instance.
-	return $instance = new \AffiliateWP\Admin\Groups\Affiliate_Groups\Management();
+	return $instance = new \AffiliateWP\Admin\Groups\Affiliate_Groups\Management( 'affiliate-groups' );
 }
 add_action( 'plugins_loaded', 'affwp_affiliate_groups_manager', 10 );

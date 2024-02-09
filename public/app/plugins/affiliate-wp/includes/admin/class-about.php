@@ -371,7 +371,7 @@ class About {
 					<?php
 					echo wp_kses(
 						__(
-							'Bonus: AffiliateWP users get <span class="discount">50% off the regular price</span>, automatically applied at checkout.',
+							'Bonus: AffiliateWP users get <span class="discount">60% off the regular price</span>, automatically applied at checkout.',
 							'affiliate-wp'
 						),
 						array(
@@ -497,7 +497,7 @@ class About {
 				<p>
 					<?php
 						echo wp_kses(
-							__( 'Bonus: AffiliateWP users get <span>50% off regular price</span>, automatically applied at checkout.', 'affiliate-wp' ),
+							__( 'Bonus: AffiliateWP users get <span>60% off regular price</span>, automatically applied at checkout.', 'affiliate-wp' ),
 							array( 'span' => array( 'class' => array() ) )
 						);
 					?>

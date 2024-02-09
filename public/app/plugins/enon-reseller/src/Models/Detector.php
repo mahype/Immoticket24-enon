@@ -69,7 +69,7 @@ class Detector {
      * 
      * @since 1.0.0
      */
-    private static function get_iframe_token() {
+    public static function get_iframe_token() {
         if ( ! self::is_reseller_iframe() ) {
             return false;
         }

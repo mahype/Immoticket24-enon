@@ -628,12 +628,13 @@ function affwp_is_pretty_referral_urls() {
  * Checks whether reCAPTCHA is enabled since it requires three options
  *
  * @since 1.7
+ * @since 2.18.0 No longer check for enabled checkbox, now use affwp_recaptcha_type() instead.
  *
  * @return bool True if reCAPTCHA is enabled, otherwise false.
  */
-function affwp_is_recaptcha_enabled() {
+function affwp_is_recaptcha_enabled() : bool {
 
-	$checkbox   = affiliate_wp()->settings->get( 'recaptcha_enabled', 0 );
+	$checkbox   = ! ( affwp_recaptcha_type() === 'none' );
 	$site_key   = affiliate_wp()->settings->get( 'recaptcha_site_key', '' );
 	$secret_key = affiliate_wp()->settings->get( 'recaptcha_secret_key', '' );
 	$enabled    = ( ! empty( $checkbox ) && ! empty( $site_key ) && ! empty( $secret_key ) );
@@ -657,7 +658,7 @@ function affwp_is_recaptcha_enabled() {
  * @return string reCAPTCHA Type.
  */
 function affwp_recaptcha_type() {
-	return affiliate_wp()->settings->get( 'recaptcha_type', 'v2' );
+	return affiliate_wp()->settings->get( 'recaptcha_type', 'none' );
 }
 
 /**
@@ -958,6 +959,7 @@ function affwp_get_logout_url() {
  * @since 1.0
  * @since 1.8.8 Moved to `misc-functions.php` to prevent fatal errors with other plugins
  *              incorrectly loading admin code without actually loading WP admin.
+ * @since 2.18.1 Updated to show 'None' for the empty option.
  *
  * @param bool $force Optional. Force the pages to be loaded even if not on settings.
  *                    Default false.
@@ -966,7 +968,7 @@ function affwp_get_logout_url() {
  */
 function affwp_get_pages( $force = false ) {
 
-	$pages_options = array( 0 => '' ); // Blank option
+	$pages_options = array( 0 => __( 'None', 'affiliate-wp' ) ); // Blank option
 
 	if( ( ! isset( $_GET['page'] ) || 'affiliate-wp-settings' != $_GET['page'] ) && ! $force ) {
 		return $pages_options;
@@ -1763,49 +1765,34 @@ function affwp_is_integration_active( $integration_slug ) {
 }
 
 /**
- * Renders the settings fields for a particular settings section.
+ * Generates an HTML tag attribute as a string.
  *
- * Copied mostly verbatim from `do_settings_section()` with the addition of
- * setting a unique id attribute for the table row elements.
+ * This function creates an HTML attribute as a string with the provided name and value.
+ * By default, if the value is empty, the attribute will not be included in the output.
+ * This is particularly useful for avoiding unnecessary HTML generation when attribute
+ * values may be empty or conditional.
  *
- * @global array $wp_settings_fields Storage array of settings fields and their pages/sections.
+ * @since 2.18.0
  *
- * @since 2.7
+ * @param string $name Attribute name
+ * @param mixed $value Attribute value. Arrays will be automatically converted to JSON.
+ * @param bool $hide_empty Do not print the attribute if $value is empty.
  *
- * @param string $page    Slug title of the admin page whose settings fields you want to show.
- * @param string $section Slug title of the settings section whose fields you want to show.
+ * @return string The attribute to use in a HTML tag.
  */
-function affwp_do_settings_fields( $page, $section ) {
-	global $wp_settings_fields;
+function affiliatewp_tag_attr( string $name, $value, bool $hide_empty = true ) : string {
 
-	if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
-		return;
+	if ( $hide_empty && empty( $value ) ) {
+		return '';
 	}
 
-	foreach ( (array) $wp_settings_fields[ $page ][ $section ] as $field ) {
-		$class = $id = '';
-
-		if ( ! empty( $field['args']['id'] ) ) {
-			$id = ' id="' . esc_attr( $field['args']['id'] ) . '"';
-		}
-
-		if ( ! empty( $field['args']['class'] ) ) {
-			$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
-		}
-
-		echo "<tr{$id}{$class}>";
-
-		if ( ! empty( $field['args']['label_for'] ) ) {
-			echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
-		} else {
-			echo '<th scope="row">' . $field['title'] . '</th>';
-		}
-
-		echo '<td>';
-		call_user_func( $field['callback'], $field['args'] );
-		echo '</td>';
-		echo '</tr>';
-	}
+	return sprintf(
+		' %s="%s"',
+		esc_attr( $name ),
+		is_array( $value )
+			? esc_attr( wp_json_encode( $value ) )
+			: esc_attr( $value )
+	);
 }
 
 /**
@@ -1929,338 +1916,345 @@ if ( ! function_exists( 'affwp_kses' ) ) :
 	 * Our own list of tags to be used with wp_kses.
 	 *
 	 * @since 2.15.0
+	 * @since AFFWP Added parameter to append/replace kses.
+	 *
+	 * @param array $additional_kses Kses to append or replace in the main array.
 	 *
 	 * @return array[] Array of default allowable HTML tags.
 	 */
-	function affwp_kses() : array {
+	function affwp_kses( array $additional_kses = array() ) : array {
 
 		return apply_filters(
 			'affwp_kses',
-			array(
-				'address'    => array(),
-				'a'          => array(
-					'href'     => true,
-					'class'    => true,
-					'rel'      => true,
-					'rev'      => true,
-					'name'     => true,
-					'target'   => true,
-					'download' => array(
-						'valueless' => 'y',
+			array_merge_recursive(
+				array(
+					'address'    => array(),
+					'a'          => array(
+						'href'     => true,
+						'class'    => true,
+						'rel'      => true,
+						'rev'      => true,
+						'name'     => true,
+						'target'   => true,
+						'download' => array(
+							'valueless' => 'y',
+						),
+					),
+					'abbr'       => array(),
+					'acronym'    => array(),
+					'area'       => array(
+						'alt'    => true,
+						'coords' => true,
+						'href'   => true,
+						'nohref' => true,
+						'shape'  => true,
+						'target' => true,
+					),
+					'article'    => array(
+						'align' => true,
+					),
+					'aside'      => array(
+						'align' => true,
+					),
+					'audio'      => array(
+						'autoplay' => true,
+						'controls' => true,
+						'loop'     => true,
+						'muted'    => true,
+						'preload'  => true,
+						'src'      => true,
+					),
+					'b'          => array(),
+					'bdo'        => array(),
+					'big'        => array(),
+					'blockquote' => array(
+						'cite' => true,
+					),
+					'br'         => array(),
+					'button'     => array(
+						'disabled' => true,
+						'name'     => true,
+						'type'     => true,
+						'value'    => true,
+					),
+					'caption'    => array(
+						'align' => true,
+					),
+					'cite'       => array(),
+					'code'       => array(),
+					'col'        => array(
+						'align'   => true,
+						'char'    => true,
+						'charoff' => true,
+						'span'    => true,
+						'valign'  => true,
+						'width'   => true,
+					),
+					'colgroup'   => array(
+						'align'   => true,
+						'char'    => true,
+						'charoff' => true,
+						'span'    => true,
+						'valign'  => true,
+						'width'   => true,
+					),
+					'del'        => array(
+						'datetime' => true,
+					),
+					'dd'         => array(),
+					'dfn'        => array(),
+					'details'    => array(
+						'align' => true,
+						'open'  => true,
+					),
+					'div'        => array(
+						'align' => true,
+					),
+					'dl'         => array(),
+					'dt'         => array(),
+					'em'         => array(),
+					'fieldset'   => array(),
+					'figure'     => array(
+						'align' => true,
+					),
+					'figcaption' => array(
+						'align' => true,
+					),
+					'font'       => array(
+						'color' => true,
+						'face'  => true,
+						'size'  => true,
+					),
+					'footer'     => array(
+						'align' => true,
+					),
+					'h1'         => array(
+						'align' => true,
+					),
+					'h2'         => array(
+						'align' => true,
+					),
+					'h3'         => array(
+						'align' => true,
+					),
+					'h4'         => array(
+						'align' => true,
+					),
+					'h5'         => array(
+						'align' => true,
+					),
+					'h6'         => array(
+						'align' => true,
+					),
+					'header'     => array(
+						'align' => true,
+					),
+					'hgroup'     => array(
+						'align' => true,
+					),
+					'hr'         => array(
+						'align'   => true,
+						'noshade' => true,
+						'size'    => true,
+						'width'   => true,
+					),
+					'i'          => array(),
+					'img'        => array(
+						'alt'      => true,
+						'align'    => true,
+						'border'   => true,
+						'height'   => true,
+						'hspace'   => true,
+						'loading'  => true,
+						'longdesc' => true,
+						'vspace'   => true,
+						'src'      => true,
+						'usemap'   => true,
+						'width'    => true,
+					),
+					'ins'        => array(
+						'datetime' => true,
+						'cite'     => true,
+					),
+					'kbd'        => array(),
+					'label'      => array(
+						'for' => true,
+					),
+					'legend'     => array(
+						'align' => true,
+					),
+					'li'         => array(
+						'align' => true,
+						'value' => true,
+						'class' => true,
+					),
+					'main'       => array(
+						'align' => true,
+					),
+					'map'        => array(
+						'name' => true,
+					),
+					'mark'       => array(),
+					'menu'       => array(
+						'type' => true,
+					),
+					'nav'        => array(
+						'align' => true,
+					),
+					'object'     => array(
+						'data' => array(
+							'required'       => true,
+							'value_callback' => '_wp_kses_allow_pdf_objects',
+						),
+						'type' => array(
+							'required' => true,
+							'values'   => array( 'application/pdf' ),
+						),
+					),
+					'p'          => array(
+						'align' => true,
+					),
+					'pre'        => array(
+						'width' => true,
+					),
+					'q'          => array(
+						'cite' => true,
+					),
+					'rb'         => array(),
+					'rp'         => array(),
+					'rt'         => array(),
+					'rtc'        => array(),
+					'ruby'       => array(),
+					's'          => array(),
+					'samp'       => array(),
+					'span'       => array(
+						'align' => true,
+						'class' => true,
+					),
+					'section'    => array(
+						'align' => true,
+					),
+					'small'      => array(),
+					'strike'     => array(),
+					'strong'     => array(),
+					'style'      => array(),
+					'sub'        => array(),
+					'summary'    => array(
+						'align' => true,
+					),
+					'sup'        => array(),
+					'table'      => array(
+						'align'       => true,
+						'bgcolor'     => true,
+						'border'      => true,
+						'cellpadding' => true,
+						'cellspacing' => true,
+						'rules'       => true,
+						'summary'     => true,
+						'width'       => true,
+					),
+					'tbody'      => array(
+						'align'   => true,
+						'char'    => true,
+						'charoff' => true,
+						'valign'  => true,
+					),
+					'td'         => array(
+						'abbr'    => true,
+						'align'   => true,
+						'axis'    => true,
+						'bgcolor' => true,
+						'char'    => true,
+						'charoff' => true,
+						'colspan' => true,
+						'headers' => true,
+						'height'  => true,
+						'nowrap'  => true,
+						'rowspan' => true,
+						'scope'   => true,
+						'valign'  => true,
+						'width'   => true,
+					),
+					'textarea'   => array(
+						'cols'     => true,
+						'rows'     => true,
+						'disabled' => true,
+						'name'     => true,
+						'readonly' => true,
+					),
+					'tfoot'      => array(
+						'align'   => true,
+						'char'    => true,
+						'charoff' => true,
+						'valign'  => true,
+					),
+					'th'         => array(
+						'abbr'    => true,
+						'align'   => true,
+						'axis'    => true,
+						'bgcolor' => true,
+						'char'    => true,
+						'charoff' => true,
+						'colspan' => true,
+						'headers' => true,
+						'height'  => true,
+						'nowrap'  => true,
+						'rowspan' => true,
+						'scope'   => true,
+						'valign'  => true,
+						'width'   => true,
+					),
+					'thead'      => array(
+						'align'   => true,
+						'char'    => true,
+						'charoff' => true,
+						'valign'  => true,
+					),
+					'title'      => array(),
+					'tr'         => array(
+						'align'   => true,
+						'bgcolor' => true,
+						'char'    => true,
+						'charoff' => true,
+						'valign'  => true,
+					),
+					'track'      => array(
+						'default' => true,
+						'kind'    => true,
+						'label'   => true,
+						'src'     => true,
+						'srclang' => true,
+					),
+					'tt'         => array(),
+					'u'          => array(),
+					'ul'         => array(
+						'type'  => true,
+						'class' => true,
+					),
+					'ol'         => array(
+						'start'    => true,
+						'type'     => true,
+						'reversed' => true,
+					),
+					'var'        => array(),
+					'video'      => array(
+						'autoplay'    => true,
+						'controls'    => true,
+						'height'      => true,
+						'loop'        => true,
+						'muted'       => true,
+						'playsinline' => true,
+						'poster'      => true,
+						'preload'     => true,
+						'src'         => true,
+						'width'       => true,
 					),
 				),
-				'abbr'       => array(),
-				'acronym'    => array(),
-				'area'       => array(
-					'alt'    => true,
-					'coords' => true,
-					'href'   => true,
-					'nohref' => true,
-					'shape'  => true,
-					'target' => true,
-				),
-				'article'    => array(
-					'align' => true,
-				),
-				'aside'      => array(
-					'align' => true,
-				),
-				'audio'      => array(
-					'autoplay' => true,
-					'controls' => true,
-					'loop'     => true,
-					'muted'    => true,
-					'preload'  => true,
-					'src'      => true,
-				),
-				'b'          => array(),
-				'bdo'        => array(),
-				'big'        => array(),
-				'blockquote' => array(
-					'cite' => true,
-				),
-				'br'         => array(),
-				'button'     => array(
-					'disabled' => true,
-					'name'     => true,
-					'type'     => true,
-					'value'    => true,
-				),
-				'caption'    => array(
-					'align' => true,
-				),
-				'cite'       => array(),
-				'code'       => array(),
-				'col'        => array(
-					'align'   => true,
-					'char'    => true,
-					'charoff' => true,
-					'span'    => true,
-					'valign'  => true,
-					'width'   => true,
-				),
-				'colgroup'   => array(
-					'align'   => true,
-					'char'    => true,
-					'charoff' => true,
-					'span'    => true,
-					'valign'  => true,
-					'width'   => true,
-				),
-				'del'        => array(
-					'datetime' => true,
-				),
-				'dd'         => array(),
-				'dfn'        => array(),
-				'details'    => array(
-					'align' => true,
-					'open'  => true,
-				),
-				'div'        => array(
-					'align' => true,
-				),
-				'dl'         => array(),
-				'dt'         => array(),
-				'em'         => array(),
-				'fieldset'   => array(),
-				'figure'     => array(
-					'align' => true,
-				),
-				'figcaption' => array(
-					'align' => true,
-				),
-				'font'       => array(
-					'color' => true,
-					'face'  => true,
-					'size'  => true,
-				),
-				'footer'     => array(
-					'align' => true,
-				),
-				'h1'         => array(
-					'align' => true,
-				),
-				'h2'         => array(
-					'align' => true,
-				),
-				'h3'         => array(
-					'align' => true,
-				),
-				'h4'         => array(
-					'align' => true,
-				),
-				'h5'         => array(
-					'align' => true,
-				),
-				'h6'         => array(
-					'align' => true,
-				),
-				'header'     => array(
-					'align' => true,
-				),
-				'hgroup'     => array(
-					'align' => true,
-				),
-				'hr'         => array(
-					'align'   => true,
-					'noshade' => true,
-					'size'    => true,
-					'width'   => true,
-				),
-				'i'          => array(),
-				'img'        => array(
-					'alt'      => true,
-					'align'    => true,
-					'border'   => true,
-					'height'   => true,
-					'hspace'   => true,
-					'loading'  => true,
-					'longdesc' => true,
-					'vspace'   => true,
-					'src'      => true,
-					'usemap'   => true,
-					'width'    => true,
-				),
-				'ins'        => array(
-					'datetime' => true,
-					'cite'     => true,
-				),
-				'kbd'        => array(),
-				'label'      => array(
-					'for' => true,
-				),
-				'legend'     => array(
-					'align' => true,
-				),
-				'li'         => array(
-					'align' => true,
-					'value' => true,
-					'class' => true,
-				),
-				'main'       => array(
-					'align' => true,
-				),
-				'map'        => array(
-					'name' => true,
-				),
-				'mark'       => array(),
-				'menu'       => array(
-					'type' => true,
-				),
-				'nav'        => array(
-					'align' => true,
-				),
-				'object'     => array(
-					'data' => array(
-						'required'       => true,
-						'value_callback' => '_wp_kses_allow_pdf_objects',
-					),
-					'type' => array(
-						'required' => true,
-						'values'   => array( 'application/pdf' ),
-					),
-				),
-				'p'          => array(
-					'align' => true,
-				),
-				'pre'        => array(
-					'width' => true,
-				),
-				'q'          => array(
-					'cite' => true,
-				),
-				'rb'         => array(),
-				'rp'         => array(),
-				'rt'         => array(),
-				'rtc'        => array(),
-				'ruby'       => array(),
-				's'          => array(),
-				'samp'       => array(),
-				'span'       => array(
-					'align' => true,
-					'class' => true,
-				),
-				'section'    => array(
-					'align' => true,
-				),
-				'small'      => array(),
-				'strike'     => array(),
-				'strong'     => array(),
-				'style'      => array(),
-				'sub'        => array(),
-				'summary'    => array(
-					'align' => true,
-				),
-				'sup'        => array(),
-				'table'      => array(
-					'align'       => true,
-					'bgcolor'     => true,
-					'border'      => true,
-					'cellpadding' => true,
-					'cellspacing' => true,
-					'rules'       => true,
-					'summary'     => true,
-					'width'       => true,
-				),
-				'tbody'      => array(
-					'align'   => true,
-					'char'    => true,
-					'charoff' => true,
-					'valign'  => true,
-				),
-				'td'         => array(
-					'abbr'    => true,
-					'align'   => true,
-					'axis'    => true,
-					'bgcolor' => true,
-					'char'    => true,
-					'charoff' => true,
-					'colspan' => true,
-					'headers' => true,
-					'height'  => true,
-					'nowrap'  => true,
-					'rowspan' => true,
-					'scope'   => true,
-					'valign'  => true,
-					'width'   => true,
-				),
-				'textarea'   => array(
-					'cols'     => true,
-					'rows'     => true,
-					'disabled' => true,
-					'name'     => true,
-					'readonly' => true,
-				),
-				'tfoot'      => array(
-					'align'   => true,
-					'char'    => true,
-					'charoff' => true,
-					'valign'  => true,
-				),
-				'th'         => array(
-					'abbr'    => true,
-					'align'   => true,
-					'axis'    => true,
-					'bgcolor' => true,
-					'char'    => true,
-					'charoff' => true,
-					'colspan' => true,
-					'headers' => true,
-					'height'  => true,
-					'nowrap'  => true,
-					'rowspan' => true,
-					'scope'   => true,
-					'valign'  => true,
-					'width'   => true,
-				),
-				'thead'      => array(
-					'align'   => true,
-					'char'    => true,
-					'charoff' => true,
-					'valign'  => true,
-				),
-				'title'      => array(),
-				'tr'         => array(
-					'align'   => true,
-					'bgcolor' => true,
-					'char'    => true,
-					'charoff' => true,
-					'valign'  => true,
-				),
-				'track'      => array(
-					'default' => true,
-					'kind'    => true,
-					'label'   => true,
-					'src'     => true,
-					'srclang' => true,
-				),
-				'tt'         => array(),
-				'u'          => array(),
-				'ul'         => array(
-					'type'  => true,
-					'class' => true,
-				),
-				'ol'         => array(
-					'start'    => true,
-					'type'     => true,
-					'reversed' => true,
-				),
-				'var'        => array(),
-				'video'      => array(
-					'autoplay'    => true,
-					'controls'    => true,
-					'height'      => true,
-					'loop'        => true,
-					'muted'       => true,
-					'playsinline' => true,
-					'poster'      => true,
-					'preload'     => true,
-					'src'         => true,
-					'width'       => true,
-				),
+				$additional_kses
 			)
 		);
 	}
+
 endif;
 
 /**
@@ -2310,3 +2304,47 @@ function affwp_get_image_size( $image_id_or_url, string $image_size = 'full' ) :
 	return array();
 }
 
+/**
+ * Return the default color values used with QR Codes.
+ *
+ * @since 2.17.0
+ *
+ * @return string[] The colors array.
+ */
+function affiliatewp_get_qrcode_default_colors() : array {
+
+	return array(
+		'code' => '#444444',
+		'bg'   => '#FFFFFF',
+	);
+}
+
+/**
+ * Used to decide if notices classes should be used for the give option or modal classes.
+ *
+ * @since 2.18.0
+ *
+ * @param string $option_to_check The desired option to validate.
+ * @param string $option_key The current option key.
+ * @param string $option_to_compare The option to compare against to decide if a notice should be displayed or modal.
+ * @param string $default_class The default class name to return in case the user has access to the feature.
+ *
+ * @return string
+ */
+function affiliatewp_get_pro_feature_option_classes(
+	string $option_to_check,
+	string $option_key,
+	string $option_to_compare,
+	string $default_class = ''
+) : string {
+
+	if ( affwp_can_access_pro_features() || $option_to_check !== $option_key ) {
+		return $default_class;
+	}
+
+	if ( $option_to_check === $option_to_compare ) {
+		return 'addProBadge affwp-education-notice';
+	}
+
+	return 'addProBadge affwp-education-modal';
+}

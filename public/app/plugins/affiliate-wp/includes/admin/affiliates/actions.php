@@ -64,6 +64,9 @@ function affwp_process_add_affiliate( $data ) {
 
 		$data['dynamic_coupon'] = isset( $data['dynamic_coupon'] ) ? $data['dynamic_coupon'] : '';
 
+
+		$data['registration_method'] = 'admin_add_new_affiliate'; 		// Set the registration method.
+
 		$affiliate_id = affwp_add_affiliate( $data );
 
 		if ( $affiliate_id ) {

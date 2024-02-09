@@ -293,13 +293,17 @@ abstract class Affiliate_WP_Base {
 	/**
 	 * Checks to see if the specified feature is supported by this integration.
 	 *
-	 * @since 2.5
+	 * @since 2.5.0
+	 * @since 2.19.0 Sometimes `get_registry_attribute()` does not hand back an array.
 	 *
 	 * @param string $feature The feature to check
 	 * @return bool True if the feature is supported, false otherwise.
 	 */
 	public function supports_feature( $feature ) {
-		return in_array( $feature, $this->get_registry_attribute( 'supports' ) );
+
+		$supports = $this->get_registry_attribute( 'supports' );
+
+		return in_array( $feature, is_array( $supports ) ? $supports : array() );
 	}
 
 	/**

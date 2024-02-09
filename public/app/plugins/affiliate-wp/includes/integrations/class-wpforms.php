@@ -913,11 +913,13 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 		// Add the affiliate.
 		affwp_add_affiliate( array(
-			'user_id'        => $user_id,
-			'payment_email'  => ! empty( $user_data['payment_email'] ) ? sanitize_text_field( $user_data['payment_email'] ) : '',
-			'dynamic_coupon' => ! affiliate_wp()->settings->get( 'require_approval' ) ? 1 : '',
-			'status'         => $status,
-			'website_url'    => ! empty( $user_data['user_url'] ) ? sanitize_text_field( $user_data['user_url'] ) : '',
+			'user_id'             => $user_id,
+			'payment_email'       => ! empty( $user_data['payment_email'] ) ? sanitize_text_field( $user_data['payment_email'] ) : '',
+			'dynamic_coupon'      => affiliate_wp()->settings->get( 'require_approval' ) ? '' : 1,
+			'status'              => $status,
+			'website_url'         => ! empty( $user_data['user_url'] ) ? sanitize_text_field( $user_data['user_url'] ) : '',
+			'registration_method' => 'affiliate_registration_form',
+			'registration_url'    => esc_url_raw( get_permalink( $entry['post_id'] ) )
 		) );
 
 		// Log user if is they aren't already.

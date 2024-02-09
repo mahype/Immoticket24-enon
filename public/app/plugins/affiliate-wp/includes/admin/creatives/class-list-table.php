@@ -93,6 +93,14 @@ class AffWP_Creatives_Table extends List_Table {
 	public string $image_type_count;
 
 	/**
+	 * Number of QR Code type creatives.
+	 *
+	 * @var string
+	 * @since 2.17.0
+	 */
+	private string $qr_code_type_count = '';
+
+	/**
 	 * Get things started
 	 *
 	 * @access public
@@ -132,30 +140,32 @@ class AffWP_Creatives_Table extends List_Table {
 		$total_count          = "&nbsp;<span class='count'>({$this->total_count})</span>";
 		$text_link_type_count = "&nbsp;<span class='count'>({$this->text_link_type_count})</span>";
 		$image_type_count     = "&nbsp;<span class='count'>({$this->image_type_count})</span>";
+		$qr_code_count        = "&nbsp;<span class='count'>({$this->qr_code_type_count})</span>";
 		$active_count         = "&nbsp;<span class='count'>({$this->active_count})</span>";
 		$inactive_count       = "&nbsp;<span class='count'>({$this->inactive_count})</span>";
 		$has_schedule_count	  = "&nbsp;<span class='count'>({$this->has_schedule_count})</span>";
 
-		// Only show Scheduled to Pro users for now.
-		if ( false === affwp_is_upgrade_required( 'pro' ) ) {
-			return array(
-				'all'            => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
-				'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
-				'image_type'     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'image', $base ), 'image' === $current ? ' class="current"' : '', __( 'Images', 'affiliate-wp' ) . $image_type_count ),
-				'active'	     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $base ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
-				'inactive'       => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
-				'scheduled'      => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'scheduled', 'true', $base ), $current === 'true' ? ' class="current"' : '', __('Scheduled', 'affiliate-wp') . $has_schedule_count ),
-			);
-		}
-
-		// Otherwise, this stays the same.
-		return array(
+		$views = array(
 			'all'            => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'affiliate-wp') . $total_count ),
-			'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
 			'image_type'     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'image', $base ), 'image' === $current ? ' class="current"' : '', __( 'Images', 'affiliate-wp' ) . $image_type_count ),
+			'text_link_type' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'text_link', $base ), 'text_link' === $current ? ' class="current"' : '', __( 'Text Links', 'affiliate-wp' ) . $text_link_type_count ),
+			'qr_code_type'   => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'type', 'qr_code', $base ), 'qr_code' === $current ? ' class="current"' : '', __( 'QR Codes', 'affiliate-wp' ) . $qr_code_count ),
 			'active'	     => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'active', $base ), $current === 'active' ? ' class="current"' : '', __('Active', 'affiliate-wp') . $active_count ),
 			'inactive'       => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inactive', $base ), $current === 'inactive' ? ' class="current"' : '', __('Inactive', 'affiliate-wp') . $inactive_count ),
+			'scheduled'      => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'scheduled', 'true', $base ), $current === 'true' ? ' class="current"' : '', __('Scheduled', 'affiliate-wp') . $has_schedule_count ),
 		);
+
+		// Don't show for non-pro users.
+		if ( affwp_is_upgrade_required( 'pro' ) ) {
+			unset( $views['scheduled'] );
+		}
+
+		// Even for non-pro users we will show QR Codes menu, but only while they still have QR Codes in their DB.
+		if ( affwp_is_upgrade_required( 'pro' ) && $this->qr_code_type_count <= 0 ) {
+			unset( $views['qr_code_type'] );
+		}
+
+		return $views;
 	}
 
 	/**
@@ -802,6 +812,15 @@ class AffWP_Creatives_Table extends List_Table {
 			)
 		);
 
+		$this->qr_code_type_count = affiliate_wp()->creatives->count(
+			array_merge(
+				$this->query_args,
+				array(
+					'type' => 'qr_code',
+				)
+			)
+		);
+
 		$this->scheduled_count = affiliate_wp()->creatives->count(
 			array_merge(
 				$this->query_args,
@@ -934,6 +953,9 @@ class AffWP_Creatives_Table extends List_Table {
 				break;
 			case 'image':
 				$total_items = $this->image_type_count;
+				break;
+			case 'qr_code':
+				$total_items = $this->qr_code_type_count;
 				break;
 			case 'any':
 				$total_items = $this->current_count;

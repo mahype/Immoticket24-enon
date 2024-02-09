@@ -238,7 +238,8 @@ add_action( 'pre_user_query', 'affwp_handle_wp_user_query' );
  *               False if there's a problem with the parameters passed to the function.
  */
 function affwp_intercept_migrated_user_meta_fields( $value, $object_id, $meta_key, $single ) {
-	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+
+	if ( in_array( $meta_key, function_exists( 'affwp_get_current_migrated_user_meta_fields' ) ? affwp_get_current_migrated_user_meta_fields() : array() ) ) {
 		$affiliate_id = affwp_get_affiliate_id( $object_id );
 		$value        = affwp_get_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $single );
 	}
@@ -263,7 +264,7 @@ add_filter( 'get_user_metadata', 'affwp_intercept_migrated_user_meta_fields', 2,
  */
 function affwp_intercept_migrated_user_meta_field_updates( $value, $object_id, $meta_key, $meta_value, $prev_value ) {
 
-	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+	if ( in_array( $meta_key, function_exists( 'affwp_get_current_migrated_user_meta_fields' ) ? affwp_get_current_migrated_user_meta_fields() : array() ) ) {
 		$affiliate_id = affwp_get_affiliate_id( $object_id );
 		$value        = affwp_update_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $meta_value, $prev_value );
 	}
@@ -286,7 +287,7 @@ add_filter( 'update_user_metadata', 'affwp_intercept_migrated_user_meta_field_up
  */
 function affwp_intercept_migrated_user_meta_field_add( $value, $object_id, $meta_key, $meta_value, $unique ) {
 
-	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+	if ( in_array( $meta_key, function_exists( 'affwp_get_current_migrated_user_meta_fields' ) ? affwp_get_current_migrated_user_meta_fields() : array() ) ) {
 		$affiliate_id = affwp_get_affiliate_id( $object_id );
 		$value        = affwp_add_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ), $meta_value, $unique );
 	}
@@ -307,7 +308,7 @@ add_filter( 'add_user_metadata', 'affwp_intercept_migrated_user_meta_field_add',
  * @param mixed    $_meta_value Metadata value. Serialized if non-scalar.
  */
 function affwp_delete_affiliate_meta_when_migrated_user_meta_is_deleted( $meta_ids, $object_id, $meta_key, $_meta_value ) {
-	if ( in_array( $meta_key, affwp_get_current_migrated_user_meta_fields() ) ) {
+	if ( in_array( $meta_key, function_exists( 'affwp_get_current_migrated_user_meta_fields' ) ? affwp_get_current_migrated_user_meta_fields() : array() ) ) {
 		$affiliate_id = affwp_get_affiliate_id( $object_id );
 		affwp_delete_affiliate_meta( $affiliate_id, affwp_remove_prefix( $meta_key ) );
 	}

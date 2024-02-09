@@ -1,3 +1,6 @@
+### 5.2.1
+- Fix an error where the Mailchimp connection alerts appear when attempting to connect other add-ons.
+
 ### 5.2 | 2023-02-15
 - Added Gravity Forms license key to oAuth process.
 - Added support for async (background) feed processing to improve form submission performance.

@@ -41,6 +41,15 @@ class Form_Container {
 	protected $block_attrs = array();
 
 	/**
+	 * Block Name.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @var string
+	 */
+	private string $block_name = '';
+
+	/**
 	 * Sets up the form container.
 	 *
 	 * @since 2.8
@@ -58,8 +67,14 @@ class Form_Container {
 			array(
 				'fields'      => array(),
 				'block_attrs' => array(),
+				'block_name'  => '',
 			)
 		);
+
+		// Set the type of form.
+		$this->block_name = is_string( $args['block_name'] )
+			? $args['block_name']
+			: $this->block_name;
 
 		// Strip invalid form fields.
 		foreach ( $args['fields'] as $field ) {
@@ -71,6 +86,20 @@ class Form_Container {
 		}
 
 		$this->block_attrs = $args['block_attrs'];
+	}
+
+	/**
+	 * Get the block name associated with the form.
+	 *
+	 * Most forms are associated with a block, here we can
+	 * store what block is associated with the form.
+	 *
+	 * @since 2.18.0
+	 *
+	 * @return string The block name assigned to the form.
+	 */
+	public function get_block_name() : string {
+		return $this->block_name;
 	}
 
 	/**
@@ -125,7 +154,6 @@ class Form_Container {
 				// No fields.
 				: array()
 		);
-
 	}
 
 	/**
@@ -151,5 +179,4 @@ class Form_Container {
 	public function __get( $key ) {
 		return $this->$key;
 	}
-
 }

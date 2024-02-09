@@ -203,16 +203,16 @@ class AffWP_Affiliates_Table extends List_Table {
 	 */
 	public function get_sortable_columns() {
 		$columns = array(
+			'username'        => array( 'username',        false ),
 			'name'            => array( 'name',            false ),
 			'affiliate_id'    => array( 'affiliate_id',    false ),
-			'username'        => array( 'username',        false ),
 			'earnings'        => array( 'earnings',        false ),
 			'unpaid_earnings' => array( 'unpaid_earnings', false ),
 			'rate'            => array( 'rate',            false ),
 			'unpaid'          => array( 'unpaid',          false ),
 			'paid'            => array( 'paid',            false ),
 			'visits'          => array( 'visits',          false ),
-			'status'          => array( 'status',          false )
+			'status'          => array( 'status',          false ),
 		);
 
 		/**
@@ -266,134 +266,136 @@ class AffWP_Affiliates_Table extends List_Table {
 	 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 	 * @return string Data shown in the Name column.
 	 */
-	function column_name( $affiliate ) {
-		$base         = affwp_admin_url( 'affiliates', array( 'affiliate_id' => $affiliate->affiliate_id ) );
-		$row_actions  = array();
-		$name         = affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id );
-		$username     = affwp_get_affiliate_username( $affiliate->ID );
+	public function column_name( $affiliate ) {
+
+		$name = affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id );
 
 		$base_query_args = array(
 			'page'         => 'affiliate-wp-affiliates',
-			'affiliate_id' => $affiliate->ID
+			'affiliate_id' => $affiliate->ID,
 		);
 
-		// Main 'Name' link.
-		if ( ! $name ) {
-			$affiliate_name = __( '(user deleted)', 'affiliate-wp' );
+		$username = affwp_get_affiliate_username( $affiliate );
+
+		$row_actions = array_merge(
+			array(
+				'reports' => $this->get_row_action_link(
+					__( 'Reports', 'affiliate-wp' ),
+					array(
+						'page'            => 'affiliate-wp-reports',
+						'tab'             => 'referral',
+						'affiliate_login' => $username ? $username : __( '(user deleted)', 'affiliate-wp' ),
+						'range'           => 'this_month',
+					),
+				),
+			),
+			affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id )
+				? array(
+					'edit_user' => $this->get_row_action_link(
+						__( 'Edit User', 'affiliate-wp' ),
+						array(),
+						array( 'base_uri' => get_edit_user_link( $affiliate->user_id ) )
+					),
+				)
+				: array(),
+		);
+
+		if ( strtolower( $affiliate->status ) === 'active' ) {
+
+			$row_actions = array_merge(
+				$row_actions,
+				array(
+					'deactivate' => $this->get_row_action_link(
+						__( 'Deactivate', 'affiliate-wp' ),
+						array_merge(
+							$base_query_args,
+							array(
+								'affwp_notice' => 'affiliate_deactivated',
+								'action'       => 'deactivate',
+							)
+						),
+						array( 'nonce' => 'affiliate-nonce' )
+					),
+				),
+			);
+
+		} elseif ( strtolower( $affiliate->status ) === 'pending' ) {
+
+			$row_actions = array_merge(
+				$row_actions,
+				array(
+					'review' => $this->get_row_action_link(
+						__( 'Review', 'affiliate-wp' ),
+						array_merge(
+							$base_query_args,
+							array(
+								'affwp_notice' => false,
+								'action'       => 'review_affiliate',
+							),
+						),
+						array( 'nonce' => 'affiliate-nonce' )
+					),
+					'accept' => $this->get_row_action_link(
+						__( 'Accept', 'affiliate-wp' ),
+						array_merge(
+							$base_query_args,
+							array(
+								'affwp_notice' => 'affiliate_accepted',
+								'action'       => 'accept',
+							),
+						),
+						array( 'nonce' => 'affiliate-nonce' )
+					),
+					'reject' => $this->get_row_action_link(
+						__( 'Reject', 'affiliate-wp' ),
+						array_merge(
+							$base_query_args,
+							array(
+								'affwp_notice' => 'affiliate_rejected',
+								'action'       => 'reject',
+							),
+						),
+						array( 'nonce' => 'affiliate-nonce' )
+					),
+				),
+			);
+
 		} else {
-			$affiliate_name = $name;
+
+			$row_actions = array_merge(
+				$row_actions,
+				array(
+					'activate' => $this->get_row_action_link(
+						__( 'Activate', 'affiliate-wp' ),
+						array_merge(
+							$base_query_args,
+							array(
+								'affwp_notice' => 'affiliate_activated',
+								'action'       => 'activate',
+							),
+						),
+						array( 'nonce' => 'affiliate-nonce' )
+					),
+				)
+			);
 		}
 
-		$value = sprintf( '<a href="%1$s">%2$s</a>',
-			esc_url( add_query_arg(
-				array_merge( $base_query_args, array(
-					'affwp_notice' => false,
-					'action'       => 'edit_affiliate',
-				) ),
-				admin_url( 'admin.php' )
-			) ),
-			$affiliate_name
-		);
-
-		// Reports.
-		$row_actions['reports'] = $this->get_row_action_link(
-			__( 'Reports', 'affiliate-wp' ),
+		$row_actions = array_merge(
+			$row_actions,
 			array(
-				'page'            => 'affiliate-wp-reports',
-				'tab'             => 'referral',
-				'affiliate_login' => $username,
-				'range'           => 'this_month'
+				'delete' => $this->get_row_action_link(
+					__( 'Delete', 'affiliate-wp' ),
+					array_merge(
+						$base_query_args,
+						array(
+							'affwp_notice' => false,
+							'action'       => 'delete',
+						),
+					),
+					array( 'nonce' => 'affiliate-nonce' )
+				),
 			)
 		);
-
-		if ( $name ) {
-			// Edit User.
-			$row_actions['edit_user'] = $this->get_row_action_link(
-				__( 'Edit User', 'affiliate-wp' ),
-				array(),
-				array( 'base_uri' => get_edit_user_link( $affiliate->user_id ) )
-			);
-		}
-
-		if ( strtolower( $affiliate->status ) == 'active' ) {
-
-			// Deactivate.
-			$row_actions['deactivate'] = $this->get_row_action_link(
-				__( 'Deactivate', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'affiliate_deactivated',
-					'action'       => 'deactivate'
-				) ),
-				array( 'nonce' => 'affiliate-nonce' )
-			);
-
-		} elseif( strtolower( $affiliate->status ) == 'pending' ) {
-
-			// Review.
-			$row_actions['review'] = $this->get_row_action_link(
-				__( 'Review', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => false,
-					'action'       => 'review_affiliate'
-				) ),
-				array( 'nonce' => 'affiliate-nonce' )
-			);
-
-			// Accept.
-			$row_actions['accept'] = $this->get_row_action_link(
-				__( 'Accept', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'affiliate_accepted',
-					'action'       => 'accept'
-				) ),
-				array( 'nonce' => 'affiliate-nonce' )
-			);
-
-			// Reject.
-			$row_actions['reject'] = $this->get_row_action_link(
-				__( 'Reject', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'affiliate_rejected',
-					'action'       => 'reject'
-				) ),
-				array( 'nonce' => 'affiliate-nonce' )
-			);
-
-		} else {
-
-			// Activate.
-			$row_actions['activate'] = $this->get_row_action_link(
-				__( 'Activate', 'affiliate-wp' ),
-				array_merge( $base_query_args, array(
-					'affwp_notice' => 'affiliate_activated',
-					'action'       => 'activate'
-				) ),
-				array( 'nonce' => 'affiliate-nonce' )
-			);
-
-		}
-
-		// Delete.
-		$row_actions['delete'] = $this->get_row_action_link(
-			__( 'Delete', 'affiliate-wp' ),
-			array_merge( $base_query_args, array(
-				'affwp_notice' => false,
-				'action'       => 'delete'
-			) ),
-			array( 'nonce' => 'affiliate-nonce' )
-		);
-
-		/**
-		 * Filters the row actions array for the Affiliates list table.
-		 *
-		 * @since 1.0
-		 *
-		 * @param array            $row_actions Row actions array.
-		 * @param \AffWP\Affiliate $affiliate   Current affiliate.
-		 */
-		$row_actions = apply_filters( 'affwp_affiliate_row_actions', $row_actions, $affiliate );
-
-		$value .= '<div class="row-actions">' . $this->row_actions( $row_actions, true ) . '</div>';
 
 		/**
 		 * Filters the name column data for the affiliates list table.
@@ -403,7 +405,54 @@ class AffWP_Affiliates_Table extends List_Table {
 		 * @param string           $value     Data shown in the Name column.
 		 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 		 */
-		return apply_filters( 'affwp_affiliate_table_name', $value, $affiliate );
+		return apply_filters(
+			'affwp_affiliate_table_name',
+			sprintf(
+				'
+					<div class="info">
+						<span class="gravatar">%1$s</span>
+						<a class="name" href="%2$s">%3$s</a>
+					</div>
+					%4$s
+				',
+				get_avatar( $affiliate->user_id ?? 0, 32, '', $name ),
+				esc_url(
+					add_query_arg(
+						array_merge(
+							array(
+								'page'         => 'affiliate-wp-affiliates',
+								'affiliate_id' => $affiliate->ID,
+							),
+							array(
+								'affwp_notice' => false,
+								'action'       => 'edit_affiliate',
+							)
+						),
+						admin_url( 'admin.php' )
+					)
+				),
+				$name
+					? $name
+					: __( '(user deleted)', 'affiliate-wp' ),
+				// Row Actions.
+				sprintf(
+					'<div class="row-actions">%1$s</div',
+					$this->row_actions(
+						/**
+						 * Filters the row actions array for the Affiliates list table.
+						 *
+						 * @since 1.0
+						 *
+						 * @param array            $row_actions Row actions array.
+						 * @param \AffWP\Affiliate $affiliate   Current affiliate.
+						 */
+						apply_filters( 'affwp_affiliate_row_actions', $row_actions, $affiliate ),
+						true
+					)
+				)
+			),
+			$affiliate
+		);
 	}
 
 	/**
@@ -415,29 +464,28 @@ class AffWP_Affiliates_Table extends List_Table {
 	 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 	 * @return string Data shown in the Username column.
 	 */
-	function column_username( $affiliate ) {
+	public function column_username( $affiliate ) {
 
 		$row_actions = array();
-		$user_info = get_userdata( $affiliate->user_id );
 
-		$username = ( $user_info ) ? $user_info->user_login : false;
-
-		if ( $username ) {
-			$value = $username;
-		} else {
-			$value = __( '(user deleted)', 'affiliate-wp' );
-		}
+		$username = affwp_get_affiliate_username( $affiliate );
 
 		/**
 		 * Filters the username column data for the affiliates list table.
 		 *
 		 * @since 1.8
 		 *
-		 * @param string           $value     Data shown in the Username column.
+		 * @param string           $username     Data shown in the Username column.
 		 * @param \AffWP\Affiliate $affiliate The current affiliate object.
 		 */
-		return apply_filters( 'affwp_affiliate_table_username', $value, $affiliate );
-
+		return apply_filters(
+			'affwp_affiliate_table_username',
+			sprintf(
+				'<span class="username">%1$s</span>',
+				$username ? $username : __( '(user deleted)', 'affiliate-wp' )
+			),
+			$affiliate
+		);
 	}
 
 	/**

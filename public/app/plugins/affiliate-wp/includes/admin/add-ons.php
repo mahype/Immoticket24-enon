@@ -232,8 +232,12 @@ function affwp_display_addons( $category ) {
 	// Loop through and display each addon.
 	foreach( $cache as $addon ):
 
-		// Skip if addon doesn't belong to the given category.
+		// External Referral Links should not be installed on the same site as AffiliateWP.
+		if ( 'External Referral Links' === $addon['title'] ) {
+			continue;
+		}
 
+		// Skip if addon doesn't belong to the given category.
 		if ( ! isset( $addon['category'] ) || ! is_array( $category ) || ! in_array( $addon['category'], $category, true ) ) {
 			continue;
 		}

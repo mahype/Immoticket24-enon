@@ -54,6 +54,13 @@ class Grundriss {
 	protected array $waende_zu_himmelsrichtungen = array();
 
 	/**
+	 * Fläche des Grundrisses.
+	 * 
+	 * @var float
+	 */
+	protected float $flaeche;
+
+	/**
 	 * Konstruktor.
 	 *
 	 * @param string $form        Form a, b, c oder d.
@@ -414,7 +421,11 @@ class Grundriss {
 	 * @throws Exception
 	 */
 	public function flaeche(): float {
-		$grundflaeche = 0.0;
+		if( isset( $this->flaeche ) ) {
+			return $this->flaeche;
+		}
+
+		$flaeche = 0;
 		foreach ( $this->flaechenberechnungsformel() as $_produkt ) {
 			$produkt = 1.0;
 			for ( $i = 0; $i < 2; $i++ ) {
@@ -448,10 +459,13 @@ class Grundriss {
 
 				$produkt *= $faktor;
 			}
-			$grundflaeche += $produkt;
+			$flaeche += $produkt;
 		}
 
-		return $grundflaeche;
+		$this->flaeche = $flaeche;
+
+		return $flaeche;
+
 	}
 
 	/**

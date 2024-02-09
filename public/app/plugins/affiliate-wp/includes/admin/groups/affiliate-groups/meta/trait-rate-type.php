@@ -69,9 +69,7 @@ trait Rate_Type {
 
 		$global_setting = affiliate_wp()->settings->get(
 			'referral_rate_type',
-			isset( $settings['general']['referral_rate_type']['std'] )
-				? $settings['general']['referral_rate_type']['std']
-				: 'percentage'
+			$settings['commissions']['referral_rate_type']['std'] ?? 'percentage'
 		);
 
 		if ( 'flat' === $global_setting ) {

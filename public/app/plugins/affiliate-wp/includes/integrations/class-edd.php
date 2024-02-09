@@ -468,9 +468,9 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 	/**
 	 * Get the referral total
 	 *
-	 * @access  public
-	 * @since   1.3.1
-	 * @since   2.3   Added support for per-order rates
+	 * @since 1.3.1
+	 * @since 2.3.0 Added support for per-order rates.
+	 * @since 2.17.0 Fixed calculation for variable price products.
 	 *
 	 * @param int $payment_id   The payment ID.
 	 * @param int $affiliate_id The affiliate ID to get the rate from.
@@ -534,10 +534,17 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 					if ( class_exists( 'edd_dp' ) ) {
 
-						if ( isset( $download['fees'][ 'dp_' . $download['id'] ] ) ) {
-							$amount += $download['fees'][ 'dp_' . $download['id'] ]['amount'];
-						}
+						$fee_id = isset( $download['item_number']['options']['price_id'] )
 
+							// Variable price product.
+							? "dp_{$download['id']}_{$download['item_number']['options']['price_id']}"
+
+							// Single price product.
+							: "dp_{$download['id']}";
+
+						if ( isset( $download['fees'][ $fee_id ] ) ) {
+							$amount += $download['fees'][ $fee_id ]['amount'];
+						}
 					}
 
 					// Check for Recurring Payments signup fee.
