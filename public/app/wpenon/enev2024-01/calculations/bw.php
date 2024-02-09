@@ -334,10 +334,10 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 		$wand_laenge_ohne_ueberlappung = $wand_laenge - $wand_laenge_uberlappung;
 
 		// Bei wie vielen Stockwerken entsteht eine Überlappung mit dem Anbau?
-		$anzahl_ueberlappende_geschosse = round( $gebaeude->anbau()->hoehe() / $gebaeude->geschosshoehe() ); // Ab mehr als 50% Überlappung wird das Geschoss als überlappend gewertet.
+		$anzahl_ueberlappende_geschosse = ceil( $gebaeude->anbau()->hoehe() / $gebaeude->geschosshoehe() );
 		$anzahl_ueberlappende_geschosse = $anzahl_ueberlappende_geschosse > $gebaeude->geschossanzahl() ? $gebaeude->geschossanzahl() : $anzahl_ueberlappende_geschosse;
 
-		$anzahl_nicht_ueberlappende_geschosse = ( $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse ) > 0 ? $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse : 0;		
+		$anzahl_nicht_ueberlappende_geschosse = ( $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse ) > 0 ? $gebaeude->geschossanzahl() - $anzahl_ueberlappende_geschosse : 0;
 
 		// Berechne Fensterflächen an Wänden, wo eine Überlappung vorhanden ist
 		$fensterflaeche_1  = berechne_fenster_flaeche( $wand_laenge_ohne_ueberlappung, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $anzahl_ueberlappende_geschosse;		
