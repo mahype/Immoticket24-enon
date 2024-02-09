@@ -486,18 +486,37 @@ switch ( $energieausweis->keller ) {
 		);
 }
 
+// NOTE: Vereinfachung vom 08.02.2024 - Issue #618
+if( $energieausweis->l_info === 'vorhanden' ) {
+	$lueftungssystem = 'zu_abluft';
+	$gebaeudedichtheit = 'din_4108_7';
+	$bedarfsgefuehrt = true;
+
+	if( $gebaeude->baujahr() <= 1999 ) {
+		$wirkungsgrad = 54;
+	} elseif( $gebaeude->baujahr() >= 2000 && $gebaeude->baujahr() <= 2009 ) {
+		$wirkungsgrad = 60;
+	} else {
+		$wirkungsgrad = 80;
+	}	
+} else {
+	$lueftungssystem = 'ohne';
+	$gebaeudedichtheit = 'andere';
+	$wirkungsgrad = 0;
+	$bedarfsgefuehrt = false;
+}
+
+
 $gebaeude->lueftung(
 	new Lueftung(
 		gebaeude: $gebaeude,
-		lueftungssystem: $energieausweis->l_info,
+		lueftungssystem: $lueftungssystem, 
 		// art: $energieausweis->l_art, // NOTE: Unterschied ist zu marginal, daher wird mit dezentral (schlechterer Wert gerechnet) (Christian: 2023-12-20)
 		art: 'dezentral',
 		// bedarfsgefuehrt: $energieausweis->l_bedarfsgefuehrt, // NOTE: Lüftungsanlage wird aus Vereinfachung immmer bedarfsgeführt betrachtet (Christian: Mail vom 2023-12-21)
-		bedarfsgefuehrt: true,
-		gebaeudedichtheit: $energieausweis->dichtheit ? 'din_4108_7' : 'andere',
-		// wirkungsgrad: (float) $energieausweis->l_wirkungsgrad
-		wirkungsgrad: 0 // NOTE: Wirkungsgrad wird in die Spalte des schlechtesten Wertes geschoben (Michael: 2023-12-20) 
-		// TODO: Feld im Backend erstellen, damit der Wert angepasst werden kann.
+		bedarfsgefuehrt: $bedarfsgefuehrt,
+		gebaeudedichtheit: $gebaeudedichtheit,
+		wirkungsgrad: $wirkungsgrad,		
 	)
 );
 
