@@ -4,11 +4,11 @@ register_block_pattern(
     'enon/drei-guetesiegel',
     array(
         'title'       => __( '3 Gütesiegel', 'enon-patterns' ),
-        'description' => _x( '3 Gütesiegel, die für energieausweis-online-erstellen.de sprechen:', 'enon-patterns' ),
+        'description' => _x( '3 Gütesiegel, die für energieausweis.de sprechen:', 'enon-patterns' ),
         'categories'  => ['content'],
         'content'     => pattern_replace_urls( '<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
         <div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading {"textAlign":"left"} -->
-        <h2 class="has-text-align-left" id="3-gutesiegel-die-fur-energieausweis-online-erstellen-de-sprechen"><strong>3 Gütesiegel</strong> <br>die für energieausweis-online-erstellen.de sprechen</h2>
+        <h2 class="has-text-align-left" id="3-gutesiegel-die-fur-energieausweis-online-erstellen-de-sprechen"><strong>3 Gütesiegel</strong> <br>die für energieausweis.de sprechen</h2>
         <!-- /wp:heading -->
         
         <!-- wp:columns {"className":"feature-block-style-2"} -->

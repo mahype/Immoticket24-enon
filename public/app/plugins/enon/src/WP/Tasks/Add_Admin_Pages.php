@@ -59,7 +59,9 @@ class Add_Admin_Pages implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function remove_affiliate_submenu() {
-		remove_submenu_page( 'affiliate-wp', 'affiliate-wp-visits' );
+		if ( ! is_admin() ) {
+			remove_submenu_page( 'affiliate-wp', 'affiliate-wp-visits' );
+		}
 	}
 
 	/**
@@ -68,7 +70,7 @@ class Add_Admin_Pages implements Task, Actions {
 	 * @since 1.0.0
 	 */
 	public function enon_menu() {
-		add_menu_page( __( 'Enon', 'enon' ), __( 'Enon settings', 'enon' ), 'activate_plugins', 'enon', [ $this, 'options_page' ], 'dashicons-admin-multisite', 50 );
+		add_menu_page( __( 'Enon', 'enon' ), __( 'Enon settings', 'enon' ), 'activate_plugins', 'enon', array( $this, 'options_page' ), 'dashicons-admin-multisite', 50 );
 	}
 
 	/**

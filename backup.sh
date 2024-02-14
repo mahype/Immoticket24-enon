@@ -31,6 +31,6 @@ rm -R $PFAD/*
 echo "Lokaler Datenbank-Dump wurde gelöscht"
 sleep 1
 echo "Synchronisierung der WordPress-Dateien beginnt."
-rsync -a --progress -e 'ssh -i /www/htdocs/w012900a/bin/.ssh/backup_storage_key -p23' --recursive /www/htdocs/w012900a/production.energieausweis-online-erstellen.de u313820@u313820.your-storagebox.de:enon_web/
+rsync -a --progress -e 'ssh -i /www/htdocs/w012900a/bin/.ssh/backup_storage_key -p23' --recursive /www/htdocs/w012900a/energieausweis.de u313820@u313820.your-storagebox.de:enon_web/
 sleep 1
 echo "Synchronisierung der WordPress-Dateien beendet."

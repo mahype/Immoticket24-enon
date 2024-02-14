@@ -4,7 +4,7 @@ use Valet\Drivers\LaravelValetDriver;
 
 class LocalValetDriver extends LaravelValetDriver
 {
-    const REMOTE_HOST = 'https://www.energieausweis-online-erstellen.de/';
+    const REMOTE_HOST = 'https://energieausweis.de/';
     const URI_PREFIX = '/app/uploads/';
     private static $tryRemoteFallback = false;
 

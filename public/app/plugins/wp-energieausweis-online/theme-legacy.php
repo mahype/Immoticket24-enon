@@ -378,7 +378,7 @@ function enon_show_contact_field($data)
   <div id="contact_acceptance-wrap" class="checkbox">
     <label>
       <input type="checkbox" id="contact_acceptance" name="contact_acceptance" value="1" <?php echo $data['contact_acceptance'] ? ' checked' : ''; ?>>
-      <?php printf(__('Hiermit bestätige ich, dass Energieausweis-online-erstellen.de mich bei Fragen zu meinen Energieausweis-Angaben kontaktieren darf.', 'wpenon')); ?>
+      <?php printf(__('Hiermit bestätige ich, dass energieausweis.de mich bei Fragen zu meinen Energieausweis-Angaben kontaktieren darf.', 'wpenon')); ?>
     </label>
   </div>
   <input type="hidden" id="contact_question_answered" name="contact_question_answered" value="false" />
