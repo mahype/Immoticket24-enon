@@ -4,11 +4,11 @@ register_block_pattern(
     'enon/sechs-gruende',
     array(
         'title'       => __( '6 Gründe', 'enon-patterns' ),
-        'description' => _x( '6 Gründe warum energieausweis-online-erstellen.de', 'enon-patterns' ),
+        'description' => _x( '6 Gründe warum energieausweis.de', 'enon-patterns' ),
         'categories'  => ['content'],
         'content'     => pattern_replace_urls( '<!-- wp:group {"gradient":"yellow-neon-to-green-mint","className":"is-style-group-main"} -->
         <div class="wp-block-group is-style-group-main has-yellow-neon-to-green-mint-gradient-background has-background"><!-- wp:heading -->
-        <h2 id="6-grunde-warum-energieausweis-online-erstellen-de"><strong>6 Gründe </strong>warum energieausweis-online-erstellen.de</h2>
+        <h2 id="6-grunde-warum-energieausweis-online-erstellen-de"><strong>6 Gründe </strong>warum energieausweis.de</h2>
         <!-- /wp:heading -->
         
         <!-- wp:columns -->

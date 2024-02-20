@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Energieausweis-Features
-Plugin URI: https://energieausweis-online-erstellen.de
-Description: WordPress-Anpassungen und Features für energieausweis-online-erstellen.de.
+Plugin URI: https://energieausweis.de
+Description: WordPress-Anpassungen und Features für energieausweis.de.
 Version: 1.0.0
 Author: Felix Arntz
 Author URI: https://felix-arntz.me

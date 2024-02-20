@@ -1,4 +1,4 @@
-# Dokumentation energieausweis-online-erstellen.de
+# Dokumentation energieausweis.de
 
 ## Zugänge
 
@@ -17,7 +17,7 @@ Die SSH Zugänge werden über die All Inkl Oberfläche verwaltet. Dort werden au
 Der Zugang erfolgt nach erfolgreicher Einrichtung des Public Keys über:
 
 ```bash
-ssh ssh-w012900a@energieausweis-online-erstellen.de
+ssh ssh-w012900a@energieausweis.de
 ```
 
 Ist alles korrekt eingerichtet, ist keine Passworteingabe mehr notwendig.
@@ -72,7 +72,7 @@ Bisher berücksichtigte Sicherheitslücken:
 
 Das Deployment erfolgt über Github Actions jeweils über die entsprechenden Branches. Folgende Branches werden deployed:
 
-- production - https://energieausweis-online-erstellen.de
+- production - https://energieausweis.de
 - staging - https://staging.energieausweis-online-erstellen.de
 - din18599 - https://din18599.energieausweis-online-erstellen.de
 

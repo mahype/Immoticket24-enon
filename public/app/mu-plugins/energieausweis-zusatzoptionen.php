@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Energieausweis-Zusatzoptionen
-Plugin URI: https://energieausweis-online-erstellen.de
+Plugin URI: https://energieausweis.de
 Description: Zusatzoptionen beim Bestellen von Energieausweisen
 Version: 1.0.0
 Author: Felix Arntz
@@ -547,33 +547,105 @@ function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_sc
 add_action( 'wp_footer', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script' );
 
 function energieausweis_zusatzoptionen_render_premium_bewertung_list_table_filter() {
-	$enabled = ! empty( $_REQUEST['zusatzoption_premium_bewertung'] );
+    $option = $_REQUEST['zusatzoption_filter'];
 	?>
-	<span>
-		<input type="checkbox" id="zusatzoption_premium_bewertung" name="zusatzoption_premium_bewertung"
-		       value="1"<?php checked( $enabled ); ?>/>
-		<label for="zusatzoption_premium_bewertung"><?php _e( 'Premium-Bewertung enthalten?', 'wpenon' ); ?></label>
-	</span>
+    <select name="zusatzoption_filter" id="zusatzoption_filter" class="edd-select">
+        <option value=""><?php _e( 'Alle Zusatzoptionen', 'wpenon' ); ?></option>
+        <option value="premium_bewertung"  <?php selected( $option, 'premium_bewertung' ); ?>><?php _e( 'Premium-Bewertung enthalten?', 'wpenon' ); ?></option>
+        <option value="experten_check"  <?php selected( $option, 'experten_check' ); ?>><?php _e( 'Experten-Check', 'wpenon' ); ?></option>
+        <option value="sendung_per_post"  <?php selected( $option, 'sendung_per_post' ); ?>><?php _e( 'Sendung per Post', 'wpenon' ); ?></option>
+        <option value="energieausweis_besprechung"  <?php selected( $option, 'energieausweis_besprechung' ); ?>><?php _e( 'Energieausweis Besprechung', 'wpenon' ); ?></option>
+        <option value="kostenlose_korrektur"  <?php selected( $option, 'kostenlose_korrektur' ); ?>><?php _e( 'Kostenlose Korrektur', 'wpenon' ); ?></option>
+        <option value="eingabesupport"  <?php selected( $option, 'eingabesupport' ); ?>><?php _e( 'Eingabesupport', 'wpenon' ); ?></option>
+        <option value="check_evm"  <?php selected( $option, 'check_evm' ); ?>><?php _e( 'Check EVM', 'wpenon' ); ?></option>
+    </select>
 	<?php
 }
 
 add_action( 'edd_payment_advanced_filters_after_fields', 'energieausweis_zusatzoptionen_render_premium_bewertung_list_table_filter' );
 
 function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_filter( $payments_query ) {
-	$enabled = ! empty( $_REQUEST['zusatzoption_premium_bewertung'] );
-	if ( ! $enabled ) {
-		return;
-	}
 
-	$payments_query->__set( 'meta_query', array(
-		'key'     => '_edd_payment_meta',
-		'value'   => 'premium_bewertung',
-		'compare' => 'LIKE',
-	) );
+	
+    switch ( $_REQUEST['zusatzoption_filter']) {
+        case 'premium_bewertung':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'premium_bewertung',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'premium\\\\_bewertung', 'premium_bewertung', $sql );
+            } );
+            break;
 
-	add_filter( 'query', function ( $sql ) {
-		return str_replace( 'premium\\\\_bewertung', 'premium_bewertung', $sql );
-	} );
+        case 'experten_check':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'experten_check',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'experten\\\\_check', 'experten_check', $sql );
+            } );
+            break;
+
+        case 'sendung_per_post':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'sendung_per_post',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'sendung\\\\_per\\\\_post', 'sendung_per_post', $sql );
+            } );
+            break;
+
+        case 'energieausweis_besprechung':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'energieausweis_besprechung',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'energieausweis\\\\_besprechung', 'energieausweis_besprechung', $sql );
+            } );
+            break;
+
+        case 'kostenlose_korrektur':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'kostenlose_korrektur',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'kostenlose\\\\_korrektur', 'kostenlose_korrektur', $sql );
+            } );
+            break;
+
+        case 'eingabesupport':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'eingabesupport',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'eingabesupport', 'eingabesupport', $sql );
+            } );
+            break;
+
+        case 'check_evm':
+            $payments_query->__set( 'meta_query', array(
+                'key'     => '_edd_payment_meta',
+                'value'   => 'check_evm',
+                'compare' => 'LIKE',
+            ) );
+            add_filter( 'query', function ( $sql ) {
+                return str_replace( 'check\\\\_evm', 'check_evm', $sql );
+            } );
+            break;
+    }
+
 }
 
 add_action( 'edd_pre_get_payments', 'energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_filter' );
@@ -581,7 +653,7 @@ add_action( 'edd_pre_get_payments', 'energieausweis_zusatzoptionen_apply_premium
 function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_join_filter( $join ) {
 	global $wpdb;
 
-	$enabled = ! empty( $_REQUEST['zusatzoption_premium_bewertung'] );
+	$enabled = ! empty( $_REQUEST['zusatzoption_filter'] );
 	if ( ! $enabled ) {
 		return;
 	}
@@ -594,7 +666,7 @@ function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_
 add_filter( 'edd_count_payments_join', 'energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_join_filter' );
 
 function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_count_where_filter( $where ) {
-	$enabled = ! empty( $_REQUEST['zusatzoption_premium_bewertung'] );
+	$enabled = ! empty( $_REQUEST['zusatzoption_filter'] );
 	if ( ! $enabled ) {
 		return;
 	}

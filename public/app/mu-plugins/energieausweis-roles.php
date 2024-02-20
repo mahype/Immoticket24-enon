@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Energieausweis-Benutzerrollen
-Plugin URI: https://energieausweis-online-erstellen.de
-Description: Benutzerrollen und -management für energieausweis-online-erstellen.de.
+Plugin URI: https://energieausweis.de
+Description: Benutzerrollen und -management für energieausweis.de.
 Version: 1.0.0
 Author: Felix Arntz
 Author URI: https://felix-arntz.me

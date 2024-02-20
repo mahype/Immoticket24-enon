@@ -115,6 +115,8 @@ AddEncoding gzip .html_gzip
 <IfModule mod_setenvif.c>
 SetEnvIfNoCase Request_URI \.html_gzip$ no-gzip
 </IfModule>
+
+# END WP Rocket
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase /
@@ -135,7 +137,6 @@ SetEnvIfNoCase Request_URI \.html_gzip$ no-gzip
 	RewriteCond "%{DOCUMENT_ROOT}/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" -f
 	RewriteRule .* "/app/cache/wp-rocket/%{HTTP_HOST}%{REQUEST_URI}/index%{ENV:WPR_SSL}%{ENV:WPR_WEBP}.html%{ENV:WPR_ENC}" [L]
 </IfModule>
-# END WP Rocket
 php_value memory_limit 512M
 <IfModule mod_rewrite.c>
 RewriteEngine On

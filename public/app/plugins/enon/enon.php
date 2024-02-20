@@ -7,7 +7,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: ENON - Core Plugin (neu)
- * Plugin URI:  https://energieausweis-online-erstellen.de
+ * Plugin URI:  https://energieausweis.de
  * Description: Core Plugin for Energieausweis Online site.
  * Version:     1.0.0
  * Author:      Awesome UG

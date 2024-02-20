@@ -31,19 +31,20 @@
 }
 
 body {
-    font-family: Euclid Enercity,sans-serif;
+  font-family: Euclid Enercity, sans-serif;
 }
 
 .wpenon-wrapper h2 {
- background-image: linear-gradient(90deg, rgb(153, 0, 153) 0px, rgb(255, 0, 0) 100%);
- display:inline;
- text-transform: none;
- font-size: 36px;
- -webkit-background-clip: text;
- -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(90deg, rgb(153, 0, 153) 0px, rgb(255, 0, 0) 100%);
+  display: inline;
+  text-transform: none;
+  font-size: 36px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.wpenon-wrapper #group-basisdaten, .wpenon-wrapper .overview-meta {
+.wpenon-wrapper #group-basisdaten,
+.wpenon-wrapper .overview-meta {
   border: none;
   background-color: transparent;
   padding: 0;
@@ -56,21 +57,24 @@ body {
   padding: 16px 8px;
   cursor: text;
   font-size: 18px;
-  font-family: Euclid Enercity,sans-serif;
+  font-family: Euclid Enercity, sans-serif;
 }
 
 .has-error .form-control {
   border-color: red !important;
-  background-color: rgba(255,0,0,.05) !important;
-} 
+  background-color: rgba(255, 0, 0, .05) !important;
+}
 
 .wpenon-wrapper .form-group label {
   font-weight: normal;
   color: rgb(199, 18, 92);
 }
 
-.page .btn-primary {
-  font-family: Euclid Enercity,sans-serif;
+#edd-purchase-button,
+.page .btn-primary,
+.single-download .btn-primary,
+.action-buttons .btn-primary {
+  font-family: Euclid Enercity, sans-serif;
   background-image: none;
   border-radius: 1.5625rem;
   font-weight: 500;
@@ -79,8 +83,9 @@ body {
   background-color: rgb(199, 18, 92);
 }
 
-.page  .btn-default {
-  font-family: Euclid Enercity,sans-serif;
+.modal-dialog .btn-default,
+.single-download .btn-default {
+  font-family: Euclid Enercity, sans-serif;
   background-image: none;
   border-radius: 1.5625rem;
   font-weight: 500;
@@ -90,26 +95,59 @@ body {
   color: rgb(0, 154, 163);
 }
 
-.action-buttons .btn-primary {
-  font-family: Euclid Enercity,sans-serif;
-  background-image: none;
-  border-radius: 0.5625rem;
-  font-weight: 500;
-  font-size: 1.125rem;
-  padding: 10px 25px !important;
-  background-color: rgb(199, 18, 92);
-}
-
-.wpenon-wrapper .calculations {
-  border: none;
-}
-
-.wpenon-wrapper .calculations h3:first-child {
-  background-color: transparent;
-  padding: 0;
-  border-color: rgb(153, 0, 153);
+.modal-dialog {
+  width: 631px;
 }
 
 .modal-footer {
-  display:flex;
+  display: flex;
+}
+
+.wpenon-wrapper .nav.nav-tabs {
+  border-bottom: 4px solid rgb(199, 18, 92);
+  margin-bottom: 0
+}
+
+.wpenon-wrapper .nav.nav-tabs>li>a {
+  border: 4px solid transparent;
+}
+
+.wpenon-wrapper .nav.nav-tabs>li>a:hover {
+  background-color: #ffffff;
+  border-color: rgb(199, 18, 92);
+}
+
+.wpenon-wrapper .nav.nav-tabs>li.active>a,
+.wpenon-wrapper .nav.nav-tabs>li.active>a:focus,
+.wpenon-wrapper .nav.nav-tabs>li.active>a:hover {
+  background-color: rgba(199, 18, 92);
+  border: 4px solid rgb(199, 18, 92);
+  border-bottom: 0;
+  color: #ffffff;
+}
+
+.wpenon-wrapper .nav.nav-tabs+.tab-content>.tab-pane.active {
+  background-color: rgba(199, 18, 92, 0.1);
+  border: 4px solid rgb(199, 18, 92);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 0
+}
+
+.wpenon-wrapper .alert {
+  border: 4px solid rgb(199, 18, 92);
+}
+
+.wpenon-wrapper .calculations {
+  border: 4px solid rgb(199, 18, 92);
+}
+
+.wpenon-wrapper .calculations>h3:first-child {
+  background-color: rgba(199, 18, 92, 0.1);
+  border-bottom: 4px solid rgba(199, 18, 92);
+}
+
+#edd_checkout_cart .edd_cart_header_row th {
+  background-color: rgba(199, 18, 92, 0.1) !important;
+  border-bottom: 4px solid rgba(199, 18, 92);
 }
