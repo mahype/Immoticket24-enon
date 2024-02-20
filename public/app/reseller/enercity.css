@@ -95,7 +95,7 @@ a, h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   font-size: 1.125rem;
   padding: 10px 25px !important;
-  background-color: rgb(230, 245, 246);
+  background-color: rgb(214, 231, 232);
   color: rgb(0, 154, 163);
 }
 
@@ -149,6 +149,10 @@ a, h1, h2, h3, h4, h5, h6 {
 .wpenon-wrapper .calculations>h3:first-child {
   background-color: rgba(199, 18, 92, 0.1);
   border-bottom: 4px solid rgba(199, 18, 92);
+}
+
+#bauteile_fenster p em {
+  font-style: normal;
 }
 
 #edd_checkout_cart .edd_cart_header_row th {
