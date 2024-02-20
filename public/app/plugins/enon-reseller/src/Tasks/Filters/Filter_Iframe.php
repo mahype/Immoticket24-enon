@@ -161,6 +161,12 @@ class Filter_Iframe implements Task, Actions, Filters {
 	 * @since 1.0.0
 	 */
 	public function add_css() {
+		if ( defined ('RESELLER_CSS_LOADED') ) {
+			return;
+		}
+
+		define( 'RESELLER_CSS_LOADED', true );
+
 		$extra_css = $this->reseller->data()->iframe->get_extra_css();
 
 		if ( empty( $extra_css ) ) {
@@ -182,7 +188,8 @@ class Filter_Iframe implements Task, Actions, Filters {
 
 		define( 'RESELLER_JS_LOADED', true );
 
-		$js = $this->reseller->get_iframe_js();
+		$js = $this->reseller->get_iframe_js() . chr(13);
+		$js.= $this->reseller->data()->iframe->get_extra_js();
 		
 		if ( empty( $js ) ) {
 			return;

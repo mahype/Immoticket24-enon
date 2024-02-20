@@ -49,15 +49,15 @@
 
 	</div>
 </div><!-- .wrapper -->
+
+<?php wp_footer(); ?>
+
 <!-- Start Iframe JS //-->
 <script type="text/javascript">
 <?php do_action( 'enon_page_js' ); ?>
 <?php do_action( 'enon_iframe_js' ); ?>
 </script>
 <!-- End Enon Iframe JS //-->
-
-
-<?php wp_footer(); ?>
 
 </body>
 </html>
