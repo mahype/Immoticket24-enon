@@ -34,6 +34,10 @@ body {
   font-family: Euclid Enercity, sans-serif;
 }
 
+a, h1, h2, h3, h4, h5, h6 {
+  color: rgb(0,0,0);
+}
+
 .wpenon-wrapper h2 {
   background-image: linear-gradient(90deg, rgb(153, 0, 153) 0px, rgb(255, 0, 0) 100%);
   display: inline;
