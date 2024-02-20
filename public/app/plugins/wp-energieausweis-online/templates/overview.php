@@ -147,9 +147,9 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
         _e( 'Vorschau ansehen', 'wpenon' );
       }
       if ( ! $data['pdf_url'] ) :
-        echo '<br><small>';
+        echo '<br><div class="small">';
         _e( '(erst nach vollständiger Dateneingabe möglich)', 'wpenon' );
-        echo '</small>';
+        echo '</div>';
       endif;
       ?>
     </a>
@@ -162,9 +162,9 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
       else :
         _e( 'Bestellen', 'wpenon' );
         if ( ! $data['buy_url'] ) :
-          echo '<br><small>';
+          echo '<br><div class="small">';
           _e( '(erst nach vollständiger Dateneingabe möglich)', 'wpenon' );
-          echo '</small>';
+          echo '</div>';
         endif;
       endif;
       ?>
