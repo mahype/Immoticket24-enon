@@ -606,6 +606,11 @@ class Referenzgebaeude {
 		$this->gebaeude = $gebaeude;
 	}
 
+	/**
+	 * Transmissionswärmeverluste.
+	 * 
+	 * @return float 
+	 */
 	public function ht_ref_geb(): float {
 		$watt = 0;
 
@@ -621,10 +626,15 @@ class Referenzgebaeude {
 			$watt = 0.65;
 		}
 
-		return 1.4 * $this->gebaeude->nutzflaeche() * $watt;
+		return 1.4 * $watt;
 	}
 
-	public function Qp(): float {
+	/**
+	 * Primärenergiebedarf.
+	 * 
+	 * @return float 
+	 */
+	public function Qp_ref_geb(): float {
 		return 1.4 * $this->gebaeude->Qp();
 	}
 }
