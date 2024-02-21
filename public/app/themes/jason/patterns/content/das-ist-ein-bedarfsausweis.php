@@ -12,7 +12,7 @@ register_block_pattern(
         <!-- /wp:heading -->
         
         <!-- wp:image {"align":"center","sizeSlug":"large"} -->
-        <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt=""/></figure></div>
+        <div class="wp-block-image"><figure class="aligncenter size-large"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt=""/></figure></div>
         <!-- /wp:image -->
         
         <!-- wp:paragraph {"align":"center"} -->
@@ -21,23 +21,23 @@ register_block_pattern(
         
         <!-- wp:gallery {"columns":5,"linkTo":"media"} -->
         <figure class="wp-block-gallery has-nested-images columns-5 is-cropped"><!-- wp:image {"id":42011,"sizeSlug":"large","linkDestination":"media"} -->
-        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt="Bedarfsausweis Seite 1" class="wp-image-42011"/></a></figure>
+        <figure class="wp-block-image size-large"><a href="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite1-1.jpg" alt="Bedarfsausweis Seite 1" class="wp-image-42011"/></a></figure>
         <!-- /wp:image -->
         
         <!-- wp:image {"id":42004,"sizeSlug":"large","linkDestination":"media"} -->
-        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite2.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite2.jpg" alt="Bedarfsausweis Seite 2" class="wp-image-42004"/></a></figure>
+        <figure class="wp-block-image size-large"><a href="https://energieausweis.det/app/uploads/2017/01/bedarfsausweis_seite2.jpg"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite2.jpg" alt="Bedarfsausweis Seite 2" class="wp-image-42004"/></a></figure>
         <!-- /wp:image -->
         
         <!-- wp:image {"id":42006,"sizeSlug":"large","linkDestination":"media"} -->
-        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite3.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite3.jpg" alt="Bedarfsausweis Seite 3" class="wp-image-42006"/></a></figure>
+        <figure class="wp-block-image size-large"><a href="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite3.jpg"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite3.jpg" alt="Bedarfsausweis Seite 3" class="wp-image-42006"/></a></figure>
         <!-- /wp:image -->
         
         <!-- wp:image {"id":42007,"sizeSlug":"large","linkDestination":"media"} -->
-        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite4.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite4.jpg" alt="Bedarfsausweis Seite 4" class="wp-image-42007"/></a></figure>
+        <figure class="wp-block-image size-large"><a href="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite4.jpg"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite4.jpg" alt="Bedarfsausweis Seite 4" class="wp-image-42007"/></a></figure>
         <!-- /wp:image -->
         
         <!-- wp:image {"id":42008,"sizeSlug":"large","linkDestination":"media"} -->
-        <figure class="wp-block-image size-large"><a href="https://enon.test/app/uploads/2017/01/bedarfsausweis_seite5.jpg"><img src="https://energieausweis-online-erstellen.de/app/uploads/2017/01/bedarfsausweis_seite5.jpg" alt="Bedarfsausweis Seite 5" class="wp-image-42008"/></a></figure>
+        <figure class="wp-block-image size-large"><a href="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite5.jpg"><img src="https://energieausweis.de/app/uploads/2017/01/bedarfsausweis_seite5.jpg" alt="Bedarfsausweis Seite 5" class="wp-image-42008"/></a></figure>
         <!-- /wp:image --></figure>
         <!-- /wp:gallery -->
         
@@ -59,7 +59,7 @@ register_block_pattern(
         
         <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->
         <div class="wp-block-buttons"><!-- wp:button {"textColor":"white","style":{"color":{"background":"#3da81d"},"border":{"radius":"5px"}}} -->
-        <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background" href="https://enon.test/energieausweis2/bedarfsausweis-wohngebaeude/" style="border-radius:5px;background-color:#3da81d">Bedarfsausweis erstellen &gt;&gt;</a></div>
+        <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background" href="https://energieausweis.de/energieausweis2/bedarfsausweis-wohngebaeude/" style="border-radius:5px;background-color:#3da81d">Bedarfsausweis erstellen &gt;&gt;</a></div>
         <!-- /wp:button --></div>
         <!-- /wp:buttons --></div>
         <!-- /wp:group -->' ),

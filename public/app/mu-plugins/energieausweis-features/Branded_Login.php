@@ -30,15 +30,17 @@ class Branded_Login {
 	}
 
 	public function print_styles() {
+
 		$relative_icon_url = str_replace( WP_CONTENT_URL, '../../' . basename( WP_CONTENT_URL ), get_site_icon_url( 192 ) );
+        $relative_icon_url = get_stylesheet_directory_uri() . '/assets/img/logos/energieausweis-logo.svg';
 
 		?>
 		<style type="text/css">
 			.login h1 a {
-				width: 96px;
-				height: 96px;
+				width: 130px;
+				height: 90px;
 				background-image: none, url('<?php echo $relative_icon_url; ?>');
-				background-size: 96px;
+				background-size: 130px;
 			}
 		</style>
 		<?php

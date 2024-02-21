@@ -10,7 +10,7 @@ function pattern_replace_urls( $pattern_content ) {
 		'https://enon.test/wp-content',
 		'https://2021.energieausweis-online-erstellen.de/app',
 		'https://staging.energieausweis-online-erstellen.de/app',
-		'https://www.energieausweis-online-erstellen.de/app'
+		'https://energieausweis.de/app'
 	);
 
 	foreach( $content_urls AS $content_url )

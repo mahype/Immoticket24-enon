@@ -14,7 +14,7 @@ register_block_pattern(
         <!-- wp:awsm/block-trusted-shops-testimonials {"className":"wp-block-awsm-block-trusted-shops-testimonials bts-rating"} /-->
         
         <!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"12px"}}} -->
-        <p class="has-text-align-center" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für energieausweis-online-erstellen.de powered by TrustedShops</em></p>
+        <p class="has-text-align-center" style="font-size:12px"><em>Ausgewählte Top-Bewertungen für energieausweis.de powered by TrustedShops</em></p>
         <!-- /wp:paragraph -->
         
         <!-- wp:buttons {"className":"uppercase","layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"}} -->

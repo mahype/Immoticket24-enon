@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Energieausweis-Zusatzoptionen
-Plugin URI: https://energieausweis-online-erstellen.de
+Plugin URI: https://energieausweis.de
 Description: Zusatzoptionen beim Bestellen von Energieausweisen
 Version: 1.0.0
 Author: Felix Arntz

@@ -4,7 +4,7 @@ register_block_pattern(
     'enon/fuenf-gruende',
     array(
         'title'       => __( '5 Gründe', 'enon-patterns' ),
-        'description' => _x( '5 Gründe, die für Energieausweis-online-erstellen.de sprechen:', 'enon-patterns' ),
+        'description' => _x( '5 Gründe, die für Energieausweis.de sprechen:', 'enon-patterns' ),
         'categories'  => ['content'],
         'content'     => pattern_replace_urls( '<!-- wp:group {"style":{"color":{"gradient":"linear-gradient(182deg,#cff023 0%,#65e58d 100%)"}},"className":"is-style-main-group is-style-group-main"} -->
         <div class="wp-block-group is-style-main-group is-style-group-main has-background" style="background:linear-gradient(182deg,#cff023 0%,#65e58d 100%)"><!-- wp:heading {"textColor":"green-moss"} -->

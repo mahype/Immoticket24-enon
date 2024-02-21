@@ -350,9 +350,9 @@ function enon_show_gdpr_field($data)
   $privacy_onclick = sprintf($onclick, get_the_title($privacy_page));
 
   if( Detector::is_reseller_iframe()) {
-    $text = sprintf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie. Zudem akzeptiere ich die zum Zwecke der Zuordnung genutzten Cookies, welche wir für die Erstellung des Energieausweises bei unserem externen Dienstleister benötigen.', 'wpenon'), $privacy_url, $privacy_onclick);
+    $text = sprintf(__('Ich habe die <strong><a href="%1$s" %2$s>Datenschutzerklärung</a></strong> gelesen und akzeptiere sie. Zudem akzeptiere ich die zum Zwecke der Zuordnung genutzten Cookies, welche wir für die Erstellung des Energieausweises bei unserem externen Dienstleister benötigen.', 'wpenon'), $privacy_url, $privacy_onclick);
   } else {
-    $text = sprintf(__('Ich habe die <a href="%1$s" %2$s>Datenschutzerklärung</a> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
+    $text = sprintf(__('Ich habe die <strong><a href="%1$s" %2$s>Datenschutzerklärung</a></strong> gelesen und akzeptiere sie.', 'wpenon'), $privacy_url, $privacy_onclick);
   }
 
 ?>
@@ -378,7 +378,7 @@ function enon_show_contact_field($data)
   <div id="contact_acceptance-wrap" class="checkbox">
     <label>
       <input type="checkbox" id="contact_acceptance" name="contact_acceptance" value="1" <?php echo $data['contact_acceptance'] ? ' checked' : ''; ?>>
-      <?php printf(__('Hiermit bestätige ich, dass Energieausweis-online-erstellen.de mich bei Fragen zu meinen Energieausweis-Angaben kontaktieren darf.', 'wpenon')); ?>
+      <?php printf(__('Hiermit bestätige ich, dass <strong>energieausweis.de</strong> mich bei Fragen zu meinen Energieausweis-Angaben kontaktieren darf.', 'wpenon')); ?>
     </label>
   </div>
   <input type="hidden" id="contact_question_answered" name="contact_question_answered" value="false" />
