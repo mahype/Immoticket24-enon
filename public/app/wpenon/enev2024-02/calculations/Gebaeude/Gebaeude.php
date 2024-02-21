@@ -170,10 +170,17 @@ class Gebaeude {
 
 	/**
 	 * Qfwges
-	 * 
+	 *
 	 * @var float
 	 */
 	private float $Qfwges;
+
+	/**
+	 * Wärmebrückenzuschlag
+	 *
+	 * @var float
+	 */
+	private float $waermebruecken_zuschlag;
 
 	/**
 	 * Konstruktor
@@ -187,12 +194,13 @@ class Gebaeude {
 	 *
 	 * @return void
 	 */
-	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen, string $standort_heizsystem ) {
-		$this->baujahr          = $baujahr;
-		$this->geschossanzahl   = $geschossanzahl;
-		$this->geschosshoehe    = $geschosshoehe + 0.25;
-		$this->anzahl_wohnungen = $anzahl_wohnungen;
-		$this->grundriss        = $grundriss;
+	public function __construct( Grundriss $grundriss, int $baujahr, int $geschossanzahl, float $geschosshoehe, int $anzahl_wohnungen, string $standort_heizsystem, float $waermebruecken_zuschlag = 0.1 ) {
+		$this->baujahr                 = $baujahr;
+		$this->geschossanzahl          = $geschossanzahl;
+		$this->geschosshoehe           = $geschosshoehe + 0.25;
+		$this->anzahl_wohnungen        = $anzahl_wohnungen;
+		$this->grundriss               = $grundriss;
+		$this->waermebruecken_zuschlag = $waermebruecken_zuschlag;
 
 		$this->c_wirk = 50; // Für den vereinfachten Rechenweg festgelegt auf den Wert 50.
 
@@ -241,10 +249,10 @@ class Gebaeude {
 
 	/**
 	 * Photovaltaik-Anlage.
-	 * 
-	 * @param null|Photovoltaik_Anlage $photovoltaik_anlage 
-	 * @return Photovoltaik_Anlage 
-	 * @throws Calculation_Exception 
+	 *
+	 * @param null|Photovoltaik_Anlage $photovoltaik_anlage
+	 * @return Photovoltaik_Anlage
+	 * @throws Calculation_Exception
 	 */
 	public function photovoltaik_anlage( Photovoltaik_Anlage|null $photovoltaik_anlage = null ): Photovoltaik_Anlage {
 		if ( $photovoltaik_anlage !== null ) {
@@ -260,8 +268,8 @@ class Gebaeude {
 
 	/**
 	 * Prüft, ob eine Photovoltaik-Anlage vorhanden ist.
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public function photovoltaik_anlage_vorhanden(): bool {
 		return $this->photovoltaik_anlage !== null;
@@ -532,7 +540,6 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ht_ges(): float {
-		// 0,1 = Wärmebrückenzuschlag
 		return $this->bauteile()->ht() + $this->ht_wb();
 	}
 
@@ -542,12 +549,12 @@ class Gebaeude {
 	 * @return float
 	 */
 	public function ht_wb(): float {
-		return 0.1 * $this->huellflaeche();
+		return $this->waermebruecken_zuschlag * $this->huellflaeche();
 	}
 
 	/**
 	 * HT'
-	 * 
+	 *
 	 * @return float
 	 */
 	public function ht_strich(): float {
@@ -1033,7 +1040,7 @@ class Gebaeude {
 	}
 
 	public function Qfwges(): float {
-		if( isset( $this->Qfwges ) ) {
+		if ( isset( $this->Qfwges ) ) {
 			return $this->Qfwges;
 		}
 
@@ -1063,13 +1070,13 @@ class Gebaeude {
 		// $Qfstrom1-3 = ($Wges/n)              , Die gilt für alle fossilen Heizungen und den Gas-Durchlauferhitzter
 		// $Qfstrom= $Qfstrom1-3
 
-		$Qfstrom = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom
+		$Qfstrom  = $this->hilfsenergie()->Wges(); // Hilfsenergie ist immer Strom
 		$Qfstrom += $this->heizsystem()->heizungsanlagen()->Qfstromges(); // Strom aus mit Strom betriebene Heizungsanlagen (ohne Hilfsenergie)
 
-		if( ! $this->trinkwarmwasseranlage()->zentral() ) {
+		if ( ! $this->trinkwarmwasseranlage()->zentral() ) {
 			$Qfstrom += $this->trinkwarmwasseranlage()->Qfwges(); // Strom aus zentraler Trinkwassererwärmung
 		}
-		
+
 		return $Qfstrom;
 	}
 
@@ -1080,7 +1087,7 @@ class Gebaeude {
 			$Qpges += $heizungsanlage->Qpges();
 		}
 
-		if( ! $this->trinkwarmwasseranlage()->zentral() ) {
+		if ( ! $this->trinkwarmwasseranlage()->zentral() ) {
 			$Qpges += $this->trinkwarmwasseranlage()->Qpges();
 		}
 
@@ -1091,9 +1098,9 @@ class Gebaeude {
 
 	/**
 	 * Berechnung der CO2-Emissionen (kg).
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function MCO2(): float {
 		$MCO2 = 0;
@@ -1105,7 +1112,7 @@ class Gebaeude {
 		// Was ist mit Trinkwarwasser?
 
 		// if( ! $this->trinkwarmwasseranlage()->zentral() ) {
-		// 	$MCO2 += $this->trinkwarmwasseranlage()->MCO2();
+		// $MCO2 += $this->trinkwarmwasseranlage()->MCO2();
 		// }
 
 		// Was ist mit Strom aus Hilfsenergie?
@@ -1120,15 +1127,15 @@ class Gebaeude {
 
 	/**
 	 * Berechnung der flächenbezogenen Endenergie (Brennwert)  (kwh/m^2a).
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function Qf(): float {
 		// $Qf =   $Qfges -  $Pvans
 		$Qf = $this->Qfgesamt();
 
-		if( $this->photovoltaik_anlage_vorhanden() ) {
+		if ( $this->photovoltaik_anlage_vorhanden() ) {
 			$Qf -= $this->photovoltaik_anlage()->Pvans( $this->Qfstrom() );
 		}
 
@@ -1138,18 +1145,18 @@ class Gebaeude {
 
 	/**
 	 * Berechnung der flächenbezogenen Endenergie (Primärenergie)  (kwh/m^2a).
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function Qp(): float {
 		$Qp = $this->Qpges();
 
-		if( ! $this->photovoltaik_anlage_vorhanden() ) {
+		if ( ! $this->photovoltaik_anlage_vorhanden() ) {
 			return $this->Qpges() / $this->nutzflaeche();
 		}
 
-		//  $Qp= $Qpges -  $Pvans *1.8
+		// $Qp= $Qpges -  $Pvans *1.8
 		$Qp -= $this->photovoltaik_anlage()->Pvans( $this->Qfstrom() ) * 1.8;
 
 		return $Qp / $this->nutzflaeche();

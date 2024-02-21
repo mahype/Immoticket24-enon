@@ -115,7 +115,8 @@ $gebaeude = new Gebaeude(
 	geschossanzahl: $energieausweis->geschoss_zahl,
 	geschosshoehe: $energieausweis->geschoss_hoehe,
 	anzahl_wohnungen: $energieausweis->wohnungen,
-	standort_heizsystem: $energieausweis->h_standort
+	standort_heizsystem: $energieausweis->h_standort,
+	waermebruecken_zuschlag: 0.1
 );
 
 $calculations['gebaeude'] = $gebaeude;
