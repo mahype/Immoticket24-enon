@@ -39,6 +39,7 @@ use function Enev\Schema202402\Calculations\Helfer\berechne_heizkoerpernische_fl
 use function Enev\Schema202402\Calculations\Helfer\berechne_rolladenkasten_flaeche;
 use function Enev\Schema202402\Calculations\Tabellen\uwert;
 
+require_once __DIR__ . '/Referenzgebaeude.php';
 require_once __DIR__ . '/Helfer/Jahr.php';
 require_once __DIR__ . '/Helfer/Math.php';
 require_once __DIR__ . '/Helfer/Faktoren.php';
@@ -115,7 +116,8 @@ $gebaeude = new Gebaeude(
 	geschossanzahl: $energieausweis->geschoss_zahl,
 	geschosshoehe: $energieausweis->geschoss_hoehe,
 	anzahl_wohnungen: $energieausweis->wohnungen,
-	standort_heizsystem: $energieausweis->h_standort
+	standort_heizsystem: $energieausweis->h_standort,
+	waermebruecken_zuschlag: 0.1
 );
 
 $calculations['gebaeude'] = $gebaeude;
@@ -987,5 +989,11 @@ if( $gebaeude->photovoltaik_anlage_vorhanden() ) {
 	$calculations['photovoltaik']['ertrag'] = round( $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) / $gebaeude->nutzflaeche() );
 }
 
+if( $energieausweis->anlass === 'modernisierung' || $energieausweis->anlass === 'sonstiges' ) {
+	$referenzgebäude = new Referenzgebaeude( $energieausweis );
+
+	$calculations['ht_ref_geb'] = $referenzgebäude->ht_ref_geb();
+	$calculations['Qp_ref_geb'] = $referenzgebäude->Qp_ref_geb();
+}
 
 return $calculations;
