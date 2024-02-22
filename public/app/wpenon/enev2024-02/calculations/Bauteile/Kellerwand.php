@@ -49,7 +49,7 @@ class Kellerwand extends Bauteil implements Transmissionswaerme {
 	 * @return float
 	 */
 	public function uwert(): float {
-		if ( $this->daemmung() === 0 ) {
+		if ( $this->daemmung() == 0 ) {
 			return $this->uwert;
 		}
 
