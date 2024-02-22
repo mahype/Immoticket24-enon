@@ -41,6 +41,17 @@ class Setup_WP implements Filters, Actions, Task {
 	 */
 	public function add_filters() {
 		add_filter( 'xmlrpc_enabled',           '__return_false');		
+		add_filter( 'affwp_affiliate_area_tabs', array( $this, 'remove_affiliate_tab_visits' ), 11 );
+	}
+
+	/**
+	 * Remove AffiliateWP submenu 'affiliate-wp-visits'
+	 *
+	 * @since 1.0.0
+	 */
+	public function remove_affiliate_tab_visits( $tabs ) {
+		unset( $tabs['visits'] );
+		return $tabs;
 	}
 
 	/**

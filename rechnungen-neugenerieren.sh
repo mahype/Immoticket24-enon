@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd /www/htdocs/w012900a/production.energieausweis-online-erstellen.de/public && wp payments regenerate
+cd /www/htdocs/w012900a/energieausweis.de/public && wp payments regenerate

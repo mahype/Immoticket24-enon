@@ -4,11 +4,11 @@ register_block_pattern(
     'enon/sieben-gruende',
     array(
         'title'       => __( '7 Gründe', 'enon-patterns' ),
-        'description' => _x( '7 Gründe, warum Sie Ihren Verbrauchsausweis online bei energieausweis-online-erstellen.de erstellen sollten.', 'enon-patterns' ),
+        'description' => _x( '7 Gründe, warum Sie Ihren Verbrauchsausweis online bei energieausweis.de erstellen sollten.', 'enon-patterns' ),
         'categories'  => ['content'],
         'content'     => pattern_replace_urls( '<!-- wp:group {"style":{"spacing":{"padding":{"top":"0px"}}},"gradient":"green-neon-to-green-mint","className":"is-style-group-main"} -->
         <div class="wp-block-group is-style-group-main has-green-neon-to-green-mint-gradient-background has-background" style="padding-top:0px"><!-- wp:heading {"textAlign":"center"} -->
-        <h2 class="has-text-align-center" id="7-grunde-warum-sie-ihren-bedarfsausweis-online-bei-energieausweis-online-erstellen-de-erstellen-sollten"><strong>7 Gründe</strong>, warum Sie Ihren Bedarfsausweis online <br>bei energieausweis-online-erstellen.de erstellen sollten:</h2>
+        <h2 class="has-text-align-center" id="7-grunde-warum-sie-ihren-bedarfsausweis-online-bei-energieausweis-online-erstellen-de-erstellen-sollten"><strong>7 Gründe</strong>, warum Sie Ihren Bedarfsausweis online <br>bei energieausweis.de erstellen sollten:</h2>
         <!-- /wp:heading -->
         
         <!-- wp:paragraph {"align":"center","className":"full-width-grey"} -->
@@ -70,7 +70,7 @@ register_block_pattern(
         <!-- /wp:heading -->
         
         <!-- wp:paragraph {"align":"center"} -->
-        <p class="has-text-align-center">Energieausweis-online-erstellen.de ist TrustedShops-zertifiziert.</p>
+        <p class="has-text-align-center">Energieausweis.de ist TrustedShops-zertifiziert.</p>
         <!-- /wp:paragraph --></div>
         <!-- /wp:column -->
         

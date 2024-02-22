@@ -76,7 +76,7 @@ define( 'NONCE_SALT', '|J!no9A]Am#UQKCXQcR]y<2E4-;*zs9@~5KbsxFpn|=@161uD{]$f:UBw
  * These constants ensure a proper directory structure
  **===================================================*/
 if ( ! defined( 'WP_HOME' ) ) {
-	define( 'WP_HOME', 'https://www.energieausweis-online-erstellen.de' );
+	define( 'WP_HOME', 'https://energieausweis.de' );
 }
 if ( ! defined( 'WP_SITEURL' ) ) {
 	define( 'WP_SITEURL', rtrim( WP_HOME, '/' ) . '/core' );
