@@ -963,6 +963,7 @@ if( $gebaeude->lueftung()->Wrvg() > 0 ){
 	$calculations['energietraeger']['strom']['q_e_b'] += $gebaeude->lueftung()->Wrvg();
 }
 
+$calculations['anlass'] = $energieausweis->anlass;
 $calculations['huellvolumen'] = $gebaeude->huellvolumen();
 $calculations['endenergie'] = $gebaeude->Qf();
 $calculations['primaerenergie'] = $gebaeude->Qp();
@@ -994,6 +995,8 @@ if( $energieausweis->anlass === 'modernisierung' || $energieausweis->anlass === 
 
 	$calculations['ht_ref_geb'] = $referenzgebäude->ht_ref_geb();
 	$calculations['Qp_ref_geb'] = $referenzgebäude->Qp_ref_geb();
+
+	$calculations['referenzgebaeude'] = $referenzgebäude->gebaeude();
 }
 
 return $calculations;

@@ -637,4 +637,13 @@ class Referenzgebaeude {
 	public function Qp_ref_geb(): float {
 		return 1.4 * $this->gebaeude->Qp();
 	}
+
+	/**
+	 * Gebäude.
+	 * 
+	 * @return Gebaeude 	 
+	 */
+	public function gebaeude(): Gebaeude {
+		return $this->gebaeude;
+	}
 }
