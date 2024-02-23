@@ -24,9 +24,9 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme_Korrekturfaktor {
 	/**
 	 * pn.
 	 *
-	 * @var int
+	 * @var float
 	 */
-	protected int $pn;
+	protected float $pn;
 
 	/**
 	 * Heizung im beheizten Bereich.
@@ -54,7 +54,7 @@ class Aufwandszahlen_Heizwaermeerzeugung_Fernwaerme_Korrekturfaktor {
 	 *
 	 * @return void
 	 */
-	public function __construct( string $ßhg, string $pn, int $heizung_im_beheizten_bereich, string $uebergabe_auslegungstemperatur ) {
+	public function __construct( string $ßhg, float $pn, int $heizung_im_beheizten_bereich, string $uebergabe_auslegungstemperatur ) {
 		$this->ßhg                            = $ßhg;
 		$this->pn                             = $pn;
 		$this->heizung_im_beheizten_bereich   = $heizung_im_beheizten_bereich;
