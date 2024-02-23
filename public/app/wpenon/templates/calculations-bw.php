@@ -8,7 +8,11 @@
 require_once __DIR__ . '/helfer.php';
 
 $gebaeude = $data['gebaeude'];#
-$referenzgebaeude = $data['referenzgebaeude'];
+
+if( isset( $data['referenzgebaeude'] ) ) {
+	$referenzgebaeude = $data['referenzgebaeude'];
+}
+
 $anlass = $data['anlass'];
 
 $jahr = new Jahr();
@@ -1095,7 +1099,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'CO2 Emissionen in Kg/m2: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->MCO2a() ) ); ?></p>
 
 </div>
-<?php if ( $anlass === 'moderisierung' || $anlass === 'sonstiges' ): ?>
+<?php if ( ( $anlass === 'moderisierung' || $anlass === 'sonstiges' ) && isset( $referenzgebaeude ) ): ?>
 
 <div class="calculation-details referenzgebaeude">
 	<h2>Referenzgebaeude</h2>
