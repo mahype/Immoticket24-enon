@@ -17,7 +17,7 @@ $jahr = new Jahr();
 
 <style type="text/css">
 	.referenzgebaeude {
-	background-color: lightgreen;
+	background-color: lightpink !important;
 	}
 
 	.calculation-details {
