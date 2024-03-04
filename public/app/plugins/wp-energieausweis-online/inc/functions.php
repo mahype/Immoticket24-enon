@@ -306,3 +306,15 @@ if ( ! function_exists( 'edd_sanitize_price' ) ) {
 add_action('edd_after_cc_fields', function(){
 	echo '<script type="text/javascript" src="' . plugin_dir_url(__DIR__) . '/assets/paymill-bank-events.js"></script>';
 });
+
+/**
+ * Remove PDF link from purchase receipt email if the reseller bill receipt redirect is enabled
+ */
+add_action('edd_purchase_receipt', function(  $email_body, $payment_id, $payment_data){
+    $reseller_id = get_post_meta( get_the_ID(), 'reseller_id', true );
+    $reseller = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+    $redirect = $reseller->redirect_bill_to_reseller();
+    if ( $redirect ) {
+        $email_body = str_replace('Die PDF-Rechnung für Ihre Bestellung finden Sie unter diesem Link: {pdf_link}', '', $email_body);
+    }
+});

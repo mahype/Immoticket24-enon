@@ -58,7 +58,7 @@ class Fieldset_General implements Fieldset {
 				'name'         => 'email_settings',
 				'type'         => 'checkbox',
 				'choices' => array(
-					'redirect_bill_to_reseller' => __( '"Zahlungsaufforderung" zum Reseller umleiten.', 'enon' ),
+					'redirect_bill_to_reseller' => __( 'Zahlung via Reseller. (Kein Rechnungsdownload auf der Seite, kein Rechnungslink in der E-Mail)', 'enon' ),
 					'send_order_confirmation_to_reseller' => __( '"Neue Energieausweis-Bestellung" an Reseller senden.', 'enon' ),
 				),
 				'default_value' => array(
