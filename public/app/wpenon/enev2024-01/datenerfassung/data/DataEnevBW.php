@@ -100,7 +100,9 @@ class DataEnevBW extends DataEnev {
     public function WesentlicheEnergietraegerWarmWasser() : string
     {
         if ( $this->energieausweis->ww_info == 'ww' ) {
-            return wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->ww_energietraeger );
+            $energietraeger_feld_name = 'ww_energietraeger_' . $this->energieausweis->ww_erzeugung;
+		    $ww_energietraeger = $this->energieausweis->$energietraeger_feld_name;
+            return wpenon_immoticket24_get_energietraeger_name_2021( $ww_energietraeger );                        
         } else if ( $this->energieausweis->ww_info == 'h'  ) {
             $energietraeger = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h_energietraeger );
             return $energietraeger;
