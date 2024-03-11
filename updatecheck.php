@@ -7,10 +7,16 @@
  * @author Frank Neumann-Staude <frank@awesome.ug>
  * @version 1.0.0
  * 
+ * All-Inkl.com erlaubt per Cron nur HTTP/S Abrufe.
+ * Der Apache User bei all-inkl kann per exec die wp-cli Befehle nicht ausführen. Daher muss dieses Script 
+ * von einem extenen Server per ssh aufgerufen werden.
+ * 
+ * ssh -f ssh-w012900a@w012900a.kasserver.com /usr/bin/php82 /www/htdocs/w012900a/energieausweis.de/updatecheck.php
+ * 
  */
 
 // Pfad zum WordPress-Unterverzeichnis
-$wordpressDir = '.'; // 'public/app';
+$wordpressDir = '/www/htdocs/w012900a/energieausweis.de/public/app';
 
 // Slack Webhook URL
 $slackWebhookUrl = 'https://hooks.slack.com/services/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';
