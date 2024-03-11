@@ -10,7 +10,7 @@
  */
 
 // Pfad zum WordPress-Unterverzeichnis
-$wordpressDir = 'public/app';
+$wordpressDir = '.'; // 'public/app';
 
 // Slack Webhook URL
 $slackWebhookUrl = 'https://hooks.slack.com/services/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';
