@@ -234,18 +234,7 @@ class UsedCSS extends Query {
 			'retries'       => 0,
 			'last_accessed' => current_time( 'mysql', true ),
 		];
-
-		$result = $this->add_item( $item );
-
-		/**
-		 * Fires after a new job has been added.
-		 *
-		 * @param mixed $is_success New job status: ID of inserted row if successfully added; false otherwise.
-		 * @param string $timestamp Current timestamp.
-		 */
-		do_action( 'rocket_last_rucss_job_added_time', $result, current_time( 'mysql', true ) );
-
-		return $result;
+		return $this->add_item( $item );
 	}
 
 	/**

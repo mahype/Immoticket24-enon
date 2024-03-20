@@ -13,8 +13,7 @@ namespace Enev\Schema202401\Calculations\Helfer;
  */
 function berechne_fenster_flaeche( float $wandlaenge, float $innere_wandhoehe, float $wanddicke ): float {
 	$innere_wandlaenge = $wandlaenge - $wanddicke * 2;
-	$fenster_flaeche = ( 0.55 *  $innere_wandlaenge ) * ( $innere_wandhoehe - 1.5 );
-	return $fenster_flaeche > 0 ? $fenster_flaeche : 0;
+	return ( 0.55 *  $innere_wandlaenge ) * ( $innere_wandhoehe - 1.5 );
 }
 
 /**

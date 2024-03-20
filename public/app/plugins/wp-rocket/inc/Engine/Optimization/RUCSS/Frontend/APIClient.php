@@ -30,7 +30,7 @@ class APIClient extends AbstractAPIClient {
 						'nowprocket'  => 1,
 						'no_optimize' => 1,
 					],
-					user_trailingslashit( $url )
+					$url
 				),
 				'config' => $options,
 			],

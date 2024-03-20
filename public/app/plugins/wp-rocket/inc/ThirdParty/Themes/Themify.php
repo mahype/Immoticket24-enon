@@ -2,15 +2,22 @@
 namespace WP_Rocket\ThirdParty\Themes;
 
 use WP_Rocket\Admin\Options_Data;
-use WP_Rocket\Event_Management\Subscriber_Interface;
 
-class Themify implements Subscriber_Interface {
+class Themify extends ThirdpartyTheme {
+
 	/**
 	 * WP Rocket options instance.
 	 *
 	 * @var Options_Data
 	 */
 	private $options;
+
+	/**
+	 * Theme name
+	 *
+	 * @var string
+	 */
+	protected static $theme_name = 'themify-ultra';
 
 	/**
 	 * Instantiate the class.
@@ -27,6 +34,10 @@ class Themify implements Subscriber_Interface {
 	 * @return array
 	 */
 	public static function get_subscribed_events() {
+		if ( ! self::is_current_theme() ) {
+			return [];
+		}
+
 		return [
 			'after_switch_theme' => 'disabling_concat_on_theme',
 			'update_option_' . rocket_get_constant( 'WP_ROCKET_SLUG', 'wp_rocket_settings' ) => [ 'disabling_concat_on_rucss', 10, 2 ],

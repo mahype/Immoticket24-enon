@@ -44,9 +44,6 @@ use WP_Rocket\ThirdParty\Hostings\ServiceProvider as HostingsServiceProvider;
 use WP_Rocket\ThirdParty\ServiceProvider as ThirdPartyServiceProvider;
 use WP_Rocket\ThirdParty\Themes\ServiceProvider as ThemesServiceProvider;
 use WP_Rocket\Engine\Admin\DomainChange\ServiceProvider as DomainChangeServiceProvider;
-use WP_Rocket\ThirdParty\Themes\ThemeResolver;
-use WP_Rocket\Engine\Debug\Resolver as DebugResolver;
-use WP_Rocket\Engine\Debug\ServiceProvider as DebugServiceProvider;
 /**
  * Plugin Manager.
  */
@@ -137,9 +134,6 @@ class Plugin {
 		$this->container->add( 'options_api', $this->options_api );
 		$this->container->addServiceProvider( OptionsServiceProvider::class );
 		$this->options = $this->container->get( 'options' );
-
-		$this->container->add( 'debug_resolver', DebugResolver::class )
-			->addArgument( $this->options );
 
 		$this->container->addServiceProvider( LoggerServiceProvider::class );
 
@@ -295,7 +289,6 @@ class Plugin {
 		$this->container->addServiceProvider( APIServiceProvider::class );
 		$this->container->addServiceProvider( CommmonExtractCSSServiceProvider::class );
 		$this->container->addServiceProvider( LazyloadCSSServiceProvider::class );
-		$this->container->addServiceProvider( DebugServiceProvider::class );
 
 		$common_subscribers = [
 			'license_subscriber',
@@ -313,6 +306,8 @@ class Plugin {
 			'bigcommerce_subscriber',
 			'syntaxhighlighter_subscriber',
 			'elementor_subscriber',
+			'bridge_subscriber',
+			'avada_subscriber',
 			'ngg_subscriber',
 			'smush_subscriber',
 			'plugin_updater_common_subscriber',
@@ -333,8 +328,10 @@ class Plugin {
 			'rucss_option_subscriber',
 			'rucss_frontend_subscriber',
 			'rucss_cron_subscriber',
+			'divi',
 			'preload_subscriber',
 			'preload_front_subscriber',
+			'polygon',
 			'preload_links_admin_subscriber',
 			'preload_links_subscriber',
 			'preload_cron_subscriber',
@@ -355,8 +352,11 @@ class Plugin {
 			'thirstyaffiliates',
 			'pwa',
 			'yoast_seo',
+			'flatsome',
+			'minimalist_blogger',
 			'convertplug',
 			'dynamic_lists_subscriber',
+			'jevelin',
 			'unlimited_elements',
 			'inline_related_posts',
 			'jetpack',
@@ -365,8 +365,10 @@ class Plugin {
 			'seopress',
 			'the_seo_framework',
 			'wpml',
+			'xstore',
 			'cloudflare_plugin_subscriber',
 			'cache_config',
+			'uncode',
 			'rocket_lazy_load',
 			'cache_config',
 			'the_events_calendar',
@@ -374,22 +376,18 @@ class Plugin {
 			'perfmatters',
 			'rapidload',
 			'translatepress',
+			'themify',
 			'wpgeotargeting',
 			'lazyload_css_subscriber',
+			'shoptimizer',
 			'weglot',
 			'contactform7',
-			'debug_subscriber',
 		];
 
 		$host_type = HostResolver::get_host_service();
-		$theme     = ThemeResolver::get_current_theme();
 
 		if ( ! empty( $host_type ) ) {
 			$common_subscribers[] = $host_type;
-		}
-
-		if ( ! empty( $theme ) ) {
-			$common_subscribers[] = $theme;
 		}
 
 		if ( $this->options->get( 'do_cloudflare', false ) ) {
@@ -397,14 +395,6 @@ class Plugin {
 
 			$common_subscribers[] = 'cloudflare_admin_subscriber';
 			$common_subscribers[] = 'cloudflare_subscriber';
-		}
-
-		$services = $this->container->get( 'debug_resolver' )->get_services();
-
-		if ( ! empty( $services ) ) {
-			foreach ( $services as $service ) {
-				$common_subscribers[] = $service['service'];
-			}
 		}
 
 		return $common_subscribers;
