@@ -54,7 +54,7 @@
     "felixarntz/plugin-lib": "dev-master",
     "wpackagist-plugin/imagify": "2.2.1",
     "wpackagist-plugin/login-lockdown": "2.09",
-    "wpackagist-plugin/really-simple-captcha": "2.2",
+    "wpackagist-plugin/really-simple-captcha": "2.3",
     "wpackagist-plugin/shariff": "4.6.11",
     "wpackagist-plugin/ootb-openstreetmap": "2.7.2",
     "wpackagist-plugin/user-switching": "1.7.3",
