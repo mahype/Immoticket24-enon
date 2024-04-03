@@ -1099,7 +1099,7 @@ $jahr = new Jahr();
 	<p><?php printf( __( 'CO2 Emissionen in Kg/m2: %s', 'wpenon' ), str_replace( '.', ',', $gebaeude->MCO2a() ) ); ?></p>
 
 </div>
-<?php if ( ( $anlass === 'moderisierung' || $anlass === 'sonstiges' ) && isset( $referenzgebaeude ) ): ?>
+<?php if ( ( $anlass === 'modernisierung' || $anlass === 'sonstiges' ) && isset( $referenzgebaeude ) ): ?>
 
 <div class="calculation-details referenzgebaeude">
 	<h2>Referenzgebaeude</h2>
