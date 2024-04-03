@@ -490,17 +490,21 @@ switch ( $energieausweis->keller ) {
 
 // NOTE: Vereinfachung vom 08.02.2024 - Issue #618
 if( $energieausweis->l_info === 'vorhanden' ) {
-	$lueftungssystem = 'zu_abluft';
+	$lueftungssystem =  $gebaeude->ist_einfamilienhaus() ? 'zu_abluft': 'abluft';
 	$gebaeudedichtheit = 'din_4108_7';
-	$bedarfsgefuehrt = true;
+	$bedarfsgefuehrt = false;
 
-	if( $gebaeude->baujahr() <= 1999 ) {
-		$wirkungsgrad = 54;
-	} elseif( $gebaeude->baujahr() >= 2000 && $gebaeude->baujahr() <= 2009 ) {
-		$wirkungsgrad = 60;
-	} else {
-		$wirkungsgrad = 80;
-	}	
+	$wirkungsgrad = 0;
+
+	if( $gebaeude->ist_einfamilienhaus() ) {
+		if( $gebaeude->baujahr() <= 1999 ) {
+			$wirkungsgrad = 54;
+		} elseif( $gebaeude->baujahr() >= 2000 && $gebaeude->baujahr() <= 2009 ) {
+			$wirkungsgrad = 60;
+		} else {
+			$wirkungsgrad = 80;
+		}	
+	}
 } else {
 	$lueftungssystem = 'ohne';
 	$gebaeudedichtheit = 'andere';
