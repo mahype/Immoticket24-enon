@@ -498,6 +498,19 @@ function wpenon_immoticket24_get_ww_info_vw( $h2_info = false, $h3_info = false,
 	if ( ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) && ! $hide_pauschal ) {
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
+
+	if( current_user_can('manage_options') ) {
+	    $info['h1'] = __( 'pauschal in 1. Heizungsanlage enthalten', 'wpenon' );
+		
+		if( $h2_info !== false ) {
+	    	$info['h2'] = __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' );
+		}
+
+		if( $h3_info !== false ) {
+	    	$info['h3'] = __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' );
+		}	    
+	}
+
 	$info['ww'] = __( 'separat angegeben', 'wpenon' );
 
 	if ( $show_unbekannt ) {

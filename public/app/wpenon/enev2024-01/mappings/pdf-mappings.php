@@ -118,6 +118,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 					$ww_energietraeger = $energieausweis->$energietraeger_feld_name;
 					return wpenon_immoticket24_get_energietraeger_name_2021( $ww_energietraeger, $has_unit );
 				case 'h':
+				case 'h1':
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, $has_unit );
 				case 'h2':
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, $has_unit );
