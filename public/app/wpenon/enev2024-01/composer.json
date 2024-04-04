@@ -13,6 +13,6 @@
         }
       ],
       "require": {
-        "awsm/lib-estate": "dev-develop"
+        "awsm/lib-estate": "1.4.0"
       }
 }
