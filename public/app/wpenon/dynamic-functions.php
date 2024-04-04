@@ -676,6 +676,7 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	$energietraeger_standardkessel,
 	$energietraeger_niedertemperaturkessel,
 	$energietraeger_brennwertkessel,
+	$energietraeger_brennwertkesselverbessert,
 	$energietraeger_kleinthermeniedertemperatur,
 	$energietraeger_kleinthermebrennwert,
 	$energietraeger_fernwaerme,
@@ -702,6 +703,9 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 			break;
 		case 'brennwertkessel':
 			$energietraeger = $energietraeger_brennwertkessel;
+			break;
+		case 'brennwertkesselverbessert':
+			$energietraeger = $energietraeger_brennwertkesselverbessert;
 			break;
 		case 'kleinthermeniedertemperatur':
 			$energietraeger = $energietraeger_kleinthermeniedertemperatur;

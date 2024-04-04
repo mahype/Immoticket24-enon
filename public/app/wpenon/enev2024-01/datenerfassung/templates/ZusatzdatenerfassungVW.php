@@ -19,7 +19,7 @@ if( defined('GEG_XSD_VERSION') ) {
 $data = new DataEnevVW( $energieausweis );
 
 ?><n1:GEG-Energieausweis xmlns:n1="<?php echo $xsd; ?>">
-  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2020-08-08">
+  <n1:Energieausweis-Daten Gesetzesgrundlage="<?php echo $version; ?>" Rechtsstand-Grund="Ausweisausstellung (bei Verbrauchsausweisen und alle anderen Fälle)" Rechtsstand="2023-10-16">
     <n1:Registriernummer><?php echo $data->Registriernummer(); ?></n1:Registriernummer>
     <n1:Ausstellungsdatum><?php echo $data->Ausstellungsdatum(); ?></n1:Ausstellungsdatum>
     <n1:Bundesland><?php echo $data->Bundesland(); ?></n1:Bundesland>
