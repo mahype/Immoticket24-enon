@@ -116,6 +116,20 @@ class DataEnevVW extends DataEnev {
                 }
             }
             return implode( ', ', array_unique( $energietraeger ) );
+        } else if( $this->energieausweis->ww_info == 'h1' || $this->energieausweis->ww_info == 'h2' || $this->energieausweis->ww_info == 'h3' ) {
+            switch( $this->energieausweis->ww_info ) {
+                case 'h1':
+                    $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h_energietraeger, true );
+                    break;
+                case 'h2':
+                    $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h2_energietraeger, true );
+                    break;
+                case 'h3':
+                    $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h3_energietraeger, true );
+                    break;
+            }
+            
+            return implode( ', ', array_unique( $energietraeger ) );
         } else if ( $this->energieausweis->ww_info == 'unbekannt' ) {
             return $this->calculations()->getBuilding()->getHeaters()->getHeaterByHighestEnergyValue()->getEnergySource()->getName();;
         }
