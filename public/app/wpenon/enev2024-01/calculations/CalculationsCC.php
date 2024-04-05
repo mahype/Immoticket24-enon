@@ -260,12 +260,20 @@ class CalculationsCC {
 				break;
 		}
 
+		$hotWaterHeater = 'auto';
+
 		switch ( $this->ec->ww_info ) {
 			case 'ww':
 				$this->hotWater = 'separate';
 				break;
-			case 'h':
+			case 'h':				
+				$this->hotWater = 'heater';				
+				break;
+			case 'h1':
+			case 'h2':
+			case 'h3':			
 				$this->hotWater = 'heater';
+				$hotWaterHeater = $this->ec->ww_info;
 				break;
 			case 'unbekannt':
 				$this->hotWater = 'unknown';
@@ -283,7 +291,7 @@ class CalculationsCC {
 			$dataHeaters[ $i ] = $this->getHeater( $i );
 		}
 
-		$heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters, $this->hotWater == 'heater' );
+		$heaters = new Heaters( $this->building->getUsefulArea(), $dataHeaters, $this->hotWater == 'heater', $hotWaterHeater );
 		$this->building->setHeaters( $heaters );
 
 		if ( $this->hotWater == 'separate' ) {
