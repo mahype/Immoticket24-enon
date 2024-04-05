@@ -275,6 +275,10 @@ class CalculationsCC {
 				$this->hotWater = 'heater';
 				$hotWaterHeater = $this->ec->ww_info;
 				break;
+			case 'all':
+				$this->hotWater = 'heater';
+				$hotWaterHeater = 'all';
+				break;
 			case 'unbekannt':
 				$this->hotWater = 'unknown';
 				break;
