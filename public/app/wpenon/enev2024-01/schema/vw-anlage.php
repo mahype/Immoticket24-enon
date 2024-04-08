@@ -334,7 +334,7 @@ $anlage = array(
 				),
 				'h_custom_co2_info'                               => array(
 					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'       => __( 'Benutzerdefinierten CO2-Emissionsfaktor verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
 					'display'     => current_user_can( 'manage_options' ),
 				),
@@ -726,7 +726,7 @@ $anlage = array(
 				),
 				'h2_custom'              => array(
 					'type'                  => 'checkbox',
-					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'                 => __( 'Benutzerdefinierte Primärenergiefaktor verwenden?', 'wpenon' ),
 					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
@@ -744,9 +744,12 @@ $anlage = array(
 				),
 				'h2_custom_co2_info'                               => array(
 					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'       => __( 'Benutzerdefinierten CO2-Emissionsfaktor verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
-					'display'     => current_user_can( 'manage_options' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+						'callback_args' => array( 'field::h2_info', true ),
+					),
 				),
 				'h2_custom_co2'                             => array(
 					'type'     => 'float',
@@ -1113,7 +1116,7 @@ $anlage = array(
 				),
 				'h3_custom'              => array(
 					'type'                  => 'checkbox',
-					'label'                 => __( 'Benutzerdefinierte Primärenergie- und CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'                 => __( 'Benutzerdefinierten Primärenergiefaktor verwenden?', 'wpenon' ),
 					'description'           => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden.', 'wpenon' ),
 					'display'               => array(
 						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
@@ -1131,9 +1134,12 @@ $anlage = array(
 				),
 				'h3_custom_co2_info'                               => array(
 					'type'        => 'checkbox',
-					'label'       => __( 'Benutzerdefinierte CO2-Emissionsfaktoren verwenden?', 'wpenon' ),
+					'label'       => __( 'Benutzerdefinierten CO2-Emissionsfaktor verwenden?', 'wpenon' ),
 					'description' => __( 'In seltenen Fällen kann es vorkommen, dass andere Werte als die Standardparameter aus der Datenbank bescheinigt wurden. Dieses Feld ist nur für Administratoren sichtbar.', 'wpenon' ),
-					'display'     => current_user_can( 'manage_options' ),
+					'display'               => array(
+						'callback'      => 'wpenon_show_on_bool_compare_and_is_admin',
+						'callback_args' => array( 'field::h3_info', true ),
+					),
 				),
 				'h3_custom_co2'                             => array(
 					'type'     => 'float',
