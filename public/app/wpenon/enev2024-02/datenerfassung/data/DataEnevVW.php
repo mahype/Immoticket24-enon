@@ -101,7 +101,7 @@ class DataEnevVW extends DataEnev {
     {
         if ( $this->energieausweis->ww_info == 'ww' ) {
             return wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->ww_energietraeger, true );
-        } else if ( $this->energieausweis->ww_info == 'h' ) {
+        } else if ( $this->energieausweis->ww_info == 'h' ||  $this->energieausweis->ww_info == 'all' ) {
             if( ! wpenon_is_water_independend_heater( $this->energieausweis->h_erzeugung ) ) {
                 $energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $this->energieausweis->h_energietraeger, true );
             }
