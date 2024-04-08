@@ -318,6 +318,10 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			return null;
 		case 'ht_reference':
 			$calculations = $energieausweis->calculate();
+			if ( isset( $calculations['ht_b_reference'] ) ) {
+				return $calculations['ht_b_reference'];
+			}
+
 			if ( isset( $calculations['ht_ref_geb'] ) ) {
 				return $calculations['ht_ref_geb'];
 			}
@@ -331,7 +335,11 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			return null;
 		case 'primaerenergie_reference':
-			$calculations = $energieausweis->calculate();			
+			$calculations = $energieausweis->calculate();
+			if ( isset( $calculations['primaerenergie_reference'] ) ) {
+				return $calculations['primaerenergie_reference'];
+			}
+
 			if ( isset( $calculations['Qp_ref_geb'] ) ) {
 				return $calculations['Qp_ref_geb'];
 			}
