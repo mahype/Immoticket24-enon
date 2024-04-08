@@ -255,7 +255,7 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 
 	public function renderHeader() {
 		if ( ! $this->hide_common ) {
-			$firmenlogo = $this->wpenon_seller_meta['firmenlogo'];
+            $firmenlogo = get_template_directory() . '/assets/img/logos/energieausweis-logo.jpg';
 			if ( ! empty( $firmenlogo ) ) {
 				$this->Image( \WPENON\Util\ThumbnailHandler::urlToPath( $firmenlogo ), $this->wpenon_margin_h, $this->wpenon_margin_h, 80 );
 			} else {

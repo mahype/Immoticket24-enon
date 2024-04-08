@@ -228,7 +228,7 @@ Ihr Team von Immoticket24.de', $ec_title, $ec_url);
 		<p style=\"text-align: center; font-size: 12px;\">Geschäftsführer: Christian Esch, Karl-Werner Esch
 		Amtsgericht Koblenz, HRB 23918
 		USt-Identifikationsnummer: DE292996626</p>
-		<p style=\"text-align: center; font-size: 12px;\">Diese Email wurde automatisch von <a href=\"https://www.energieausweis-online-erstellen.de\">https://www.energieausweis-online-erstellen.de</a> versendet.</p>
+		<p style=\"text-align: center; font-size: 12px;\">Diese Email wurde automatisch von <a href=\"https://energieausweis.de\">energieausweis.de</a> versendet.</p>
 		";
 
 		$bill_path = $this->create_bill_file($payment_id);

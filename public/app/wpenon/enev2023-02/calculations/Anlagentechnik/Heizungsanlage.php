@@ -58,36 +58,52 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Qfhges.
-	 * 
+	 *
 	 * @return float
 	 */
 	protected float $Qfhges;
 
 	/**
 	 * Qfwges.
-	 * 
+	 *
 	 * @return float
 	 */
 	protected float $Qfwges;
 
 	/**
 	 * Qpges.
-	 * 
+	 *
 	 * @return float
 	 */
 	protected float $Qpges;
 
 	/**
+	 * Manuell gesetzter Primärenergiefaktor.
+	 *
+	 * @var float
+	 */
+	protected float|null $fp;
+
+	/**
+	 * Manuell gesetzter CO2 Emissionsfaktor.
+	 *
+	 * @var float
+	 */
+	protected float|null $fco2;
+
+	/**
 	 * Konstruktor.
 	 *
-	 * @param Gebaeude $gebaeude
-	 * @param string   $erzeuger                    Typ der Heizungsanlage.
-	 * @param string   $energietraeger              Energieträger der Heizungsanlage.
-	 * @param int      $baujahr                     Baujahr der Heizungsanlage.
-	 * @param bool     $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
-	 * @param int      $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
+	 * @param Gebaeude   $gebaeude
+	 * @param string     $erzeuger                    Typ der Heizungsanlage.
+	 * @param string     $energietraeger              Energieträger der Heizungsanlage.
+	 * @param int        $baujahr                     Baujahr der Heizungsanlage.
+	 * @param bool       $heizung_im_beheizten_bereich       Liegt die Heizungsanlage der Heizung im beheiztem Bereich.
+	 * @param int        $prozentualer_anteil    Prozentualer Anteil der Heizungsanlage im Heizsystem
+	 * @param float|null $fp                          Manuell gesetzter Primärenergiefaktor.
+	 * @param float|null $fco2                        Manuell gesetzter CO2 Emissionsfaktor.
 	 */
-	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100 ) {
+	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100, float|null $fp = null, float|null $fco2 = null ) {
 		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
 
 		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
@@ -106,6 +122,8 @@ abstract class Heizungsanlage {
 		$this->baujahr                      = $baujahr;
 		$this->heizung_im_beheizten_bereich = $heizung_im_beheizten_bereich;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
+		$this->fp                           = $fp;
+		$this->fco2                         = $fco2;
 	}
 
 	/**
@@ -203,7 +221,7 @@ abstract class Heizungsanlage {
 	/**
 	 * Nutzbare Wärme.
 	 *
-	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.                                       
+	 * @param string $auslegungstemperaturen Auslegungstemperaturen der Heizungsanlage. Mögliche Werte: ' 90/70', '70/55', '55/45' oder '35/28'.
 	 *
 	 * @return float Anteils nutzbarer Wärme von Heizungsanlagen (fa-h) aus Tabelle 141 / Teil 12, anteilig für die Heizungsanlage.
 	 */
@@ -239,14 +257,14 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Primärenergiefaktor für einen bestimmten Energieträger.
-	 * 
+	 *
 	 * Werte aus Tabelle A.1 Teil 1.
-	 * 
-	 * @param string $energietraeger 
-	 * @return float|void 
+	 *
+	 * @param string $energietraeger
+	 * @return float|void
 	 */
 	protected function fp_energietraeger( string $energietraeger ) {
-		switch( $energietraeger ) {
+		switch ( $energietraeger ) {
 			case 'biogas':
 			case 'biooel':
 				return 0.4;
@@ -272,23 +290,27 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Primärenergiefaktor des Energieträgers.
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function fp(): float {
+		if ( isset( $this->fp ) ) {
+			return $this->fp;
+		}
+
 		return $this->fp_energietraeger( $this->energietraeger() );
 	}
 
 	/**
 	 * Energieträgerabhängige Umrechnungsfaktor für einen bestimmt Energieträger.
-	 * 
+	 *
 	 * Werte aus Tabelle B.1 Teil 1.
-	 * 
-	 * @param string $energietraeger 
-	 * @return float|void 
+	 *
+	 * @param string $energietraeger
+	 * @return float|void
 	 */
 	protected function fhshi_energietraeger( string $energietraeger ): float {
-		switch( $energietraeger ) {
+		switch ( $energietraeger ) {
 			case 'biooel':
 			case 'heizoel':
 				return 1.06;
@@ -305,21 +327,21 @@ abstract class Heizungsanlage {
 			case 'holzhackschnitzel':
 			case 'stueckholz':
 				return 1.08;
-			case 'heizoel':			
+			case 'heizoel':
 			case 'fernwaermekwkfossil':
-			case 'fernwaermehzwfossil':				
+			case 'fernwaermehzwfossil':
 			case 'strom':
 				return 1.0;
 		}
 	}
 
 	/**
-	 * CO2 Emissionen des Energieträgers Aus der
-	 * 
-	 * @return float 
+	 * CO2 Emissionen des Energieträgers.
+	 *
+	 * @return float
 	 */
-	protected function co2_energietraeger(): float {
-		switch( $this->energietraeger() ) {
+	protected function co2_energietraeger( string $energietraeger ): float {
+		switch ( $energietraeger ) {
 			case 'biooel':
 				return 210;
 			case 'heizoel':
@@ -337,31 +359,44 @@ abstract class Heizungsanlage {
 			case 'holzpellets':
 			case 'holzhackschnitzel':
 			case 'stueckholz':
-				return 20;		
+				return 20;
 			case 'fernwaermekwkfossil':
 				return 300;
-			case 'fernwaermehzwfossil':		
+			case 'fernwaermehzwfossil':
 				return 400;
 			case 'strom':
 				return 560;
 		}
 	}
-	
+
+	/**
+	 * CO2 emmissionsfaktor des Energieträgers.
+	 *
+	 * @return float
+	 */
+	public function fco2(): float {
+		if ( isset( $this->fco2 ) ) {
+			return $this->fco2;
+		}
+
+		return $this->co2_energietraeger( $this->energietraeger() );
+	}
+
 	/**
 	 * Berechnung der CO2-Emissionen in kg.
-	 * 
-	 * @return float 
-	 * 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 *
+	 * @throws Calculation_Exception
 	 */
 	public function MCO2(): float {
-		return  $this->Qfges() * $this->fhshi() * $this->co2_energietraeger() / 1000; // in kg
+		return $this->Qfges() * $this->fhshi() * $this->fco2() / 1000; // in kg
 	}
 
 	/**
 	 * Energieträgerabhängige Umrechnungsfaktor (Umrechnungsfaktor Heizwert Brennwert).
-	 * 
-	 * @return float 
+	 *
+	 * @return float
 	 */
 	public function fhshi(): float {
 		return $this->fhshi_energietraeger( $this->energietraeger() );
@@ -375,13 +410,13 @@ abstract class Heizungsanlage {
 	abstract public function Wwg(): float;
 
 	public function Qfhges(): float {
-		if( isset( $this->Qfhges ) ) {
+		if ( isset( $this->Qfhges ) ) {
 			return $this->Qfhges;
 		}
 
 		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)
 		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg() * $this->prozentualer_faktor();
-		
+
 		return $this->Qfhges;
 	}
 
@@ -391,12 +426,12 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Primärenergiewert.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function Qfwges(): float {
-		if( isset( $this->Qfwges ) ) {
+		if ( isset( $this->Qfwges ) ) {
 			return $this->Qfwges;
 		}
 
@@ -410,17 +445,17 @@ abstract class Heizungsanlage {
 
 	/**
 	 * Primärenergiewert Brennwertbezogen.
-	 * 
-	 * @return float 
-	 * @throws Calculation_Exception 
+	 *
+	 * @return float
+	 * @throws Calculation_Exception
 	 */
 	public function Qpges(): float {
-		if( isset( $this->Qpges ) ) {
+		if ( isset( $this->Qpges ) ) {
 			return $this->Qpges;
 		}
 
 		// Trinkwarmwasseranlage zentral
-		if( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
 			// $Qpges1=($Qfhges1+$Qfwges1)*($fp1/$fhshi1)
 			$this->Qpges = ( $this->Qfhges() + $this->Qfwges() ) * ( $this->fp() / $this->fhshi() );
 			return $this->Qpges;

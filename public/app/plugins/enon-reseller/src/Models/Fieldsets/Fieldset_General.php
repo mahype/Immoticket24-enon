@@ -84,7 +84,7 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Preis Bedarfsausweis', 'enon' ),
 				'name'         => 'price_bw',
 				'type'         => 'number',
-				'instructions' => __( 'Individuer Preis des Bedarfsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis-online-erstellen.de.', 'enon' ),
+				'instructions' => __( 'Individuer Preis des Bedarfsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
 				'required'     => 0,
 			),
 			array(
@@ -92,7 +92,7 @@ class Fieldset_General implements Fieldset {
 				'label'        => __( 'Preis Verbrauchsausweis', 'enon' ),
 				'name'         => 'price_vw',
 				'type'         => 'number',
-				'instructions' => __( 'Individuer Preis des Verbrauchsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis-online-erstellen.de.', 'enon' ),
+				'instructions' => __( 'Individuer Preis des Verbrauchsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
 				'required'     => 0,
 			),
 			array(

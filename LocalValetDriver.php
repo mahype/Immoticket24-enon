@@ -1,8 +1,10 @@
 <?php
 
+use Valet\Drivers\LaravelValetDriver;
+
 class LocalValetDriver extends LaravelValetDriver
 {
-    const REMOTE_HOST = 'https://www.energieausweis-online-erstellen.de/';
+    const REMOTE_HOST = 'https://energieausweis.de/';
     const URI_PREFIX = '/app/uploads/';
     private static $tryRemoteFallback = false;
 
@@ -14,7 +16,7 @@ class LocalValetDriver extends LaravelValetDriver
      * @param  string  $uri
      * @return bool
      */
-    public function serves($sitePath, $siteName, $uri)
+    public function serves(string $sitePath, string $siteName, string $uri): bool
     {
         return true;
     }
@@ -52,7 +54,7 @@ class LocalValetDriver extends LaravelValetDriver
 	 * @param string $siteName
 	 * @param string $uri
 	 */
-	public function serveStaticFile( $staticFilePath, $sitePath, $siteName, $uri ) {
+	public function serveStaticFile( string $staticFilePath, string $sitePath, string $siteName, string $uri): void {
 		if ( self::$tryRemoteFallback ) {
 			header( "Location: $staticFilePath" );
 		} else {
@@ -68,7 +70,7 @@ class LocalValetDriver extends LaravelValetDriver
      * @param  string  $uri
      * @return string
      */
-    public function frontControllerPath($sitePath, $siteName, $uri)
+    public function frontControllerPath(string $sitePath, string $siteName, string $uri): ?string
     {
         if (strpos($uri, '/core') !== false) {
             return is_dir( $sitePath.'/public/'.$uri )

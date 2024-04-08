@@ -114,8 +114,28 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 			}
 			switch($energieausweis->ww_info) {
 				case 'ww':
-					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->ww_energietraeger, $has_unit );
+					$energietraeger_feld_name = 'ww_energietraeger_' . $energieausweis->ww_erzeugung;
+					$ww_energietraeger = $energieausweis->$energietraeger_feld_name;
+					return wpenon_immoticket24_get_energietraeger_name_2021( $ww_energietraeger, $has_unit );
+				case 'all':
+					if( ! wpenon_is_water_independend_heater( $energieausweis->h_erzeugung ) ) {
+						$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, true );
+					}
+
+					if ( $energieausweis->h2_info ) {
+						if( ! wpenon_is_water_independend_heater( $energieausweis->h2_erzeugung ) ) {
+							$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, true );
+						}
+						if ( $energieausweis->h3_info ) {
+							if( ! wpenon_is_water_independend_heater( $energieausweis->h3_erzeugung ) ) {
+								$energietraeger[] = wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h3_energietraeger, true );
+							}
+						}
+					}
+
+					return implode( ', ', array_unique( $energietraeger ) );
 				case 'h':
+				case 'h1':
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h_energietraeger, $has_unit );
 				case 'h2':
 					return wpenon_immoticket24_get_energietraeger_name_2021( $energieausweis->h2_energietraeger, $has_unit );
@@ -192,7 +212,7 @@ function wpenon_get_enev_pdf_data( $context, $index = 0, $energieausweis = null,
 
 			$baujahr_limit = new DateTime( '2008-10' );			
 
-			if ( $k_baujahr < $baujahr_limit ) {
+			if ( $k_baujahr < $baujahr_limit && empty( $energieausweis->k_inspektion ) ) {
 				return '12/2022';
 			}
 
