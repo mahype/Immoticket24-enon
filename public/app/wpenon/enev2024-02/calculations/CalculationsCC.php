@@ -275,6 +275,10 @@ class CalculationsCC {
 				$this->hotWater = 'heater';
 				$hotWaterHeater = $this->ec->ww_info;
 				break;
+			case 'all':
+				$this->hotWater = 'heater';
+				$hotWaterHeater = 'all';
+				break;
 			case 'unbekannt':
 				$this->hotWater = 'unknown';
 				break;
@@ -344,13 +348,17 @@ class CalculationsCC {
 				break;
 		}
 
-		$heaterIdVarname       = $heaterPrefix . '_erzeugung';
-		$energySourceIdVarname = $heaterPrefix . '_energietraeger_' . $this->ec->$heaterIdVarname;
+		$heaterIdVarname       = $heaterPrefix . '_erzeugung'; // Beispiel: "h_erzeugung"
+		$energySourceIdVarname = $heaterPrefix . '_energietraeger_' . $this->ec->$heaterIdVarname; // Beispiel:  "h2_energietraeger_standardkessel" - Kann beispielsweise Wert "fluessiggas_m3" enthalten
 
 		$heaterId                 = $this->ec->$heaterIdVarname;
 		$energySourceId           = $this->ec->$energySourceIdVarname;
+
 		$h_custom_Varname         = $heaterPrefix . '_custom';
 		$h_custom_primaer_Varname = $heaterPrefix . '_custom_primaer';
+
+		$h_custom_co2_info_Varname = $heaterPrefix . '_custom_co2_info';
+		$h_custom_co2_Varname = $heaterPrefix . '_custom_co2';		
 
 		$maxPeriods         = 3;
 		$consumptionPeriods = array();
@@ -373,6 +381,10 @@ class CalculationsCC {
 
 		if ( $this->ec->$h_custom_Varname ) {
 			$energySource['primaryEnergyFactor'] = $this->ec->$h_custom_primaer_Varname;
+		}
+
+		if ( $this->ec->$h_custom_co2_info_Varname ) {
+			$energySource['co2EmissionFactor'] = $this->ec->$h_custom_co2_Varname;
 		}
 
 		$heater = array(
