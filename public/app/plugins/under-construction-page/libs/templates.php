@@ -111,6 +111,9 @@ class UCP_templates extends UCP {
       set_current_screen();
 
     get_admin_page_title();
+    if(empty($title)) {
+        $title = '';
+    }
     $title = esc_html( strip_tags( $title ) );
 
     wp_user_settings();
@@ -165,7 +168,7 @@ class UCP_templates extends UCP {
 
   static function admin_menu() {
     add_submenu_page(
-        null,
+        '',
         'UnderConstruction Styler',
         'UnderConstruction Styler',
         'edit_pages',
@@ -903,7 +906,7 @@ class UCP_templates extends UCP {
           imagefill($img, 0, 0, $color);
           imagesavealpha($img, true);
           imagealphablending( $img, true );
-          imagecopyresampled($img, $thumb_img, 0, 0, $x, 0, $width, $height, $width_orig, $height_orig);
+          imagecopyresampled($img, $thumb_img, 0, 0, (int)$x, 0, (int)$width, (int)$height, (int)$width_orig, (int)$height_orig);
           imagepng($img,$file);
           imagedestroy($img);
         }
