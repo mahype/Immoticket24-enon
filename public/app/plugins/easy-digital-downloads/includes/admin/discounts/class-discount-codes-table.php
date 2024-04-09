@@ -350,6 +350,7 @@ class EDD_Discount_Codes_Table extends WP_List_Table {
 
 			$args['orderby']  = 'meta_value';
 			$args['meta_key'] = '_edd_discount_' . $orderby;
+            $args['meta_type'] = 'NUMERIC'; 
 		}
 
 		$discounts = edd_get_discounts( $args );
