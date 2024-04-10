@@ -49,15 +49,7 @@ class DashboardWidget {
 	 *
 	 * @since 2.7.0
 	 */
-	public function __construct() {
-
-		// Prevent the class initialization, if the dashboard widget hidden setting is enabled.
-		if ( Options::init()->get( 'general', 'dashboard_widget_hidden' ) ) {
-			return;
-		}
-
-		add_action( 'admin_init', [ $this, 'init' ] );
-	}
+	public function __construct() {}
 
 	/**
 	 * Init class.
@@ -66,24 +58,34 @@ class DashboardWidget {
 	 */
 	public function init() {
 
-		// This widget should be displayed for certain high-level users only.
-		if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_options() ) ) {
+		// Prevent the class initialization, if the dashboard widget hidden setting is enabled.
+		if ( Options::init()->get( 'general', 'dashboard_widget_hidden' ) ) {
 			return;
 		}
 
-		/**
-		 * Filters whether the initialization of the dashboard widget should be allowed.
-		 *
-		 * @since 2.7.0
-		 *
-		 * @param bool $var If the dashboard widget should be initialized.
-		 */
-		if ( ! apply_filters( 'wp_mail_smtp_admin_dashboard_widget', '__return_true' ) ) {
-			return;
-		}
+		add_action(
+			'admin_init',
+			function() {
+				// This widget should be displayed for certain high-level users only.
+				if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_options() ) ) {
+					return;
+				}
 
-		$this->settings();
-		$this->hooks();
+				/**
+				 * Filters whether the initialization of the dashboard widget should be allowed.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param bool $var If the dashboard widget should be initialized.
+				 */
+				if ( ! apply_filters( 'wp_mail_smtp_admin_dashboard_widget', '__return_true' ) ) { // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+					return;
+				}
+
+				$this->settings();
+				$this->hooks();
+			}
+		);
 	}
 
 	/**
