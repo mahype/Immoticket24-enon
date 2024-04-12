@@ -498,6 +498,21 @@ function wpenon_immoticket24_get_ww_info_vw( $h2_info = false, $h3_info = false,
 	if ( ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) && ! $hide_pauschal ) {
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
+
+	if( current_user_can('manage_options') ) {		
+	    $info['h1'] = __( 'pauschal in 1. Heizungsanlage enthalten', 'wpenon' );
+		
+		if( $h2_info !== false ) {
+	    	$info['h2'] = __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' );
+		}
+
+		if( $h3_info !== false ) {
+	    	$info['h3'] = __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' );
+		}
+		
+		$info['all'] = __( 'pauschal in allen Heizungsanlagen enthalten', 'wpenon' );
+	}
+
 	$info['ww'] = __( 'separat angegeben', 'wpenon' );
 
 	if ( $show_unbekannt ) {
@@ -676,6 +691,7 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 	$energietraeger_standardkessel,
 	$energietraeger_niedertemperaturkessel,
 	$energietraeger_brennwertkessel,
+	$energietraeger_brennwertkesselverbessert,
 	$energietraeger_kleinthermeniedertemperatur,
 	$energietraeger_kleinthermebrennwert,
 	$energietraeger_fernwaerme,
@@ -702,6 +718,9 @@ function wpenon_immoticket24_get_energietraeger_by_erzeugung(
 			break;
 		case 'brennwertkessel':
 			$energietraeger = $energietraeger_brennwertkessel;
+			break;
+		case 'brennwertkesselverbessert':
+			$energietraeger = $energietraeger_brennwertkesselverbessert;
 			break;
 		case 'kleinthermeniedertemperatur':
 			$energietraeger = $energietraeger_kleinthermeniedertemperatur;
