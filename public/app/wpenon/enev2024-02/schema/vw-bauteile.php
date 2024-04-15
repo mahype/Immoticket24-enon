@@ -112,13 +112,10 @@ $bauteile = array(
 				'fenster_baujahr' => array(
 					'type'                  => 'text',
 					'label'                 => __( 'Baujahr der Fenster', 'wpenon' ),
+					'placeholder' 			=> 'Bitte wählen...',					
 					'required'              => true,
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
-					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::fenster_baujahr' ),
-					),
+					'validate_dependencies' => array( 'baujahr' ),					
 				),
 			),
 		),
