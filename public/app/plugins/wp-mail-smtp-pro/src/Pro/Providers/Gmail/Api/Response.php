@@ -3,6 +3,7 @@
 namespace WPMailSMTP\Pro\Providers\Gmail\Api;
 
 use WP_Error;
+use WPMailSMTP\WP;
 
 /**
  * API Response class.
@@ -85,7 +86,7 @@ class Response {
 			return new WP_Error( $this->get_status_code(), $body['message'] );
 		}
 
-		return new WP_Error( $this->get_status_code(), esc_html__( 'The API was unreachable.', 'wp-mail-smtp-pro' ) );
+		return new WP_Error( $this->get_status_code(), WP::wp_remote_get_response_error_message( $this->response ) );
 	}
 
 	/**
