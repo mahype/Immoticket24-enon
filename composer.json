@@ -60,7 +60,7 @@
     "wpackagist-plugin/user-switching": "1.7.3",
     "wpackagist-plugin/wordpress-seo": "22.4",
     "wpackagist-plugin/wordfence": "7.11.5",
-    "wpackagist-theme/twentytwentythree": "1.3"
+    "wpackagist-theme/twentytwentythree": "1.4"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
