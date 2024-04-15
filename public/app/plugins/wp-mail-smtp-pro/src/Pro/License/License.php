@@ -73,9 +73,25 @@ class License {
 	 *
 	 * @since 1.5.0
 	 */
-	public function __construct() {
+	public function __construct() {}
+
+	/**
+	 * Class initialization.
+	 *
+	 * @since 4.0.0
+	 */
+	public function init() {
 
 		$this->register_updater();
+		$this->hooks();
+	}
+
+	/**
+	 * Register hooks.
+	 *
+	 * @since 4.0.0
+	 */
+	protected function hooks() {
 
 		// Register licensing ajax action (with custom tasks).
 		add_action( 'wp_ajax_wp_mail_smtp_pro_license_ajax', array( $this, 'process_ajax' ) );
@@ -111,8 +127,8 @@ class License {
 	 */
 	protected function register_updater() {
 
-		// Only in admin area.
-		if ( ! is_admin() ) {
+		// Only in admin area or WP CLI.
+		if ( ! is_admin() && ! Helpers::is_wp_cli() ) {
 			return;
 		}
 

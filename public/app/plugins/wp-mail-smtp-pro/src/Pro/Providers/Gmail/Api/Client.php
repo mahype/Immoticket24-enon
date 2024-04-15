@@ -253,6 +253,17 @@ class Client {
 			]
 		);
 
+		$content_type = 'application/x-www-form-urlencoded';
+
+		// The `application/json` content type is more preferable,
+		// but use it only if the body was successfully encoded.
+		$body_json = wp_json_encode( $body );
+
+		if ( $body_json !== false ) {
+			$content_type = 'application/json';
+			$body         = $body_json;
+		}
+
 		/**
 		 * Allow modifying request arguments.
 		 *
@@ -264,7 +275,8 @@ class Client {
 			'wp_mail_smtp_pro_providers_gmail_api_client_request_send_args',
 			[
 				'headers'    => [
-					'Content-Type'  => 'application/x-www-form-urlencoded',
+					'Content-Type'  => $content_type,
+					'Accept'        => 'application/json',
 					'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0',
 					'Pragma'        => 'no-cache',
 					'Expires'       => 0,
