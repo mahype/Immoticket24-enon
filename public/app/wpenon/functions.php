@@ -1380,12 +1380,16 @@ function wpenon_validate_buildingyear( $value, $field ) {
 }
 
 function wpenon_immoticket24_validate_year_greater_than( $value, $field ) {
-	$value = \WPENON\Util\Validate::int( $value, $field );
+	$value = is_numeric( $value ) ? \WPENON\Util\Validate::int( $value, $field ) : $value;
+
 	if ( isset( $value['error'] ) || isset( $value['warning'] ) ) {
 		return $value;
 	}
 
-	$value = $value['value'];
+	if( is_array( $value ) && array_key_exists('value', $value) ) {
+		$value = $value['value'];
+	}
+	
 	$error = '';
 	
 	if ( isset( $field['validate_dependencies'][0] ) && $field['validate_dependencies'][0] ) {
