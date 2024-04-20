@@ -2152,6 +2152,11 @@ $jahr = new Jahr();
 		<p><?php printf(__('CO2 Emissionen in Kg: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->MCO2())); ?></p>
 		<p><?php printf(__('CO2 Emissionen in Kg/m2: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->MCO2a())); ?></p>
 
+		<h4>Vergleichswerte</h4>
+
+		<p><?php printf(__('Qp (Primärenergie): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->Qp())); ?></p>
+		<p><?php printf(__('Ht\': %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->ht_strich())); ?></p>
+
 	</div>
 
 <?php endif; ?>
