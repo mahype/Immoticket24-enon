@@ -2154,8 +2154,8 @@ $jahr = new Jahr();
 
 		<h4>Vergleichswerte</h4>
 
-		<p><?php printf(__('Qp (Primärenergie): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->Qp())); ?></p>
-		<p><?php printf(__('Ht\': %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->ht_strich())); ?></p>
+		<p><?php printf(__('Qp (Primärenergie): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->Qp_ref_geb())); ?></p>
+		<p><?php printf(__('Ht\': %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->ht_ref_geb())); ?></p>
 
 	</div>
 
