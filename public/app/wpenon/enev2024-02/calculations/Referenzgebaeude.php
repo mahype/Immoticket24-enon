@@ -611,11 +611,9 @@ class Referenzgebaeude
 	}
 
 	/**
-	 * Transmissionswärmeverluste.
-	 * 
-	 * @return float 
+	 * Wärmeverluste pro qm (W/qm*K) nach Vorgaben des GEG Teil §50 Absatz 2
 	 */
-	public function ht_ref_geb(): float
+	public function ht_ref_qm(): float
 	{
 		$watt = 0;
 
@@ -631,7 +629,26 @@ class Referenzgebaeude
 			$watt = 0.65;
 		}
 
-		return 1.4 * $watt;
+		return $watt;
+	}
+
+
+	/**
+	 * Transmissionswärmeverluste Referenzwert (W/qm*K).
+	 * 
+	 * @return float 
+	 */
+	public function ht_ref_max(): float
+	{
+		return 1.4 * $this->ht_ref_qm();
+	}
+
+	/**
+	 * Wärmeverluste (W/K) auf Gebäudehülle.
+	 */
+	public function ht_ref_geb(): float
+	{
+		return $this->gebaeude->huellflaeche() * $this->ht_ref_qm();
 	}
 
 	/**
