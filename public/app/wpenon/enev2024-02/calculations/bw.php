@@ -523,6 +523,7 @@ $gebaeude->lueftung(
 		bedarfsgefuehrt: $bedarfsgefuehrt,
 		gebaeudedichtheit: $gebaeudedichtheit,
 		wirkungsgrad: $wirkungsgrad,
+		baujahr: $energieausweis->baujahr
 	)
 );
 
