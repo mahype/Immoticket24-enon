@@ -15,7 +15,8 @@ require_once __DIR__ . '/Pufferspeicher.php';
 /**
  * Berechnung des Heizsystems.
  */
-class Heizsystem {
+class Heizsystem
+{
 
 	/**
 	 * Standort des Heizsystems ("innerhalb" oder "ausserhalb" thermischer Hülle).
@@ -55,14 +56,15 @@ class Heizsystem {
 	/**
 	 * Konstruktor.
 	 */
-	public function __construct( Gebaeude $gebaeude, string $standort ) {
-		if ( $standort !== 'innerhalb' && $standort !== 'ausserhalb' ) {
-			throw new Calculation_Exception( 'Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.' );
+	public function __construct(Gebaeude $gebaeude, string $standort)
+	{
+		if ($standort !== 'innerhalb' && $standort !== 'ausserhalb') {
+			throw new Calculation_Exception('Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.');
 		}
 
 		$this->gebaeude         = $gebaeude;
 		$this->standort         = $standort;
-		$this->heizungsanlagen  = new Heizungsanlagen( $gebaeude );
+		$this->heizungsanlagen  = new Heizungsanlagen($gebaeude);
 		$this->uebergabesysteme = new Uebergabesysteme();
 	}
 
@@ -71,7 +73,8 @@ class Heizsystem {
 	 *
 	 * @return bool
 	 */
-	public function beheizt(): bool {
+	public function beheizt(): bool
+	{
 		return $this->standort === 'innerhalb';
 	}
 
@@ -80,7 +83,8 @@ class Heizsystem {
 	 *
 	 * @return Heizungsanlagen
 	 */
-	public function heizungsanlagen(): Heizungsanlagen {
+	public function heizungsanlagen(): Heizungsanlagen
+	{
 		return $this->heizungsanlagen;
 	}
 
@@ -89,7 +93,8 @@ class Heizsystem {
 	 *
 	 * @return Uebergabesysteme
 	 */
-	public function uebergabesysteme(): Uebergabesysteme {
+	public function uebergabesysteme(): Uebergabesysteme
+	{
 		return $this->uebergabesysteme;
 	}
 
@@ -98,8 +103,9 @@ class Heizsystem {
 	 * 
 	 * @return bool 
 	 */
-	public function uebergabesystem_vorhanden(): bool {
-		return count( $this->uebergabesysteme()->alle() ) > 0;
+	public function uebergabesystem_vorhanden(): bool
+	{
+		return count($this->uebergabesysteme()->alle()) > 0;
 	}
 
 	/**
@@ -109,10 +115,11 @@ class Heizsystem {
 	 *
 	 * @return Pufferspeicher|void
 	 */
-	public function pufferspeicher(): Pufferspeicher|null {
+	public function pufferspeicher(): Pufferspeicher|null
+	{
 		// Pufferspeicher wird nur bei Wärmepumpe oder Biomassekessel benötigt.
-		if ( ( $this->heizungsanlagen()->waermepumpe_vorhanden() || $this->heizungsanlagen()->biomassekessel_vorhanden() ) && $this->pufferspeicher === null ) {
-			$this->pufferspeicher = new Pufferspeicher( $this->gebaeude );
+		if (($this->heizungsanlagen()->waermepumpe_vorhanden() || $this->heizungsanlagen()->biomassekessel_vorhanden()) && $this->pufferspeicher === null) {
+			$this->pufferspeicher = new Pufferspeicher($this->gebaeude);
 		}
 
 		return $this->pufferspeicher;
@@ -123,7 +130,8 @@ class Heizsystem {
 	 *
 	 * @return bool
 	 */
-	public function pufferspeicher_vorhanden(): bool {
+	public function pufferspeicher_vorhanden(): bool
+	{
 		return $this->pufferspeicher() !== null;
 	}
 
@@ -138,12 +146,13 @@ class Heizsystem {
 	 *
 	 * @return float
 	 */
-	public function ehd(): float {
-		if ( $this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+	public function ehd(): float
+	{
+		if ($this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen') {
 			return 1;
 		}
 
-		return 1 + ( $this->ehd1() - 1 ) * ( 50 / $this->qhce() );
+		return 1 + ($this->ehd1() - 1) * (50 / $this->qhce());
 	}
 
 	/**
@@ -151,11 +160,12 @@ class Heizsystem {
 	 *
 	 * @return float
 	 */
-	public function ehd0(): float {
+	public function ehd0(): float
+	{
 		$uebergabesystem = $this->uebergabesysteme()->erstes();
 
-		if ( $this->gebaeude->ist_einfamilienhaus() ) {
-			switch ( $uebergabesystem->auslegungstemperaturen() ) {
+		if ($this->gebaeude->ist_einfamilienhaus()) {
+			switch ($uebergabesystem->auslegungstemperaturen()) {
 				case '90/70':
 					return $this->standort === 'innerhalb' ? 1.099 : 1.1;
 				case '70/55':
@@ -169,7 +179,7 @@ class Heizsystem {
 			}
 		}
 
-		switch ( $uebergabesystem->auslegungstemperaturen() ) {
+		switch ($uebergabesystem->auslegungstemperaturen()) {
 			case '90/70':
 				return $this->standort === 'innerhalb' ? 1.085 : 1.085;
 			case '70/55':
@@ -189,13 +199,14 @@ class Heizsystem {
 	 * @param Heizungsanlage $heizungsanlage
 	 * @return float
 	 */
-	public function ehd_korrektur(): float {
-		if ( $this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+	public function ehd_korrektur(): float
+	{
+		if ($this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen') {
 			return 1;
 		}
 
 		// 1 + (ehd-1)*(8760/$calculations['ith,rl'] )
-		return 1 + ( $this->ehd() - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
+		return 1 + ($this->ehd() - 1) * (8760 / $this->gebaeude->ith_rl());
 	}
 
 	/**
@@ -205,8 +216,9 @@ class Heizsystem {
 	 * @param int            $anzahl_wohnungen
 	 * @return float
 	 * @throws Calculation_Exception
-	 */ 
-	public function ehd1(): float {
+	 */
+	public function ehd1(): float
+	{
 		return $this->ehd0() * $this->fßd();
 	}
 
@@ -215,8 +227,9 @@ class Heizsystem {
 	 *
 	 * @return float
 	 */
-	public function ßhd(): float {
-		if ( $this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+	public function ßhd(): float
+	{
+		if ($this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen') {
 			return 0;
 		}
 
@@ -235,12 +248,13 @@ class Heizsystem {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function fßd(): float {
-		if ( $this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen' ) {
+	public function fßd(): float
+	{
+		if ($this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen') {
 			return 1;
 		}
 
-		return ( new Mittlere_Belastung_Korrekturfaktor( $this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $this->ßhd() ) )->fßd();
+		return (new Mittlere_Belastung_Korrekturfaktor($this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $this->ßhd()))->fßd();
 	}
 
 	/**
@@ -250,9 +264,10 @@ class Heizsystem {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	public function ßhce(): float {
+	public function ßhce(): float
+	{
 		// $ßhce=($calculations['qh']/($calculations['thm']*$Φh,max))*1000;
-		return ( $this->gebaeude->qh() / ( $this->gebaeude->thm() * $this->gebaeude->lueftung()->h_max() ) ) * 1000;
+		return ($this->gebaeude->qh() / ($this->gebaeude->thm() * $this->gebaeude->lueftung()->h_max())) * 1000;
 	}
 
 	/**
@@ -260,20 +275,22 @@ class Heizsystem {
 	 *
 	 * @return float
 	 */
-	public function qhce(): float {
+	public function qhce(): float
+	{
 		return $this->uebergabesysteme()->erstes()->qhce();
 	}
 
 	/**
-	 * Berechnung von fa h.
+	 * Bestimmung des Anteils nutzbarer Wärme der Heizungsanlage.
 	 *
 	 * @return float
 	 */
-	public function fa_h(): float {
+	public function fa_h(): float
+	{
 		$fa_h = 0;
 
-		if ( count( $this->heizungsanlagen()->alle() ) === 0 ) {
-			throw new Calculation_Exception( 'Keine Heizungsanlagen vorhanden' );
+		if (count($this->heizungsanlagen()->alle()) === 0) {
+			throw new Calculation_Exception('Keine Heizungsanlagen vorhanden');
 		}
 
 		/**
@@ -281,13 +298,13 @@ class Heizsystem {
 		 * und den fa-h Wert anhand der Auslegungstemperaturen des Übergabesystems ermitteln. Die Werte werden
 		 * anteilig der einzelnen Heizungsanlagen und Übergabesysteme gewichtet.
 		 */
-		foreach ( $this->heizungsanlagen()->alle() as $heizungsanlage ) {
-			if ( count( $this->uebergabesysteme()->alle() ) === 0 ) {
-				throw new Calculation_Exception( 'Keine Übergabesysteme vorhanden' );
+		foreach ($this->heizungsanlagen()->alle() as $heizungsanlage) {
+			if (count($this->uebergabesysteme()->alle()) === 0) {
+				throw new Calculation_Exception('Keine Übergabesysteme vorhanden');
 			}
 
-			foreach ( $this->uebergabesysteme()->alle() as $uebergabesystem ) {
-				$fa_h += $heizungsanlage->fa_h( $uebergabesystem->auslegungstemperaturen() ) * $heizungsanlage->prozentualer_faktor() * $uebergabesystem->prozentualer_faktor();
+			foreach ($this->uebergabesysteme()->alle() as $uebergabesystem) {
+				$fa_h += $heizungsanlage->fa_h($uebergabesystem->auslegungstemperaturen()) * $heizungsanlage->prozentualer_faktor() * $uebergabesystem->prozentualer_faktor();
 			}
 		}
 
@@ -299,13 +316,14 @@ class Heizsystem {
 	 *
 	 * @return Heizungsanlage
 	 */
-	public function heizungasanlage_mit_groesstem_anteil(): Heizungsanlage {
+	public function heizungasanlage_mit_groesstem_anteil(): Heizungsanlage
+	{
 		// Finde Heizugnsanlage mit groesstem Anteil
-		foreach ( $this->heizungsanlagen()->alle() as $heizungsanlage ) {
-			if ( ! isset( $max ) ) {
+		foreach ($this->heizungsanlagen()->alle() as $heizungsanlage) {
+			if (!isset($max)) {
 				$max = $heizungsanlage;
-			} elseif ( $heizungsanlage->prozentualer_faktor() > $max->prozentualer_faktor() ) {
-					$max = $heizungsanlage;
+			} elseif ($heizungsanlage->prozentualer_faktor() > $max->prozentualer_faktor()) {
+				$max = $heizungsanlage;
 			}
 		}
 
@@ -318,12 +336,13 @@ class Heizsystem {
 	 * 
 	 * @return Heizungsanlage 
 	 */
-	public function aelteste_heizungsanlage(): Heizungsanlage {
+	public function aelteste_heizungsanlage(): Heizungsanlage
+	{
 		// Finde Heizugnsanlage mit groesstem Anteil
-		foreach ( $this->heizungsanlagen()->alle() as $heizungsanlage ) {
-			if ( ! isset( $aelteste ) ) {
+		foreach ($this->heizungsanlagen()->alle() as $heizungsanlage) {
+			if (!isset($aelteste)) {
 				$aelteste_heizungsanlage = $heizungsanlage;
-			} elseif ( $heizungsanlage->baujahr() < $aelteste->baujahr() ) {
+			} elseif ($heizungsanlage->baujahr() < $aelteste->baujahr()) {
 				$aelteste_heizungsanlage = $heizungsanlage;
 			}
 		}
@@ -336,20 +355,21 @@ class Heizsystem {
 	 *
 	 * @return float
 	 */
-	public function pwn(): float {
+	public function pwn(): float
+	{
 		$pwn = 0;
 
-		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+		if ($this->gebaeude->trinkwarmwasseranlage()->zentral()) {
 			$nutzwaermebedarf_trinkwasser = $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser();
 
-			if ( $this->gebaeude->nutzflaeche() > 5000 ) {
-				$pwn = 0.042 * ( ( $nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche() ) / ( 365 * 0.036 ) ) ** 0.7;
+			if ($this->gebaeude->nutzflaeche() > 5000) {
+				$pwn = 0.042 * (($nutzwaermebedarf_trinkwasser * $this->gebaeude->nutzflaeche()) / (365 * 0.036)) ** 0.7;
 			} else {
-				$pwn = ( new Kessel_Nennleistung( $this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser ) )->nennleistung() * 1000; // Umrechnung in Watt
+				$pwn = (new Kessel_Nennleistung($this->gebaeude->nutzflaeche(), $nutzwaermebedarf_trinkwasser))->nennleistung() * 1000; // Umrechnung in Watt
 			}
 		}
 
-		if ( $this->gebaeude->lueftung()->h_max() > $pwn ) {
+		if ($this->gebaeude->lueftung()->h_max() > $pwn) {
 			return $this->gebaeude->lueftung()->h_max();
 		}
 
@@ -362,16 +382,17 @@ class Heizsystem {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function pn(): float {
-		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
-			if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
+	public function pn(): float
+	{
+		if ($this->gebaeude->trinkwarmwasseranlage()->zentral()) {
+			if ($this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden()) {
 				return 1.3 * $this->gebaeude->lueftung()->h_max();
 			} else {
 				return 1.5 * $this->pwn();
 			}
 		}
 
-		if ( $this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden() ) {
+		if ($this->gebaeude->heizsystem()->heizungsanlagen()->waermepumpe_vorhanden()) {
 			return $this->gebaeude->lueftung()->h_max();
 		} else {
 			return 1.5 * $this->pwn();
@@ -386,7 +407,8 @@ class Heizsystem {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	public function ßhs(): float {
+	public function ßhs(): float
+	{
 		// $ßhs=$ßhd*$ehdkorr
 		return $this->gebaeude->heizsystem()->ßhd() * $this->gebaeude->heizsystem()->ehd_korrektur();
 	}
@@ -398,8 +420,9 @@ class Heizsystem {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	public function ehs(): float {
-		if ( $this->pufferspeicher_vorhanden() ) {
+	public function ehs(): float
+	{
+		if ($this->pufferspeicher_vorhanden()) {
 			return $this->pufferspeicher()->ehs();
 		}
 

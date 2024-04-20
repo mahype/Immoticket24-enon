@@ -8,7 +8,8 @@ use Enev\Schema202402\Calculations\Gebaeude\Gebaeude;
 /**
  * Berechnungen für eine Heizungsanlage.
  */
-abstract class Heizungsanlage {
+abstract class Heizungsanlage
+{
 	/**
 	 * Gebaeude.
 	 *
@@ -103,17 +104,18 @@ abstract class Heizungsanlage {
 	 * @param float|null $fp                          Manuell gesetzter Primärenergiefaktor.
 	 * @param float|null $fco2                        Manuell gesetzter CO2 Emissionsfaktor.
 	 */
-	public function __construct( Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100, float|null $fp = null, float|null $fco2 = null ) {
-		$erlaubte_erzeuger = array_keys( static::erlaubte_erzeuger() );
+	public function __construct(Gebaeude $gebaeude, string $erzeuger, string $energietraeger, int $baujahr, bool $heizung_im_beheizten_bereich, int $prozentualer_anteil = 100, float|null $fp = null, float|null $fco2 = null)
+	{
+		$erlaubte_erzeuger = array_keys(static::erlaubte_erzeuger());
 
-		if ( ! in_array( $erzeuger, $erlaubte_erzeuger ) ) {
-			throw new Calculation_Exception( sprintf( 'Der erzeuger "%s" ist nicht erlaubt.', $erzeuger ) );
+		if (!in_array($erzeuger, $erlaubte_erzeuger)) {
+			throw new Calculation_Exception(sprintf('Der erzeuger "%s" ist nicht erlaubt.', $erzeuger));
 		}
 
-		$erlaubte_energietraeger = array_keys( static::erlaubte_energietraeger( $erzeuger ) );
+		$erlaubte_energietraeger = array_keys(static::erlaubte_energietraeger($erzeuger));
 
-		if ( ! in_array( $energietraeger, $erlaubte_energietraeger ) ) {
-			throw new Calculation_Exception( sprintf( 'Der Energieträger "%s" der Heizungsanlage für den Erzeuger "%s" nicht erlaubt.', $energietraeger, $erzeuger ) );
+		if (!in_array($energietraeger, $erlaubte_energietraeger)) {
+			throw new Calculation_Exception(sprintf('Der Energieträger "%s" der Heizungsanlage für den Erzeuger "%s" nicht erlaubt.', $energietraeger, $erzeuger));
 		}
 
 		$this->gebaeude                     = $gebaeude;
@@ -138,7 +140,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return string
 	 */
-	public function erzeuger(): string {
+	public function erzeuger(): string
+	{
 		return $this->erzeuger;
 	}
 
@@ -147,16 +150,17 @@ abstract class Heizungsanlage {
 	 *
 	 * @return array
 	 */
-	public static function erlaubte_energietraeger( $erzeuger ): array {
-		if ( ! array_key_exists( $erzeuger, static::erlaubte_erzeuger() ) ) {
-			throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
+	public static function erlaubte_energietraeger($erzeuger): array
+	{
+		if (!array_key_exists($erzeuger, static::erlaubte_erzeuger())) {
+			throw new Calculation_Exception('Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.');
 		}
 
-		if ( ! array_key_exists( 'energietraeger', static::erlaubte_erzeuger()[ $erzeuger ] ) ) {
-			throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" hat keine Energieträger.' );
+		if (!array_key_exists('energietraeger', static::erlaubte_erzeuger()[$erzeuger])) {
+			throw new Calculation_Exception('Der Erzeuger "' . $erzeuger . '" hat keine Energieträger.');
 		}
 
-		return static::erlaubte_erzeuger()[ $erzeuger ]['energietraeger'];
+		return static::erlaubte_erzeuger()[$erzeuger]['energietraeger'];
 	}
 
 	/**
@@ -164,7 +168,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return string
 	 */
-	public function energietraeger(): string {
+	public function energietraeger(): string
+	{
 		return $this->energietraeger;
 	}
 
@@ -173,13 +178,15 @@ abstract class Heizungsanlage {
 	 *
 	 * @return string
 	 */
-	public function typ(): string {
-		return $this->erlaubte_erzeuger()[ $this->erzeuger() ]['typ'];
+	public function typ(): string
+	{
+		return $this->erlaubte_erzeuger()[$this->erzeuger()]['typ'];
 	}
 
-	public function kategorie(): string {
-		$path = explode( '\\', static::class );
-		return strtolower( array_pop( $path ) );
+	public function kategorie(): string
+	{
+		$path = explode('\\', static::class);
+		return strtolower(array_pop($path));
 	}
 
 	/**
@@ -187,7 +194,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return int
 	 */
-	public function baujahr(): int {
+	public function baujahr(): int
+	{
 		return $this->baujahr;
 	}
 
@@ -196,7 +204,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return bool
 	 */
-	public function heizung_im_beheizten_bereich(): bool {
+	public function heizung_im_beheizten_bereich(): bool
+	{
 		return $this->heizung_im_beheizten_bereich;
 	}
 
@@ -205,7 +214,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return int
 	 */
-	public function prozentualer_anteil(): int {
+	public function prozentualer_anteil(): int
+	{
 		return $this->prozentualer_anteil;
 	}
 
@@ -214,7 +224,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function prozentualer_faktor(): float {
+	public function prozentualer_faktor(): float
+	{
 		return $this->prozentualer_anteil() / 100;
 	}
 
@@ -225,9 +236,10 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float Anteils nutzbarer Wärme von Heizungsanlagen (fa-h) aus Tabelle 141 / Teil 12, anteilig für die Heizungsanlage.
 	 */
-	public function fa_h( $auslegungstemperaturen = null ) {
+	public function fa_h($auslegungstemperaturen = null)
+	{
 		// Wertzuweisungen je nach Auslegungstemperatur und Beheizung der Anlage.
-		switch ( $auslegungstemperaturen ) {
+		switch ($auslegungstemperaturen) {
 			case '90/70':
 				return $this->heizung_im_beheizten_bereich() ? 0.123 : 0.039;
 			case '70/55':
@@ -263,8 +275,9 @@ abstract class Heizungsanlage {
 	 * @param string $energietraeger
 	 * @return float|void
 	 */
-	protected function fp_energietraeger( string $energietraeger ) {
-		switch ( $energietraeger ) {
+	protected function fp_energietraeger(string $energietraeger)
+	{
+		switch ($energietraeger) {
 			case 'biogas':
 			case 'biooel':
 				return 0.4;
@@ -293,12 +306,13 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function fp(): float {
-		if ( isset( $this->fp ) ) {
+	public function fp(): float
+	{
+		if (isset($this->fp)) {
 			return $this->fp;
 		}
 
-		return $this->fp_energietraeger( $this->energietraeger() );
+		return $this->fp_energietraeger($this->energietraeger());
 	}
 
 	/**
@@ -309,8 +323,9 @@ abstract class Heizungsanlage {
 	 * @param string $energietraeger
 	 * @return float|void
 	 */
-	protected function fhshi_energietraeger( string $energietraeger ): float {
-		switch ( $energietraeger ) {
+	protected function fhshi_energietraeger(string $energietraeger): float
+	{
+		switch ($energietraeger) {
 			case 'biooel':
 			case 'heizoel':
 				return 1.06;
@@ -340,8 +355,9 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	protected function co2_energietraeger( string $energietraeger ): float {
-		switch ( $energietraeger ) {
+	protected function co2_energietraeger(string $energietraeger): float
+	{
+		switch ($energietraeger) {
 			case 'biooel':
 				return 210;
 			case 'heizoel':
@@ -374,12 +390,13 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function fco2(): float {
-		if ( isset( $this->fco2 ) ) {
+	public function fco2(): float
+	{
+		if (isset($this->fco2)) {
 			return $this->fco2;
 		}
 
-		return $this->co2_energietraeger( $this->energietraeger() );
+		return $this->co2_energietraeger($this->energietraeger());
 	}
 
 	/**
@@ -389,7 +406,8 @@ abstract class Heizungsanlage {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	public function MCO2(): float {
+	public function MCO2(): float
+	{
 		return $this->Qfges() * $this->fhshi() * $this->fco2() / 1000; // in kg
 	}
 
@@ -398,8 +416,9 @@ abstract class Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function fhshi(): float {
-		return $this->fhshi_energietraeger( $this->energietraeger() );
+	public function fhshi(): float
+	{
+		return $this->fhshi_energietraeger($this->energietraeger());
 	}
 
 	/**
@@ -415,18 +434,20 @@ abstract class Heizungsanlage {
 	 * @return float 
 	 * @throws Calculation_Exception 
 	 */
-	public function Qfhges(): float {
-		if ( isset( $this->Qfhges ) ) {
+	public function Qfhges(): float
+	{
+		if (isset($this->Qfhges)) {
 			return $this->Qfhges;
 		}
 
 		// $Qfhges1=  (($calculations['qh']*ece*ed)*es*eg1*$kgn1)
-		$this->Qfhges = ( $this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur() ) * $this->gebaeude->heizsystem()->ehs() * $this->ehg() * $this->prozentualer_faktor();
+		$this->Qfhges = ($this->gebaeude->qh() * $this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->ehce() * $this->gebaeude->heizsystem()->ehd_korrektur()) * $this->gebaeude->heizsystem()->ehs() * $this->ehg() * $this->prozentualer_faktor();
 
 		return $this->Qfhges;
 	}
 
-	public function Qfges(): float {
+	public function Qfges(): float
+	{
 		return $this->Qfhges() + $this->Qfwges();
 	}
 
@@ -436,15 +457,16 @@ abstract class Heizungsanlage {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function Qfwges(): float {
-		if ( isset( $this->Qfwges ) ) {
+	public function Qfwges(): float
+	{
+		if (isset($this->Qfwges)) {
 			return $this->Qfwges;
 		}
 
 		// ewg
 
 		// $Qfwges1=  (($calculations['QWB']']*$ewce*$ewd)*$ews*$ewg1*$kgn1*(1-$kee))
-		$this->Qfwges = ( ( $this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd() ) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * ( 1 - $this->gebaeude->trinkwarmwasseranlage()->keew() ) );
+		$this->Qfwges = (($this->gebaeude->trinkwarmwasseranlage()->QWB() * $this->gebaeude->trinkwarmwasseranlage()->ewce() * $this->gebaeude->trinkwarmwasseranlage()->ewd()) * $this->gebaeude->trinkwarmwasseranlage()->ews() * $this->ewg() * $this->prozentualer_faktor() * (1 - $this->gebaeude->trinkwarmwasseranlage()->keew()));
 
 		return $this->Qfwges;
 	}
@@ -455,20 +477,21 @@ abstract class Heizungsanlage {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function Qpges(): float {
-		if ( isset( $this->Qpges ) ) {
+	public function Qpges(): float
+	{
+		if (isset($this->Qpges)) {
 			return $this->Qpges;
 		}
 
 		// Trinkwarmwasseranlage zentral
-		if ( $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+		if ($this->gebaeude->trinkwarmwasseranlage()->zentral()) {
 			// $Qpges1=($Qfhges1+$Qfwges1)*($fp1/$fhshi1)
-			$this->Qpges = ( $this->Qfhges() + $this->Qfwges() ) * ( $this->fp() / $this->fhshi() );
+			$this->Qpges = ($this->Qfhges() + $this->Qfwges()) * ($this->fp() / $this->fhshi());
 			return $this->Qpges;
 		}
 
 		// Trinkwarmwasseranlage dezentral
-		$this->Qpges = ( $this->Qfhges() ) * ( $this->fp() / $this->fhshi() );
+		$this->Qpges = ($this->Qfhges()) * ($this->fp() / $this->fhshi());
 		return $this->Qpges;
 	}
 }

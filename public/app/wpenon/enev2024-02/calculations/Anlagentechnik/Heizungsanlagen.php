@@ -18,7 +18,8 @@ require_once __DIR__ . '/Heizungsanlagen/Dezentral.php';
 /**
  * Berechnung mehrerer Heizungsanlagen.
  */
-class Heizungsanlagen {
+class Heizungsanlagen
+{
 	/**
 	 * Gebäude.
 	 *
@@ -39,7 +40,8 @@ class Heizungsanlagen {
 	 * @param Gebaeude $gebaeude
 	 * @return void
 	 */
-	public function __construct( Gebaeude $gebaeude ) {
+	public function __construct(Gebaeude $gebaeude)
+	{
 		$this->gebaeude = $gebaeude;
 	}
 
@@ -48,8 +50,9 @@ class Heizungsanlagen {
 	 *
 	 * @var Heizungsanlage
 	 */
-	public function hinzufuegen( string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null, $fp, $fco2 ) {
-		switch ( $erzeuger ) {
+	public function hinzufuegen(string $erzeuger, string $energietraeger, int $baujahr, int $prozentualer_anteil = 100, bool $evu_abschaltung = false, bool $einstufig = false, $h_waermepumpe_erde_typ = null, $fp, $fco2)
+	{
+		switch ($erzeuger) {
 			case 'etagenheizung':
 			case 'standardkessel':
 			case 'niedertemperaturkessel':
@@ -57,22 +60,22 @@ class Heizungsanlagen {
 			case 'brennwertkesselverbessert': // ???
 			case 'kleinthermeniedertemperatur':
 			case 'kleinthermebrennwert':
-				$this->heizungsanlagen[] = new Konventioneller_Kessel( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
+				$this->heizungsanlagen[] = new Konventioneller_Kessel($this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2);
 				break;
 			case 'waermepumpeluft':
 			case 'waermepumpewasser':
 			case 'waermepumpeerde':
-				$this->heizungsanlagen[] = new Waermepumpe( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung, $einstufig, $h_waermepumpe_erde_typ, $fp, $fco2 );
+				$this->heizungsanlagen[] = new Waermepumpe($this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $evu_abschaltung, $einstufig, $h_waermepumpe_erde_typ, $fp, $fco2);
 				break;
 			case 'fernwaerme':
-				$this->heizungsanlagen[] = new Fernwaerme( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
+				$this->heizungsanlagen[] = new Fernwaerme($this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2);
 				break;
 			case 'elektronachtspeicherheizung':
 			case 'infrarotheizung':
-				$this->heizungsanlagen[] = new Dezentral( $this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2 );
+				$this->heizungsanlagen[] = new Dezentral($this->gebaeude, $erzeuger, $energietraeger, $baujahr, $prozentualer_anteil, $fp, $fco2);
 				break;
 			default:
-				throw new Calculation_Exception( 'Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.' );
+				throw new Calculation_Exception('Der Erzeuger "' . $erzeuger . '" ist nicht erlaubt.');
 		}
 	}
 
@@ -81,7 +84,8 @@ class Heizungsanlagen {
 	 *
 	 * @return Heizungsanlage[]
 	 */
-	public function alle(): array {
+	public function alle(): array
+	{
 		return $this->heizungsanlagen;
 	}
 
@@ -90,8 +94,9 @@ class Heizungsanlagen {
 	 *
 	 * @return int
 	 */
-	public function anzahl(): int {
-		return count( $this->heizungsanlagen );
+	public function anzahl(): int
+	{
+		return count($this->heizungsanlagen);
 	}
 
 	/**
@@ -99,10 +104,11 @@ class Heizungsanlagen {
 	 *
 	 * @return bool
 	 */
-	protected function validiere_prozent_gesamt(): bool {
+	protected function validiere_prozent_gesamt(): bool
+	{
 		$prozent_gesamt = 0;
 
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
 			$prozent_gesamt += $heizungsanlage->prozentualer_anteil();
 		}
 
@@ -110,19 +116,20 @@ class Heizungsanlagen {
 	}
 
 	/**
-	 * Nutzbare Wärme.
-	 *
+	 * Bestimmung des Anteils nutzbarer Wärme von Heizungsanlagen.
+	 * 
 	 * @return float
 	 */
-	public function fa_h() {
+	public function fa_h()
+	{
 		$fa_h = 0;
 
 		// Validieren der prozentualen Anteile.
-		if ( ! $this->validiere_prozent_gesamt() ) {
-			throw new Calculation_Exception( 'Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.' );
+		if (!$this->validiere_prozent_gesamt()) {
+			throw new Calculation_Exception('Die prozentualen Anteile aller Heizungsanlagen müssen zusammen 100% ergeben.');
 		}
 
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
 			$fa_h += $heizungsanlage->fa_h() * $heizungsanlage->prozentualer_anteil() / 100;
 		}
 
@@ -134,8 +141,9 @@ class Heizungsanlagen {
 	 *
 	 * @return bool
 	 */
-	public function waermepumpe_vorhanden(): bool {
-		return $this->heizungstyp_vorhanden( 'waermepumpe' );
+	public function waermepumpe_vorhanden(): bool
+	{
+		return $this->heizungstyp_vorhanden('waermepumpe');
 	}
 
 	/**
@@ -143,8 +151,9 @@ class Heizungsanlagen {
 	 *
 	 * @return bool
 	 */
-	public function biomassekessel_vorhanden(): bool {
-		return $this->heizungstyp_vorhanden( 'biomassekessel' );
+	public function biomassekessel_vorhanden(): bool
+	{
+		return $this->heizungstyp_vorhanden('biomassekessel');
 	}
 
 	/**
@@ -154,9 +163,10 @@ class Heizungsanlagen {
 	 *
 	 * @return bool
 	 */
-	public function heizungstyp_vorhanden( string $heizungstyp ) {
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
-			if ( strpos( $heizungsanlage->typ(), $heizungstyp ) === 0 ) {
+	public function heizungstyp_vorhanden(string $heizungstyp)
+	{
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
+			if (strpos($heizungsanlage->typ(), $heizungstyp) === 0) {
 				return true;
 			}
 		}
@@ -169,10 +179,11 @@ class Heizungsanlagen {
 	 *
 	 * @return float
 	 */
-	public function Qfhges(): float {
+	public function Qfhges(): float
+	{
 		$Qfhges = 0;
 
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
 			$Qfhges += $heizungsanlage->Qfhges();
 		}
 
@@ -184,10 +195,11 @@ class Heizungsanlagen {
 	 *
 	 * @return float
 	 */
-	public function Qfwges(): float {
+	public function Qfwges(): float
+	{
 		$Qfwges = 0;
 
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
 			$Qfwges += $heizungsanlage->Qfwges();
 		}
 
@@ -199,11 +211,12 @@ class Heizungsanlagen {
 	 *
 	 * @return float
 	 */
-	public function Qfstromges(): float {
+	public function Qfstromges(): float
+	{
 		$Qfstromges = 0;
 
-		foreach ( $this->heizungsanlagen as $heizungsanlage ) {
-			if( $heizungsanlage->energietraeger() === 'strom' ) {
+		foreach ($this->heizungsanlagen as $heizungsanlage) {
+			if ($heizungsanlage->energietraeger() === 'strom') {
 				$Qfstromges += $heizungsanlage->Qfhges() + $heizungsanlage->Qfwges();
 			}
 		}

@@ -920,7 +920,7 @@ $jahr = new Jahr();
 
 	<h3>Heizsystem</h3>
 
-	<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->heizsystem()->fa_h()); ?></p>
+	<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->fa_h()); ?></p>
 	<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhce())); ?></p>
 	<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->qhce())); ?></p>
 	<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhd())); ?></p>
@@ -1972,7 +1972,7 @@ $jahr = new Jahr();
 
 		<h3>Heizsystem</h3>
 
-		<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $referenzgebaeude->heizsystem()->fa_h()); ?></p>
+		<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $referenzgebaeude->fa_h()); ?></p>
 		<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ßhce())); ?></p>
 		<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->qhce())); ?></p>
 		<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ßhd())); ?></p>

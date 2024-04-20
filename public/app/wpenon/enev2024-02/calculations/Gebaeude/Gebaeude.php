@@ -802,7 +802,26 @@ class Gebaeude
 	 */
 	public function qi_heizung_monat(string $monat): float
 	{
-		return $this->psh_sink_monat($monat) * ($this->mittlere_belastung()->ßem1($monat) / $this->mittlere_belastung()->ßemMax()) * $this->heizsystem()->fa_h() / fum($monat);
+		return $this->psh_sink_monat($monat) * ($this->mittlere_belastung()->ßem1($monat) / $this->mittlere_belastung()->ßemMax()) * $this->fa_h() / fum($monat);
+	}
+
+	/**
+	 * Bestimmung des Anteils nutzbarer Wärme von Heizungsanlagen.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function fa_h(): float
+	{
+		if ($this->referenzgebaeude) {
+			if ($this->nutzflaeche() > 500) {
+				return 0.038;
+			} else {
+				return 0.077;
+			}
+		}
+
+		return $this->heizsystem()->fa_h();
 	}
 
 	/**

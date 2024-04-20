@@ -526,47 +526,13 @@ class Referenzgebaeude
 		/**
 		 * Heizsysteme
 		 */
-		$energietraeger_name   = 'h_energietraeger_' . $this->energieausweis->h_erzeugung;
-		$h_prozentualer_anteil = !isset($this->energieausweis->h_deckungsanteil) || $this->energieausweis->h_deckungsanteil === 0 ? 100 : $this->energieausweis->h_deckungsanteil;
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen('brennwertkessel', 'erdgas', $this->energieausweis->h_baujahr, $h_prozentualer_anteil, false, false, null, null, null);
-
-		if ($this->energieausweis->h2_info) {
-			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen('brennwertkessel', 'erdgas', $this->energieausweis->h2_baujahr, $this->energieausweis->h2_deckungsanteil, false, false, null, null, null);
-
-			if ($this->energieausweis->h3_info) {
-				$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen('brennwertkessel', 'erdgas', $this->energieausweis->h3_baujahr, $this->energieausweis->h3_deckungsanteil, false, false, null, null, null);
-			}
-		}
-
-		$heizungen[] = array(
-			'uebergabe'           => $this->energieausweis->h_uebergabe,
-			'flaechenheizungstyp' => $this->energieausweis->h_uebergabe === 'flaechenheizung' ? $this->energieausweis->h_uebergabe_flaechenheizungstyp : null,
-			'erzeugung'           => $this->energieausweis->h_erzeugung,
-		);
-
-		if ($this->energieausweis->h2_info) {
-			$heizungen[] = array(
-				'uebergabe'           => $this->energieausweis->h_uebergabe,
-				'flaechenheizungstyp' => $this->energieausweis->h_uebergabe === 'flaechenheizung' ? $this->energieausweis->h_uebergabe_flaechenheizungstyp : null,
-				'erzeugung'           => $this->energieausweis->h2_erzeugung,
-			);
-
-			if ($this->energieausweis->h3_info) {
-				$heizungen[] = array(
-					'uebergabe'           => $this->energieausweis->h_uebergabe,
-					'flaechenheizungstyp' => $this->energieausweis->h_uebergabe === 'flaechenheizung' ? $this->energieausweis->h_uebergabe_flaechenheizungstyp : null,
-					'erzeugung'           => $this->energieausweis->h3_erzeugung,
-				);
-			}
-		}
-
-		$auslegungstemperaturen = '55/45'; // Referenzwert
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen('brennwertkessel', 'erdgas', $this->energieausweis->h_baujahr, 100, false, false, null, null, null);
 
 		$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 			new Uebergabesystem(
 				gebaeude: $gebaeude,
 				typ: 'heizkoerper', // Referenzwert
-				auslegungstemperaturen: $auslegungstemperaturen,
+				auslegungstemperaturen: '55/45',
 				prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $this->energieausweis->h_uebergabe_anteil
 			)
 		);
