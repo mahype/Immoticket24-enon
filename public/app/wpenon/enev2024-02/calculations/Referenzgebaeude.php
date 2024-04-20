@@ -516,10 +516,10 @@ class Referenzgebaeude
 				heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 				mit_warmwasserspeicher: true,
 				mit_zirkulation: true,
-				mit_solarthermie: $this->energieausweis->solarthermie_info === 'vorhanden' ? true : false,
-				solarthermie_neigung: $this->energieausweis->solarthermie_info === 'vorhanden' ? $this->energieausweis->solarthermie_neigung : null,
-				solarthermie_richtung: $this->energieausweis->solarthermie_info === 'vorhanden' ? $this->energieausweis->solarthermie_richtung : null,
-				solarthermie_baujahr: $this->energieausweis->solarthermie_info === 'vorhanden' ? $this->energieausweis->solarthermie_baujahr : null
+				mit_solarthermie: true,
+				solarthermie_neigung: 45,
+				solarthermie_richtung: 's',
+				solarthermie_baujahr: 1998
 			)
 		);
 
@@ -536,18 +536,6 @@ class Referenzgebaeude
 				prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $this->energieausweis->h_uebergabe_anteil
 			)
 		);
-
-		if ($this->energieausweis->pv_info === 'vorhanden') {
-			$gebaeude->photovoltaik_anlage(
-				new Photovoltaik_Anlage(
-					gebaeude: $gebaeude,
-					richtung: $this->energieausweis->pv_richtung,
-					neigung: $this->energieausweis->pv_neigung,
-					flaeche: floatval($this->energieausweis->pv_flaeche),
-					baujahr: intval($this->energieausweis->pv_baujahr),
-				)
-			);
-		}
 
 		$this->gebaeude = $gebaeude;
 	}

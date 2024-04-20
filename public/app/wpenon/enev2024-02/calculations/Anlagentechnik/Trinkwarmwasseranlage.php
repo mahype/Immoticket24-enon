@@ -161,7 +161,9 @@ class Trinkwarmwasseranlage
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
 		if ($mit_solarthermie) {
-			$this->thermische_solaranlagen = new Thermische_Solaranlagen($this->gebaeude->nutzflaeche(), $this->gebaeude->heizsystem()->beheizt());
+			$beheizt = !$this->gebaeude->ist_referenzgebaeude() ? $this->gebaeude->heizsystem()->beheizt() : true;
+
+			$this->thermische_solaranlagen = new Thermische_Solaranlagen($this->gebaeude->nutzflaeche(), $beheizt);
 			$this->solarthermie_neigung    = $solarthermie_neigung;
 			$this->solarthermie_richtung   = $solarthermie_richtung;
 			$this->solarthermie_baujahr    = $solarthermie_baujahr;
