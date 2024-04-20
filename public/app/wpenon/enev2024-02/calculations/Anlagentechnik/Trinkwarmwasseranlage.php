@@ -11,16 +11,17 @@ use Enev\Schema202402\Calculations\Tabellen\Waermeverlust_Trinkwasserspeicher;
 
 use function Enev\Schema202402\Calculations\Helfer\interpolate_value;
 
-require_once dirname( __DIR__ ) . '/Tabellen/Kessel_Nennleistung.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Thermische_Solaranlagen.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Umrechnungsfaktoren_Kollektorflaeche.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Waermeverlust_Trinkwasserspeicher.php';
+require_once dirname(__DIR__) . '/Tabellen/Kessel_Nennleistung.php';
+require_once dirname(__DIR__) . '/Tabellen/Thermische_Solaranlagen.php';
+require_once dirname(__DIR__) . '/Tabellen/Umrechnungsfaktoren_Kollektorflaeche.php';
+require_once dirname(__DIR__) . '/Tabellen/Waermeverlust_Trinkwasserspeicher.php';
 
 /**
  * Bestimmung des Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen
  * über Tabelle 142 & 143 Abschnitt 12.
  */
-class Trinkwarmwasseranlage {
+class Trinkwarmwasseranlage
+{
 	/**
 	 * Gebäude.
 	 *
@@ -144,8 +145,8 @@ class Trinkwarmwasseranlage {
 		int $solarthermie_baujahr = null,
 		int $prozentualer_anteil = 100
 	) {
-		if ( $mit_zirkulation && ! $zentral ) {
-			throw new Calculation_Exception( 'Zirkulation dezentraler Trinkwasseranlage ist nicht möglich.' );
+		if ($mit_zirkulation && !$zentral) {
+			throw new Calculation_Exception('Zirkulation dezentraler Trinkwasseranlage ist nicht möglich.');
 		}
 
 		$this->monatsdaten = new Monatsdaten();
@@ -159,8 +160,8 @@ class Trinkwarmwasseranlage {
 		$this->mit_solarthermie             = $mit_solarthermie;
 		$this->prozentualer_anteil          = $prozentualer_anteil;
 
-		if ( $mit_solarthermie ) {
-			$this->thermische_solaranlagen = new Thermische_Solaranlagen( $this->gebaeude->nutzflaeche(), $this->gebaeude->heizsystem()->beheizt() );
+		if ($mit_solarthermie) {
+			$this->thermische_solaranlagen = new Thermische_Solaranlagen($this->gebaeude->nutzflaeche(), $this->gebaeude->heizsystem()->beheizt());
 			$this->solarthermie_neigung    = $solarthermie_neigung;
 			$this->solarthermie_richtung   = $solarthermie_richtung;
 			$this->solarthermie_baujahr    = $solarthermie_baujahr;
@@ -172,7 +173,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return bool
 	 */
-	public function zentral(): bool {
+	public function zentral(): bool
+	{
 		return $this->zentral;
 	}
 
@@ -181,7 +183,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return string|null
 	 */
-	public function erzeuger(): ?string {
+	public function erzeuger(): ?string
+	{
 		return $this->erzeuger;
 	}
 
@@ -190,7 +193,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return bool
 	 */
-	public function solarthermie_vorhanden(): bool {
+	public function solarthermie_vorhanden(): bool
+	{
 		return $this->mit_solarthermie;
 	}
 
@@ -199,7 +203,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function ewce(): float {
+	public function ewce(): float
+	{
 		return 1.0;
 	}
 
@@ -208,12 +213,13 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function ewd0(): float {
-		if ( ! $this->zentral() ) {
+	public function ewd0(): float
+	{
+		if (!$this->zentral()) {
 			return 1.193;
 		}
 
-		if ( ! $this->gebaeude->heizsystem()->beheizt() ) {
+		if (!$this->gebaeude->heizsystem()->beheizt()) {
 			return 2.290;
 		} else {
 			return 2.252;
@@ -225,8 +231,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function ewd() {
-		return 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() );
+	public function ewd()
+	{
+		return 1 + ($this->ewd0() - 1) * (12.5 / $this->nutzwaermebedarf_trinkwasser());
 	}
 
 	/**
@@ -234,8 +241,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function fwb(): float {
-		return ( $this->nutzwaermebedarf_trinkwasser() / 12.5 ) * ( 1 + ( $this->ewd0() - 1 ) * ( 12.5 / $this->nutzwaermebedarf_trinkwasser() ) ) / $this->ewd0();
+	public function fwb(): float
+	{
+		return ($this->nutzwaermebedarf_trinkwasser() / 12.5) * (1 + ($this->ewd0() - 1) * (12.5 / $this->nutzwaermebedarf_trinkwasser())) / $this->ewd0();
 	}
 
 	/**
@@ -243,9 +251,10 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vs01(): float {
-		if ( $this->gebaeude->nutzflaeche() < 5000 ) {
-			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() );
+	public function Vs01(): float
+	{
+		if ($this->gebaeude->nutzflaeche() < 5000) {
+			return $this->interpoliertes_volumen($this->gebaeude->nutzflaeche());
 		}
 
 		return 1122;
@@ -256,13 +265,14 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vs02(): float {
-		if ( $this->gebaeude->nutzflaeche() < 5000 ) {
+	public function Vs02(): float
+	{
+		if ($this->gebaeude->nutzflaeche() < 5000) {
 			return 0;
 		}
 
-		if ( $this->gebaeude->nutzflaeche() < 10000 ) {
-			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() - 5000 );
+		if ($this->gebaeude->nutzflaeche() < 10000) {
+			return $this->interpoliertes_volumen($this->gebaeude->nutzflaeche() - 5000);
 		}
 
 		return 1122;
@@ -273,13 +283,14 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vs03(): float {
-		if ( $this->gebaeude->nutzflaeche() < 10000 ) {
+	public function Vs03(): float
+	{
+		if ($this->gebaeude->nutzflaeche() < 10000) {
 			return 0;
 		}
 
-		if ( $this->gebaeude->nutzflaeche() < 13368.98 ) {
-			return $this->interpoliertes_volumen( $this->gebaeude->nutzflaeche() - 10000 );
+		if ($this->gebaeude->nutzflaeche() < 13368.98) {
+			return $this->interpoliertes_volumen($this->gebaeude->nutzflaeche() - 10000);
 		}
 
 		// NOTE: Was bedeutet "Vs03 wird nicht berücksichtigt"?
@@ -291,8 +302,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vsw(): float {
-		return $this->Vs0() * ( $this->nutzwaermebedarf_trinkwasser() / 12.5 );
+	public function Vsw(): float
+	{
+		return $this->Vs0() * ($this->nutzwaermebedarf_trinkwasser() / 12.5);
 	}
 
 	/**
@@ -300,14 +312,15 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vsw1(): float {
+	public function Vsw1(): float
+	{
 		$Vsw = $this->Vsw();
 
-		if ( $Vsw > 3000 ) {
+		if ($Vsw > 3000) {
 			$Vsw = 3000;
 		}
 
-		if ( $Vsw >= 1500 ) {
+		if ($Vsw >= 1500) {
 			return 1500;
 		}
 
@@ -319,14 +332,15 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vsw2(): float {
+	public function Vsw2(): float
+	{
 		$Vsw = $this->Vsw();
 
-		if ( $Vsw > 3000 ) {
+		if ($Vsw > 3000) {
 			$Vsw = 3000;
 		}
 
-		if ( $Vsw < 1500 ) {
+		if ($Vsw < 1500) {
 			return 0;
 		}
 
@@ -338,8 +352,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qws01(): float {
-		return ( new Waermeverlust_Trinkwasserspeicher( $this->Vsw1(), $this->heizung_im_beheizten_bereich, $this->mit_zirkulation ) )->Qws0();
+	public function Qws01(): float
+	{
+		return (new Waermeverlust_Trinkwasserspeicher($this->Vsw1(), $this->heizung_im_beheizten_bereich, $this->mit_zirkulation))->Qws0();
 	}
 
 	/**
@@ -347,12 +362,13 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qws02(): float {
-		if ( $this->Vsw2() == 0 ) {
+	public function Qws02(): float
+	{
+		if ($this->Vsw2() == 0) {
 			return 0;
 		}
 
-		return ( new Waermeverlust_Trinkwasserspeicher( $this->Vsw2(), $this->heizung_im_beheizten_bereich, $this->mit_zirkulation ) )->Qws0();
+		return (new Waermeverlust_Trinkwasserspeicher($this->Vsw2(), $this->heizung_im_beheizten_bereich, $this->mit_zirkulation))->Qws0();
 	}
 
 	/**
@@ -360,8 +376,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qws(): float {
-		if ( $this->solarthermie_vorhanden() ) {
+	public function Qws(): float
+	{
+		if ($this->solarthermie_vorhanden()) {
 			return $this->Qws_mit_solar();
 		}
 
@@ -373,7 +390,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qwoutg(): float {
+	public function Qwoutg(): float
+	{
 		// Qwoutg = QWB * ewce * ewd * ews
 		return $this->QWB() * $this->ewce() * $this->ewd() * $this->ews();
 	}
@@ -383,13 +401,14 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function ews(): float {
-		if ( ! $this->zentral ) {
+	public function ews(): float
+	{
+		if (!$this->zentral) {
 			return 1;
 		}
 
 		// Berechnung der Aufwandszahl Trinkwarmwasserspeicher ews inklusive thermischer Solaranlage. ews hier bezieht sich nur auf reine Trinkwassernutzung der Solaranlag
-		return 1 + ( $this->Qws() / ( $this->QWB() * $this->ewd() * $this->ewce() ) );
+		return 1 + ($this->Qws() / ($this->QWB() * $this->ewd() * $this->ewce()));
 	}
 
 	/**
@@ -397,7 +416,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function keew(): float {
+	public function keew(): float
+	{
 		// 0,5 * fqsol
 		return 0.5 * $this->fQsola();
 	}
@@ -407,7 +427,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function keeh(): float {
+	public function keeh(): float
+	{
 		return 0; // Zum jetzigen Zeitpunkt ist keew immer 0, da wir keine Solarthermie in der Heizung haben.
 	}
 
@@ -416,8 +437,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qws_ohne_solar(): float {
-		return ( $this->Qws01() + $this->Qws02() ) * 1.32;
+	public function Qws_ohne_solar(): float
+	{
+		return ($this->Qws01() + $this->Qws02()) * 1.32;
 	}
 
 	/**
@@ -425,8 +447,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qws_mit_solar(): float {
-		return $this->fbivalent() * ( 0.4 + 0.2 * ( pow( $this->Vsaux() + $this->Vssol(), 0.4 ) ) ) * pow( $this->Vsaux() / ( $this->Vsaux() + $this->Vssol() ), 2 ) * 365;
+	public function Qws_mit_solar(): float
+	{
+		return $this->fbivalent() * (0.4 + 0.2 * (pow($this->Vsaux() + $this->Vssol(), 0.4))) * pow($this->Vsaux() / ($this->Vsaux() + $this->Vssol()), 2) * 365;
 	}
 
 	/**
@@ -434,7 +457,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vsaux0(): float {
+	public function Vsaux0(): float
+	{
 		return $this->thermische_solaranlagen->vs_aux();
 	}
 
@@ -443,11 +467,12 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vsaux(): float {
+	public function Vsaux(): float
+	{
 		$Vsaux = $this->Vsaux0();
 
-		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
-			$Vsaux = $Vsaux * ( $this->gebaeude->nutzflaeche() / 5000 );
+		if ($this->gebaeude->nutzflaeche() >= 5000) {
+			$Vsaux = $Vsaux * ($this->gebaeude->nutzflaeche() / 5000);
 		}
 
 		$Vsaux *= $this->fwb();
@@ -460,7 +485,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vssol0(): float {
+	public function Vssol0(): float
+	{
 		return $this->thermische_solaranlagen->vs_sol();
 	}
 
@@ -469,11 +495,12 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vssol(): float {
+	public function Vssol(): float
+	{
 		$Vssol = $this->Vssol0();
 
-		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
-			$Vssol = $Vssol * ( $this->gebaeude->nutzflaeche() / 5000 );
+		if ($this->gebaeude->nutzflaeche() >= 5000) {
+			$Vssol = $Vssol * ($this->gebaeude->nutzflaeche() / 5000);
 		}
 
 		$Vssol *= $this->fwb();
@@ -486,8 +513,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function fAc(): float {
-		return (new Umrechnungsfaktoren_Kollektorflaeche( $this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr ))->fAc();
+	public function fAc(): float
+	{
+		return (new Umrechnungsfaktoren_Kollektorflaeche($this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr))->fAc();
 	}
 
 	/**
@@ -495,7 +523,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Ac0(): float {
+	public function Ac0(): float
+	{
 		return $this->thermische_solaranlagen->flach_a();
 	}
 
@@ -504,12 +533,13 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Ac(): float {
+	public function Ac(): float
+	{
 		$Ac = $this->Ac0();
 
-		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
-			$Ac = $Ac * ( $this->gebaeude->nutzflaeche() / 5000 );
-		}	
+		if ($this->gebaeude->nutzflaeche() >= 5000) {
+			$Ac = $Ac * ($this->gebaeude->nutzflaeche() / 5000);
+		}
 
 		$Ac *= $this->fwb();
 
@@ -521,12 +551,13 @@ class Trinkwarmwasseranlage {
 	 * 
 	 * @return float
 	 */
-	public function fQsola(): float {
-		if( ! $this->solarthermie_vorhanden() ) {
+	public function fQsola(): float
+	{
+		if (!$this->solarthermie_vorhanden()) {
 			return 0;
 		}
-		
-		return (new Umrechnungsfaktoren_Kollektorflaeche( $this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr ))->fQsola();
+
+		return (new Umrechnungsfaktoren_Kollektorflaeche($this->solarthermie_richtung, $this->solarthermie_neigung, $this->solarthermie_baujahr))->fQsola();
 	}
 
 	/**
@@ -534,7 +565,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qwsola0(): float {
+	public function Qwsola0(): float
+	{
 		return $this->thermische_solaranlagen->flach_q();
 	}
 
@@ -543,18 +575,19 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Qwsola(): float {
-		if( ! $this->solarthermie_vorhanden() ) {
+	public function Qwsola(): float
+	{
+		if (!$this->solarthermie_vorhanden()) {
 			return 0;
 		}
-		
+
 		$Qwsola = $this->Qwsola0();
 
-		if ( $this->gebaeude->nutzflaeche() >= 5000 ) {
-			$Qwsola = $Qwsola * ( $this->gebaeude->nutzflaeche() / 5000 );
+		if ($this->gebaeude->nutzflaeche() >= 5000) {
+			$Qwsola = $Qwsola * ($this->gebaeude->nutzflaeche() / 5000);
 		}
 
-		$Qwsola = $Qwsola * ( $this->Ac() / $this->thermische_solaranlagen->flach_a() ) * $this->fQsola();
+		$Qwsola = $Qwsola * ($this->Ac() / $this->thermische_solaranlagen->flach_a()) * $this->fQsola();
 
 		return $Qwsola;
 	}
@@ -564,7 +597,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Vs0(): float {
+	public function Vs0(): float
+	{
 		return $this->Vs01() + $this->Vs02() + $this->Vs03();
 	}
 
@@ -575,63 +609,64 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function interpoliertes_volumen( float $nutzflaeche ): float {
+	public function interpoliertes_volumen(float $nutzflaeche): float
+	{
 		$keys   = array();
 		$values = array();
-		if ( $nutzflaeche <= 50 ) {
-			$keys   = array( 50 );
-			$values = array( 78 );
-		} elseif ( $nutzflaeche > 50 && $nutzflaeche <= 100 ) {
-			$keys   = array( 50, 100 );
-			$values = array( 78, 116 );
-		} elseif ( $nutzflaeche > 100 && $nutzflaeche <= 150 ) {
-			$keys   = array( 100, 150 );
-			$values = array( 116, 147 );
-		} elseif ( $nutzflaeche > 150 && $nutzflaeche <= 200 ) {
-			$keys   = array( 150, 200 );
-			$values = array( 147, 173 );
-		} elseif ( $nutzflaeche > 200 && $nutzflaeche <= 300 ) {
-			$keys   = array( 200, 300 );
-			$values = array( 173, 219 );
-		} elseif ( $nutzflaeche > 300 && $nutzflaeche <= 400 ) {
-			$keys   = array( 300, 400 );
-			$values = array( 219, 259 );
-		} elseif ( $nutzflaeche > 400 && $nutzflaeche <= 500 ) {
-			$keys   = array( 400, 500 );
-			$values = array( 259, 295 );
-		} elseif ( $nutzflaeche > 500 && $nutzflaeche <= 600 ) {
-			$keys   = array( 500, 600 );
-			$values = array( 295, 328 );
-		} elseif ( $nutzflaeche > 600 && $nutzflaeche <= 700 ) {
-			$keys   = array( 600, 700 );
-			$values = array( 328, 359 );
-		} elseif ( $nutzflaeche > 700 && $nutzflaeche <= 800 ) {
-			$keys   = array( 700, 800 );
-			$values = array( 359, 388 );
-		} elseif ( $nutzflaeche > 800 && $nutzflaeche <= 900 ) {
-			$keys   = array( 800, 900 );
-			$values = array( 388, 415 );
-		} elseif ( $nutzflaeche > 900 && $nutzflaeche <= 1000 ) {
-			$keys   = array( 900, 1000 );
-			$values = array( 415, 441 );
-		} elseif ( $nutzflaeche > 1000 && $nutzflaeche <= 2000 ) {
-			$keys   = array( 1000, 2000 );
-			$values = array( 441, 660 );
-		} elseif ( $nutzflaeche > 2000 && $nutzflaeche <= 3000 ) {
-			$keys   = array( 2000, 3000 );
-			$values = array( 660, 834 );
-		} elseif ( $nutzflaeche > 3000 && $nutzflaeche <= 4000 ) {
-			$keys   = array( 3000, 4000 );
-			$values = array( 834, 986 );
-		} elseif ( $nutzflaeche > 4000 && $nutzflaeche <= 5000 ) {
-			$keys   = array( 4000, 5000 );
-			$values = array( 986, 1122 );
+		if ($nutzflaeche <= 50) {
+			$keys   = array(50);
+			$values = array(78);
+		} elseif ($nutzflaeche > 50 && $nutzflaeche <= 100) {
+			$keys   = array(50, 100);
+			$values = array(78, 116);
+		} elseif ($nutzflaeche > 100 && $nutzflaeche <= 150) {
+			$keys   = array(100, 150);
+			$values = array(116, 147);
+		} elseif ($nutzflaeche > 150 && $nutzflaeche <= 200) {
+			$keys   = array(150, 200);
+			$values = array(147, 173);
+		} elseif ($nutzflaeche > 200 && $nutzflaeche <= 300) {
+			$keys   = array(200, 300);
+			$values = array(173, 219);
+		} elseif ($nutzflaeche > 300 && $nutzflaeche <= 400) {
+			$keys   = array(300, 400);
+			$values = array(219, 259);
+		} elseif ($nutzflaeche > 400 && $nutzflaeche <= 500) {
+			$keys   = array(400, 500);
+			$values = array(259, 295);
+		} elseif ($nutzflaeche > 500 && $nutzflaeche <= 600) {
+			$keys   = array(500, 600);
+			$values = array(295, 328);
+		} elseif ($nutzflaeche > 600 && $nutzflaeche <= 700) {
+			$keys   = array(600, 700);
+			$values = array(328, 359);
+		} elseif ($nutzflaeche > 700 && $nutzflaeche <= 800) {
+			$keys   = array(700, 800);
+			$values = array(359, 388);
+		} elseif ($nutzflaeche > 800 && $nutzflaeche <= 900) {
+			$keys   = array(800, 900);
+			$values = array(388, 415);
+		} elseif ($nutzflaeche > 900 && $nutzflaeche <= 1000) {
+			$keys   = array(900, 1000);
+			$values = array(415, 441);
+		} elseif ($nutzflaeche > 1000 && $nutzflaeche <= 2000) {
+			$keys   = array(1000, 2000);
+			$values = array(441, 660);
+		} elseif ($nutzflaeche > 2000 && $nutzflaeche <= 3000) {
+			$keys   = array(2000, 3000);
+			$values = array(660, 834);
+		} elseif ($nutzflaeche > 3000 && $nutzflaeche <= 4000) {
+			$keys   = array(3000, 4000);
+			$values = array(834, 986);
+		} elseif ($nutzflaeche > 4000 && $nutzflaeche <= 5000) {
+			$keys   = array(4000, 5000);
+			$values = array(986, 1122);
 		} else {
-			$keys   = array( 5000 );
-			$values = array( 1122 );
+			$keys   = array(5000);
+			$values = array(1122);
 		}
 
-		return interpolate_value( $nutzflaeche, $keys, $values );
+		return interpolate_value($nutzflaeche, $keys, $values);
 	}
 
 	/**
@@ -639,7 +674,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return int
 	 */
-	public function prozentualer_anteil(): int {
+	public function prozentualer_anteil(): int
+	{
 		return $this->prozentualer_anteil;
 	}
 
@@ -648,7 +684,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function prozentualer_faktor(): float {
+	public function prozentualer_faktor(): float
+	{
 		return $this->prozentualer_anteil() / 100;
 	}
 
@@ -663,7 +700,8 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh/(ma).
 	 */
-	public function nutzwaermebedarf_trinkwasser(): float {
+	public function nutzwaermebedarf_trinkwasser(): float
+	{
 		$keys = array(
 			0,
 			10,
@@ -704,7 +742,7 @@ class Trinkwarmwasseranlage {
 			8.5,
 		);
 
-		return interpolate_value( $this->gebaeude->nutzflaeche_pro_wohneinheit(), $keys, $values );
+		return interpolate_value($this->gebaeude->nutzflaeche_pro_wohneinheit(), $keys, $values);
 	}
 
 	/**
@@ -714,8 +752,9 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
 	 */
-	public function QWB_monat( string $monat ): float {
-		return ( $this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen() ) * $this->nutzwaermebedarf_trinkwasser() * ( $this->monatsdaten->tage( $monat ) / 365 );
+	public function QWB_monat(string $monat): float
+	{
+		return ($this->gebaeude->nutzflaeche() / $this->gebaeude->anzahl_wohnungen()) * $this->nutzwaermebedarf_trinkwasser() * ($this->monatsdaten->tage($monat) / 365);
 	}
 
 	/**
@@ -723,11 +762,12 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float Nutzwärmebedarf für Trinkwasser (qwb) in kWh.
 	 */
-	public function QWB(): float {
+	public function QWB(): float
+	{
 		$qwb = 0;
 
-		foreach ( $this->monatsdaten->monate() as $monat ) {
-			$qwb += $this->QWB_monat( $monat );
+		foreach ($this->monatsdaten->monate() as $monat) {
+			$qwb += $this->QWB_monat($monat);
 		}
 
 		return $qwb;
@@ -738,17 +778,18 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function Faw(): float {
+	public function fa_w(): float
+	{
 		// There is
-		if ( ! $this->zentral ) {
+		if (!$this->zentral) {
 			return 0.193;
 		}
 
-		if ( ! $this->mit_warmwasserspeicher ) {
-			return $this->Faw_ohne_warmwasserspeicher();
+		if (!$this->mit_warmwasserspeicher) {
+			return $this->fa_w_ohne_warmwasserspeicher();
 		}
 
-		return $this->Faw_mit_warmwasserspeicher();
+		return $this->fa_w_mit_warmwasserspeicher();
 	}
 
 	/**
@@ -756,11 +797,12 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	protected function Faw_mit_warmwasserspeicher(): float {
+	protected function fa_w_mit_warmwasserspeicher(): float
+	{
 		// Werte aus Tabelle 142 & 143 nach den drei
 		// Möglichkeiten der Beheizung der Anlage aufgeteilt,
 		// je nachdem ob mit oder ohne Zirkulation.
-		if ( $this->heizung_im_beheizten_bereich ) {
+		if ($this->heizung_im_beheizten_bereich) {
 			return $this->mit_zirkulation ? 1.554 : 0.647;
 		}
 
@@ -772,11 +814,12 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	protected function Faw_ohne_warmwasserspeicher(): float {
+	protected function fa_w_ohne_warmwasserspeicher(): float
+	{
 		// Werte aus Tabelle 142 & 143 ohne Warmwasserspeicher
 		// je nachdem ob mit oder ohne Zirkulation.
 		// Es wird der schlechtere Wert der beidem beheizten Varianten genommen.
-		if ( $this->mit_zirkulation ) {
+		if ($this->mit_zirkulation) {
 			return 1.321;
 		}
 
@@ -788,72 +831,79 @@ class Trinkwarmwasseranlage {
 	 *
 	 * @return float
 	 */
-	public function fbivalent(): float {
+	public function fbivalent(): float
+	{
 		return $this->gebaeude->heizsystem()->beheizt() ? 1.008 : 1.2096;
 	}
 
-	public function ewg(): float {
+	public function ewg(): float
+	{
 		//      if "Elektrodurchlauferhitzer" than  // Wird nur hydraulischer Durchlauferhitzer wird berücksichtigt (auf der sicheren Seite) // Gilt auch für Elektro-Kleinspeicher
-        //           $ewg = 1.01;
-        //      if "Gasdurchlauferhitzer"   Than
-        //             $ewg = 1.26
-        //      else??
+		//           $ewg = 1.01;
+		//      if "Gasdurchlauferhitzer"   Than
+		//             $ewg = 1.26
+		//      else??
 
-		if( $this->zentral() ) {
-			throw new Calculation_Exception( 'Bei Trinkwarmwasser aus Heizungsanlagen bitte ewg() Funktion aus Heizungsanlagen nutzen.' );
+		if ($this->zentral()) {
+			throw new Calculation_Exception('Bei Trinkwarmwasser aus Heizungsanlagen bitte ewg() Funktion aus Heizungsanlagen nutzen.');
 		}
 
-		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+		if ($this->erzeuger() === 'dezentralelektroerhitzer') {
 			return 1.01;
 		}
-		
+
 		return 1.26;
 	}
 
-	public function Qfwges(): float {
-		if( $this->zentral() ) {
-			throw new Calculation_Exception( 'Bei Trinkwarmwasser aus Heizungsanlagen bitte Qfwges() Funktion aus Heizungsanlagen nutzen.' );
+	public function Qfwges(): float
+	{
+		if ($this->zentral()) {
+			throw new Calculation_Exception('Bei Trinkwarmwasser aus Heizungsanlagen bitte Qfwges() Funktion aus Heizungsanlagen nutzen.');
 		}
 
 		// (($calculations['QWB']']*$ewd)*$ewg1)
-		return ( $this->QWB() * $this->ewd() ) * $this->ewg();
+		return ($this->QWB() * $this->ewd()) * $this->ewg();
 	}
 
-	public function energietraeger(): string {
-		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+	public function energietraeger(): string
+	{
+		if ($this->erzeuger() === 'dezentralelektroerhitzer') {
 			return 'strom';
 		}
-		
+
 		return 'gas';
 	}
 
-	public function fp(): float {
-		if( $this->zentral() ) {
-			throw new Calculation_Exception( 'fp kann nur für dezentrale Trinkwasseranlagen genutzt werden.' );
+	public function fp(): float
+	{
+		if ($this->zentral()) {
+			throw new Calculation_Exception('fp kann nur für dezentrale Trinkwasseranlagen genutzt werden.');
 		}
-		
-		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+
+		if ($this->erzeuger() === 'dezentralelektroerhitzer') {
 			return  1.8;
 		}
-		
+
 		return 1.1;
 	}
 
-	public function fhshid(): float {
-		if( $this->zentral() ) {
-			throw new Calculation_Exception( 'fhshid kann nur für dezentrale Trinkwasseranlagen genutzt werden.' );
+	public function fhshid(): float
+	{
+		if ($this->zentral()) {
+			throw new Calculation_Exception('fhshid kann nur für dezentrale Trinkwasseranlagen genutzt werden.');
 		}
 
-		if ( $this->erzeuger() === 'dezentralelektroerhitzer' ) {
+		if ($this->erzeuger() === 'dezentralelektroerhitzer') {
 			return  1.0;
 		}
-		
+
 		return 1.11;
 	}
 
-	public function Qpges(): float {
-		if( $this->zentral() ) {
-			throw new Calculation_Exception( 'Qpges kann nur für dezentrale Trinkwasseranlagen berechnet werden.' );
+	public function Qpges(): float
+	{
+		if ($this->zentral()) {
+			throw new Calculation_Exception('Qpges kann nur für dezentrale Trinkwasseranlagen berechnet werden.');
 		}
 
 		return $this->Qfwges() * $this->fp() * $this->fhshid();

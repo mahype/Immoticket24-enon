@@ -773,7 +773,26 @@ class Gebaeude
 	 */
 	public function qi_wasser_monat(string $monat): float
 	{
-		return $this->trinkwarmwasseranlage->QWB_monat($monat) * $this->trinkwarmwasseranlage()->Faw();
+		return $this->trinkwarmwasseranlage->QWB_monat($monat) * $this->fa_w();
+	}
+
+	/**
+	 * Bestimmung des Anteils nutzbarer Wärme von Warmwasseranlagen.
+	 * 
+	 * @return float 
+	 * @throws Calculation_Exception 
+	 */
+	public function fa_w(): float
+	{
+		if ($this->referenzgebaeude) {
+			if ($this->nutzflaeche() > 500) {
+				return 1.321;
+			} else {
+				return 1.554;
+			}
+		}
+
+		return $this->trinkwarmwasseranlage()->fa_w();
 	}
 
 	/**

@@ -954,7 +954,7 @@ $jahr = new Jahr();
 
 	<h3>Trinkwarmwasseranlage</h3>
 
-	<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen Faw: %s', 'wpenon'), str_replace('.', ',', $gebaeude->trinkwarmwasseranlage()->Faw())); ?></p>
+	<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen fa<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->fa_w())); ?></p>
 	<p><?php printf(__('Nutzwärmebedarf für Trinkwasser qwb: %s kWh/(ma)', 'wpenon'), str_replace('.', ',', $gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser())); ?></p>
 	<p><?php printf(__('Q<sub>w,b</sub>: %s kWh', 'wpenon'), str_replace('.', ',', $gebaeude->trinkwarmwasseranlage()->QWB())); ?></p>
 	<p><?php printf(__('Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->qi_wasser())); ?></p>
@@ -2006,7 +2006,7 @@ $jahr = new Jahr();
 
 		<h3>Trinkwarmwasseranlage</h3>
 
-		<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen Faw: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->trinkwarmwasseranlage()->Faw())); ?></p>
+		<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen fa<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->fa_w())); ?></p>
 		<p><?php printf(__('Nutzwärmebedarf für Trinkwasser qwb: %s kWh/(ma)', 'wpenon'), str_replace('.', ',', $referenzgebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser())); ?></p>
 		<p><?php printf(__('Q<sub>w,b</sub>: %s kWh', 'wpenon'), str_replace('.', ',', $referenzgebaeude->trinkwarmwasseranlage()->QWB())); ?></p>
 		<p><?php printf(__('Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->qi_wasser())); ?></p>
