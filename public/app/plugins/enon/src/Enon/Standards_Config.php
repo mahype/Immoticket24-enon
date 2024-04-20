@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Standards config.
  *
@@ -20,7 +21,8 @@ use Enon\Enon\Standards\Schema;
  *
  * @todo Renaming standards?
  */
-class Standards_Config extends Config {
+class Standards_Config extends Config
+{
 
 	/**
 	 * Initiating standards.
@@ -29,80 +31,81 @@ class Standards_Config extends Config {
 	 *
 	 * @todo Loading dynamically.
 	 */
-	protected function initiate() {
+	protected function initiate()
+	{
 		$this->config_data = array(
 			'enev2013' => array(
-				'name'       => __( 'EnEV 2013', 'wpenon' ),
+				'name'       => __('EnEV 2013', 'wpenon'),
 				'date'       => '2013-11-18',
 				'start_date' => '2014-05-01',
 			),
 			'enev2017' => array(
-				'name'       => __( 'EnEV 2013 (ab 1.7.2017)', 'wpenon' ),
+				'name'       => __('EnEV 2013 (ab 1.7.2017)', 'wpenon'),
 				'date'       => '2013-11-18',
 				'start_date' => '2017-07-01',
 			),
 			'enev2019' => array(
-				'name'       => __( 'EnEV 2013 (ab 11.12.2019)', 'wpenon' ),
+				'name'       => __('EnEV 2013 (ab 11.12.2019)', 'wpenon'),
 				'date'       => '2013-11-18',
 				'start_date' => '2019-12-11',
 			),
 			'enev2020-01' => array(
-				'name'       => __( 'EnEV 2013 (ab 28.02.2020)', 'wpenon' ),
+				'name'       => __('EnEV 2013 (ab 28.02.2020)', 'wpenon'),
 				'date'       => '2013-11-18',
 				'start_date' => '2020-03-11',
 			),
 			'enev2020-02' => array(
-				'name'       => __( 'EnEV 2013 (ab 28.05.2020)', 'wpenon' ),
+				'name'       => __('EnEV 2013 (ab 28.05.2020)', 'wpenon'),
 				'date'       => '2013-11-18',
 				'start_date' => '2020-05-28',
 			),
 			'enev2021-01' => array(
-				'name'       => __( 'GEG 2021 (ab 01.05.2020)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 01.05.2020)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2021-05-01',
 			),
 			'enev2021-02' => array(
-				'name'       => __( 'GEG 2021 (ab 13.05.2020)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 13.05.2020)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2021-05-13',
 			),
 			'enev2021-03' => array(
-				'name'       => __( 'GEG 2021 (ab 01.07.2021)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 01.07.2021)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2021-06-30',
 			),
 			'enev2021-04' => array(
-				'name'       => __( 'GEG 2021 (ab 09.07.2021)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 09.07.2021)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2021-07-09',
 			),
 			'enev2021-05' => array(
-				'name'       => __( 'GEG 2021 (ab 20.07.2021)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 20.07.2021)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2021-07-20',
 			),
 			'enev2022-01' => array(
-				'name'       => __( 'GEG 2021 (ab 01.07.2022)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 01.07.2022)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2022-07-01',
 			),
 			'enev2023-01' => array(
-				'name'       => __( 'GEG 2021 (ab 07.07.2023)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 07.07.2023)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2023-07-07',
 			),
 			'enev2023-02' => array(
-				'name'       => __( 'GEG 2021 (ab 28.12.2023)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 28.12.2023)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2023-12-28',
 			),
 			'enev2024-01' => array(
-				'name'       => __( 'GEG 2021 (ab 12.01.2023)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 12.01.2023)', 'wpenon'),
 				'date'       => '2023-10-16',
 				'start_date' => '2024-01-12',
 			),
 			'enev2024-02' => array(
-				'name'       => __( 'GEG 2021 (ab 08.02.2024)', 'wpenon' ),
+				'name'       => __('GEG 2021 (ab 08.02.2024)', 'wpenon'),
 				'date'       => '2020-08-08',
 				'start_date' => '2024-02-08',
 			),
@@ -118,13 +121,13 @@ class Standards_Config extends Config {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function getStandardStartDate( string $standard = '' ) : string
+	public function getStandardStartDate(string $standard = ''): string
 	{
-		if( empty( $standard ) ) {
+		if (empty($standard)) {
 			$standard = $this->getCurrent();
 		}
 
-		return $this->config_data[ $standard ]['start_date'];
+		return $this->config_data[$standard]['start_date'];
 	}
 
 	/**
@@ -134,10 +137,9 @@ class Standards_Config extends Config {
 	 * 
 	 * @return bool
 	 */
-	public function isOldStandard( $standardKey ) : bool
+	public function isOldStandard($standardKey): bool
 	{
-		if ( $this->getCurrent() !== $standardKey )
-		{
+		if ($this->getCurrent() !== $standardKey) {
 			return false;
 		}
 
@@ -151,9 +153,9 @@ class Standards_Config extends Config {
 	 * 
 	 * @return bool
 	 */
-	public function isStandardOlderThenDate( string $standard, string $date )
+	public function isStandardOlderThenDate(string $standard, string $date)
 	{
-		return in_array( $standard, array_keys( $this->getStandardsBefore( $date ) ) );
+		return in_array($standard, array_keys($this->getStandardsBefore($date)));
 	}
 
 	/**
@@ -165,16 +167,15 @@ class Standards_Config extends Config {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function getStandardsBefore( string $date )
+	public function getStandardsBefore(string $date)
 	{
 		$standards = [];
-		foreach( $this->config_data AS $key => $standard )
-		{
-			if( strtotime( $standard['start_date'] ) < strtotime( $date ) ) {
-				$standards[ $key ] = $standard;
-			} 
+		foreach ($this->config_data as $key => $standard) {
+			if (strtotime($standard['start_date']) < strtotime($date)) {
+				$standards[$key] = $standard;
+			}
 		}
-		
+
 		return $standards;
 	}
 
@@ -183,9 +184,9 @@ class Standards_Config extends Config {
 	 * 
 	 * @param string 
 	 */
-	public function getStandardsPath( string $standardName = null )
+	public function getStandardsPath(string $standardName = null)
 	{
-		if( empty( $standardName ) ) {
+		if (empty($standardName)) {
 			$standardName = $this->getCurrent();
 		}
 		return WPENON_DATA_PATH . '/' . $standardName;
@@ -200,20 +201,19 @@ class Standards_Config extends Config {
 	 * 
 	 * @since 1.0.0
 	 */
-	public function getEnevXMLTemplatefile( string $mode, string $xmlMode, $schemaName = null )
+	public function getEnevXMLTemplatefile(string $mode, string $xmlMode, $schemaName = null)
 	{
-		if( empty( $schemaName ) ) {
+		if (empty($schemaName)) {
 			$schemaName = $this->getCurrent();
 		}
 
 
-		if( $xmlMode == 'datenerfassung')
-		{
-			$XMLTemplateFilename = ucfirst( $xmlMode ) . '.php';
+		if ($xmlMode == 'datenerfassung') {
+			$XMLTemplateFilename = ucfirst($xmlMode) . '.php';
 		} else {
-			$XMLTemplateFilename = ucfirst( $xmlMode ) . ucwords( $mode ) . 'W.php';
+			$XMLTemplateFilename = ucfirst($xmlMode) . ucwords($mode) . 'W.php';
 		}
-		$XMLTemplateFile     = $this->getStandardsPath( $schemaName ) . '/datenerfassung/templates/' . $XMLTemplateFilename;
+		$XMLTemplateFile     = $this->getStandardsPath($schemaName) . '/datenerfassung/templates/' . $XMLTemplateFilename;
 
 		return $XMLTemplateFile;
 	}
@@ -226,9 +226,10 @@ class Standards_Config extends Config {
 	 * @param int $timestamp Timestamp
 	 * @return string Standard key
 	 */
-	public function getByTime( $timestamp ) {
-		foreach ( $this->config_data as $key => $standard ) {
-			if ( strtotime( $standard['start_date'] ) > $timestamp ) {
+	public function getByTime($timestamp)
+	{
+		foreach ($this->config_data as $key => $standard) {
+			if (strtotime($standard['start_date']) > $timestamp) {
 				break;
 			}
 
@@ -245,7 +246,8 @@ class Standards_Config extends Config {
 	 *
 	 * @return string Standard name.
 	 */
-	public function getCurrent() {
-		return $this->getByTime( time() );
+	public function getCurrent()
+	{
+		return $this->getByTime(time());
 	}
 }

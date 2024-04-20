@@ -114,6 +114,7 @@ foreach ($grundriss->waende_manuell() as $wand) {
 $gebaeude = new Gebaeude(
 	grundriss: $grundriss,
 	baujahr: $energieausweis->baujahr,
+	gebaeudetyp: $energieausweis->gebaeudetyp,
 	geschossanzahl: $energieausweis->geschoss_zahl,
 	geschosshoehe: $energieausweis->geschoss_hoehe,
 	anzahl_wohnungen: $energieausweis->wohnungen,
@@ -1001,8 +1002,8 @@ if ($gebaeude->photovoltaik_anlage_vorhanden()) {
 if ($energieausweis->anlass === 'modernisierung' || $energieausweis->anlass === 'sonstiges') {
 	$referenzgebäude = new Referenzgebaeude($energieausweis);
 
-	$calculations['ht_ref_geb'] = $referenzgebäude->ht_ref_geb();
-	$calculations['Qp_ref_geb'] = $referenzgebäude->Qp_ref_geb();
+	$calculations['ht_strich_ref'] = $referenzgebäude->gebaeude()->ht_strich();
+	$calculations['Qp_ref'] = $referenzgebäude->gebaeude()->Qp();
 
 	$calculations['referenzgebaeude'] = $referenzgebäude->gebaeude();
 }

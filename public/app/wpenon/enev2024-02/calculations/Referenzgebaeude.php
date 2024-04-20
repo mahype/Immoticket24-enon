@@ -131,16 +131,18 @@ class Referenzgebaeude
 		$gebaeude = new Gebaeude(
 			grundriss: $grundriss,
 			baujahr: $this->energieausweis->baujahr,
+			gebaeudetyp: $this->energieausweis->gebaeudetyp,
 			geschossanzahl: $this->energieausweis->geschoss_zahl,
 			geschosshoehe: $this->energieausweis->geschoss_hoehe,
 			anzahl_wohnungen: $this->energieausweis->wohnungen,
 			standort_heizsystem: $this->energieausweis->h_standort,
-			waermebruecken_zuschlag: 0.05
+			waermebruecken_zuschlag: 0.05,
+			referenzgebaeude: true
 		);
 
 		$calculations['gebaeude'] = $gebaeude;
 
-		$gwert_fenster = wpenon_immoticket24_get_g_wert($this->energieausweis->fenster_bauart);
+		$gwert_fenster = 0.6;
 
 		/**
 		 * Referenz U-Werte.
@@ -233,9 +235,6 @@ class Referenzgebaeude
 			// Hinzufügen der Bauteile des Anbaus zum Gebäude.
 			$anbauwand_bauart_feldname = 'anbauwand_bauart_' . $this->energieausweis->gebaeudekonstruktion;
 			$anbauwand_bauart_name     = $this->energieausweis->$anbauwand_bauart_feldname;
-			$uwert_anbau_wand          = uwert('wand_' . $anbauwand_bauart_name, $this->energieausweis->anbau_baujahr);
-
-			$uwert_anbau_fenster = $this->energieausweis->anbaufenster_uwert_info ? $this->energieausweis->anbaufenster_uwert : uwert('fenster_' . $this->energieausweis->fenster_bauart, $this->energieausweis->fenster_baujahr);
 
 			foreach ($gebaeude->anbau()->grundriss()->waende() as $wand) {
 				$anbauwand = new Anbauwand(
@@ -361,7 +360,6 @@ class Referenzgebaeude
 				$fensterflaeche = berechne_fenster_flaeche($wand_laenge, $this->energieausweis->geschoss_hoehe, $this->energieausweis->wand_staerke / 100) * $this->energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 			}
 
-			$uwert_fenster   = $this->energieausweis->fenster_uwert_info ? $this->energieausweis->fenster_uwert : uwert('fenster_' . $this->energieausweis->fenster_bauart, $this->energieausweis->fenster_baujahr);
 			$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung($wand->seite());
 
 			$fenster = new Fenster(
@@ -497,49 +495,27 @@ class Referenzgebaeude
 				);
 		}
 
-		// NOTE: Vereinfachung vom 08.02.2024 - Issue #618
-		if ($this->energieausweis->l_info === 'vorhanden') {
-			$lueftungssystem   = 'zu_abluft';
-			$gebaeudedichtheit = 'din_4108_7';
-			$bedarfsgefuehrt   = true;
-
-			if ($gebaeude->baujahr() <= 1999) {
-				$wirkungsgrad = 54;
-			} elseif ($gebaeude->baujahr() >= 2000 && $gebaeude->baujahr() <= 2009) {
-				$wirkungsgrad = 60;
-			} else {
-				$wirkungsgrad = 80;
-			}
-		} else {
-			$lueftungssystem   = 'ohne';
-			$gebaeudedichtheit = 'andere';
-			$wirkungsgrad      = 0;
-			$bedarfsgefuehrt   = false;
-		}
-
-		$gebaeudedichtheit = 'din_4108_7'; // Referenzwert;
-
 		$gebaeude->lueftung(
 			new Lueftung(
 				gebaeude: $gebaeude,
 				lueftungssystem: 'abluft',
-				art: 'zentral', // Referenzwert
-				bedarfsgefuehrt: false, // Referenzwert
-				gebaeudedichtheit: $gebaeudedichtheit,
-				wirkungsgrad: $wirkungsgrad,
+				art: 'zentral',
+				bedarfsgefuehrt: false,
+				gebaeudedichtheit: 'din_4108_7',
+				baujahr: $gebaeude->baujahr()
 			)
 		);
 
-		$heizung_im_beheizten_bereich = $gebaeude->nutzflaeche() <= 500 ? true : false; // Referenzwert
+		$heizung_im_beheizten_bereich = $gebaeude->nutzflaeche() <= 500 ? true : false;
 
 		$gebaeude->trinkwarmwasseranlage(
 			new Trinkwarmwasseranlage(
 				gebaeude: $gebaeude,
-				zentral: true, // Referenzwert
-				erzeuger: 'brennwertkessel', // Referenzwert
+				zentral: true,
+				erzeuger: 'brennwertkessel',
 				heizung_im_beheizten_bereich: $heizung_im_beheizten_bereich,
 				mit_warmwasserspeicher: true,
-				mit_zirkulation: true, // Referenzwert
+				mit_zirkulation: true,
 				mit_solarthermie: $this->energieausweis->solarthermie_info === 'vorhanden' ? true : false,
 				solarthermie_neigung: $this->energieausweis->solarthermie_info === 'vorhanden' ? $this->energieausweis->solarthermie_neigung : null,
 				solarthermie_richtung: $this->energieausweis->solarthermie_info === 'vorhanden' ? $this->energieausweis->solarthermie_richtung : null,
@@ -608,57 +584,6 @@ class Referenzgebaeude
 		}
 
 		$this->gebaeude = $gebaeude;
-	}
-
-	/**
-	 * Wärmeverluste pro qm (W/qm*K) nach Vorgaben des GEG Teil §50 Absatz 2
-	 */
-	public function ht_ref_qm(): float
-	{
-		$watt = 0;
-
-		if ($this->energieausweis->gebaeudetyp === 'freistehend') {
-			if ($this->gebaeude->nutzflaeche() < 350) {
-				$watt = 0.4;
-			} else {
-				$watt = 0.5;
-			}
-		} elseif ($this->energieausweis->gebaeudetyp === 'reiheneckhaus' ||  $this->energieausweis->gebaeudetyp === 'reihenhaus' ||  $this->energieausweis->gebaeudetyp === 'doppelhaushaelfte') {
-			$watt = 0.45;
-		} else {
-			$watt = 0.65;
-		}
-
-		return $watt;
-	}
-
-
-	/**
-	 * Transmissionswärmeverluste Referenzwert (W/qm*K).
-	 * 
-	 * @return float 
-	 */
-	public function ht_ref_max(): float
-	{
-		return 1.4 * $this->ht_ref_qm();
-	}
-
-	/**
-	 * Wärmeverluste (W/K) auf Gebäudehülle.
-	 */
-	public function ht_ref_geb(): float
-	{
-		return $this->gebaeude->huellflaeche() * $this->ht_ref_qm();
-	}
-
-	/**
-	 * Primärenergiebedarf.
-	 * 
-	 * @return float 
-	 */
-	public function Qp_ref_geb(): float
-	{
-		return 1.4 * $this->gebaeude->Qp();
 	}
 
 	/**

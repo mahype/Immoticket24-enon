@@ -4,12 +4,13 @@ namespace Enev\Schema202402\Calculations\Bauteile;
 
 use Enev\Schema202402\Calculations\Schnittstellen\Transmissionswaerme;
 
-require_once dirname( __DIR__ ) . '/Schnittstellen/Transmissionwaerme.php';
+require_once dirname(__DIR__) . '/Schnittstellen/Transmissionwaerme.php';
 
 /**
  * Temporäre Klasse zur Aufnahme der Daten. Später sollen die Bauteile, Transmissions usw. hier berechnet werden.
  */
-class Bauteile implements Transmissionswaerme {
+class Bauteile implements Transmissionswaerme
+{
 
 	/**
 	 * Sammlung aller Bauteile.
@@ -23,9 +24,10 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @param array $elemente Bauteile welche hinzugefügt werden sollen.
 	 */
-	public function __construct( array $elemente = array() ) {
-		foreach ( $elemente as $element ) {
-			$this->hinzufuegen( $element );
+	public function __construct(array $elemente = array())
+	{
+		foreach ($elemente as $element) {
+			$this->hinzufuegen($element);
 		}
 	}
 
@@ -34,8 +36,9 @@ class Bauteile implements Transmissionswaerme {
 	 * 
 	 * @return int 
 	 */
-	public function anzahl(): int {
-		return count( $this->elemente );
+	public function anzahl(): int
+	{
+		return count($this->elemente);
 	}
 
 	/**
@@ -43,7 +46,8 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @param Bauteil $bauteil
 	 */
-	public function hinzufuegen( Bauteil $bauteil ) {
+	public function hinzufuegen(Bauteil $bauteil)
+	{
 		$this->elemente[] = $bauteil;
 	}
 
@@ -52,7 +56,8 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return Bauteil[]
 	 */
-	public function alle(): array {
+	public function alle(): array
+	{
 		return $this->elemente;
 	}
 
@@ -61,7 +66,8 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return Bauteil
 	 */
-	public function erstes(): Bauteil {
+	public function erstes(): Bauteil
+	{
 		return $this->elemente[0];
 	}
 
@@ -74,24 +80,25 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return Bauteile
 	 */
-	public function filter( string $typ = null, string $himmelsrichtung = null, string $seite = null ): Bauteile {
+	public function filter(string $typ = null, string $himmelsrichtung = null, string $seite = null): Bauteile
+	{
 		$elemente = array_filter(
 			$this->elemente,
-			function ( $bauteil ) use ( $typ, $himmelsrichtung, $seite ) {
+			function ($bauteil) use ($typ, $himmelsrichtung, $seite) {
 				$found = true;
 
-				$reflect = new \ReflectionClass( $bauteil );
+				$reflect = new \ReflectionClass($bauteil);
 				$class = $reflect->getShortName();
 
-				if( $typ !== null && ( $class !== ucfirst( $typ ) ) ) {
+				if ($typ !== null && ($class !== ucfirst($typ))) {
 					$found = false;
 				}
 
-				if ( $himmelsrichtung !== null && ( ! method_exists( $bauteil, 'himmelsrichtung' ) || $bauteil->himmelsrichtung() !== $himmelsrichtung ) ) {
+				if ($himmelsrichtung !== null && (!method_exists($bauteil, 'himmelsrichtung') || $bauteil->himmelsrichtung() !== $himmelsrichtung)) {
 					$found = false;
 				}
 
-				if ( $seite !== null && ( ! method_exists( $bauteil, 'seite' ) || $bauteil->seite() !== $seite ) ) {
+				if ($seite !== null && (!method_exists($bauteil, 'seite') || $bauteil->seite() !== $seite)) {
 					$found = false;
 				}
 
@@ -99,19 +106,20 @@ class Bauteile implements Transmissionswaerme {
 			}
 		);
 
-		return new Bauteile( $elemente );
+		return new Bauteile($elemente);
 	}
 
-	public function opak(): Bauteile {
+	public function opak(): Bauteile
+	{
 		$elemente = array_filter(
 			$this->elemente,
-			function ( $bauteil ) {
+			function ($bauteil) {
 				$found = true;
 
-				$reflect = new \ReflectionClass( $bauteil );
+				$reflect = new \ReflectionClass($bauteil);
 				$class = $reflect->getShortName();
 
-				if( $class === 'Fenster' || $class === 'Anbaufenster' ) {
+				if ($class === 'Fenster' || $class === 'Anbaufenster') {
 					$found = false;
 				}
 
@@ -119,19 +127,20 @@ class Bauteile implements Transmissionswaerme {
 			}
 		);
 
-		return new Bauteile( $elemente );
+		return new Bauteile($elemente);
 	}
 
-	public function transparent(): Bauteile {
+	public function transparent(): Bauteile
+	{
 		$elemente = array_filter(
 			$this->elemente,
-			function ( $bauteil ) {
+			function ($bauteil) {
 				$found = false;
 
-				$reflect = new \ReflectionClass( $bauteil );
+				$reflect = new \ReflectionClass($bauteil);
 				$class = $reflect->getShortName();
 
-				if( $class === 'Fenster' || $class === 'Anbaufenster' ) {
+				if ($class === 'Fenster' || $class === 'Anbaufenster') {
 					$found = true;
 				}
 
@@ -139,19 +148,20 @@ class Bauteile implements Transmissionswaerme {
 			}
 		);
 
-		return new Bauteile( $elemente );
+		return new Bauteile($elemente);
 	}
 
-	public function dach(): Bauteile {
+	public function dach(): Bauteile
+	{
 		$elemente = array_filter(
 			$this->elemente,
-			function ( $bauteil ) {
+			function ($bauteil) {
 				$found = false;
 
-				$reflect = new \ReflectionClass( $bauteil );
+				$reflect = new \ReflectionClass($bauteil);
 				$class = $reflect->getShortName();
 
-				if( $class === 'Flachdach' || $class === 'Satteldach' || $class === 'Walmdach'  || $class === 'Pultdach' || $class === 'Anbaudecke' ) {
+				if ($class === 'Flachdach' || $class === 'Satteldach' || $class === 'Walmdach'  || $class === 'Pultdach' || $class === 'Anbaudecke') {
 					$found = true;
 				}
 
@@ -159,7 +169,7 @@ class Bauteile implements Transmissionswaerme {
 			}
 		);
 
-		return new Bauteile( $elemente );
+		return new Bauteile($elemente);
 	}
 
 
@@ -168,11 +178,12 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return Fenster_Sammlung Sammlung aller Fenster.
 	 */
-	public function fenster(): Fenster_Sammlung {
+	public function fenster(): Fenster_Sammlung
+	{
 		$fenster = array();
-		$fenster = array_merge( $fenster, $this->filter( 'Fenster' )->alle() );
-		$fenster = array_merge( $fenster, $this->filter( 'Anbaufenster' )->alle() );
-		return new Fenster_Sammlung( $fenster );
+		$fenster = array_merge($fenster, $this->filter('Fenster')->alle());
+		$fenster = array_merge($fenster, $this->filter('Anbaufenster')->alle());
+		return new Fenster_Sammlung($fenster);
 	}
 
 	/**
@@ -182,8 +193,8 @@ class Bauteile implements Transmissionswaerme {
 	 */
 	public function waende(): Wand_Sammlung
 	{
-		$waende = $this->filter( 'Wand' );
-		return new Wand_Sammlung( $waende->alle() );
+		$waende = $this->filter('Wand');
+		return new Wand_Sammlung($waende->alle());
 	}
 
 	/**
@@ -193,8 +204,8 @@ class Bauteile implements Transmissionswaerme {
 	 */
 	public function keller_waende(): Wand_Sammlung
 	{
-		$waende = $this->filter( 'Kellerwand' );
-		return new Wand_Sammlung( $waende->alle() );
+		$waende = $this->filter('Kellerwand');
+		return new Wand_Sammlung($waende->alle());
 	}
 
 	/**
@@ -202,10 +213,11 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return float
 	 */
-	public function flaeche(): float {
+	public function flaeche(): float
+	{
 		$flaeche = 0.0;
 
-		foreach ( $this->elemente as $bauteil ) {
+		foreach ($this->elemente as $bauteil) {
 			$flaeche += $bauteil->flaeche();
 		}
 
@@ -217,10 +229,11 @@ class Bauteile implements Transmissionswaerme {
 	 *
 	 * @return float
 	 */
-	public function ht(): float {
+	public function ht(): float
+	{
 		$ht = 0;
 
-		foreach ( $this->elemente as $bauteil ) {
+		foreach ($this->elemente as $bauteil) {
 			$ht += $bauteil->ht();
 		}
 
@@ -234,12 +247,13 @@ class Bauteile implements Transmissionswaerme {
 	 * 
 	 * @return float 
 	 */
-	public function hw(): float {
+	public function hw(): float
+	{
 		$hw = 0;
 
-		$fenster_sammlung = $this->filter( 'Fenster' )->alle();
+		$fenster_sammlung = $this->filter('Fenster')->alle();
 
-		foreach ( $fenster_sammlung as $fenster ) {
+		foreach ($fenster_sammlung as $fenster) {
 			$hw += $fenster->ht();
 		}
 
