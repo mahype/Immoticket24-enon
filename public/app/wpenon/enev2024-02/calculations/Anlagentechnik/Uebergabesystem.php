@@ -10,7 +10,8 @@ use Enev\Schema202402\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 /**
  * Berechnung eines Übergabeystems (Heizkörper).
  */
-class Uebergabesystem {
+class Uebergabesystem
+{
 	/**
 	 * Gebäude.
 	 *
@@ -101,13 +102,13 @@ class Uebergabesystem {
 		bool $mindestdaemmung = false
 	) {
 		// Check der Übergabe-Typen
-		if ( ! in_array( $typ, $this->typen ) ) {
-			throw new Calculation_Exception( 'Typ des Übergabesystems nicht bekannt.' );
+		if (!in_array($typ, $this->typen)) {
+			throw new Calculation_Exception('Typ des Übergabesystems nicht bekannt.');
 		}
 
 		// Check der Auslegungstemperaturen.
-		if ( null !== $auslegungstemperaturen && ! in_array( $auslegungstemperaturen, $this->erlaubte_auslegungstemperaturen ) ) {
-			throw new Calculation_Exception( 'Auslegungstemperaturen nicht bekannt.' );
+		if (null !== $auslegungstemperaturen && !in_array($auslegungstemperaturen, $this->erlaubte_auslegungstemperaturen)) {
+			throw new Calculation_Exception('Auslegungstemperaturen nicht bekannt.');
 		}
 
 		$this->gebaeude               = $gebaeude;
@@ -123,7 +124,8 @@ class Uebergabesystem {
 	 *
 	 * @return string
 	 */
-	public function typ(): string {
+	public function typ(): string
+	{
 		return $this->typ;
 	}
 
@@ -132,7 +134,8 @@ class Uebergabesystem {
 	 *
 	 * @return string|null
 	 */
-	public function auslegungstemperaturen(): string|null {
+	public function auslegungstemperaturen(): string|null
+	{
 		return $this->auslegungstemperaturen;
 	}
 
@@ -141,8 +144,9 @@ class Uebergabesystem {
 	 *
 	 * @return int
 	 */
-	public function auslegungsvorlauftemperatur(): int {
-		$temperaturen = explode( '/', $this->auslegungstemperaturen() );
+	public function auslegungsvorlauftemperatur(): int
+	{
+		$temperaturen = explode('/', $this->auslegungstemperaturen());
 		return (int) $temperaturen[0];
 	}
 
@@ -151,7 +155,8 @@ class Uebergabesystem {
 	 *
 	 * @return int
 	 */
-	public function prozentualer_anteil(): int {
+	public function prozentualer_anteil(): int
+	{
 		return $this->prozentualer_anteil;
 	}
 
@@ -160,7 +165,8 @@ class Uebergabesystem {
 	 *
 	 * @return float
 	 */
-	public function prozentualer_faktor(): float {
+	public function prozentualer_faktor(): float
+	{
 		return $this->prozentualer_anteil() / 100;
 	}
 
@@ -170,10 +176,11 @@ class Uebergabesystem {
 	 *
 	 * @return float
 	 */
-	public function ehce(): float {
+	public function ehce(): float
+	{
 		$ehce = 0;
 
-		switch ( $this->typ ) {
+		switch ($this->typ) {
 			case 'elektroheizungsflaechen':
 				$ehce += 1.066; // Es wird immer "Elektro-Direktheizung mit Raum-Regelung" angenommen. ehce 0
 				$ehce += 0.018; // Immeririerender betrieb ist bei Elektroheizungsflächen immer  0,018
@@ -181,11 +188,11 @@ class Uebergabesystem {
 
 				return $ehce;
 			case 'heizkoerper':
-				// Raumtemperaturregelung_ Es wird immer "P-Regler" angenommen.
-				$ehce = 1.042; // ehce 0
+				// Da Referenzgebäude P-Regler (nicht Zertifiziert nach DIN18599 definiert ist, wird der Wert dafür übernommen
+				$ehce = 1.083; // ehce 0
 
 				// Übertemperatur. Es wird vom Zweirohrsystem ausgegangen ehce 1
-				switch ( $this->auslegungstemperaturen ) {
+				switch ($this->auslegungstemperaturen) {
 					case '90/70':
 						$ehce += 1.042;
 						break;
@@ -213,15 +220,15 @@ class Uebergabesystem {
 				$ehce -= 0.030;
 
 				// Da immer vom "Zweirohrsystem" ausgegangen wird, kommt ehcehyd mit 0.036 hinzu.
-				$ehce += 0.036;
+				$ehce += $this->gebaeude->ist_referenzgebaeude() ? 0.024 : 0.036; // 0,024 bei Referenzgebäude
 
 				return $ehce;
-			// Flächenheizungen
+				// Flächenheizungen
 			case 'flaechenheizung':
 				// Raumtemperaturregelung_ Es wird immer "P-Regler" angenommen.
 				$ehce = 1.042; // ehce 0
 
-				switch ( $this->flaechenheizungstyp ) {
+				switch ($this->flaechenheizungstyp) {
 					case 'fussbodenheizung':
 						// Fussbodenheizung - ehce 1
 						$ehce += 0.021;
@@ -236,7 +243,7 @@ class Uebergabesystem {
 						break;
 				}
 
-				if ( $this->mindestdaemmung ) {
+				if ($this->mindestdaemmung) {
 					// Mindestdämmung vorhanden - ehce 2
 					$ehce += 0.015;
 				} else {
@@ -262,7 +269,8 @@ class Uebergabesystem {
 	 * @param float $h_max_spezifisch
 	 * @return float
 	 */
-	public function qhce(): float {
+	public function qhce(): float
+	{
 		return $this->gebaeude->lueftung()->h_max_spezifisch() * $this->ehce();
 	}
 
@@ -271,9 +279,10 @@ class Uebergabesystem {
 	 *
 	 * @return float|void
 	 */
-	public function ehd0( Heizungsanlage $heizungsanlage, int $anzahl_wohnungen ): float {
-		if ( $anzahl_wohnungen === 1 ) {
-			switch ( $this->auslegungstemperaturen ) {
+	public function ehd0(Heizungsanlage $heizungsanlage, int $anzahl_wohnungen): float
+	{
+		if ($anzahl_wohnungen === 1) {
+			switch ($this->auslegungstemperaturen) {
 				case '90/70':
 					return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.099 : 1.1;
 				case '70/55':
@@ -286,7 +295,7 @@ class Uebergabesystem {
 		}
 
 		// Mehrfamilienhaus
-		switch ( $this->auslegungstemperaturen ) {
+		switch ($this->auslegungstemperaturen) {
 			case '90/70':
 				return $heizungsanlage->beheizung_anlage() === 'alles' ? 1.085 : 1.085;
 			case '70/55':

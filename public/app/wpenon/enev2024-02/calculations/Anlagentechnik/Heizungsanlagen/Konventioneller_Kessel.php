@@ -15,20 +15,21 @@ use Enev\Schema202402\Calculations\Tabellen\Laufzeit_Waermeerzeuger_Trinkwassere
 use Enev\Schema202402\Calculations\Tabellen\Umlaufwasserheizer_Hilfsenergieaufwand;
 use Enev\Schema202402\Calculations\Tabellen\Pelletkessel_Hilfsenergieaufwand;
 
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Gas_Spezial_Heizkessel.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Korrekturfaktoren_Holzhackschnitzelkessel.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Laufzeit_Waermeerzeuger_Trinkwassererwaermung.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Brennwertkessel_Hilfsenergieaufwand.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php';
-require_once dirname( dirname( __DIR__ ) ) . '/Tabellen/Pelletkessel_Hilfsenergieaufwand.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Aufwandszahlen_Brennwertkessel.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Aufwandszahlen_Umlaufwasserheizer.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Korrekturfaktoren_Gas_Spezial_Heizkessel.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Korrekturfaktoren_Holzhackschnitzelkessel.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Laufzeit_Waermeerzeuger_Trinkwassererwaermung.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Brennwertkessel_Hilfsenergieaufwand.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Umlaufwasserheizer_Hilfsenergieaufwand.php';
+require_once dirname(dirname(__DIR__)) . '/Tabellen/Pelletkessel_Hilfsenergieaufwand.php';
 
 
-class Konventioneller_Kessel extends Heizungsanlage {
+class Konventioneller_Kessel extends Heizungsanlage
+{
 	/**
 	 * Konstruktor.
 	 *
@@ -51,7 +52,7 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		float|null $fp = null,
 		float|null $fco2 = null
 	) {
-		parent::__construct( $gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil, $fp, $fco2 );
+		parent::__construct($gebaeude, $erzeuger, $energietraeger, $baujahr, $gebaeude->heizsystem()->beheizt(), $prozentualer_anteil, $fp, $fco2);
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return array
 	 */
-	public static function erlaubte_erzeuger(): array {
+	public static function erlaubte_erzeuger(): array
+	{
 		return array(
 			'standardkessel'         => array(
 				'name'           => 'Standardkessel',
@@ -120,20 +122,22 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		);
 	}
 
-	public function fbjw(): float {
+	public function fbjw(): float
+	{
 		// if "Umlaufwasserheizer" than
 		// $fbj = Tab 82 T12, in Anhängigkeit von "Umlaufwasserheizer" und $ßhg
 		// else
 		// $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
-		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			return ( new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßwg() ) )->ewg0();
+		if ($this->typ() === 'umlaufwasserheizer') {
+			return (new Aufwandszahlen_Umlaufwasserheizer($this->gebaeude->heizsystem()->pn(), $this->ßwg()))->ewg0();
 		}
 
-		return ( new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßwg() ) )->f_temp();
+		return (new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor($this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßwg()))->f_temp();
 	}
 
-	public function fegtw(): float {
-		$fegt = ( new Aufwandszahlen_Heizwaermeerzeugung(
+	public function fegtw(): float
+	{
+		$fegt = (new Aufwandszahlen_Heizwaermeerzeugung(
 			$this->erzeuger(),
 			$this->energietraeger(),
 			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(),
@@ -145,18 +149,20 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		return $fegt;
 	}
 
-	public function ßwg(): float {
+	public function ßwg(): float
+	{
 		return 1;
 	}
 
-	public function ewg0(): float {
+	public function ewg0(): float
+	{
 		$pn  = $this->gebaeude->heizsystem()->pn() / 1000;
 		$ßwg = $this->ßwg();
 
-		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			$ewg0 = ( new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßwg ) )->ewg0();
+		if ($this->typ() === 'umlaufwasserheizer') {
+			$ewg0 = (new Aufwandszahlen_Umlaufwasserheizer($pn, $ßwg))->ewg0();
 		} else {
-			$ewg0 = ( new Aufwandszahlen_Brennwertkessel( $pn, $ßwg ) )->ewg0();
+			$ewg0 = (new Aufwandszahlen_Brennwertkessel($pn, $ßwg))->ewg0();
 		}
 
 		return $ewg0;
@@ -168,11 +174,12 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function ewg(): float {
+	public function ewg(): float
+	{
 		// Basis ewg Wert
 		$ewg = $this->ewg0() * $this->fbjw() * $this->fegtw();
 		// Korrekturfaktor für Kessel
-		return 1 + ( $ewg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
+		return 1 + ($ewg - 1) * (8760 / $this->gebaeude->ith_rl());
 	}
 
 	/**
@@ -181,11 +188,12 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function ehg(): float {
+	public function ehg(): float
+	{
 		// Basis ehg Wert
-		$ehg = $this->eg0() * $this->fbj() * $this->fegt();
+		$ehg = $this->eg0() * $this->fbaujahr() * $this->fegt();
 		// Korrekturfaktor für Kessel
-		return 1 + ( $ehg - 1 ) * ( 8760 / $this->gebaeude->ith_rl() );
+		return 1 + ($ehg - 1) * (8760 / $this->gebaeude->ith_rl());
 	}
 
 	/**
@@ -193,7 +201,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function eg0(): float {
+	public function eg0(): float
+	{
 		// if "Umlaufwasserheizer" than
 		// $eg0 = Tab 82 T12, in Anhängigkeit von $Pn und $ßhg
 		// else
@@ -202,34 +211,39 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		$pn  = $this->gebaeude->heizsystem()->pn() / 1000;
 		$ßhg = $this->ßhg();
 
-		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			$eg0 = ( new Aufwandszahlen_Umlaufwasserheizer( $pn, $ßhg ) )->eg0();
+		if ($this->typ() === 'umlaufwasserheizer') {
+			$eg0 = (new Aufwandszahlen_Umlaufwasserheizer($pn, $ßhg))->eg0();
 		} else {
-			$eg0 = ( new Aufwandszahlen_Brennwertkessel( $pn, $ßhg ) )->eg0();
+			$eg0 = (new Aufwandszahlen_Brennwertkessel($pn, $ßhg))->eg0();
 		}
 
 		return $eg0;
 	}
 
-	public function ßhg(): float {
+	public function ßhg(): float
+	{
 		// $ßhg = $ßhs * $ehs // mittlere Belastung der *Übergabe Heizung; damit für Alle Erzeuger (einschl Fern/Nahwärme)
 		return $this->gebaeude->heizsystem()->ßhs() * $this->gebaeude->heizsystem()->ehs();
 	}
 
-	public function fbj(): float {
+	public function fbaujahr(): float
+	{
 		// if "Umlaufwasserheizer" than
 		// $fbj = Tab 82 T12, in Anhängigkeit von "Umlaufwasserheizer" und $ßhg
 		// else
 		// $fbj = Tab 78 T12, in Anhängigkeit von "Baujahr der Heizung" und $ßhg
-		if ( $this->typ() === 'umlaufwasserheizer' ) {
-			return ( new Aufwandszahlen_Umlaufwasserheizer( $this->gebaeude->heizsystem()->pn(), $this->ßhg() ) )->eg0();
+		if ($this->typ() === 'umlaufwasserheizer') {
+			return (new Aufwandszahlen_Umlaufwasserheizer($this->gebaeude->heizsystem()->pn(), $this->ßhg()))->eg0();
 		}
 
-		return ( new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor( $this->erzeuger(), $this->energietraeger(), $this->baujahr(), $this->ßhg() ) )->f_temp();
+		$baujahr = !$this->gebaeude->ist_referenzgebaeude() ? $this->baujahr() : 1995;
+
+		return (new Aufwandszahlen_Heizwaermeerzeugung_Korrekturfaktor($this->erzeuger(), $this->energietraeger(), $baujahr, $this->ßhg()))->f_temp();
 	}
 
-	public function fegt(): float {
-		$fegt = ( new Aufwandszahlen_Heizwaermeerzeugung(
+	public function fegt(): float
+	{
+		$fegt = (new Aufwandszahlen_Heizwaermeerzeugung(
 			$this->erzeuger(),
 			$this->energietraeger(),
 			$this->gebaeude->heizsystem()->uebergabesysteme()->erstes()->auslegungstemperaturen(),
@@ -246,7 +260,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function fphgaux(): float {
+	public function fphgaux(): float
+	{
 		// if "Brennwertheizung (Öl+Gas)", "Gasetagenheizung(Gas)" und "(Brennwert+Standard) für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
 		// $fphgaux=1.0;
 		// if "Brennwert + Standard für Pellet, Stückholz, Hackschnitzel mit Baujahr bis 1995"
@@ -279,7 +294,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function fpwgaux(): float {
+	public function fpwgaux(): float
+	{
 		// if "Brennwertheizung (Öl+Gas)", "Gasetagenheizung(Gas)" und "(Brennwert+Standard) für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
 		// $fphgaux=1.0;
 		// if "Brennwert + Standard für Pellet, Stückholz, Hackschnitzel mit Baujahr bis 1995"
@@ -313,7 +329,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function Phgaux(): float {
+	public function Phgaux(): float
+	{
 		// if "Brennwertheizung (Öl+Gas bis heute/ Holz bois 1994)", "Standardkessel (Öl+Gas bis heute/ Holz bois 1994) - NT(Öl+Gas bis heute)", "Feststoffkessel" than
 		// $Phgaux=nach Tab. 83 T12 in Abhängigkeit von $Pn und $hg;
 		// if  "Brennwert + Standardkessel für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
@@ -322,17 +339,17 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $Phgaux = Tab. 88 T12 in Anhängikeit $Pn und $ßhg;
 		// else????
 
-		if ( $this->erzeuger() === 'etagenheizung' ) {
-			return ( new Umlaufwasserheizer_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
+		if ($this->erzeuger() === 'etagenheizung') {
+			return (new Umlaufwasserheizer_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg()))->Phgaux();
 		}
 
-		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() > 1994 ) {
-				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
+		if ($this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel') {
+			if ($this->baujahr() > 1994) {
+				return (new Pelletkessel_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg()))->Phgaux();
 			}
 		}
 
-		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg() ) )->Phgaux();
+		return (new Brennwertkessel_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, $this->ßhg()))->Phgaux();
 	}
 
 	/**
@@ -340,7 +357,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function Pwgaux(): float {
+	public function Pwgaux(): float
+	{
 		// if "Brennwertheizung (Öl+Gas bis heute/ Holz bois 1994)", "Standardkessel (Öl+Gas bis heute/ Holz bois 1994) - NT(Öl+Gas bis heute)", "Feststoffkessel" than
 		// $Phgaux=nach Tab. 83 T12 in Abhängigkeit von $Pn und $hg;
 		// if  "Brennwert + Standardkessel für Pellet, Stückholz, Hackschnitzel mit Baujahr ab 1995" than
@@ -349,17 +367,17 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $Phgaux = Tab. 88 T12 in Anhängikeit $Pn und $ßhg;
 		// else????
 
-		if ( $this->erzeuger() === 'etagenheizung' ) {
-			return ( new Umlaufwasserheizer_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
+		if ($this->erzeuger() === 'etagenheizung') {
+			return (new Umlaufwasserheizer_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, 1))->Phgaux();
 		}
 
-		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			if ( $this->baujahr() > 1994 ) {
-				return ( new Pelletkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
+		if ($this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'stueckholz' || $this->energietraeger() === 'holzhackschnitzel') {
+			if ($this->baujahr() > 1994) {
+				return (new Pelletkessel_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, 1))->Phgaux();
 			}
 		}
 
-		return ( new Brennwertkessel_Hilfsenergieaufwand( $this->gebaeude->heizsystem()->pn() / 1000, 1 ) )->Phgaux();
+		return (new Brennwertkessel_Hilfsenergieaufwand($this->gebaeude->heizsystem()->pn() / 1000, 1))->Phgaux();
 	}
 
 	/**
@@ -367,7 +385,8 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function PhauxP0(): float {
+	public function PhauxP0(): float
+	{
 		// if "Gasetagenheizung, Brennwertkessel, NT-Kessel, Festsoffkessel (+ Stückholz) ab 1987" than
 		// $PhauxP0=0.015; in kW;
 		// if "Gasetagenheizung, Standardkessel, Brennwertkessel, NT-Kessel, Festsoffkessel  (+ Stückholz)  vor 1987" than
@@ -376,11 +395,11 @@ class Konventioneller_Kessel extends Heizungsanlage {
 		// $PhauxP0= Tabelle 87 T12 in Anhängigkeit $Pn in Spalte Pelletkessel;
 		// else???
 
-		if ( $this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'holzhackschnitzel' ) {
-			return ( new Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel( $this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel' ) )->PhauxP0();
+		if ($this->energietraeger() === 'holzpellets' || $this->energietraeger() === 'holzhackschnitzel') {
+			return (new Betriebsbereitschaftsleistung_Pellet_Holzhackschnitzelkessel($this->gebaeude->heizsystem()->pn() / 1000, 'pelletkessel'))->PhauxP0();
 		}
 
-		if ( $this->erzeuger() === 'standardkessel' ) { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
+		if ($this->erzeuger() === 'standardkessel') { // Laut S. 129 Teil 12 sind alle Heizungen ohne Regelung = Standardkessel mit 150W.
 			return 0.15;
 		}
 
@@ -392,10 +411,11 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function twpn0(): float {
+	public function twpn0(): float
+	{
 		// $twpn0= Tab 140, T12 in Anhägingkeit ($ewd*$ews) und "bei bestehenden Anlagen"
 		$ewd_ews = $this->gebaeude->trinkwarmwasseranlage()->ewd() * $this->gebaeude->trinkwarmwasseranlage()->ews();
-		return ( new Laufzeit_Waermeerzeuger_Trinkwassererwaermung( $ewd_ews, 'bestehende_anlagen' ) )->twpn0();
+		return (new Laufzeit_Waermeerzeuger_Trinkwassererwaermung($ewd_ews, 'bestehende_anlagen'))->twpn0();
 	}
 
 	/**
@@ -403,9 +423,10 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function twpn(): float {
+	public function twpn(): float
+	{
 		// $twpn= $twpn0*(($calculations['nutzflaeche']*50*$qwb)/($Pn*1000*12.5));
-		return $this->twpn0() * ( ( $this->gebaeude->nutzflaeche() * 50 * $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser() ) / ( $this->gebaeude->heizsystem()->pn() * 12.5 ) );
+		return $this->twpn0() * (($this->gebaeude->nutzflaeche() * 50 * $this->gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser()) / ($this->gebaeude->heizsystem()->pn() * 12.5));
 	}
 
 	/**
@@ -413,9 +434,10 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function Whg(): float {
+	public function Whg(): float
+	{
 		// $Whg= $fphgaux*$Phgaux*($calculations['ith,rl']-$twpn)+$PhauxP0*(8760-$calculations['ith,rl']);
-		return $this->fphgaux() * $this->Phgaux() * ( $this->gebaeude->ith_rl() - $this->twpn() ) + $this->PhauxP0() * ( 8760 - $this->gebaeude->ith_rl() );
+		return $this->fphgaux() * $this->Phgaux() * ($this->gebaeude->ith_rl() - $this->twpn()) + $this->PhauxP0() * (8760 - $this->gebaeude->ith_rl());
 	}
 
 	/**
@@ -423,8 +445,9 @@ class Konventioneller_Kessel extends Heizungsanlage {
 	 *
 	 * @return float
 	 */
-	public function Wwg(): float {
-		if ( ! $this->gebaeude->trinkwarmwasseranlage()->zentral() ) {
+	public function Wwg(): float
+	{
+		if (!$this->gebaeude->trinkwarmwasseranlage()->zentral()) {
 			return 0.0;
 		}
 

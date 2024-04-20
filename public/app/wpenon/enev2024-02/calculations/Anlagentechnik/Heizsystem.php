@@ -7,6 +7,8 @@ use Enev\Schema202402\Calculations\Gebaeude\Gebaeude;
 use Enev\Schema202402\Calculations\Tabellen\Kessel_Nennleistung;
 use Enev\Schema202402\Calculations\Tabellen\Mittlere_Belastung_Korrekturfaktor;
 
+use function Enev\Schema202402\Calculations\Helfer\interpolate_value;
+
 require_once __DIR__ . '/Heizungsanlage.php';
 require_once __DIR__ . '/Heizungsanlagen.php';
 require_once __DIR__ . '/Uebergabesysteme.php';
@@ -54,16 +56,9 @@ class Heizsystem
 	protected Pufferspeicher|null $pufferspeicher = null;
 
 	/**
-	 * Handelt es sich um ein Referenzgebaeude.
-	 * 
-	 * @var bool
-	 */
-	protected bool $referenzgebaeude;
-
-	/**
 	 * Konstruktor.
 	 */
-	public function __construct(Gebaeude $gebaeude, string $standort, bool $referenzgebaeude = false)
+	public function __construct(Gebaeude $gebaeude, string $standort)
 	{
 		if ($standort !== 'innerhalb' && $standort !== 'ausserhalb') {
 			throw new Calculation_Exception('Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.');
@@ -71,7 +66,6 @@ class Heizsystem
 
 		$this->gebaeude         = $gebaeude;
 		$this->standort         = $standort;
-		$this->referenzgebaeude = $referenzgebaeude;
 
 		$this->heizungsanlagen  = new Heizungsanlagen($gebaeude);
 		$this->uebergabesysteme = new Uebergabesysteme();
@@ -171,6 +165,10 @@ class Heizsystem
 	 */
 	public function ehd0(): float
 	{
+		if ($this->gebaeude->ist_referenzgebaeude()) {
+			return 1.049;
+		}
+
 		$uebergabesystem = $this->uebergabesysteme()->erstes();
 
 		if ($this->gebaeude->ist_einfamilienhaus()) {
@@ -254,7 +252,7 @@ class Heizsystem
 	public function f_hydr(): float
 	{
 		// Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.
-		if ($this->referenzgebaeude) {
+		if ($this->gebaeude->ist_referenzgebaeude()) {
 			return 1.02;
 		}
 
@@ -275,7 +273,19 @@ class Heizsystem
 			return 1;
 		}
 
-		return (new Mittlere_Belastung_Korrekturfaktor($this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $this->ßhd()))->fßd();
+		$ßhd = $this->ßhd();
+
+		if ($this->gebaeude->ist_referenzgebaeude()) {
+			if ($ßhd >= 0.1 && $ßhd < 0.3) {
+				return interpolate_value($ßhd, [0.1, 0.3], [0.973, 1]);
+			} elseif ($ßhd >= 0.3 && $ßhd < 0.5) {
+				return interpolate_value($ßhd, [0.3, 0.5], [1, 1.016]);
+			} elseif ($ßhd >= 0.5 && $ßhd <= 1) {
+				return interpolate_value($ßhd, [0.5, 1], [1.016, 1.072]);
+			}
+		}
+
+		return (new Mittlere_Belastung_Korrekturfaktor($this->beheizt(), $this->gebaeude->anzahl_wohnungen(), $this->uebergabesysteme()->erstes()->auslegungstemperaturen(), $ßhd))->fßd();;
 	}
 
 	/**
@@ -443,10 +453,10 @@ class Heizsystem
 	 */
 	public function ehs(): float
 	{
-		if ($this->pufferspeicher_vorhanden()) {
-			return $this->pufferspeicher()->ehs();
+		if (!$this->pufferspeicher_vorhanden() || $this->gebaeude->ist_referenzgebaeude()) {
+			return 1;
 		}
 
-		return 1;
+		return $this->pufferspeicher()->ehs();
 	}
 }

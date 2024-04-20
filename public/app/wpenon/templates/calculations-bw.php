@@ -1650,8 +1650,8 @@ $jahr = new Jahr();
 						<td><?php echo $heizungsanlage->eg0(); ?></td>
 					</tr>
 					<tr>
-						<th>fbj</th>
-						<td><?php echo $heizungsanlage->fbj(); ?></td>
+						<th>fbaujahr</th>
+						<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
 					</tr>
 					<tr>
 						<th>ßhg</th>

@@ -236,8 +236,18 @@ class Gebaeude
 			}
 		}
 
-		$this->heizsystem   = new Heizsystem($this, $standort_heizsystem, $this->referenzgebaeude);
+		$this->heizsystem   = new Heizsystem($this, $standort_heizsystem);
 		$this->hilfsenergie = new Hilfsenergie($this);
+	}
+
+	/**
+	 * Ist Referenzgebäude?
+	 * 
+	 * @return bool	 
+	 */
+	public function ist_referenzgebaeude(): bool
+	{
+		return $this->referenzgebaeude;
 	}
 
 	/**

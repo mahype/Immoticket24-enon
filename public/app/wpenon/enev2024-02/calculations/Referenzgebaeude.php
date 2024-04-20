@@ -533,7 +533,7 @@ class Referenzgebaeude
 				gebaeude: $gebaeude,
 				typ: 'heizkoerper', // Referenzwert
 				auslegungstemperaturen: '55/45',
-				prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $this->energieausweis->h_uebergabe_anteil
+				prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $this->energieausweis->h_uebergabe_anteil
 			)
 		);
 
