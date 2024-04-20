@@ -924,6 +924,7 @@ $jahr = new Jahr();
 	<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhce())); ?></p>
 	<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->qhce())); ?></p>
 	<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhd())); ?></p>
+	<p><?php printf(__('fhydr: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->f_hydr())); ?></p>
 	<p><?php printf(__('fßd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->fßd())); ?></p>
 	<p><?php printf(__('ehd0: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ehd0())); ?></p>
 	<p><?php printf(__('ehd1: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ehd1())); ?></p>
@@ -933,8 +934,6 @@ $jahr = new Jahr();
 
 	<p><?php printf(__('Nennleistung Pufferspeicher (pwn): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->pwn())); ?></p>
 	<p><?php printf(__('(pn): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->pn())); ?></p>
-
-
 
 	<?php if ($gebaeude->heizsystem()->pufferspeicher_vorhanden()) : ?>
 		<h3>Pufferspeicher</h3>
@@ -1976,6 +1975,7 @@ $jahr = new Jahr();
 		<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ßhce())); ?></p>
 		<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->qhce())); ?></p>
 		<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ßhd())); ?></p>
+		<p><?php printf(__('fhydr: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->f_hydr())); ?></p>
 		<p><?php printf(__('fßd: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->fßd())); ?></p>
 		<p><?php printf(__('ehd0: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ehd0())); ?></p>
 		<p><?php printf(__('ehd1: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->heizsystem()->ehd1())); ?></p>

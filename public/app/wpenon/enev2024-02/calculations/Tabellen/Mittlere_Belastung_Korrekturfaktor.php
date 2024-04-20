@@ -6,9 +6,10 @@ use Enev\Schema202402\Calculations\Calculation_Exception;
 
 use function Enev\Schema202402\Calculations\Helfer\interpolate_value;
 
-require_once dirname( __DIR__ ) . '/Helfer/Math.php';
+require_once dirname(__DIR__) . '/Helfer/Math.php';
 
-class Mittlere_Belastung_Korrekturfaktor {
+class Mittlere_Belastung_Korrekturfaktor
+{
 	/**
 	 * Heizungaanlage beheizt.
 	 *
@@ -47,8 +48,9 @@ class Mittlere_Belastung_Korrekturfaktor {
 	/**
 	 * Konstruktor.
 	 */
-	public function __construct( bool $heizungsanlage_beheizt, int $anzahl_wohnungen, string $auslegunstemperaturen, float $ßhd ) {
-		$this->table_data = wpenon_get_table_results( 'mittlere_belastung_korrekturfaktor' );
+	public function __construct(bool $heizungsanlage_beheizt, int $anzahl_wohnungen, string $auslegunstemperaturen, float $ßhd)
+	{
+		$this->table_data = wpenon_get_table_results('mittlere_belastung_korrekturfaktor');
 
 		$this->heizungsanlage_beheizt = $heizungsanlage_beheizt;
 		$this->anzahl_wohnungen       = $anzahl_wohnungen;
@@ -63,20 +65,21 @@ class Mittlere_Belastung_Korrekturfaktor {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	public function fßd(): float {
+	public function fßd(): float
+	{
 		$slugs  = $this->ßhd_slugs();
 		$values = array();
 
-		foreach ( $slugs as $slug => $value ) {
+		foreach ($slugs as $slug => $value) {
 			$column_name = $this->beheizung_slug() . '_' . $this->auslegungstemperaturen_slug() . '_' . $slug;
 			$keys[]      = $value;
-			$values[]    = floatval( $this->table_data[ $this->rohrnetz_typ() ]->$column_name );
+			$values[]    = floatval($this->table_data[$this->rohrnetz_typ()]->$column_name);
 		}
 
-		if ( count( $values ) === 1 ) {
+		if (count($values) === 1) {
 			$fßd = $values[0];
 		} else {
-			$fßd = interpolate_value( $this->ßhd, $keys, $values );
+			$fßd = interpolate_value($this->ßhd, $keys, $values);
 		}
 
 		return $fßd;
@@ -87,8 +90,9 @@ class Mittlere_Belastung_Korrekturfaktor {
 	 *
 	 * @return string
 	 */
-	protected function beheizung_slug(): string {
-		if ( $this->heizungsanlage_beheizt ) {
+	protected function beheizung_slug(): string
+	{
+		if ($this->heizungsanlage_beheizt) {
 			return 'beheizt';
 		}
 
@@ -102,8 +106,9 @@ class Mittlere_Belastung_Korrekturfaktor {
 	 *
 	 * @return string
 	 */
-	protected function rohrnetz_typ(): string {
-		if ( $this->anzahl_wohnungen === 1 ) {
+	protected function rohrnetz_typ(): string
+	{
+		if ($this->anzahl_wohnungen === 1) {
 			return 'etagenringtyp';
 		}
 
@@ -117,8 +122,9 @@ class Mittlere_Belastung_Korrekturfaktor {
 	 *
 	 * @throws Calculation_Exception
 	 */
-	protected function auslegungstemperaturen_slug(): string {
-		switch ( $this->auslegungstemperaturen ) {
+	protected function auslegungstemperaturen_slug(): string
+	{
+		switch ($this->auslegungstemperaturen) {
 			case '90/70':
 				return '9070';
 			case '70/55':
@@ -128,7 +134,7 @@ class Mittlere_Belastung_Korrekturfaktor {
 			case '35/28':
 				return '3528';
 			default:
-				throw new Calculation_Exception( 'Ungültige Auslegungstemperatur.' );
+				throw new Calculation_Exception('Ungültige Auslegungstemperatur.');
 		}
 	}
 
@@ -137,29 +143,30 @@ class Mittlere_Belastung_Korrekturfaktor {
 	 *
 	 * @var string
 	 */
-	protected function ßhd_slugs(): array {
+	protected function ßhd_slugs(): array
+	{
 		$slugs = array();
 
-		if ( $this->ßhd <= 0.1 ) {
+		if ($this->ßhd <= 0.1) {
 			$slugs['01'] = 0.1;
 		}
 
-		if ( $this->ßhd > 0.1 && $this->ßhd < 0.3 ) {
-			$slugs['02'] = 0.2;
+		if ($this->ßhd > 0.1 && $this->ßhd < 0.3) {
+			$slugs['01'] = 0.1;
 			$slugs['03'] = 0.3;
 		}
 
-		if ( $this->ßhd >= 0.3 && $this->ßhd < 0.5 ) {
+		if ($this->ßhd >= 0.3 && $this->ßhd < 0.5) {
 			$slugs['03'] = 0.3;
 			$slugs['05'] = 0.5;
 		}
 
-		if ( $this->ßhd >= 0.5 && $this->ßhd < 1.0 ) {
+		if ($this->ßhd >= 0.5 && $this->ßhd < 1.0) {
 			$slugs['05'] = 0.5;
 			$slugs['10'] = 1.0;
 		}
 
-		if ( $this->ßhd >= 1.0 ) {
+		if ($this->ßhd >= 1.0) {
 			$slugs['10'] = 1.0;
 		}
 

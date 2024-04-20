@@ -54,9 +54,16 @@ class Heizsystem
 	protected Pufferspeicher|null $pufferspeicher = null;
 
 	/**
+	 * Handelt es sich um ein Referenzgebaeude.
+	 * 
+	 * @var bool
+	 */
+	protected bool $referenzgebaeude;
+
+	/**
 	 * Konstruktor.
 	 */
-	public function __construct(Gebaeude $gebaeude, string $standort)
+	public function __construct(Gebaeude $gebaeude, string $standort, bool $referenzgebaeude = false)
 	{
 		if ($standort !== 'innerhalb' && $standort !== 'ausserhalb') {
 			throw new Calculation_Exception('Standort des Heizsystems muss entweder "innerhalb" oder "ausserhalb" sein.');
@@ -64,6 +71,8 @@ class Heizsystem
 
 		$this->gebaeude         = $gebaeude;
 		$this->standort         = $standort;
+		$this->referenzgebaeude = $referenzgebaeude;
+
 		$this->heizungsanlagen  = new Heizungsanlagen($gebaeude);
 		$this->uebergabesysteme = new Uebergabesysteme();
 	}
@@ -232,12 +241,24 @@ class Heizsystem
 		if ($this->uebergabesysteme()->erstes()->typ() === 'elektroheizungsflaechen') {
 			return 0;
 		}
-
-		// Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.
 		// Da dies aber später Pflicht wird, muss das später noch angepasst werden.
-		$fhydr = 1.06;
 
-		return $this->ßhce() * $this->uebergabesysteme()->erstes()->ehce() * $fhydr;
+		return $this->ßhce() * $this->uebergabesysteme()->erstes()->ehce() * $this->f_hydr();
+	}
+
+	/**
+	 * Faktor für den hydraulischen Abgleich.
+	 *
+	 * @return float
+	 */
+	public function f_hydr(): float
+	{
+		// Wir nehmen immer an, dass kein hydraulischer Abgleich durchgeführt wurde um die Anzahl der Fragen zu reduzieren.
+		if ($this->referenzgebaeude) {
+			return 1.02;
+		}
+
+		return 1.06;
 	}
 
 	/**

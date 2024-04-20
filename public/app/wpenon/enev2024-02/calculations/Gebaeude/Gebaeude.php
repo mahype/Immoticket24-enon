@@ -227,7 +227,16 @@ class Gebaeude
 
 		$this->monatsdaten  = new Monatsdaten();
 		$this->bauteile     = new Bauteile();
-		$this->heizsystem   = new Heizsystem($this, $standort_heizsystem);
+
+		if ($this->referenzgebaeude) {
+			$standort_heizsystem = 'innerhalb';
+
+			if ($this->nutzflaeche() > 500) {
+				$standort_heizsystem = 'ausserhalb';
+			}
+		}
+
+		$this->heizsystem   = new Heizsystem($this, $standort_heizsystem, $this->referenzgebaeude);
 		$this->hilfsenergie = new Hilfsenergie($this);
 	}
 
