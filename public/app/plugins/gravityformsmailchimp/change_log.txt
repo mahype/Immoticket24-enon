@@ -1,3 +1,7 @@
+### 5.4.0 | 2024-04-17
+- Fixed an issue where the status of an existing subscribed list/audience member changes to pending when double opt-in is enabled on the feed.
+- Reminder: The gform_mailchimp_args_pre_subscribe filter is deprecated and will be removed in a future version. Please use the [gform_mailchimp_subscription](https://docs.gravityforms.com/gform_mailchimp_subscription/) filter instead.
+
 ### 5.3.0 | 2024-02-29
 - Updated feed processing to include the tags in the request to the add/update member endpoint instead of making a separate request to the member tags endpoint.
 - Fixed an issue where an "Unable to add/update subscriber: Invalid Resource" error occurs when mapped field values include HTML entities.
