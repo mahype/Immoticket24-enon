@@ -9,19 +9,20 @@ use Enev\Schema202402\Calculations\Tabellen\Faktor_Anlagensysteme_Wohnungslueftu
 use Enev\Schema202402\Calculations\Tabellen\Faktor_Baujahr_Anlagensysteme;
 use Enev\Schema202402\Calculations\Tabellen\Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen;
 
-require_once dirname( __DIR__ ) . '/Tabellen/Luftwechsel.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Faktor_Anlagensysteme_Wohnungslueftungsanlagen.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Faktor_Baujahr_Anlagensysteme.php';
-require_once dirname( __DIR__ ) . '/Tabellen/Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen.php';
+require_once dirname(__DIR__) . '/Tabellen/Luftwechsel.php';
+require_once dirname(__DIR__) . '/Tabellen/Faktor_Anlagensysteme_Wohnungslueftungsanlagen.php';
+require_once dirname(__DIR__) . '/Tabellen/Faktor_Baujahr_Anlagensysteme.php';
+require_once dirname(__DIR__) . '/Tabellen/Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen.php';
 
-require_once dirname( __DIR__ ) . '/Helfer/Math.php';
+require_once dirname(__DIR__) . '/Helfer/Math.php';
 
 /**
  * Berechnungen zum Luftwechsel.
  *
  * @package
  */
-class Lueftung {
+class Lueftung
+{
 
 	/**
 	 * Gebäude.
@@ -80,6 +81,30 @@ class Lueftung {
 	protected Luftwechsel $luftwechsel;
 
 	/**
+	 * fbaujahr.
+	 * @var mixed
+	 */
+	private $fbaujahr;
+
+	/**
+	 * fsystem
+	 * @var mixed
+	 */
+	private $fsystem;
+
+	/**
+	 * Wfan0
+	 * @var mixed
+	 */
+	private $Wfan0;
+
+	/**
+	 * Wfan
+	 * @var mixed
+	 */
+	private $Wfan;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Gebaeude  $gebaeude          Gebäude.
@@ -98,17 +123,17 @@ class Lueftung {
 		string $gebaeudedichtheit,
 		float $wirkungsgrad = 0,
 		int $baujahr = 0
-	) {	
-		if ( $lueftungssystem !== 'ohne' && $lueftungssystem !== 'abluft' && $lueftungssystem !== 'zu_abluft' ) {
-			throw new \Exception( 'Lüftungssystem muss "ohne", "abluft" oder "zu_abluft" sein.' );
+	) {
+		if ($lueftungssystem !== 'ohne' && $lueftungssystem !== 'abluft' && $lueftungssystem !== 'zu_abluft') {
+			throw new \Exception('Lüftungssystem muss "ohne", "abluft" oder "zu_abluft" sein.');
 		}
 
-		if (  $lueftungssystem !== 'ohne' && ( $art !== 'zentral' && $art !== 'dezentral' ) ) {
-			throw new \Exception( 'Lüftungssystem muss "zentral" oder "dezentral" sein.' );
+		if ($lueftungssystem !== 'ohne' && ($art !== 'zentral' && $art !== 'dezentral')) {
+			throw new \Exception('Lüftungssystem muss "zentral" oder "dezentral" sein.');
 		}
 
-		if ( $gebaeudedichtheit !== 'din_4108_7' && $gebaeudedichtheit !== 'andere' ) {
-			throw new \Exception( 'Kategorie der Gebäudedichtheit muss "din_4108_7", oder "andere" sein.' );
+		if ($gebaeudedichtheit !== 'din_4108_7' && $gebaeudedichtheit !== 'andere') {
+			throw new \Exception('Kategorie der Gebäudedichtheit muss "din_4108_7", oder "andere" sein.');
 		}
 
 		$this->gebaeude          = $gebaeude;
@@ -126,7 +151,7 @@ class Lueftung {
 			$this->wirkungsgrad
 		);
 
-		$this->luftwechsel->gebaeude( $this->gebaeude );
+		$this->luftwechsel->gebaeude($this->gebaeude);
 	}
 
 	/**
@@ -134,7 +159,8 @@ class Lueftung {
 	 *
 	 * @return string
 	 */
-	public function lueftungssystem(): string {
+	public function lueftungssystem(): string
+	{
 		return $this->lueftungssystem;
 	}
 
@@ -143,7 +169,8 @@ class Lueftung {
 	 *
 	 * @return bool
 	 */
-	public function ist_bedarfsgefuehrt(): bool {
+	public function ist_bedarfsgefuehrt(): bool
+	{
 		return $this->bedarfsgefuehrt;
 	}
 
@@ -152,7 +179,8 @@ class Lueftung {
 	 *
 	 * @return string
 	 */
-	public function gebaeudedichtheit(): string {
+	public function gebaeudedichtheit(): string
+	{
 		return $this->gebaeudedichtheit;
 	}
 
@@ -161,7 +189,8 @@ class Lueftung {
 	 *
 	 * @return Luftwechsel
 	 */
-	public function luftwechsel(): Luftwechsel {
+	public function luftwechsel(): Luftwechsel
+	{
 		return $this->luftwechsel;
 	}
 
@@ -170,7 +199,8 @@ class Lueftung {
 	 * 
 	 * @return float
 	 */
-	public function wirkungsgrad(): float {
+	public function wirkungsgrad(): float
+	{
 		return $this->wirkungsgrad;
 	}
 
@@ -181,7 +211,8 @@ class Lueftung {
 	 *
 	 * @throws Exception
 	 */
-	public function hv(): float {
+	public function hv(): float
+	{
 		return $this->luftwechsel->hv();
 	}
 
@@ -191,7 +222,8 @@ class Lueftung {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function h_max(): float {
+	public function h_max(): float
+	{
 		return $this->luftwechsel->h_max();
 	}
 
@@ -201,7 +233,8 @@ class Lueftung {
 	 * @return float
 	 * @throws Calculation_Exception
 	 */
-	public function h_max_spezifisch(): float {
+	public function h_max_spezifisch(): float
+	{
 		return $this->luftwechsel->h_max_spezifisch();
 	}
 
@@ -210,23 +243,26 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function fsup_decr(): float {
-		if ( $this->lueftungssystem === 'zu_abluft' ) {
+	public function fsup_decr(): float
+	{
+		if ($this->lueftungssystem === 'zu_abluft') {
 			return 0.995;
 		}
-		if ( $this->lueftungssystem === 'abluft' ) {
+		if ($this->lueftungssystem === 'abluft') {
 			return 1.0;
 		}
 
-		return 0;		
+		return 0;
 	}
 
-	public function fbetrieb(): float {
+	public function fbetrieb(): float
+	{
 		//  $fbetrieb=1; //laut Tab.125, T12, Faktor für Anlagenbetrieb; BAnZ 2.3  mechanische Lüftung (ganz JAhresBetrieb ohne Bedarfsführung) und BAnz 3.3
-		return 1.0;		
+		return 1.0;
 	}
 
-	public function fgr_exch(): float {
+	public function fgr_exch(): float
+	{
 		//Laut Tab 123, T12, BanZ 11.3 
 		return 1.0;
 	}
@@ -236,8 +272,13 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function fbaujahr(): float {
-		return ( new Faktor_Baujahr_Anlagensysteme( $this->lueftungssystem, $this->art, $this->baujahr ) )->fbaujahr();
+	public function fbaujahr(): float
+	{
+		if (!isset($this->fbaujahr)) {
+			$this->fbaujahr = (new Faktor_Baujahr_Anlagensysteme($this->lueftungssystem, $this->art, $this->baujahr))->fbaujahr();
+		}
+
+		return $this->fbaujahr;
 	}
 
 	/**
@@ -245,8 +286,13 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function fsystem(): float {
-		return ( new Faktor_Anlagensysteme_Wohnungslueftungsanlagen( $this->lueftungssystem, $this->art, $this->baujahr ) )->fsystem();
+	public function fsystem(): float
+	{
+		if (!isset($this->fsystem)) {
+			$this->fsystem = (new Faktor_Anlagensysteme_Wohnungslueftungsanlagen($this->lueftungssystem, $this->art, $this->baujahr))->fsystem();
+		}
+
+		return $this->fsystem;
 	}
 
 	/**
@@ -254,8 +300,13 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function Wfan0(): float {
-		return ( new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen( $this->gebaeude->nutzflaeche(), $this->baujahr ) )->Wfan0();
+	public function Wfan0(): float
+	{
+		if (!isset($this->Wfan0)) {
+			$this->Wfan0 = (new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen($this->gebaeude->nutzflaeche(), $this->baujahr))->Wfan0();
+		}
+
+		return $this->Wfan0;
 	}
 
 	/**
@@ -263,8 +314,13 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function Wfan(): float {
-		return $this->Wfan0() * $this->fsystem() * $this->fbaujahr() * $this->fgr_exch() * $this->fsup_decr() * $this->fbetrieb();
+	public function Wfan(): float
+	{
+		if (!isset($this->Wfan)) {
+			$this->Wfan = $this->Wfan0() * $this->fsystem() * $this->fbaujahr() * $this->fgr_exch() * $this->fsup_decr() * $this->fbetrieb();
+		}
+
+		return $this->Wfan;
 	}
 
 	/**
@@ -272,7 +328,8 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function Wc(): float {
+	public function Wc(): float
+	{
 		return 0.0;
 	}
 
@@ -281,7 +338,8 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function Wpre_h(): float {
+	public function Wpre_h(): float
+	{
 		return 0.0;
 	}
 
@@ -290,8 +348,9 @@ class Lueftung {
 	 *
 	 * @return float
 	 */
-	public function Wrvg(): float {
-		if( $this->lueftungssystem === 'ohne' ) {
+	public function Wrvg(): float
+	{
+		if ($this->lueftungssystem === 'ohne') {
 			return 0.0;
 		}
 
