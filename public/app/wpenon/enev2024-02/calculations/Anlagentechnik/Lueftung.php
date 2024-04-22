@@ -274,6 +274,14 @@ class Lueftung
 	 */
 	public function fbaujahr(): float
 	{
+		if ($this->gebaeude->ist_referenzgebaeude()) {
+			if ($this->gebaeude->baujahr() <= 2004) {
+				return 2.0;
+			}
+
+			return 1.0;
+		}
+
 		if (!isset($this->fbaujahr)) {
 			$this->fbaujahr = (new Faktor_Baujahr_Anlagensysteme($this->lueftungssystem, $this->art, $this->baujahr))->fbaujahr();
 		}
