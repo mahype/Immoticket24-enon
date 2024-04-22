@@ -53,7 +53,7 @@ class GFMailChimp extends GFFeedAddOn {
 	 * @access protected
 	 * @var    string $_min_gravityforms_version The minimum version required.
 	 */
-	protected $_min_gravityforms_version = '1.9.12';
+	protected $_min_gravityforms_version = '2.5.0';
 
 	/**
 	 * Defines the plugin slug.
@@ -1415,6 +1415,26 @@ class GFMailChimp extends GFFeedAddOn {
 	// # FEED PROCESSING -----------------------------------------------------------------------------------------------
 
 	/**
+	 * Triggers processing of feeds or adds them to the async processing queue.
+	 *
+	 * Temporarily overridden to add a deprecation notice in a way that won't cause the async processor to abort processing.
+	 *
+	 * @since 5.4
+	 *
+	 * @param array $entry The entry currently being processed.
+	 * @param array $form  The form currently being processed.
+	 *
+	 * @return array
+	 */
+	public function maybe_process_feed( $entry, $form ) {
+		if ( gf_has_filters( array( 'gform_mailchimp_args_pre_subscribe', rgar( $form, 'id' ) ) ) ) {
+			_deprecated_hook( 'gform_mailchimp_args_pre_subscribe', '4.0', 'gform_mailchimp_subscription', 'gform_mailchimp_args_pre_subscribe will be removed soon.' );
+		}
+
+		return parent::maybe_process_feed( $entry, $form );
+	}
+
+	/**
 	 * Process the feed, subscribe the user to the list/audience.
 	 *
 	 * @since  3.0
@@ -1726,8 +1746,9 @@ class GFMailChimp extends GFFeedAddOn {
 		$subscription['merge_fields'] = $subscription['merge_vars'];
 		unset( $subscription['merge_vars'] );
 
-		// Convert double optin.
-		$subscription['status'] = $subscription['double_optin'] ? 'pending' : $subscription['status'];
+		// Converts the double_optin property to the status properties used by API v3.
+		$subscription['status_if_new'] = $this->get_subscription_status( (bool) $subscription['double_optin'], $member, $feed, $entry, $form );
+		$subscription['status']        = $subscription['status_if_new'];
 		unset( $subscription['double_optin'] );
 
 		// Extract list/audience ID.
@@ -1737,28 +1758,6 @@ class GFMailChimp extends GFFeedAddOn {
 		// Convert email address.
 		$subscription['email_address'] = $subscription['email']['email'];
 		unset( $subscription['email'] );
-
-		// If member exists, status is pending, and is double opt-in, then update member status to unsubscribed first.
-		if ( $member && rgar( $member, 'status' ) === 'pending' && rgars( $feed, 'meta/double_optin' ) ) {
-			try {
-				// Log that we are patching member status.
-				$this->log_debug( __METHOD__ . '(): Patching member status for opt-in.' );
-
-				// Update member status to unsubscribed.
-				$this->api->update_list_member( $list_id, $subscription['email_address'], array( 'status' => 'unsubscribed' ), 'PATCH' );
-
-				// Log that the subscription was successfully updated.
-				$this->log_debug( __METHOD__ . '(): Member status successfully updated.' );
-			} catch ( Exception $e ) {
-				// Log that member status could not be updated.
-				$this->add_feed_error( sprintf( esc_html__( __METHOD__ . '(): Unable to update member status: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
-
-				// Log field errors.
-				if ( $e->hasErrors() ) {
-					$this->log_error( __METHOD__ . '(): Error when attempting to update member status: ' . print_r( $e->getErrors(), true ) );
-				}
-			}
-		}
 
 		/**
 		 * Modify the subscription object before it is executed.
@@ -1898,6 +1897,52 @@ class GFMailChimp extends GFFeedAddOn {
 
 		}
 
+	}
+
+	/**
+	 * Returns the status to be added to the subscription array.
+	 *
+	 * Also, if the member already exists with a status is pending, and double opt-in is enabled, the status is patched to unsubscribed.
+	 * This is so Mailchimp will send the opt-in email when the status changes back to pending on the update member request.
+	 *
+	 * @since 5.4
+	 *
+	 * @param bool        $double_optin Indicates if double opt-in is enabled.
+	 * @param false|array $member       False or the existing member properties.
+	 * @param array       $feed         The feed currently being processed.
+	 * @param array       $entry        The entry currently being processed.
+	 * @param array       $form         The form currently being processed.
+	 *
+	 * @return string
+	 */
+	private function get_subscription_status( $double_optin, $member, $feed, $entry, $form ) {
+		$existing_status = rgar( $member, 'status' );
+		if ( ! $double_optin || $existing_status === 'subscribed' ) {
+			return 'subscribed';
+		}
+
+		if ( $existing_status === 'pending' ) {
+			try {
+				// Log that we are patching member status.
+				$this->log_debug( __METHOD__ . '(): Patching member status for opt-in.' );
+
+				// Update member status to unsubscribed.
+				$this->api->update_list_member( rgar( $member, 'list_id' ), rgar( $member, 'email_address' ), array( 'status' => 'unsubscribed' ), 'PATCH' );
+
+				// Log that the subscription was successfully updated.
+				$this->log_debug( __METHOD__ . '(): Member status successfully updated.' );
+			} catch ( Exception $e ) {
+				// Log that member status could not be updated.
+				$this->add_feed_error( sprintf( esc_html__( __METHOD__ . '(): Unable to update member status: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
+
+				// Log field errors.
+				if ( $e->hasErrors() ) {
+					$this->log_error( __METHOD__ . '(): Error when attempting to update member status: ' . print_r( $e->getErrors(), true ) );
+				}
+			}
+		}
+
+		return 'pending';
 	}
 
 	/**
