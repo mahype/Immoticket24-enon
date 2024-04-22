@@ -3,7 +3,7 @@
         'name' => 'awsmug/edd-payment-stripe-sepa',
         'pretty_version' => '1.0.0-beta-1',
         'version' => '1.0.0.0-beta1',
-        'reference' => NULL,
+        'reference' => null,
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -35,7 +35,7 @@
         'awsmug/edd-payment-stripe-sepa' => array(
             'pretty_version' => '1.0.0-beta-1',
             'version' => '1.0.0.0-beta1',
-            'reference' => NULL,
+            'reference' => null,
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
