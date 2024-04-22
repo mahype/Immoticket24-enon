@@ -303,7 +303,13 @@ class Lueftung
 	public function Wfan0(): float
 	{
 		if (!isset($this->Wfan0)) {
-			$this->Wfan0 = (new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen($this->gebaeude->nutzflaeche(), $this->baujahr))->Wfan0();
+			if ($this->baujahr >= 2010 || $this->gebaeude->ist_referenzgebaeude()) {
+				$energie_art = 'dc_ec';
+			} else {
+				$energie_art = 'ac';
+			}
+
+			$this->Wfan0 = (new Hilfsenergieaufwand_Ventilatoren_Wohnungslueftungsanlagen($this->gebaeude->nutzflaeche(), $energie_art))->Wfan0();
 		}
 
 		return $this->Wfan0;
