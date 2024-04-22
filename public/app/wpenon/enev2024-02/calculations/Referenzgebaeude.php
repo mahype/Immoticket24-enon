@@ -519,7 +519,7 @@ class Referenzgebaeude
 				mit_solarthermie: true,
 				solarthermie_neigung: 45,
 				solarthermie_richtung: 's',
-				solarthermie_baujahr: 1998
+				solarthermie_baujahr: 1999
 			)
 		);
 
