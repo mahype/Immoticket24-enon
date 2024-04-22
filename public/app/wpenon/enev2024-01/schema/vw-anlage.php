@@ -360,6 +360,7 @@ $anlage = array(
 					'type'                  => 'int',
 					'label'                 => __( 'Baujahr des Rohrleitungssystems', 'wpenon' ),
 					'description'           => __( 'Geben Sie hier das Baujahr der freiliegenden Heizungsrohre an.' ),
+					'placeholder'           => 'Bitte wählen...',
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date( 'Y' ),
 					'required'              => true,
@@ -372,6 +373,7 @@ $anlage = array(
 							wpenon_get_heaters_without_piping(),
 						),
 					),
+					
 				),
 				'verteilung_gedaemmt'                           => array(
 					'type'    => 'checkbox',
@@ -1262,10 +1264,7 @@ $anlage = array(
 					),
 					'validate'              => 'wpenon_immoticket24_validate_year_greater_than',
 					'validate_dependencies' => array( 'baujahr' ),
-					'value'                 => array(
-						'callback'      => 'wpenon_get_construction_year',
-						'callback_args' => array( 'field::baujahr', 'field::verteilung_baujahr' ),
-					),
+					'placeholder'           => 'Bitte wählen...',
 				),
 			),
 		),
