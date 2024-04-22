@@ -288,6 +288,11 @@ class Lueftung
 	 */
 	public function fsystem(): float
 	{
+		// Wert nach Tabelle 121 DC_EC Zentrale Abluftanlage ohne Wärmerückgewinnung - Standardwert.
+		if ($this->gebaeude->ist_referenzgebaeude()) {
+			return 1.0;
+		}
+
 		if (!isset($this->fsystem)) {
 			$this->fsystem = (new Faktor_Anlagensysteme_Wohnungslueftungsanlagen($this->lueftungssystem, $this->art, $this->baujahr))->fsystem();
 		}
