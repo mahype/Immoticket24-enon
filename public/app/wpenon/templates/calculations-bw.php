@@ -600,7 +600,7 @@ $jahr = new Jahr();
 				</tr>
 				<tr>
 					<th>fbj</th>
-					<td><?php echo $heizungsanlage->fbj(); ?></td>
+					<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
 				</tr>
 				<tr>
 					<th>ßhg</th>
