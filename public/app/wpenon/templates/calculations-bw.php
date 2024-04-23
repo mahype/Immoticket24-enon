@@ -602,10 +602,12 @@ $jahr = new Jahr();
 					<th>eg0</th>
 					<td><?php echo $heizungsanlage->eg0(); ?></td>
 				</tr>
-				<tr>
-					<th>fbj</th>
-					<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
-				</tr>
+				<?php if (method_exists($heizungsanlage, 'fbaujahr')) : ?>
+					<tr>
+						<th>fbaujahr</th>
+						<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
+					</tr>
+				<?php endif; ?>
 				<tr>
 					<th>ßhg</th>
 					<td><?php echo $heizungsanlage->ßhg(); ?></td>
