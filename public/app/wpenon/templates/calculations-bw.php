@@ -1079,7 +1079,9 @@ $jahr = new Jahr();
 	<p><?php printf(__('fgr_exch: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fgr_exch())); ?></p>
 	<p><?php printf(__('fsup_decr: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fsup_decr())); ?></p>
 	<p><?php printf(__('fbetrieb: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fbetrieb())); ?></p>
-	<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->strom_art())); ?></p>
+	<?php if (method_exists($gebaeude->lueftung(), 'strom_art')) : ?>
+		<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->strom_art())); ?></p>
+	<?php endif; ?>
 	<p><?php printf(__('Wfan0: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wfan0())); ?></p>
 	<p><?php printf(__('Wc: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wc())); ?></p>
 	<p><?php printf(__('Wpre_h: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wpre_h())); ?></p>
@@ -2133,7 +2135,9 @@ $jahr = new Jahr();
 		<p><?php printf(__('fgr_exch: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fgr_exch())); ?></p>
 		<p><?php printf(__('fsup_decr: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fsup_decr())); ?></p>
 		<p><?php printf(__('fbetrieb: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fbetrieb())); ?></p>
-		<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->strom_art())); ?></p>
+		<?php if (method_exists($referenzgebaeude->lueftung(), 'strom_art')) : ?>
+			<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->strom_art())); ?></p>
+		<?php endif; ?>
 		<p><?php printf(__('Wfan0: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wfan0())); ?></p>
 		<p><?php printf(__('Wc: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wc())); ?></p>
 		<p><?php printf(__('Wpre_h: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wpre_h())); ?></p>
