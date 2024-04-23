@@ -396,7 +396,7 @@ $jahr = new Jahr();
 	<p><?php printf(__('Bedarfsgeführt: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->ist_bedarfsgefuehrt() ? 'Ja' : 'Nein')); ?></p>
 	<p><?php printf(__('Gebäudedichtheit: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->gebaeudedichtheit())); ?></p>
 
-	<?php if (method_exists($gebaeude->lueftung, 'wirkungsgrad')) : ?>
+	<?php if (method_exists($gebaeude->lueftung(), 'wirkungsgrad')) : ?>
 		<p><?php printf(__('Wirkungsgrad: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->wirkungsgrad())); ?></p>
 	<?php endif; ?>
 
