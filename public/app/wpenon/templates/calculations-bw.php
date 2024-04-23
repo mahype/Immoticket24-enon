@@ -395,7 +395,11 @@ $jahr = new Jahr();
 	<p><?php printf(__('Lueftungssystem: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->lueftungssystem())); ?></p>
 	<p><?php printf(__('Bedarfsgeführt: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->ist_bedarfsgefuehrt() ? 'Ja' : 'Nein')); ?></p>
 	<p><?php printf(__('Gebäudedichtheit: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->gebaeudedichtheit())); ?></p>
-	<p><?php printf(__('Wirkungsgrad: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->wirkungsgrad())); ?></p>
+
+	<?php if (method_exists($gebaeude->lueftung, 'wirkungsgrad')) : ?>
+		<p><?php printf(__('Wirkungsgrad: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->wirkungsgrad())); ?></p>
+	<?php endif; ?>
+
 	<p><?php printf(__('Luftechselvolumen h<sub>v</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->hv())); ?></p>
 	<p><?php printf(__('Maximale Heizlast h<sub>max</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->h_max())); ?></p>
 	<p><?php printf(__('Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->h_max_spezifisch())); ?></p>
