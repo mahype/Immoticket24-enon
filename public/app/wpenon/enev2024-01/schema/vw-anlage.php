@@ -390,7 +390,7 @@ $anlage = array(
 				),
 				'h2_info'                                       => array(
 					'type'  => 'checkbox',
-					'label' => __('2. Heizungsanlage vorhanden?', 'wpenon'),
+					'label' => __('Kamin, Ofen oder 2. Heizungsanlage vorhanden?', 'wpenon'),
 				),
 				'h2_erzeugung'                                  => array(
 					'type'     => 'select',
@@ -776,7 +776,7 @@ $anlage = array(
 				),
 				'h3_info'                                       => array(
 					'type'    => 'checkbox',
-					'label'   => __('3. Heizungsanlage vorhanden?', 'wpenon'),
+					'label'   => __('Kamin, Ofen oder 3. Heizungsanlage vorhanden?', 'wpenon'),
 					'display' => array(
 						'callback'      => 'wpenon_show_on_bool_compare',
 						'callback_args' => array('field::h2_info', true),
