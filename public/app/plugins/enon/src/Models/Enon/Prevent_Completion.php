@@ -8,6 +8,8 @@ use WPENON\Model\EnergieausweisManager;
 /**
  * Prevent completion class.
  * 
+ * Plausibilitätsprüfungen für Energieausweise. Wenn eine Plausibilitätsprüfung fehlschlägt, wird der Energieausweis nicht abgeschlossen.
+ * 
  * @since 1.0.0
  */
 class Prevent_Completion
