@@ -926,7 +926,9 @@ $jahr = new Jahr();
 
 	<h3>Heizsystem</h3>
 
-	<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->fa_h()); ?></p>
+	<?php if (method_exists($gebaeude, 'fa_h')) : ?>
+		<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->fa_h()); ?></p>
+	<?php endif; ?>
 	<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhce())); ?></p>
 	<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->qhce())); ?></p>
 	<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhd())); ?></p>
