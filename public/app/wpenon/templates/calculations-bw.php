@@ -395,7 +395,11 @@ $jahr = new Jahr();
 	<p><?php printf(__('Lueftungssystem: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->lueftungssystem())); ?></p>
 	<p><?php printf(__('Bedarfsgeführt: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->ist_bedarfsgefuehrt() ? 'Ja' : 'Nein')); ?></p>
 	<p><?php printf(__('Gebäudedichtheit: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->gebaeudedichtheit())); ?></p>
-	<p><?php printf(__('Wirkungsgrad: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->wirkungsgrad())); ?></p>
+
+	<?php if (method_exists($gebaeude->lueftung(), 'wirkungsgrad')) : ?>
+		<p><?php printf(__('Wirkungsgrad: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->wirkungsgrad())); ?></p>
+	<?php endif; ?>
+
 	<p><?php printf(__('Luftechselvolumen h<sub>v</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->hv())); ?></p>
 	<p><?php printf(__('Maximale Heizlast h<sub>max</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->h_max())); ?></p>
 	<p><?php printf(__('Maximale Heizlast spezifisch h<sub>max,spez</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->h_max_spezifisch())); ?></p>
@@ -598,10 +602,12 @@ $jahr = new Jahr();
 					<th>eg0</th>
 					<td><?php echo $heizungsanlage->eg0(); ?></td>
 				</tr>
-				<tr>
-					<th>fbj</th>
-					<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
-				</tr>
+				<?php if (method_exists($heizungsanlage, 'fbaujahr')) : ?>
+					<tr>
+						<th>fbaujahr</th>
+						<td><?php echo $heizungsanlage->fbaujahr(); ?></td>
+					</tr>
+				<?php endif; ?>
 				<tr>
 					<th>ßhg</th>
 					<td><?php echo $heizungsanlage->ßhg(); ?></td>
@@ -920,11 +926,15 @@ $jahr = new Jahr();
 
 	<h3>Heizsystem</h3>
 
-	<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->fa_h()); ?></p>
+	<?php if (method_exists($gebaeude, 'fa_h')) : ?>
+		<p><?php printf(__('Nutzbare Wärme fa<sub>h</sub>: %s', 'wpenon'), $gebaeude->fa_h()); ?></p>
+	<?php endif; ?>
 	<p><?php printf(__('Mittlere Belastung bei Übergabe der Heizung (ßhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhce())); ?></p>
 	<p><?php printf(__('Flächenbezogene leistung der Übergabe der Heizung (qhce): %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->qhce())); ?></p>
 	<p><?php printf(__('ßhd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ßhd())); ?></p>
-	<p><?php printf(__('fhydr: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->f_hydr())); ?></p>
+	<?php if (method_exists($gebaeude->heizsystem(), 'f_hydr')) : ?>
+		<p><?php printf(__('fhydr: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->f_hydr())); ?></p>
+	<?php endif; ?>
 	<p><?php printf(__('fßd: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->fßd())); ?></p>
 	<p><?php printf(__('ehd0: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ehd0())); ?></p>
 	<p><?php printf(__('ehd1: %s', 'wpenon'), str_replace('.', ',', $gebaeude->heizsystem()->ehd1())); ?></p>
@@ -953,7 +963,10 @@ $jahr = new Jahr();
 
 	<h3>Trinkwarmwasseranlage</h3>
 
-	<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen fa<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->fa_w())); ?></p>
+	<?php if (method_exists($gebaeude, 'fa_w')) : ?>
+		<p><?php printf(__('Anteils nutzbarer Wärme von Trinkwassererwärmungsanlagen fa<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->fa_w())); ?></p>
+	<?php endif; ?>
+
 	<p><?php printf(__('Nutzwärmebedarf für Trinkwasser qwb: %s kWh/(ma)', 'wpenon'), str_replace('.', ',', $gebaeude->trinkwarmwasseranlage()->nutzwaermebedarf_trinkwasser())); ?></p>
 	<p><?php printf(__('Q<sub>w,b</sub>: %s kWh', 'wpenon'), str_replace('.', ',', $gebaeude->trinkwarmwasseranlage()->QWB())); ?></p>
 	<p><?php printf(__('Interne Wärmequelle infolge von Warmwasser Qi<sub>w</sub>: %s', 'wpenon'), str_replace('.', ',', $gebaeude->qi_wasser())); ?></p>
@@ -1066,7 +1079,9 @@ $jahr = new Jahr();
 	<p><?php printf(__('fgr_exch: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fgr_exch())); ?></p>
 	<p><?php printf(__('fsup_decr: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fsup_decr())); ?></p>
 	<p><?php printf(__('fbetrieb: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->fbetrieb())); ?></p>
-	<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->strom_art())); ?></p>
+	<?php if (method_exists($gebaeude->lueftung(), 'strom_art')) : ?>
+		<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->strom_art())); ?></p>
+	<?php endif; ?>
 	<p><?php printf(__('Wfan0: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wfan0())); ?></p>
 	<p><?php printf(__('Wc: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wc())); ?></p>
 	<p><?php printf(__('Wpre_h: %s', 'wpenon'), str_replace('.', ',', $gebaeude->lueftung()->Wpre_h())); ?></p>
@@ -2120,7 +2135,9 @@ $jahr = new Jahr();
 		<p><?php printf(__('fgr_exch: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fgr_exch())); ?></p>
 		<p><?php printf(__('fsup_decr: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fsup_decr())); ?></p>
 		<p><?php printf(__('fbetrieb: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->fbetrieb())); ?></p>
-		<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->strom_art())); ?></p>
+		<?php if (method_exists($referenzgebaeude->lueftung(), 'strom_art')) : ?>
+			<p><?php printf(__('Strom Art: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->strom_art())); ?></p>
+		<?php endif; ?>
 		<p><?php printf(__('Wfan0: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wfan0())); ?></p>
 		<p><?php printf(__('Wc: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wc())); ?></p>
 		<p><?php printf(__('Wpre_h: %s', 'wpenon'), str_replace('.', ',', $referenzgebaeude->lueftung()->Wpre_h())); ?></p>
