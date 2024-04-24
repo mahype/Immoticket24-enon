@@ -150,12 +150,12 @@ class Referenzgebaeude
 		$referenz_uwert_aussenwand_luft = 0.28;
 		$referenz_uwert_aussenwand_erde = 0.35;
 		$referenz_uwert_dach            = 0.2;
-		$referenz_uwert_fenster         = 0.6;
+		$referenz_uwert_fenster         = 1.3;
 
 		switch ($this->energieausweis->dach) {
 			case 'beheizt':
 				$kniestock_hoehe = isset($this->energieausweis->kniestock_hoehe) ? $this->energieausweis->kniestock_hoehe : 0.0;
-				$daemmung_dach   = isset($this->energieausweis->dach_daemmung) ? $this->energieausweis->dach_daemmung : 0.0;
+				$daemmung_dach   = 0.0;
 
 				switch ($this->energieausweis->dach_form) {
 					case 'walmdach':
@@ -200,14 +200,14 @@ class Referenzgebaeude
 					name: __('Oberste Geschossdecke', 'wpenon'),
 					grundriss: $grundriss,
 					uwert: $referenz_uwert_dach,
-					daemmung: $this->energieausweis->decke_daemmung,
+					daemmung: 0,
 				);
 
 				$gebaeude->bauteile()->hinzufuegen($decke);
 				break;
 			case 'nicht-vorhanden':
 			default:
-				$daemmung_dach = isset($this->energieausweis->dach_daemmung) ? $this->energieausweis->dach_daemmung : 0.0;
+				$daemmung_dach = 0.0;
 				$uwert_dach    = $referenz_uwert_dach;
 
 				$dach = new Flachdach(
@@ -234,7 +234,6 @@ class Referenzgebaeude
 
 			// Hinzufügen der Bauteile des Anbaus zum Gebäude.
 			$anbauwand_bauart_feldname = 'anbauwand_bauart_' . $this->energieausweis->gebaeudekonstruktion;
-			$anbauwand_bauart_name     = $this->energieausweis->$anbauwand_bauart_feldname;
 
 			foreach ($gebaeude->anbau()->grundriss()->waende() as $wand) {
 				$anbauwand = new Anbauwand(
@@ -243,7 +242,7 @@ class Referenzgebaeude
 					flaeche: $gebaeude->anbau()->wandseite_flaeche($wand),
 					uwert: $referenz_uwert_aussenwand_luft,
 					himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung($wand),
-					daemmung: $this->energieausweis->anbauwand_daemmung,
+					daemmung: 0,
 				);
 
 				$fenster_flaeche = berechne_fenster_flaeche($grundriss_anbau->wand_laenge($wand), $this->energieausweis->anbau_hoehe, $this->energieausweis->anbauwand_staerke / 100);
@@ -268,7 +267,7 @@ class Referenzgebaeude
 					name: sprintf(__('Anbau-Boden', 'wpenon')),
 					flaeche: $grundriss->flaeche(),
 					uwert: $referenz_uwert_aussenwand_erde,
-					daemmung: $this->energieausweis->anbauboden_daemmung,
+					daemmung: 0,
 				)
 			);
 
@@ -277,7 +276,7 @@ class Referenzgebaeude
 					name: sprintf(__('Anbau-Dach', 'wpenon')),
 					grundriss: $grundriss_anbau,
 					uwert: $referenz_uwert_dach,
-					daemmung: $this->energieausweis->anbaudach_daemmung,
+					daemmung: 0,
 				)
 			);
 		}
@@ -306,7 +305,7 @@ class Referenzgebaeude
 				flaeche: $wand_flaeche,
 				uwert: $referenz_uwert_aussenwand_luft,
 				himmelsrichtung: $gebaeude->grundriss()->wand_himmelsrichtung($wand),
-				daemmung: $this->energieausweis->$daemmung_slug,
+				daemmung: 0,
 				grenzt_an_wohngebaeude: $this->energieausweis->$nachbar_slug
 			);
 
@@ -387,7 +386,7 @@ class Referenzgebaeude
 					flaeche: $heizkoerpernische_flaeche,
 					uwert_wand: $wand->uwert(),
 					himmelsrichtung: $himmelsrichtung,
-					daemmung: $wand->daemmung()
+					daemmung: 0
 				);
 
 				$gebaeude->bauteile()->hinzufuegen($heizkoerpernische);
@@ -428,7 +427,7 @@ class Referenzgebaeude
 						name: __('Kellerwand', 'wpenon'),
 						flaeche: $gebaeude->keller()->wandseite_flaeche(),
 						uwert: $referenz_uwert_aussenwand_erde,
-						daemmung: $this->energieausweis->keller_daemmung,
+						daemmung: 0,
 					)
 				);
 
@@ -439,7 +438,7 @@ class Referenzgebaeude
 						name: sprintf(__('Kellerboden', 'wpenon')),
 						flaeche: $kellerflaeche,
 						uwert: $referenz_uwert_aussenwand_erde,
-						daemmung: $this->energieausweis->boden_daemmung,
+						daemmung: 0,
 					)
 				);
 
@@ -449,7 +448,7 @@ class Referenzgebaeude
 							name: sprintf(__('Boden', 'wpenon')),
 							flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
 							uwert: $referenz_uwert_aussenwand_erde,
-							daemmung: $this->energieausweis->boden_daemmung,
+							daemmung: 0,
 						)
 					);
 				}
@@ -466,7 +465,7 @@ class Referenzgebaeude
 						name: sprintf(__('Kellerboden', 'wpenon')),
 						flaeche: $kellerflaeche,
 						uwert: $referenz_uwert_aussenwand_erde,
-						daemmung: $this->energieausweis->boden_daemmung,
+						daemmung: 0,
 					)
 				);
 
@@ -476,7 +475,7 @@ class Referenzgebaeude
 							name: sprintf(__('Boden', 'wpenon')),
 							flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
 							uwert: $referenz_uwert_aussenwand_erde,
-							daemmung: $this->energieausweis->boden_daemmung,
+							daemmung: 0,
 						)
 					);
 				}
@@ -490,7 +489,7 @@ class Referenzgebaeude
 						name: sprintf(__('Boden', 'wpenon')),
 						flaeche: $gebaeude->grundriss()->flaeche(),
 						uwert: $referenz_uwert_aussenwand_erde,
-						daemmung: $this->energieausweis->boden_daemmung,
+						daemmung: 0,
 					)
 				);
 		}
