@@ -409,6 +409,9 @@ class Energieausweis
 			case 'enev2024-01':
 				$calculations = new \Enev\Schema202401\Calculations\CalculationsCC($this);
 				break;
+			case 'enev2024-02':
+				$calculations = new \Enev\Schema202402\Calculations\CalculationsCC($this);
+				break;
 		}
 		return $calculations;
 	}
