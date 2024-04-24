@@ -308,7 +308,7 @@ $anlage = array(
 					),
 				),
 				'h_baujahr'                                     => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -712,7 +712,7 @@ $anlage = array(
 					),
 				),
 				'h2_baujahr'                                    => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der 2. Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -1102,7 +1102,7 @@ $anlage = array(
 					),
 				),
 				'h3_baujahr'                                    => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der 3. Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -1317,7 +1317,7 @@ $anlage = array(
 					),
 				),
 				'k_baujahr'   => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der Klimaanlage', 'wpenon'),
 					'description'           => __('Welches Baujahr hat die Klimaanlage? (Format MM/JJJJ)', 'wpenon'),
 					'required'              => true,

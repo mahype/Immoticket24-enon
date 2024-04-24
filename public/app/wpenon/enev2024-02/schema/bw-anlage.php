@@ -281,7 +281,7 @@ $anlage = array(
 					'required'    => true,
 				),
 				'h_baujahr'                                => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -606,7 +606,7 @@ $anlage = array(
 					),
 				),
 				'h2_baujahr'                               => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der 2. Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -949,7 +949,7 @@ $anlage = array(
 					),
 				),
 				'h3_baujahr'                               => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr der 3. Heizungsanlage', 'wpenon'),
 					'min'                   => 1800,
 					'max'                   => wpenon_get_reference_date('Y'),
@@ -1294,7 +1294,7 @@ $anlage = array(
 					),
 				),
 				'k_baujahr'         => array(
-					'type'        => 'text',
+					'type'        => 'int',
 					'label'       => __('Baujahr der Klimaanlage', 'wpenon'),
 					'description' => __('Welches Baujahr hat die Klimaanlage? (Format MM/JJJJ)', 'wpenon'),
 					'required'    => true,
@@ -1399,7 +1399,7 @@ $anlage = array(
 					'required' => true,
 				),
 				'pv_baujahr'                                => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr', 'wpenon'),
 					'description'           => __('Welches Baujahr hat die Photovoltaik-Anlage?', 'wpenon'),
 					'min'                   => 1980,
@@ -1456,7 +1456,7 @@ $anlage = array(
 					'required' => true,
 				),
 				'solarthermie_baujahr'                                => array(
-					'type'                  => 'text',
+					'type'                  => 'int',
 					'label'                 => __('Baujahr', 'wpenon'),
 					'description'           => __('Welches Baujahr hat die Solarthermie-Anlage?', 'wpenon'),
 					'min'                   => 1800,
