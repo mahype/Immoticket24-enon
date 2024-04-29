@@ -610,7 +610,7 @@ class Gebaeude
 	public function ht_ges(): float
 	{
 		if ($this->referenzgebaeude) {
-			return $this->ht_ges_ref();
+			// 	return $this->ht_ges_ref();
 		}
 
 		return $this->bauteile()->ht() + $this->ht_wb();
