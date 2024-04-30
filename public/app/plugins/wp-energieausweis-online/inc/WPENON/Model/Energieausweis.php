@@ -438,7 +438,7 @@ class Energieausweis
 		 * XML output with GEG 2020 
 		 */
 		$energieausweis = $this; // Data needed for Template
-		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode);
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode, $this->schema_name);
 
 		ob_start();
 		require $xmlFile;
