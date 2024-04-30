@@ -108,13 +108,13 @@ class Energieausweis
 		/**
 		 * Switching to new GEG if needed
 		 */
-		// $date = new DateTime(date('Y-m-d'));
-		// $dateSwitch = new DateTime($standardsConfig->getStandardStartDate());
-		// $this->schema_name = get_post_meta($this->id, 'wpenon_standard', true);
+		$date = new DateTime(date('Y-m-d'));
+		$dateSwitch = new DateTime($standardsConfig->getStandardStartDate());
+		$this->schema_name = get_post_meta($this->id, 'wpenon_standard', true);
 
 		if ($date >= $dateSwitch && $this->schema_name !== $standardsConfig->getCurrent() && !$this->isOrdered()) {
-			// update_post_meta($this->id, '_finalized', false);
-			// update_post_meta($this->id, 'wpenon_standard', $standardsConfig->getCurrent());
+			update_post_meta($this->id, '_finalized', false);
+			update_post_meta($this->id, 'wpenon_standard', $standardsConfig->getCurrent());
 		}
 
 		$this->_loadSchema();
