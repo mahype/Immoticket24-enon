@@ -1,31 +1,32 @@
 <?php
-if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
-	function wpenon_get_enev_xml_zusatzdatenerfassung_data( $context, $index = 0, $energieausweis = null, $data = array() ) {
-		if ( isset( $data['mode'] ) ) {
-			switch ( $data['mode'] ) {
+if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
+	function wpenon_get_enev_xml_zusatzdatenerfassung_data($context, $index = 0, $energieausweis = null, $data = array())
+	{
+		if (isset($data['mode'])) {
+			switch ($data['mode']) {
 				case 'occurrences':
 					$min = $data['min'];
 					$max = $data['max'];
-					switch ( $context ) {
+					switch ($context) {
 						case 'Modernisierungsempfehlungen':
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
+							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 
-							return count( $modernisierungsempfehlungen );
+							return count($modernisierungsempfehlungen);
 						case 'Wohnflaeche':
 							return 1;
 						case 'Keller-beheizt':
 							return 1;
 						case 'Energietraeger':
 							$count = 1;
-							if ( $energieausweis->mode == 'v' ) {
-								if ( $energieausweis->h2_info ) {
-									$count ++;
-									if ( $energieausweis->h3_info ) {
-										$count ++;
+							if ($energieausweis->mode == 'v') {
+								if ($energieausweis->h2_info) {
+									$count++;
+									if ($energieausweis->h3_info) {
+										$count++;
 									}
 								}
-								if ( $energieausweis->ww_info == 'ww' ) {
-									$count ++;
+								if ($energieausweis->ww_info == 'ww') {
+									$count++;
 								}
 							}
 
@@ -33,46 +34,46 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Zeitraum':
 							return 3;
 						case 'Verbrauchswert-kWh-Strom':
-							if ( $energieausweis->building == 'n' ) {
+							if ($energieausweis->building == 'n') {
 								return 1;
 							}
 
 							return 0;
 						case 'Warmwasserzuschlag':
 							$calculations = $energieausweis->calculate();
-							if ( ! empty( $calculations['warmwasser_zuschlag'] ) ) {
+							if (!empty($calculations['warmwasser_zuschlag'])) {
 								return 1;
 							}
 
 							return 0;
 						case 'Kuehlzuschlag':
 							$calculations = $energieausweis->calculate();
-							if ( ! empty( $calculations['kuehlung_zuschlag'] ) ) {
+							if (!empty($calculations['kuehlung_zuschlag'])) {
 								return 1;
 							}
 
 							return 0;
 						case 'Bauteil-Opak':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
 
-							return count( $bauteile_opak );
+							return count($bauteile_opak);
 						case 'Bauteil-Transparent':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
 
-							return count( $bauteile_transparent );
+							return count($bauteile_transparent);
 						case 'Bauteil-Dach':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_dach = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'dach' ) );
+							$bauteile_dach = wp_list_filter($calculations['bauteile'], array('modus' => 'dach'));
 
-							return count( $bauteile_dach );
+							return count($bauteile_dach);
 						case 'Heizungsanlage':
 							$calculations = $energieausweis->calculate();
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									$count ++;
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									$count++;
 								}
 							}
 
@@ -80,9 +81,9 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Trinkwarmwasseranlage':
 							$calculations = $energieausweis->calculate();
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'warmwasser' ) {
-									$count ++;
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'warmwasser') {
+									$count++;
 								}
 							}
 
@@ -92,31 +93,31 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 					break;
 				case 'attribute':
 					$attribute = $data['attribute'];
-					switch ( $attribute['name'] ) {
+					switch ($attribute['name']) {
 						case 'EnEV-Version':
-							return ( new \Enon\Enon\Standards\Schema( $energieausweis->wpenon_standard ) )->get_date( 'Y' );
+							return (new \Enon\Enon\Standards\Schema($energieausweis->wpenon_standard))->get_date('Y');
 						case 'Rechtsstand':
-							return \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate( 'Y-m-d', $energieausweis );
+							return \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate('Y-m-d', $energieausweis);
 						default:
 					}
 					break;
 				case 'choice':
 					$choices = $data['choices'];
-					switch ( $context ) {
+					switch ($context) {
 						case 'Energieausweis-Daten':
-							if ( $energieausweis->building == 'n' ) {
+							if ($energieausweis->building == 'n') {
 								return $choices[1];
 							}
 
 							return $choices[0];
 						case 'Wohngebaeude':
-							if ( $energieausweis->mode == 'b' ) {
+							if ($energieausweis->mode == 'b') {
 								return $choices[2];
 							}
 
 							return $choices[0];
 						case 'Nichtwohngebaeude':
-							if ( $energieausweis->mode == 'b' ) {
+							if ($energieausweis->mode == 'b') {
 								return $choices[1];
 							}
 
@@ -125,22 +126,22 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Trinkwarmwasseranlage':
 							return $choices[1];
 						case 'Energietraeger':
-							if ( in_array( 'Energietraegerbezeichnung', $choices ) ) {
-								$counts = wpenon_get_enev_anlagen_counts( $energieausweis );
-								if ( isset( $counts[ $index ] ) ) {
-									$traeger_key = $counts[ $index ] . '_energietraeger';
+							if (in_array('Energietraegerbezeichnung', $choices)) {
+								$counts = wpenon_get_enev_anlagen_counts($energieausweis);
+								if (isset($counts[$index])) {
+									$traeger_key = $counts[$index] . '_energietraeger';
 
 									// Migrate old data to new Energietraeger table data.
-									if ( false !== strpos( $energieausweis->$traeger_key, '_kwhheizwert' ) ) {
-										$energieausweis->$traeger_key = str_replace( '_kwhheizwert', '_kwh', $energieausweis->$traeger_key );
-									} elseif ( false !== strpos( $energieausweis->$traeger_key, '_kwhbrennwert' ) ) {
-										$energieausweis->$traeger_key = str_replace( '_kwhbrennwert', '_kwh', $energieausweis->$traeger_key );
+									if (false !== strpos($energieausweis->$traeger_key, '_kwhheizwert')) {
+										$energieausweis->$traeger_key = str_replace('_kwhheizwert', '_kwh', $energieausweis->$traeger_key);
+									} elseif (false !== strpos($energieausweis->$traeger_key, '_kwhbrennwert')) {
+										$energieausweis->$traeger_key = str_replace('_kwhbrennwert', '_kwh', $energieausweis->$traeger_key);
 									}
 
 									$traeger = $energieausweis->$traeger_key;
 
 									$mappings = wpenon_get_enev_energietraeger_unit_mappings();
-									if ( ! isset( $mappings[ $traeger ] ) || is_int( $mappings[ $traeger ] ) && $mappings[ $traeger ] < 0 ) {
+									if (!isset($mappings[$traeger]) || is_int($mappings[$traeger]) && $mappings[$traeger] < 0) {
 										return $choices[1];
 									}
 
@@ -151,8 +152,8 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							return false;
 						case 'Leerstandszuschlag-Heizung':
 						case 'Leerstandszuschlag-Warmwasser':
-							if ( in_array( 'kein-Leerstand', $choices ) ) {
-								if ( $energieausweis->verbrauch1_leerstand > 0 || $energieausweis->verbrauch2_leerstand > 0 || $energieausweis->verbrauch3_leerstand > 0 ) {
+							if (in_array('kein-Leerstand', $choices)) {
+								if ($energieausweis->verbrauch1_leerstand > 0 || $energieausweis->verbrauch2_leerstand > 0 || $energieausweis->verbrauch3_leerstand > 0) {
 									return $choices[1];
 								}
 
@@ -165,26 +166,26 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 					break;
 				case 'value':
 					$item = $data['item'];
-					switch ( $context ) {
+					switch ($context) {
 						case 'Registriernummer':
 							$registriernummer = $energieausweis->registriernummer;
-							if ( ! empty( $registriernummer ) ) {
+							if (!empty($registriernummer)) {
 								return $registriernummer;
 							}
 
-							return 'AA-' . date( 'Y' ) . '-000000000';
+							return 'AA-' . date('Y') . '-000000000';
 						case 'Ausstellungsdatum':
-							return \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate( 'Y-m-d', $energieausweis );
+							return \WPENON\Model\EnergieausweisManager::instance()->getReferenceDate('Y-m-d', $energieausweis);
 						case 'Bundesland':
-							if ( in_array( $energieausweis->adresse_bundesland, $item['options'] ) ) {
+							if (in_array($energieausweis->adresse_bundesland, $item['options'])) {
 								return $energieausweis->adresse_bundesland;
 							}
 						case 'Postleitzahl':
-							return substr( $energieausweis->adresse_plz, 0, 3 ) . 'XX';
+							return substr($energieausweis->adresse_plz, 0, 3) . 'XX';
 						case 'Gebaeudeteil':
 							$gemischt = $energieausweis->gebaeudeteil == 'gemischt';
-							if ( $gemischt ) {
-								if ( $energieausweis->building == 'n' ) {
+							if ($gemischt) {
+								if ($energieausweis->building == 'n') {
 									return 'Nichtwohnteil gemischt genutztes Gebäude';
 								}
 
@@ -195,99 +196,95 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Baujahr-Gebaeude':
 							return $energieausweis->baujahr;
 						case 'Baujahr-Waermeerzeuger':
-							$baujahre = array( $energieausweis->h_baujahr );
-							if ( $energieausweis->h2_info ) {
+							$baujahre = array($energieausweis->h_baujahr);
+							if ($energieausweis->h2_info) {
 								$baujahre[] = $energieausweis->h2_baujahr;
-								if ( $energieausweis->h3_info ) {
+								if ($energieausweis->h3_info) {
 									$baujahre[] = $energieausweis->h3_baujahr;
 								}
 							}
-							if ( $energieausweis->ww_info == 'ww' ) {
+							if ($energieausweis->ww_info == 'ww') {
 								$baujahre[] = $energieausweis->ww_baujahr;
 							}
 
-							return implode( ', ', array_unique( $baujahre ) );
+							return implode(', ', array_unique($baujahre));
 						case 'Altersklasse-Gebaeude':
 						case 'Altersklasse-Waermeerzeuger':
 							$baujahr = $energieausweis->baujahr;
-							if ( $context == 'Altersklasse-Waermeerzeuger' ) {
+							if ($context == 'Altersklasse-Waermeerzeuger') {
 								$baujahr = $energieausweis->h_baujahr;
 							}
-							$count = count( $item['options'] );
-							foreach ( $item['options'] as $key => $option ) {
-								if ( $key == 0 ) {
-									if ( $baujahr <= intval( substr( $option, 4, 4 ) ) ) {
+							$count = count($item['options']);
+							foreach ($item['options'] as $key => $option) {
+								if ($key == 0) {
+									if ($baujahr <= intval(substr($option, 4, 4))) {
 										$index = $key;
 										break;
 									}
-								} elseif ( $key == $count - 1 ) {
+								} elseif ($key == $count - 1) {
 									$index = $key;
 									break;
 								} else {
-									if ( $baujahr <= intval( substr( $option, 7, 4 ) ) ) {
+									if ($baujahr <= intval(substr($option, 7, 4))) {
 										$index = $key;
 										break;
 									}
 								}
 							}
 
-							return $item['options'][ $index ];
+							return $item['options'][$index];
 						case 'wesentliche-Energietraeger':
 							$calculations   = $energieausweis->calculate();
 							$energietraeger = array();
-							foreach ( $calculations['anlagendaten'] as $key => $data ) {
+							foreach ($calculations['anlagendaten'] as $key => $data) {
 								$energietraeger[] = $data['energietraeger'];
 							}
 
-							return implode( '; ', array_unique( $energietraeger ) );
+							return implode('; ', array_unique($energietraeger));
 						case 'Erneuerbare-Art':
-							$art =  wpenon_immoticket24_get_regenerativ_art_name( $energieausweis->regenerativ_art );
+							$art =  wpenon_immoticket24_get_regenerativ_art_name($energieausweis->regenerativ_art);
 							return $art;
 						case 'Erneuerbare-Verwendung':
-							if( 'keine' !== $energieausweis->regenerativ_art ) {
-								return wpenon_immoticket24_get_regenerativ_nutzung_name( $energieausweis->regenerativ_nutzung );
+							if ('keine' !== $energieausweis->regenerativ_art) {
+								return wpenon_immoticket24_get_regenerativ_nutzung_name($energieausweis->regenerativ_nutzung);
 							}
 							return 'Keine';
 						case 'Lueftungsart-Fensterlueftung':
-							if ( $energieausweis->l_info == 'fenster' ) {
+							if ($energieausweis->l_info == 'ohne') {
 								return 'true';
 							}
 
 							return 'false';
 						case 'Lueftungsart-Schachtlueftung':
-							if ( $energieausweis->l_info == 'schacht' ) {
+							if ($energieausweis->l_info == 'schacht') {
 								return 'true';
 							}
 
 							return 'false';
 						case 'Lueftungsart-Anlage-o-WRG':
-							if ( $energieausweis->l_info == 'anlage' ) {
-								if ( substr( $energieausweis->l_erzeugung, 0, 4 ) == 'ohne' ) {
-									return 'true';
-								}
+							if ($energieausweis->l_info == 'ohnegewinnung') {
+								return 'true';
 							}
 
 							return 'false';
 						case 'Lueftungsart-Anlage-m-WRG':
-							if ( $energieausweis->l_info == 'anlage' ) {
-								if ( substr( $energieausweis->l_erzeugung, 0, 3 ) == 'mit' ) {
-									return 'true';
-								}
+							if ($energieausweis->l_info == 'mitgewinnung') {
+								return 'true';
 							}
 
 							return 'false';
 						case 'Anlage-zur-Kuehlung':
-							if ( $energieausweis->k_info == 'vorhanden' ) {
+							if ($energieausweis->k_info == 'vorhanden') {
 								return 'true';
 							}
 
 							return 'false';
 						case 'Ausstellungsanlass':
 							$anlass   = 'vermietung' === $energieausweis->anlass ? 'verkauf' : $energieausweis->anlass;
-							$mappings = array( 'neubau', 'modernisierung', 'verkauf', 'aushang', 'sonstiges' );
-							$key      = array_search( $anlass, $mappings );
-							if ( isset( $item['options'][ $key ] ) ) {
-								return $item['options'][ $key ];
+							$mappings = array('neubau', 'modernisierung', 'verkauf', 'aushang', 'sonstiges');
+							$key      = array_search($anlass, $mappings);
+							if (isset($item['options'][$key])) {
+								return $item['options'][$key];
 							}
 
 							return false;
@@ -296,8 +293,8 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Datenerhebung-Eigentuemer':
 							return 'true';
 						case 'Empfehlungen-moeglich':
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
-							if ( count( $modernisierungsempfehlungen ) > 0 ) {
+							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
+							if (count($modernisierungsempfehlungen) > 0) {
 								return 'true';
 							}
 
@@ -314,10 +311,10 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Modernisierungsempfehlungen::7_Nummer':
 						case 'Modernisierungsempfehlungen::8_Nummer':
 						case 'Modernisierungsempfehlungen::9_Nummer':
-							$parent_index = absint( str_replace( array(
+							$parent_index = absint(str_replace(array(
 								'Modernisierungsempfehlungen::',
 								'_Nummer'
-							), '', $context ) );
+							), '', $context));
 
 							return $parent_index + 1;
 						case 'Modernisierungsempfehlungen::0_Bauteil-Anlagenteil':
@@ -330,16 +327,16 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Modernisierungsempfehlungen::7_Bauteil-Anlagenteil':
 						case 'Modernisierungsempfehlungen::8_Bauteil-Anlagenteil':
 						case 'Modernisierungsempfehlungen::9_Bauteil-Anlagenteil':
-							$parent_index = absint( str_replace( array( 'Modernisierungsempfehlungen::', '_Bauteil-Anlagenteil' ), '', $context ) );
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
+							$parent_index = absint(str_replace(array('Modernisierungsempfehlungen::', '_Bauteil-Anlagenteil'), '', $context));
+							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 
-							if ( ! array_key_exists( $parent_index, $modernisierungsempfehlungen ) ) {
+							if (!array_key_exists($parent_index, $modernisierungsempfehlungen)) {
 								return false;
 							}
 
-							$modernisierungsempfehlung = $modernisierungsempfehlungen[ $parent_index ];
+							$modernisierungsempfehlung = $modernisierungsempfehlungen[$parent_index];
 
-							if( ! array_key_exists( 'dibt_value', $modernisierungsempfehlung ) ) {
+							if (!array_key_exists('dibt_value', $modernisierungsempfehlung)) {
 								return 'Sonstiges';
 							}
 
@@ -355,13 +352,13 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Modernisierungsempfehlungen::7_Massnahmenbeschreibung':
 						case 'Modernisierungsempfehlungen::8_Massnahmenbeschreibung':
 						case 'Modernisierungsempfehlungen::9_Massnahmenbeschreibung':
-							$parent_index                = absint( str_replace( array(
+							$parent_index                = absint(str_replace(array(
 								'Modernisierungsempfehlungen::',
 								'_Massnahmenbeschreibung'
-							), '', $context ) );
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
-							if ( isset( $modernisierungsempfehlungen[ $parent_index ] ) ) {
-								return $modernisierungsempfehlungen[ $parent_index ]['beschreibung'];
+							), '', $context));
+							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
+							if (isset($modernisierungsempfehlungen[$parent_index])) {
+								return $modernisierungsempfehlungen[$parent_index]['beschreibung'];
 							}
 
 							return false;
@@ -375,13 +372,13 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Modernisierungsempfehlungen::7_Modernisierungskombination':
 						case 'Modernisierungsempfehlungen::8_Modernisierungskombination':
 						case 'Modernisierungsempfehlungen::9_Modernisierungskombination':
-							$parent_index                = absint( str_replace( array(
+							$parent_index                = absint(str_replace(array(
 								'Modernisierungsempfehlungen::',
 								'_Modernisierungskombination'
-							), '', $context ) );
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen( $energieausweis );
-							if ( isset( $modernisierungsempfehlungen[ $parent_index ] ) ) {
-								if ( $modernisierungsempfehlungen[ $parent_index ]['gesamt'] ) {
+							), '', $context));
+							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
+							if (isset($modernisierungsempfehlungen[$parent_index])) {
+								if ($modernisierungsempfehlungen[$parent_index]['gesamt']) {
 									return $item['options'][0];
 								}
 
@@ -389,16 +386,16 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							}
 
 							return false;
-						// Wohngebäude
+							// Wohngebäude
 						case 'Gebaeudetyp':
-							if ( 'gemischt' === $energieausweis->gebaeudeteil ) {
+							if ('gemischt' === $energieausweis->gebaeudeteil) {
 								return $item['options'][3];
 							}
 							$wohnungen = (int) $energieausweis->wohnungen;
-							if ( 2 < $wohnungen ) {
+							if (2 < $wohnungen) {
 								return $item['options'][2];
 							}
-							if ( 2 === $wohnungen ) {
+							if (2 === $wohnungen) {
 								return $item['options'][1];
 							}
 
@@ -409,9 +406,9 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							$calculations = $energieausweis->calculate();
 
 							return (int) $calculations['nutzflaeche'];
-						// Verbrauchswerte
+							// Verbrauchswerte
 						case 'Flaechenermittlung-AN-aus-Wohnflaeche':
-							if ( $energieausweis->mode == 'b' ) {
+							if ($energieausweis->mode == 'b') {
 								return 'false';
 							}
 
@@ -419,7 +416,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Wohnflaeche':
 							return (int) $energieausweis->flaeche;
 						case 'Keller-beheizt':
-							if ( $energieausweis->keller == 'beheizt' ) {
+							if ($energieausweis->keller == 'beheizt') {
 								return 'true';
 							}
 
@@ -427,11 +424,11 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Warmwasserzuschlag::0_Startdatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][0]['start'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][0]['start']));
 						case 'Warmwasserzuschlag::0_Enddatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][2]['ende'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][2]['ende']));
 						case 'Warmwasserzuschlag::0_Primaerenergiefaktor':
 							$calculations = $energieausweis->calculate();
 
@@ -443,23 +440,23 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Kuehlzuschlag::0_Startdatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][0]['start'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][0]['start']));
 						case 'Kuehlzuschlag::0_Enddatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][2]['ende'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][2]['ende']));
 						case 'Kuehlzuschlag::0_Gebaeudenutzflaeche-gekuehlt':
 							$calculations     = $energieausweis->calculate();
-							$kuehlung_flaeche = $energieausweis->k_flaeche ? floatval( $energieausweis->k_flaeche ) * $calculations['nutzflaeche_mpk'] : $calculations['nutzflaeche'];
+							$kuehlung_flaeche = $energieausweis->k_flaeche ? floatval($energieausweis->k_flaeche) * $calculations['nutzflaeche_mpk'] : $calculations['nutzflaeche'];
 
 							return $kuehlung_flaeche;
 						case 'Kuehlzuschlag::0_Primaerenergiefaktor':
-							$kuehlung_energietraeger = wpenon_get_table_results( 'energietraeger202001', array(
+							$kuehlung_energietraeger = wpenon_get_table_results('energietraeger202001', array(
 								'bezeichnung' => array(
 									'value'   => 'strom',
 									'compare' => '='
 								)
-							), array(), true );
+							), array(), true);
 
 							return $kuehlung_energietraeger->primaer;
 						case 'Kuehlzuschlag::0_Kuehlzuschlag-kWh':
@@ -469,54 +466,54 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Mittlerer-Endenergieverbrauch':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['endenergie'], 1 );
+							return round((float) $calculations['endenergie'], 1);
 						case 'Mittlerer-Primaerenergieverbrauch':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['primaerenergie'], 1 );
+							return round((float) $calculations['primaerenergie'], 1);
 						case 'Energieeffizienzklasse':
 							$calculations = $energieausweis->calculate();
 
-							return wpenon_get_class( $calculations['primaerenergie'], $energieausweis->wpenon_type );
-						// Energietraeger
+							return wpenon_get_class($calculations['primaerenergie'], $energieausweis->wpenon_type);
+							// Energietraeger
 						case 'Energietraeger::0_Energietraeger-Verbrauch':
 						case 'Energietraeger::1_Energietraeger-Verbrauch':
 						case 'Energietraeger::2_Energietraeger-Verbrauch':
 						case 'Energietraeger::3_Energietraeger-Verbrauch':
-							$parent_index = absint( str_replace( array(
+							$parent_index = absint(str_replace(array(
 								'Energietraeger::',
 								'_Energietraeger-Verbrauch'
-							), '', $context ) );
-							$counts       = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $parent_index ] ) ) {
-								$traeger_key = $counts[ $parent_index ] . '_energietraeger';
+							), '', $context));
+							$counts       = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$parent_index])) {
+								$traeger_key = $counts[$parent_index] . '_energietraeger';
 
 								// Migrate old data to new Energietraeger table data.
-								if ( false !== strpos( $energieausweis->$traeger_key, '_kwhheizwert' ) ) {
-									$energieausweis->$traeger_key = str_replace( '_kwhheizwert', '_kwh', $energieausweis->$traeger_key );
-								} elseif ( false !== strpos( $energieausweis->$traeger_key, '_kwhbrennwert' ) ) {
-									$energieausweis->$traeger_key = str_replace( '_kwhbrennwert', '_kwh', $energieausweis->$traeger_key );
+								if (false !== strpos($energieausweis->$traeger_key, '_kwhheizwert')) {
+									$energieausweis->$traeger_key = str_replace('_kwhheizwert', '_kwh', $energieausweis->$traeger_key);
+								} elseif (false !== strpos($energieausweis->$traeger_key, '_kwhbrennwert')) {
+									$energieausweis->$traeger_key = str_replace('_kwhbrennwert', '_kwh', $energieausweis->$traeger_key);
 								}
 
 								$traeger = $energieausweis->$traeger_key;
 
 								$mappings = wpenon_get_enev_energietraeger_unit_mappings();
-								if ( isset( $mappings[ $traeger ] ) ) {
-									if ( is_array( $mappings[ $traeger ] ) ) {
-										$erzeugung_key = $counts[ $parent_index ] . '_erzeugung';
-										switch ( $energieausweis->$erzeugung_key ) {
+								if (isset($mappings[$traeger])) {
+									if (is_array($mappings[$traeger])) {
+										$erzeugung_key = $counts[$parent_index] . '_erzeugung';
+										switch ($energieausweis->$erzeugung_key) {
 											case 'brennwertkessel':
 											case 'brennwertkesselverbessert':
 											case 'brennwerttherme':
 											case 'kleinthermebrennwert':
-												$mappings[ $traeger ] = $mappings[ $traeger ][1];
+												$mappings[$traeger] = $mappings[$traeger][1];
 												break;
 											default:
-												$mappings[ $traeger ] = $mappings[ $traeger ][0];
+												$mappings[$traeger] = $mappings[$traeger][0];
 										}
 									}
 
-									return $item['options'][ $mappings[ $traeger ] ];
+									return $item['options'][$mappings[$traeger]];
 								}
 							}
 
@@ -525,16 +522,16 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::1_Sonstiger-Energietraeger-Verbrauch':
 						case 'Energietraeger::2_Sonstiger-Energietraeger-Verbrauch':
 						case 'Energietraeger::3_Sonstiger-Energietraeger-Verbrauch':
-							$parent_index = absint( str_replace( array(
+							$parent_index = absint(str_replace(array(
 								'Energietraeger::',
 								'_Sonstiger-Energietraeger-Verbrauch'
-							), '', $context ) );
-							$counts       = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $parent_index ] ) ) {
+							), '', $context));
+							$counts       = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$parent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
+								$traeger      = $calculations['anlagendaten'][$counts[$parent_index]];
 
-								return $traeger['energietraeger'] . ' in ' . \WPENON\Util\Format::unit( $traeger['einheit'], false );
+								return $traeger['energietraeger'] . ' in ' . \WPENON\Util\Format::unit($traeger['einheit'], false);
 							}
 
 							return false;
@@ -542,16 +539,16 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::1_Unterer-Heizwert':
 						case 'Energietraeger::2_Unterer-Heizwert':
 						case 'Energietraeger::3_Unterer-Heizwert':
-							$parent_index = absint( str_replace( array(
+							$parent_index = absint(str_replace(array(
 								'Energietraeger::',
 								'_Unterer-Heizwert'
-							), '', $context ) );
-							$counts       = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $parent_index ] ) ) {
+							), '', $context));
+							$counts       = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$parent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
+								$traeger      = $calculations['anlagendaten'][$counts[$parent_index]];
 
-								return round( (float) $traeger['energietraeger_mpk'], 2 );
+								return round((float) $traeger['energietraeger_mpk'], 2);
 							}
 
 							return false;
@@ -559,16 +556,16 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::1_Primaerenergiefaktor':
 						case 'Energietraeger::2_Primaerenergiefaktor':
 						case 'Energietraeger::3_Primaerenergiefaktor':
-							$parent_index = absint( str_replace( array(
+							$parent_index = absint(str_replace(array(
 								'Energietraeger::',
 								'_Primaerenergiefaktor'
-							), '', $context ) );
-							$counts       = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $parent_index ] ) ) {
+							), '', $context));
+							$counts       = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$parent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $parent_index ] ];
+								$traeger      = $calculations['anlagendaten'][$counts[$parent_index]];
 
-								return round( (float) $traeger['energietraeger_primaer'], 1 );
+								return round((float) $traeger['energietraeger_primaer'], 1);
 							}
 
 							return false;
@@ -584,15 +581,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Startdatum':
 						case 'Energietraeger::3_Zeitraum::1_Startdatum':
 						case 'Energietraeger::3_Zeitraum::2_Startdatum':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									return date( 'Y-m-d', strtotime( $traeger['verbrauch'][ $parent_index ]['start'] ) );
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									return date('Y-m-d', strtotime($traeger['verbrauch'][$parent_index]['start']));
 								}
 							}
 
@@ -609,15 +606,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Enddatum':
 						case 'Energietraeger::3_Zeitraum::1_Enddatum':
 						case 'Energietraeger::3_Zeitraum::2_Enddatum':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									return date( 'Y-m-d', strtotime( $traeger['verbrauch'][ $parent_index ]['ende'] ) );
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									return date('Y-m-d', strtotime($traeger['verbrauch'][$parent_index]['ende']));
 								}
 							}
 
@@ -634,15 +631,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Verbrauchte-Menge':
 						case 'Energietraeger::3_Zeitraum::1_Verbrauchte-Menge':
 						case 'Energietraeger::3_Zeitraum::2_Verbrauchte-Menge':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									$menge = ( $traeger['verbrauch'][ $parent_index ]['heizung'] + $traeger['verbrauch'][ $parent_index ]['warmwasser'] ) / $traeger['energietraeger_mpk'];
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									$menge = ($traeger['verbrauch'][$parent_index]['heizung'] + $traeger['verbrauch'][$parent_index]['warmwasser']) / $traeger['energietraeger_mpk'];
 
 									return (int) $menge;
 								}
@@ -661,15 +658,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Energieverbrauch':
 						case 'Energietraeger::3_Zeitraum::1_Energieverbrauch':
 						case 'Energietraeger::3_Zeitraum::2_Energieverbrauch':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									$verbrauch = $traeger['verbrauch'][ $parent_index ]['heizung'] + $traeger['verbrauch'][ $parent_index ]['warmwasser'];
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									$verbrauch = $traeger['verbrauch'][$parent_index]['heizung'] + $traeger['verbrauch'][$parent_index]['warmwasser'];
 
 									return (int) $verbrauch;
 								}
@@ -688,15 +685,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Energieverbrauchsanteil-Warmwasser-zentral':
 						case 'Energietraeger::3_Zeitraum::1_Energieverbrauchsanteil-Warmwasser-zentral':
 						case 'Energietraeger::3_Zeitraum::2_Energieverbrauchsanteil-Warmwasser-zentral':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									return (int) $traeger['verbrauch'][ $parent_index ]['warmwasser'];
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									return (int) $traeger['verbrauch'][$parent_index]['warmwasser'];
 								}
 							}
 
@@ -713,7 +710,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Warmwasserwertermittlung':
 						case 'Energietraeger::3_Zeitraum::1_Warmwasserwertermittlung':
 						case 'Energietraeger::3_Zeitraum::2_Warmwasserwertermittlung':
-							if ( $energieausweis->ww_info == 'ww' ) {
+							if ($energieausweis->ww_info == 'ww') {
 								return $item['options'][0];
 							}
 
@@ -730,15 +727,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Klimafaktor':
 						case 'Energietraeger::3_Zeitraum::1_Klimafaktor':
 						case 'Energietraeger::3_Zeitraum::2_Klimafaktor':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									return round( (float) $traeger['verbrauch'][ $parent_index ]['klima'], 2 );
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									return round((float) $traeger['verbrauch'][$parent_index]['klima'], 2);
 								}
 							}
 
@@ -755,20 +752,20 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Energietraeger::3_Zeitraum::0_Verbrauchswert-kWh-Strom':
 						case 'Energietraeger::3_Zeitraum::1_Verbrauchswert-kWh-Strom':
 						case 'Energietraeger::3_Zeitraum::2_Verbrauchswert-kWh-Strom':
-							$parts             = explode( '_', $context );
-							$grandparent_index = absint( substr( $parts[0], - 1 ) );
-							$parent_index      = absint( substr( $parts[1], - 1 ) );
-							$counts            = wpenon_get_enev_anlagen_counts( $energieausweis );
-							if ( isset( $counts[ $grandparent_index ] ) ) {
+							$parts             = explode('_', $context);
+							$grandparent_index = absint(substr($parts[0], -1));
+							$parent_index      = absint(substr($parts[1], -1));
+							$counts            = wpenon_get_enev_anlagen_counts($energieausweis);
+							if (isset($counts[$grandparent_index])) {
 								$calculations = $energieausweis->calculate();
-								$traeger      = $calculations['anlagendaten'][ $counts[ $grandparent_index ] ];
-								if ( isset( $traeger['verbrauch'][ $parent_index ] ) ) {
-									return (int) $traeger['verbrauch'][ $parent_index ]['strom'];
+								$traeger      = $calculations['anlagendaten'][$counts[$grandparent_index]];
+								if (isset($traeger['verbrauch'][$parent_index])) {
+									return (int) $traeger['verbrauch'][$parent_index]['strom'];
 								}
 							}
 
 							return false;
-						// Leerstand Heizung + Warmwasser + Strom
+							// Leerstand Heizung + Warmwasser + Strom
 						case 'Leerstandszuschlag-Heizung::0_kein-Leerstand':
 							return 'Kein längerer Leerstand Heizung zu berücksichtigen.';
 						case 'keine-Nutzung-von-WW':
@@ -777,26 +774,26 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							return 'Kein längerer Leerstand Warmwasser zu berücksichtigen.';
 						case 'Leerstandszuschlag-Strom::0_kein-Leerstand':
 							return 'Kein längerer Leerstand Strom zu berücksichtigen.';
-						// Leerstandskorrektur-nach-Bekanntmachung
+							// Leerstandskorrektur-nach-Bekanntmachung
 						case 'Leerstandszuschlag-nach-Bekanntmachung::0_Startdatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][0]['start'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][0]['start']));
 						case 'Leerstandszuschlag-nach-Bekanntmachung::0_Enddatum':
 							$calculations = $energieausweis->calculate();
 
-							return date( 'Y-m-d', strtotime( $calculations['verbrauchsdaten'][2]['ende'] ) );
+							return date('Y-m-d', strtotime($calculations['verbrauchsdaten'][2]['ende']));
 						case 'Leerstandsfaktor':
-							$gesamt = ( ( $energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand ) / 3.0 ) * 0.01;
+							$gesamt = (($energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand) / 3.0) * 0.01;
 
-							return round( (float) $gesamt, 2 );
+							return round((float) $gesamt, 2);
 						case 'Leerstandszuschlag-Heizung::0_Leerstandszuschlag-nach-Bekanntmachung::0_Leerstandszuschlag-kWh':
 							$calculations = $energieausweis->calculate();
 							$gesamt       = 0.0;
-							foreach ( $calculations['verbrauchsdaten'] as $jahr ) {
+							foreach ($calculations['verbrauchsdaten'] as $jahr) {
 								$gesamt += $jahr['heizung'];
 							}
-							$gesamt = $gesamt / ( 1.0 - ( ( $energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand ) / 3.0 ) * 0.01 ) - $gesamt;
+							$gesamt = $gesamt / (1.0 - (($energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand) / 3.0) * 0.01) - $gesamt;
 
 							return (int) $gesamt;
 						case 'Leerstandszuschlag-Heizung::0_Leerstandszuschlag-nach-Bekanntmachung::0_Primaerenergiefaktor':
@@ -806,26 +803,26 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Leerstandszuschlag-Warmwasser::0_Leerstandszuschlag-nach-Bekanntmachung::0_Leerstandszuschlag-kWh':
 							$calculations = $energieausweis->calculate();
 							$gesamt       = 0.0;
-							foreach ( $calculations['verbrauchsdaten'] as $jahr ) {
+							foreach ($calculations['verbrauchsdaten'] as $jahr) {
 								$gesamt += $jahr['warmwasser'];
 							}
-							$gesamt = $gesamt / ( 1.0 - ( ( $energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand ) / 3.0 ) * 0.01 ) - $gesamt;
+							$gesamt = $gesamt / (1.0 - (($energieausweis->verbrauch1_leerstand + $energieausweis->verbrauch2_leerstand + $energieausweis->verbrauch3_leerstand) / 3.0) * 0.01) - $gesamt;
 
 							return (int) $gesamt;
 						case 'Leerstandszuschlag-Warmwasser::0_Leerstandszuschlag-nach-Bekanntmachung::0_Primaerenergiefaktor':
 							$calculations = $energieausweis->calculate();
-							if ( isset( $calculations['anlagendaten']['ww'] ) ) {
+							if (isset($calculations['anlagendaten']['ww'])) {
 								return $calculations['anlagendaten']['ww']['energietraeger_primaer'];
 							}
 
 							return $calculations['anlagendaten']['h']['energietraeger_primaer'];
-						// Bedarfswerte-4108-4701
+							// Bedarfswerte-4108-4701
 						case 'Wohngebaeude-Anbaugrad':
 							$gebauedetyp = $energieausweis->gebaeudetyp;
-							if ( 'reihenhaus' === $gebaeudetyp ) {
+							if ('reihenhaus' === $gebaeudetyp) {
 								return $item['options'][2];
 							}
-							if ( 'reiheneckhaus' === $gebaeudetyp || 'doppelhaushaelfte' === $gebaeudetyp ) {
+							if ('reiheneckhaus' === $gebaeudetyp || 'doppelhaushaelfte' === $gebaeudetyp) {
 								return $item['options'][1];
 							}
 
@@ -835,15 +832,15 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 
 							return (int) $calculations['huellvolumen'];
 						case 'durchschnittliche-Geschosshoehe':
-							return round( (float) $energieausweis->geschoss_hoehe, 2 );
+							return round((float) $energieausweis->geschoss_hoehe, 2);
 						case 'Waermebrueckenzuschlag':
-							return round( (float) 0.1, 3 );
+							return round((float) 0.1, 3);
 						case 'Transmissionswaermeverlust':
 							$calculations = $energieausweis->calculate();
 
 							return (int) $calculations['qt'];
 						case 'Luftdichtheit':
-							if ( $energieausweis->dichtheit ) {
+							if ($energieausweis->dichtheit) {
 								return $item['options'][2];
 							}
 
@@ -866,21 +863,21 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 							$calculations = $energieausweis->calculate();
 							$anteil_max   = 0;
 							$hktemp       = '';
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $anlage['deckungsanteil'] > $anteil_max ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($anlage['deckungsanteil'] > $anteil_max) {
 										$anteil_max = $anlage['deckungsanteil'];
 										$hktemp     = $anlage['heizkreistemperatur'];
 									}
 								}
 							}
-							if ( $hktemp == '70/55°' ) {
+							if ($hktemp == '70/55°') {
 								return $item['options'][1];
 							}
 
 							return $item['options'][2];
 						case 'Heizungsanlage-innerhalb-Huelle':
-							if ( $energieausweis->speicherung_standort == 'innerhalb' ) {
+							if ($energieausweis->speicherung_standort == 'innerhalb') {
 								return 'true';
 							}
 
@@ -888,7 +885,7 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Trinkwarmwasserspeicher-Nenninhalt':
 							return 0;
 						case 'Trinkwarmwasserverteilung-Zirkulation':
-							if ( $energieausweis->verteilung_versorgung == 'mit' ) {
+							if ($energieausweis->verteilung_versorgung == 'mit') {
 								return 'true';
 							}
 
@@ -898,24 +895,24 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'spezifischer-Transmissionswaermeverlust-Ist':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['ht_b'], 2 );
+							return round((float) $calculations['ht_b'], 2);
 						case 'Endenergiebedarf-Waerme-AN':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['qh_e_b'] + $calculations['qw_e_b'], 1 );
+							return round((float) $calculations['qh_e_b'] + $calculations['qw_e_b'], 1);
 						case 'Endenergiebedarf-Hilfsenergie-AN':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['qhe_e_b'], 1 );
+							return round((float) $calculations['qhe_e_b'], 1);
 						case 'Primaerenergiebedarf':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['primaerenergie'], 1 );
+							return round((float) $calculations['primaerenergie'], 1);
 						case 'Primaerenergiebedarf-Hoechstwert-Neubau':
 							$calculations = $energieausweis->calculate();
 
-							return round( (float) $calculations['primaerenergie_reference'], 1 );
-						// Bauteil-Opak
+							return round((float) $calculations['primaerenergie_reference'], 1);
+							// Bauteil-Opak
 						case 'Bauteil-Opak::0_Flaechenbezeichnung':
 						case 'Bauteil-Opak::1_Flaechenbezeichnung':
 						case 'Bauteil-Opak::2_Flaechenbezeichnung':
@@ -940,22 +937,22 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::21_Flaechenbezeichnung':
 						case 'Bauteil-Opak::22_Flaechenbezeichnung':
 						case 'Bauteil-Opak::23_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::24_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::25_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::26_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::27_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::28_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::29_Flaechenbezeichnung':
-                        case 'Bauteil-Opak::30_Flaechenbezeichnung':                             
+						case 'Bauteil-Opak::24_Flaechenbezeichnung':
+						case 'Bauteil-Opak::25_Flaechenbezeichnung':
+						case 'Bauteil-Opak::26_Flaechenbezeichnung':
+						case 'Bauteil-Opak::27_Flaechenbezeichnung':
+						case 'Bauteil-Opak::28_Flaechenbezeichnung':
+						case 'Bauteil-Opak::29_Flaechenbezeichnung':
+						case 'Bauteil-Opak::30_Flaechenbezeichnung':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Opak::',
 								'_Flaechenbezeichnung'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_opak )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_opak)[$index];
 
-							return $calculations['bauteile'][ $key ]['name'];
+							return $calculations['bauteile'][$key]['name'];
 						case 'Bauteil-Opak::0_Flaeche':
 						case 'Bauteil-Opak::1_Flaeche':
 						case 'Bauteil-Opak::2_Flaeche':
@@ -981,21 +978,21 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_Flaeche':
 						case 'Bauteil-Opak::23_Flaeche':
 						case 'Bauteil-Opak::24_Flaeche':
-                        case 'Bauteil-Opak::25_Flaeche':
-                        case 'Bauteil-Opak::26_Flaeche':
-                        case 'Bauteil-Opak::27_Flaeche':
-                        case 'Bauteil-Opak::28_Flaeche':
-                        case 'Bauteil-Opak::29_Flaeche':
-                        case 'Bauteil-Opak::30_Flaeche':
+						case 'Bauteil-Opak::25_Flaeche':
+						case 'Bauteil-Opak::26_Flaeche':
+						case 'Bauteil-Opak::27_Flaeche':
+						case 'Bauteil-Opak::28_Flaeche':
+						case 'Bauteil-Opak::29_Flaeche':
+						case 'Bauteil-Opak::30_Flaeche':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Opak::',
 								'_Flaeche'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_opak )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_opak)[$index];
 
-							return (int) $calculations['bauteile'][ $key ]['a'];
+							return (int) $calculations['bauteile'][$key]['a'];
 						case 'Bauteil-Opak::0_U-Wert':
 						case 'Bauteil-Opak::1_U-Wert':
 						case 'Bauteil-Opak::2_U-Wert':
@@ -1020,22 +1017,22 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::21_U-Wert':
 						case 'Bauteil-Opak::22_U-Wert':
 						case 'Bauteil-Opak::23_U-Wert':
-                        case 'Bauteil-Opak::24_U-Wert':
-                        case 'Bauteil-Opak::25_U-Wert':
-                        case 'Bauteil-Opak::26_U-Wert':
-                        case 'Bauteil-Opak::27_U-Wert':
-                        case 'Bauteil-Opak::28_U-Wert':
-                        case 'Bauteil-Opak::29_U-Wert':
-                        case 'Bauteil-Opak::30_U-Wert':                            
+						case 'Bauteil-Opak::24_U-Wert':
+						case 'Bauteil-Opak::25_U-Wert':
+						case 'Bauteil-Opak::26_U-Wert':
+						case 'Bauteil-Opak::27_U-Wert':
+						case 'Bauteil-Opak::28_U-Wert':
+						case 'Bauteil-Opak::29_U-Wert':
+						case 'Bauteil-Opak::30_U-Wert':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Opak::',
 								'_U-Wert'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_opak )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_opak)[$index];
 
-							return round( (float) $calculations['bauteile'][ $key ]['u'], 3 );
+							return round((float) $calculations['bauteile'][$key]['u'], 3);
 						case 'Bauteil-Opak::0_Ausrichtung':
 						case 'Bauteil-Opak::1_Ausrichtung':
 						case 'Bauteil-Opak::2_Ausrichtung':
@@ -1061,21 +1058,21 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_Ausrichtung':
 						case 'Bauteil-Opak::23_Ausrichtung':
 						case 'Bauteil-Opak::24_Ausrichtung':
-                        case 'Bauteil-Opak::25_Ausrichtung':
-                        case 'Bauteil-Opak::26_Ausrichtung':
-                        case 'Bauteil-Opak::27_Ausrichtung':
-                        case 'Bauteil-Opak::28_Ausrichtung':
-                        case 'Bauteil-Opak::29_Ausrichtung':
-                        case 'Bauteil-Opak::30_Ausrichtung':
+						case 'Bauteil-Opak::25_Ausrichtung':
+						case 'Bauteil-Opak::26_Ausrichtung':
+						case 'Bauteil-Opak::27_Ausrichtung':
+						case 'Bauteil-Opak::28_Ausrichtung':
+						case 'Bauteil-Opak::29_Ausrichtung':
+						case 'Bauteil-Opak::30_Ausrichtung':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Opak::',
 								'_Ausrichtung'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_opak )[ $index ];
-							if ( ! empty( $calculations['bauteile'][ $key ]['richtung'] ) ) {
-								return strtoupper( $calculations['bauteile'][ $key ]['richtung'] );
+							), '', $context));
+							$key           = array_keys($bauteile_opak)[$index];
+							if (!empty($calculations['bauteile'][$key]['richtung'])) {
+								return strtoupper($calculations['bauteile'][$key]['richtung']);
 							}
 
 							return 'HOR';
@@ -1104,28 +1101,28 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Opak::22_grenztAn':
 						case 'Bauteil-Opak::23_grenztAn':
 						case 'Bauteil-Opak::24_grenztAn':
-                        case 'Bauteil-Opak::25_grenztAn':
-                        case 'Bauteil-Opak::26_grenztAn':
-                        case 'Bauteil-Opak::27_grenztAn':
-                        case 'Bauteil-Opak::28_grenztAn':
-                        case 'Bauteil-Opak::29_grenztAn':
-                        case 'Bauteil-Opak::30_grenztAn':
+						case 'Bauteil-Opak::25_grenztAn':
+						case 'Bauteil-Opak::26_grenztAn':
+						case 'Bauteil-Opak::27_grenztAn':
+						case 'Bauteil-Opak::28_grenztAn':
+						case 'Bauteil-Opak::29_grenztAn':
+						case 'Bauteil-Opak::30_grenztAn':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_opak = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'opak' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_opak = wp_list_filter($calculations['bauteile'], array('modus' => 'opak'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Opak::',
 								'_grenztAn'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_opak )[ $index ];
-							if ( 'kellerwand' === $key || 'boden' === $key ) {
+							), '', $context));
+							$key           = array_keys($bauteile_opak)[$index];
+							if ('kellerwand' === $key || 'boden' === $key) {
 								return $item['options'][2];
 							}
-							if ( 'kellerdecke' === $key || 'decke' === $key ) {
+							if ('kellerdecke' === $key || 'decke' === $key) {
 								return $item['options'][1];
 							}
 
 							return $item['options'][0];
-						// Bauteil-Transparent
+							// Bauteil-Transparent
 						case 'Bauteil-Transparent::0_Flaechenbezeichnung':
 						case 'Bauteil-Transparent::1_Flaechenbezeichnung':
 						case 'Bauteil-Transparent::2_Flaechenbezeichnung':
@@ -1143,14 +1140,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Transparent::14_Flaechenbezeichnung':
 						case 'Bauteil-Transparent::15_Flaechenbezeichnung':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
-							$index                = absint( str_replace( array(
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
+							$index                = absint(str_replace(array(
 								'Bauteil-Transparent::',
 								'_Flaechenbezeichnung'
-							), '', $context ) );
-							$key                  = array_keys( $bauteile_transparent )[ $index ];
+							), '', $context));
+							$key                  = array_keys($bauteile_transparent)[$index];
 
-							return $calculations['bauteile'][ $key ]['name'];
+							return $calculations['bauteile'][$key]['name'];
 						case 'Bauteil-Transparent::0_Flaeche':
 						case 'Bauteil-Transparent::1_Flaeche':
 						case 'Bauteil-Transparent::2_Flaeche':
@@ -1168,14 +1165,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Transparent::14_Flaeche':
 						case 'Bauteil-Transparent::15_Flaeche':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
-							$index                = absint( str_replace( array(
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
+							$index                = absint(str_replace(array(
 								'Bauteil-Transparent::',
 								'_Flaeche'
-							), '', $context ) );
-							$key                  = array_keys( $bauteile_transparent )[ $index ];
+							), '', $context));
+							$key                  = array_keys($bauteile_transparent)[$index];
 
-							return (int) $calculations['bauteile'][ $key ]['a'];
+							return (int) $calculations['bauteile'][$key]['a'];
 						case 'Bauteil-Transparent::0_U-Wert':
 						case 'Bauteil-Transparent::1_U-Wert':
 						case 'Bauteil-Transparent::2_U-Wert':
@@ -1193,14 +1190,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Transparent::14_U-Wert':
 						case 'Bauteil-Transparent::15_U-Wert':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
-							$index                = absint( str_replace( array(
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
+							$index                = absint(str_replace(array(
 								'Bauteil-Transparent::',
 								'_U-Wert'
-							), '', $context ) );
-							$key                  = array_keys( $bauteile_transparent )[ $index ];
+							), '', $context));
+							$key                  = array_keys($bauteile_transparent)[$index];
 
-							return round( (float) $calculations['bauteile'][ $key ]['u'], 3 );
+							return round((float) $calculations['bauteile'][$key]['u'], 3);
 						case 'Bauteil-Transparent::0_g-Wert':
 						case 'Bauteil-Transparent::1_g-Wert':
 						case 'Bauteil-Transparent::2_g-Wert':
@@ -1218,14 +1215,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Transparent::14_g-Wert':
 						case 'Bauteil-Transparent::15_g-Wert':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
-							$index                = absint( str_replace( array(
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
+							$index                = absint(str_replace(array(
 								'Bauteil-Transparent::',
 								'_g-Wert'
-							), '', $context ) );
-							$key                  = array_keys( $bauteile_transparent )[ $index ];
+							), '', $context));
+							$key                  = array_keys($bauteile_transparent)[$index];
 
-							return round( (float) wpenon_immoticket24_get_g_wert( $calculations['bauteile'][ $key ]['bauart'] ), 3 );
+							return round((float) wpenon_immoticket24_get_g_wert($calculations['bauteile'][$key]['bauart']), 3);
 						case 'Bauteil-Transparent::0_Ausrichtung':
 						case 'Bauteil-Transparent::1_Ausrichtung':
 						case 'Bauteil-Transparent::2_Ausrichtung':
@@ -1243,18 +1240,18 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Transparent::14_Ausrichtung':
 						case 'Bauteil-Transparent::15_Ausrichtung':
 							$calculations         = $energieausweis->calculate();
-							$bauteile_transparent = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'transparent' ) );
-							$index                = absint( str_replace( array(
+							$bauteile_transparent = wp_list_filter($calculations['bauteile'], array('modus' => 'transparent'));
+							$index                = absint(str_replace(array(
 								'Bauteil-Transparent::',
 								'_Ausrichtung'
-							), '', $context ) );
-							$key                  = array_keys( $bauteile_transparent )[ $index ];
-							if ( ! empty( $calculations['bauteile'][ $key ]['richtung'] ) ) {
-								return strtoupper( $calculations['bauteile'][ $key ]['richtung'] );
+							), '', $context));
+							$key                  = array_keys($bauteile_transparent)[$index];
+							if (!empty($calculations['bauteile'][$key]['richtung'])) {
+								return strtoupper($calculations['bauteile'][$key]['richtung']);
 							}
 
 							return 'HOR';
-						// Bauteil-Dach
+							// Bauteil-Dach
 						case 'Bauteil-Dach::0_Flaechenbezeichnung':
 						case 'Bauteil-Dach::1_Flaechenbezeichnung':
 						case 'Bauteil-Dach::2_Flaechenbezeichnung':
@@ -1272,14 +1269,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Dach::14_Flaechenbezeichnung':
 						case 'Bauteil-Dach::15_Flaechenbezeichnung':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_dach = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'dach' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_dach = wp_list_filter($calculations['bauteile'], array('modus' => 'dach'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Dach::',
 								'_Flaechenbezeichnung'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_dach )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_dach)[$index];
 
-							return $calculations['bauteile'][ $key ]['name'];
+							return $calculations['bauteile'][$key]['name'];
 						case 'Bauteil-Dach::0_Flaeche':
 						case 'Bauteil-Dach::1_Flaeche':
 						case 'Bauteil-Dach::2_Flaeche':
@@ -1297,14 +1294,14 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Dach::14_Flaeche':
 						case 'Bauteil-Dach::15_Flaeche':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_dach = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'dach' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_dach = wp_list_filter($calculations['bauteile'], array('modus' => 'dach'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Dach::',
 								'_Flaeche'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_dach )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_dach)[$index];
 
-							return (int) $calculations['bauteile'][ $key ]['a'];
+							return (int) $calculations['bauteile'][$key]['a'];
 						case 'Bauteil-Dach::0_U-Wert':
 						case 'Bauteil-Dach::1_U-Wert':
 						case 'Bauteil-Dach::2_U-Wert':
@@ -1322,44 +1319,44 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Bauteil-Dach::14_U-Wert':
 						case 'Bauteil-Dach::15_U-Wert':
 							$calculations  = $energieausweis->calculate();
-							$bauteile_dach = wp_list_filter( $calculations['bauteile'], array( 'modus' => 'dach' ) );
-							$index         = absint( str_replace( array(
+							$bauteile_dach = wp_list_filter($calculations['bauteile'], array('modus' => 'dach'));
+							$index         = absint(str_replace(array(
 								'Bauteil-Dach::',
 								'_U-Wert'
-							), '', $context ) );
-							$key           = array_keys( $bauteile_dach )[ $index ];
+							), '', $context));
+							$key           = array_keys($bauteile_dach)[$index];
 
-							return round( (float) $calculations['bauteile'][ $key ]['u'], 3 );
-						// Heizungsanlage
+							return round((float) $calculations['bauteile'][$key]['u'], 3);
+							// Heizungsanlage
 						case 'Heizungsanlage::0_Waermeerzeuger-Bauweise-4701':
 						case 'Heizungsanlage::1_Waermeerzeuger-Bauweise-4701':
 						case 'Heizungsanlage::2_Waermeerzeuger-Bauweise-4701':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Waermeerzeuger-Bauweise-4701'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
 										$mappings = wpenon_get_enev_waermeerzeuger_mappings();
-										if ( isset( $mappings[ $anlage['slug'] ] ) ) {
-											if ( is_array( $mappings[ $anlage['slug'] ] ) ) {
-												if ( (int) $anlage['baujahr'] >= 1995 ) {
-													return $item['options'][ $mappings[ $anlage['slug'] ][1] ];
+										if (isset($mappings[$anlage['slug']])) {
+											if (is_array($mappings[$anlage['slug']])) {
+												if ((int) $anlage['baujahr'] >= 1995) {
+													return $item['options'][$mappings[$anlage['slug']][1]];
 												}
 
-												return $item['options'][ $mappings[ $anlage['slug'] ][0] ];
+												return $item['options'][$mappings[$anlage['slug']][0]];
 											}
-											if ( $mappings[ $anlage['slug'] ] > - 1 ) {
-												return $item['options'][ $mappings[ $anlage['slug'] ] ];
+											if ($mappings[$anlage['slug']] > -1) {
+												return $item['options'][$mappings[$anlage['slug']]];
 											}
 										}
 
 										return $item['options'][31];
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1368,17 +1365,17 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Heizungsanlage::1_Nennleistung':
 						case 'Heizungsanlage::2_Nennleistung':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Nennleistung'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
 										return 0;
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1387,17 +1384,17 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Heizungsanlage::1_Waermeerzeuger-Baujahr':
 						case 'Heizungsanlage::2_Waermeerzeuger-Baujahr':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Waermeerzeuger-Baujahr'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
 										return $anlage['baujahr'];
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1406,17 +1403,17 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Heizungsanlage::1_Anzahl-baugleiche':
 						case 'Heizungsanlage::2_Anzahl-baugleiche':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Anzahl-baugleiche'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
 										return 1;
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1425,22 +1422,22 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Heizungsanlage::1_Energietraeger':
 						case 'Heizungsanlage::2_Energietraeger':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Energietraeger'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
 										$mappings = wpenon_get_enev_energietraeger_mappings();
-										if ( isset( $mappings[ $anlage['energietraeger_slug'] ] ) && $mappings[ $anlage['energietraeger_slug'] ] > - 1 ) {
-											return $item['options'][ $mappings[ $anlage['energietraeger_slug'] ] ];
+										if (isset($mappings[$anlage['energietraeger_slug']]) && $mappings[$anlage['energietraeger_slug']] > -1) {
+											return $item['options'][$mappings[$anlage['energietraeger_slug']]];
 										}
 
 										return $item['options'][20];
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1449,45 +1446,45 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Heizungsanlage::1_Primaerenergiefaktor':
 						case 'Heizungsanlage::2_Primaerenergiefaktor':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Heizungsanlage::',
 								'_Primaerenergiefaktor'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'heizung' ) {
-									if ( $key == $count ) {
-										return round( (float) $anlage['energietraeger_primaer'], 1 );
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'heizung') {
+									if ($key == $count) {
+										return round((float) $anlage['energietraeger_primaer'], 1);
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
 							return false;
-						// Trinkwarmwasseranlage
+							// Trinkwarmwasseranlage
 						case 'Trinkwarmwasseranlage::0_Trinkwarmwassererzeuger-Bauweise-4701':
 						case 'Trinkwarmwasseranlage::1_Trinkwarmwassererzeuger-Bauweise-4701':
 						case 'Trinkwarmwasseranlage::2_Trinkwarmwassererzeuger-Bauweise-4701':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Trinkwarmwasseranlage::',
 								'_Trinkwarmwassererzeuger-Bauweise-4701'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'warmwasser' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'warmwasser') {
+									if ($key == $count) {
 										$mappings = wpenon_get_enev_warmwassererzeuger_mappings();
-										if ( isset( $mappings[ $anlage['slug'] ] ) && $mappings[ $anlage['slug'] ] > - 1 ) {
-											return $item['options'][ $mappings[ $anlage['slug'] ] ];
+										if (isset($mappings[$anlage['slug']]) && $mappings[$anlage['slug']] > -1) {
+											return $item['options'][$mappings[$anlage['slug']]];
 										}
-										if ( $energieausweis->ww_info != 'ww' ) {
+										if ($energieausweis->ww_info != 'ww') {
 											return $item['options'][0];
 										}
 
 										return $item['options'][5];
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1496,17 +1493,17 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Trinkwarmwasseranlage::1_Trinkwarmwassererzeuger-Baujahr':
 						case 'Trinkwarmwasseranlage::2_Trinkwarmwassererzeuger-Baujahr':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Trinkwarmwasseranlage::',
 								'_Trinkwarmwassererzeuger-Baujahr'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'warmwasser' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'warmwasser') {
+									if ($key == $count) {
 										return $anlage['baujahr'];
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1515,17 +1512,17 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 						case 'Trinkwarmwasseranlage::1_Anzahl-baugleiche':
 						case 'Trinkwarmwasseranlage::2_Anzahl-baugleiche':
 							$calculations = $energieausweis->calculate();
-							$key          = absint( str_replace( array(
+							$key          = absint(str_replace(array(
 								'Trinkwarmwasseranlage::',
 								'_Anzahl-baugleiche'
-							), '', $context ) );
+							), '', $context));
 							$count        = 0;
-							foreach ( $calculations['anlagendaten'] as $anlage ) {
-								if ( $anlage['art'] == 'warmwasser' ) {
-									if ( $key == $count ) {
+							foreach ($calculations['anlagendaten'] as $anlage) {
+								if ($anlage['art'] == 'warmwasser') {
+									if ($key == $count) {
 										return 1;
 									}
-									$count ++;
+									$count++;
 								}
 							}
 
@@ -1541,44 +1538,47 @@ if ( ! function_exists( 'wpenon_get_enev_xml_zusatzdatenerfassung_data' ) ) {
 	}
 }
 
-function wpenon_get_enev_anlagen_counts( $energieausweis ) {
-	$counts = array( 'h' );
-	if ( $energieausweis->h2_info ) {
+function wpenon_get_enev_anlagen_counts($energieausweis)
+{
+	$counts = array('h');
+	if ($energieausweis->h2_info) {
 		$counts[] = 'h2';
-		if ( $energieausweis->h3_info ) {
+		if ($energieausweis->h3_info) {
 			$counts[] = 'h3';
 		}
 	}
-	if ( $energieausweis->ww_info == 'ww' ) {
+	if ($energieausweis->ww_info == 'ww') {
 		$counts[] = 'ww';
 	}
 
 	return $counts;
 }
 
-function wpenon_get_enev_waermeerzeuger_mappings() {
+function wpenon_get_enev_waermeerzeuger_mappings()
+{
 	return array(
-		'standardkessel'              => array( 2, 5 ),
-		'niedertemperaturkessel'      => array( 6, 10 ),
-		'brennwertkessel'             => array( 11, 12 ),
+		'standardkessel'              => array(2, 5),
+		'niedertemperaturkessel'      => array(6, 10),
+		'brennwertkessel'             => array(11, 12),
 		'brennwertkesselverbessert'   => 13,
 		'fernwaerme'                  => 15,
 		'waermepumpeluft'             => 17,
 		'waermepumpewasser'           => 19,
 		'waermepumpeerde'             => 20,
-		'kleinthermeniedertemperatur' => - 1,
-		'kleinthermebrennwert'        => - 1,
+		'kleinthermeniedertemperatur' => -1,
+		'kleinthermebrennwert'        => -1,
 		'oelofen'                     => 24,
 		'gasraumheizer'               => 22,
 		'kohleholzofen'               => 25,
 		'nachtspeicher'               => 29,
 		'direktheizgeraet'            => 28,
 		'solaranlage'                 => 30,
-		'elektrospeicher'             => - 1,
+		'elektrospeicher'             => -1,
 	);
 }
 
-function wpenon_get_enev_warmwassererzeuger_mappings() {
+function wpenon_get_enev_warmwassererzeuger_mappings()
+{
 	return array(
 		'standardkessel'              => 0,
 		'niedertemperaturkessel'      => 0,
@@ -1588,8 +1588,8 @@ function wpenon_get_enev_warmwassererzeuger_mappings() {
 		'waermepumpeluft'             => 0,
 		'waermepumpewasser'           => 0,
 		'waermepumpeerde'             => 0,
-		'kleinthermeniedertemperatur' => - 1,
-		'kleinthermebrennwert'        => - 1,
+		'kleinthermeniedertemperatur' => -1,
+		'kleinthermebrennwert'        => -1,
 		'dezentralkleinspeicher'      => 1,
 		'dezentralelektroerhitzer'    => 3,
 		'dezentralgaserhitzer'        => 3,
@@ -1599,7 +1599,8 @@ function wpenon_get_enev_warmwassererzeuger_mappings() {
 	);
 }
 
-function wpenon_get_enev_energietraeger_mappings() {
+function wpenon_get_enev_energietraeger_mappings()
+{
 	return array(
 		'heizoel'                  => 0,
 		'heizoelbiooel'            => 1,
@@ -1609,7 +1610,7 @@ function wpenon_get_enev_energietraeger_mappings() {
 		'biogas'                   => 5,
 		'fluessiggas'              => 6,
 		'steinkohle'               => 7,
-		'koks'                     => - 1,
+		'koks'                     => -1,
 		'braunkohle'               => 8,
 		'stueckholz'               => 9,
 		'holzhackschnitzel'        => 9,
@@ -1623,33 +1624,34 @@ function wpenon_get_enev_energietraeger_mappings() {
 	);
 }
 
-function wpenon_get_enev_energietraeger_unit_mappings() {
+function wpenon_get_enev_energietraeger_unit_mappings()
+{
 	return array(
 		'heizoel_l'                    => 0,
-		'heizoel_kwh'                  => array( 1, 2 ),
+		'heizoel_kwh'                  => array(1, 2),
 		'heizoelbiooel_l'              => 35,
-		'heizoelbiooel_kwh'            => array( 33, 34 ),
+		'heizoelbiooel_kwh'            => array(33, 34),
 		'biooel_l'                     => 18,
-		'biooel_kwh'                   => array( 19, 20 ),
+		'biooel_kwh'                   => array(19, 20),
 		'erdgas_m3'                    => 3,
-		'erdgas_kwh'                   => array( 4, 5 ),
+		'erdgas_kwh'                   => array(4, 5),
 		'erdgasbiogas_m3'              => 35,
-		'erdgasbiogas_kwh'             => array( 33, 34 ),
+		'erdgasbiogas_kwh'             => array(33, 34),
 		'biogas_m3'                    => 15,
-		'biogas_kwh'                   => array( 16, 17 ),
+		'biogas_kwh'                   => array(16, 17),
 		'fluessiggas_l'                => 7,
 		'fluessiggas_m3'               => 6,
 		'fluessiggas_kg'               => 8,
-		'fluessiggas_kwh'              => array( 9, 10 ),
+		'fluessiggas_kwh'              => array(9, 10),
 		'steinkohle_kg'                => 11,
 		'steinkohle_kwh'               => 12,
 		'braunkohle_kg'                => 13,
 		'braunkohle_kwh'               => 14,
 		'stueckholz_m3'                => 21,
 		'stueckholz_kg'                => 22,
-		'stueckholz_kwh'               => array( 23, 24 ),
+		'stueckholz_kwh'               => array(23, 24),
 		'holzpellets_kg'               => 22,
-		'holzpellets_kwh'              => array( 23, 24 ),
+		'holzpellets_kwh'              => array(23, 24),
 		'strom_kwh'                    => 30,
 		'fernwaermehzwfossil_kwh'      => 28,
 		'fernwaermehzwregenerativ_kwh' => 29,

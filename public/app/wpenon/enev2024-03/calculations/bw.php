@@ -490,13 +490,14 @@ switch ($energieausweis->keller) {
 }
 
 // NOTE: Vereinfachung vom 02.05.2024
-if ($energieausweis->l_info === 'vorhanden_mit_wrg') {
+if ($energieausweis->l_info === 'mitgewinnung') {
 	$lueftungssystem =  'zu_abluft';
 	$gebaeudedichtheit = 'din_4108_7';
 	$bedarfsgefuehrt = false;
 
 	$wirkungsgrad = 0;
 
+	// Quelle: BAnz 04.12.2020 Kapitel 3.3
 	if ($gebaeude->baujahr() <= 1999) {
 		$wirkungsgrad = 54;
 	} elseif ($gebaeude->baujahr() >= 2000 && $gebaeude->baujahr() <= 2009) {
@@ -504,7 +505,7 @@ if ($energieausweis->l_info === 'vorhanden_mit_wrg') {
 	} else {
 		$wirkungsgrad = 80;
 	}
-} else if ($energieausweis->l_info === 'vorhanden_ohne_wrg') {
+} else if ($energieausweis->l_info === 'ohnegewinnung') {
 	$lueftungssystem =  'abluft';
 	$gebaeudedichtheit = 'din_4108_7';
 	$bedarfsgefuehrt = false;
