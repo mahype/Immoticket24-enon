@@ -1,29 +1,31 @@
 <?php
 
-namespace Enev\Schema202402\Schema;
+namespace Enev\Schema202403\Schema;
 
 use Enev\Schema\Schema;
 
-require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' );
-require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
-require_once( dirname( __DIR__ ) . '/modernizations/BW_Modernizations.php' );
+require_once(dirname(dirname(dirname(__FILE__))) . '/schema.php');
+require_once(dirname(__DIR__) . '/Standard_Options.php');
+require_once(dirname(__DIR__) . '/modernizations/BW_Modernizations.php');
 
-use Enev\Schema202402\Modernizations\BW_Modernizations;
+use Enev\Schema202403\Modernizations\BW_Modernizations;
 
 
-if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
+if (!class_exists('\Enev\Schema202403\Schema\Bedarfsausweis_Schema')) :
 	/**
 	 * Class Bedarfsausweis_Schema
 	 *
 	 * @since 1.0.0
 	 */
-	class Bedarfsausweis_Schema extends Schema {
+	class Bedarfsausweis_Schema extends Schema
+	{
 		/**
 		 * Verbrauchsausweis_Schema constructor.
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
+		public function __construct()
+		{
 			new BW_Modernizations();
 		}
 
@@ -34,8 +36,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_basisdaten() {
-			require( dirname( __FILE__ ) . '/bw-basisdaten.php' );
+		public function get_basisdaten()
+		{
+			require(dirname(__FILE__) . '/bw-basisdaten.php');
 
 			return $basisdaten;
 		}
@@ -47,8 +50,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_gebaeude() {
-			require( dirname( __FILE__ ) . '/bw-gebaeude.php' );
+		public function get_gebaeude()
+		{
+			require(dirname(__FILE__) . '/bw-gebaeude.php');
 
 			return $gebaeude;
 		}
@@ -60,8 +64,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_bauteile() {
-			require( dirname( __FILE__ ) . '/bw-bauteile.php' );
+		public function get_bauteile()
+		{
+			require(dirname(__FILE__) . '/bw-bauteile.php');
 
 			return $bauteile;
 		}
@@ -73,8 +78,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_anlage() {
-			require( dirname( __FILE__ ) . '/bw-anlage.php' );
+		public function get_anlage()
+		{
+			require(dirname(__FILE__) . '/bw-anlage.php');
 
 			return $anlage;
 		}
@@ -86,7 +92,8 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Bedarfsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get() {
+		public function get()
+		{
 			$schema = array(
 				'bw_basisdaten' => $this->get_basisdaten(),
 				'bw_gebaeude'   => $this->get_gebaeude(),

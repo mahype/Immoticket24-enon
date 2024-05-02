@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/Moderniserungsempfehlung.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/modernizations/BW_Modernizations.php';
 
 use Enev\Schema202403\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202402\Modernizations\BW_Modernizations;
+use Enev\Schema202403\Modernizations\BW_Modernizations;
 
 /**
  * Bedarfsausweis-Spezifische Daten für Enev

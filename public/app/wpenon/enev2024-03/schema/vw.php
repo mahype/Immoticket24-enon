@@ -1,28 +1,30 @@
 <?php
 
-namespace Enev\Schema202402\Schema;
+namespace Enev\Schema202403\Schema;
 
-require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/schema.php' );
-require_once( dirname( __DIR__ ) . '/Standard_Options.php' );
-require_once( dirname( __DIR__ ) . '/modernizations/VW_Modernizations.php' );
+require_once(dirname(dirname(dirname(__FILE__))) . '/schema.php');
+require_once(dirname(__DIR__) . '/Standard_Options.php');
+require_once(dirname(__DIR__) . '/modernizations/VW_Modernizations.php');
 
-use Enev\Schema202402\Modernizations\VW_Modernizations;
+use Enev\Schema202403\Modernizations\VW_Modernizations;
 use Enev\Schema\Schema;
 
-if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
+if (!class_exists('\Enev\Schema202403\Schema\Verbrauchsausweis_Schema')) :
 
 	/**
 	 * Class Verbrauchsausweis_Schema
 	 *
 	 * @since 1.0.0
 	 */
-	class Verbrauchsausweis_Schema extends Schema {
+	class Verbrauchsausweis_Schema extends Schema
+	{
 		/**
 		 * Verbrauchsausweis_Schema constructor.
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
+		public function __construct()
+		{
 			new VW_Modernizations();
 		}
 
@@ -33,8 +35,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_basisdaten() {
-			require( dirname( __FILE__ ) . '/vw-basisdaten.php' );
+		public function get_basisdaten()
+		{
+			require(dirname(__FILE__) . '/vw-basisdaten.php');
 
 			return $basisdaten;
 		}
@@ -46,8 +49,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_bauteile() {
-			require( dirname( __FILE__ ) . '/vw-bauteile.php' );
+		public function get_bauteile()
+		{
+			require(dirname(__FILE__) . '/vw-bauteile.php');
 
 			return $bauteile;
 		}
@@ -59,8 +63,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_anlage() {
-			require( dirname( __FILE__ ) . '/vw-anlage.php' );
+		public function get_anlage()
+		{
+			require(dirname(__FILE__) . '/vw-anlage.php');
 
 			return $anlage;
 		}
@@ -72,8 +77,9 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get_erfassung() {
-			require( dirname( __FILE__ ) . '/vw-erfassung.php' );
+		public function get_erfassung()
+		{
+			require(dirname(__FILE__) . '/vw-erfassung.php');
 
 			return $erfassung;
 		}
@@ -85,7 +91,8 @@ if ( ! class_exists( '\Enev\Schema202402\Schema\Verbrauchsausweis_Schema' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function get() {
+		public function get()
+		{
 			$schema = array(
 				'vw_basisdaten' => $this->get_basisdaten(),
 				'vw_bauteile'   => $this->get_bauteile(),

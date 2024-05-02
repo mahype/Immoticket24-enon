@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/Energietraeger.php';
 require_once dirname(__FILE__) . '/Moderniserungsempfehlung.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/modernizations/VW_Modernizations.php';
 
-use Enev\Schema202402\Modernizations\VW_Modernizations;
+use Enev\Schema202403\Modernizations\VW_Modernizations;
 
 /**
  * Data Enev Bedarsausweis

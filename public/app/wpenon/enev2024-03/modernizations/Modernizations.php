@@ -1,6 +1,6 @@
 <?php
 
-namespace Enev\Schema202402\Modernizations;
+namespace Enev\Schema202403\Modernizations;
 
 use WPENON\Model\Energieausweis;
 
@@ -9,7 +9,8 @@ use WPENON\Model\Energieausweis;
  *
  * @since 1.0.0
  */
-abstract class Modernizations {
+abstract class Modernizations
+{
 	/**
 	 * Modernizations.
 	 *
@@ -33,9 +34,10 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		$this->load_data();
-		add_filter( 'enon_filter_modernization_recommendations', array( $this, 'get_modernizations' ), 10, 2 );
+		add_filter('enon_filter_modernization_recommendations', array($this, 'get_modernizations'), 10, 2);
 	}
 
 	/**
@@ -43,7 +45,8 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function load_data() {
+	public function load_data()
+	{
 		$this->modernizations = array(
 			'heizung'            => array(
 				'bauteil'      => 'Heizung',
@@ -139,49 +142,50 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_modernizations( array $modernizations, \WPENON\Model\Energieausweis $energieausweis ): array {
+	public function get_modernizations(array $modernizations, \WPENON\Model\Energieausweis $energieausweis): array
+	{
 		$this->energieausweis = $energieausweis;
 
 		// Remove modernizations which are checked afterwards. // Todo: Have to leave
-		$slugs_to_remove = [ 'wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster' ];
-		$modernizations_old  = $this->remove_modernizations( $modernizations, $slugs_to_remove );
+		$slugs_to_remove = ['wand', 'decke', 'boden', 'dach', 'rohrleitungssystem', 'solarthermie', 'heizung', 'fenster'];
+		$modernizations_old  = $this->remove_modernizations($modernizations, $slugs_to_remove);
 
 		$modernizations = array();
-		foreach( $modernizations_old as $modernization_old ) {
+		foreach ($modernizations_old as $modernization_old) {
 			$modernizations[] = $modernization_old;
 		}
 
 		// Checking for modernizations.
-		if ( $this->needs_heater() && $this->is_recommendation_active( 'heizung', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'heizung' );
+		if ($this->needs_heater() && $this->is_recommendation_active('heizung', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('heizung');
 		}
 
-		if ( $this->needs_rohrleitungssystem() && $this->is_recommendation_active( 'rohrleitungssystem', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'rohrleitungssystem' );
+		if ($this->needs_rohrleitungssystem() && $this->is_recommendation_active('rohrleitungssystem', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('rohrleitungssystem');
 		}
 
-		if ( $this->needs_solarthermie() && $this->is_recommendation_active( 'solarthermie', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'solarthermie' );
+		if ($this->needs_solarthermie() && $this->is_recommendation_active('solarthermie', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('solarthermie');
 		}
 
-		if ( $this->needs_wand() && $this->is_recommendation_active( 'wand', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'wand' );
+		if ($this->needs_wand() && $this->is_recommendation_active('wand', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('wand');
 		}
 
-		if ( $this->needs_boden() && $this->is_recommendation_active( 'boden', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'boden' );
+		if ($this->needs_boden() && $this->is_recommendation_active('boden', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('boden');
 		}
 
-		if ( $this->needs_decke() && $this->is_recommendation_active( 'decke', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'decke' );
+		if ($this->needs_decke() && $this->is_recommendation_active('decke', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('decke');
 		}
 
-		if ( $this->needs_dach() && $this->is_recommendation_active( 'dach', $this->energieausweis ) ) {
-			$modernizations[] = $this->get_modernization( 'dach' );
+		if ($this->needs_dach() && $this->is_recommendation_active('dach', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('dach');
 		}
 
-		if ( $this->needs_windows() && $this->is_recommendation_active( 'fenster', $this->energieausweis ) ) {
-		 	$modernizations[] = $this->get_modernization( 'fenster' );
+		if ($this->needs_windows() && $this->is_recommendation_active('fenster', $this->energieausweis)) {
+			$modernizations[] = $this->get_modernization('fenster');
 		}
 
 		return $modernizations;
@@ -251,17 +255,18 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function check_window( $baujahr, $bauart ) {
-		if ( intval( $baujahr ) > 1994 ) {
+	protected function check_window($baujahr, $bauart)
+	{
+		if (intval($baujahr) > 1994) {
 			return false;
 		}
 
-		if ( in_array( $bauart, array( 'waermedaemmglas', 'waermedaemmglas2fach' ) ) ) {
+		if (in_array($bauart, array('waermedaemmglas', 'waermedaemmglas2fach'))) {
 			return false;
 		}
 
 		// Todo: Not reachable becuase of construction year!
-		if ( in_array( $bauart, array( 'aluminium', 'kunststoff', 'stahl' ) ) && $baujahr >= 2005 ) {
+		if (in_array($bauart, array('aluminium', 'kunststoff', 'stahl')) && $baujahr >= 2005) {
 			return false;
 		}
 
@@ -275,14 +280,15 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function needs_solarthermie() {
-		if ( $this->energieausweis->regenerativ_art !== 'keine' ) {
+	protected function needs_solarthermie()
+	{
+		if ($this->energieausweis->regenerativ_art !== 'keine') {
 			return false;
 		}
 
-		$age_heater = date( 'Y' ) - (int) $this->energieausweis->h_baujahr;
+		$age_heater = date('Y') - (int) $this->energieausweis->h_baujahr;
 
-		switch ( $this->energieausweis->h_erzeugung ) {
+		switch ($this->energieausweis->h_erzeugung) {
 			case 'kleinthermeniedertemperatur':
 			case 'kleinthermebrennwert':
 				return false;
@@ -292,7 +298,7 @@ abstract class Modernizations {
 			case 'gasraumheizer':
 			case 'elektronachtspeicherheizung':
 			case 'elektrodirektheizgeraet':
-				if ( $age_heater < 25 ) {
+				if ($age_heater < 25) {
 					return false;
 				}
 				return true;
@@ -308,20 +314,21 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function needs_heater() {
-		$heatings = array( 'h' );
+	protected function needs_heater()
+	{
+		$heatings = array('h');
 
 		$min_age = 30;
 
-		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
+		if (isset($this->energieausweis->h2_info) && $this->energieausweis->h2_info) {
 			$heatings[] = 'h2';
 
-			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
+			if (isset($this->energieausweis->h3_info) && $this->energieausweis->h3_info) {
 				$heatings[] = 'h3';
 			}
 		}
 
-		$current_year = absint( current_time( 'Y' ) );
+		$current_year = absint(current_time('Y'));
 
 		$types       = array(
 			'gasraumheizer',
@@ -331,11 +338,11 @@ abstract class Modernizations {
 			'kohleholzofen',
 		);
 
-		foreach ( $heatings as $heating ) {
+		foreach ($heatings as $heating) {
 			$type_field = $heating . '_erzeugung';
 			$year_field = $heating . '_baujahr';
 
-			if ( in_array( $this->energieausweis->$type_field, $types, true ) && ! empty( $this->energieausweis->$year_field ) && $this->energieausweis->$year_field <= $current_year - $min_age ) {
+			if (in_array($this->energieausweis->$type_field, $types, true) && !empty($this->energieausweis->$year_field) && $this->energieausweis->$year_field <= $current_year - $min_age) {
 				return true;
 			}
 		}
@@ -352,9 +359,10 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function get_modernization( $type ) {
-		if ( array_key_exists( $type, $this->modernizations ) ) {
-			return $this->modernizations[ $type ];
+	protected function get_modernization($type)
+	{
+		if (array_key_exists($type, $this->modernizations)) {
+			return $this->modernizations[$type];
 		}
 
 		return false;
@@ -370,18 +378,19 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function remove_modernizations( array $modernizations, array $slugs_to_remove ) {
-		$count_modernizations = count( $modernizations );
-		for ( $key = 0; $key < $count_modernizations; $key++ ) {
-			$slug = $this->get_slug_by_bauteil( $modernizations[ $key ]['bauteil'] );
+	public function remove_modernizations(array $modernizations, array $slugs_to_remove)
+	{
+		$count_modernizations = count($modernizations);
+		for ($key = 0; $key < $count_modernizations; $key++) {
+			$slug = $this->get_slug_by_bauteil($modernizations[$key]['bauteil']);
 
-			if ( ! $slug ) {
+			if (!$slug) {
 				// Should be logged.
 				continue;
 			}
 
-			if ( in_array( $slug, $slugs_to_remove ) ) {
-				unset( $modernizations[ $key ] );
+			if (in_array($slug, $slugs_to_remove)) {
+				unset($modernizations[$key]);
 			}
 		}
 
@@ -398,8 +407,9 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	protected function is_recommendation_active( string $modernization, Energieausweis $energieausweis ) {
-		return ! get_post_meta( $energieausweis->id, 'wpenon_immoticket24_disable_empfehlung_' . $modernization, true );
+	protected function is_recommendation_active(string $modernization, Energieausweis $energieausweis)
+	{
+		return !get_post_meta($energieausweis->id, 'wpenon_immoticket24_disable_empfehlung_' . $modernization, true);
 	}
 
 	/**
@@ -411,9 +421,10 @@ abstract class Modernizations {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_slug_by_bauteil( $bauteil ) {
-		foreach ( $this->modernizations as $slug => $modernization ) {
-			if ( $bauteil === $modernization['bauteil'] ) {
+	public function get_slug_by_bauteil($bauteil)
+	{
+		foreach ($this->modernizations as $slug => $modernization) {
+			if ($bauteil === $modernization['bauteil']) {
 				return $slug;
 			}
 		}
