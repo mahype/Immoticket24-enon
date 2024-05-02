@@ -1209,7 +1209,9 @@ $anlage = array(
 					'label'    => __('Lüftungsanlage', 'wpenon'),
 					'options'  => array(
 						'nicht_vorhanden' => __('nicht vorhanden', 'wpenon'),
-						'vorhanden'       => __('vorhanden', 'wpenon'),
+						'vorhanden_ohne_wrg'       => __('Lüftungsanlage ohne Wärmerückgewinnung', 'wpenon'),
+						'vorhanden_mit_wrg'       => __('Lüftungsanlage mit Wärmerückgewinnung', 'wpenon'),
+
 					),
 					'required' => true,
 				),
