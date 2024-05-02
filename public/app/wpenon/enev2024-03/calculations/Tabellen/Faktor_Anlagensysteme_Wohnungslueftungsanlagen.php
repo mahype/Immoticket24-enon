@@ -1,6 +1,6 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
-namespace Enev\Schema202402\Calculations\Tabellen;
+namespace Enev\Schema202403\Calculations\Tabellen;
 
 /**
  *  Faktor für das Baujahr von Anlagensystemen der Wohnungslüftungsanlagen Tabelle 121.
