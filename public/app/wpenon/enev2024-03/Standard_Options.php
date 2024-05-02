@@ -3,11 +3,12 @@
 namespace Enev\Schema202402\Schema;
 
 /**
- * Class \Enev\Schema202402\Schema\Standard_Options.
+ * Class \Enev\Schema202403\Schema\Standard_Options.
  *
  * @since 1.0.0
  */
-class Standard_Options {
+class Standard_Options
+{
 	/**
 	 * Get wall thickness.
 	 *
@@ -15,11 +16,12 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_wandstaerken() {
+	public static function get_wandstaerken()
+	{
 		$start = 18;
 		$end   = 50;
 
-		for( $i = $start; $i <= $end; $i++ ) {
+		for ($i = $start; $i <= $end; $i++) {
 			$options[$i] = $i;
 		}
 
@@ -33,16 +35,17 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten() {
+	public static function get_bauarten()
+	{
 		$construction_types = array(
-			'massiv' => __( 'Massiv', 'wpenon' ),
-			'holz'   => __( 'Holz', 'wpenon' ),
+			'massiv' => __('Massiv', 'wpenon'),
+			'holz'   => __('Holz', 'wpenon'),
 		);
 
 		return $construction_types;
 	}
 
-	
+
 
 	/**
 	 * Floor construction type.
@@ -51,11 +54,12 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten_boden() {
+	public static function get_bauarten_boden()
+	{
 		$construction_types = array(
-			'massiv'     => __( 'Massiv', 'wpenon' ),
-			'holz'       => __( 'Holz', 'wpenon' ),
-			'stahlbeton' => __( 'Stahlbeton', 'wpenon' ),
+			'massiv'     => __('Massiv', 'wpenon'),
+			'holz'       => __('Holz', 'wpenon'),
+			'stahlbeton' => __('Stahlbeton', 'wpenon'),
 		);
 
 		return $construction_types;
@@ -68,45 +72,46 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten_keller( $width = 0 ) {
-		if ( $width === 0 ) {
+	public static function get_bauarten_keller($width = 0)
+	{
+		if ($width === 0) {
 			return array(
-				'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
-				'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
-				'massiv_holzhaus_holz'             => __( 'Holz', 'wpenon' ),
-				'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-				'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
-				'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
-				'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
+				'massiv_bims'                      => __('Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon'),
+				'massiv_zweischalig'               => __('Zweischalige Bauweise', 'wpenon'),
+				'massiv_holzhaus_holz'             => __('Holz', 'wpenon'),
+				'massiv_bis_20cm'                  => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_bis_20cm'       => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon'),
+				'massiv_vollziegel_20cm_bis_30_cm' => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon'),
+				'massiv_vollziegel_ueber_30cm'     => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon'),
 			);
 		}
 
 		$construction_types = array(
-			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
-			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
-			'massiv_holzhaus_holz'             => __( 'Holz', 'wpenon' ),
+			'massiv_bims'                      => __('Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon'),
+			'massiv_zweischalig'               => __('Zweischalige Bauweise', 'wpenon'),
+			'massiv_holzhaus_holz'             => __('Holz', 'wpenon'),
 		);
 
-		if( $width <= 20 ) {
-			$construction_types = array_merge( $construction_types, array(				
-				'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-				'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
-			) );
+		if ($width <= 20) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_bis_20cm'                  => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+				'massiv_vollziegel_bis_20cm'       => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon'),
+			));
 		}
 
-		if( $width > 20 && $width <= 30 ) {
-			$construction_types = array_merge( $construction_types, array(		
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-				'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
-			) );
+		if ($width > 20 && $width <= 30) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_20cm_bis_30_cm' => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon'),
+			));
 		}
 
-		if( $width > 30 ) {
-			$construction_types = array_merge( $construction_types, array(				
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-				'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
-			) );
+		if ($width > 30) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_ueber_30cm'     => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon'),
+			));
 		}
 
 		return $construction_types;
@@ -119,9 +124,10 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten_holzhaus() {
+	public static function get_bauarten_holzhaus()
+	{
 		$construction_types = array(
-			'holzhaus_holz' => __( 'Holz', 'wpenon' ),
+			'holzhaus_holz' => __('Holz', 'wpenon'),
 		);
 
 		return $construction_types;
@@ -134,10 +140,11 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten_fachwerkaus() {
+	public static function get_bauarten_fachwerkaus()
+	{
 		$construction_types = array(
-			'fachwerk_lehm'       => __( 'Lehm-/Lehmziegelausfachung', 'wpenon' ),
-			'fachwerk_vollziegel' => __( 'Vollziegel oder Massive Natursteinausfach', 'wpenon' ),
+			'fachwerk_lehm'       => __('Lehm-/Lehmziegelausfachung', 'wpenon'),
+			'fachwerk_vollziegel' => __('Vollziegel oder Massive Natursteinausfach', 'wpenon'),
 		);
 
 		return $construction_types;
@@ -150,43 +157,44 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_bauarten_massiv( $width = 0 ) {
-		if ( $width === 0 ) {
+	public static function get_bauarten_massiv($width = 0)
+	{
+		if ($width === 0) {
 			return array(
-				'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
-				'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
-				'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-				'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
-				'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
-				'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
+				'massiv_bims'                      => __('Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon'),
+				'massiv_zweischalig'               => __('Zweischalige Bauweise', 'wpenon'),
+				'massiv_bis_20cm'                  => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_bis_20cm'       => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon'),
+				'massiv_vollziegel_20cm_bis_30_cm' => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon'),
+				'massiv_vollziegel_ueber_30cm'     => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon'),
 			);
 		}
 
 		$construction_types = array(
-			'massiv_bims'                      => __( 'Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon' ),
-			'massiv_zweischalig'               => __( 'Zweischalige Bauweise', 'wpenon' ),
+			'massiv_bims'                      => __('Hochlochziegel, Bimsbetonhohlstein; z. B. Poroton', 'wpenon'),
+			'massiv_zweischalig'               => __('Zweischalige Bauweise', 'wpenon'),
 		);
 
-		if( $width <= 20 ) {
-			$construction_types = array_merge( $construction_types, array(				
-				'massiv_bis_20cm'                  => __( 'Sonstige Massivwände bis 20 cm', 'wpenon' ),
-				'massiv_vollziegel_bis_20cm'       => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon' ),
-			) );
+		if ($width <= 20) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_bis_20cm'                  => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
+				'massiv_vollziegel_bis_20cm'       => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein bis 20 cm', 'wpenon'),
+			));
 		}
 
-		if( $width > 20 && $width <= 30 ) {
-			$construction_types = array_merge( $construction_types, array(		
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),		
-				'massiv_vollziegel_20cm_bis_30_cm' => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon' ),
-			) );
+		if ($width > 20 && $width <= 30) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_20cm_bis_30_cm' => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein 20 - 30 cm', 'wpenon'),
+			));
 		}
 
-		if( $width > 30 ) {
-			$construction_types = array_merge( $construction_types, array(				
-				'massiv_ueber_20cm'                => __( 'Sonstige Massivwände über 20 cm', 'wpenon' ),
-				'massiv_vollziegel_ueber_30cm'     => __( 'Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon' ),
-			) );
+		if ($width > 30) {
+			$construction_types = array_merge($construction_types, array(
+				'massiv_ueber_20cm'                => __('Sonstige Massivwände über 20 cm', 'wpenon'),
+				'massiv_vollziegel_ueber_30cm'     => __('Vollziegel, Kalksandstein oder Bimsbetonvollstein über 30 cm', 'wpenon'),
+			));
 		}
 
 		return $construction_types;
@@ -199,12 +207,13 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_grundriss_formen() {
+	public static function get_grundriss_formen()
+	{
 		$formen = wpenon_immoticket24_get_grundriss_formen(); // Todo: Getting class for it.
 
-		foreach ( $formen as $key => &$value ) {
+		foreach ($formen as $key => &$value) {
 			// phpcs:ignore
-			$value = sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $key ) );
+			$value = sprintf(__('Form %s', 'wpenon'), strtoupper($key));
 		}
 
 		return $formen;
@@ -217,11 +226,12 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_dach_formen() {
+	public static function get_dach_formen()
+	{
 		$formen = array(
-			'satteldach' => __( 'Satteldach', 'wpenon' ),
-			'pultdach'   => __( 'Pultdach', 'wpenon' ),
-			'walmdach'   => __( 'Walmdach', 'wpenon' ),
+			'satteldach' => __('Satteldach', 'wpenon'),
+			'pultdach'   => __('Pultdach', 'wpenon'),
+			'walmdach'   => __('Walmdach', 'wpenon'),
 		);
 
 		return $formen;
@@ -234,12 +244,13 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_anbau_formen() {
+	public static function get_anbau_formen()
+	{
 		$formen = wpenon_immoticket24_get_anbau_formen();
 
-		foreach ( $formen as $key => &$value ) {
+		foreach ($formen as $key => &$value) {
 			// phpcs:ignore
-			$value = sprintf( __( 'Form %s', 'wpenon' ), strtoupper( $key ) );
+			$value = sprintf(__('Form %s', 'wpenon'), strtoupper($key));
 		}
 
 		return $formen;
@@ -252,7 +263,8 @@ class Standard_Options {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get_fenster_bauarten() {
+	public static function get_fenster_bauarten()
+	{
 		$_windows = wpenon_get_table_results(
 			'uwerte202001',
 			array(
@@ -261,15 +273,15 @@ class Standard_Options {
 					'compare' => 'LIKE',
 				),
 			),
-			array( 'name' ),
+			array('name'),
 			false,
 			'name',
 			'ASC'
 		);
 
 		$windows = array();
-		foreach ( $_windows as $slug => $name ) {
-			$windows[ str_replace( 'fenster_', '', $slug ) ] = $name;
+		foreach ($_windows as $slug => $name) {
+			$windows[str_replace('fenster_', '', $slug)] = $name;
 		}
 
 		return $windows;
