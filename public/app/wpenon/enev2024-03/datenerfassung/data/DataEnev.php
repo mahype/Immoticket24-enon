@@ -8,7 +8,8 @@ use WPENON\Model\EnergieausweisManager;
  * 
  * @since 1.0.0
  */
-abstract class DataEnev {
+abstract class DataEnev
+{
     /**
      * Energieausweis object
      * 
@@ -19,7 +20,7 @@ abstract class DataEnev {
     protected Energieausweis $energieausweis;
 
     protected string $MISSING = 'DATEN NEU!'; // @todo Remove later
-    
+
     /**
      * Registriernummer
      * 
@@ -36,7 +37,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function __construct( Energieausweis $energieausweis )
+    public function __construct(Energieausweis $energieausweis)
     {
         $this->energieausweis = $energieausweis;
     }
@@ -48,11 +49,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_first_name() : string
+    public function get_certificate_buyer_first_name(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -66,11 +67,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_last_name() : string
+    public function get_certificate_buyer_last_name(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -84,11 +85,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_address_1() : string
+    public function get_certificate_buyer_address_1(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -102,16 +103,16 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_address_2() : string
+    public function get_certificate_buyer_address_2(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
         return $payment->address['line2'];
-    }    
+    }
 
     /**
      * Get name of certificate buyer zip.
@@ -120,11 +121,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_zip() : string
+    public function get_certificate_buyer_zip(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -138,11 +139,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_city() : string
+    public function get_certificate_buyer_city(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -156,11 +157,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_country() : string
+    public function get_certificate_buyer_country(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -174,14 +175,14 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_email() : string
+    public function get_certificate_buyer_email(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
-        
+
         return $payment->email;
     }
 
@@ -192,11 +193,11 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function get_certificate_buyer_phone() : string
+    public function get_certificate_buyer_phone(): string
     {
         $payment = $this->energieausweis->getPayment();
 
-        if( null === $payment ) {
+        if (null === $payment) {
             return '';
         }
 
@@ -216,13 +217,13 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Registriernummer() : string
+    public function Registriernummer(): string
     {
-        if ( ! empty( $this->energieausweis->registriernummer ) ) {
+        if (!empty($this->energieausweis->registriernummer)) {
             return $this->energieausweis->registriernummer;
         }
 
-        return 'AA-' . date( 'Y' ) . '-000000000';
+        return 'AA-' . date('Y') . '-000000000';
     }
 
     /**
@@ -232,9 +233,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Gebauedefoto() : string
+    public function Gebauedefoto(): string
     {
-        if ( ! empty( $this->energieausweis->gebauedefoto ) ) {
+        if (!empty($this->energieausweis->gebauedefoto)) {
             return $this->energieausweis->gebauedefoto;
         }
 
@@ -248,9 +249,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Ausstellungsdatum() : string
+    public function Ausstellungsdatum(): string
     {
-        return EnergieausweisManager::instance()->getReferenceDate( 'Y-m-d', $this->energieausweis );
+        return EnergieausweisManager::instance()->getReferenceDate('Y-m-d', $this->energieausweis);
     }
 
     /**
@@ -260,9 +261,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function PLZ() : string
+    public function PLZ(): string
     {
-        return substr( $this->energieausweis->adresse_plz, 0, 3 ) . 'XX';
+        return substr($this->energieausweis->adresse_plz, 0, 3) . 'XX';
     }
 
     /**
@@ -272,7 +273,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Ort() : string
+    public function Ort(): string
     {
         return $this->energieausweis->adresse_ort;
     }
@@ -284,7 +285,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function BaujahrGebaeude() : string
+    public function BaujahrGebaeude(): string
     {
         return $this->energieausweis->baujahr;
     }
@@ -296,20 +297,20 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function BaujahrWaermeerzeuger() : string
+    public function BaujahrWaermeerzeuger(): string
     {
-        $baujahre = array( $this->energieausweis->h_baujahr );
-        if ( $this->energieausweis->h2_info ) {
+        $baujahre = array($this->energieausweis->h_baujahr);
+        if ($this->energieausweis->h2_info) {
             $baujahre[] = $this->energieausweis->h2_baujahr;
-            if ( $this->energieausweis->h3_info ) {
+            if ($this->energieausweis->h3_info) {
                 $baujahre[] = $this->energieausweis->h3_baujahr;
             }
         }
-        if ( $this->energieausweis->ww_info == 'ww' ) {
+        if ($this->energieausweis->ww_info == 'ww') {
             $baujahre[] = $this->energieausweis->ww_baujahr;
         }
 
-        return implode( ', ', array_unique( $baujahre ) );
+        return implode(', ', array_unique($baujahre));
     }
 
     /**
@@ -319,7 +320,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Bundesland() : string
+    public function Bundesland(): string
     {
         return $this->energieausweis->adresse_bundesland;
     }
@@ -331,13 +332,13 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Gebauedeteil() : string
+    public function Gebauedeteil(): string
     {
-        if ($this->energieausweis->gebaeudeteil === 'gemischt' ) {
-            return __( 'Teil des Wohngebäudes', 'wpenon' );
+        if ($this->energieausweis->gebaeudeteil === 'gemischt') {
+            return __('Teil des Wohngebäudes', 'wpenon');
         }
 
-        return __( 'Ganzes Gebäude', 'wpenon' );
+        return __('Ganzes Gebäude', 'wpenon');
     }
 
     /**
@@ -347,9 +348,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AltersklasseGebaeude() : string
-    {        
-        return $this->Altersklasse( $this->energieausweis->baujahr );
+    public function AltersklasseGebaeude(): string
+    {
+        return $this->Altersklasse($this->energieausweis->baujahr);
     }
 
     /**
@@ -359,9 +360,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AltersklasseWaermeerzeuger() : string
-    {        
-        return $this->Altersklasse( $this->energieausweis->h_baujahr );
+    public function AltersklasseWaermeerzeuger(): string
+    {
+        return $this->Altersklasse($this->energieausweis->h_baujahr);
     }
 
     /**
@@ -371,7 +372,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    protected function Altersklasse( int $jahr ) : string
+    protected function Altersklasse(int $jahr): string
     {
         $altersklassen = [
             0 => [
@@ -431,23 +432,19 @@ abstract class DataEnev {
             ],
         ];
 
-        foreach( $altersklassen AS $altersklasse )
-        {
+        foreach ($altersklassen as $altersklasse) {
             // First
-            if( $jahr <= $altersklasse['start'] )
-            {
+            if ($jahr <= $altersklasse['start']) {
                 return $altersklasse['value'];
-            }            
+            }
 
             // Any value between
-            if( $jahr >= $altersklasse['start'] && $jahr <= $altersklasse['end'] )
-            {
+            if ($jahr >= $altersklasse['start'] && $jahr <= $altersklasse['end']) {
                 return $altersklasse['value'];
             }
 
             // Last
-            if( $jahr >= $altersklasse['start'] && $altersklasse['end'] === 0 )
-            {
+            if ($jahr >= $altersklasse['start'] && $altersklasse['end'] === 0) {
                 return $altersklasse['value'];
             }
         }
@@ -460,7 +457,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    abstract function WesentlicheEnergietraegerHeizung() : string;
+    abstract function WesentlicheEnergietraegerHeizung(): string;
 
     /**
      * Wesentliche Energieträger Heizunbg
@@ -469,7 +466,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    abstract public function WesentlicheEnergietraegerWarmWasser() : string;
+    abstract public function WesentlicheEnergietraegerWarmWasser(): string;
 
     /**
      * Erneuerbare Art
@@ -478,14 +475,14 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function ErneuerbareArt() : string
+    public function ErneuerbareArt(): string
     {
         $arten = array(
             'keine' => 'keine',
             'solar' => 'Solaranlage',
         );
-       
-        return $arten[ $this->energieausweis->regenerativ_art ];
+
+        return $arten[$this->energieausweis->regenerativ_art];
     }
 
     /**
@@ -495,18 +492,17 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function ErneuerbareVerwendung() : string
+    public function ErneuerbareVerwendung(): string
     {
         $regenerativArten = array(
             'warmwasser' => 'Warmwasser',
             'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
         );
 
-        if( isset( $regenerativArten[ $this->energieausweis->regenerativ_nutzung ] ) )
-        {
-            return $regenerativArten[ $this->energieausweis->regenerativ_nutzung ];
+        if (isset($regenerativArten[$this->energieausweis->regenerativ_nutzung])) {
+            return $regenerativArten[$this->energieausweis->regenerativ_nutzung];
         }
-       
+
         return 'keine';
     }
 
@@ -517,9 +513,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function LueftungsartFensterlueftung() : string
-    {        
-        if ( $this->energieausweis->l_info == 'ohne' ) {
+    public function LueftungsartFensterlueftung(): string
+    {
+        if ($this->energieausweis->l_info == 'ohne') {
             return 'true';
         }
 
@@ -533,9 +529,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function LueftungsartSchachtlueftung() : string
-    {        
-        if ( $this->energieausweis->l_info == 'schacht' ) {
+    public function LueftungsartSchachtlueftung(): string
+    {
+        if ($this->energieausweis->l_info == 'schacht') {
             return 'true';
         }
 
@@ -549,9 +545,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function LueftungsartAnlageOWRG() : string
-    {        
-        if ( $this->energieausweis->l_info == 'abluft' ) {            
+    public function LueftungsartAnlageOWRG(): string
+    {
+        if ($this->energieausweis->l_info == 'abluft') {
             return 'true';
         }
 
@@ -566,9 +562,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function LueftungsartAnlageMWRG() : string
-    {        
-        if ( $this->energieausweis->l_info == 'zu_abluft' ) {
+    public function LueftungsartAnlageMWRG(): string
+    {
+        if ($this->energieausweis->l_info == 'zu_abluft') {
             return 'true';
         }
 
@@ -582,8 +578,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KuehlungsartPassiveKuehlung() : string
-    {        
+    public function KuehlungsartPassiveKuehlung(): string
+    {
         return $this->MISSING; // BOOL
     }
 
@@ -594,8 +590,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KuehlungsartStrom() : string
-    {        
+    public function KuehlungsartStrom(): string
+    {
         return $this->KlimaanlageVorhanden() ? 'true' : 'false';
     }
 
@@ -606,8 +602,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KuehlungsartWaerme() : string
-    {        
+    public function KuehlungsartWaerme(): string
+    {
         return $this->MISSING; // BOOL
     }
 
@@ -618,8 +614,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KuehlungsartGelieferteKaelte() : string
-    {        
+    public function KuehlungsartGelieferteKaelte(): string
+    {
         return $this->MISSING; // BOOL
     }
 
@@ -631,10 +627,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KlimaanlageVorhanden() : bool
+    public function KlimaanlageVorhanden(): bool
     {
-        if( $this->energieausweis->k_info == 'vorhanden' && $this->energieausweis->k_leistung === 'groesser' )
-        {
+        if ($this->energieausweis->k_info == 'vorhanden' && $this->energieausweis->k_leistung === 'groesser') {
             return true;
         }
 
@@ -648,8 +643,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AnzahlKlimaanlagen() : string
-    {        
+    public function AnzahlKlimaanlagen(): string
+    {
         return 1;
     }
 
@@ -660,10 +655,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AnlageGroesser12kWohneGA() : string
-    {        
-        if( $this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'no' )
-        {
+    public function AnlageGroesser12kWohneGA(): string
+    {
+        if ($this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'no') {
             return 'true';
         }
 
@@ -677,10 +671,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AnlageGroesser12kWmitGA() : string
-    {        
-        if( $this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'yes' )
-        {
+    public function AnlageGroesser12kWmitGA(): string
+    {
+        if ($this->energieausweis->k_leistung == 'groesser' & $this->energieausweis->k_automation == 'yes') {
             return 'true';
         }
 
@@ -694,8 +687,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AnlageGroesser70kW() : string
-    {        
+    public function AnlageGroesser70kW(): string
+    {
         return 'false'; // BOOL
     }
 
@@ -706,34 +699,33 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function FaelligkeitsdatumInspektion() : string
+    public function FaelligkeitsdatumInspektion(): string
     {
-        $k_baujahr = explode( '/', $this->energieausweis->k_baujahr );
+        $k_baujahr = explode('/', $this->energieausweis->k_baujahr);
         $k_baujahr = $k_baujahr[1] . '-' . $k_baujahr[0];
-        $k_baujahr = new DateTime( $k_baujahr );
+        $k_baujahr = new DateTime($k_baujahr);
 
-        $baujahr_limit = new DateTime( '2008-10' );			
+        $baujahr_limit = new DateTime('2008-10');
 
-        if ( $k_baujahr < $baujahr_limit ) {
+        if ($k_baujahr < $baujahr_limit) {
             return '2022-12-01';
         }
 
-        if( $this->energieausweis->k_automation === 'yes' )
-        {
-            return '2100-01-01';			
+        if ($this->energieausweis->k_automation === 'yes') {
+            return '2100-01-01';
         }
 
-        if( ! empty ( $this->energieausweis->k_inspektion ) ) {
-            $k_inspektion = explode( '/', $this->energieausweis->k_inspektion );
+        if (!empty($this->energieausweis->k_inspektion)) {
+            $k_inspektion = explode('/', $this->energieausweis->k_inspektion);
             $k_inspektion = $k_inspektion[1] . '-' . $k_inspektion[0];
-            $k_inspektion = new DateTime( $k_inspektion );
-            $k_inspektion->add( new DateInterval('P10Y') );
+            $k_inspektion = new DateTime($k_inspektion);
+            $k_inspektion->add(new DateInterval('P10Y'));
 
             return $k_inspektion->format('Y-m-d');
         }
-        
-        $k_baujahr->add( new DateInterval('P10Y') );
-        return $k_baujahr->format('Y-m-d') . '/01';
+
+        $k_baujahr->add(new DateInterval('P10Y'));
+        return $k_baujahr->format('Y-m-d');
     }
 
     /**
@@ -743,7 +735,7 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    abstract public function Treibhausgasemissionen() : float;
+    abstract public function Treibhausgasemissionen(): float;
 
     /**
      * Ausstellungsanlass
@@ -752,10 +744,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Ausstellungsanlass() : string
+    public function Ausstellungsanlass(): string
     {
-        switch( $this->energieausweis->anlass )
-        {
+        switch ($this->energieausweis->anlass) {
             case 'vermietung':
             case 'verkauf':
                 return 'Vermietung-Verkauf';
@@ -772,10 +763,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AusstellungsanlassExpowand() : string
+    public function AusstellungsanlassExpowand(): string
     {
-        switch( $this->energieausweis->anlass )
-        {
+        switch ($this->energieausweis->anlass) {
             case 'vermietung':
                 return 'Vermietung';
             case 'verkauf':
@@ -792,8 +782,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function DatenerhebungAussteller() : string
-    {        
+    public function DatenerhebungAussteller(): string
+    {
         return 'false';
     }
 
@@ -804,8 +794,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function DatenerhebungEigentuemer() : string
-    {        
+    public function DatenerhebungEigentuemer(): string
+    {
         return 'true';
     }
 
@@ -816,19 +806,18 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Gebaeudetyp() : string
-    { 
-        if ( 'gemischt' === $this->energieausweis->gebaeudeteil ) 
-        {
+    public function Gebaeudetyp(): string
+    {
+        if ('gemischt' === $this->energieausweis->gebaeudeteil) {
             return 'Wohnteil gemischt genutztes Gebäude';
         }
 
         $wohnungen = (int) $this->energieausweis->wohnungen;
 
-        if ( $wohnungen > 2 ) {
+        if ($wohnungen > 2) {
             return 'Mehrfamilienhaus';
         }
-        if ( $wohnungen == $wohnungen ) {
+        if ($wohnungen == $wohnungen) {
             return 'Zweifamilienhaus';
         }
 
@@ -842,8 +831,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function AnzahlWohneinheiten() : int
-    {        
+    public function AnzahlWohneinheiten(): int
+    {
         return (int) $this->energieausweis->wohnungen;
     }
 
@@ -863,8 +852,8 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function Wohnflaeche() : int
-    {        
+    public function Wohnflaeche(): int
+    {
         return (int) $this->energieausweis->flaeche;;
     }
 
@@ -875,9 +864,9 @@ abstract class DataEnev {
      * 
      * @since 1.0.0
      */
-    public function KellerBeheizt() : string
-    {        
-        if ( $this->energieausweis->keller == 'beheizt' ) {
+    public function KellerBeheizt(): string
+    {
+        if ($this->energieausweis->keller == 'beheizt') {
             return 'true';
         }
 
