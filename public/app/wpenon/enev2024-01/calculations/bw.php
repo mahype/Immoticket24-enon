@@ -334,9 +334,9 @@ foreach ($gebaeude->bauteile()->waende()->alle() as $wand) {
 
 	// TODO: Berechnung ggf. auch mit Abzug der Schnittfläche des Anbaus.
 	// NOTE: Vorher ausgelassen, da dies in den originalen Berechnungen auch nicht berücksichtigt wurde.	
-	// if( $gebaeude->anbau_vorhanden() ) {
-	// 	$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
-	// }
+	if ($gebaeude->anbau_vorhanden()) {
+		$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand($wand->seite());
+	}
 
 	$fensterflaeche  = berechne_fenster_flaeche($wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
 	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert : uwert('fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr);
