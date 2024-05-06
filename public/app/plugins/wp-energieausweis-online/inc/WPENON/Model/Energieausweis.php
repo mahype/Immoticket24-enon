@@ -412,6 +412,9 @@ class Energieausweis
 			case 'enev2024-02':
 				$calculations = new \Enev\Schema202402\Calculations\CalculationsCC($this);
 				break;
+			case 'enev2024-03':
+				$calculations = new \Enev\Schema202403\Calculations\CalculationsCC($this);
+				break;
 		}
 		return $calculations;
 	}
@@ -438,7 +441,7 @@ class Energieausweis
 		 * XML output with GEG 2020 
 		 */
 		$energieausweis = $this; // Data needed for Template
-		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode);
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode, $this->schema_name);
 
 		ob_start();
 		require $xmlFile;
@@ -470,7 +473,7 @@ class Energieausweis
 		 * XML output with GEG 2020 
 		 */
 		$energieausweis = $this; // Data needed for Template
-		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode . 'Personalisiert');
+		$xmlFile        = $standardsConfig->getEnevXMLTemplatefile($this->mode, $mode . 'Personalisiert', $this->schema_name);
 
 		ob_start();
 		require $xmlFile;

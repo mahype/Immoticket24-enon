@@ -418,7 +418,7 @@ class Prevent_Completion
             return true;
         }
 
-        $energy_effiency_class = wpenon_get_class($this->calculations['primaerenergie'], $this->energy_certificate->mode === 'v' ? 'vw' : 'bw');
+        $energy_effiency_class = wpenon_get_class($this->calculations['endenergie'], $this->energy_certificate->mode === 'v' ? 'vw' : 'bw');
 
         if ($energy_effiency_class != 'A+' && $energy_effiency_class != 'A' && $energy_effiency_class != 'B') {
             return true;

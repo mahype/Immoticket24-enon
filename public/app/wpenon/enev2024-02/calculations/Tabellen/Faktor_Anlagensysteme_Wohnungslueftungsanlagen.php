@@ -5,7 +5,8 @@ namespace Enev\Schema202402\Calculations\Tabellen;
 /**
  *  Faktor für das Baujahr von Anlagensystemen der Wohnungslüftungsanlagen Tabelle 121.
  */
-class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
+class Faktor_Anlagensysteme_Wohnungslueftungsanlagen
+{
 	/**
 	 * Zielwert für die Spalte.
 	 *
@@ -44,12 +45,13 @@ class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	 *
 	 * @return void
 	 */
-	public function __construct( string $lueftungssystem, bool $art, int $baujahr ) {
+	public function __construct(string $lueftungssystem, bool $art, int $baujahr)
+	{
 		$this->lueftungssystem = $lueftungssystem;
 		$this->art     = $art;
 		$this->baujahr         = $baujahr;
 
-		$this->table_data      = wpenon_get_table_results( 'faktor_anlagensysteme_wohnungslueftungsanlagen' );
+		$this->table_data      = wpenon_get_table_results('faktor_anlagensysteme_wohnungslueftungsanlagen');
 	}
 
 	/**
@@ -57,18 +59,20 @@ class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	 *
 	 * @return string
 	 */
-	private function baujahrslug(): string {
+	private function baujahrslug(): string
+	{
 		$baujahrslug = '';
-		if ( $this->baujahr < 2010 ) {
+		if ($this->baujahr < 2010) {
 			$baujahrslug = '2009';
-		} elseif ( $this->baujahr > 2009 ) {
+		} elseif ($this->baujahr > 2009) {
 			$baujahrslug = '2010';
 		}
 		return $baujahrslug;
 	}
 
-	private function art_slug(): string {
-		if ( $this->art === 'zentral' ) {
+	private function art_slug(): string
+	{
+		if ($this->art === 'zentral') {
 			return 'zentrale';
 		}
 
@@ -79,13 +83,14 @@ class Faktor_Anlagensysteme_Wohnungslueftungsanlagen {
 	 *
 	 * @return float
 	 */
-	public function fsystem(): float { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-		if ( $this->lueftungssystem == 'ohne' ) {
+	public function fsystem(): float
+	{ // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+		if ($this->lueftungssystem == 'ohne') {
 			return 1.0;
 		}
 
 		$column_name = 'fsystem';
 		$row_name = $this->art_slug() . '_' . $this->lueftungssystem . '_' . $this->baujahrslug();
-		return $this->table_data[ $row_name ]->$column_name;
+		return $this->table_data[$row_name]->$column_name;
 	}
 }

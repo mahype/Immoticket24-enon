@@ -361,7 +361,9 @@ class Lueftung
 	}
 
 	/**
-	 * Wpre_h
+	 * Auxiliary energy consumption Preheating.
+	 * 
+	 * DIN: Hilfsenergie-aufwand Vorerwärmung.
 	 *
 	 * @return float
 	 */

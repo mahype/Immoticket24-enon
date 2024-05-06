@@ -234,18 +234,21 @@ if ($energieausweis->anbau) {
 
 		$fenster_flaeche = berechne_fenster_flaeche($grundriss_anbau->wand_laenge($wand), $energieausweis->anbau_hoehe, $energieausweis->anbauwand_staerke / 100);
 
-		$fenster = new Anbaufenster(
-			name: sprintf(__('Anbaufenster Wand %s', 'wpenon'), $wand),
-			gwert: $gwert_fenster,
-			uwert: $uwert_anbau_fenster,
-			flaeche: $fenster_flaeche, // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung($wand),
-			winkel: 90.0
-		);
+		if ($fenster_flaeche > 0) {
+			$fenster = new Anbaufenster(
+				name: sprintf(__('Anbaufenster Wand %s', 'wpenon'), $wand),
+				gwert: $gwert_fenster,
+				uwert: $uwert_anbau_fenster,
+				flaeche: $fenster_flaeche, // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+				himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung($wand),
+				winkel: 90.0
+			);
 
-		$anbauwand->flaeche_reduzieren($fenster->flaeche());
+			$anbauwand->flaeche_reduzieren($fenster->flaeche());
 
-		$gebaeude->bauteile()->hinzufuegen($fenster);
+			$gebaeude->bauteile()->hinzufuegen($fenster);
+		}
+
 		$gebaeude->bauteile()->hinzufuegen($anbauwand);
 	}
 
