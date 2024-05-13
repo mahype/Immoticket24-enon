@@ -371,6 +371,7 @@ function wpenon_get_water_independend_heaters() {
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
 		'elektrodirektheizgeraet',
+		'infrarotheizung',
 	);
 }
 
