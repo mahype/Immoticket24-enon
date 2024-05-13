@@ -28,9 +28,10 @@ class Prevent_Completion
         'check_heater_consumption',
         'check_heater_consumption_for_estimation',
         'check_heater_type',
+        'check_energy_source',
         'check_building_year_wall_insulation',
         'check_double_heater_including_hotwater',
-        'check_too_good_energy_certificate_1',        
+        'check_too_good_energy_certificate_1',
     ];
 
     private $errors = [];
@@ -367,6 +368,46 @@ class Prevent_Completion
     }
 
     /**
+     * Checking energy source.
+     * 
+     * @since 1.0.0
+     * 
+     * @return bool|array True if passed, array with errors on failure.
+     */
+    private function check_energy_source()
+    {
+        $energy_effiency_class = wpenon_get_class($this->calculations['endenergie'], $this->energy_certificate->mode === 'v' ? 'vw' : 'bw');
+
+        if ($energy_effiency_class != 'A+' && $energy_effiency_class != 'A' && $energy_effiency_class != 'B') {
+            return true;
+        }
+
+        $heaters = [
+            'h_erzeugung',
+            'h2_erzeugung',
+            'h3_erzeugung',
+        ];
+
+        $stoppers = [
+            'heizoel',
+            'erdgas',
+            'fluessiggas',
+            'biogas',
+        ];
+
+        foreach ($heaters as $heater) {
+            $energy_source_name = 'h_energietraeger_' . $this->energy_certificate->$heater;
+            $energy_source = $this->energy_certificate->$energy_source_name;
+
+            if (in_array($energy_source, $stoppers)) {
+                return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude mit Gas- oder Ölheizung', $energy_effiency_class);
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Checking vw heaters if more than one used and including hot water.
      * 
      * @since 1.0.0
@@ -429,32 +470,32 @@ class Prevent_Completion
         return true;
     }
 
-    private function check_too_good_energy_certificate_1()
-    {
-        if ($this->energy_certificate->baujahr > 2010) {
-            return true;
-        }
+    // private function check_too_good_energy_certificate_1()
+    // {
+    //     if ($this->energy_certificate->baujahr > 2010) {
+    //         return true;
+    //     }
 
-        $energy_effiency_class = wpenon_get_class($this->calculations['endenergie'], $this->energy_certificate->mode === 'v' ? 'vw' : 'bw');
+    //     $energy_effiency_class = wpenon_get_class($this->calculations['endenergie'], $this->energy_certificate->mode === 'v' ? 'vw' : 'bw');
 
-        if ($energy_effiency_class != 'A+' && $energy_effiency_class != 'A' && $energy_effiency_class != 'B') {
-            return true;
-        }
+    //     if ($energy_effiency_class != 'A+' && $energy_effiency_class != 'A' && $energy_effiency_class != 'B') {
+    //         return true;
+    //     }
 
-        if ($this->energy_certificate->h_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h_erzeugung == 'waermepumpeerde') {
-            return true;
-        }
+    //     if ($this->energy_certificate->h_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h_erzeugung == 'waermepumpeerde') {
+    //         return true;
+    //     }
 
-        if ($this->energy_certificate->h2_info && ($this->energy_certificate->h2_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h2_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h2_erzeugung == 'waermepumpeerde')) {
-            return true;
-        }
+    //     if ($this->energy_certificate->h2_info && ($this->energy_certificate->h2_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h2_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h2_erzeugung == 'waermepumpeerde')) {
+    //         return true;
+    //     }
 
-        if ($this->energy_certificate->h3_info && ($this->energy_certificate->h3_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h3_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h3_erzeugung == 'waermepumpeerde')) {
-            return true;
-        }
+    //     if ($this->energy_certificate->h3_info && ($this->energy_certificate->h3_erzeugung == 'waermepumpeluft' || $this->energy_certificate->h3_erzeugung == 'waermepumpewasser' || $this->energy_certificate->h3_erzeugung == 'waermepumpeerde')) {
+    //         return true;
+    //     }
 
-        return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude bis 2010 (keine Wärmepumpe vorhanden).', $energy_effiency_class);
-    }
+    //     return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude bis 2010 (keine Wärmepumpe vorhanden).', $energy_effiency_class);
+    // }
 
     /**
      * Check energy values.
