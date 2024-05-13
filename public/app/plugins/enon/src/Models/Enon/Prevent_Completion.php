@@ -23,13 +23,14 @@ class Prevent_Completion
      */
     private $checks = [
         // 'check_energy',
+        'check_building_year',
         'check_end_energy',
         'check_heater_consumption',
         'check_heater_consumption_for_estimation',
         'check_heater_type',
         'check_building_year_wall_insulation',
         'check_double_heater_including_hotwater',
-        'check_too_good_energy_certificate_1'
+        'check_too_good_energy_certificate_1',        
     ];
 
     private $errors = [];
@@ -198,6 +199,22 @@ class Prevent_Completion
         $reasons .= '</ul>';
 
         wpenon_immoticket24_send_needs_review_email($payment_id, $reasons);
+    }
+
+    /**
+     * Check building year.
+     * 
+     * @since 1.0.0
+     * 
+     * @return bool|array True if passed, array with errors on failure.
+     */
+    private function check_building_year()
+    {
+        if ($this->energy_certificate->baujahr == date('Y')) {
+            return 'Baujahr liegt im aktuellen Jahr';
+        }
+
+        return true;
     }
 
     /**
