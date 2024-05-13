@@ -1757,6 +1757,7 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 
 		$current_year = absint(current_time('Y'));
 		$kessel       = array(
+			'standardkessel',
 			'gasraumheizer',
 			'elektronachtspeicherheizung',
 			'oelofenverdampfungsbrenner',
