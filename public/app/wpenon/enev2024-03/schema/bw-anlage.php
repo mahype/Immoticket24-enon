@@ -1296,7 +1296,7 @@ $anlage = array(
 					),
 				),
 				'k_baujahr'         => array(
-					'type'        => 'int',
+					'type'        => 'string',
 					'label'       => __('Baujahr der Klimaanlage', 'wpenon'),
 					'description' => __('Welches Baujahr hat die Klimaanlage? (Format MM/JJJJ)', 'wpenon'),
 					'required'    => true,
