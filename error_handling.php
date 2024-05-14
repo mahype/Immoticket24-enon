@@ -32,6 +32,7 @@ function sendSlackNotification($text) {
 
 function shutdownHandler() {
     $last_error = error_get_last();
+    sendSlackNotification('Shutdown');
     if ($last_error && $last_error['type'] === E_ERROR) {
         // Es handelt sich um einen fatalen Fehler.
         slackErrorHandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
@@ -39,7 +40,7 @@ function shutdownHandler() {
 }
 
 register_shutdown_function('shutdownHandler');
-// set_error_handler("slackErrorHandler", E_ERROR);
+set_error_handler("slackErrorHandler", E_ERROR);
 set_exception_handler("slackExceptionHandler");
 
 // Test
