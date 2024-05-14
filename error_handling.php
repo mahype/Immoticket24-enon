@@ -30,7 +30,16 @@ function sendSlackNotification($text) {
     file_get_contents($GLOBALS['slack_webhook_url'], false, $context);
 }
 
-set_error_handler("slackErrorHandler", E_ERROR);
+function shutdownHandler() {
+    $last_error = error_get_last();
+    if ($last_error && $last_error['type'] === E_ERROR) {
+        // Es handelt sich um einen fatalen Fehler.
+        slackErrorHandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
+    }
+}
+
+register_shutdown_function('shutdownHandler');
+// set_error_handler("slackErrorHandler", E_ERROR);
 set_exception_handler("slackExceptionHandler");
 
 // Test
