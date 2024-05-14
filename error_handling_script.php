@@ -32,3 +32,7 @@ function sendSlackNotification($text) {
 
 set_error_handler("slackErrorHandler", E_ALL);
 set_exception_handler("slackExceptionHandler");
+
+// Test
+throw new Exception('Test exception');
+trigger_error('Test error', E_USER_ERROR);
