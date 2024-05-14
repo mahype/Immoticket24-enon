@@ -5,7 +5,30 @@
  */
 $slack_webhook_url = 'https://hooks.slack.com/services/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';
 
+function getErrorType($type) {
+    $error_types = [
+        E_ERROR             => 'E_ERROR',
+        E_WARNING           => 'E_WARNING',
+        E_PARSE             => 'E_PARSE',
+        E_NOTICE            => 'E_NOTICE',
+        E_CORE_ERROR        => 'E_CORE_ERROR',
+        E_CORE_WARNING      => 'E_CORE_WARNING',
+        E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+        E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
+        E_USER_ERROR        => 'E_USER_ERROR',
+        E_USER_WARNING      => 'E_USER_WARNING',
+        E_USER_NOTICE       => 'E_USER_NOTICE',
+        E_STRICT            => 'E_STRICT',
+        E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+        E_DEPRECATED        => 'E_DEPRECATED',
+        E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
+    ];
+
+    return $error_types[$type] ?? 'UNKNOWN_ERROR';
+}
+
 function slackErrorHandler($severity, $message, $file, $line) {
+    $severity = getErrorType($severity);
     $text = "Error: [$severity] $message in $file on line $line";
     sendSlackNotification($text);
     return false;
@@ -36,6 +59,7 @@ function shutdownHandler() {
     $logged_error_types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_RECOVERABLE_ERROR];
 
     if ( $last_error && in_array($last_error['type'], $logged_error_types) ){
+
         slackErrorHandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
     }
 }
