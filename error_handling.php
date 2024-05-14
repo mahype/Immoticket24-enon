@@ -32,15 +32,16 @@ function sendSlackNotification($text) {
 
 function shutdownHandler() {
     $last_error = error_get_last();
-    sendSlackNotification('Shutdown' . print_r($last_error, true));
-    if ($last_error && $last_error['type'] === E_ERROR) {
-        // Es handelt sich um einen fatalen Fehler.
+
+    $logged_error_types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_RECOVERABLE_ERROR];
+
+    if ( $last_error && in_array($last_error['type'], $logged_error_types) ){
         slackErrorHandler($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']);
     }
 }
 
 register_shutdown_function('shutdownHandler');
-set_error_handler("slackErrorHandler", E_ERROR);
+// set_error_handler("slackErrorHandler", E_ERROR); // Handled by shutdownHandler
 set_exception_handler("slackExceptionHandler");
 
 // Test
