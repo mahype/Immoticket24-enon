@@ -8,11 +8,13 @@ $slack_webhook_url = 'https://hooks.slack.com/services/T12SSJJQP/B07349FG7BQ/Pph
 function slackErrorHandler($severity, $message, $file, $line) {
     $text = "Error: [$severity] $message in $file on line $line";
     sendSlackNotification($text);
+    return false;
 }
 
 function slackExceptionHandler($exception) {
     $text = "Exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine();
     sendSlackNotification($text);
+    return false;
 }
 
 function sendSlackNotification($text) {
@@ -28,5 +30,5 @@ function sendSlackNotification($text) {
     file_get_contents($GLOBALS['slack_webhook_url'], false, $context);
 }
 
-set_error_handler("slackErrorHandler");
+set_error_handler("slackErrorHandler", E_ALL);
 set_exception_handler("slackExceptionHandler");
