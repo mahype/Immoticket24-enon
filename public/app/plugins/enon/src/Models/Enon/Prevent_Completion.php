@@ -88,6 +88,10 @@ class Prevent_Completion
 
             $fails = [];
             foreach ($this->checks as $check) {
+                if (!method_exists($this, $check)) {
+                    continue;
+                }
+                
                 $result = $this->$check();
 
                 if ($result !== true) {
