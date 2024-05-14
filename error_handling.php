@@ -30,9 +30,9 @@ function sendSlackNotification($text) {
     file_get_contents($GLOBALS['slack_webhook_url'], false, $context);
 }
 
-set_error_handler("slackErrorHandler", E_ALL);
+set_error_handler("slackErrorHandler", E_ERROR);
 set_exception_handler("slackExceptionHandler");
 
 // Test
-throw new Exception('Test exception');
-trigger_error('Test error', E_USER_ERROR);
+// throw new Exception('Test exception');
+// trigger_error('Test error', E_USER_ERROR);
