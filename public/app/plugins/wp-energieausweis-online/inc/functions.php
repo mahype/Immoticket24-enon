@@ -318,3 +318,26 @@ add_action('edd_purchase_receipt', function(  $email_body, $payment_id, $payment
         $email_body = str_replace('Die PDF-Rechnung für Ihre Bestellung finden Sie unter diesem Link: {pdf_link}', '', $email_body);
     }
 });
+
+
+function edd_is_reseller_redirect_bill() {
+    $cart = edd_get_cart_contents();
+    if ( empty( $cart ) ) {
+        return false;
+    }
+    $cart = $cart[0];
+    if ( ! isset( $cart['id'] ) ) {
+        return false;
+    }
+    $reseller_id = get_post_meta( $cart['id'], 'reseller_id', true );
+    if ( $reseller_id === '' ) {
+        return false;
+    }
+ 
+    $reseller = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+    $redirect = $reseller->redirect_bill_to_reseller();
+    if ( $redirect === '' ) {
+        return false;
+    }
+    return $redirect;
+}

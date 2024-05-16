@@ -62,8 +62,52 @@ class Post_Meta_General extends Post_Meta {
 	public function get_contact_email() {
 		return $this->get( 'contact_email' );
 	}
-    
-    /**
+
+	/**
+	 * Get Address Line 1.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_address_line1() {
+		return $this->get( 'address_line1' );
+	}
+
+	/**
+	 * Get Address Line 2.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_address_line2() {
+		return $this->get( 'address_line2' );
+	}
+
+	/**
+	 * Get Address City.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_address_city() {
+		return $this->get( 'address_city' );
+	}
+
+	/**
+	 * Get Address PLZ.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_address_plz() {
+		return $this->get( 'address_plz' );
+	}
+
+	/**
 	 * Checks if title element is checked.
 	 *
 	 * @since 1.0.0
@@ -90,7 +134,7 @@ class Post_Meta_General extends Post_Meta {
 	public function redirect_bill_to_reseller() {
 		$email_settings = $this->get( 'email_settings' );
 
-		if( is_array( $email_settings ) && in_array( 'redirect_bill_to_reseller', $email_settings ) ) {
+		if ( is_array( $email_settings ) && in_array( 'redirect_bill_to_reseller', $email_settings ) ) {
 			return true;
 		}
 
@@ -99,15 +143,15 @@ class Post_Meta_General extends Post_Meta {
 
 	/**
 	 * Check if order confirmation have to be sent to reseller.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return bool True if order confirmation have to be sent to reseller, false if not.
 	 */
 	public function send_order_confirmation_to_reseller() {
 		$email_settings = $this->get( 'email_settings' );
 
-		if( is_array( $email_settings ) && in_array( 'send_order_confirmation_to_reseller', $email_settings ) ) {
+		if ( is_array( $email_settings ) && in_array( 'send_order_confirmation_to_reseller', $email_settings ) ) {
 			return true;
 		}
 
