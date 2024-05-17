@@ -310,7 +310,7 @@ add_action('edd_after_cc_fields', function(){
 /**
  * Remove PDF link from purchase receipt email if the reseller bill receipt redirect is enabled
  */
-add_action('edd_purchase_receipt', function(  $email_body, $payment_id, $payment_data){
+add_action('edd_purchase_receipt', function(  $email_body, $payment_id = false, $payment_data = false ){
     $reseller_id = get_post_meta( get_the_ID(), 'reseller_id', true );
     $reseller = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
     $redirect = $reseller->redirect_bill_to_reseller();
