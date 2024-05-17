@@ -48,6 +48,7 @@ public/app/nfwlog/*
 !public/app/plugins/edd-stripe/vendor
 !public/app/plugins/edd-payment-stripe-sepa
 !public/app/plugins/edd-payment-stripe-sepa/vendor
+!public/app/plugins/edd-payment-reseller-invoice-purchase
 !public/app/plugins/enon
 !public/app/plugins/enon-reseller
 !public/app/plugins/gravityforms
