@@ -65,11 +65,15 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 	$reseller_id = get_post_meta( $cartid, 'reseller_id', true );
 	$reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
 
-    $carddetails = $purchase_data['cart_details'];
-    $carddetails['itemprice'] = (float) 34.56;
-    $carddetails['subtotal'] = (float) 29.04;
-    $carddetails['tax'] = (float) 5.52;
-    $carddetails['price'] = (float) 34.56;
+	foreach( $purchase_data['cart_details'] as $key => $item ) {
+		$cart_details = $item;
+		$cart_details['item_price'] = (float) 34.56;
+		$cart_details['subtotal'] = (float) 34.56;
+		$cart_details['tax'] = (float) $cart_details['subtotal'] / 119 * 19;
+		$cart_details['price'] = (float) 34.56;
+		$purchase_data['cart_details'][$key] = $cart_details;
+	}
+	
 	$payment_data = array(
 		'price'        => $purchase_data['price'],
 		'date'         => $purchase_data['date'],
@@ -89,10 +93,9 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 		'purchase_key' => $purchase_data['purchase_key'],
 		'currency'     => edd_get_currency(),
 		'downloads'    => $purchase_data['downloads'],
-		'cart_details' => $carddetails,
+		'cart_details' => $purchase_data['cart_details'],
 		'status'       => 'pending',
 	);
-
 
 	// Record the pending payment
 	$payment_id = edd_insert_payment( $payment_data );
