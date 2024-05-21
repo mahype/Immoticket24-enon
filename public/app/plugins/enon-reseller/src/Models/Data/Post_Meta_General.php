@@ -53,6 +53,29 @@ class Post_Meta_General extends Post_Meta {
 	}
 
 	/**
+	 * Get contact firstname.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_contact_firstname() {
+		return $this->get( 'contact_firstname' );
+	}
+
+	/**
+	 * Get contact lastname.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Token string of current token.
+	 */
+	public function get_contact_lastname() {
+		return $this->get( 'contact_lastname' );
+	}
+
+
+	/**
 	 * Get contact email.
 	 *
 	 * @since 1.0.0
@@ -108,20 +131,28 @@ class Post_Meta_General extends Post_Meta {
 	}
 
 	/**
-	 * Checks if title element is checked.
+	 * Get company logo.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool True if is checked..
+	 * @return string URL of the company logo.
 	 */
-	public function isset_marketing_klicktipp() {
-		$values = $this->get( 'marketing' );
+	public function get_company_logo() {
+		return $this->get( 'company_logo' );
+	}
 
-		if ( ! empty( $values ) && in_array( 'klicktipp', $values ) ) {
-			return true;
-		}
+	/**
+	 * Get price for bedarfsausweis.
+	 */
+	public function get_price_bw_reseller() {
+		return $this->get( 'price_bw_reseller' );
+	}
 
-		return false;
+	/**
+	 * Get price for verbrauchsausweis.
+	 */
+	public function get_price_vw_reseller() {
+		return $this->get( 'price_vw_reseller' );
 	}
 
 	/**

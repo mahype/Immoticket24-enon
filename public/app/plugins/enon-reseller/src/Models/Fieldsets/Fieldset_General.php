@@ -26,8 +26,8 @@ class Fieldset_General implements Fieldset {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get() : array {
-		$data = [			
+	public function get(): array {
+		$data = array(
 			array(
 				'key'          => 'field_company_name',
 				'label'        => __( 'Firmenname', 'enon' ),
@@ -45,6 +45,22 @@ class Fieldset_General implements Fieldset {
 				'required'     => 0,
 			),
 			array(
+				'key'          => 'field_contact_firstname',
+				'label'        => __( 'Rechnungsempfänger Vorname', 'enon' ),
+				'name'         => 'contact_firstname',
+				'type'         => 'text',
+				'instructions' => __( 'Vorname des Rechnungsempfängers.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
+				'key'          => 'field_contact_lastname',
+				'label'        => __( 'Rechnungsempfänger Nachname', 'enon' ),
+				'name'         => 'contact_lastname',
+				'type'         => 'text',
+				'instructions' => __( 'Nachname des Rechnungsempfängers.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
 				'key'          => 'address_line1',
 				'label'        => __( 'Adresse 1', 'enon' ),
 				'name'         => 'address_line1',
@@ -52,7 +68,7 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Adresse 1.', 'enon' ),
 				'required'     => 0,
 			),
-            array(
+			array(
 				'key'          => 'address_line2',
 				'label'        => __( 'Adresse 2', 'enon' ),
 				'name'         => 'address_line2',
@@ -60,7 +76,7 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Adresse 2', 'enon' ),
 				'required'     => 0,
 			),
-            array(
+			array(
 				'key'          => 'address_city',
 				'label'        => __( 'Stadt', 'enon' ),
 				'name'         => 'address_city',
@@ -68,7 +84,7 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Stadt', 'enon' ),
 				'required'     => 0,
 			),
-            array(
+			array(
 				'key'          => 'address_plz',
 				'label'        => __( 'PLZ', 'enon' ),
 				'name'         => 'address_plz',
@@ -76,7 +92,7 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'PLZ', 'enon' ),
 				'required'     => 0,
 			),
-            array(
+			array(
 				'key'          => 'field_contact_email',
 				'label'        => __( 'Kontakt Email', 'enon' ),
 				'name'         => 'contact_email',
@@ -84,30 +100,39 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Die Email-Adresse der Kontaktperson. Alle Emails aus dem System gehen an diese Adresse.', 'enon' ),
 				'required'     => 0,
 			),
+            
 			array(
-				'key'          => 'field_email_settings',
-				'label'        => __( 'Optionen für ausgehende Emails', 'enon' ),
-				'name'         => 'email_settings',
-				'type'         => 'checkbox',
-				'choices' => array(
-					'redirect_bill_to_reseller' => __( 'Zahlung via Reseller. (Kein Rechnungsdownload auf der Seite, kein Rechnungslink in der E-Mail)', 'enon' ),
+				'key'          => 'field_company_logo',
+				'label'        => __( 'Unternehmens Logo', 'enon' ),
+				'name'         => 'company_logo',
+				'type'         => 'image',
+				'instructions' => __( 'Unternehmenslogo für die Mail an den Endkunden.', 'enon' ),
+				'required'     => 0,
+			),
+			array(
+				'key'           => 'field_email_settings',
+				'label'         => __( 'Optionen für ausgehende Emails', 'enon' ),
+				'name'          => 'email_settings',
+				'type'          => 'checkbox',
+				'choices'       => array(
+					'redirect_bill_to_reseller'           => __( 'Zahlung via Reseller. (Kein Rechnungsdownload auf der Seite, kein Rechnungslink in der E-Mail)', 'enon' ),
 					'send_order_confirmation_to_reseller' => __( '"Neue Energieausweis-Bestellung" an Reseller senden.', 'enon' ),
 				),
 				'default_value' => array(
-					1 => 'send_order_confirmation_to_reseller'
+					1 => 'send_order_confirmation_to_reseller',
 				),
-				'required'     => 0,
-            ),
-            array(
-				'key' => 'field_marketing',
-				'label' => __( 'Marketing-Tools', 'enon' ),
-				'name' => 'marketing',
-				'type' => 'checkbox',
-				'choices' => array(
-					'klicktipp'            => __( 'Klicktipp - Email-Adressen bei Newsletter-Einwilligung an Klicktipp senden.', 'enon' ),
+				'required'      => 0,
+			),
+			array(
+				'key'           => 'field_marketing',
+				'label'         => __( 'Marketing-Tools', 'enon' ),
+				'name'          => 'marketing',
+				'type'          => 'checkbox',
+				'choices'       => array(
+					'klicktipp' => __( 'Klicktipp - Email-Adressen bei Newsletter-Einwilligung an Klicktipp senden.', 'enon' ),
 				),
 				'default_value' => array(
-					0 => 'klicktipp'
+					0 => 'klicktipp',
 				),
 				'return_format' => 'value',
 			),
@@ -119,6 +144,14 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Individuer Preis des Bedarfsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
 				'required'     => 0,
 			),
+            array(
+				'key'          => 'field_price_bw_reseller',
+				'label'        => __( 'Preis Bedarfsausweis für Rechnung an Reseller', 'enon' ),
+				'name'         => 'price_bw_reseller',
+				'type'         => 'number',
+				'instructions' => __( 'Individuer Preis des Bedarfsausweises für den Reseller, wenn dieser selbst mit dem Kunden abrechnet. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
+				'required'     => 0,
+			),
 			array(
 				'key'          => 'field_price_vw',
 				'label'        => __( 'Preis Verbrauchsausweis', 'enon' ),
@@ -127,17 +160,26 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Individuer Preis des Verbrauchsausweises für die Kunden des Resellers. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
 				'required'     => 0,
 			),
+            array(
+				'key'          => 'field_price_vw_reseller',
+				'label'        => __( 'Preis Verbrauchsausweis für Rechnung an Reseller', 'enon' ),
+				'name'         => 'price_vw_reseller',
+				'type'         => 'number',
+				'instructions' => __( 'Individuer Preis des Verbrauchsausweises für den Reseller, wenn dieser selbst mit dem Kunden abrechnet. Wird kein Wert eingetragen, so gilt der Preis auf energieausweis.de.', 'enon' ),
+				'required'     => 0,
+			),
+
 			array(
-				'key'          => 'field_custom_fees',
-				'label'        => __( 'Zusätzliche Leistungen', 'enon' ),
-				'name'         => 'custom_fees',
-				'type'         => 'checkbox',
-				'choices' => array(
+				'key'           => 'field_custom_fees',
+				'label'         => __( 'Zusätzliche Leistungen', 'enon' ),
+				'name'          => 'custom_fees',
+				'type'          => 'checkbox',
+				'choices'       => array(
 					'energieausweis_besprechung' => 'Energieausweis Besprechung',
-					'experten_check' => 'Experten Check',
-					'sendung_per_post' => 'Sendung per Post',
-					'kostenlose_korrektur' => 'Kostenlose Korrektur',
-					'premium_bewertung' => 'Premium Bewertung',
+					'experten_check'             => 'Experten Check',
+					'sendung_per_post'           => 'Sendung per Post',
+					'kostenlose_korrektur'       => 'Kostenlose Korrektur',
+					'premium_bewertung'          => 'Premium Bewertung',
 				),
 				'default_value' => array(
 					'energieausweis_besprechung',
@@ -146,8 +188,8 @@ class Fieldset_General implements Fieldset {
 					'kostenlose_korrektur',
 					'premium_bewertung',
 				),
-				'instructions' => __( 'Zusätzliche Leistungen des Resellers.', 'enon' ),
-				'required'     => 0,
+				'instructions'  => __( 'Zusätzliche Leistungen des Resellers.', 'enon' ),
+				'required'      => 0,
 			),
 			array(
 				'key'           => 'field_token',
@@ -170,14 +212,14 @@ class Fieldset_General implements Fieldset {
 				'key'          => 'field_company_id',
 				'label'        => __( 'Firmen Kennung', 'enon' ),
 				'name'         => 'company_id',
-				'type'         => 'text',				
+				'type'         => 'text',
 				'placeholder'  => '',
 				'prepend'      => '',
 				'append'       => '',
 				'maxlength'    => '',
 				'instructions' => __( 'Eindeutige Firmen Kennung. Nicht den Firmennamen eintragen. Die Id wird für die Auswahl von eigens angelegten Templates und Skripte für Reseller benötigt, sofern vorhanden.', 'enon' ),
-			)
-		];
+			),
+		);
 
 		return $data;
 	}
