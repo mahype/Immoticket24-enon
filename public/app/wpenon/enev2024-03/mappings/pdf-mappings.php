@@ -386,19 +386,23 @@ function wpenon_get_enev_pdf_data($context, $index = 0, $energieausweis = null, 
 
 			return array();
 		case 'modernisierungsempfehlungen':
-			if($energieausweis->mode == 'v') {
-				$modernisierungen = new Enev\Schema202403\Modernizations\VW_Modernizations($energieausweis);
-			} else {
-				$modernisierungen = new Enev\Schema202403\Modernizations\BW_Modernizations($energieausweis);
-			}
+			return wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 
-			$empfehlungen = array();
-			foreach( $modernisierungen->get_modernizations( array(), $energieausweis ) AS $empfehlung )
-			{
-				$empfehlungen[] = $empfehlung;
-			}
+			// Neues Schema
+			
+			// if($energieausweis->mode == 'v') {
+			// 	$modernisierungen = new Enev\Schema202403\Modernizations\VW_Modernizations($energieausweis);
+			// } else {
+			// 	$modernisierungen = new Enev\Schema202403\Modernizations\BW_Modernizations($energieausweis);
+			// }
 
-			return $empfehlungen;
+			// $empfehlungen = array();
+			// foreach( $modernisierungen->get_modernizations( array(), $energieausweis ) AS $empfehlung )
+			// {
+			// 	$empfehlungen[] = $empfehlung;
+			// }
+
+			// return $empfehlungen;
 		default:
 	}
 
