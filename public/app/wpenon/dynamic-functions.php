@@ -500,7 +500,7 @@ function wpenon_immoticket24_get_ww_info_vw( $h2_info = false, $h3_info = false,
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
 
-	if( current_user_can('manage_options') ) {		
+	if( current_user_can('edit_shop_payments') ) {		
 	    $info['h1'] = __( 'pauschal in 1. Heizungsanlage enthalten', 'wpenon' );
 		
 		if( $h2_info !== false ) {
