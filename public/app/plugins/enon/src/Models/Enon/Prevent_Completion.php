@@ -402,9 +402,13 @@ class Prevent_Completion
         foreach ($heaters as $heater) {
             $energy_source_name = 'h_energietraeger_' . $this->energy_certificate->$heater;
             $energy_source = $this->energy_certificate->$energy_source_name;
+            
 
-            if (in_array($energy_source, $stoppers)) {
-                return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude mit Gas- oder Ölheizung', $energy_effiency_class);
+            foreach( $stoppers as $stopper ) {
+                // Check for string length of stopper and shorten energy source name to stopper length
+                if( substr( $energy_source, 0, strlen( $stopper ) ) === $stopper ) {
+                    return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude mit %s-Heizung', $energy_effiency_class, $stopper);
+                }
             }
         }
 
