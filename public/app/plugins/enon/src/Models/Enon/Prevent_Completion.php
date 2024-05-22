@@ -128,7 +128,7 @@ class Prevent_Completion
         }
 
         if (current_user_can('administrator') || current_user_can('edit_shop_payments')) {
-            // return false;
+            return false;
         }
 
         if (!in_array($new_status, array('complete', 'completed', 'publish'))) {
