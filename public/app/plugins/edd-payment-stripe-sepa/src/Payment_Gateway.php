@@ -6,11 +6,9 @@ use Awsm\Edd\Payment\Edd_Payment_Gateway;
 use Awsm\Edd\Payment\Gateway_Exception;
 use Awsm\Edd\Payment\Validation_Exception;
 use PHP_IBAN\IBAN;
-use Stripe\Charge;
-use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
-use Stripe\Source;
-use Stripe\Stripe;
+use Stripe\StripeClient;
+use Stripe\Webhook;
 
 /**
  * Class Payment_Gateway
@@ -79,6 +77,13 @@ class Payment_Gateway extends Edd_Payment_Gateway
 				'type' => 'text',
 				'size' => 'regular',
 			),
+			'stripe_webhook_secret' => array(
+				'id'   => 'stripe_webhook_secret',
+				'name' => __('Webhook Secret', 'awsm-edd-stripe-sepa'),
+				'desc' => __('Found on stripe dashboard after login.', 'awsm-edd-stripe-sepa'),
+				'type' => 'text',
+				'size' => 'regular',
+			),
 			'stripe_test_public_key' => array(
 				'id'   => 'stripe_test_public_key',
 				'name' => __('Public key (Test)', 'awsm-edd-stripe-sepa'),
@@ -89,6 +94,13 @@ class Payment_Gateway extends Edd_Payment_Gateway
 			'stripe_test_secret' => array(
 				'id'   => 'stripe_test_secret',
 				'name' => __('Secret (Test)', 'awsm-edd-stripe-sepa'),
+				'desc' => __('Found on stripe dashboard after login.', 'awsm-edd-stripe-sepa'),
+				'type' => 'text',
+				'size' => 'regular',
+			),
+			'stripe_test_webhook_secret' => array(
+				'id'   => 'stripe_test_webhook_secret',
+				'name' => __('Webhook Secret (Test)', 'awsm-edd-stripe-sepa'),
 				'desc' => __('Found on stripe dashboard after login.', 'awsm-edd-stripe-sepa'),
 				'type' => 'text',
 				'size' => 'regular',
@@ -137,6 +149,23 @@ class Payment_Gateway extends Edd_Payment_Gateway
 		}
 
 		return $this->get_setting('stripe_secret');
+	}
+
+	/**
+	 * Get webhook secret.
+	 *
+	 * @return string|bool Webhook secret, false if there is no value.
+	 *
+	 * @since 1.0.0
+	 */
+	private function get_webhook_secret()
+	{
+		if ( edd_is_test_mode() ) {
+			$this->log('Using test mode webhook secret.');
+			return $this->get_setting('stripe_test_webhook_secret');
+		}
+
+		return $this->get_setting('stripe_webhook_secret');
 	}
 
 	/**
@@ -233,69 +262,46 @@ class Payment_Gateway extends Edd_Payment_Gateway
 			throw new Gateway_Exception('Missing secret key for stripe payment.');
 		}
 
-		Stripe::setApiKey($this->get_secret());
-
 		$account_holder = $post_data['sepa_account_holder'];
 		$iban           = $post_data['sepa_iban'];
 
 		try {
-			$source = Source::create([
-				"type"       => "sepa_debit",
-				"sepa_debit" => ["iban" => $iban],
-				"currency"   => "eur",
-				"owner"      => [
-					"name" => $account_holder,
+			$stripe = new StripeClient([
+				'api_key' => $this->get_secret(),
+				'stripe_version' => '2024-04-10'
+			]);
+
+			$stripe->paymentIntents->create([
+				'amount' => (int) (EDD()->cart->get_total() * 100),
+				'currency' => 'EUR',
+				'confirm' => true,
+				'payment_method_types' => ['sepa_debit'],
+				'payment_method_data' => [
+					'type' => 'sepa_debit',
+					'billing_details' => [
+						'name' => $account_holder
+					],
+					'sepa_debit' => [
+						'iban' => $iban,
+					],
+				],
+				'mandate_data' => [
+					'customer_acceptance' => [
+						'type' => 'online',
+						'online' => [
+							'ip_address' => $_SERVER['REMOTE_ADDR'],
+							'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+						]
+					],
 				],
 			]);
 		} catch (ApiErrorException $e) {
 			$this->log($e->getMessage(), 'error');
 
-			if ($e->getStripeCode() === 'invalid_bank_account_iban') {
+			if ($e->getStripeCode() === 'sepa_unsupported_account') {
 				throw new Validation_Exception(__('Invalid IBAN.', 'awsm-edd-stripe-sepa'));
 			}
 
-			throw new Gateway_Exception($e->getMessage());
-		}
-
-		$source_id = $source->id;
-
-		try {
-			$customer = Customer::create([
-				'email'  => $purchase_data['user_email'],
-				'source' => $source->id,
-			]);
-		} catch (ApiErrorException $e) {
-			$this->log($e->getMessage(), 'error');
-			throw new Gateway_Exception($e->getMessage());
-		}
-
-		$customer_id = $customer->id;
-		$amount = (int) (EDD()->cart->get_total() * 100);
-
-		try {
-			$description = edd_get_payment_number($payment_id);
-
-			/**
-			 * Payment description filter.
-			 * 
-			 * @param string $description Description text to filter.
-			 * @param int    $payment_id  Edd payment id.
-			 * @param array  $purchase_data Detailed data of purchase.
-			 */
-			$description = apply_filters('awsm_edd_stripe_sepa_payment_description', $description, $payment_id, $purchase_data);
-
-			$charge = Charge::create([
-				'amount' => $amount,
-				'currency' => 'eur',
-				'customer' => $customer_id,
-				'source' => $source_id,
-				'description' => $description,
-				'statement_descriptor' => edd_get_payment_number($payment_id)
-			]);
-
-			$this->set_payment_transaction_id($payment_id, $charge->id);
-		} catch (ApiErrorException $e) {
-			$this->log($e->getMessage(), 'error');
 			throw new Gateway_Exception($e->getMessage());
 		}
 	}
@@ -312,20 +318,43 @@ class Payment_Gateway extends Edd_Payment_Gateway
 		ob_implicit_flush(); // Print out result without buffering.
 
 		try {
-			$event = \Stripe\Event::constructFrom(
-				json_decode($input, true)
+			$stripe = new StripeClient([
+				'api_key' => $this->get_secret(),
+				'stripe_version' => '2024-04-10'
+			]);
+
+			$input = @file_get_contents('php://input');
+
+			$event = Webhook::constructEvent(
+				$input,
+				$_SERVER['HTTP_STRIPE_SIGNATURE'],
+				$this->get_webhook_secret()
 			);
+
 		} catch (\UnexpectedValueException  $e) {
 			$this->log($e->getMessage(), 'error');
 			http_response_code(400);
+			echo json_encode([ 'error' => $e->getMessage() ]);
 			exit();
 		}
 
 		$charge = $event->data->object;
 
 		switch ($event->type) {
-				// Pending payments have to be treated as succeeded. Otherwise it's taking days for publishing.
+			case 'payment_intent.processing':
 			case 'charge.pending':
+				// Pending payments have to be treated as succeeded. Otherwise it's taking days for publishing.
+
+				// $payment_id = $this->get_payment_id_by_transaction_id($charge->id);
+				// if (!empty($payment_id)) {
+				// 	status_header(200);
+				// 	$this->payment_pending($payment_id);
+				// 	die(esc_html('EDD Stripe: ' . $event->type));
+				// } else {
+				// 	status_header(500);
+				// 	die('-2');
+				// }
+			case 'payment_intent.succeeded':
 			case 'charge.succeeded':
 				$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
 				if (!empty($payment_id)) {
@@ -337,7 +366,8 @@ class Payment_Gateway extends Edd_Payment_Gateway
 					die('-2');
 				}
 				break;
-			case 'charge.failed':
+			case 'payment_intent.failed':
+			case 'payment_intent.canceled':
 				$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
 				if (!empty($payment_id)) {
 					status_header(200);
