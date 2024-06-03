@@ -306,6 +306,11 @@ class Prevent_Completion
             return 'Der Abstand der Verbrauchsmengen zwischen dem Mindest- und dem Höchstverbrauch liegt über 30%';
         }
 
+        // Check if all consumptions are the same
+        if( $this->energy_certificate->verbrauch1_h === $this->energy_certificate->verbrauch2_h && $this->energy_certificate->verbrauch1_h === $this->energy_certificate->verbrauch3_h ) {
+            return 'Die Verbrauchsmengen sind identisch';
+        }
+
         return true;
     }
 
