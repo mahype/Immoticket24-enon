@@ -94,7 +94,8 @@
       "cd public/app/wpenon/enev2024-01/; composer install --no-dev; cd ../../../..",
       "cd public/app/wpenon/enev2024-02/; composer install --no-dev; cd ../../../..",
       "cd public/app/wpenon/enev2024-03/; composer install --no-dev; cd ../../../..",
-      "cd public/app/plugins/immo-rating; composer install --no-dev; cd ../../../.."
+      "cd public/app/plugins/immo-rating; composer install --no-dev; cd ../../../..",
+      "cd public/app/plugins/block-trusted-shops/; composer install --no-dev; cd ../../../.."
     ],
     "post-update-cmd": [
       "cd public/app/plugins/wp-energieausweis-online; composer update --no-dev; cd ../../../..",
@@ -104,7 +105,8 @@
       "cd public/app/wpenon/enev2024-01/; composer update --no-dev; cd ../../../..",
       "cd public/app/wpenon/enev2024-02/; composer update --no-dev; cd ../../../..",
       "cd public/app/wpenon/enev2024-03/; composer update --no-dev; cd ../../../..",
-      "cd public/app/plugins/immo-rating; composer update --no-dev; cd ../../../.."
+      "cd public/app/plugins/immo-rating; composer update --no-dev; cd ../../../..",
+      "cd public/app/plugins/block-trusted-shops/; composer update --no-dev; cd ../../../.."
     ],
     "config-phpcs": [
       "vendor/bin/phpcs --config-set installed_paths ../../wp-coding-standards/wpcs"
