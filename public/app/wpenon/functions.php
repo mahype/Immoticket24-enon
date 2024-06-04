@@ -58,7 +58,12 @@ add_action('edd_stats_meta_box', function () {
 	foreach ($payments as $payment_id) {
 		$payment = edd_get_payment($payment_id);
 		$payment_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID);
-		echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename . ')<br />';
+		if( 'revoked' === $payment->status ) {
+			echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/<strong><span style="color:#F00">' . $payment->status_nicename . '</span></strong>)<br />';
+		} else {
+			echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename . ')<br />';
+		}
+		
 	}
 
 	$is_registered = !empty(trim(get_post_meta($post_id, 'registriernummer', true)));
