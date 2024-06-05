@@ -1,21 +1,21 @@
 <?php
 
-namespace Enev\Schema202403\Calculations\Gebaeude;
+namespace Enev\Schema202404\Calculations\Gebaeude;
 
-use Enev\Schema202403\Calculations\Anlagentechnik\Heizsystem;
-use Enev\Schema202403\Calculations\Anlagentechnik\Hilfsenergie;
-use Enev\Schema202403\Calculations\Anlagentechnik\Lueftung;
-use Enev\Schema202403\Calculations\Anlagentechnik\Photovoltaik_Anlage;
-use Enev\Schema202403\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
-use Enev\Schema202403\Calculations\Bauteile\Bauteile;
-use Enev\Schema202403\Calculations\Bauteile\Dach;
-use Enev\Schema202403\Calculations\Calculation_Exception;
-use Enev\Schema202403\Calculations\Tabellen\Ausnutzungsgrad;
-use Enev\Schema202403\Calculations\Tabellen\Bilanz_Innentemperatur;
-use Enev\Schema202403\Calculations\Tabellen\Mittlere_Belastung;
-use Enev\Schema202403\Calculations\Tabellen\Monatsdaten;
+use Enev\Schema202404\Calculations\Anlagentechnik\Heizsystem;
+use Enev\Schema202404\Calculations\Anlagentechnik\Hilfsenergie;
+use Enev\Schema202404\Calculations\Anlagentechnik\Lueftung;
+use Enev\Schema202404\Calculations\Anlagentechnik\Photovoltaik_Anlage;
+use Enev\Schema202404\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
+use Enev\Schema202404\Calculations\Bauteile\Bauteile;
+use Enev\Schema202404\Calculations\Bauteile\Dach;
+use Enev\Schema202404\Calculations\Calculation_Exception;
+use Enev\Schema202404\Calculations\Tabellen\Ausnutzungsgrad;
+use Enev\Schema202404\Calculations\Tabellen\Bilanz_Innentemperatur;
+use Enev\Schema202404\Calculations\Tabellen\Mittlere_Belastung;
+use Enev\Schema202404\Calculations\Tabellen\Monatsdaten;
 
-use function Enev\Schema202403\Calculations\Helfer\fum;
+use function Enev\Schema202404\Calculations\Helfer\fum;
 
 require_once __DIR__ . '/Keller.php';
 
@@ -1326,19 +1326,12 @@ class Gebaeude
 	 */
 	public function Qf(): float
 	{
-		// $Qf =   $Qfges -  $Pvans
-		$Qf = $this->Qfgesamt();
-
-		if ($this->photovoltaik_anlage_vorhanden()) {
-			$Qf -= $this->photovoltaik_anlage()->Pvans($this->Qfstrom());
-		}
-
 		// $Qf =   $Qf/$calculations['nutzflaeche']
-		return $Qf / $this->nutzflaeche();
+		return $this->Qfgesamt() / $this->nutzflaeche();
 	}
 
 	/**
-	 * Berechnung der flächenbezogenen Endenergie (Primärenergie)  (kwh/m^2a).
+	 * Berechnung der flächenbezogenen Primärenergie (kwh/m^2a).
 	 *
 	 * @return float
 	 * @throws Calculation_Exception
