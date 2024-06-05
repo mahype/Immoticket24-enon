@@ -269,7 +269,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 				'stripe_version' => '2024-04-10'
 			]);
 
-			$stripe->paymentIntents->create([
+			$intent = $stripe->paymentIntents->create([
 				'amount' => (int) (EDD()->cart->get_total() * 100),
 				'currency' => 'EUR',
 				'confirm' => true,
@@ -297,6 +297,8 @@ class Payment_Gateway extends Edd_Payment_Gateway
 					'payment_id' => $payment_id,
 				],
 			]);
+
+			$this->set_payment_transaction_id($payment_id, $intent->id);			
 		} catch (ApiErrorException $e) {
 			$this->log($e->getMessage(), 'error');
 
@@ -321,6 +323,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 
 		header('Content-Type: application/json');
 		$input = @file_get_contents('php://input');
+		$body = json_decode($input);
 		$event = null;
 
 		try {
@@ -340,16 +343,14 @@ class Payment_Gateway extends Edd_Payment_Gateway
 			exit();
 		}
 
-		$charge = $event->data->object;
+		$payment_intend = $event->data->object;
 
-		$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
+		$payment_id = $this->get_payment_id_by_transaction_id($payment_intend->id);
 		
-		switch ($event->type) {
-			
+		switch ($event->type) {			
 			case 'payment_intent.processing':			
 				// Pending payments have to be treated as succeeded. Otherwise it's taking days for publishing.
-			case 'payment_intent.succeeded':							
-				$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
+			case 'payment_intent.succeeded':											
 				if (!empty($payment_id)) {
 					status_header(200);
 					$this->payment_complete($payment_id);
@@ -361,7 +362,6 @@ class Payment_Gateway extends Edd_Payment_Gateway
 				break;
 			case 'payment_intent.failed':
 			case 'payment_intent.canceled':
-				$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
 				if (!empty($payment_id)) {
 					status_header(200);
 					$this->payment_failed($payment_id);
@@ -371,18 +371,11 @@ class Payment_Gateway extends Edd_Payment_Gateway
 					die('-2');
 				}
 				break;
-			case 'charge.pending':
-			case 'charge.updated':
-			case 'charge.succeeded':
-			case 'payment_intent.created':				
-				// Charge updated - Do nothing.
-				status_header(200);
-				break;
 			default:
-				// Unexpected event type
-				status_header(500);
-				$this->log('Unexpected event type: ' . $event->type, 'error');
-				die('-2');
+				// Not processed event type
+				status_header(200);
+				$this->log('Not processed event type: ' . $event->type, 'error');
+				die(esc_html('EDD Stripe: ' . $event->type));
 		}
 
 		exit();
