@@ -144,7 +144,6 @@ class Payment_Gateway extends Edd_Payment_Gateway
 	private function get_secret()
 	{
 		if (edd_is_test_mode()) {
-			$this->log('Using test mode secret.');
 			return $this->get_setting('stripe_test_secret');
 		}
 
@@ -161,7 +160,6 @@ class Payment_Gateway extends Edd_Payment_Gateway
 	private function get_webhook_secret()
 	{
 		if ( edd_is_test_mode() ) {
-			$this->log('Using test mode webhook secret.');
 			return $this->get_setting('stripe_test_webhook_secret');
 		}
 
@@ -279,7 +277,8 @@ class Payment_Gateway extends Edd_Payment_Gateway
 				'payment_method_data' => [
 					'type' => 'sepa_debit',
 					'billing_details' => [
-						'name' => $account_holder
+						'name' => $account_holder,
+						'email' => $purchase_data['user_email'],
 					],
 					'sepa_debit' => [
 						'iban' => $iban,
@@ -293,6 +292,9 @@ class Payment_Gateway extends Edd_Payment_Gateway
 							'user_agent' => $_SERVER['HTTP_USER_AGENT'],
 						]
 					],
+				],
+				'metadata' => [
+					'payment_id' => $payment_id,
 				],
 			]);
 		} catch (ApiErrorException $e) {
@@ -317,22 +319,22 @@ class Payment_Gateway extends Edd_Payment_Gateway
 	{
 		ob_implicit_flush(); // Print out result without buffering.
 
+		header('Content-Type: application/json');
+		$input = @file_get_contents('php://input');
+		$event = null;
+
 		try {
-			$stripe = new StripeClient([
-				'api_key' => $this->get_secret(),
-				'stripe_version' => '2024-04-10'
-			]);
+			$webhook_secret = $this->get_webhook_secret();
+			$server_signature = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 
-			$input = @file_get_contents('php://input');
-
-			$event = Webhook::constructEvent(
+			$event = \Stripe\Webhook::constructEvent(
 				$input,
-				$_SERVER['HTTP_STRIPE_SIGNATURE'],
-				$this->get_webhook_secret()
+				$server_signature,
+				$webhook_secret
 			);
 
-		} catch (\UnexpectedValueException  $e) {
-			$this->log($e->getMessage(), 'error');
+		} catch (\Exception  $e) {
+			$this->log('Failure on Webhook creation: ' . $e->getMessage(), 'error');
 			http_response_code(400);
 			echo json_encode([ 'error' => $e->getMessage() ]);
 			exit();
@@ -340,22 +342,13 @@ class Payment_Gateway extends Edd_Payment_Gateway
 
 		$charge = $event->data->object;
 
+		$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
+		
 		switch ($event->type) {
-			case 'payment_intent.processing':
-			case 'charge.pending':
+			
+			case 'payment_intent.processing':			
 				// Pending payments have to be treated as succeeded. Otherwise it's taking days for publishing.
-
-				// $payment_id = $this->get_payment_id_by_transaction_id($charge->id);
-				// if (!empty($payment_id)) {
-				// 	status_header(200);
-				// 	$this->payment_pending($payment_id);
-				// 	die(esc_html('EDD Stripe: ' . $event->type));
-				// } else {
-				// 	status_header(500);
-				// 	die('-2');
-				// }
-			case 'payment_intent.succeeded':
-			case 'charge.succeeded':
+			case 'payment_intent.succeeded':							
 				$payment_id = $this->get_payment_id_by_transaction_id($charge->id);
 				if (!empty($payment_id)) {
 					status_header(200);
@@ -377,6 +370,13 @@ class Payment_Gateway extends Edd_Payment_Gateway
 					status_header(500);
 					die('-2');
 				}
+				break;
+			case 'charge.pending':
+			case 'charge.updated':
+			case 'charge.succeeded':
+			case 'payment_intent.created':				
+				// Charge updated - Do nothing.
+				status_header(200);
 				break;
 			default:
 				// Unexpected event type
