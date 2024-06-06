@@ -57,15 +57,6 @@ abstract class Modernizations
 				'kosten'       => '',
 				'dibt_value'   => 'Heizung',
 			),
-			'heizkessel'         => array(
-				'bauteil'      => 'Heizkessel',
-				'beschreibung' => 'Erneuerung des Heizkessels',
-				'gesamt'       => true,
-				'einzeln'      => true,
-				'amortisation' => '',
-				'kosten'       => '',
-				'dibt_value'   => 'Heizung',
-			),
 			'rohrleitungssystem' => array(
 				'bauteil'      => 'Rohrleitungssystem',
 				'beschreibung' => 'Dämmung freiliegender Heizungsrohre',
@@ -314,35 +305,41 @@ abstract class Modernizations
 	 *
 	 * @since 1.0.0
 	 */
-	protected function needs_heater()
-	{
-		$heatings = array('h');
+	protected function needs_heater() {
+		$heatings = array( 'h' );
 
-		$min_age = 30;
+		$max_age = 30;
 
-		if (isset($this->energieausweis->h2_info) && $this->energieausweis->h2_info) {
+		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
 			$heatings[] = 'h2';
 
-			if (isset($this->energieausweis->h3_info) && $this->energieausweis->h3_info) {
+			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
 				$heatings[] = 'h3';
 			}
 		}
 
-		$current_year = absint(current_time('Y'));
+		$current_year = absint( current_time( 'Y' ) );
 
-		$types       = array(
+		$types_general = array(
+			'elektronachtspeicherheizung',
+		);
+
+		$types_older_max_age  = array(
 			'gasraumheizer',
 			'elektrodirektheizgeraet',
-			'elektronachtspeicherheizung',
 			'oelofenverdampfungsbrenner',
 			'kohleholzofen',
 		);
 
-		foreach ($heatings as $heating) {
+		foreach ( $heatings as $heating ) {
 			$type_field = $heating . '_erzeugung';
 			$year_field = $heating . '_baujahr';
 
-			if (in_array($this->energieausweis->$type_field, $types, true) && !empty($this->energieausweis->$year_field) && $this->energieausweis->$year_field <= $current_year - $min_age) {
+			if ( in_array( $this->energieausweis->$type_field, $types_general, true ) ) {
+				return true;
+			}
+
+			if ( in_array( $this->energieausweis->$type_field, $types_older_max_age, true ) && ! empty( $this->energieausweis->$year_field ) && $this->energieausweis->$year_field <= $current_year - $max_age ) {
 				return true;
 			}
 		}

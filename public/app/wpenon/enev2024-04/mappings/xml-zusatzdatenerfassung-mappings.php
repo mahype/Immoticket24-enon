@@ -1,16 +1,26 @@
 <?php
+
+use Enev\Schema202402\Modernizations\BW_Modernizations;
+use Enev\Schema202402\Modernizations\VW_Modernizations;
+
 if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
 	function wpenon_get_enev_xml_zusatzdatenerfassung_data($context, $index = 0, $energieausweis = null, $data = array())
 	{
 		if (isset($data['mode'])) {
+			$modernisierungsempfehlungen = array();
+
+			if( $energieausweis->mode === 'v' ) {
+				$modernisierungsempfehlungen = ( new BW_Modernizations() )->get_modernizations([], $energieausweis);				
+			} else {
+				$modernisierungsempfehlungen = ( new VW_Modernizations() )->get_modernizations([], $energieausweis);
+			}
+
 			switch ($data['mode']) {
 				case 'occurrences':
 					$min = $data['min'];
 					$max = $data['max'];
 					switch ($context) {
-						case 'Modernisierungsempfehlungen':
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
-
+						case 'Modernisierungsempfehlungen':						
 							return count($modernisierungsempfehlungen);
 						case 'Wohnflaeche':
 							return 1;
@@ -293,7 +303,6 @@ if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
 						case 'Datenerhebung-Eigentuemer':
 							return 'true';
 						case 'Empfehlungen-moeglich':
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 							if (count($modernisierungsempfehlungen) > 0) {
 								return 'true';
 							}
@@ -328,7 +337,6 @@ if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
 						case 'Modernisierungsempfehlungen::8_Bauteil-Anlagenteil':
 						case 'Modernisierungsempfehlungen::9_Bauteil-Anlagenteil':
 							$parent_index = absint(str_replace(array('Modernisierungsempfehlungen::', '_Bauteil-Anlagenteil'), '', $context));
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 
 							if (!array_key_exists($parent_index, $modernisierungsempfehlungen)) {
 								return false;
@@ -356,7 +364,6 @@ if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
 								'Modernisierungsempfehlungen::',
 								'_Massnahmenbeschreibung'
 							), '', $context));
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 							if (isset($modernisierungsempfehlungen[$parent_index])) {
 								return $modernisierungsempfehlungen[$parent_index]['beschreibung'];
 							}
@@ -376,7 +383,6 @@ if (!function_exists('wpenon_get_enev_xml_zusatzdatenerfassung_data')) {
 								'Modernisierungsempfehlungen::',
 								'_Modernisierungskombination'
 							), '', $context));
-							$modernisierungsempfehlungen = wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis);
 							if (isset($modernisierungsempfehlungen[$parent_index])) {
 								if ($modernisierungsempfehlungen[$parent_index]['gesamt']) {
 									return $item['options'][0];
