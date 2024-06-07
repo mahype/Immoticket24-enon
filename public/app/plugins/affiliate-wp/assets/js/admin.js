@@ -9,6 +9,21 @@ jQuery(document).ready(function($) {
 	// And move this to be more global as we use it in other places in our settings.
 	const affwpSelect2Width = '175px';
 
+	const $select2Elements = $( '.affwp-use-select2' );
+
+	$select2Elements.closest( 'tr' ).addClass( 'affwp-select2-initialized' );
+
+	// Apply a simple select2 to select elements to keep all them with the same aspect.
+	$select2Elements.select2( {
+		width: affwpSelect2Width,
+		minimumResultsForSearch: -1
+	} );
+
+	// Open the Type select2 dropdown when clicking on the Type label.
+	$( '.affwp-select2-initialized label' ).on( 'click', function() {
+		$( this ).closest( 'tr' ).find( 'select' ).select2( 'open' );
+	} );
+
 	$('body').on('click', '.affwp_settings_upload_button', function(e) {
 
 		e.preventDefault();
@@ -650,7 +665,8 @@ jQuery(document).ready(function($) {
 
 			if (
 				[ 'portal_menu_links', 'affiliate_area_tabs_list' ].includes( $row.attr( 'id' ) ) ||
-				$row.hasClass( 'affwp-ignore-select2' )
+				$row.hasClass( 'affwp-ignore-select2' ) ||
+				$select.closest( 'div' ).hasClass( 'affwp-ignore-select2' )
 			) {
 				return; // Skip for repeater fields
 			}
