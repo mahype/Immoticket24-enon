@@ -861,15 +861,35 @@ class AffWP_Affiliates_Table extends List_Table {
 	 *
 	 * @access public
 	 * @since 1.0
+	 * @since 2.24.1 Improved for additional security (see comments).
+	 *
 	 * @return array $affiliate_data Array of all the data for the Affiliates
 	 */
 	public function affiliate_data() {
 
-		$page    = isset( $_GET['paged'] )    ? absint( $_GET['paged'] ) : 1;
-		$status  = isset( $_GET['status'] )   ? $_GET['status']          : '';
-		$search  = isset( $_GET['s'] )        ? $_GET['s']               : '';
-		$order   = isset( $_GET['order'] )    ? $_GET['order']           : 'DESC';
-		$orderby = isset( $_GET['orderby'] )  ? $_GET['orderby']         : 'affiliate_id';
+		$page = ( isset( $_GET['paged'] ) && is_numeric( $_GET['paged'] ) )
+			? absint( $_GET['paged'] )
+			: 1;
+
+		// Note: Status validated in Affiliate_WP_DB_Affiliates::get_affiliates() against all valid status'.
+		$status = ( isset( $_GET['status'] ) && is_string( $_GET['status'] ) )
+			? $_GET['status']
+			: '';
+
+		// Note: Escaped with %%LIKE%% in Affiliate_WP_DB_Affiliates::get_affiliates().
+		$search = ( isset( $_GET['s'] ) && is_string( $_GET['s'] ) )
+			? $_GET['s']
+			: '';
+
+		// Note: Sanitized in Affiliate_WP_DB_Affiliates::get_affiliates(), can only be ASC or DESC.
+		$order = ( isset( $_GET['order'] ) && is_string( $_GET['order'] ) )
+			? $_GET['order']
+			: 'DESC';
+
+		// Note: Sanitized in Affiliate_WP_DB_Affiliates::get_affiliates(), accepts only specific columns in the affiliates database table.
+		$orderby = ( isset( $_GET['orderby'] ) && is_string( $_GET['orderby'] ) )
+			? $_GET['orderby']
+			: 'affiliate_id';
 
 		$per_page = $this->get_items_per_page( 'affwp_edit_affiliates_per_page', $this->per_page );
 
@@ -879,7 +899,7 @@ class AffWP_Affiliates_Table extends List_Table {
 			'status'  => $status,
 			'search'  => $search,
 			'orderby' => sanitize_text_field( $orderby ),
-			'order'   => sanitize_text_field( $order )
+			'order'   => sanitize_text_field( $order ),
 		) );
 
 		/**
@@ -896,7 +916,8 @@ class AffWP_Affiliates_Table extends List_Table {
 		$affiliates = affiliate_wp()->affiliates->get_affiliates( $args );
 
 		// Retrieve the "current" total count for pagination purposes.
-		$args['number']      = -1;
+		$args['number'] = -1;
+
 		$this->current_count = affiliate_wp()->affiliates->count( $args );
 
 		return $affiliates;

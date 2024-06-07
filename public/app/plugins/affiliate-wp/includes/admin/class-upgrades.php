@@ -1161,7 +1161,7 @@ class Affiliate_WP_Upgrades {
 		$old_file = trailingslashit( $base_dir ) . 'affwp-debug.log';
 
 		if ( file_exists( $old_file ) && is_writeable( $old_file ) && is_writeable( $base_dir ) ) {
-			$hash     = affwp_get_hash( $upload_dir, defined( 'AUTH_SALT' ) ? AUTH_SALT : '' );
+			$hash     = affwp_get_hash( $upload_dir, affiliatewp_get_salt() );
 			$new_file = trailingslashit( $base_dir ) . sprintf( 'affwp-debug-log__%s.log', $hash );
 			@rename( $old_file, $new_file );
 		}

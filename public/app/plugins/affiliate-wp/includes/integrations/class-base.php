@@ -1361,5 +1361,4 @@ abstract class Affiliate_WP_Base {
 	public function is_test() {
 		return defined( 'WP_TESTS_DOMAIN' );
 	}
-
 }

@@ -17,6 +17,7 @@ use AffWP\Utils\Batch_Process as Batch;
  * Implements a batch processor for exporting referrals based on status to a CSV file.
  *
  * @since 2.0
+ * @since 2.21.1 Referral ID and Visit ID added to Export.
  *
  * @see \AffWP\Utils\Batch_Process\Export\CSV
  * @see \AffWP\Utils\Batch_Process\With_PreFetch
@@ -150,7 +151,9 @@ class Export_Referrals extends Batch\Export\CSV implements Batch\With_PreFetch {
 	 */
 	public function csv_cols() {
 		return array(
+			'referral_id'   => __( 'Referral ID', 'affiliate-wp' ),
 			'affiliate_id'  => __( 'Affiliate ID', 'affiliate-wp' ),
+			'visit_id'      => __( 'Visit ID', 'affiliate-wp' ),
 			'email'         => __( 'Email', 'affiliate-wp' ),
 			'name'          => __( 'Name', 'affiliate-wp' ),
 			'payment_email' => __( 'Payment Email', 'affiliate-wp' ),
@@ -211,7 +214,9 @@ class Export_Referrals extends Batch\Export\CSV implements Batch\With_PreFetch {
 
 				/** This filter is documented in includes/admin/tools/export/class-export-referrals.php */
 				$referral_data = apply_filters( 'affwp_referral_export_get_data_line', array(
-					'affiliate_id'  => $referral->affiliate_id,
+					'referral_id'   => $referral->referral_id ?? '',
+					'affiliate_id'  => $referral->affiliate_id ?? '',
+					'visit_id'      => $referral->visit_id ?? '',
 					'email'         => affwp_get_affiliate_email( $referral->affiliate_id ),
 					'name'          => affwp_get_affiliate_name( $referral->affiliate_id ),
 					'payment_email' => affwp_get_affiliate_payment_email( $referral->affiliate_id ),

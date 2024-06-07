@@ -152,7 +152,12 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	 * @since  1.0
 	 * @since  1.8   The `$affiliate_id` argument was added. `$orderby` now accepts referral statuses.
 	 *               and 'username'.
+	 *
 	 * @since  2.4.3 The `$include` argument was added.
+	 *
+	 * @since 2.24.4 Updated search querey for user_login or display_name to use $wpdb->prepare() instead of sprintf()
+	 *               to avoid %LIKE% issues with placeholders e.g. %facebook% where %f is interpreted as a placeholder.
+	 * @see          https://github.com/awesomemotive/affiliate-wp/issues/5149 Error in AffiliateWP Affiliates Search Functionality.
 	 *
 	 * @param array $args {
 	 *     Optional. Arguments for querying affiliates. Default empty array.
@@ -164,6 +169,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 	 *     @type int|array    $user_id      User ID or array of user IDs that correspond to the affiliate user.
 	 *     @type int|array    $affiliate_id Affiliate ID or array of affiliate IDs to retrieve.
 	 *     @type string       $status       Affiliate status. Default empty.
+	 *     @type string       $search       Search value.
 	 *     @type string       $order        How to order returned affiliate results. Accepts 'ASC' or 'DESC'.
 	 *                                      Default 'DESC'.
 	 *     @type string       $orderby      Affiliates table column to order results by. Also accepts 'paid',
@@ -267,7 +273,11 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 		}
 
 		if ( ! empty( $args['status'] ) ) {
-			$status = esc_sql( $args['status'] );
+
+			// Ensure status passed is a valid affiliate status.
+			$status = in_array( $args['status'], array_keys( affwp_get_affiliate_statuses() ), true )
+				? esc_sql( $args['status'] ) // Is a valid status.
+				: ''; // Is not, default to no status.
 
 			if ( ! empty( $where ) ) {
 				$where .= "AND `status` = '" . $status . "' ";
@@ -292,7 +302,7 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 			$search_value = trim( $args['search'] );
 
 			if ( is_numeric( $search_value ) ) {
-				$search = "`affiliate_id` IN( {$search_value} )";
+				$search = sprintf( "`affiliate_id` IN( %d )", absint( $search_value ) );
 			} elseif ( is_string( $search_value ) ) {
 
 				// Searching by an affiliate's name or email
@@ -300,15 +310,17 @@ class Affiliate_WP_DB_Affiliates extends Affiliate_WP_DB {
 
 					$user    = get_user_by( 'email', $search_value );
 					$user_id = $user ? absint( $user->ID ) : 0;
-					$search  = "`user_id` = '" . $user_id . "' OR `payment_email` = '" . esc_sql( $search_value ) . "' ";
+					$search  = sprintf( "`user_id` = '" . $user_id . "' OR `payment_email` = '%s' ", esc_sql( filter_var( $search_value, FILTER_SANITIZE_EMAIL ) ) );
 
 				} else {
 
 					$joined_users = true;
 
 					$join   .= "{$this->table_name} INNER JOIN {$wpdb->users} u ON {$this->table_name}.user_id = u.ID";
-					$search = "u.display_name LIKE '%%{$search_value}%%' OR u.user_login LIKE '%%{$search_value}%%' ";
 
+					$search_value_like = "%{$wpdb->esc_like( $search_value )}%";
+
+					$search = $wpdb->prepare( 'u.display_name LIKE \'%1$s\' OR u.user_login LIKE \'%2$s\' ', $search_value_like, $search_value_like );
 				}
 			}
 

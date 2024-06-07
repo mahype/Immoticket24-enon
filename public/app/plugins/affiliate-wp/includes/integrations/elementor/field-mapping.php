@@ -22,6 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Field_Mapping extends Control_Repeater {
 
+	/**
+	 * Defines the control type identifier for the fields mapping control.
+	 *
+	 * @since 2.19.0
+	 *
+	 * @var string
+	 */
 	const CONTROL_TYPE = 'affiliatewp_fields_map';
 
 	/**
@@ -32,7 +39,7 @@ class Field_Mapping extends Control_Repeater {
 	 * @since 2.19.0
 	 * @return string The control type.
 	 */
-	public function get_type(): string {
+	public function get_type() : string {
 		return self::CONTROL_TYPE;
 	}
 
@@ -44,7 +51,7 @@ class Field_Mapping extends Control_Repeater {
 	 * @since 2.19.0
 	 * @return array The default settings array.
 	 */
-	protected function get_default_settings(): array {
+	protected function get_default_settings() : array {
 		return array_merge( parent::get_default_settings(), array(
 			'render_type' => 'none',
 			'fields'      => array(
@@ -66,7 +73,7 @@ class Field_Mapping extends Control_Repeater {
 	 * @since 2.19.0
 	 * @return array An array of mappable fields.
 	 */
-	private static function get_mappable_fields(): array {
+	private static function get_mappable_fields() : array {
 		return array(
 			'name'             => esc_html__( 'Name', 'affiliate-wp' ),
 			'user_login'       => esc_html__( 'Username', 'affiliate-wp' ),
@@ -83,27 +90,30 @@ class Field_Mapping extends Control_Repeater {
 	 *
 	 * @since 2.19.0
 	 */
-	public function enqueue(): void {
+	public function enqueue() : void {
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 		wp_enqueue_script( 'affwp-elementor', AFFILIATEWP_PLUGIN_URL . "assets/js/admin-integration-elementor{$suffix}.js", array(), AFFILIATEWP_VERSION, true );
 
-		$fields = array();
-		foreach ( $this->get_mappable_fields() as $field_id => $field_label ) {
-
-			$fields[] = array(
-				'remote_id'       => $field_id,
-				'remote_label'    => $field_label,
-				'remote_type'     => $field_id === 'user_email' || $field_id === 'payment_email' ? 'email' : 'text',
-				'remote_required' => $field_id === 'user_email',
-			);
-		}
+		$fields = $this->get_mappable_fields();
 
 		wp_localize_script(
 			'affwp-elementor',
 			'AffiliateWPElementor',
 			array(
-				'fields' => $fields
+				'fields' => array_map(
+					function( $field_id, $field_label ) {
+
+						return array(
+							'remote_id'       => $field_id,
+							'remote_label'    => $field_label,
+							'remote_type'     => $field_id === 'user_email' || $field_id === 'payment_email' ? 'email' : 'text',
+							'remote_required' => $field_id === 'user_email',
+						);
+					},
+					array_keys( $fields ), // Passes $field_id.
+					array_values( $fields ) // Passes $field_label.
+				),
 			)
 		);
 

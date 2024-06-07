@@ -554,12 +554,20 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 
 					$amount += (
 						isset( $recurring['signup_fee'] ) &&
-						false !== filter_var(  $recurring['signup_fee'], FILTER_VALIDATE_FLOAT )
+						false !== filter_var( $recurring['signup_fee'], FILTER_VALIDATE_FLOAT )
 					)
 						? $recurring['signup_fee']
 						: 0;
 
-					$referral_total += $this->calculate_referral_amount( $amount, $payment_id, $download['id'], $affiliate_id, $category_id );
+					$referral_total += $this->calculate_referral_amount(
+						$amount,
+						$payment_id,
+						$download['id'],
+						$affiliate_id,
+						$category_id
+					);
+
+					$referral_total = $this->adjust_download_amount_for_free_trial( $referral_total, $download, $payment_id );
 				}
 			}
 		} else {
@@ -574,7 +582,57 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		}
 
 		return $referral_total;
+	}
 
+	/**
+	 * Adjust the Download Amount with Free Trials
+	 *
+	 * Sometimes, when using the Stripe Payment Gateway, Stripe will send
+	 * the price of the product, even if the product has a trial. EDD re-calculates
+	 * this later.
+	 *
+	 * This checks if the product has a free trial, and if it does,
+	 * will adjust the amount to zero (because when EDD does it later
+	 * it's too late for the referral).
+	 *
+	 * @param float $amount   The product amount.
+	 * @param array $download The download data.
+	 * @param int   $payment_id The payment ID.
+	 *
+	 * @since 2.24.0
+	 *
+	 * @return float The adjusted amount.
+	 */
+	private function adjust_download_amount_for_free_trial(
+		float $amount = 0,
+		array $download = array(),
+		int $payment_id = 0
+	) : float {
+
+			return (
+
+				// The amount is not already zero.
+				( 0 !== $amount ) &&
+
+				(
+					// EDD Recurring Payments is enabled.
+					function_exists( 'edd_recurring' ) &&
+
+					// We can check the status of the payment.
+					function_exists( 'edd_get_payment_status' )
+				) &&
+
+				// If the status is not `edd_subscription` we can assume it's the first order.
+				'edd_subscription' !== edd_get_payment_status( $payment_id ) &&
+
+				// This item (download) has a free trial.
+				edd_recurring()::has_free_trial(
+					$download['id'] ?? 0,
+					$download['item_number']['options']['price_id'] ?? null
+				)
+		)
+			? 0 // Adjust the amount to zero (must be a free trial).
+			: $amount; // Not a free trial, use the original amount.
 	}
 
 	/**
@@ -668,13 +726,29 @@ class Affiliate_WP_EDD extends Affiliate_WP_Base {
 		$name           = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
 		$referral_link  = affwp_admin_link( 'referrals', esc_html( '#' . $referral->referral_id ), array( 'action' => 'edit_referral', 'referral_id' => $referral->referral_id ) );
 
-		/* translators: 1: Referral link, 2: Amount, 3: Affiliate Name, 4: Affiliate ID */
-		edd_insert_payment_note( $payment_id, sprintf( __( 'Referral %1$s for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-			$referral_link,
-			$amount,
-			$name,
-			$affiliate_id
-		) );
+		edd_insert_payment_note(
+			$payment_id,
+			/**
+			 * Allows to change the order note content before adding it.
+			 *
+			 * @since 2.23.2
+			 *
+			 * @param string $note The original order note.
+			 * @param int    $referral_id The referral ID.
+			 */
+			apply_filters(
+				'affiliatewp_edd_order_note',
+				sprintf(
+					/* translators: 1: Referral link, 2: Amount, 3: Affiliate Name, 4: Affiliate ID */
+					__( 'Referral %1$s for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+					$referral_link,
+					$amount,
+					$name,
+					$affiliate_id
+				),
+				$referral->referral_id
+			)
+		);
 
 	}
 

@@ -316,4 +316,21 @@ abstract class List_Table extends \WP_List_Table {
 
 		return $this->_column_headers;
 	}
+
+	/**
+	 * Table Classes
+	 *
+	 * @since 2.21.0 Adds `affwp-table` to all tables.
+	 *
+	 * @return array
+	 */
+	protected function get_table_classes() {
+
+		return array_merge(
+			parent::get_table_classes(),
+			array(
+				'affwp-table',
+			)
+		);
+	}
 }

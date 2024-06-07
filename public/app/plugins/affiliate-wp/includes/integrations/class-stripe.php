@@ -59,6 +59,9 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 				array( $this, 'maybe_track_referral_360' )
 			);
 
+			// Track referral via Stripe Checkout Session metadata.
+			add_filter( 'simpay_get_session_args_from_payment_form_request', array( $this, 'maybe_track_referral_360' ) );
+
 			// Process referral upon Stripe webhook.
 			add_action(
 				'simpay_webhook_subscription_created',
@@ -69,6 +72,8 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 				'simpay_webhook_payment_intent_succeeded',
 				array( $this, 'process_referral_360' ), 10, 2
 			);
+
+			add_action( 'simpay_webhook_checkout_session_completed', array( $this, 'process_pro_referral_stripe_checkout' ), 10 );
 
 			// Lite.
 		} else {
@@ -186,6 +191,16 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 				$description   = $object->description;
 
 				break;
+
+			case 'checkout.session':
+				$this->log( 'Processing referral for Stripe Checkout Session.' );
+
+				$stripe_amount = $object->amount_total;
+				$currency      = $object->currency;
+				$mode          = $object->livemode;
+				$description   = $object->metadata->item_description;
+
+				break;
 		}
 
 		// Fill any empty descriptions with the form's item description or title.
@@ -238,6 +253,23 @@ class Affiliate_WP_Stripe extends Affiliate_WP_Base {
 		} else{
 			$this->log( 'Referral failed to be set to completed with complete_referral() during Stripe webhook processing.', $object );
 		}
+	}
+
+	/**
+	 * Process a referral upon Stripe Checkout Session completion for Pro.
+	 *
+	 * Handle WP Simple Pay's webhook action backwards compatibility.
+	 *
+	 * The action hook for Stripe Checkout has a different signature than a
+	 * standard PaymentIntent or Subscription. This function handles the mapping
+	 * of the Stripe Checkout Session to the appropriate Stripe object.
+	 *
+	 * @since 2.21.0
+	 *
+	 * @param \SimplePay\Vendor\Stripe\Event $event
+	 */
+	public function process_pro_referral_stripe_checkout( $event ) {
+		return $this->process_referral_360( $event, $event->data->object );
 	}
 
 	/**

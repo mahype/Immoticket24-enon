@@ -94,6 +94,107 @@ class Non_Pro extends Core {
 	 */
 	public function append_pro_feature_upgrade_strings( array $js_strings = array() ) : array {
 
+		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned -- We do not want to align these.
+		return array_merge_recursive(
+			$js_strings,
+			array(
+				'upgrade' => array(
+					'pro'   => $this->get_upgrade_contents( 'pro' ),
+				),
+				'thanks_for_interest' => esc_html__( 'Thanks for your interest in AffiliateWP Pro!', 'affiliate-wp' ),
+				'upgrade_bonus' => wpautop(
+					wp_kses(
+						__( '<strong>Bonus:</strong> AffiliateWP users get <span>60% off</span> regular price, automatically applied at checkout.', 'affiliate-wp' ),
+						array(
+							'strong' => array(),
+							'span'   => array(),
+						)
+					)
+				),
+			)
+		);
+		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+	}
+
+	/**
+	 * Retrieve modal contents from an specific license type.
+	 *
+	 * @since 2.23.2
+	 *
+	 * @param string $type The license type. Possible values: personal, plus and pro.
+	 *
+	 * @return array
+	 */
+	private function get_upgrade_contents( string $type ) : array {
+
+		if ( ! in_array( $type, array( 'personal', 'plus', 'pro' ), true ) ) {
+			return array();
+		}
+
+		$directory = sprintf(
+			'%1$sincludes/admin/education/upgrade-contents/%2$s',
+			AFFILIATEWP_PLUGIN_DIR,
+			$type
+		);
+
+		// Check if directory exists.
+		if ( ! is_dir( $directory ) ) {
+			return array();
+		}
+
+		$contents = array();
+
+		// Try to open the directory.
+		$handle = opendir( $directory );
+
+		if ( ! $handle ) {
+			return array();
+		}
+
+		// Loop through each file in the directory.
+		while ( false !== ( $file = readdir( $handle ) ) ) {
+
+			// Skip . and .. and non-PHP files.
+			if ( $file === '.' || $file === '..' || pathinfo( $file, PATHINFO_EXTENSION ) !== 'php' ) {
+				continue;
+			}
+
+			// Extract file name without extension.
+			$file_name = pathinfo( $file, PATHINFO_FILENAME );
+
+			// Read file content (assumes each file returns an array).
+			$content = require "{$directory}/{$file}";
+
+			// Store content using file name (without extension) as key.
+			if ( is_array( $content ) && ! empty( $content ) ) {
+
+				// These props can also be a function.
+				foreach ( array( 'message', 'modal' ) as $prop ) {
+
+					if ( isset( $content[ $prop ] ) && is_callable( $content[ $prop ] ) ) {
+						$content[ $prop ] = call_user_func( $content[ $prop ] );
+					}
+				}
+
+				$contents[ $file_name ] = $content;
+			}
+		}
+
+		// Close the directory handle.
+		closedir( $handle );
+
+		return $contents;
+	}
+
+	/**
+	 * Generates and returns the upgrade medium parameter.
+	 *
+	 * @since 2.23.2
+	 *
+	 * @return string
+	 */
+	public static function get_utm_medium() : string {
+
 		$page_prefix = 'affiliate-wp-';
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : '';
 
@@ -113,42 +214,7 @@ class Non_Pro extends Core {
 			$upgrade_utm_medium .= '-' . $action_value;
 		}
 
-		// phpcs:disable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned -- We do not want to align these.
-		return array_merge_recursive(
-			$js_strings,
-			array(
-				'upgrade' => array(
-					'pro'   => array(
-						'title'   => esc_html__( 'is a PRO Feature', 'affiliate-wp' ),
-						'message' => '<p>' . esc_html(
-							sprintf( /* translators: %s - addon name. */
-								__( 'We\'re sorry, %s is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.', 'affiliate-wp' ),
-								'%name%'
-							)
-						) . '</p>',
-						'doc'     => sprintf(
-							'<a href="%1$s" target="_blank" rel="noopener noreferrer" class="already-purchased">%2$s</a>',
-							esc_url( affwp_utm_link( 'https://affiliatewp.com/docs/upgrade-affiliatewp-license/', $upgrade_utm_medium, 'AP - %name%' ) ),
-							esc_html__( 'Already purchased?', 'affiliate-wp' )
-						),
-						'button'  => esc_html__( 'Upgrade to PRO', 'affiliate-wp' ),
-						'url'     => affwp_admin_upgrade_link( $upgrade_utm_medium ),
-						'modal'   => $this->upgrade_modal_text(),
-					),
-				),
-				'thanks_for_interest' => esc_html__( 'Thanks for your interest in AffiliateWP Pro!', 'affiliate-wp' ),
-				'upgrade_bonus' => wpautop(
-					wp_kses(
-						__( '<strong>Bonus:</strong> AffiliateWP users get <span>60% off</span> regular price, automatically applied at checkout.', 'affiliate-wp' ),
-						array(
-							'strong' => array(),
-							'span'   => array(),
-						)
-					)
-				),
-			)
-		);
-		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
+		return $upgrade_utm_medium;
 	}
 
 	/**
@@ -158,7 +224,7 @@ class Non_Pro extends Core {
 	 *
 	 * @return string
 	 */
-	private function upgrade_modal_text() : string {
+	public static function upgrade_modal_text() : string {
 
 		return '<p>' .
 			sprintf(
