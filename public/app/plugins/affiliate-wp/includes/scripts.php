@@ -95,7 +95,7 @@ function affwp_admin_scripts() {
 	}
 
 	// Enqueue Select2 for Setting Screens.
-	if ( 'affiliate-wp-settings' === affwp_get_current_screen() ) {
+	if ( affwp_is_admin_page() ) {
 		affwp_enqueue_style( 'affwp-select2' );
 		affwp_enqueue_script( 'affwp-select2' );
 	}
@@ -259,8 +259,10 @@ function affwp_enqueue_admin_js() {
 	// Setup Screen page.
 	wp_register_script( 'affiliate-wp-setup-screen', AFFILIATEWP_PLUGIN_URL . "assets/js/setup-screen{$suffix}.js", array( 'jquery' ), AFFILIATEWP_VERSION, true );
 
-	if ( ! affwp_is_admin_page( 'affiliate-wp-creatives' ) ) {
-		return;
+	$screen = get_current_screen();
+
+	if ( ! $screen || 'affiliates_page_affiliate-wp-creatives' !== $screen->id ) {
+		return; // Bail if isn't the Creatives admin page.
 	}
 
 	// Loads the QR Code script to the Creative pages.

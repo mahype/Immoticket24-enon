@@ -39,7 +39,7 @@ affiliatewp.attach(
 		 */
 		settings: {
 			trigger: 'click',
-			placement: 'auto',
+			placement: 'top',
 			hideDelay: 5000,
 			duration: [300, 250],
 			hideOnClick: false,
@@ -94,4 +94,3 @@ affiliatewp.attach(
 
 	}
 );
-

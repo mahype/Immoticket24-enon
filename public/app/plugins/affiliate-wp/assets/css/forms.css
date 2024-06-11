@@ -1,5 +1,6 @@
 :root {
 	--affwp-creative-preview-width: 10rem;
+	--affwp-card-padding: 1.5rem;
 }
 
 .fancybox__backdrop {
@@ -110,13 +111,6 @@ table.affwp-table th {
 	margin-bottom: 20px;
 }
 
-#affwp-custom-link-generator {
-	background: #f9f9f9;
-	padding: 20px;
-	border: 1px solid #eaeaea;
-	margin-bottom: 40px;
-}
-
 #affwp-custom-links-table .affwp-custom-link {
 	cursor: pointer;
 }
@@ -158,7 +152,9 @@ table.affwp-table th {
 	opacity: 1;
 }
 
-button.affwp-tooltip {
+/* Tooltip styling */
+button.affwp-tooltip,
+.affwp-copy-button {
 	appearance: none;
 	-webkit-appearance: none;
 	background-color: transparent;
@@ -168,6 +164,52 @@ button.affwp-tooltip {
 	background-color: unset !important;
 	display: flex;
 }
+
+.affwp-tooltip-url-copy,
+.affwp-tooltip-button-copy {
+	cursor: pointer;
+}
+
+.affwp-tooltip-help {
+	cursor: help;
+}
+/* End tooltip styling */
+
+/* Start default styling for rows with actions (copy/download/etc) */
+.affwp-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 4rem;
+}
+
+.affwp-row:hover .affwp-row-actions {
+	visibility: visible;
+	opacity: 1;
+}
+
+.affwp-row-header {
+	font-size: 0.875rem;
+}
+
+.affwp-row-actions {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.1s ease-out;
+}
+
+.affwp-row-action {
+	color: #666;
+	transition: color 0.1s ease-in;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+/* Start styling for rows with actions (copy/download/etc) */
 
 .affwp-errors,
 .affwp-notice {
@@ -187,8 +229,7 @@ p.affwp-error {
 	margin: 0 !important;
 }
 
-#affwp-affiliate-dashboard h4,
-#affwp-affiliate-dashboard-url-generator h4 {
+#affwp-affiliate-dashboard h4 {
 	margin-bottom: 20px;
 }
 
@@ -742,9 +783,16 @@ table.affwp-table {
 }
 
 #affwp-affiliate-dashboard-creatives .affwp-creatives-filters form,
-#affwp-affiliate-dashboard-creatives .affwp-creatives-filters .affwp-category-dropdown,
-#affwp-affiliate-dashboard-creatives .affwp-creatives-filters .affwp-category-dropdown select,
-#affwp-affiliate-dashboard-creatives .affwp-creatives-filters input[type="submit"] {
+#affwp-affiliate-dashboard-creatives
+	.affwp-creatives-filters
+	.affwp-category-dropdown,
+#affwp-affiliate-dashboard-creatives
+	.affwp-creatives-filters
+	.affwp-category-dropdown
+	select,
+#affwp-affiliate-dashboard-creatives
+	.affwp-creatives-filters
+	input[type="submit"] {
 	margin-bottom: 0;
 }
 
@@ -876,6 +924,47 @@ table.affwp-table {
 	}
 }
 
+/* Card styling */
+.affwp-card {
+	border: 1px solid rgba(17, 24, 39, 0.05);
+	/* border-radius: 0.75rem; */
+	box-shadow:
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+		rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+}
+
+.affwp-card .affwp-card__header * {
+	margin: 0;
+}
+
+.affwp-card__header {
+	padding: 1.5rem;
+}
+
+.affwp-card__content--form {
+	display: grid;
+	gap: 1rem;
+}
+
+.affwp-card__content,
+.affwp-card__footer {
+	padding: var(--affwp-card-padding);
+	padding-top: 0;
+}
+
+/* Compact card styling */
+.affwp-card--compact {
+	border-radius: 0.25rem;
+}
+
+.affwp-card--compact .affwp-card__header,
+.affwp-card--compact .affwp-card__content,
+.affwp-card--compact .affwp-card__footer {
+	padding: 1rem;
+}
+
 @media (max-width: 767px) {
 	#affwp-affiliate-dashboard-campaign-stats
 		.affwp-table-responsive
@@ -948,3 +1037,26 @@ table.affwp-table {
 		display: inline-block;
 	}
 }
+/* Affiliate Area Coupons tab: Coupon URL styling */
+.affwp-coupon-url-section {
+	margin-top: 1rem;
+	max-width: 500px;
+}
+
+.affwp-coupon-url-section:hover .affwp-row-actions {
+	visibility: visible;
+	opacity: 1;
+}
+
+#affwp-affiliate-dashboard-coupons .affwp-tooltip-url-copy {
+	cursor: pointer;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.affwp-copy-coupon-url {
+	display: flex;
+	align-items: center;
+}
+/* End coupons url styling */

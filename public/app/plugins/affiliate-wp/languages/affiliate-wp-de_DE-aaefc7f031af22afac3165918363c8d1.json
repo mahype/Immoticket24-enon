@@ -1,6 +1,6 @@
 {
     "translation-revision-date": "2023-10-02 05:05-0400",
-    "generator": "WP-CLI\/2.9.0",
+    "generator": "WP-CLI\/2.10.0",
     "source": "assets\/js\/editor\/build\/index.js",
     "domain": "messages",
     "locale_data": {
