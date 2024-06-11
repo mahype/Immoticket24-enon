@@ -114,6 +114,11 @@ class Standards_Config extends Config
 				'date'       => '2023-10-16',
 				'start_date' => '2024-05-03',
 			),
+			'enev2024-04' => array(
+				'name'       => __('GEG 2021 (ab 12.06.2024)', 'wpenon'),
+				'date'       => '2023-10-16',
+				'start_date' => '2024-06-12',
+			),
 		);
 	}
 
