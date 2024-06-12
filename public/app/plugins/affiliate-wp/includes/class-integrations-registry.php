@@ -21,9 +21,13 @@
 
 namespace AffWP;
 
+use \AffiliateWP\Integrations\Thrive_Apprentice;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+require_once AFFILIATEWP_PLUGIN_DIR . '/includes/integrations/class-thrive-apprentice.php';
 
 /**
  * Class Integrations_Registry
@@ -317,138 +321,124 @@ class Integrations_Registry extends Utils\Registry {
 	 */
 	public function register_core_integrations() {
 
-		// Contact Form 7
 		$this->add_integration( 'contactform7', array(
 			'name'  => 'Contact Form 7',
 			'class' => '\Affiliate_WP_Contact_Form_7',
 		) );
 
-		// Easy Digital Downloads
 		$this->add_integration( 'edd', array(
 			'name'     => 'Easy Digital Downloads',
 			'class'    => '\Affiliate_WP_EDD',
 			'supports' => array( 'sales_reporting', 'manual_coupons' ),
 		) );
 
-		// Elementor
 		$this->add_integration( 'elementor', array(
 			'name'     => 'Elementor',
 			'class'    => '\Affiliate_WP_Elementor',
 		) );
 
-		// Formidable Pro
 		$this->add_integration( 'formidablepro', array(
 			'name'  => 'Formidable Pro',
 			'class' => '\Affiliate_WP_Formidable_Pro',
 		) );
 
-		// Give
 		$this->add_integration( 'give', array(
 			'name'  => 'Give',
 			'class' => '\Affiliate_WP_Give',
 		) );
 
-		// Gravity Forms
 		$this->add_integration( 'gravityforms', array(
 			'name'  => 'Gravity Forms',
 			'class' => '\Affiliate_WP_Gravity_Forms',
 		) );
 
-		// Learndash
 		$this->add_integration( 'learndash', array(
 			'name'     => 'LearnDash',
 			'class'    => '\Affiliate_WP_LearnDash',
 			'supports' => array( 'sales_reporting' ),
 		) );
 
-		// LifterLMS
 		$this->add_integration( 'lifterlms', array(
 			'name'  => 'LifterLMS',
 			'class' => '\Affiliate_WP_LifterLMS',
 		) );
 
-		// MemberMouse
 		$this->add_integration( 'membermouse', array(
 			'name'  => 'MemberMouse',
 			'class' => '\Affiliate_WP_Membermouse',
 		) );
 
-		// MemberPress
 		$this->add_integration( 'memberpress', array(
 			'name'     => 'MemberPress',
 			'class'    => '\Affiliate_WP_MemberPress',
 			'supports' => array( 'manual_coupons' ),
 		) );
 
-		// Ninja Forms
 		$this->add_integration( 'ninja-forms', array(
 			'name'  => 'Ninja Forms',
 			'class' => '\Affiliate_WP_Ninja_Forms',
 		) );
 
-		// OptimizeMember
 		$this->add_integration( 'optimizemember', array(
 			'name'  => 'OptimizeMember',
 			'class' => '\Affiliate_WP_OptimizeMember',
 		) );
 
-		// PayPal Buttons
 		$this->add_integration( 'paypal', array(
 			'name'  => 'PayPal Buttons',
 			'class' => '\Affiliate_WP_PayPal',
 		) );
 
-		// Paid Memberships Pro
 		$this->add_integration( 'pmp', array(
 			'name'  => 'Paid Memberships Pro',
 			'class' => '\Affiliate_WP_PMP',
 		) );
 
-		// Paid Member Subscriptions
 		$this->add_integration( 'pms', array(
 			'name'  => 'Paid Member Subscriptions',
 			'class' => '\Affiliate_WP_PMS',
 		) );
 
-		// Restrict Content Pro
 		$this->add_integration( 'rcp', array(
 			'name'     => 'Restrict Content Pro',
 			'class'    => '\Affiliate_WP_RCP',
 			'supports' => array( 'sales_reporting' ),
 		) );
 
-		// s2Member
 		$this->add_integration( 's2member', array(
 			'name'  => 's2Member',
 			'class' => '\Affiliate_WP_S2Member',
 		) );
 
-		// Sprout Invoices
 		$this->add_integration( 'sproutinvoices', array(
 			'name'  => 'Sprout Invoices',
 			'class' => '\Affiliate_WP_Sprout_Invoices',
 		) );
 
-		// Stripe (through WP Simple Pay)
+		if ( Thrive_Apprentice::is_plugin_required_version() ) {
+
+			$this->add_integration( 'thrive-apprentice', array(
+				'name'  => 'Thrive Apprentice',
+				'class' => '\AffiliateWP\Integrations\Thrive_Apprentice',
+			) );
+		}
+
 		$this->add_integration( 'stripe', array(
 			'name'  => 'WP Simple Pay',
 			'class' => '\Affiliate_WP_Stripe',
 		) );
 
-		// WooCommerce
 		$this->add_integration( 'woocommerce', array(
 			'name'     => 'WooCommerce',
 			'class'    => '\Affiliate_WP_WooCommerce',
 			'supports' => array( 'sales_reporting', 'manual_coupons', 'dynamic_coupons', 'affiliate_signup_widget' ),
 		) );
 
-		// WP EasyCart
 		$this->add_integration( 'wpeasycart', array(
 			'name'  => 'WP EasyCart',
 			'class' => '\Affiliate_WP_EasyCart',
 		) );
 
-		// WPForms
 		$this->add_integration( 'wpforms', array(
 			'name'  => 'WPForms',
 			'class' => '\Affiliate_WP_WPForms',

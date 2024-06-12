@@ -11,6 +11,7 @@
 
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Spaces before comments OK.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Space above comments ok.
+// phpcs:disable Generic.Arrays.DisallowShortArraySyntax.Found -- Short array syntax is now allowed.
 
 use Automattic\WooCommerce\Utilities\OrderUtil;
 
@@ -41,12 +42,24 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	public $context = 'woocommerce';
 
 	/**
+	 * The Setting Key for Subscription Changes.
+	 *
+	 * @since 2.24.0
+	 *
+	 * @var string
+	 */
+	private string $woo_subscription_switching_setting_key = 'woocommerce_disable_referrals_on_subscription_switching';
+
+
+	/**
 	 * Setup actions and filters
 	 *
 	 * @access  public
 	 * @since   1.0
-	*/
+	 */
 	public function init() {
+
+		add_action( 'woocommerce_loaded', array( $this, 'load_advanced_coupons_integration' ), 10 );
 
 		add_action( 'woocommerce_checkout_update_order_meta', array( $this, 'add_pending_referral' ), 10 );
 
@@ -141,6 +154,587 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		// Integrate AffiliateWP affiliate coupons.
 		add_filter( 'woocommerce_get_shop_coupon_data', array( $this, 'maybe_inject_dynamic_coupon' ), 10, 2 );
 		add_filter( 'woocommerce_coupon_is_valid', array( $this, 'validate_affiliate_coupon' ), 10, 3 );
+
+		// Affiliate link discounts.
+		add_action( 'wp_enqueue_scripts', array( $this, 'notification_scripts' ) );
+		add_action( 'wp_ajax_apply_affiliate_coupon', array( $this, 'apply_affiliate_coupon' ) );
+		add_action( 'wp_ajax_nopriv_apply_affiliate_coupon', array( $this, 'apply_affiliate_coupon' ) );
+		add_action( 'wp_footer', array( $this, 'load_notification_template' ) );
+
+		$this->add_order_affiliate_metabox_hooks();
+		$this->add_subscription_settings_hooks();
+	}
+
+	/**
+	 * Hooks to add the Affiliate Selection Metabox to the Order Screen
+	 *
+	 * @since 2.24.0
+	 */
+	private function add_order_affiliate_metabox_hooks() : void {
+
+		add_action( 'add_meta_boxes', [ $this, 'add_order_affiliate_metabox_to_order_screen' ] );
+		add_action( 'wp_ajax_affiliatewp_order_affiliate', [ $this, 'ajax_order_affiliate_action_response' ] );
+		add_action( 'wp_ajax_affiliatewp_order_affiliate_coupon', [ $this, 'ajax_order_affiliate_coupon_action_response' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_order_affiliate_metabox_scripts' ] );
+		add_action( 'woocommerce_process_shop_order_meta', [ $this, 'save_order_affiliate_metabox' ], 10, 2 );
+	}
+
+	/**
+	 * Save the selected affiliate on the Order Page.
+	 *
+	 * @since 2.24.0
+	 *
+	 * @param int    $order_id The Order ID.
+	 * @param object $order    The order object.
+	 */
+	public function save_order_affiliate_metabox( $order_id, $order ) : void {
+
+		$affiliate_id = filter_input( INPUT_POST, 'affiliatewp-order-affiliate', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( ! is_numeric( $affiliate_id ) || $affiliate_id <= 0 ) {
+			return;
+		}
+
+		// Assign the referral to this affiliate.
+		$this->affiliate_id = (int) $affiliate_id;
+
+		// Make sure affilaites issuing an order for themselves as the affiliate works.
+		add_filter( 'affwp_tracking_is_valid_affiliate', '__return_true' );
+
+		$this->add_pending_referral( $order_id );
+
+		if ( is_a( $order, '\WP_Post' ) ) {
+
+			// No HPOS, update meta the manual way.
+			update_post_meta( $order->ID ?? 0, '_affiliatewp_order_affiliate', $affiliate_id );
+
+			return;
+		}
+
+		// Remember what affiliate was selected for the order (HPOS).
+		$order->update_meta_data( '_affiliatewp_order_affiliate', $affiliate_id );
+	}
+
+	/**
+	 * Enqueue Required Scripts for Selecting the Affiliate on the Order Screen
+	 *
+	 * @since 2.24.0
+	 * @since 2.24.1 Updated to only load scripts on the order screen.
+	 *
+	 * @see https://github.com/awesomemotive/affiliate-wp/issues/5104
+	 */
+	public function enqueue_order_affiliate_metabox_scripts() : void {
+
+		if ( ! $this->is_order_screen() ) {
+			return;
+		}
+
+		wp_enqueue_script( 'jquery-core' );
+		wp_enqueue_script( 'affwp-select2' );
+	}
+
+	/**
+	 * Affiliate Selection Metabox HTML
+	 *
+	 * @since 2.24.0
+	 */
+	public function add_order_affiliate_metabox_to_order_screen() : void {
+
+		// HPOS way.
+		$order_id = filter_input( INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( ! $order_id ) {
+
+			// No HPOS.
+			$order_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		}
+
+		$order = wc_get_order( $order_id );
+
+		// Get the Affiliate ID from the Order.
+		$affiliate_id = ( false !== $order ) && is_object( $order )
+			? $order->get_meta( '_affiliatewp_order_affiliate', true )
+			: 0;
+
+		// Sanitize the database value.
+		$affiliate_id = is_numeric( $affiliate_id ) && intval( $affiliate_id ) >= 1
+			? intval( $affiliate_id )
+			: 0;
+
+		add_meta_box(
+			'affiliatewp-order-affiliate',
+			__( 'AffiliateWP', 'woocommerce' ),
+
+			// Render HTML.
+			function() use ( $affiliate_id ) {
+
+				$ajax_url = admin_url( 'admin-ajax.php' );
+
+				?>
+
+				<label for="affiliatewp-order-affiliate">
+					<?php esc_html_e( 'Affiliate Commission', 'affiliate-wp' ); ?>
+				</label>
+
+				<p>
+					<select
+						name="affiliatewp-order-affiliate"
+						id="affiliatewp-order-affiliate"
+						data-placeholder="<?php esc_html_e( 'None', 'affiliate-wp' ); ?>"
+						class="hidden"
+						<?php echo esc_attr( $affiliate_id >= 1 ? 'disabled' : '' ); ?>
+					>
+
+						<!--
+							This is populated via an AJAX request if an Affiliate is not saved for the order
+							and the select is not disabled.
+						-->
+
+						<?php if ( $affiliate_id >= 1 ) : // Show the affiliate saved on the order. ?>
+							<option value="<?php echo absint( $affiliate_id ); ?>" selected="selected"><?php echo esc_html( $this->get_affiliate_name_and_email( $affiliate_id ) ); ?></option>
+						<?php endif; ?>
+					</select>
+				</p>
+
+				<?php if ( $affiliate_id >= 1 ) : ?>
+					<p class="description">
+						<?php esc_html_e( 'This affiliate was awarded a commission when this order was created. Currently this cannot be changed.', 'affiliate-wp' ); ?>
+					</p>
+				<?php else : ?>
+					<p class="description">
+						<?php esc_html_e( 'Select the affiliate who should earn a commission when this order is created.', 'affiliate-wp' ); ?>
+					</p>
+					<p class="description">
+						<?php esc_html_e( 'Or, apply a coupon that is assigned to an affiliate to automatically select them.', 'affiliate-wp' ); ?>
+					</p>
+				<?php endif; ?>
+
+				<script type="text/javascript">
+
+					/**
+					 * Setup Select2 JavaScript
+					 *
+					 * No need to setup as a new JavaScript file for a small snippet,
+					 * so added here to setup the above <select> as a Select2 element
+					 * that uses AJAX to get the Affiliates to select.
+					 *
+					 * It also adds a small script that checks for new coupons to be applied,
+					 * gets the associated affiliate, and selects the affiliate automatically.
+					 *
+					 * @since 2.24.0
+					 */
+					( function() {
+
+						if ( false === window.jQuery || false ) {
+							return;
+						}
+
+						$affiliateSelector = jQuery( 'select[name="affiliatewp-order-affiliate"]' );
+
+						// Detect the Affiliate for first applied coupon.
+						jQuery( 'body' ).on( 'DOMSubtreeModified', '.wc-order-data-row', function() {
+
+							if ( $affiliateSelector.val() ) {
+								return; // An Affiliate is already selected.
+							}
+
+							const couponsEl = jQuery( '.wc-used-coupons .wc_coupon_list' );
+
+							if ( 'object' !== typeof couponsEl ) {
+								return;
+							}
+
+							// Each coupon element.
+							jQuery( jQuery( 'li a.tips span', couponsEl ) ).each( function( i, couponSpan ) {
+
+								// Ask PHP what Affiliate is assigned to the coupon code, if any.
+								jQuery.ajax( {
+
+									method: 'POST',
+									url: '<?php echo esc_url( $ajax_url ); ?>',
+
+									// Send this data.
+									data: {
+										action: 'affiliatewp_order_affiliate_coupon',
+										coupon: jQuery( couponSpan ).text(),
+									},
+
+									// Success.
+									success: function( response ) {
+
+										if ( false === response.success ) {
+											return;
+										}
+
+										if ( false === response.data.text || false ) {
+											return;
+										}
+
+										// Add the Affiliate to the Select2 and select it.
+										$affiliateSelector
+											.append(
+
+												new Option(
+													response.data.text,
+													response.data.id,
+													true,
+													true
+												)
+											)
+											.trigger( 'change' );
+									},
+								} );
+							} );
+						} );
+
+						// Make selecting the affiliate easy over AJAX.
+						$affiliateSelector
+							.select2(
+								{
+									allowClear: true,
+									width: '100%',
+									ajax: {
+										url: '<?php echo esc_url( $ajax_url ); ?>',
+										dataType: 'json',
+
+										// Re-format the data to include action and nonce.
+										data: function( params ) {
+
+											return {
+												term: params.term,
+												page: params.page || 1,
+												action: 'affiliatewp_order_affiliate',
+												nonce: '<?php echo esc_attr( wp_create_nonce( 'affiliatewp_order_affiliate' ) ); ?>',
+											};
+										},
+
+										// Process the results sent by wp_send_json_error() / wp_send_json_success().
+										processResults: function( response, params ) {
+
+											return {
+												results: response.data.results,
+												pagination: {
+													more: response.data.pagination.more,
+												}
+											}
+										}
+									},
+								}
+							);
+					} () );
+				</script>
+
+				<?php
+			},
+			\Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled()
+				? 'woocommerce_page_wc-orders'
+				: 'shop_order',
+			'side',
+			'high'
+		);
+	}
+
+	/**
+	 * Get the Affiliates Name - Email.
+	 *
+	 * @since 2.24.0
+	 *
+	 * @param int $affiliate_id The Affiliate's ID.
+	 *
+	 * @return string
+	 */
+	private function get_affiliate_name_and_email( int $affiliate_id ) : string {
+
+		$name  = affiliate_wp()->affiliates->get_affiliate_name( $affiliate_id );
+		$email = affwp_get_affiliate_email( $affiliate_id );
+
+		return "{$name} - {$email}";
+	}
+
+	/**
+	 * AJAX Response for Selecting the Affiliate (Select2).
+	 *
+	 * @since 2.24.0
+	 */
+	public function ajax_order_affiliate_action_response() : void {
+
+		check_admin_referer( 'affiliatewp_order_affiliate', 'nonce' );
+
+		$per_page = 20;
+
+		$search = strval( filter_input( INPUT_GET, 'term', FILTER_DEFAULT ) ?? '' );
+
+		$affiliates = affiliate_wp()->affiliates->get_affiliates(
+			array_merge(
+				[
+					'number'   => $per_page,
+					'offset'   => ( intval( filter_input( INPUT_GET, 'page', FILTER_DEFAULT ) ?? 1 ) * $per_page ) - $per_page,
+					'status'   => 'active',
+					'order_by' => 'name',
+					'fields'   => 'ids',
+				],
+				empty( $search ) ? [] : [
+					'search' => $search,
+				]
+			)
+		);
+
+		if ( ! is_array( $affiliates ) ) {
+
+			// Nothing found...
+			wp_send_json_error(
+				[
+					'results'    => [],
+					'pagination' => [
+						'more' => false,
+					],
+				]
+			);
+
+			exit;
+		}
+
+		$results = array_map(
+			function( $affiliate_id ) {
+
+				// Select2 Expected Format.
+				return [
+					'id'   => $affiliate_id,
+					'text' => $this->get_affiliate_name_and_email( $affiliate_id ),
+				];
+			},
+			$affiliates,
+		);
+
+		// Sort Alphabetically.
+		usort(
+			$results,
+			function( $a, $b ) {
+				return strcasecmp(
+					$a['text'],
+					$b['text']
+				);
+			}
+		);
+
+		wp_send_json_success(
+			[
+				'results'    => $results,
+				'pagination' => [
+					'more' => count( $results ) >= $per_page,
+				],
+			]
+		);
+
+		exit;
+	}
+
+	/**
+	 * Ajax Response for getting the affiliate associated with a coupon.
+	 *
+	 * @since 2.24.0
+	 */
+	public function ajax_order_affiliate_coupon_action_response() {
+
+		$coupon_code = filter_input( INPUT_POST, 'coupon', FILTER_DEFAULT );
+
+		$coupon_id = wc_get_coupon_id_by_code( $coupon_code );
+
+		if ( $coupon_id <= 0 ) {
+
+			// Translators: %s is the coupon code.
+			wp_send_json_error( sprintf( __( 'No coupon for code: %s', 'affiliate-wp' ), $coupon_code ) );
+			exit;
+		}
+
+		// This is where the affiliate assigned to the coupon is stored.
+		$affwp_discount_affiliate_id = get_post_meta( $coupon_id, 'affwp_discount_affiliate', true );
+
+		if ( false === affwp_get_affiliate( $affwp_discount_affiliate_id ) ) {
+
+			// Translators: %s is the coupon code.
+			wp_send_json_error( sprintf( __( 'No affiliate for coupon: %s', 'affiliate-wp' ), $coupon_code ) );
+
+			exit;
+		}
+
+		wp_send_json_success(
+			[
+				'id'   => $affwp_discount_affiliate_id,
+				'text' => $this->get_affiliate_name_and_email( $affwp_discount_affiliate_id ),
+			]
+		);
+
+		exit;
+	}
+
+	/**
+	 * Hooks for Subscription Settings.
+	 *
+	 * @since 2.24.0
+	 */
+	private function add_subscription_settings_hooks() : void {
+
+		if ( ! class_exists( 'WC_Subscriptions' ) ) {
+			return;
+		}
+
+		add_filter( 'affwp_settings', array( $this, 'add_subscription_settings' ) );
+	}
+
+	/**
+	 * Add a Setting for Disabling Referrals on Subscription Upgrades
+	 *
+	 * @param array $settings AffiliateWP Settings.
+	 *
+	 * @since 2.24.0
+	 */
+	public function add_subscription_settings( array $settings ) : array {
+
+		return array_merge(
+			$settings,
+			array(
+				'integrations' => array_merge(
+
+					// Keep our current settings.
+					$settings[ 'integrations' ],
+
+					// Add our setting.
+					array(
+						$this->woo_subscription_switching_setting_key => array(
+							'name' => __( 'Disable Referrals on Subscription Switch', 'affiliate-wp' ),
+							'desc' => __( 'Prevent referrals from being created when customers switch subscriptions using Woo Subscriptions.', 'affiliate-wp' ),
+							'type' => 'checkbox',
+						),
+					),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Loads the notification template file in the footer.
+	 *
+	 * @since 2.23.0
+	 *
+	 * @return void
+	 */
+	public function load_notification_template() : void {
+
+		// Check if the feature is enabled in settings.
+		if ( ! affiliate_wp()->settings->get( 'affiliate_link_discounts' ) ) {
+			return;
+		}
+
+		// Start output buffering to capture the included file's output.
+		ob_start();
+
+		// Include the template file.
+		include AFFILIATEWP_PLUGIN_DIR . 'includes/frontend-notifications/template/index.php';
+
+		// Get the contents of the output buffer.
+		$widget_html = ob_get_clean();
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output the captured HTML (no escaping necessary).
+		echo $widget_html;
+	}
+
+	/**
+	 * Load notification scripts
+	 *
+	 * @since 2.23.0
+	 *
+	 * @return void
+	 */
+	public function notification_scripts() : void {
+
+		// Return if feature is not enabled.
+		if ( ! affiliate_wp()->settings->get( 'affiliate_link_discounts' ) ) {
+			return;
+		}
+
+		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+		wp_enqueue_script(
+			'affiliatewp-frontend-notifications',
+			AFFILIATEWP_PLUGIN_URL . 'assets/js/affiliatewp-frontend-notifications' . $suffix . '.js',
+			array(),
+			AFFILIATEWP_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'affiliatewp-frontend-notifications',
+			'affiliateWPFENotifications',
+			array(
+				'referralVar' => affiliate_wp()->tracking->get_referral_var(),
+				'cssUrl'      => AFFILIATEWP_PLUGIN_URL . 'assets/css/affiliatewp-frontend-notifications' . $suffix . '.css',
+				'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+				'darkMode'    => affiliate_wp()->settings->get( 'affiliate_link_discounts_notification_theme', 'auto' ),
+			)
+		);
+	}
+
+	/**
+	 * Apply affiliate coupon via AJAX.
+	 *
+	 * This method checks for an affiliate-specific coupon and attempts to apply it.
+	 * If the affiliate is invalid, or if no unique coupon is associated with the affiliate,
+	 * the method will respond indicating that the coupon could not be applied.
+	 *
+	 * @since 2.23.0
+	 *
+	 * @return void
+	 */
+	public function apply_affiliate_coupon() : void {
+
+		$affiliate = affwp_get_affiliate( isset( $_REQUEST['affiliate'] ) ? sanitize_text_field( $_REQUEST['affiliate'] ) : '' );
+
+		$coupon_not_applied = array( 'couponApplied' => false );
+
+		// Return if the affiliate is invalid.
+		if ( ! affiliate_wp()->tracking->is_valid_affiliate( $affiliate->affiliate_id ) ) {
+
+			wp_send_json( $coupon_not_applied );
+				return;
+		}
+
+		// Return if already tracking another affiliate but only if the affiliate is not the same.
+		if ( affiliate_wp()->tracking->was_referred() && affiliate_wp()->tracking->get_affiliate_id() !== $affiliate->affiliate_id ) {
+
+			wp_send_json( $coupon_not_applied );
+				return;
+		}
+
+		// Set customer session cookie.
+		WC()->session->set_customer_session_cookie( true );
+
+		// See if the affiliate has a dynamic coupon.
+		$coupon = affwp_get_affiliate_coupon( $affiliate, '' );
+
+		if ( ! is_wp_error( $coupon ) && isset( $coupon->coupon_code ) && $coupon->coupon_code ) {
+
+			$coupon_code = $coupon->coupon_code;
+
+			if ( WC()->cart && ! WC()->cart->has_discount( $coupon_code ) ) {
+
+				$discounts = new WC_Discounts( WC()->cart );
+
+				$valid_response = $discounts->is_coupon_valid( new WC_Coupon( $coupon_code ) );
+
+				if ( ! is_wp_error( $valid_response ) ) {
+
+					// Apply the coupon.
+					WC()->cart->apply_coupon( $coupon_code );
+
+					// Coupon was applied.
+					wp_send_json( array( 'couponApplied' => true ) );
+						return;
+				}
+			}
+		}
+
+		wp_send_json( $coupon_not_applied );
 	}
 
 	/**
@@ -196,6 +790,52 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Is this a Referral?
+	 *
+	 * This is normally up to tracking to decide, but on the order
+	 * screen in WooCommerce there is no tracking. So this checks to see if
+	 * we are creating a referral via the order screen, otherwise we fallback to
+	 * tracking.
+	 *
+	 * @since 2.24.0
+	 *
+	 * @return bool True if the affiliate is selected on the order screen,
+	 *              or if tracking detects an affiliate.
+	 */
+	public function was_referred() {
+
+		// If we are on the order screen and an affiliate is assigned, make the referral.
+		return $this->is_order_screen_and_assigned_affiliate() ||
+
+			// Otherwise, refer to tracking.
+			parent::was_referred();
+	}
+
+	/**
+	 * Determines whether to block referrals for subscription switches.
+	 * If the meta key `_subscription_switch` exists and has a value, the order
+	 * is related to a subscription already.
+	 *
+	 * @since 2.24.0
+	 * @param int $order_id The order ID.
+	 * @return bool True if the order is a subscription switch, false otherwise.
+	 */
+	public function is_subscription_switch( $order_id ) : bool {
+		$order = wc_get_order( $order_id );
+
+		// Check if the order contains a subscription.
+		if ( ! wcs_order_contains_subscription( $order ) ) {
+			return false;
+		}
+
+		if ( $order && ! empty( $order->get_meta( '_subscription_switch', true ) ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Store a pending referral when a new order is created
 	 *
 	 * @access  public
@@ -248,13 +888,26 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 				'is_coupon_referral' => $is_coupon_referral,
 			)
 		);
+
 		if ( ! $referral_id ) {
 			$this->log( 'Draft referral creation failed.' );
 			return false;
 		}
 
+		$disable_subscription_switch = affiliate_wp()->settings->get( $this->woo_subscription_switching_setting_key, false ) ? true : false;
+
+		// Mark referral as failed if the customer is switching subscriptions.
+		if ( $disable_subscription_switch && $this->is_subscription_switch( $order_id ) ) {
+
+			$this->log( 'Draft referral rejected because referrals for subscription switches are disabled.' );
+			$this->mark_referral_failed( $referral_id );
+
+			return false;
+		}
+
 		// Customers cannot refer themselves.
 		if ( $this->is_affiliate_email( $this->email, $affiliate_id ) ) {
+
 			$this->log( 'Draft referral rejected because affiliate\'s own account was used.' );
 			$this->mark_referral_failed( $referral_id );
 
@@ -263,18 +916,23 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		// If an existing referral exists and it is paid or unpaid exit.
 		if ( ! is_wp_error( $existing ) && ( 'paid' === $existing->status || 'unpaid' === $existing->status ) ) {
+
 			$this->log( 'Draft referral rejected because Completed Referral was already created for this reference.' );
 			$this->mark_referral_failed( $referral_id );
+
 			return false; // Completed Referral already created for this reference.
 		}
 
-		$cart_discount = true === version_compare( WC()->version, '3.0.0', '>=' ) 
-			? $this->order->get_shipping_total() 
+		$cart_discount = true === version_compare( WC()->version, '3.0.0', '>=' )
+			? $this->order->get_shipping_total()
 			: $this->order->get_total_shipping();
 
+		$cart_shipping = 0;
+
+		$order_shipping_tax = $this->order->get_shipping_tax();
 
 		if ( ! affiliate_wp()->settings->get( 'exclude_tax' ) ) {
-			$cart_shipping += $this->order->get_shipping_tax();
+			$cart_shipping += is_numeric( $order_shipping_tax ) ? $order_shipping_tax : 0;
 		}
 
 		if ( affwp_is_per_order_rate( $affiliate_id ) ) {
@@ -399,34 +1057,58 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 * Adds a note to an order if an associated referral's amount is updated.
 	 *
 	 * @since 2.1.9
+	 * @since 2.21.1 Refactored to accept empty referral amounts.
 	 *
 	 * @param \AffWP\Referral $updated_referral Updated referral object.
 	 * @param \AffWP\Referral $referral         Old referral object.
-	 * @param bool            $update           Whether the referral was successfully updated.
+	 * @param bool            $updated          Whether the referral was successfully updated.
 	 */
 	public function updated_referral_note( $updated_referral, $referral, $updated ) {
 
-		if ( $updated && 'woocommerce' === $updated_referral->context && ! empty( $updated_referral->reference ) ) {
-
-			$order = wc_get_order( $updated_referral->reference );
-
-			if ( false !== $order && $updated_referral->amount != $referral->amount ) {
-
-				$amount        = affwp_currency_filter( affwp_format_amount( $updated_referral->amount ) );
-				$name          = affiliate_wp()->affiliates->get_affiliate_name( $updated_referral->affiliate_id );
-				$referral_link = affwp_admin_link( 'referrals', esc_html( '#' . $updated_referral->ID ), array( 'action' => 'edit_referral', 'referral_id' => $updated_referral->ID ) );
-
-				/* translators: 1: Referral link, 2: Amount, 3: Affiliate Name */
-				$order->add_order_note( sprintf( __( 'Referral %1$s updated. Amount %2$s recorded for %3$s', 'affiliate-wp' ),
-					$referral_link,
-					$amount,
-					$name
-				) );
-
-			}
-
+		if ( ! ( $updated && 'woocommerce' === $updated_referral->context && ! empty( $updated_referral->reference ) ) ) {
+			return; // Not updated and not in woocommerce context.
 		}
 
+		$order = wc_get_order( $updated_referral->reference );
+
+		if ( false === $order ) {
+			return; // Not a valid order.
+		}
+
+		if (
+			( 0 === (int) $updated_referral->amount ) ||
+			(string) $updated_referral->amount !== (string) $referral->amount
+		) {
+
+			$order->add_order_note(
+				/**
+				 * Allows to change the order note content before adding it.
+				 *
+				 * @since 2.23.2
+				 *
+				 * @param string $note The original order note.
+				 * @param int    $referral_id The referral ID.
+				 */
+				apply_filters(
+					'affiliatewp_woocommerce_order_note',
+					sprintf(
+						/* Translators: %1$s is the referral URL, %2$s is the formatted money amount, and %3$s is the affiliate's name. */
+						__( 'Referral %1$s updated. Amount %2$s recorded for %3$s', 'affiliate-wp' ),
+						affwp_admin_link(
+							'referrals',
+							esc_html( "#{$updated_referral->ID}" ),
+							array(
+								'action'      => 'edit_referral',
+								'referral_id' => $updated_referral->ID,
+							)
+						),
+						affwp_currency_filter( affwp_format_amount( $updated_referral->amount ?? 0 ) ),
+						affiliate_wp()->affiliates->get_affiliate_name( $updated_referral->affiliate_id )
+					),
+					$updated_referral->ID
+				)
+			);
+		}
 	}
 
 	/**
@@ -588,35 +1270,53 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	}
 
 	/**
-	 * Revoke the referral associated with the given order ID
+	 * Revoke the referral associated with the given order ID.
+	 *
+	 * @param mixed $order_id The Order ID (may be object).
 	 *
 	 * @since 2.1
 	 * @since 2.20.0 Added support for HPOS.
-	*/
+	 * @since 2.24.0 Stregthened HPOS support.
+	 */
 	public function revoke_referral( $order_id = 0 ) {
+		$this->reject_referral( $this->get_hpos_order_id( $order_id ), true );
+	}
 
-		// Bail if not a shop order.
-		if ( true === $this->is_hpos_enabled() ) {
+	/**
+	 * Get Order ID for HPOS.
+	 *
+	 * The reason this method exists is because depending on if HPOS is on or off we could
+	 * get very different objects. This method helps determine the Order ID from the given
+	 * input (`$order_id`).
+	 *
+	 * @param mixed $order_id The Order ID (may be object).
+	 *
+	 * @since 2.24.0
+	 *
+	 * @return integer The ID, 0 if none.
+	 *
+	 * @see https://github.com/awesomemotive/affiliate-wp/issues/5080
+	 */
+	private function get_hpos_order_id( $order_id ) : int {
 
-			$order_id = is_object( $order_id ) ? $order_id->get_id() : $order_id;
-
-			if ( 'shop_order' !== OrderUtil::get_order_type( $order_id ) ) {
-				return;
-			}
-
-		} else {
-
-			$order_id = is_a( $order_id, 'WP_Post' ) ? $order_id->ID : $order_id;
-
-			// Without HPOS, get the post type.
-			if ( 'shop_order' !== get_post_type( $order_id ) ) {
-				return;
-			}
-
+		if ( is_int( $order_id ) && 'shop_order' === OrderUtil::get_order_type( $order_id ) ) {
+			return $order_id; // Already an Integer (HPOS), use that.
 		}
 
-		$this->reject_referral( $order_id, true );
+		// WP_Post Object (Legacy).
+		if ( is_a( $order_id, '\WP_Post' ) && 'shop_order' === get_post_type( $order_id ) ) {
+			return $order_id->ID ?? 0; // The ID from a WordPress Post Object (Legacy) Order.
+		}
 
+		// WC_Order Object.
+		if ( is_a( $order_id, '\WC_Order' ) && 'shop_order' === OrderUtil::get_order_type( $order_id ) ) {
+
+			return method_exists( $order_id, 'get_id' )
+				? $order_id->get_id() ?? 0 // The ID from \WC_Order Object.
+				: 0; // Could not use get_id() to get the Order ID, unknown way to get it from this object.
+		}
+
+		return 0; // Not Integer (HPOS), a WP_Post (Legacy), or Order Object (Rare).
 	}
 
 	/**
@@ -756,12 +1456,47 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	}
 
 	/**
+	 * Are we on the Order Screen & Do we have an assigned affiliate?
+	 *
+	 * @since 2.24.0
+	 *
+	 * @return bool
+	 */
+	private function is_order_screen_and_assigned_affiliate() : bool {
+
+		// We are in the admin and on the WooCommerce order screen.
+		return $this->is_order_screen() &&
+
+			// And `self::$affiliate_id` is set to the affiliate we want to generate a referral for (and they exist).
+			false !== affwp_get_affiliate( $this->affiliate_id );
+	}
+
+	/**
+	 * Are we in the Admin and on the Order Screen?
+	 *
+	 * @since 2.24.1
+	 *
+	 * @return boolean
+	 */
+	private function is_order_screen() : bool {
+		return is_admin() && filter_input( INPUT_GET, 'page', FILTER_DEFAULT ) === 'wc-orders';
+	}
+
+	/**
 	 * Retrieve the affiliate ID for the coupon used, if any
 	 *
 	 * @access  public
 	 * @since   1.1
+	 *
+	 * @return int The Coupon's Affiliate ID.
 	*/
 	private function get_coupon_affiliate_id() {
+
+		if ( $this->is_order_screen_and_assigned_affiliate() ) {
+
+			// On the order screen we want to respect the assigned affiliate_id.
+			return $this->affiliate_id;
+		}
 
 		if ( version_compare( WC()->version, '3.7.0', '>=' ) ) {
 			$coupons = $this->order->get_coupon_codes();
@@ -2022,26 +2757,35 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		$coupon = affwp_get_coupon_by( 'coupon_code', $code );
 
-		if ( ! is_wp_error( $coupon ) ) {
+		if ( is_wp_error( $coupon ) ) {
+			return $manual_coupon; // It is manual coupon.
+		}
 
-			$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
+		$manual_coupon = array();
 
-			if ( 'publish' === get_post_status( $template_id ) ) {
+		$template_id = affiliate_wp()->settings->get( 'coupon_template_woocommerce', 0 );
 
-				$manual_coupon = false;
+		if ( 'publish' === get_post_status( $template_id ) ) {
 
-				$template = $this->get_coupon_template( $template_id );
+			$template = $this->get_coupon_template( $template_id );
 
-				$fields = array(
-					'amount', 'discount_type', 'excluded_product_ids', 'excluded_product_categories',
-					'product_ids', 'individual_use', 'free_shipping', 'exclude_sale_items', 'date_expires'
-				);
+			foreach ( array(
+				'amount',
+				'date_expires',
+				'discount_type',
+				'exclude_sale_items',
+				'excluded_product_categories',
+				'excluded_product_ids',
+				'free_shipping',
+				'individual_use',
+				'product_ids',
+			) as $field ) {
 
-				foreach ( $fields as $field ) {
-					if ( method_exists( $template, "get_{$field}" ) ) {
-						$manual_coupon[ $field ] = call_user_func( array( $template, "get_{$field}" ) );
-					}
+				if ( ! method_exists( $template, "get_{$field}" ) ) {
+					continue;
 				}
+
+				$manual_coupon[ $field ] = call_user_func( array( $template, "get_{$field}" ) );
 			}
 		}
 
@@ -2053,7 +2797,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 *
 	 * @since 2.6
 	 *
-	 * @param bool         $is_valid   True if coupon is valid, false otherwise.
+	 * @param bool          $is_valid  True if coupon is valid, false otherwise.
 	 * @param \WC_Coupon    $coupon    WooCommerce Coupon object.
 	 * @param \WC_Discounts $discounts WooCommerce Discounts object.
 	 * @return bool True if the coupon can be applied to the cart, otherwise false.
@@ -2084,9 +2828,12 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 			if ( $affiliate_id && affiliate_wp()->tracking->is_valid_affiliate( $affiliate_id ) ) {
 
-				add_filter( 'woocommerce_coupon_error', function() {
-					return __( 'This coupon can&#8217;t be used at the moment', 'affiliate-wp' );
-				} );
+				add_filter(
+					'woocommerce_coupon_error',
+					function() {
+						return __( 'This coupon can&#8217;t be used at the moment', 'affiliate-wp' );
+					}
+				);
 
 				return false;
 			}
@@ -2113,6 +2860,15 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		add_filter( 'woocommerce_get_shop_coupon_data', array( $this, 'maybe_inject_dynamic_coupon' ), 10, 2 );
 
 		return $coupon;
+	}
+
+	/**
+	 * Load the Advanced Coupons integration.
+	 *
+	 * @since 2.21.0
+	 */
+	public function load_advanced_coupons_integration() {
+		include_once( 'class-advanced-coupons.php' );
 	}
 }
 

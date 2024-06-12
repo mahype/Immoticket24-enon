@@ -4,12 +4,12 @@
   Plugin URI: https://underconstructionpage.com/
   Description: Hide your site behind a great looking under construction page while you do maintenance work.
   Author: Web factory Ltd
-  Version: 5.74
+  Version: 5.75
   Author URI: http://www.webfactoryltd.com/
   Text Domain: under-construction-page
   Domain Path: lang
 
-  Copyright 2015 - 2023  Web factory Ltd  (email: ucp@webfactoryltd.com)
+  Copyright 2015 - 2024  Web factory Ltd  (email: ucp@webfactoryltd.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
@@ -156,6 +156,7 @@ class UCP
             add_action('wp_ajax_ucp_editor_unsplash_download', array('UCP_templates', 'ucp_editor_unsplash_download'));
             add_action('load-posts_page_ucp_editor', array('UCP_templates', 'ucp_editor_clean_admin_page'));
             add_action('wp_ajax_ucp_submit_form', array('UCP_templates', 'ucp_submit_form'));
+            
             add_action('wp_ajax_nopriv_ucp_submit_form', array('UCP_templates', 'ucp_submit_form'));
             add_action('admin_action_ucp_activate_template', array('UCP_templates', 'activate_template'));
             add_action('admin_action_ucp_delete_template', array('UCP_templates', 'delete_template'));

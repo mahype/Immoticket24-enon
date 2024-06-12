@@ -132,25 +132,37 @@ function affwp_do_settings_fields( string $page, string $section ) {
 		$section_classes = array(
 			'affwp-section',
 			'affwp-accordion-item',
-			$tab_section['class'],
+			$tab_section['class'] ?? '',
 		);
+
+		$template = $tab_section['template'] ?? '';
+
+		if ( empty( $template ) ) {
+			continue; // No template.
+		}
+
+		$template_func = "affiliatewp_section_template_{$template}";
+
+		if ( ! is_callable( $template_func ) ) {
+			continue;
+		}
 
 		?>
 
 		<div
 			class="<?php echo esc_attr( trim( implode( ' ', $section_classes ) ) ); ?>"
 			id="<?php echo esc_attr( str_replace( '_', '-', $tab_handle ) ); ?>-settings"
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped.
-			echo affiliatewp_tag_attr( 'data-visibility', $tab_section['visibility'] );
-			?>
+			<?php echo affiliatewp_tag_attr( 'data-visibility', $tab_section['visibility'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content already escaped. ?>
 		>
 
 			<div class="affwp-section-title affwp-accordion-title">
 				<h2>
-					<?php echo esc_html( $tab_section['title'] ); ?>
+					<span class="affwp-accordion-heading"><?php echo esc_html( trim( $tab_section['title'] ) ); ?></span>
 					<?php if ( $tab_section['is_pro'] && ! affwp_can_access_pro_features() ) : ?>
 						<span class="affwp-settings-label-pro">Pro</span>
+					<?php endif; ?>
+					<?php if ( ! empty( $tab_section['tooltip'] ) ) : ?>
+						<?php affiliatewp_tooltip( $tab_section['tooltip'] ); ?>
 					<?php endif; ?>
 				</h2>
 				<?php if ( ! empty( $tab_section['help_text'] ) ) : ?>
@@ -161,17 +173,18 @@ function affwp_do_settings_fields( string $page, string $section ) {
 			<div class="affwp-accordion-content">
 
 				<?php
+
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- No need to escape.
 				echo call_user_func(
-					"affiliatewp_section_template_{$tab_section['template']}",
+					$template_func,
 					$page,
 					$section,
 					$tab_section['fields']
 				);
+
 				?>
 
 			</div>
-
 		</div>
 
 	<?php endforeach; ?>
@@ -276,9 +289,16 @@ function affiliatewp_section_template_table( string $page, string $section, arra
 						<?php if ( $show_label_pro_badge ) : ?>
 							<span class="affwp-settings-label-pro">Pro</span>
 						<?php endif; ?>
+
+						<?php if ( ! empty( $field['args']['tooltip'] ) && is_string( $field['args']['tooltip'] ) ) : ?>
+							<?php affiliatewp_tooltip( $field['args']['tooltip'] ); ?>
+						<?php endif; ?>
+
 					</div>
 				</th>
-				<td><?php call_user_func( $field['callback'], $field['args'] ); ?></td>
+				<?php if ( is_callable( $field['callback'] ) ) : ?>
+					<td><?php call_user_func( $field['callback'], $field['args'] ); ?></td>
+				<?php endif; ?>
 			</tr>
 
 		<?php endforeach; ?>
