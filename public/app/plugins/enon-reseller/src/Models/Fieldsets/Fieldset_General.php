@@ -100,15 +100,6 @@ class Fieldset_General implements Fieldset {
 				'instructions' => __( 'Die Email-Adresse der Kontaktperson. Alle Emails aus dem System gehen an diese Adresse.', 'enon' ),
 				'required'     => 0,
 			),
-            
-			array(
-				'key'          => 'field_company_logo',
-				'label'        => __( 'Unternehmens Logo', 'enon' ),
-				'name'         => 'company_logo',
-				'type'         => 'image',
-				'instructions' => __( 'Unternehmenslogo für die Mail an den Endkunden.', 'enon' ),
-				'required'     => 0,
-			),
 			array(
 				'key'           => 'field_email_settings',
 				'label'         => __( 'Optionen für ausgehende Emails', 'enon' ),

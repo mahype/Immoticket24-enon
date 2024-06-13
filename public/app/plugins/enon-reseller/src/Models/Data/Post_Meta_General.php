@@ -131,17 +131,6 @@ class Post_Meta_General extends Post_Meta {
 	}
 
 	/**
-	 * Get company logo.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string URL of the company logo.
-	 */
-	public function get_company_logo() {
-		return $this->get( 'company_logo' );
-	}
-
-	/**
 	 * Get price for bedarfsausweis.
 	 */
 	public function get_price_bw_reseller() {
