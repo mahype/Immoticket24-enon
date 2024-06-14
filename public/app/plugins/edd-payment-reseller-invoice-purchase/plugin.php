@@ -48,6 +48,9 @@ function edd_kauf_auf_rechnung_register_gateway( $gateways ) {
 	$gateways['kauf_auf_rechnung'] = array(
 		'admin_label'    => 'Kauf auf Rechnung',
 		'checkout_label' => 'Kauf auf Rechnung',
+        'supports'       => array(
+            'buy_now'
+        )
 	);
 
 	return $gateways;
