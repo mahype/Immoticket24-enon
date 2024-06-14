@@ -409,6 +409,7 @@ class Emails {
 	public function _maybeSendOrderConfirmationEmail( $payment_id, $payment_data = array() ) {
 		$gateway  = edd_get_payment_gateway( $payment_id );
 		$supports = edd_get_gateway_supports( $gateway );
+        
 		if ( in_array( 'manual_handling', $supports ) ) {
 			$this->send_bill_email( $payment_id );
 		}

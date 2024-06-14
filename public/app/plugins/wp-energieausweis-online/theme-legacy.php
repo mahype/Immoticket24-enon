@@ -233,6 +233,7 @@ function immoticketenergieausweis_payment_icons()
   </script>
   <p class="lead"><strong><?php _e('Bitte wählen Sie die Zahlungsmethode aus, mit der Sie Ihre Bestellung bezahlen möchten!', 'immoticketenergieausweis'); ?></strong></p>
   <div class="immoticket24-payment-buttons">
+    <?php if ( ! edd_is_reseller_redirect_bill() ) { ?>
     <button type="button" id="it24-paypal-button" class="btn btn-default">
       <span class="sr-only"><?php _e('PayPal', 'immoticketenergieausweis'); ?></span>
       <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/paypal.webp" alt="<?php _e('PayPal', 'immoticketenergieausweis'); ?>" />
@@ -253,7 +254,12 @@ function immoticketenergieausweis_payment_icons()
       <span class="sr-only"><?php _e('Kreditkarte', 'immoticketenergieausweis'); ?></span>
       <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/stripe.webp" alt="<?php _e('Kreditkarte', 'immoticketenergieausweis'); ?>" />
     </button>
-
+<?php } else { ?>
+    <button type="button" id="it24-kauf_auf_rechnung" class="btn btn-default">
+      <span class="sr-only"><?php _e('Kauf auf Rechnung', 'immoticketenergieausweis'); ?></span>
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/rechnung.webp" alt="<?php _e('Kauf auf Rechnung', 'immoticketenergieausweis'); ?>" />
+    </button>
+<?php } ?>
   </div>
 <?php
 }
