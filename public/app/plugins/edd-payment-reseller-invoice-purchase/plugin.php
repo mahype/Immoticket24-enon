@@ -14,36 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Verhindert den direkten Zugriff auf die Datei
 }
 
-
-// Fügen Sie diesen Code zu Ihrer functions.php-Datei oder einem benutzerdefinierten Plugin hinzu
-
-add_action( 'edd_pre_process_purchase', 'custom_apply_hidden_discount' );
-
-function custom_apply_hidden_discount() {
-	// Definieren Sie den Rabattbetrag
-	$discount_amount = (float) 50.00; // Beispiel für einen Rabattbetrag von $5.00
-
-	// Ändern Sie die Preise der einzelnen Artikel im Warenkorb
-	$cart = edd_get_cart_contents();
-	foreach ( $cart as $key => &$item ) {
-		// Beispiel: Rabatt von $5.00 auf jeden Artikel anwenden
-		$item['price'] = max( 0, $item['price'] - $discount_amount );
-	}
-
-	// Aktualisieren Sie den Warenkorb
-	EDD()->session->set( 'edd_cart', $cart );
-
-	// Neuen Gesamtbetrag berechnen
-	$new_total = 0;
-	foreach ( $cart as $item ) {
-		$new_total += $item['price'] * $item['quantity'];
-	}
-
-	// Aktualisieren Sie den Gesamtbetrag in der Session
-	EDD()->session->set( 'edd_cart_total', $new_total );
-}
-
-
 function edd_kauf_auf_rechnung_register_gateway( $gateways ) {
 	$gateways['kauf_auf_rechnung'] = array(
 		'admin_label'    => 'Kauf auf Rechnung',
@@ -90,6 +60,7 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 		'date'         => $purchase_data['date'],
 		'user_email'   => $reseller->get_contact_email(),
 		'user_info'    => array(
+            'business_name'    => $reseller->get_company_name(),
 			'first_name' => $reseller->get_contact_firstname(),
 			'last_name'  => $reseller->get_contact_lastname(),
 			'address'    => array(

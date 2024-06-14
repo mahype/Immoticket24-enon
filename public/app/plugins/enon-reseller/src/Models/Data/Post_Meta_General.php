@@ -161,6 +161,21 @@ class Post_Meta_General extends Post_Meta {
 		return false;
 	}
 
+    /**
+     * Check if marketing klicktipp is set.
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if marketing klicktipp is set, false if not.
+     */
+    public function isset_marketing_klicktipp() {
+        $marketing = $this->get( 'marketing' );
+        if ( is_array( $marketing ) && in_array( 'klicktipp', $marketing ) ) {
+            return true;
+        }
+        return false;
+    }
+
 	/**
 	 * Check if order confirmation have to be sent to reseller.
 	 *
