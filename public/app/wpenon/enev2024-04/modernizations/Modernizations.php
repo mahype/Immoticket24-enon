@@ -321,6 +321,7 @@ abstract class Modernizations
 		$current_year = absint( current_time( 'Y' ) );
 
 		$types_general = array(
+			'standardkessel',
 			'elektronachtspeicherheizung',
 		);
 
