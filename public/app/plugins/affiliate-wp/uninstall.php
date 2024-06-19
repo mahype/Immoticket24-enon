@@ -13,6 +13,8 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 
 // Load required classes.
+require_once plugin_dir_path( __FILE__ ) . 'includes/admin/add-ons.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/admin/class-addons.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/admin/settings/class-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-capabilities.php';
 

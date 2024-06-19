@@ -808,7 +808,7 @@ if ($energieausweis->h_uebergabe === 'flaechenheizung') {
 	);
 } else {
 	$h2_info = $energieausweis->h2_info;
-	$h3_info = $energieausweis->h2_info;
+	$h3_info = $energieausweis->h3_info;
 
 	$h_erzeugung = $energieausweis->h_erzeugung;
 	$h2_erzeugung = $energieausweis->h2_erzeugung;

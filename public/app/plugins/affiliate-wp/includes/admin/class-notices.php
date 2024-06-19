@@ -108,7 +108,6 @@ class Affiliate_WP_Admin_Notices {
 		$this->referral_notices();
 
 		$this->integration_notices();
-		$this->license_notices();
 		$this->settings_notices();
 		$this->environment_notices();
 		$this->upgrade_notices();
@@ -1128,132 +1127,6 @@ class Affiliate_WP_Admin_Notices {
 	}
 
 	/**
-	 * Display admin notices related to licenses.
-	 *
-	 * @since 2.1
-	 * @since 2.4 Refactored to leverage the notices registry
-	 *
-	 * @return string|void Output if `$display_notices` is false, otherwise void.
-	 */
-	public function license_notices() {
-		$license = ( new License\License_Data() );
-		$license = $license->check_status();
-
-		if ( is_object( $license ) && ! is_wp_error( $license ) ) {
-			$this->add_notice( 'license-expired', array(
-				'class'   => 'error',
-				'message' => function() use ( $license ) {
-					$license_key = $license->get_license_key();
-
-					return sprintf(
-						/* translators: 1: Date the license expired, 2: URL to renew the license key */
-						__( 'Your license key expired on %1$s. Please <a href="%2$s" target="_blank">renew your license key</a>.', 'affiliate-wp' ),
-						affwp_date_i18n( strtotime( $license->expires, current_time( 'timestamp' ) ) ),
-						'https://affiliatewp.com/checkout/?edd_license_key=' . $license_key . '&utm_campaign=admin&utm_source=licenses&utm_medium=expired'
-					);
-				},
-			) );
-		}
-		$this->add_notice( 'license-revoked', array(
-			'class'   => 'error',
-			'message' => sprintf(
-				/* translators: URL to contact support */
-				__( 'Your license key has been disabled. Please <a href="%s" target="_blank">contact support</a> for more information.', 'affiliate-wp' ),
-				'https://affiliatewp.com/contact/?utm_campaign=admin&utm_source=licenses&utm_medium=revoked'
-			),
-		) );
-
-		$this->add_notice( 'license-missing', array(
-			'class'   => 'error',
-			'message' => sprintf(
-				/* translators: URL to the affiliatewp.com account page */
-				__( 'Invalid license. Please <a href="%s" target="_blank">visit your account page</a> and verify it.', 'affiliate-wp' ),
-				'https://affiliatewp.com/account/?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
-			),
-		) );
-
-		$this->add_notice( 'license-invalid', array(
-			'class'   => 'error',
-			'alias'   => 'license-site_inactive',
-			'message' => sprintf(
-				/* translators: URL to the affiliatewp.com account page */
-				__( 'Your license key is not active for this URL. Please <a href="%s" target="_blank">visit your account page</a> to manage your license key URLs.', 'affiliate-wp' ),
-				'https://affiliatewp.com/account/?utm_campaign=admin&utm_source=licenses&utm_medium=invalid'
-			),
-		) );
-
-		$this->add_notice( 'license-item_name_mismatch', array(
-			'class'   => 'error',
-			'message' => __( 'This appears to be an invalid license key.', 'affiliate-wp' ),
-		) );
-
-		$this->add_notice( 'license-no_activations_left', array(
-			'class'   => 'error',
-			'message' => sprintf(
-				/* translators: URL to the affiliatewp.com account page */
-				__( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'affiliate-wp' ),
-				'https://affiliatewp.com/account/?utm_campaign=admin&utm_source=licenses&utm_medium=missing'
-			),
-		) );
-
-		$this->add_notice( 'expired_license', array(
-			'class'   => array( 'error', 'info' ),
-			'message' => function() {
-				$notice_query_args = array(
-					'affwp_action' => 'dismiss_notices',
-					'affwp_notice' => 'expired_license',
-				);
-
-				$message =  __( 'Your license key for AffiliateWP has expired. Please renew your license to re-enable automatic updates.', 'affiliate-wp' ) . '</p>';
-				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( $notice_query_args ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'License', 'affiliate-wp' ) . '</a>';
-
-				return $message;
-			},
-		) );
-
-		$this->add_notice( 'invalid_license', array(
-			'class'   => array( 'notice', 'notice-info' ),
-			'message' => function() {
-				$notice_query_args = array(
-					'affwp_action' => 'dismiss_notices',
-					'affwp_notice' => 'invalid_license',
-				);
-
-				/* translators: Settings screen URL */
-				$message = sprintf( __( 'Please <a href="%s">enter and activate</a> your license key for AffiliateWP to enable automatic updates.', 'affiliate-wp' ), esc_url( affwp_admin_url( 'settings' ) ) ) . '</p>';
-				$message .= '<p><a href="' . wp_nonce_url( add_query_arg( $notice_query_args ), 'affwp_dismiss_notice', 'affwp_dismiss_notice_nonce' ) . '">' . _x( 'Dismiss Notice', 'License', 'affiliate-wp' ) . '</a>';
-
-				return $message;
-			},
-		) );
-
-		if ( ! is_wp_error( $license ) && false === get_transient( 'affwp_license_notice' ) ) {
-
-			// Base query args.
-			$notice_query_args = array(
-				'affwp_action' => 'dismiss_notices'
-			);
-
-			if ( is_object( $license ) ) {
-				$status = $license->license;
-			} else {
-				$status = $license;
-			}
-
-			// Bail if there's no status.
-			if ( empty( $status ) ) {
-				return;
-			}
-
-			if ( 'expired' === $status ) {
-				self::show_notice( 'expired_license', false === $this->display_notices );
-			} elseif ( 'valid' !== $status ) {
-				self::show_notice( 'invalid_license', false === $this->display_notices );
-			}
-		}
-	}
-
-	/**
 	 * Registers settings admin notices.
 	 *
 	 * @since 2.4
@@ -1590,9 +1463,8 @@ class Affiliate_WP_Admin_Notices {
 			$notice = sanitize_key( $_GET['affwp_notice'] );
 
 			switch( $notice ) {
-				case 'expired_license':
-				case 'invalid_license':
-					set_transient( 'affwp_license_notice', true, 2 * WEEK_IN_SECONDS );
+				case 'drm':
+					set_transient( 'affwp_drm_notice', true, \AffiliateWP\Admin\DRM\DRM_Controller::NOTICE_DISMISS_TIMEOUT );
 					break;
 				case 'payouts_service':
 					set_transient( 'affwp_payouts_service_notice', true, 2 * WEEK_IN_SECONDS );

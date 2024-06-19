@@ -244,12 +244,17 @@ abstract class Affiliate_WP_DB {
 	 * Retrieves results for a variety of query types.
 	 *
 	 * @access public
-	 * @since  1.9
+	 *
+	 * @since 1.9.0
+	 *
+	 * @since 2.24.4 Updated array_map() checks to only operate on arrays.
+	 * @see          https://github.com/awesomemotive/affiliate-wp/issues/5149 Error in AffiliateWP Affiliates Search Functionality.
 	 *
 	 * @param array    $clauses  Compacted array of query clauses.
 	 * @param array    $args     Query arguments.
 	 * @param callable $callback Optional. Callback to run against results in the generic results case.
 	 *                           Default empty.
+	 *
 	 * @return array|int|null|object Query results.
 	 */
 	public function get_results( $clauses, $args, $callback = '' ) {
@@ -299,7 +304,7 @@ abstract class Affiliate_WP_DB {
 			}
 
 			// Run the results through the fields-dictated callback.
-			if ( ! empty( $callback ) && is_callable( $callback ) ) {
+			if ( ! empty( $callback ) && is_callable( $callback ) && is_array( $results ) ) {
 				$results = array_map( $callback, $results );
 			}
 

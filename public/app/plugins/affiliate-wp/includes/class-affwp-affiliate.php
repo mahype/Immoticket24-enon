@@ -348,4 +348,15 @@ final class Affiliate extends Base_Object {
 		return empty( $this->rate ) ? false : true;
 	}
 
+	/**
+	 * Retrieve the affiliate's gravatar.
+	 *
+	 * @since 2.23.2
+	 *
+	 * @return string The user gravatar.
+	 */
+	public function gravatar( int $size = 40 ) : string {
+		return get_avatar( get_the_author_meta( 'user_email', $this->user_id ), $size );
+	}
+
 }

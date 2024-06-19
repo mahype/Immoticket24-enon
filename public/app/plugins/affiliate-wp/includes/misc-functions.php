@@ -2348,3 +2348,29 @@ function affiliatewp_get_pro_feature_option_classes(
 
 	return 'addProBadge affwp-education-modal';
 }
+
+/**
+ * Get the value of a CONSTANT.
+ *
+ * @param string $constant The name of the CONSTANT.
+ * @param mixed  $default  If you want to return something else other than null,
+ *                         set that value here.
+ *
+ * @since 2.24.2
+ *
+ * @return mixed The value of the CONSTANT, or null if it doesn't exist.
+ */
+function affiliatewp_get_constant( string $constant, $default = null ) {
+	return defined( $constant ) ? constant( $constant ) : $default;
+}
+
+/**
+ * Get SALT for hashing.
+ *
+ * @since 2.24.2
+ *
+ * @return string Salt for hashing.
+ */
+function affiliatewp_get_salt() : string {
+	return wp_salt( 'auth' );
+}

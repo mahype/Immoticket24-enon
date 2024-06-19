@@ -105,6 +105,7 @@ AffiliateWPEducation.nonPro = AffiliateWPEducation.nonPro || ( function( documen
 		showUpgradeModal( targetEl ) {
 
 			app.upgradeModal(
+				AffiliateWPEducation.core.getFeatureName( targetEl ),
 				AffiliateWPEducation.core.getNameValue( targetEl ),
 				AffiliateWPEducation.core.getUTMContentValue( targetEl ),
 				'pro',
@@ -117,12 +118,13 @@ AffiliateWPEducation.nonPro = AffiliateWPEducation.nonPro || ( function( documen
 		 *
 		 * @since 2.18.0
 		 *
+		 * @param {string} addon      The addon name.
 		 * @param {string} feature    Feature name.
 		 * @param {string} utmContent UTM content.
 		 * @param {string} type       Feature license type: pro or elite.
 		 * @param {string} video      Feature video URL.
 		 */
-		upgradeModal( feature, utmContent, type, video ) {
+		upgradeModal( addon, feature, utmContent, type, video ) {
 
 			// Provide a default value.
 			if ( typeof type === 'undefined' || type.length === 0 ) {
@@ -134,19 +136,25 @@ AffiliateWPEducation.nonPro = AffiliateWPEducation.nonPro || ( function( documen
 				return;
 			}
 
-			const message      = affiliatewp_education.upgrade[ type ].message.replace( /%name%/g, feature ),
-				isVideoModal = ! _.isEmpty( video ),
-				modalWidth   = AffiliateWPEducation.core.getUpgradeModalWidth( isVideoModal );
+			const isVideoModal = ! _.isEmpty( video ); // If there is a video.
+			const modalWidth = AffiliateWPEducation.core.getUpgradeModalWidth( isVideoModal );
+			const hasCustomAddonContent = affiliatewp_education.upgrade[type].hasOwnProperty( addon );
+
+			const { title, message, doc, button } = hasCustomAddonContent
+				? affiliatewp_education.upgrade[type][addon]
+				: affiliatewp_education.upgrade[type]['default'];
 
 			const modal = $.alert( {
 				backgroundDismiss: true,
-				title            : feature + ' ' + affiliatewp_education.upgrade[type].title,
-				icon             : 'fa fa-lock',
-				content          : message,
-				boxWidth         : modalWidth,
-				useBootstrap     : false,
-				theme            : 'modern,affiliatewp-education',
-				closeIcon        : true,
+				title : hasCustomAddonContent
+					? title
+					: `${feature} ${title}`,
+				icon : 'fa fa-lock',
+				content : message.replace( /\%name\%/g, feature ),
+				boxWidth : modalWidth,
+				useBootstrap : false,
+				theme : 'modern,affiliatewp-education',
+				closeIcon : true,
 				onOpenBefore() {
 
 					if ( isVideoModal ) {
@@ -156,20 +164,23 @@ AffiliateWPEducation.nonPro = AffiliateWPEducation.nonPro || ( function( documen
 					const videoHtml = isVideoModal ? '<iframe src="' + video + '" class="feature-video" frameborder="0" allowfullscreen="" width="475" height="267"></iframe>' : '';
 
 					this.$btnc.after( '<div class="discount-note">' + affiliatewp_education.upgrade_bonus + '</div>' );
-					this.$btnc.after( affiliatewp_education.upgrade[type].doc.replace( /%25name%25/g, feature ) );
+					this.$btnc.after( doc.replace( /\%name\%/g, feature ) );
 					this.$btnc.after( videoHtml );
-
-					this.$body.find( '.jconfirm-content' ).addClass( 'lite-upgrade' );
 				},
 				buttons : {
 					confirm: {
-						text    : affiliatewp_education.upgrade[type].button,
+						text    : button,
 						btnClass: 'btn-confirm',
 						keys    : [ 'enter' ],
 						action() {
 
-							window.open( AffiliateWPEducation.core.getUpgradeURL( utmContent, type ), '_blank' );
-							app.upgradeModalThankYou( type );
+							window.open( AffiliateWPEducation.core.getUpgradeURL( utmContent, type, addon ), '_blank' );
+							app.upgradeModalThankYou(
+								hasCustomAddonContent
+									? addon
+									: 'default',
+								type
+							);
 						},
 					},
 				},
@@ -190,13 +201,14 @@ AffiliateWPEducation.nonPro = AffiliateWPEducation.nonPro || ( function( documen
 		 *
 		 * @since 2.18.0
 		 *
+		 * @param {string} addon The addon name.
 		 * @param {string} type Feature license type: pro or ultimate.
 		 */
-		upgradeModalThankYou( type ) {
+		upgradeModalThankYou( addon, type ) {
 
 			$.alert( {
 				title   : affiliatewp_education.thanks_for_interest,
-				content : affiliatewp_education.upgrade[type].modal,
+				content : affiliatewp_education.upgrade[type][addon].modal,
 				icon    : 'fa fa-info-circle',
 				boxWidth: '565px',
 				useBootstrap : false,

@@ -39,16 +39,15 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 	/**
 	 * The context for referrals. This refers to the integration that is being used.
 	 *
-	 * @access  public
-	 * @since   1.2
+	 * @since 1.2
+	 * @since 2.21.1 Using hook pmpro_updated_order to keep order and referral status synchronized.
 	 */
 	public $context = 'pmp';
 
 	public function init() {
 
 		add_action( 'pmpro_added_order', array( $this, 'add_pending_referral' ), 10 );
-		add_action( 'pmpro_updated_order', array( $this, 'mark_referral_complete' ), 10 );
-		add_action( 'admin_init', array( $this, 'revoke_referral_on_refund_and_cancel' ), 10);
+		add_action( 'pmpro_updated_order', array( $this, 'update_referral_status' ), 10 );
 		add_action( 'pmpro_delete_order', array( $this, 'revoke_referral_on_delete' ), 10, 2 );
 		add_filter( 'affwp_referral_reference_column', array( $this, 'reference_link' ), 10, 2 );
 		add_filter( 'pmpro_orders_show_affiliate_ids', '__return_true' );
@@ -145,7 +144,10 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		// Set referral custom var.
 		$custom = array();
 		if ( 'success' === strtolower( $order->status ) ) {
-			$custom = $order->id;
+
+			$custom = array(
+				'order_id' => $order->id,
+			);
 		}
 
 		// Hydrates the previously created referral.
@@ -162,7 +164,7 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 		// Check if referral can be marked complete.
 		if ( 'success' === strtolower( $order->status ) ) {
-			$this->mark_referral_complete( $order );
+			$this->update_referral_status( $order );
 		}
 
 		// Complete referral if subtotal is zero.
@@ -199,7 +201,91 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		return $rate;
 	}
 
+	/**
+	 * Used with the pmpro_updated_order hook to synchronize order and referral statuses.
+	 *
+	 * @since 2.21.1
+	 * @param mixed $order The order object.
+	 */
+	public function update_referral_status( $order ) {
+
+		$order_id     = absint( $order->id );
+		$order_status = strtolower( $order->status );
+
+		if ( 'success' === $order_status && $this->complete_referral( $order_id ) ) {
+
+			$referral = affwp_get_referral_by( 'reference', $order_id, $this->context );
+
+			if ( is_wp_error( $referral ) || ! is_a( $referral, '\AffWP\Referral' ) ) {
+
+				affiliate_wp()->utils->log( 'update_referral_status: The referral could not be found.', $referral );
+
+				return;  // Referral cannot be found; log the error and exit.
+			}
+
+			// Prevent an infinite loop by temporarily removing the action hook.
+			remove_action( 'pmpro_updated_order', array( $this, 'update_referral_status' ), 10 );
+
+			// Create a new MemberOrder instance for the order ID.
+			$order = new MemberOrder( $order_id );
+
+			// Set the affiliate ID for the order.
+			$order->affiliate_id = $referral->affiliate_id;
+
+			// Format the referral amount and affiliate name.
+			$amount = html_entity_decode( affwp_currency_filter( affwp_format_amount( $referral->amount ) ), ENT_QUOTES, 'UTF-8' );
+			$name   = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
+
+			// Create a note for the order with referral details.
+			$note = sprintf(
+				/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
+				__( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
+				$referral->referral_id,
+				$amount,
+				$name,
+				$referral->affiliate_id
+			);
+
+			// Append the note to the existing order notes, handling empty notes.
+			$order->notes = empty( $order->notes )
+				? $note
+				: "{$order->notes}\n\n{$note}";
+
+			// Save the updated order.
+			$order->saveOrder();
+
+			// Add the action hook back after the order is updated.
+			add_action( 'pmpro_updated_order', array( $this, 'update_referral_status' ), 10 );
+
+			return; // Nothing more to do here.
+		}
+
+		// Check if the order status is 'refunded' and revocation on refund is enabled, or if it is in an array of specific statuses.
+		if (
+			( 'refunded' === $order_status && affiliate_wp()->settings->get( 'revoke_on_refund' ) ) ||
+			in_array( $order_status, array( 'token', 'error', 'review', 'pending' ), true )
+		) {
+
+			// Reject the referral associated with the order.
+			$this->reject_referral( $order_id );
+		}
+	}
+
+	/**
+	 * Marks a referral as complete.
+	 *
+	 * @deprecated 2.21.1 Use update_referral_status() instead.
+	 * @see update_referral_status()
+	 *
+	 * @param mixed $order Order details or object.
+	 */
 	public function mark_referral_complete( $order ) {
+
+		affiliatewp_deprecate_function() (
+			__FUNCTION__,
+			__( 'Use update_referral_status() instead.', 'affiliate-wp' ),
+			'2.21.1'
+		);
 
 		if( 'success' !== strtolower( $order->status ) ) {
 			return;
@@ -220,10 +306,10 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 			$name                = affiliate_wp()->affiliates->get_affiliate_name( $referral->affiliate_id );
 			/* translators: 1: Referral ID, 2: Formatted referral amount, 3: Affiliate name, 4: Referral affiliate ID  */
 			$note                = sprintf( __( 'Referral #%1$d for %2$s recorded for %3$s (ID: %4$d).', 'affiliate-wp' ),
-				$referral->referral_id,
-				$amount,
-				$name,
-				$referral->affiliate_id
+					$referral->referral_id,
+					$amount,
+					$name,
+					$referral->affiliate_id
 			);
 
 			if( empty( $order->notes ) ) {
@@ -238,39 +324,6 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 		}
 	}
 
-	public function revoke_referral_on_refund_and_cancel() {
-
-		/*
-		 * PMP does not have hooks for when an order is refunded or voided, so we detect the form submission manually
-		 */
-
-		if( ! isset( $_REQUEST['save'] ) ) {
-			return;
-		}
-
-		if( ! isset( $_REQUEST['order'] ) ) {
-			return;
-		}
-
-		if( ! isset( $_REQUEST['status'] ) ) {
-			return;
-		}
-
-		if( ! isset( $_REQUEST['membership_id'] ) ) {
-			return;
-		}
-
-		if( 'refunded' != $_REQUEST['status'] ) {
-			return;
-		}
-
-		if( ! affiliate_wp()->settings->get( 'revoke_on_refund' ) ) {
-			return;
-		}
-
-		$this->reject_referral( absint( $_REQUEST['order'] ) );
-
-	}
 
 	public function revoke_referral_on_delete( $order_id, $order ) {
 
@@ -365,17 +418,20 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 
 		$data = affiliate_wp()->utils->process_request_data( $_POST, 'user_name' );
 
-		$coupon       = $wpdb->get_row( "SELECT * FROM $wpdb->pmpro_discount_codes WHERE code = '" . esc_sql( $_REQUEST['code'] ) . "' LIMIT 1" );
+		$coupon = $wpdb->get_row( $wpdb->prepare(
+			"SELECT * FROM {$wpdb->pmpro_discount_codes} WHERE code = %s LIMIT 1",
+			esc_sql( $_REQUEST['code'] )
+		) );
+
 		$affiliate_id = affwp_get_affiliate_id( $data['user_id'] );
 
 		if( empty( $user_name ) ) {
-			affwp_delete_affiliate_meta( $affiliate_id, 'affwp_discount_pmp_' . $coupon->id );
+			affwp_delete_affiliate_meta( $affiliate_id, 'affwp_discount_pmp_' . $coupon->id ?? 0 );
 			return;
 		}
 
 
-		affwp_update_affiliate_meta( $affiliate_id, 'affwp_discount_pmp_' . $coupon->id, $coupon->code );
-
+		affwp_update_affiliate_meta( $affiliate_id, 'affwp_discount_pmp_' . $coupon->id ?? 0, $coupon->code ?? '' );
 	}
 
 	/**
@@ -485,4 +541,4 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 	}
 }
 
-	new Affiliate_WP_PMP;
+new Affiliate_WP_PMP();
