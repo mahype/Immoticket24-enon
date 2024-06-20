@@ -263,6 +263,9 @@ class Payment_Gateway extends Edd_Payment_Gateway
 		$account_holder = $post_data['sepa_account_holder'];
 		$iban           = $post_data['sepa_iban'];
 
+		// Getting payment title as description
+		$description = edd_get_payment($payment_id)->post_title;
+
 		try {
 			$stripe = new StripeClient([
 				'api_key' => $this->get_secret(),
@@ -273,6 +276,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 				'amount' => (int) (EDD()->cart->get_total() * 100),
 				'currency' => 'EUR',
 				'confirm' => true,
+				'description' => $description,
 				'payment_method_types' => ['sepa_debit'],
 				'payment_method_data' => [
 					'type' => 'sepa_debit',
@@ -337,7 +341,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 			);
 
 		} catch (\Exception  $e) {
-			$this->log('Failure on Webhook creation: ' . $e->getMessage(), 'error');
+			$this->log('Failure on Webhook creation: ' . $e->getMessage() . ' - WS: ' . $webhook_secret, ' - SS: ' . $server_signature, 'error');
 			http_response_code(400);
 			echo json_encode([ 'error' => $e->getMessage() ]);
 			exit();
@@ -360,7 +364,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 					die('-2');
 				}
 				break;
-			case 'payment_intent.failed':
+			case 'payment_intent.payment_failed':
 			case 'payment_intent.canceled':
 				if (!empty($payment_id)) {
 					status_header(200);
