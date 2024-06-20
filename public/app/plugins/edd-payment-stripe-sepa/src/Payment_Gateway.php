@@ -341,7 +341,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 			);
 
 		} catch (\Exception  $e) {
-			$this->log('Failure on Webhook creation: ' . $e->getMessage() . ' - WS: ' . $webhook_secret, ' - SS: ' . $server_signature, 'error');
+			$this->log('Failure on Webhook creation: ' . $e->getMessage() . ' - WS: ' . $webhook_secret . ' - SS: ' . $server_signature, 'error');
 			http_response_code(400);
 			echo json_encode([ 'error' => $e->getMessage() ]);
 			exit();
