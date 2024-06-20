@@ -264,7 +264,7 @@ class Payment_Gateway extends Edd_Payment_Gateway
 		$iban           = $post_data['sepa_iban'];
 
 		// Getting payment title as description
-		$description = edd_get_payment($payment_id)->post_title;
+		$description = edd_get_payment($payment_id)->number;
 
 		try {
 			$stripe = new StripeClient([
