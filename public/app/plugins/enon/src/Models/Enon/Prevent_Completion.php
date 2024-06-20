@@ -408,10 +408,19 @@ class Prevent_Completion
             $energy_source_name = 'h_energietraeger_' . $this->energy_certificate->$heater;
             $energy_source = $this->energy_certificate->$energy_source_name;
             
+            // Check nach Energieträger
             foreach( $stoppers as $stopper ) {
                 // Check for string length of stopper and shorten energy source name to stopper length
                 if( substr( $energy_source, 0, strlen( $stopper ) ) === $stopper ) {
                     return \sprintf('Zu gute Energieeffizienzklasse %s für Gebäude mit %s-Heizung', $energy_effiency_class, \ucfirst( $stopper) );
+                }
+
+                // Check ob das Baujahr der Heizung vor 2010 liegt+
+                $baujahr_heizung_name = $heater . '_baujahr';
+                $baujahr_heizung = $this->energy_certificate->$baujahr_heizung_name;
+
+                if( $baujahr_heizung < 2010 ) {
+                    return \sprintf('Zu gute Energieeffizienzklasse %s für für das Baujahr der Heizung %s', $energy_effiency_class, $heater );
                 }
             }
         }

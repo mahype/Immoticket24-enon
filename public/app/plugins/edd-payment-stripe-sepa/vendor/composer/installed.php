@@ -7,7 +7,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'awsm/edd-payment-gateway' => array(
@@ -75,9 +75,9 @@
             ),
         ),
         'stripe/stripe-php' => array(
-            'pretty_version' => 'v7.128.0',
-            'version' => '7.128.0.0',
-            'reference' => 'c704949c49b72985c76cc61063aa26fefbd2724e',
+            'pretty_version' => 'v9.9.0',
+            'version' => '9.9.0.0',
+            'reference' => '479b5c2136fde0debb93d290ceaf20dd161c358f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stripe/stripe-php',
             'aliases' => array(),
