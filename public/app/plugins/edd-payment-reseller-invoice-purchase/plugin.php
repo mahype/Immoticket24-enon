@@ -61,6 +61,7 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 		'date'         => $purchase_data['date'],
 		'user_email'   => $reseller->get_contact_email(),
 		'user_info'    => array(
+            'email'   => $reseller->get_contact_email(),
             'business_name'    => $reseller->get_company_name(),
 			'first_name' => $reseller->get_contact_firstname(),
 			'last_name'  => $reseller->get_contact_lastname(),
@@ -84,6 +85,9 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 
 	if ( $payment_id ) {
 		edd_update_payment_status( $payment_id, 'publish' );
+
+        edd_update_payment_status( $payment_id, 'completed' );
+
 		// Empty the shopping cart
 		edd_empty_cart();
         $selected_page_id = edd_get_option('kauf_auf_rechnung_gateway_page');
