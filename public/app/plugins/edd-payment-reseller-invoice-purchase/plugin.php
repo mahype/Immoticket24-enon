@@ -28,6 +28,7 @@ function edd_kauf_auf_rechnung_register_gateway( $gateways ) {
 add_filter( 'edd_payment_gateways', 'edd_kauf_auf_rechnung_register_gateway' );
 
 function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
+
 	if ( ! wp_verify_nonce( $purchase_data['gateway_nonce'], 'edd-gateway' ) ) {
 		wp_die( __( 'Nonce verification has failed', 'easy-digital-downloads' ), __( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
 	}
@@ -85,7 +86,17 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 		edd_update_payment_status( $payment_id, 'publish' );
 		// Empty the shopping cart
 		edd_empty_cart();
-		edd_send_to_success_page();
+        $selected_page_id = edd_get_option('kauf_auf_rechnung_gateway_page');
+        if ($selected_page_id) {
+            // Hier kannst du die Seite verwenden
+            $page_url = get_permalink($selected_page_id);
+            if ($page_url) {
+                wp_redirect($page_url);
+                exit;
+            }
+        } else {
+            edd_send_to_success_page();
+        }
 	} else {
 		edd_record_gateway_error( __( 'Payment Error', 'easy-digital-downloads' ), sprintf( __( 'Payment creation failed while processing a manual (free or test) purchase. Payment data: %s', 'easy-digital-downloads' ), json_encode( $payment_data ) ), $payment );
 		// If errors are present, send the user back to the purchase page so they can be corrected
@@ -96,3 +107,40 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 add_action( 'edd_gateway_kauf_auf_rechnung', 'edd_kauf_auf_rechnung_process_payment' );
 
 add_action( 'edd_kauf_auf_rechnung_cc_form', '__return_false' );
+
+function kauf_auf_rechnung_gateway_settings_section($sections) {
+    $sections['kauf_auf_rechnung'] = __('Kauf auf Rechnung', 'edd');
+    return $sections;
+}
+add_filter('edd_settings_sections_gateways', 'kauf_auf_rechnung_gateway_settings_section');
+
+function kauf_auf_rechnung_gateway_settings($settings) {
+    $pages = get_pages();
+    $pages_options = array();
+    
+    foreach ($pages as $page) {
+        $pages_options[$page->ID] = $page->post_title;
+    }
+
+    $custom_gateway_settings = array(
+        'kauf_auf_rechnung' => array(
+            array(
+                'id'    => 'kauf_auf_rechnung_gateway_settings',
+                'name'  => '<strong>' . __('Kauf auf Rechnung Einstellungen', 'edd') . '</strong>',
+                'type'  => 'header',
+            ),
+            array(
+                'id'    => 'kauf_auf_rechnung_gateway_page',
+                'name'  => __('Kauf erfolgreich Seite', 'edd'),
+                'desc'  => __('Wählen Sie eine Seite aus der Dropdown-Liste aus.', 'edd'),
+                'type'  => 'select',
+                'options' => $pages_options,
+            ),
+        ),
+    );
+    
+    // Merge new settings with existing settings
+    return array_merge($settings, $custom_gateway_settings);
+}
+add_filter('edd_settings_gateways', 'kauf_auf_rechnung_gateway_settings');
+
