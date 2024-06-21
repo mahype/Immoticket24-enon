@@ -1895,6 +1895,7 @@ a.label:focus {
   padding: 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
+  display: block !important;
 }
 .modal-footer .btn + .btn {
   margin-left: 5px;
@@ -2202,6 +2203,7 @@ a.label:focus {
 #modal_premiumbewertung-noaction {
   width: 100%;
   margin: 0 0 10px 0;
+  font-size: 14px !important;
 }
 .energieausweis-iframe .row {
   margin: 0;
