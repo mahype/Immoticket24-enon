@@ -90,6 +90,10 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 
 		// Empty the shopping cart
 		edd_empty_cart();
+
+        echo "Danke für Ihr Vertrauen - Sie erhalten innerhalb der nächsten Minuten die Rechnung per Email übersendet. Sollte innerhalb der nächsten 5 Minuten keine Rechnungsmail bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach.";
+        exit;
+
         $selected_page_id = edd_get_option('kauf_auf_rechnung_gateway_page');
         if ($selected_page_id) {
             // Hier kannst du die Seite verwenden

@@ -235,7 +235,13 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 				}
 
 				if ( edd_is_payment_complete( $this->wpenon_payment->ID ) ) {
-					$payment_message = sprintf( __( 'Die Rechnung wurde am %1$s via %2$s beglichen.', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ), edd_get_gateway_checkout_label( edd_get_payment_gateway( $this->wpenon_payment->ID ) ) );
+                    $gateway = \edd_get_payment_gateway( $this->wpenon_payment->ID );
+
+                    if ( $gateway === 'kauf_auf_rechnung') {
+                        $payment_message = sprintf( __( 'Kauf auf Rechnung am %1$s', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ) );
+                    } else { 
+					    $payment_message = sprintf( __( 'Die Rechnung wurde am %1$s via %2$s beglichen.', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ), edd_get_gateway_checkout_label( edd_get_payment_gateway( $this->wpenon_payment->ID ) ) );
+                    }  
 					if ( get_post_meta( $this->wpenon_payment->ID, '_wpenon_deposit_refunded', true ) ) {
 						$payment_message .= ' ' . __( '(Lastschrift zurückgegangen)', 'wpenon' );
 					}
