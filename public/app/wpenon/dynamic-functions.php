@@ -842,6 +842,18 @@ function wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, 
 	return false;
 }
 
+function wpenon_erzeuger_mit_flaechenheizung_vorhanden( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info,  $h3_info ) {
+	if ( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+		return false;
+	}
+
+	if( $h_uebergabe !== 'flaechenheizung' ) {
+		return false;
+	}
+
+	return true;
+}
+
 function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {
 	if ( $h1_erzeugung === $erzeuger || $h2_erzeugung === $erzeuger || $h3_erzeugung === $erzeuger ) {
 		return true;
