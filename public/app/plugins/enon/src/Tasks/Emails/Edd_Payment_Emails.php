@@ -135,19 +135,38 @@ class Edd_Payment_Emails implements Actions, Filters, Task
 		$ec_email = $ec->get_contact_email();
 		$ec_title = $ec->get_post()->post_title;
 		$ec_url = $ec->get_access_url();
-		$header = 'Zahlungseingang';
 		
-		$subject = sprintf( 'Zahlungseingang' );
-		$message = sprintf('Sehr geehrter Kunde,
+        if ( edd_is_reseller_redirect_bill() ) {
+            $header = 'Ihr Energieausweis';
+            $subject = sprintf( 'Ihr Energieausweis' );
+            $message = sprintf('Sehr geehrter Kunde,
+            
+    danke für Ihr Vertrauen. Sie können den Ausweis ab sofort unter folgendem Link herunterladen: 
+    %s herunterladen.
+    
+    Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet. Sobald die Freischaltung erfolgt ist, erhalten Sie eine Bestellbestätigungsmail an Ihre Email-Adresse gesendet.
+    
+    Mit freundlichen Grüßen
+    
+    Ihr Team von Immoticket24.de', $ec_url);
+    
+    
+        } else {
+            $header = 'Zahlungseingang';
+            $subject = sprintf( 'Zahlungseingang' );
+            $message = sprintf('Sehr geehrter Kunde,
+            
+    für den Energieausweis %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
+    
+    Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet. Sobald die Freischaltung erfolgt ist, erhalten Sie eine Bestellbestätigungsmail an Ihre Email-Adresse gesendet.
+    
+    Mit freundlichen Grüßen
+    
+    Ihr Team von Immoticket24.de', $ec_title, $ec_url);
+    
+    
+        }
 		
-für den Energieausweis %s wurde ein Zahlungseingang festgestellt. Sie können den Ausweis ab sofort unter %s herunterladen.
-
-Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet. Sobald die Freischaltung erfolgt ist, erhalten Sie eine Bestellbestätigungsmail an Ihre Email-Adresse gesendet.
-
-Mit freundlichen Grüßen
-
-Ihr Team von Immoticket24.de', $ec_title, $ec_url);
-
 		$this->send_email( $ec_email, $subject, $header, $message);
 	}
 
