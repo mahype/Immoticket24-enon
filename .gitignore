@@ -102,6 +102,9 @@ public/app/plugins/wp-rocket/licence-data.php
 !public/app/plugins/wp-mail-smtp-pro/vendor
 !public/app/plugins/gravityforms/js/vendor
 
+# Everybody has his own xdebug.ini
+.ddev/php/xdebug.ini
+
 # Node Package Manager
 /node_modules
 
