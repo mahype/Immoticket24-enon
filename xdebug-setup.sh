@@ -12,9 +12,20 @@ if [ ! -f "$XDEBUG_INI_PATH" ]; then
     touch "$XDEBUG_INI_PATH"
 fi
 
-# Aktualisieren der xdebug.client_host-Einstellung in der xdebug.ini-Datei
-# macOS benötigt ein leeres Argument nach -i bei sed, um eine Sicherungskopie ohne Suffix zu vermeiden
-sed -i '' "s/xdebug.client_host=.*/xdebug.client_host=$IP_ADDRESS/" $XDEBUG_INI_PATH
+# Wenn nicht vorhanden gebe den Pfad zur xdebug logdatei an.
+if ! grep -q "xdebug.log" "$XDEBUG_INI_PATH"; then
+    echo "xdebug.log=/var/log/xdebug.log" >> $XDEBUG_INI_PATH
+fi
+
+# Überprüfen, ob die xdebug.client_host-Einstellung in der xdebug.ini-Datei vorhanden ist
+if ! grep -q "xdebug.client_host" "$XDEBUG_INI_PATH"; then
+    echo "xdebug.client_host=$IP_ADDRESS" >> $XDEBUG_INI_PATH    
+else
+    # Aktualisieren der xdebug.client_host-Einstellung in der xdebug.ini-Datei
+    # macOS benötigt ein leeres Argument nach -i bei sed, um eine Sicherungskopie ohne Suffix zu vermeiden
+    sed -i '' "s/xdebug.client_host=.*/xdebug.client_host=$IP_ADDRESS/" $XDEBUG_INI_PATH
+fi
+
 
 echo "xdebug.client_host wurde auf $IP_ADDRESS aktualisiert."
 
