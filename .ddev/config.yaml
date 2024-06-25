@@ -11,8 +11,6 @@ database:
     version: "10.11"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment:
-  - "XDEBUG_CLIENT_HOST=host.docker.internal"
 corepack_enable: false
 
 # Key features of DDEV's config.yaml:
