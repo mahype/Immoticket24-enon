@@ -63,7 +63,7 @@
 				</th>
 
 				<td>
-					<select name="type" id="referral-types">
+					<select class="affwp-use-select2" name="type" id="referral-types">
 						<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 							<option value="<?php echo esc_attr( $type_id ); ?>"><?php echo esc_html( $type['label'] ); ?></option>
 						<?php endforeach; ?>
@@ -146,7 +146,7 @@
 
 				<td>
 					<?php $statuses = affwp_get_referral_statuses(); ?>
-					<select name="status" id="status">
+					<select class="affwp-use-select2" name="status" id="status">
 						<?php
 						foreach( $statuses as $status => $label ) :
 							// Ensure Unpaid is selected by default.

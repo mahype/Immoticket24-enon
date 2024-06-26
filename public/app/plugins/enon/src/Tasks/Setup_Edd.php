@@ -51,5 +51,21 @@ class Setup_Edd implements Task, Filters {
 	 */
 	public function add_filters() {
 		add_filter( 'plugins_loaded', array( Prevent_Completion::class, 'init' ), 20 );
+		add_filter( 'edd_payments_table_bulk_actions', array( $this, 'filter_bulk_actions' ), 20, 1 );
 	}
+
+	/**
+	 * Filter bulk actions.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $actions Bulk actions.
+	 *
+	 * @return array
+	 */
+	public function filter_bulk_actions($actions){
+        // Remove delete function
+        unset($actions['delete']);
+        return $actions;
+    }
 }

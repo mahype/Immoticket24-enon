@@ -43,6 +43,8 @@ $autoload = array(
 	'AffiliateWP\Utils\Icons',
 	'AffiliateWP\Affiliate_Area_Creatives',
 	'AffiliateWP\Admin\Starting_Affiliate_ID',
+	'AffiliateWP\Admin\Addons',
+	'AffiliateWP\Admin\DRM\DRM_Controller',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {

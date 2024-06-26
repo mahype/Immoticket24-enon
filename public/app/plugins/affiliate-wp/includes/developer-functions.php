@@ -49,11 +49,11 @@ function affiliatewp_trigger_error(
 /**
  * Deprecate a function.
  *
- * This triggers an `E_USER_NOTICE` when `WP_DEBUG` is `true`.
+ * This triggers an `E_USER_DEPRECATED` when `WP_DEBUG` is `true`.
  *
  * Message ends up being something like:
  *
- * "function_name(): (Since AffiliateWP Version 2.19.2) Use another function instead."
+ * "function_name(): (Since AffiliateWP Version 2.19.1) Use another function instead."
  *
  * Usage:
  *
@@ -64,7 +64,8 @@ function affiliatewp_trigger_error(
  * @param string $function_name The function name or fully-qualified method name.
  * @param string $message       The message to show (usually what function to use instead).
  * @param string $version       The version the function was deprecated.
- * @param int    $error_level   This lets you determine how harsh the warning is, defaults to an `E_USER_NOTICE`.
+ * @param int    $error_level   This lets you determine how harsh the warning is, defaults to an `E_USER_DEPRECATED`.
+ * @param string $plugin        The plugin name (defaults to 'AffiliateWP').
  *
  * @throws \InvalidArgumentException If you do not specify a valid version.
  */
@@ -72,23 +73,11 @@ function affiliatewp_deprecate_function(
 	string $function_name,
 	string $message,
 	string $version,
-	int $error_level = E_USER_NOTICE
+	int $error_level = E_USER_DEPRECATED,
+	string $plugin = 'AffiliateWP'
 ) {
 
-	if ( empty( $version ) || ! version_compare( '0.0', $version, '<=' ) ) {
-
-		// Show a notice about using the wrong version number, but continue.
-		affiliatewp_trigger_error(
-			__FUNCTION__,
-			sprintf(
-
-				// Translators: %s is the version string they passed.
-				__( '$version should be a valid SemVer version number, you passed %s, which does not appear to be.', 'affiliate-wp' ),
-				$version
-			),
-			E_USER_NOTICE
-		);
-	}
+	affiliatewp_validate_version( $version );
 
 	affiliatewp_trigger_error(
 		$function_name,
@@ -96,12 +85,109 @@ function affiliatewp_deprecate_function(
 			'(%1$s) %2$s',
 			sprintf(
 
-				// Translators: %s is the version number, e.g. 2.19.2.
-				__( 'Since AffiliateWP Version %s', 'affiliate-wp' ),
+				// Translators: %1$s is the plugin name and %2$s is the version number.
+				__( 'Since %1$s Version %2$s', 'affiliate-wp' ),
+				$plugin,
 				$version
 			),
 			$message
 		),
 		$error_level
 	);
+}
+
+/**
+ * Deprecate a hook.
+ *
+ * This triggers an `E_USER_DEPRECATED` when `WP_DEBUG` is `true`.
+ *
+ * Message ends up being something like:
+ *
+ * "Hook <hook_name>: (Since AffiliateWP Version 2.19.1) Use another function instead."
+ *
+ * Usage:
+ *
+ *     affiliatewp_deprecate_hook( 'my_hook', __( 'This hook is now deprecated.', 'affiliate-wp' ), '2.19.1' );
+ *
+ * @since 2.24.2
+ *
+ * @param string $function_name The function name or fully-qualified method name.
+ * @param string $message       The message to show (usually what function to use instead).
+ * @param string $version       The version the function was deprecated.
+ * @param int    $error_level   This lets you determine how harsh the warning is, defaults to an `E_USER_DEPRECATED`.
+ * @param string $plugin        The plugin name (defaults to 'AffiliateWP').
+ *
+ * @throws \InvalidArgumentException If you do not specify a valid version.
+ */
+function affiliatewp_deprecate_hook(
+	string $hook_name,
+	string $message,
+	string $version,
+	int $error_level = E_USER_DEPRECATED,
+	string $plugin = 'AffiliateWP'
+) {
+
+	affiliatewp_validate_version( $version );
+
+	/* This is documented in wp-includes/functions.php */
+	do_action( 'wp_trigger_error_run', $hook_name, $message, $error_level );
+
+	$message = sprintf(
+		'Hook %1$s: (Since %2$s Version %3$s) %4$s',
+		$hook_name,
+		$plugin,
+		$version,
+		$message
+	);
+
+	$message = wp_kses(
+		$message,
+		array(
+			'a' => array(
+				'href' => array(),
+			),
+			'br' => array(),
+			'code' => array(),
+			'em' => array(),
+			'strong' => array(),
+		),
+		array( 'http', 'https' )
+	);
+
+	trigger_error( $message, $error_level );
+}
+
+/**
+ * Validate a Version Number
+ *
+ * @param string  $version The version number.
+ * @param boolean $error   When set to true (default), will trigger an error.
+ *
+ * @since 2.24.2
+ *
+ * @return boolean True if it's valid, false otherwise.
+ */
+function affiliatewp_validate_version( string $version, bool $error = true ) : bool {
+
+	if ( ! empty( $version ) && version_compare( '0.0', $version, '<=' ) ) {
+		return true; // Valid version.
+	}
+
+	if ( ! $error ) {
+		return false; // Invalid.
+	}
+
+	// Show a notice about using the wrong version number, but continue.
+	affiliatewp_trigger_error(
+		__FUNCTION__,
+		sprintf(
+
+			// Translators: %s is the version string they passed.
+			__('$version should be a valid SemVer version number, you passed %s, which does not appear to be valid.', 'affiliate-wp'),
+			$version
+		),
+		E_USER_NOTICE
+	);
+
+	return false;
 }

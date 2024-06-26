@@ -9,7 +9,7 @@ function pattern_replace_urls( $pattern_content ) {
 		'https://wp.test/wp-content',
 		'https://enon.test/wp-content',
 		'https://2021.energieausweis-online-erstellen.de/app',
-		'https://staging.energieausweis-online-erstellen.de/app',
+		'https://staging.energieausweis.de/app',
 		'https://energieausweis.de/app'
 	);
 

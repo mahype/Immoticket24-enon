@@ -49,20 +49,25 @@ class License_Data {
 	 * Returns the activation status for the given license key.
 	 *
 	 * @since 2.9 Adapted from the Settings class, save functionality extracted to other functions, and added license key param.
+	 * @since 2.21.1 Added $force parameter.
 	 *
 	 * @param string $license_key License key.
 	 * @return array Returns status with error info or license data.
 	 */
-	public function activation_status( $license_key ) {
-		// Retrieve the license status from the database.
-		$status = affiliate_wp()->settings->get( 'license_status' );
+	public function activation_status( string $license_key, bool $force = false ) {
 
-		if ( isset( $status->license ) ) {
-			$status = $status->license;
-		}
+		if ( ! $force ) {
 
-		if ( 'valid' === $status ) {
-			return false; // License already activated and valid.
+			// Retrieve the license status from the database.
+			$status = affiliate_wp()->settings->get( 'license_status' );
+
+			if ( isset( $status->license ) ) {
+				$status = $status->license;
+			}
+
+			if ( 'valid' === $status ) {
+				return false; // License already activated and valid.
+			}
 		}
 
 		$license_key = sanitize_text_field( $license_key );
@@ -181,6 +186,24 @@ class License_Data {
 	}
 
 	/**
+	 * Return if the license is active (saved) in our setting and is active.
+	 *
+	 * When using $this->check_status() the license will return as valid, even if
+	 * the license is not saved. This method is an extra validation, so we can ensure
+	 * that the license is actually saved in our DB.
+	 *
+	 * @since 2.21.1
+	 *
+	 * @return bool Whether the license is activated on this site or not.
+	 */
+	public function is_license_site_activated() : bool {
+
+		$status = affiliate_wp()->settings->get( 'license_status' );
+
+		return is_object( $status ) && isset( $status->success );
+	}
+
+	/**
 	 * Retrieves the license key.
 	 *
 	 * If the `AFFILIATEWP_LICENSE_KEY` constant is defined, it will override values
@@ -210,8 +233,12 @@ class License_Data {
 	/**
 	 * Checks validity of the license key.
 	 *
-	 * @since 1.0
-	 * @since 2.9 Extracted this from the Settings class and updated name.
+	 * @since 1.0.0
+	 * @since 2.9.0  Extracted this from the Settings class and updated name.
+	 * @since 2.24.2 If the response fails, resulting in a `\WP_Error`, we've
+	 *               fixed the transient for checking again to not store the
+	 *               `\WP_Error` object, but store the current status until the
+	 *               site finally responds.
 	 *
 	 * @param bool $force Optional. Whether to force checking the license (bypass caching).
 	 * @return bool|mixed|void
@@ -243,7 +270,7 @@ class License_Data {
 			if ( is_wp_error( $response ) ) {
 
 				// Connection failed, try again in three hours.
-				set_transient( 'affwp_license_check', $response, 3 * HOUR_IN_SECONDS );
+				set_transient( 'affwp_license_check', $status, 3 * HOUR_IN_SECONDS );
 
 				return false;
 			}
@@ -256,14 +283,13 @@ class License_Data {
 				$status = 'invalid';
 			}
 
-			affiliate_wp()->settings->set( array( 'license_status' => $license_data) );
+			affiliate_wp()->settings->set( array( 'license_status' => $license_data ) );
 
 			set_transient( 'affwp_license_check', $status, DAY_IN_SECONDS );
 
 		}
 
 		return $status;
-
 	}
 
 	/**

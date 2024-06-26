@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.2] - 2024-03-04
+### Fixed:
+- Click link tracking for links with HTML entities.
+
+## [4.0.1] - 2024-02-28
+### Fixed:
+- Gmail mailer fatal error in the Monolog vendor library on PHP 8.1 and higher.
+- Click link tracking for links with HTML encoded ampersand.
+
+## [4.0.0] - 2024-02-27
+### IMPORTANT
+- Support for WordPress versions 5.4.x or lower has been discontinued. If you are using one of those versions, you MUST upgrade WordPress before installing or upgrading to WP Mail SMTP v4.0. Failure to do that will disable WP Mail SMTP functionality.
+
+### Added:
+- Email Rate Limiting - prevents your emails from being rejected by your email provider's limitations.
+- Optimized Email Sending - move email sending requests in the background process and speed up your site.
+- Automatic database table structure migrations after plugin update.
+
+### Changed:
+- Improved open email and click link tracking injection.
+- Updated AWS SDK library to 3.298.5.
+- Improved error handling when sending emails.
+
+### Fixed:
+- Plugin update via WP-CLI.
+- Email Log: delivery status verification for the Brevo mailer on soft bounced emails.
+- Database error while adding debug events if the `wpmailsmtp_debug_events` table does not exist.
+
 ## [3.11.1] - 2024-01-23
 ### Fixed:
 - Setup Wizard texts.

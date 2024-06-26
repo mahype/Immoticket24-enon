@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version 1.0.2
  *
@@ -129,8 +130,8 @@ class Admin
                     break;
                 default:
             }
-        } elseif (strpos($screen->base, 'tabellen_page_'.WPENON_PREFIX) === 0) {
-            $table_slug = str_replace('tabellen_page_'.WPENON_PREFIX, '', $screen->base);
+        } elseif (strpos($screen->base, 'tabellen_page_' . WPENON_PREFIX) === 0) {
+            $table_slug = str_replace('tabellen_page_' . WPENON_PREFIX, '', $screen->base);
             add_action('admin_enqueue_scripts', array($this, '_enqueueAdminStyle'), 20);
         }
     }
@@ -228,7 +229,7 @@ class Admin
     {
         if (!$post->post_title) {
             $title = \WPENON\Model\EnergieausweisManager::_generateTitle();
-            $title .= ' '.__('(vorläufiger Titel)', 'wpenon');
+            $title .= ' ' . __('(vorläufiger Titel)', 'wpenon');
 
             return $title;
         }
@@ -242,7 +243,7 @@ class Admin
         if ($this->energieausweis !== null) {
             $actions = $this->view->getActions(array(), $this->energieausweis);
             foreach ($actions as $slug => $action) {
-                $ret .= '<span id="'.$slug.'-btn">'.str_replace(' href="', ' class="button button-small" href="', $action).'</span>';
+                $ret .= '<span id="' . $slug . '-btn">' . str_replace(' href="', ' class="button button-small" href="', $action) . '</span>';
             }
         }
 
@@ -297,10 +298,10 @@ class Admin
         }
 
         // @todo Workaround should be done on place it is added
-        if( current_user_can( 'manage_options' ) || current_user_can( 'edit_products' ) ) {
-            unset( $vars['author'] );
+        if (current_user_can('manage_options') || current_user_can('edit_products')) {
+            unset($vars['author']);
         }
-        
+
         return $vars;
     }
 
@@ -313,9 +314,9 @@ class Admin
             $schema = $this->energieausweis !== null ? $this->energieausweis->getSchema() : null;
             \WPENON\Controller\General::instance()->_enqueueScripts($this->energieausweis, $schema, true);
 
-            wpenon_enqueue_style(  'wpenon-admin', 'admin', array());
-            wpenon_enqueue_script( 'wpenon-admin', 'admin', array('jquery', 'wpenon-general'));
-            wpenon_enqueue_script( 'image-field-upload', 'upload' );
+            wpenon_enqueue_style('wpenon-admin', 'admin', array());
+            wpenon_enqueue_script('wpenon-admin', 'admin', array('jquery', 'wpenon-general'));
+            wpenon_enqueue_script('image-field-upload', 'upload');
         }
     }
 
@@ -356,10 +357,10 @@ class Admin
                 case 'email':
                     $user_info = edd_get_payment_meta_user_info($post_id);
                     if (strpos($value, $user_info['email']) === 0) {
-                        $value = str_replace($user_info['email'], '<a href="'.esc_url(add_query_arg(array(
-                                'user' => urlencode($user_info['email']),
-                                'paged' => false,
-                            ))).'">'.esc_html($user_info['first_name'].' '.$user_info['last_name']).'</a>', $value);
+                        $value = str_replace($user_info['email'], '<a href="' . esc_url(add_query_arg(array(
+                            'user' => urlencode($user_info['email']),
+                            'paged' => false,
+                        ))) . '">' . esc_html($user_info['first_name'] . ' ' . $user_info['last_name']) . '</a>', $value);
                     }
                     break;
                 case 'status':
@@ -390,19 +391,19 @@ class Admin
 
     public function _getPaymentsRowActions($row_actions, $payment)
     {
-        $row_actions['wpenon_receipt_view'] = '<a href="'.add_query_arg(array(
-                'edd-action' => 'wpenon_receipt_view',
-                'purchase_id' => $payment->ID,
-            ), admin_url('edit.php?post_type=download&page=edd-payment-history')).'">'.__('Rechnung ansehen', 'wpenon').'</a>';
+        $row_actions['wpenon_receipt_view'] = '<a href="' . add_query_arg(array(
+            'edd-action' => 'wpenon_receipt_view',
+            'purchase_id' => $payment->ID,
+        ), admin_url('edit.php?post_type=download&page=edd-payment-history')) . '">' . __('Rechnung ansehen', 'wpenon') . '</a>';
 
         // Add a link to view the receipt without the header
-        if(current_user_can('administrator')) {
-            $cart_details = edd_get_payment_meta_cart_details( $payment->ID );
+        if (current_user_can('administrator')) {
+            $cart_details = edd_get_payment_meta_cart_details($payment->ID);
 
-            if ( is_array( $cart_details ) && count( $cart_details ) > 0 ) {
+            if (is_array($cart_details) && count($cart_details) > 0) {
                 $item = $cart_details[0];
-                $url = add_query_arg( 'hide_common', '1', \WPENON\Model\EnergieausweisManager::getVerifiedPermalink( $item['id'], 'receipt-view' ) );
-                $row_actions['wpenon_receipt_hide_view'] = '<a href="'. $url.'">'.__('Rechnung ohne Kopf', 'wpenon').'</a>';
+                $url = add_query_arg('hide_common', '1', \WPENON\Model\EnergieausweisManager::getVerifiedPermalink($item['id'], 'receipt-view'));
+                $row_actions['wpenon_receipt_hide_view'] = '<a href="' . $url . '">' . __('Rechnung ohne Kopf', 'wpenon') . '</a>';
             }
         }
         return $row_actions;
@@ -429,9 +430,9 @@ class Admin
 
         $value = $customer_meta['line1'];
         if (!empty($customer_meta['line2'])) {
-            $value .= ' '.$customer_meta['line2'];
+            $value .= ' ' . $customer_meta['line2'];
         }
-        $value .= ', '.$customer_meta['zip'].' '.$customer_meta['city'];
+        $value .= ', ' . $customer_meta['zip'] . ' ' . $customer_meta['city'];
 
         return $value;
     }
@@ -516,7 +517,7 @@ class Admin
                         $duplicate_id = (int) $_GET['frontend_action_duplicate_id'];
                         unset($_GET['frontend_action_duplicate_id']);
                         $_SERVER['REQUEST_URI'] = remove_query_arg(array('frontend_action_duplicate_id'), $_SERVER['REQUEST_URI']);
-                        $message = __('Der Ausweis %s wurde erfolgreich dupliziert.', 'wpenon').' <a href="'.esc_url(get_permalink($duplicate_id)).'">'.__('Neuen Ausweis ansehen', 'wpenon').'</a>';
+                        $message = __('Der Ausweis %s wurde erfolgreich dupliziert.', 'wpenon') . ' <a href="' . esc_url(get_permalink($duplicate_id)) . '">' . __('Neuen Ausweis ansehen', 'wpenon') . '</a>';
                     } else {
                         $message = __('Der Ausweis %s konnte nicht dupliziert werden.', 'wpenon');
                     }
@@ -553,12 +554,12 @@ class Admin
             }
 
             if (is_string($status)) {
-                $message = substr($message, 0, -1).': '.$status;
+                $message = substr($message, 0, -1) . ': ' . $status;
             }
 
             if (!empty($message)) {
-                echo '<div class="notice notice-'.($status ? 'success' : 'error').'">';
-                echo '<p>'.sprintf($message, get_the_title($id)).'</p>';
+                echo '<div class="notice notice-' . ($status ? 'success' : 'error') . '">';
+                echo '<p>' . sprintf($message, get_the_title($id)) . '</p>';
                 echo '</div>';
             }
 
@@ -578,17 +579,17 @@ class Admin
     {
         $rest = \WPENON\Util\DIBT::getRegistryIDsLeft();
 
-        if ($rest <= 20) {
+        if ($rest <= 75) {
             echo '<div class="notice notice-warning">';
-            echo '<p><strong>'.__('Warnung:', 'wpenon').'</strong> '.sprintf(__('Es sind nur noch %d Registriernummern verfügbar. Bitte erweitern Sie in Kürze das Kontingent beim %s.', 'wpenon'), $rest, '<a href="'.\WPENON\Util\DIBT::getLoginURL().'" target="_blank">'.__('DIBT', 'wpenon').'</a>').'</p>';
+            echo '<p><strong>' . __('Warnung:', 'wpenon') . '</strong> ' . sprintf(__('Es sind nur noch %d Registriernummern verfügbar. Bitte erweitern Sie in Kürze das Kontingent beim %s.', 'wpenon'), $rest, '<a href="' . \WPENON\Util\DIBT::getLoginURL() . '" target="_blank">' . __('DIBT', 'wpenon') . '</a>') . '</p>';
             echo '</div>';
-        } elseif ($rest <= 5) {
+        } elseif ($rest <= 15) {
             echo '<div class="notice notice-error">';
-            echo '<p><strong>'.__('Achtung:', 'wpenon').'</strong> ';
+            echo '<p><strong>' . __('Achtung:', 'wpenon') . '</strong> ';
             if ($rest == 0) {
-                echo sprintf(__('Es sind keine Registriernummern verfügbar. Aktuell können neu gekauften Energieausweisen der Kunden deshalb keine Registriernummern zugewiesen werden. Bitte erwerben Sie beim %s umgehend neue Registriernummern.', 'wpenon'), '<a href="'.\WPENON\Util\DIBT::getLoginURL().'" target="_blank">'.__('DIBT', 'wpenon').'</a>');
+                echo sprintf(__('Es sind keine Registriernummern verfügbar. Aktuell können neu gekauften Energieausweisen der Kunden deshalb keine Registriernummern zugewiesen werden. Bitte erwerben Sie beim %s umgehend neue Registriernummern.', 'wpenon'), '<a href="' . \WPENON\Util\DIBT::getLoginURL() . '" target="_blank">' . __('DIBT', 'wpenon') . '</a>');
             } else {
-                echo sprintf(__('Es sind nur noch %d Registriernummern verfügbar. Bitte erwerben Sie umgehend beim %s neue Registriernummern, damit diese weiterhin ordnungsgemäß zugewiesen werden können.', 'wpenon'), $rest, '<a href="'.\WPENON\Util\DIBT::getLoginURL().'" target="_blank">'.__('DIBT', 'wpenon').'</a>');
+                echo sprintf(__('Es sind nur noch %d Registriernummern verfügbar. Bitte erwerben Sie umgehend beim %s neue Registriernummern, damit diese weiterhin ordnungsgemäß zugewiesen werden können.', 'wpenon'), $rest, '<a href="' . \WPENON\Util\DIBT::getLoginURL() . '" target="_blank">' . __('DIBT', 'wpenon') . '</a>');
             }
             echo '</p>';
             echo '</div>';
@@ -610,15 +611,15 @@ class Admin
 
     public function _hideAddContent()
     {
-        ?>
-		<style type="text/css">
-			#favorite-actions,
-			.page-title-action,
-			.add-new-h2 {
-				display: none !important;
-			}
-		</style>
-		<?php
+?>
+        <style type="text/css">
+            #favorite-actions,
+            .page-title-action,
+            .add-new-h2 {
+                display: none !important;
+            }
+        </style>
+<?php
     }
 
     public function getModel()

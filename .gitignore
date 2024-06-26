@@ -37,6 +37,7 @@ public/app/nfwlog/*
 !public/app/plugins/affiliate-wp
 !public/app/plugins/affiliate-wp-lifetime-commissions
 !public/app/plugins/borlabs-cookie
+!public/app/plugins/borlabs-cookie/vendor
 !public/app/plugins/block-trusted-shops
 !public/app/plugins/block-wave-separator
 !public/app/plugins/cf7-mailchimp-integration

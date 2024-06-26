@@ -170,8 +170,10 @@ class Multisite {
 			! wp_doing_cron() &&
 			! get_transient( 'wp_mail_smtp_ms_init_migrations_daily' )
 		) {
-			remove_action( 'admin_init', [ wp_mail_smtp(), 'init_migrations' ] );
-			add_action( 'init', [ wp_mail_smtp(), 'init_migrations' ] );
+			$migrations = wp_mail_smtp()->get_migrations();
+
+			remove_action( 'admin_init', [ $migrations, 'init_migrations_on_request' ] );
+			add_action( 'init', [ $migrations, 'init_migrations_on_request' ] );
 			set_transient( 'wp_mail_smtp_ms_init_migrations_daily', true, DAY_IN_SECONDS );
 		}
 	}

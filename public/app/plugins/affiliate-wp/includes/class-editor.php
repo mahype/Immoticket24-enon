@@ -13,6 +13,8 @@
 
 use AffWP\Core\Registration;
 
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- We properly escape.
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -846,8 +848,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-login', '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-login', '', $block ), 'data' ); ?>
 
 			<input
 				type="text"
@@ -858,12 +860,31 @@ final class Affiliate_WP_Editor {
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				<?php echo esc_attr( $atts['required'] ); ?>
 				<?php echo esc_html( $atts['disabled'] ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Handle wp_kses when content is null.
+	 *
+	 * @since 2.23.0
+	 *
+	 * @param string $content Content.
+	 * @param array  $args    Arguments.
+	 *
+	 * @return mixed
+	 */
+	private function wp_kses( $content, $args ) {
+
+		if ( ! is_string( $content ) ) {
+			return $content; // Might be null...
+		}
+
+		return wp_kses( $content, $args );
 	}
 
 	/**
@@ -903,8 +924,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-name', '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-name', '', $block ), 'data' ); ?>
 
 			<input
 				type="text"
@@ -915,7 +936,7 @@ final class Affiliate_WP_Editor {
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				<?php echo esc_attr( $atts['required'] ); ?>
 				<?php echo esc_html( $atts['disabled'] ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -976,8 +997,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="text" id="<?php echo esc_attr( $label_slug ); ?>"
@@ -987,7 +1008,7 @@ final class Affiliate_WP_Editor {
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				<?php echo esc_attr( $atts['required'] ); ?>
 				<?php echo esc_html( $atts['disabled'] ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-name' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -1030,8 +1051,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="tel"
@@ -1041,7 +1062,7 @@ final class Affiliate_WP_Editor {
 				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				<?php echo esc_attr( $atts['required'] ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-phone' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-phone' ) ), 'strip' ); ?>
 			/>
 		</p>
 
@@ -1094,8 +1115,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			<textarea
 				name="<?php echo esc_attr( $name ); ?>"
 				id="<?php echo esc_attr( $label_slug ); ?>"
@@ -1103,7 +1124,7 @@ final class Affiliate_WP_Editor {
 				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				<?php echo esc_attr( $atts['required'] ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-textarea' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-textarea' ) ), 'strip' ); ?>
 				><?php echo esc_attr( $value ); ?></textarea>
 		</p>
 
@@ -1141,18 +1162,18 @@ final class Affiliate_WP_Editor {
 
 		ob_start();
 		?>
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
 			<input
 				type="checkbox"
 				id="<?php echo esc_attr( $label_slug ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
 				name="<?php echo esc_attr( $name ); ?>"
-				<?php echo wp_kses( checked( $value, $current, false ), 'strip' ); ?>
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-checkbox' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( checked( $value, $current, false ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-checkbox' ) ), 'strip' ); ?>
 				<?php echo esc_attr( $atts['required'] ); ?>
 			/>
 
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 		</p>
 
 		<?php
@@ -1257,33 +1278,33 @@ final class Affiliate_WP_Editor {
 				<?php echo isset( $terms_of_use, $terms_of_use->post_content ) ? wp_kses_post( $terms_of_use->post_content ) : ''; ?>
 			</div>
 
-			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+			<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
 				<input
 					type="checkbox"
 					id="<?php echo esc_attr( $label_slug ); ?>"
 					value="<?php echo esc_attr( $value ); ?>"
 					name="<?php echo esc_attr( $name ); ?>"
-					<?php echo wp_kses( $checked, 'strip' ); ?>
-					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+					<?php echo $this->wp_kses( $checked, 'strip' ); ?>
+					<?php echo $this->wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 					<?php echo esc_attr( $atts['required'] ); ?>
 				/>
 
-				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+				<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			</p>
 
 		<?php else : ?>
 
-			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+			<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
 				<input
 					type="checkbox" id="<?php echo esc_attr( $label_slug ); ?>"
 					value="<?php echo esc_attr( $value ); ?>"
 					name="<?php echo esc_attr( $name ); ?>"
-					<?php echo wp_kses( $checked, 'strip' ); ?>
-					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+					<?php echo $this->wp_kses( $checked, 'strip' ); ?>
+					<?php echo $this->wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 					<?php echo esc_attr( $atts['required'] ); ?>
 				/>
 
-				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+				<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 			</p>
 
 		<?php endif;
@@ -1325,13 +1346,13 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
 
 			<select
 				name="<?php echo esc_attr( $name ); ?>"
 				id="<?php echo esc_attr( $label_slug ); ?>"
-				<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 				<?php echo esc_attr( $required_attr ); ?>>
 				<option value=""></option>
 				<?php foreach ( $options as $option_index => $option ) : ?>
@@ -1378,8 +1399,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
 
 			<?php foreach ( $options as $option_index => $option ) : ?>
 				<label class="affwp-label-radio">
@@ -1433,8 +1454,8 @@ final class Affiliate_WP_Editor {
 
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $label, $label_slug, $label_classes, $block ), 'data' ); ?>
 
 			<?php foreach( $options as $option_index => $option ) : ?>
 				<label class="affwp-label-checkbox-multiple">
@@ -1495,8 +1516,8 @@ final class Affiliate_WP_Editor {
 		?>
 
 		<?php if ( ! is_user_logged_in() ) : ?>
-			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-pass', '', $block ), 'data' ); ?>
+			<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+				<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], 'affwp-user-pass', '', $block ), 'data' ); ?>
 
 				<input
 					type="password"
@@ -1506,12 +1527,12 @@ final class Affiliate_WP_Editor {
 					title="<?php echo esc_attr( $atts['label'] ); ?>"
 					placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 					required
-					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+					<?php echo $this->wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 				/>
 			</p>
 
-			<p<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
-				<?php echo wp_kses( $this->render_field_label( $atts, $atts['label_confirm'], 'affwp-user-pass2', '', $block ), 'data' ); ?>
+			<p<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>>
+				<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label_confirm'], 'affwp-user-pass2', '', $block ), 'data' ); ?>
 
 				<input
 					type="password"
@@ -1520,7 +1541,7 @@ final class Affiliate_WP_Editor {
 					title="<?php echo esc_attr( $atts['label_confirm'] ); ?>"
 					placeholder="<?php echo esc_attr( $atts['placeholder_confirm'] ); ?>"
 					required
-					<?php echo wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
+					<?php echo $this->wp_kses( $this->render_classes( $field_classes ), 'strip' ); ?>
 				/>
 			</p>
 
@@ -1577,8 +1598,8 @@ final class Affiliate_WP_Editor {
 		ob_start();
 		?>
 
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="url"
@@ -1587,7 +1608,7 @@ final class Affiliate_WP_Editor {
 				name="<?php echo esc_attr( $name ); ?>"
 				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-website' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-website' ) ), 'strip' ); ?>
 				<?php echo esc_attr( $atts['required'] ); ?>
 			/>
 		</p>
@@ -1649,8 +1670,8 @@ final class Affiliate_WP_Editor {
 
 		ob_start();
 		?>
-		<p<?php echo wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
-			<?php echo wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
+		<p<?php echo $this->wp_kses( $this->render_classes( array( isset( $atts['className'] ) ? $atts['className'] : '' ) ), 'strip' ); ?>>
+			<?php echo $this->wp_kses( $this->render_field_label( $atts, $atts['label'], $label_slug, '', $block ), 'data' ); ?>
 
 			<input
 				type="email"
@@ -1659,7 +1680,7 @@ final class Affiliate_WP_Editor {
 				placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>"
 				title="<?php echo esc_attr( $atts['label'] ); ?>"
 				value="<?php echo esc_attr( $value ); ?>"
-				<?php echo wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-email' ) ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( array( 'affwp-field', 'affwp-field-email' ) ), 'strip' ); ?>
 				<?php echo esc_attr( $atts['required'] ); ?>
 				<?php echo esc_html( $disabled ); ?>
 			/>
@@ -1811,7 +1832,7 @@ final class Affiliate_WP_Editor {
 				type="submit"
 				data-action="affiliate_register_<?php echo get_the_ID(); ?>"
 				value="<?php echo esc_attr( $btn_text ); ?>"
-				<?php echo wp_kses( $this->render_classes( $classes ), 'strip' ); ?>
+				<?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ); ?>
 			/>
 			<script>
 				function onSubmit(token) {
@@ -1827,7 +1848,7 @@ final class Affiliate_WP_Editor {
 				}
 			</script>
 		<?php else : ?>
-			<input <?php echo wp_kses( $this->render_classes( $classes ), 'strip' ) ?> type="submit" value="<?php echo esc_attr( $btn_text ); ?>" />
+			<input <?php echo $this->wp_kses( $this->render_classes( $classes ), 'strip' ) ?> type="submit" value="<?php echo esc_attr( $btn_text ); ?>" />
 		<?php endif; ?>
 
 		<?php

@@ -40,8 +40,16 @@
 				<input type="hidden" name="post_id" value="<?php echo get_the_ID(); ?>">
 				<?php if ( ! empty( $terms_of_use_page_id ) ) : ?>
 				<p class="mt-4 text-sm leading-6 text-brand-125">
-					<?php echo sprintf( __( 'By joining you agree to our %s.', 'affiliate-wp' ),
-				sprintf( '<a href="' . esc_url( get_permalink( $terms_of_use_page_id ) ) . '" class="underline-offset-4 hover:underline-offset-2  text-brand-130 underline hover:underline transition-underline ease-in-out duration-150" target="_blank">%s</a>', __( 'Affiliate Terms of Use', 'affiliate-wp' ) ) ); ?>
+					<?php
+					printf(
+						esc_html( __( 'By joining you agree to our %s.', 'affiliate-wp' ) ),
+						sprintf(
+							'<a href="%s" class="underline-offset-4 hover:underline-offset-2 text-brand-130 underline hover:underline transition-underline ease-in-out duration-150" target="_blank">%s</a>',
+							esc_url( get_permalink( $terms_of_use_page_id ) ),
+							esc_html( __( 'Affiliate Terms of Use', 'affiliate-wp' ) )
+						)
+					);
+					?>
 				</p>
 				<?php endif; ?>
 			</div>

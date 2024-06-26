@@ -206,9 +206,9 @@ $customer       = new EDD_Customer( $payment->customer_id );
 								<div class="edd-order-update-box edd-admin-box">
 									<?php do_action( 'edd_view_order_details_update_before', $payment_id ); ?>
 									<div id="major-publishing-actions">
-										<div id="delete-action">
+										<!-- <div id="delete-action">
 											<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'edd-action' => 'delete_payment', 'purchase_id' => urlencode( $payment_id ) ), admin_url( 'edit.php?post_type=download&page=edd-payment-history' ) ), 'edd_payment_nonce' ) ); ?>" class="edd-delete-payment edd-delete"><?php esc_html_e( 'Delete Payment', 'easy-digital-downloads' ); ?></a>
-										</div>
+										</div> -->
 										<input type="submit" class="button button-primary right" value="<?php esc_attr_e( 'Save Payment', 'easy-digital-downloads' ); ?>"/>
 										<div class="clear"></div>
 									</div>

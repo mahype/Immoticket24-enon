@@ -43,14 +43,6 @@ function affwp_is_affiliate( $user_id = 0 ) {
  */
 function affwp_get_affiliate_id( $user_id = 0 ) {
 
-	/*
-	 * What does this code do?
-	 *
-	 * I can't grok this, why is this here? Do you understand this?
-	 *
-	 * If you do, please share it with the team it needs to be refactored
-	 * so someone can understand what it's doing and why.
-	 */
 	if ( empty( $user_id ) ) {
 		$is_admin_doing_ajax = is_admin() || wp_doing_ajax();
 
@@ -234,6 +226,29 @@ function affwp_get_affiliate_user_id( $affiliate = 0 ) {
 	}
 
 	return $user_id;
+}
+
+/**
+ * Retrieve the affiliate's gravatar.
+ *
+ * @since 2.23.2
+ *
+ * @param int|AffWP\Affiliate|string $affiliate The affiliate ID or affiliate object.
+ * @param int $size The size to render the gravatar.
+ *
+ * @return string The user gravatar.
+ */
+function affwp_get_affiliate_gravatar( $affiliate = 0, int $size = 40 ) : string {
+
+	if ( is_int( $affiliate ) ) {
+		$affiliate = affwp_get_affiliate( $affiliate );
+	}
+
+	if ( is_a( $affiliate, '\AffWP\Affiliate' ) ) {
+		return $affiliate->gravatar( $size );
+	}
+
+	return '';
 }
 
 /**
@@ -1414,10 +1429,12 @@ function affwp_add_affiliate( $data = array() ) {
 		 * Fires after adding a user as an affiliate.
 		 *
 		 * @since 2.15.0
+		 * @since 2.23.2 Added data attribute.
 		 *
 		 * @param int $affiliate_id Affiliate ID.
+		 * @param array $data Submited data.
 		 */
-		do_action( 'affwp_add_new_affiliate', $affiliate_id );
+		do_action( 'affwp_add_new_affiliate', $affiliate_id, $data );
 
 		return $affiliate_id;
 	}

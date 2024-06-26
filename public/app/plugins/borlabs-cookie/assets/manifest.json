@@ -1,0 +1,497 @@
+{
+  "__plugin-vue_export-helper.DlAUqK2U.min.js": {
+    "file": "javascript/_plugin-vue_export-helper.DlAUqK2U.min.js",
+    "name": "_plugin-vue_export-helper"
+  },
+  "_base-button.!~{00n}~.min.js": {
+    "file": "css/base-button.k3qGhxl_.min.css",
+    "src": "_base-button.!~{00n}~.min.js"
+  },
+  "_base-button.CYSn-Dkf.min.js": {
+    "file": "javascript/base-button.CYSn-Dkf.min.js",
+    "name": "base-button",
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ],
+    "css": [
+      "css/base-button.k3qGhxl_.min.css"
+    ]
+  },
+  "_borlabs-cookie-box.!~{009}~.min.js": {
+    "file": "css/borlabs-cookie-box.BNp8dQo_.min.css",
+    "src": "_borlabs-cookie-box.!~{009}~.min.js"
+  },
+  "_borlabs-cookie-box.rxA24TRh.min.js": {
+    "file": "javascript/borlabs-cookie-box.rxA24TRh.min.js",
+    "name": "borlabs-cookie-box",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-special-features.ts",
+      "_x-icon.DnuIVqrg.min.js",
+      "_base-button.CYSn-Dkf.min.js",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "_iabtcf.CBwKfVja.min.js"
+    ],
+    "dynamicImports": [
+      "vue/components/layouts/dialog-details/default.vue",
+      "vue/components/layouts/dialog-details/iabtcf.vue",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "vue/utils/use-special-features.ts",
+      "_iabtcf.CBwKfVja.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/components/layouts/dialog-entrance/iabtcf.vue",
+      "vue/components/layouts/dialog-entrance/iabtcf-compact.vue"
+    ],
+    "css": [
+      "css/borlabs-cookie-box.BNp8dQo_.min.css"
+    ]
+  },
+  "_consent-history-table.D9sVaSw8.min.js": {
+    "file": "javascript/consent-history-table.D9sVaSw8.min.js",
+    "name": "consent-history-table.vue_vue_type_script_setup_true_lang",
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "_consents.BTukyEJU.min.js": {
+    "file": "javascript/consents.BTukyEJU.min.js",
+    "name": "consents",
+    "imports": [
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ],
+    "dynamicImports": [
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-special-features.ts",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "vue/components/borlabs-widget.vue",
+      "vue/components/borlabs-cookie-preferences.vue",
+      "vue/components/borlabs-cookie-switch-consent.vue",
+      "vue/components/borlabs-cookie-user-uid.vue",
+      "vue/components/borlabs-cookie-service-list.vue",
+      "vue/components/consent-history/consent-history-table.vue",
+      "vue/components/content-blocker/provider-service-information-table.vue"
+    ]
+  },
+  "_iabtcf-entrance-description.!~{00s}~.min.js": {
+    "file": "css/iabtcf-entrance-description.B85fL83Z.min.css",
+    "src": "_iabtcf-entrance-description.!~{00s}~.min.js"
+  },
+  "_iabtcf-entrance-description.CziMHKbZ.min.js": {
+    "file": "javascript/iabtcf-entrance-description.CziMHKbZ.min.js",
+    "name": "iabtcf-entrance-description",
+    "imports": [
+      "_iabtcf.CBwKfVja.min.js",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "_non-iab-tcf-standard-notice.BEkF08CO.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "vue/utils/use-special-features.ts",
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ],
+    "css": [
+      "css/iabtcf-entrance-description.B85fL83Z.min.css"
+    ]
+  },
+  "_iabtcf.CBwKfVja.min.js": {
+    "file": "javascript/iabtcf.CBwKfVja.min.js",
+    "name": "iabtcf",
+    "isDynamicEntry": true,
+    "imports": [
+      "_observer.DYJbeI3G.min.js",
+      "_consents.BTukyEJU.min.js"
+    ]
+  },
+  "_non-iab-tcf-standard-notice.BEkF08CO.min.js": {
+    "file": "javascript/non-iab-tcf-standard-notice.BEkF08CO.min.js",
+    "name": "non-iab-tcf-standard-notice",
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ]
+  },
+  "_observer.DYJbeI3G.min.js": {
+    "file": "javascript/observer.DYJbeI3G.min.js",
+    "name": "observer",
+    "imports": [
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "_service-group-card.!~{00u}~.min.js": {
+    "file": "css/service-group-card.DY31qxDx.min.css",
+    "src": "_service-group-card.!~{00u}~.min.js"
+  },
+  "_service-group-card.f1SD-BzB.min.js": {
+    "file": "javascript/service-group-card.f1SD-BzB.min.js",
+    "name": "service-group-card.vue_vue_type_script_setup_true_lang",
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "_toggle-accordion.CunsMWhq.min.js",
+      "_service-item-table.CLdvzLrg.min.js",
+      "_service-item-switch.q0i934ai.min.js"
+    ],
+    "css": [
+      "css/service-group-card.DY31qxDx.min.css"
+    ]
+  },
+  "_service-item-switch.q0i934ai.min.js": {
+    "file": "javascript/service-item-switch.q0i934ai.min.js",
+    "name": "service-item-switch",
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ]
+  },
+  "_service-item-table.!~{00p}~.min.js": {
+    "file": "css/service-item-table.ZWeRme6m.min.css",
+    "src": "_service-item-table.!~{00p}~.min.js"
+  },
+  "_service-item-table.CLdvzLrg.min.js": {
+    "file": "javascript/service-item-table.CLdvzLrg.min.js",
+    "name": "service-item-table",
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ],
+    "css": [
+      "css/service-item-table.ZWeRme6m.min.css"
+    ]
+  },
+  "_toggle-accordion.CunsMWhq.min.js": {
+    "file": "javascript/toggle-accordion.CunsMWhq.min.js",
+    "name": "toggle-accordion",
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ]
+  },
+  "_vue.yi1IrvfF.min.js": {
+    "file": "javascript/vue.yi1IrvfF.min.js",
+    "name": "vue"
+  },
+  "_x-icon.DnuIVqrg.min.js": {
+    "file": "javascript/x-icon.DnuIVqrg.min.js",
+    "name": "x-icon",
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ]
+  },
+  "scss/admin/wordpress-admin.scss": {
+    "file": "css/wordpress-admin.OgwzV9sY.min.css",
+    "src": "scss/admin/wordpress-admin.scss",
+    "isEntry": true
+  },
+  "scss/frontend/borlabs-cookie.scss": {
+    "file": "css/borlabs-cookie.BIw2cY9a.min.css",
+    "src": "scss/frontend/borlabs-cookie.scss",
+    "isEntry": true
+  },
+  "typescript/admin/borlabs-cookie-admin.ts": {
+    "file": "javascript/borlabs-cookie-admin.min.js",
+    "name": "borlabs-cookie-admin",
+    "src": "typescript/admin/borlabs-cookie-admin.ts",
+    "isEntry": true,
+    "imports": [
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "typescript/frontend/borlabs-cookie-iabtcf.ts": {
+    "file": "javascript/borlabs-cookie-iabtcf.min.js",
+    "name": "borlabs-cookie-iabtcf",
+    "src": "typescript/frontend/borlabs-cookie-iabtcf.ts",
+    "isEntry": true,
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "typescript/frontend/borlabs-cookie-prioritize.ts": {
+    "file": "javascript/borlabs-cookie-prioritize.min.js",
+    "name": "borlabs-cookie-prioritize",
+    "src": "typescript/frontend/borlabs-cookie-prioritize.ts",
+    "isEntry": true
+  },
+  "typescript/frontend/borlabs-cookie.ts": {
+    "file": "javascript/borlabs-cookie.min.js",
+    "name": "borlabs-cookie",
+    "src": "typescript/frontend/borlabs-cookie.ts",
+    "isEntry": true,
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "vue/components/borlabs-cookie-preferences.vue": {
+    "file": "javascript/borlabs-cookie-preferences.CLESvn8R.min.js",
+    "name": "borlabs-cookie-preferences",
+    "src": "vue/components/borlabs-cookie-preferences.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_base-button.CYSn-Dkf.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_observer.DYJbeI3G.min.js"
+    ]
+  },
+  "vue/components/borlabs-cookie-service-list.vue": {
+    "file": "javascript/borlabs-cookie-service-list.BsfxvNNW.min.js",
+    "name": "borlabs-cookie-service-list",
+    "src": "vue/components/borlabs-cookie-service-list.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_service-item-table.CLdvzLrg.min.js",
+      "_service-item-switch.q0i934ai.min.js",
+      "_toggle-accordion.CunsMWhq.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_observer.DYJbeI3G.min.js"
+    ]
+  },
+  "vue/components/borlabs-cookie-switch-consent.vue": {
+    "file": "javascript/borlabs-cookie-switch-consent.DFCeE3aw.min.js",
+    "name": "borlabs-cookie-switch-consent",
+    "src": "vue/components/borlabs-cookie-switch-consent.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_service-item-switch.q0i934ai.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_observer.DYJbeI3G.min.js"
+    ]
+  },
+  "vue/components/borlabs-cookie-user-uid.vue": {
+    "file": "javascript/borlabs-cookie-user-uid.CINTXLJe.min.js",
+    "name": "borlabs-cookie-user-uid",
+    "src": "vue/components/borlabs-cookie-user-uid.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_observer.DYJbeI3G.min.js"
+    ]
+  },
+  "vue/components/borlabs-widget.vue": {
+    "file": "javascript/borlabs-widget.YheolNLE.min.js",
+    "name": "borlabs-widget",
+    "src": "vue/components/borlabs-widget.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_consents.BTukyEJU.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "_observer.DYJbeI3G.min.js"
+    ]
+  },
+  "vue/components/consent-history/consent-history-table.vue": {
+    "file": "javascript/consent-history-table.CsIunsg_.min.js",
+    "name": "consent-history-table",
+    "src": "vue/components/consent-history/consent-history-table.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_consent-history-table.D9sVaSw8.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js"
+    ]
+  },
+  "vue/components/content-blocker/provider-service-information-table.vue": {
+    "file": "javascript/provider-service-information-table.D1OMjnmL.min.js",
+    "name": "provider-service-information-table",
+    "src": "vue/components/content-blocker/provider-service-information-table.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_service-item-table.CLdvzLrg.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_x-icon.DnuIVqrg.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js"
+    ],
+    "css": [
+      "css/provider-service-information-table.CaSXG6NZ.min.css"
+    ]
+  },
+  "vue/components/layouts/dialog-details/default.vue": {
+    "file": "javascript/default.B5qZrRYm.min.js",
+    "name": "default",
+    "src": "vue/components/layouts/dialog-details/default.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "_service-group-card.f1SD-BzB.min.js",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "_consents.BTukyEJU.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_consent-history-table.D9sVaSw8.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_toggle-accordion.CunsMWhq.min.js",
+      "_service-item-table.CLdvzLrg.min.js",
+      "_service-item-switch.q0i934ai.min.js",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-special-features.ts",
+      "_x-icon.DnuIVqrg.min.js",
+      "_base-button.CYSn-Dkf.min.js",
+      "vue/utils/use-iabtcf-legitimate-interests.ts"
+    ]
+  },
+  "vue/components/layouts/dialog-details/iabtcf.vue": {
+    "file": "javascript/iabtcf.CnvqO4QU.min.js",
+    "name": "iabtcf",
+    "src": "vue/components/layouts/dialog-details/iabtcf.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_vue.yi1IrvfF.min.js",
+      "_service-group-card.f1SD-BzB.min.js",
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "_non-iab-tcf-standard-notice.BEkF08CO.min.js",
+      "_consents.BTukyEJU.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_service-item-switch.q0i934ai.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_service-item-table.CLdvzLrg.min.js",
+      "_toggle-accordion.CunsMWhq.min.js",
+      "vue/utils/use-special-features.ts",
+      "_consent-history-table.D9sVaSw8.min.js",
+      "_x-icon.DnuIVqrg.min.js",
+      "_base-button.CYSn-Dkf.min.js"
+    ],
+    "css": [
+      "css/iabtcf.BiAPZg52.min.css"
+    ]
+  },
+  "vue/components/layouts/dialog-entrance/iabtcf-compact.vue": {
+    "file": "javascript/iabtcf-compact.CcLqKeno.min.js",
+    "name": "iabtcf-compact",
+    "src": "vue/components/layouts/dialog-entrance/iabtcf-compact.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "_iabtcf-entrance-description.CziMHKbZ.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_consents.BTukyEJU.min.js",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-special-features.ts",
+      "_x-icon.DnuIVqrg.min.js",
+      "_base-button.CYSn-Dkf.min.js",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "_non-iab-tcf-standard-notice.BEkF08CO.min.js"
+    ]
+  },
+  "vue/components/layouts/dialog-entrance/iabtcf.vue": {
+    "file": "javascript/iabtcf.Dh2Ey4-2.min.js",
+    "name": "iabtcf",
+    "src": "vue/components/layouts/dialog-entrance/iabtcf.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_borlabs-cookie-box.rxA24TRh.min.js",
+      "_iabtcf-entrance-description.CziMHKbZ.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "__plugin-vue_export-helper.DlAUqK2U.min.js",
+      "_consents.BTukyEJU.min.js",
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_iabtcf.CBwKfVja.min.js",
+      "vue/utils/use-iabtcf-purposes.ts",
+      "vue/utils/use-special-features.ts",
+      "_x-icon.DnuIVqrg.min.js",
+      "_base-button.CYSn-Dkf.min.js",
+      "vue/utils/use-iabtcf-legitimate-interests.ts",
+      "_non-iab-tcf-standard-notice.BEkF08CO.min.js"
+    ]
+  },
+  "vue/utils/use-iabtcf-legitimate-interests.ts": {
+    "file": "javascript/use-iabtcf-legitimate-interests.dzWtmCb7.min.js",
+    "name": "use-iabtcf-legitimate-interests",
+    "src": "vue/utils/use-iabtcf-legitimate-interests.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_iabtcf.CBwKfVja.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_consents.BTukyEJU.min.js"
+    ]
+  },
+  "vue/utils/use-iabtcf-purposes.ts": {
+    "file": "javascript/use-iabtcf-purposes.CIqYvvZP.min.js",
+    "name": "use-iabtcf-purposes",
+    "src": "vue/utils/use-iabtcf-purposes.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_vue.yi1IrvfF.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_consents.BTukyEJU.min.js"
+    ]
+  },
+  "vue/utils/use-iabtcf-vendors.ts": {
+    "file": "javascript/use-iabtcf-vendors.DNCBiqII.min.js",
+    "name": "use-iabtcf-vendors",
+    "src": "vue/utils/use-iabtcf-vendors.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_iabtcf.CBwKfVja.min.js",
+      "_vue.yi1IrvfF.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_consents.BTukyEJU.min.js"
+    ]
+  },
+  "vue/utils/use-special-features.ts": {
+    "file": "javascript/use-special-features.D0fl2CN_.min.js",
+    "name": "use-special-features",
+    "src": "vue/utils/use-special-features.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "vue/utils/use-iabtcf-vendors.ts",
+      "_vue.yi1IrvfF.min.js",
+      "_iabtcf.CBwKfVja.min.js",
+      "_observer.DYJbeI3G.min.js",
+      "_consents.BTukyEJU.min.js"
+    ]
+  }
+}

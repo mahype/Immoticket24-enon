@@ -162,7 +162,7 @@ $disabled = disabled( (bool) $payout, true, false );
 				</th>
 
 				<td>
-					<select name="type" id="type">
+					<select name="type" id="type" class="affwp-use-select2">
 						<?php foreach( affwp_get_referral_types() as $type_id => $type ) : ?>
 							<option value="<?php echo esc_attr( $type_id ); ?>"<?php selected( $type_id, $referral->type ); ?>><?php echo esc_html( $type['label'] ); ?></option>
 						<?php endforeach; ?>
@@ -292,7 +292,7 @@ $disabled = disabled( (bool) $payout, true, false );
 
 				<td>
 					<?php $labels = affwp_get_referral_statuses( true ); ?>
-					<select name="status" id="status" <?php echo $disabled; ?>>
+					<select class="affwp-use-select2" name="status" id="status" <?php echo $disabled; ?>>
 						<?php if ( 'draft' === $referral->status ) : ?>
 							<option value="draft"<?php selected( 'draft', $referral->status ); ?>><?php echo esc_html( $labels['draft'] ); ?></option>
 						<?php elseif ( 'failed' === $referral->status ) : ?>
@@ -313,6 +313,19 @@ $disabled = disabled( (bool) $payout, true, false );
 				</td>
 
 			</tr>
+
+			<?php
+			
+			/**
+			 * Fires at the end of the edit-referral admin screen form area, below form fields.
+			 *
+			 * @since 2.22.0
+			 *
+			 * @param param \AffWP\Referral $referral The referral object.
+			 */
+			do_action( 'affwp_edit_referral_end', $referral );
+			
+			?>
 
 		</table>
 

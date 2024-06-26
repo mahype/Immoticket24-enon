@@ -73,7 +73,7 @@ Bisher berücksichtigte Sicherheitslücken:
 Das Deployment erfolgt über Github Actions jeweils über die entsprechenden Branches. Folgende Branches werden deployed:
 
 - production - https://energieausweis.de
-- staging - https://staging.energieausweis-online-erstellen.de
+- staging - https://staging.energieausweis.de
 - din18599 - https://din18599.energieausweis-online-erstellen.de
 
 Hierbei wird der jeweilige Branch auf den Server deployed. Die Skripte dazu liegen in .github/workflows. Prinzipiell wird hier ein git pull gemacht und die composer depencies upgedated.
