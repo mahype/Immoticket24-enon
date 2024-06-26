@@ -115,7 +115,17 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
                     $address .= $this->wpenon_payment->user_info['business_name'] . "\n";
                 }
 			}
-			$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+			
+
+            $order = $this->wpenon_payment->cart_details[0]["id"];
+            if ( $order ) {
+                $reseller_id = get_post_meta( $order, 'reseller_id', true );
+                $reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+                $address .=  $reseller->get_contact_firstname. ' ' . $reseller->get_contact_lastname . "\n";
+            } else {
+                $address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+            }
+            
 			if ( isset( $this->wpenon_payment->user_info['address']['line1'] ) && ! empty( $this->wpenon_payment->user_info['address']['line1'] ) ) {
 				$address .= $this->wpenon_payment->user_info['address']['line1'] . "\n";
 			}
