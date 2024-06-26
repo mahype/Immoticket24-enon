@@ -32,6 +32,9 @@ function slackErrorHandler($severity, $message, $file, $line) {
     
     $text = "Error: [$severity] $message in $file on line $line";
     $text .= "\nURL: " . $_SERVER['REQUEST_URI'];
+
+    sendSlackNotification($text);
+
     $text .= "\nBacktrace: " . print_r(debug_backtrace(), true);
     
     if (!empty($_POST)) {
@@ -39,7 +42,7 @@ function slackErrorHandler($severity, $message, $file, $line) {
         $text .= "\nPOST URL: " . $_SERVER['HTTP_REFERER'];
     }
 
-    sendSlackNotification($text);
+    mail('sven@awesome.ug', 'energieausweis.de Fatal Error', $text);
 
     return false;
 }
@@ -47,14 +50,17 @@ function slackErrorHandler($severity, $message, $file, $line) {
 function slackExceptionHandler($exception) {
     $text = "Exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine();
     $text .= "\nURL: " . $_SERVER['REQUEST_URI'];
+
+    sendSlackNotification($text);
+
     $text .= "\nBacktrace: " . print_r(debug_backtrace(), true);
 
     if (!empty($_POST)) {
         $text .= "\nPOST Variables: " . print_r($_POST, true);
         $text .= "\nPOST URL: " . $_SERVER['HTTP_REFERER'];
     }
-    
-    sendSlackNotification($text);
+
+    mail('sven@awesome.ug', 'energieausweis.de Exception', $text);
     return false;
 }
 
