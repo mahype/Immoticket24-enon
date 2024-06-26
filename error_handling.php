@@ -35,7 +35,9 @@ function slackErrorHandler($severity, $message, $file, $line) {
 
     sendSlackNotification($text);
 
-    $text .= "\nBacktrace: " . print_r(debug_backtrace(), true);
+    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    $backtrace_files = array_column($backtrace, 'file');
+    $text .= "\nBacktrace: " . implode("\n", $backtrace_files);
     
     if (!empty($_POST)) {
         $text .= "\nPOST Variables: " . print_r($_POST, true);
@@ -53,7 +55,9 @@ function slackExceptionHandler($exception) {
 
     sendSlackNotification($text);
 
-    $text .= "\nBacktrace: " . print_r(debug_backtrace(), true);
+    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    $backtrace_files = array_column($backtrace, 'file');
+    $text .= "\nBacktrace: " . implode("\n", $backtrace_files);
 
     if (!empty($_POST)) {
         $text .= "\nPOST Variables: " . print_r($_POST, true);
