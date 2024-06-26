@@ -1080,8 +1080,8 @@ $anlage = array(
 						'deckenheizung'    => __('Deckenheizung', 'wpenon'),
 					),
 					'display'  => array(
-						'callback'      => 'wpenon_show_on_array_whitelist',
-						'callback_args' => array('field::h_uebergabe', array('flaechenheizung')),
+						'callback'      => 'wpenon_erzeuger_mit_flaechenheizung_vorhanden',
+						'callback_args' => array('field:h_uebergabe', 'field::h_erzeugung', 'field::h2_erzeugung', 'field::h3_erzeugung', 'field::h2_info', 'field::h3_info'),
 					),
 					'required' => true,
 				),
