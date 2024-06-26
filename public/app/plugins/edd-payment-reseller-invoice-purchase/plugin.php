@@ -38,6 +38,7 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 	$reseller_id = get_post_meta( $cartid, 'reseller_id', true );
 	$reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
 
+    add_post_meta($cartid, 'orig_purchase_data', $purchase_data );
 	foreach ( $purchase_data['cart_details'] as $key => $item ) {
 		$cart_details = $item;
 		$ausweis_type = get_post_meta( (int) $cart_details['id'], 'wpenon_type', true );
@@ -90,6 +91,10 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 
 		// Empty the shopping cart
 		edd_empty_cart();
+
+        echo "Danke für Ihr Vertrauen - Sie erhalten innerhalb der nächsten Minuten die Rechnung per Email übersendet. Sollte innerhalb der nächsten 5 Minuten keine Rechnungsmail bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach.";
+        exit;
+
         $selected_page_id = edd_get_option('kauf_auf_rechnung_gateway_page');
         if ($selected_page_id) {
             // Hier kannst du die Seite verwenden
