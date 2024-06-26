@@ -305,48 +305,7 @@ abstract class Modernizations
 	 *
 	 * @since 1.0.0
 	 */
-	protected function needs_heater() {
-		$heatings = array( 'h' );
-
-		$max_age = 30;
-
-		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
-			$heatings[] = 'h2';
-
-			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
-				$heatings[] = 'h3';
-			}
-		}
-
-		$current_year = absint( current_time( 'Y' ) );
-
-		$types_general = array(
-			'standardkessel',
-			'elektronachtspeicherheizung',
-		);
-
-		$types_older_max_age  = array(
-			'gasraumheizer',
-			'elektrodirektheizgeraet',
-			'oelofenverdampfungsbrenner',
-			'kohleholzofen',
-		);
-
-		foreach ( $heatings as $heating ) {
-			$type_field = $heating . '_erzeugung';
-			$year_field = $heating . '_baujahr';
-
-			if ( in_array( $this->energieausweis->$type_field, $types_general, true ) ) {
-				return true;
-			}
-
-			if ( in_array( $this->energieausweis->$type_field, $types_older_max_age, true ) && ! empty( $this->energieausweis->$year_field ) && $this->energieausweis->$year_field <= $current_year - $max_age ) {
-				return true;
-			}
-		}
-
-		return false;
-	}
+	abstract protected function needs_heater();
 
 	/**
 	 * Get modernization recommendation.
