@@ -12,6 +12,39 @@ require_once(dirname(__FILE__) . '/Modernizations.php');
 class BW_Modernizations extends Modernizations
 {
 	/**
+	 * Needs heater.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function needs_heater() {
+		$heatings = ['h'];
+
+		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
+			$heatings[] = 'h2';
+
+			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
+				$heatings[] = 'h3';
+			}
+		}
+
+		foreach ( $heatings as $heating ) {
+			$erzeugung_field = $heating . '_erzeugung';
+			$anteil_field = $heating . '_deckungsanteil';
+
+			$erzeugung = $this->energieausweis->$type_field;
+			$anteil = $this->energieausweis->$anteil_field;
+
+			if( $erzeugung === 'standardkessel' && $anteil >= 45 ) {
+				return true;
+			}
+
+		}
+
+		return parent::needs_heater();
+	}
+	/**
 	 * Needs wand.
 	 *
 	 * @return bool
