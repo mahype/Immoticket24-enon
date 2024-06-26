@@ -510,7 +510,7 @@ class Schema {
 				if ( $field['min'] !== false && $field['min'] < 0 ) {
 					$field['min'] = 0;
 				}
-
+                $default_default = '';
 				switch ( $field['type'] ) {
 					case 'select':
 					case 'radio':

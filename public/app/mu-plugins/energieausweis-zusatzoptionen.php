@@ -547,7 +547,7 @@ function energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_sc
 add_action( 'wp_footer', 'energieausweis_zusatzoptionen_require_phone_number_premium_bewertung_script' );
 
 function energieausweis_zusatzoptionen_render_premium_bewertung_list_table_filter() {
-    $option = $_REQUEST['zusatzoption_filter'];
+    $option = $_REQUEST['zusatzoption_filter'] ? $_REQUEST['zusatzoption_filter'] : '';
 	?>
     <select name="zusatzoption_filter" id="zusatzoption_filter" class="edd-select">
         <option value=""><?php _e( 'Alle Zusatzoptionen', 'wpenon' ); ?></option>
@@ -566,8 +566,11 @@ add_action( 'edd_payment_advanced_filters_after_fields', 'energieausweis_zusatzo
 
 function energieausweis_zusatzoptionen_apply_premium_bewertung_list_table_filter( $payments_query ) {
 
+    if ( empty( $_REQUEST['zusatzoption_filter'] ) ) {
+        return;
+    }
 	
-    switch ( $_REQUEST['zusatzoption_filter']) {
+    switch ( $_REQUEST['zusatzoption_filter']) { 
         case 'premium_bewertung':
             $payments_query->__set( 'meta_query', array(
                 'key'     => '_edd_payment_meta',
