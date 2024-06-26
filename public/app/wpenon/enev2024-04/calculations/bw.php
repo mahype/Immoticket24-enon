@@ -706,7 +706,7 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_temperatur_flaechenh
 			case 'deckenheizung':
 				return '55/45';
 			default:
-				throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
+				throw new Calculation_Exception(\sprintf('Flächenheizungstyp "%s" nicht bekannt.', $flaechenheizungstyp));
 		}
 	}
 }
