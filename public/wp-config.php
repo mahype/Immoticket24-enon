@@ -13,8 +13,8 @@ if ( version_compare( phpversion(), '7.0', '<' ) ) {
  * Load local configuration if available
  * Create a local-config.php file to override any of the following constants
  **=========================================================================*/
-if ( file_exists( dirname( __FILE__ ) . '/local-config.php' ) ) {
-	include( dirname( __FILE__ ) . '/local-config.php' );
+if ( file_exists( __DIR__ . '/local-config.php' ) ) {
+	include __DIR__ . '/local-config.php';
 }
 
 /**=================================================================================================
@@ -32,16 +32,16 @@ if ( ! defined( 'WP_ENV' ) ) {
  * This login data is required to access the WordPress database. Keep them a secret!
  **=================================================================================*/
 if ( ! defined( 'DB_NAME' ) ) {
-	define( 'DB_NAME', 'd01c4312');
+	define( 'DB_NAME', 'd01c4312' );
 }
 if ( ! defined( 'DB_USER' ) ) {
-	define( 'DB_USER', 'd01c4312');
+	define( 'DB_USER', 'd01c4312' );
 }
 if ( ! defined( 'DB_PASSWORD' ) ) {
-	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF');
+	define( 'DB_PASSWORD', 'qfEE7woSrKPxYdLF' );
 }
 if ( ! defined( 'DB_HOST' ) ) {
-	define( 'DB_HOST', 'localhost');
+	define( 'DB_HOST', 'localhost' );
 }
 if ( ! isset( $table_prefix ) ) {
 	$table_prefix = 'wpit24_';
@@ -52,10 +52,10 @@ if ( ! isset( $table_prefix ) ) {
  * You most certainly don't wanna change these...
  **==============================================*/
 if ( ! defined( 'DB_CHARSET' ) ) {
-	define( 'DB_CHARSET', 'utf8');
+	define( 'DB_CHARSET', 'utf8' );
 }
 if ( ! defined( 'DB_COLLATE' ) ) {
-	define( 'DB_COLLATE', '');
+	define( 'DB_COLLATE', '' );
 }
 
 /**======================================================================
@@ -82,14 +82,13 @@ if ( ! defined( 'WP_SITEURL' ) ) {
 	define( 'WP_SITEURL', rtrim( WP_HOME, '/' ) . '/core' );
 }
 if ( ! defined( 'WP_CONTENT_DIR' ) ) {
-	define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/app' );
+	define( 'WP_CONTENT_DIR', __DIR__ . '/app' );
 }
 if ( ! defined( 'WP_CONTENT_URL' ) ) {
 	define( 'WP_CONTENT_URL', rtrim( WP_HOME, '/' ) . '/app' );
 }
-if( !defined( 'WP_LOG_DIR' ) )
-{
-	define( 'WP_LOG_DIR', dirname( dirname( __FILE__ ) ) . '/logs' );
+if ( ! defined( 'WP_LOG_DIR' ) ) {
+	define( 'WP_LOG_DIR', dirname( __DIR__ ) . '/logs' );
 }
 
 // define( 'FORCE_SSL_ADMIN', true );
@@ -116,23 +115,32 @@ define( 'WP_DEBUG_LOG', WP_LOG_DIR . '/php_error.log' );
  **======================================================================================*/
 switch ( WP_ENV ) {
 	case 'development':
-		define( 'WP_DEBUG', true);		
+		define( 'WP_DEBUG', true );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'SAVEQUERIES', true );
 		define( 'SCRIPT_DEBUG', true );
 		define( 'CONCATENATE_SCRIPTS', false );
 		define( 'DISALLOW_FILE_EDIT', false );
+		if ( ! defined( 'WPENON_DEBUG' ) ) {
+			define( 'WPENON_DEBUG', true );
+		}
 		break;
 	case 'staging':
-		define( 'WP_DEBUG', false);
+		define( 'WP_DEBUG', false );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'DISALLOW_FILE_EDIT', true );
+		if ( ! defined( 'WPENON_DEBUG' ) ) {
+			define( 'WPENON_DEBUG', true );
+		}
 		break;
 	case 'production':
 	default:
-		define( 'WP_DEBUG', false);
+		define( 'WP_DEBUG', false );
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'DISALLOW_FILE_EDIT', true );
+		if ( ! defined( 'WPENON_DEBUG' ) ) {
+			define( 'WPENON_DEBUG', false );
+		}
 		break;
 }
 
@@ -148,7 +156,7 @@ define( 'EDD_KLICKTIPP_PASSWORD', 'HerrArntz' );
 define( 'EDD_KLICKTIPP_LIST_ID', 94806 );
 define( 'EDD_KLICKTIPP_TAG_ID', 2001353 );
 
-define( 'WP_MEMORY_LIMIT', '1024M');
+define( 'WP_MEMORY_LIMIT', '1024M' );
 
 define( 'VULN_API_PROVIDER', 'wpscan' );
 define( 'VULN_API_TOKEN', 'yJrg94YqtfI7pX5GGyave4Hh2LV3D3yUgaljafSaQhg' );
@@ -158,7 +166,7 @@ define( 'VULN_API_TOKEN', 'yJrg94YqtfI7pX5GGyave4Hh2LV3D3yUgaljafSaQhg' );
  * Never edit the following lines!
  **===============================*/
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( __FILE__ ) . '/core/' );
+	define( 'ABSPATH', __DIR__ . '/core/' );
 }
 
-require_once( ABSPATH . 'wp-settings.php' );
+require_once ABSPATH . 'wp-settings.php';
