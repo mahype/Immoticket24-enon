@@ -179,7 +179,7 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
                 $reseller = get_post_meta( $cartid, 'reseller_id', true );
                 if ($reseller != '' && $reseller != 0 && $reseller != null && $reseller != false)  {
                 $origdata = get_post_meta( $cartid, 'orig_purchase_data', true );
-                if ( isset($origdata['post_data']['wpenon_business_name']) ) {
+                if ( isset($origdata['post_data']['wpenon_business_name']) && isset($origdata['post_data']['wpenon_business_name']) != '' ) {
                     $temp = $origdata['post_data']['wpenon_business_name'] . ', ';
                 }
                 if ( isset($origdata['post_data']['edd_first']) && isset($origdata['post_data']['edd_last']) ) {
