@@ -767,40 +767,65 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperatur
 	}
 }
 
-if (wpenon_erzeuger_mit_uebergabe_vorhanden($energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung, $energieausweis->h2_info, $energieausweis->h3_info)) {
-	$flaechenheizungstyp = $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null;
+$heizungen[] = array(
+	'uebergabe' => $energieausweis->h_uebergabe,
+	'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+	'erzeugung' => $energieausweis->h_erzeugung,
+);
 
+if ($energieausweis->h2_info) {
 	$heizungen[] = array(
 		'uebergabe' => $energieausweis->h_uebergabe,
-		'flaechenheizungstyp' =>$flaechenheizungstyp,
-		'erzeugung' => $energieausweis->h_erzeugung,
+		'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+		'erzeugung' => $energieausweis->h2_erzeugung,
 	);
-	
-	if ($energieausweis->h2_info) {
+
+	if ($energieausweis->h3_info) {
 		$heizungen[] = array(
 			'uebergabe' => $energieausweis->h_uebergabe,
-			'flaechenheizungstyp' =>$flaechenheizungstyp,
-			'erzeugung' => $energieausweis->h2_erzeugung,
+			'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+			'erzeugung' => $energieausweis->h3_erzeugung,
 		);
-	
-		if ($energieausweis->h3_info) {
-			$heizungen[] = array(
-				'uebergabe' => $energieausweis->h_uebergabe,
-				'flaechenheizungstyp' =>$flaechenheizungstyp,
-				'erzeugung' => $energieausweis->h3_erzeugung,
-			);
-		}
+	}
+}
+
+$auslegungstemperaturen = wpenon_auslegungstemperatur($heizungen);
+
+// $auslegungstemperaturen = '70/55';
+
+// Wir rechnen vorerst nur mit einem Übergabesystem.
+if ($energieausweis->h_uebergabe === 'flaechenheizung') {
+	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
+		new Uebergabesystem(
+			gebaeude: $gebaeude,
+			typ: $energieausweis->h_uebergabe,
+			auslegungstemperaturen: $auslegungstemperaturen,
+			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
+			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
+			// mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
+			mindestdaemmung: true
+		)
+	);
+} else {
+	$h2_info = $energieausweis->h2_info;
+	$h3_info = $energieausweis->h3_info;
+
+	$h_erzeugung = $energieausweis->h_erzeugung;
+	$h2_erzeugung = $energieausweis->h2_erzeugung;
+	$h3_erzeugung = $energieausweis->h3_erzeugung;
+
+	if (!wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info)) {
+		$uebergabe_typ = 'elektroheizungsflaechen';
+	} else {
+		$uebergabe_typ =  $energieausweis->h_uebergabe;
 	}
 
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
-			typ: $energieausweis->h_uebergabe,
-			auslegungstemperaturen: wpenon_auslegungstemperatur($heizungen),
-			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
-			flaechenheizungstyp: $flaechenheizungstyp,
-			// mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
-			mindestdaemmung: true
+			typ: $uebergabe_typ,
+			auslegungstemperaturen: $auslegungstemperaturen,
+			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);
 }
