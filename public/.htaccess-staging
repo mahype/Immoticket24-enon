@@ -32,7 +32,7 @@ Header append Cache-Control "public"
 </FilesMatch>
 </IfModule>
 
-php_value auto_prepend_file "/www/htdocs/w012900a/staging.energieausweis-online-erstellen.de/auto_prepend.php"
+php_value auto_prepend_file "/www/htdocs/w012900a/staging.energieausweis.de/auto_prepend.php"
 
 # Expires headers (for better cache control)
 <IfModule mod_expires.c>
