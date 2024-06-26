@@ -53,7 +53,7 @@ class GFMailChimp extends GFFeedAddOn {
 	 * @access protected
 	 * @var    string $_min_gravityforms_version The minimum version required.
 	 */
-	protected $_min_gravityforms_version = '1.9.12';
+	protected $_min_gravityforms_version = '2.5.0';
 
 	/**
 	 * Defines the plugin slug.
@@ -1415,6 +1415,26 @@ class GFMailChimp extends GFFeedAddOn {
 	// # FEED PROCESSING -----------------------------------------------------------------------------------------------
 
 	/**
+	 * Triggers processing of feeds or adds them to the async processing queue.
+	 *
+	 * Temporarily overridden to add a deprecation notice in a way that won't cause the async processor to abort processing.
+	 *
+	 * @since 5.4
+	 *
+	 * @param array $entry The entry currently being processed.
+	 * @param array $form  The form currently being processed.
+	 *
+	 * @return array
+	 */
+	public function maybe_process_feed( $entry, $form ) {
+		if ( gf_has_filters( array( 'gform_mailchimp_args_pre_subscribe', rgar( $form, 'id' ) ) ) ) {
+			_deprecated_hook( 'gform_mailchimp_args_pre_subscribe', '4.0', 'gform_mailchimp_subscription', 'gform_mailchimp_args_pre_subscribe will be removed soon.' );
+		}
+
+		return parent::maybe_process_feed( $entry, $form );
+	}
+
+	/**
 	 * Process the feed, subscribe the user to the list/audience.
 	 *
 	 * @since  3.0
@@ -1726,8 +1746,9 @@ class GFMailChimp extends GFFeedAddOn {
 		$subscription['merge_fields'] = $subscription['merge_vars'];
 		unset( $subscription['merge_vars'] );
 
-		// Convert double optin.
-		$subscription['status'] = $subscription['double_optin'] ? 'pending' : $subscription['status'];
+		// Converts the double_optin property to the status properties used by API v3.
+		$subscription['status_if_new'] = $this->get_subscription_status( (bool) $subscription['double_optin'], $member, $feed, $entry, $form );
+		$subscription['status']        = $subscription['status_if_new'];
 		unset( $subscription['double_optin'] );
 
 		// Extract list/audience ID.
@@ -1737,28 +1758,6 @@ class GFMailChimp extends GFFeedAddOn {
 		// Convert email address.
 		$subscription['email_address'] = $subscription['email']['email'];
 		unset( $subscription['email'] );
-
-		// If member exists, status is pending, and is double opt-in, then update member status to unsubscribed first.
-		if ( $member && rgar( $member, 'status' ) === 'pending' && rgars( $feed, 'meta/double_optin' ) ) {
-			try {
-				// Log that we are patching member status.
-				$this->log_debug( __METHOD__ . '(): Patching member status for opt-in.' );
-
-				// Update member status to unsubscribed.
-				$this->api->update_list_member( $list_id, $subscription['email_address'], array( 'status' => 'unsubscribed' ), 'PATCH' );
-
-				// Log that the subscription was successfully updated.
-				$this->log_debug( __METHOD__ . '(): Member status successfully updated.' );
-			} catch ( Exception $e ) {
-				// Log that member status could not be updated.
-				$this->add_feed_error( sprintf( esc_html__( __METHOD__ . '(): Unable to update member status: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
-
-				// Log field errors.
-				if ( $e->hasErrors() ) {
-					$this->log_error( __METHOD__ . '(): Error when attempting to update member status: ' . print_r( $e->getErrors(), true ) );
-				}
-			}
-		}
 
 		/**
 		 * Modify the subscription object before it is executed.
@@ -1774,9 +1773,15 @@ class GFMailChimp extends GFFeedAddOn {
 		 */
 		$subscription = gf_apply_filters( array( 'gform_mailchimp_subscription', $form['id'] ), $subscription, $list_id, $form, $entry, $feed, $member );
 
-		// Remove merge_fields if none are defined.
+		// Remove merge_fields if none are defined, otherwise allows merge_fields to be decoded.
 		if ( empty( $subscription['merge_fields'] ) ) {
 			unset( $subscription['merge_fields'] );
+		} else {
+			foreach ( $subscription['merge_fields'] as $key => $value ) {
+				if ( is_string( $value ) ) {
+					$subscription['merge_fields'][ $key ] = html_entity_decode( $value );
+				}
+			}
 		}
 
 		// Remove interests if none are defined.
@@ -1789,11 +1794,11 @@ class GFMailChimp extends GFFeedAddOn {
 			unset( $subscription['vip'] );
 		}
 
-		// Remove tags from subscription object.
-		$tags = $subscription['tags'];
-		unset( $subscription['tags'] );
-		foreach ( $tags as &$tag ) {
-			$tag = array( 'name' => $tag, 'status' => 'active' );
+		// Remove or reindex the tags.
+		if ( empty( $subscription['tags'] ) ) {
+			unset( $subscription['tags'] );
+		} else {
+			$subscription['tags'] = array_values( $subscription['tags'] );
 		}
 
 		// Add Marketing Permissions.
@@ -1853,10 +1858,10 @@ class GFMailChimp extends GFFeedAddOn {
 			$this->log_debug( __METHOD__ . "(): Subscriber to be {$action}: " . print_r( $subscription, true ) );
 
 			// Add or update subscriber.
-			$this->api->update_list_member( $list_id, $subscription['email_address'], $subscription );
+			$result = $this->api->update_list_member( $list_id, $subscription['email_address'], $subscription );
 
 			// Log that the subscription was added or updated.
-			$this->log_debug( __METHOD__ . "(): Subscriber successfully {$action}." );
+			$this->log_debug( __METHOD__ . "(): Subscriber successfully {$action}. Result: " . json_encode( $result ) );
 
 		} catch ( Exception $e ) {
 
@@ -1869,24 +1874,6 @@ class GFMailChimp extends GFFeedAddOn {
 			}
 
 			return $entry;
-
-		}
-
-		try {
-
-			// Log the subscriber tags to be added or updated.
-			$this->log_debug( __METHOD__ . "(): Subscriber tags to be {$action}: " . print_r( $tags, true ) );
-
-			// Update tags.
-			$this->api->update_member_tags( $list_id, $subscription['email_address'], $tags );
-
-			// Log that the subscriber tags was added or updated.
-			$this->log_debug( __METHOD__ . "(): Subscriber tags successfully {$action}." );
-
-		} catch ( Exception $e ) {
-
-			// Log that subscription could not be added or updated.
-			$this->add_feed_error( sprintf( esc_html__( 'Unable to add/update subscriber tags: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
 
 		}
 
@@ -1910,6 +1897,52 @@ class GFMailChimp extends GFFeedAddOn {
 
 		}
 
+	}
+
+	/**
+	 * Returns the status to be added to the subscription array.
+	 *
+	 * Also, if the member already exists with a status is pending, and double opt-in is enabled, the status is patched to unsubscribed.
+	 * This is so Mailchimp will send the opt-in email when the status changes back to pending on the update member request.
+	 *
+	 * @since 5.4
+	 *
+	 * @param bool        $double_optin Indicates if double opt-in is enabled.
+	 * @param false|array $member       False or the existing member properties.
+	 * @param array       $feed         The feed currently being processed.
+	 * @param array       $entry        The entry currently being processed.
+	 * @param array       $form         The form currently being processed.
+	 *
+	 * @return string
+	 */
+	private function get_subscription_status( $double_optin, $member, $feed, $entry, $form ) {
+		$existing_status = rgar( $member, 'status' );
+		if ( ! $double_optin || $existing_status === 'subscribed' ) {
+			return 'subscribed';
+		}
+
+		if ( $existing_status === 'pending' ) {
+			try {
+				// Log that we are patching member status.
+				$this->log_debug( __METHOD__ . '(): Patching member status for opt-in.' );
+
+				// Update member status to unsubscribed.
+				$this->api->update_list_member( rgar( $member, 'list_id' ), rgar( $member, 'email_address' ), array( 'status' => 'unsubscribed' ), 'PATCH' );
+
+				// Log that the subscription was successfully updated.
+				$this->log_debug( __METHOD__ . '(): Member status successfully updated.' );
+			} catch ( Exception $e ) {
+				// Log that member status could not be updated.
+				$this->add_feed_error( sprintf( esc_html__( __METHOD__ . '(): Unable to update member status: %s', 'gravityformsmailchimp' ), $e->getMessage() ), $feed, $entry, $form );
+
+				// Log field errors.
+				if ( $e->hasErrors() ) {
+					$this->log_error( __METHOD__ . '(): Error when attempting to update member status: ' . print_r( $e->getErrors(), true ) );
+				}
+			}
+		}
+
+		return 'pending';
 	}
 
 	/**
@@ -3101,7 +3134,7 @@ class GFMailChimp extends GFFeedAddOn {
 				$settings_url = admin_url( 'admin.php?page=gf_settings&subview=' . $this->_slug );
 
 				// translators: %1 is an opening <a> tag, and %2 is a closing </a> tag.
-				$message = sprintf( __( 'It looks like you\'re using an API Key to connect to Mailchimp. Please visit the %1$sMailchimp settings page%2$s in order to connect to the Mailchimp API.', 'gravityformsmailchimp' ), "<a href='${settings_url}'>", '</a>' );
+				$message = sprintf( __( 'It looks like you\'re using an API Key to connect to Mailchimp. Please visit the %1$sMailchimp settings page%2$s in order to connect to the Mailchimp API.', 'gravityformsmailchimp' ), "<a href='{$settings_url}'>", '</a>' );
 
 				printf( '<div class="notice below-h1 notice-error gf-notice"><p>%1$s</p></div>', $message );
 			}

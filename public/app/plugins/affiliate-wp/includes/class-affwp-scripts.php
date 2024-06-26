@@ -283,6 +283,30 @@ final class Scripts {
 			$this->version,
 			true
 		);
+
+		wp_register_script(
+			'affiliatewp-utils',
+			"{$this->path}affiliatewp-utils{$this->suffix}.js",
+			array(
+				$this->namespace,
+				'affiliatewp-tippy',
+			),
+			$this->version,
+			true
+		);
+
+		$json = wp_json_encode(
+			array(
+				'i18n' => array(
+					'copyHover'    => __( 'Copy', 'affiliate-wp' ),
+					'copyDisabled' => __( 'Error! Copy is not available.', 'affiliate-wp' ),
+					'copySuccess'  => __( 'Copied!', 'affiliate-wp' ),
+					'copyError'    => __( 'Error! Can not copy content.', 'affiliate-wp' ),
+				),
+			)
+		);
+
+		wp_add_inline_script( 'affiliatewp-utils', "affiliatewp.utils.data={$json};", 'after' );
 	}
 
 	/**

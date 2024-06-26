@@ -518,10 +518,15 @@ class Affiliate_WP_Payouts_Service {
 
 		affiliate_wp()->settings->set( $settings, true );
 
-		wp_safe_redirect( affwp_admin_url( 'settings', array(
-			'tab'          => 'payouts_service',
-			'affwp_notice' => 'payouts_service_site_connected'
-		) ) );
+		wp_safe_redirect(
+			affwp_admin_url(
+				'settings',
+				[
+					'tab'          => 'commissions',
+					'affwp_notice' => 'payouts_service_site_connected',
+				]
+			)
+		);
 		exit;
 	}
 
@@ -577,7 +582,15 @@ class Affiliate_WP_Payouts_Service {
 
 		affiliate_wp()->settings->set( $settings, true );
 
-		wp_safe_redirect( affwp_admin_url( 'settings', array( 'tab' => 'commissions', 'affwp_notice' => 'payouts_service_site_reconnected' ) ) );
+		wp_safe_redirect(
+			affwp_admin_url(
+				'settings',
+				[
+					'tab'          => 'commissions',
+					'affwp_notice' => 'payouts_service_site_reconnected',
+				]
+			)
+		);
 		exit;
 	}
 
@@ -632,10 +645,15 @@ class Affiliate_WP_Payouts_Service {
 
 		affiliate_wp()->settings->set( $settings, true );
 
-		wp_safe_redirect( affwp_admin_url( 'settings', array(
-			'tab'          => 'payouts_service',
-			'affwp_notice' => 'payouts_service_site_disconnected'
-		) ) );
+		wp_safe_redirect(
+			affwp_admin_url(
+				'settings',
+				[
+					'tab'          => 'commissions',
+					'affwp_notice' => 'payouts_service_site_disconnected',
+				]
+			)
+		);
 		exit;
 	}
 

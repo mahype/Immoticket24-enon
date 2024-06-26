@@ -11,9 +11,15 @@ namespace Enev\Schema202302\Calculations\Helfer;
  *
  * @package Enev\Schema202302\Calculations\Bauteile
  */
-function berechne_fenster_flaeche( float $wandlaenge, float $innere_wandhoehe, float $wanddicke ): float {
+function berechne_fenster_flaeche(float $wandlaenge, float $innere_wandhoehe, float $wanddicke): float
+{
 	$innere_wandlaenge = $wandlaenge - $wanddicke * 2;
-	return ( 0.55 *  $innere_wandlaenge ) * ( $innere_wandhoehe - 1.5 );
+
+	if ($innere_wandlaenge <= 0) {
+		return 0;
+	}
+
+	return (0.55 *  $innere_wandlaenge) * ($innere_wandhoehe - 1.5);
 }
 
 /**
@@ -23,7 +29,8 @@ function berechne_fenster_flaeche( float $wandlaenge, float $innere_wandhoehe, f
  *
  * @package Enev\Schema202302\Calculations\Bauteile
  */
-function berechne_rolladenkasten_flaeche( float $fensterflaeche ): float {
+function berechne_rolladenkasten_flaeche(float $fensterflaeche): float
+{
 	return 0.1 * $fensterflaeche;
 }
 
@@ -34,6 +41,7 @@ function berechne_rolladenkasten_flaeche( float $fensterflaeche ): float {
  *
  * @param float $fensterflaeche Fläche des Fensters.
  */
-function berechne_heizkoerpernische_flaeche( float $fensterflaeche ): float {
+function berechne_heizkoerpernische_flaeche(float $fensterflaeche): float
+{
 	return 0.5 * $fensterflaeche;
 }

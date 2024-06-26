@@ -25,6 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class AffiliateWP_Action_After_Submit extends Integration_Base {
 
+	use Elementor_Shared_Utils;
+
 	/**
 	 * Temporary storage for password.
 	 *
@@ -41,7 +43,7 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 *
 	 * @param string $password Password.
 	 */
-	public static function set_password( $password ): void {
+	public static function set_password( $password ) : void {
 		self::$password = $password;
 	}
 
@@ -52,7 +54,7 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 *
 	 * @return string
 	 */
-	public static function get_password(): string {
+	public static function get_password() : string {
 
 		if ( ! empty( self::$password ) ) {
 			return self::$password;
@@ -74,7 +76,7 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @access public
 	 * @return string
 	 */
-	public function get_name(): string {
+	public function get_name() : string {
 		return 'affiliatewp';
 	}
 
@@ -87,49 +89,8 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @access public
 	 * @return string
 	 */
-	public function get_label(): string {
+	public function get_label() : string {
 		return esc_html__( 'AffiliateWP', 'affiliate-wp' );
-	}
-
-	/**
-	 * Get the mapped fields.
-	 *
-	 * @param Form_Record $record
-	 *
-	 * @return array
-	 */
-	private function get_fields_map( Form_Record $record ): array {
-		$map = array();
-
-		foreach ( $record->get_form_settings( 'affiliatewp_fields_map' ) as $map_item ) {
-
-			if ( empty( $map_item['remote_id'] ) ) {
-				continue;
-			}
-
-			$map[ $map_item['remote_id'] ] = $map_item['local_id'] ?? '';
-		}
-
-		return $map;
-	}
-
-	/**
-	 * Get the value of a field, based on the mapped field.
-	 *
-	 * @since 2.19.0
-	 *
-	 * @param array $sent_data
-	 * @param array $mapped_fields
-	 * @param string $field
-	 * @param string $default
-	 *
-	 * @return string
-	 */
-	private function get_value( $sent_data, $mapped_fields, $field, $default = '' ): string {
-		if ( isset( $mapped_fields[ $field ] ) && isset( $sent_data[ $mapped_fields[$field] ] ) ) {
-			return $sent_data[ $mapped_fields[$field] ];
-		}
-		return $default;
 	}
 
 	/**
@@ -142,7 +103,7 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @param \ElementorPro\Modules\Forms\Classes\Form_Record  $record
 	 * @param \ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler
 	 */
-	public function run( $record, $ajax_handler ): void {
+	public function run( $record, $ajax_handler ) : void {
 		$affiliate_registration = $record->get_form_settings( 'affiliate_registration' );
 		if ( empty( $affiliate_registration ) || 'yes' !== $affiliate_registration ) {
 			return;
@@ -152,25 +113,22 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 		$all_fields = $record->get( 'fields' );
 
 		// Get data from mapped fields.
-		$mapped_fields = $this->get_fields_map( $record );
+		$mapped_fields = $this->get_fields_map( $record, 'affiliatewp_fields_map' );
 
 		// Get the data sent.
 		$sent_data = $record->get( 'sent_data' );
 
-		// Fields to get the values of.
-		// Set up user data array.
-		$user_data = array();
-
-		foreach ( array(
-			'user_login',
-			'user_pass',
-			'user_email',
-			'user_url',
-			'payment_email',
-			'promotion_method'
-		) as $field ) {
-			$user_data[ $field ] = isset( $mapped_fields[ $field ] ) ? $this->get_value( $sent_data, $mapped_fields, $field ) : '';
-		}
+		$user_data = $this->form_data(
+			$record,
+			array(
+				'user_login',
+				'user_pass',
+				'user_email',
+				'user_url',
+				'payment_email',
+				'promotion_method'
+			), 'affiliatewp_fields_map'
+		);
 
 		// Fallback to user_email if user_login is not mapped or empty
 		if ( empty( $user_data['user_login'] ) && ! empty( $user_data['user_email'] ) ) {
@@ -308,7 +266,7 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @param  $user_login The `user_login` for the user.
 	 * @param  $remember   Whether or not the browser should remember the user login.
 	 */
-	private function log_user_in( $user_id = 0, $user_login = '', $remember = false ): void {
+	private function log_user_in( $user_id = 0, $user_login = '', $remember = false ) : void {
 
 		$user = get_userdata( $user_id );
 		if ( ! $user ) {
@@ -338,12 +296,12 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @access public
 	 * @param \Elementor\Widget_Base $widget
 	 */
-	public function register_settings_section( $widget ): void {
+	public function register_settings_section( $widget ) : void {
 
 		$widget->start_controls_section(
 			'section_affiliatewp',
 			array(
-				'label' => esc_html__( 'AffiliateWP', 'affiliate-wp' ),
+				'label'     => esc_html__( 'AffiliateWP', 'affiliate-wp' ),
 				'condition' => array(
 					'submit_actions' => $this->get_name(),
 				),
@@ -351,27 +309,118 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 		);
 
 		$widget->add_control(
-			'affiliate_registration',
+			'affwp_enable_referrals',
 			array(
-				'label' => esc_html__( 'Enable Affiliate Registration', 'affiliate-wp' ),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label'        => esc_html__( 'Enable Referrals', 'affiliate-wp' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
 				'return_value' => 'yes',
-				'default' => 'yes',
+				'default'      => 'yes',
 			)
 		);
 
-		$repeater = new \Elementor\Repeater();
+		$options = array();
+		foreach ( affwp_get_referral_types() as $type_id => $type ) {
+			$options[ $type_id ] = $type['label'];
+		}
 
-		$repeater->add_control(
+		// Sale referrals are not supported.
+		unset( $options['sale'] );
+
+		$widget->add_control(
+			'affwp_referral_type',
+			array(
+				'label'     => esc_html__( 'Referral Type', 'affiliate-wp' ),
+				'type'      => \Elementor\Controls_Manager::SELECT2,
+				'options'   => $options,
+				'default'   => 'lead',
+				'condition' => array(
+					'affwp_enable_referrals' => 'yes',
+				),
+			)
+		);
+
+		$widget->add_control(
+			'affwp_referral_status',
+			array(
+				'label'     => esc_html__( 'Referral Status', 'affiliate-wp' ),
+				'type'      => \Elementor\Controls_Manager::SELECT2,
+				'options'   => array(
+					'pending' => esc_html__( 'Pending', 'affiliate-wp' ),
+					'unpaid'  => esc_html__( 'Unpaid', 'affiliate-wp' ),
+				),
+				'default'   => 'pending',
+				'condition' => array(
+					'affwp_enable_referrals' => 'yes',
+				),
+			)
+		);
+
+		$widget->add_control(
+			'affwp_referral_amount',
+			array(
+				'label'     => esc_html__( 'Referral Amount', 'affiliate-wp' ),
+				'type'      => \Elementor\Controls_Manager::NUMBER,
+				'min'       => 0,
+				'step'      => 0.1,
+				'default'   => 0,
+				'condition' => array(
+					'affwp_enable_referrals' => 'yes',
+				),
+			)
+		);
+
+		$referral_fields_repeater = new \Elementor\Repeater();
+
+		$referral_fields_repeater->add_control(
 			'remote_id', array(
 				'type'    => Controls_Manager::HIDDEN,
 				'default' => ''
 			)
 		);
 
-		$repeater->add_control(
+		$referral_fields_repeater->add_control(
 			'local_id', array(
-				'type' => Controls_Manager::SELECT,
+				'type'    => Controls_Manager::SELECT,
+				'default' => ''
+			)
+		);
+
+		$widget->add_control(
+			'affiliatewp_referral_fields_map',
+			array(
+				'label'       => esc_html__( 'Field Mapping', 'affiliate-wp' ),
+				'type'        => Referral_Field_Mapping::CONTROL_TYPE,
+				'separator'   => 'before',
+				'render_type' => 'none',
+				'fields'      => $referral_fields_repeater->get_controls(),
+				'condition'   => array(
+					'affwp_enable_referrals' => 'yes',
+				),
+			)
+		);
+
+		$widget->add_control(
+			'affiliate_registration',
+			array(
+				'label'        => esc_html__( 'Enable Affiliate Registration', 'affiliate-wp' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'no',
+			)
+		);
+
+		$registration_fields_repeater = new \Elementor\Repeater();
+
+		$registration_fields_repeater->add_control(
+			'remote_id', array(
+				'type'    => Controls_Manager::HIDDEN,
+				'default' => ''
+			)
+		);
+
+		$registration_fields_repeater->add_control(
+			'local_id', array(
+				'type'    => Controls_Manager::SELECT,
 				'default' => ''
 			)
 		);
@@ -379,11 +428,11 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 		$widget->add_control(
 			'affiliatewp_fields_map',
 			array(
-				'label'       => esc_html__( 'Field Mapping', 'elementor-pro' ),
+				'label'       => esc_html__( 'Field Mapping', 'affiliate-wp' ),
 				'type'        => Field_Mapping::CONTROL_TYPE,
 				'separator'   => 'before',
 				'render_type' => 'none',
-				'fields'      => $repeater->get_controls(),
+				'fields'      => $registration_fields_repeater->get_controls(),
 				'condition'   => array(
 					'affiliate_registration' => 'yes',
 				),
@@ -402,6 +451,6 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 * @access public
 	 * @param array $element
 	 */
-	public function on_export( $element ): void {}
+	public function on_export( $element ) : void {}
 
 }

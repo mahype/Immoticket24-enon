@@ -16,7 +16,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 * @since 2.19.0
 	 * @return string The action's unique name.
 	 */
-	public function get_name(): string {
+	public function get_name() : string {
 		return 'affiliate_email_action';
 	}
 
@@ -26,7 +26,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 * @since 2.19.0
 	 * @return string The action's display label.
 	 */
-	public function get_label(): string {
+	public function get_label() : string {
 		return __( 'Email Affiliate', 'affiliate-wp' );
 	}
 
@@ -41,7 +41,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 * @param $record Form record data.
 	 * @param $ajax_handler AJAX handler for the form.
 	 */
-	public function run( $record, $ajax_handler ): void {
+	public function run( $record, $ajax_handler ) : void {
 
 		$affiliate_registration = $record->get_form_settings( 'affiliate_registration' );
 		if ( empty( $affiliate_registration ) || 'yes' !== $affiliate_registration ) {
@@ -116,7 +116,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 * @since 2.19.0
 	 * @param $widget The Elementor widget instance.
 	 */
-	public function register_settings_section( $widget ): void {}
+	public function register_settings_section( $widget ) : void {}
 
 	/**
 	 * Handle actions on export.
@@ -124,5 +124,5 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 * @since 2.19.0
 	 * @param array $element The Elementor element being exported.
 	 */
-	public function on_export( $element ): void {}
+	public function on_export( $element ) : void {}
 }

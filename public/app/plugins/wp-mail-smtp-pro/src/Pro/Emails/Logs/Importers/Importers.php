@@ -34,10 +34,7 @@ class Importers {
 	 *
 	 * @since 3.8.0
 	 */
-	public function __construct() {
-
-		$this->init();
-	}
+	public function __construct() {}
 
 	/**
 	 * Register hooks.
