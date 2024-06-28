@@ -88,6 +88,7 @@ class Prevent_Completion
     {
         try {
             $this->set_energy_certificate($payment_id);
+            $this->set_payment( $payment_id );
 
             $failure_mail_sent = get_post_meta($payment_id, 'failure_mail_sent', true);
 
