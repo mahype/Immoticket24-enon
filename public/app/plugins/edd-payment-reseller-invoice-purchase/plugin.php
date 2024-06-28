@@ -18,9 +18,9 @@ function edd_kauf_auf_rechnung_register_gateway( $gateways ) {
 	$gateways['kauf_auf_rechnung'] = array(
 		'admin_label'    => 'Kauf auf Rechnung',
 		'checkout_label' => 'Kauf auf Rechnung',
-        'supports'       => array(
-            'buy_now'
-        )
+		'supports'       => array(
+			'buy_now',
+		),
 	);
 
 	return $gateways;
@@ -37,8 +37,8 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 	$cartid      = $purchase_data['cart_details'][0]['id'];
 	$reseller_id = get_post_meta( $cartid, 'reseller_id', true );
 	$reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
-
-    add_post_meta($cartid, 'orig_purchase_data', $purchase_data );
+	$reseller2    = new \Enon_Reseller\Models\Data\Post_Meta_Website( $reseller_id );
+	add_post_meta( $cartid, 'orig_purchase_data', $purchase_data );
 	foreach ( $purchase_data['cart_details'] as $key => $item ) {
 		$cart_details = $item;
 		$ausweis_type = get_post_meta( (int) $cart_details['id'], 'wpenon_type', true );
@@ -62,17 +62,17 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 		'date'         => $purchase_data['date'],
 		'user_email'   => $reseller->get_contact_email(),
 		'user_info'    => array(
-            'email'   => $reseller->get_contact_email(),
-            'business_name'    => $reseller->get_company_name(),
-			'first_name' => $reseller->get_contact_firstname(),
-			'last_name'  => $reseller->get_contact_lastname(),
-			'address'    => array(
+			'email'         => $reseller->get_contact_email(),
+			'business_name' => $reseller->get_company_name(),
+			'first_name'    => $reseller->get_contact_firstname(),
+			'last_name'     => $reseller->get_contact_lastname(),
+			'address'       => array(
 				'line1'   => $reseller->get_address_line1(),
 				'city'    => $reseller->get_address_city(),
 				'zip'     => $reseller->get_address_plz(),
 				'country' => 'DE',
 			),
-			'phone'      => '',
+			'phone'         => '',
 		),
 		'purchase_key' => $purchase_data['purchase_key'],
 		'currency'     => edd_get_currency(),
@@ -87,25 +87,17 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 	if ( $payment_id ) {
 		edd_update_payment_status( $payment_id, 'publish' );
 
-        edd_update_payment_status( $payment_id, 'completed' );
+		edd_update_payment_status( $payment_id, 'completed' );
 
 		// Empty the shopping cart
 		edd_empty_cart();
 
-        echo "Danke für Ihr Vertrauen - Sie erhalten innerhalb der nächsten Minuten die Rechnung per Email übersendet. Sollte innerhalb der nächsten 5 Minuten keine Rechnungsmail bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach.";
-        exit;
-
-        $selected_page_id = edd_get_option('kauf_auf_rechnung_gateway_page');
-        if ($selected_page_id) {
-            // Hier kannst du die Seite verwenden
-            $page_url = get_permalink($selected_page_id);
-            if ($page_url) {
-                wp_redirect($page_url);
-                exit;
-            }
-        } else {
-            edd_send_to_success_page();
-        }
+		$url = $reseller2->get_payment_successful_url();
+		if ( empty( $url ) || $url == '' ) {
+			echo 'Danke für Ihr Vertrauen - Sie erhalten innerhalb der nächsten Minuten die Rechnung per Email übersendet. Sollte innerhalb der nächsten 5 Minuten keine Rechnungsmail bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach.';
+			exit;
+		} 
+		edd_send_to_success_page();
 	} else {
 		edd_record_gateway_error( __( 'Payment Error', 'easy-digital-downloads' ), sprintf( __( 'Payment creation failed while processing a manual (free or test) purchase. Payment data: %s', 'easy-digital-downloads' ), json_encode( $payment_data ) ), $payment );
 		// If errors are present, send the user back to the purchase page so they can be corrected
@@ -117,39 +109,38 @@ add_action( 'edd_gateway_kauf_auf_rechnung', 'edd_kauf_auf_rechnung_process_paym
 
 add_action( 'edd_kauf_auf_rechnung_cc_form', '__return_false' );
 
-function kauf_auf_rechnung_gateway_settings_section($sections) {
-    $sections['kauf_auf_rechnung'] = __('Kauf auf Rechnung', 'edd');
-    return $sections;
+function kauf_auf_rechnung_gateway_settings_section( $sections ) {
+	$sections['kauf_auf_rechnung'] = __( 'Kauf auf Rechnung', 'edd' );
+	return $sections;
 }
-add_filter('edd_settings_sections_gateways', 'kauf_auf_rechnung_gateway_settings_section');
+add_filter( 'edd_settings_sections_gateways', 'kauf_auf_rechnung_gateway_settings_section' );
 
-function kauf_auf_rechnung_gateway_settings($settings) {
-    $pages = get_pages();
-    $pages_options = array();
-    
-    foreach ($pages as $page) {
-        $pages_options[$page->ID] = $page->post_title;
-    }
+function kauf_auf_rechnung_gateway_settings( $settings ) {
+	$pages         = get_pages();
+	$pages_options = array();
 
-    $custom_gateway_settings = array(
-        'kauf_auf_rechnung' => array(
-            array(
-                'id'    => 'kauf_auf_rechnung_gateway_settings',
-                'name'  => '<strong>' . __('Kauf auf Rechnung Einstellungen', 'edd') . '</strong>',
-                'type'  => 'header',
-            ),
-            array(
-                'id'    => 'kauf_auf_rechnung_gateway_page',
-                'name'  => __('Kauf erfolgreich Seite', 'edd'),
-                'desc'  => __('Wählen Sie eine Seite aus der Dropdown-Liste aus.', 'edd'),
-                'type'  => 'select',
-                'options' => $pages_options,
-            ),
-        ),
-    );
-    
-    // Merge new settings with existing settings
-    return array_merge($settings, $custom_gateway_settings);
+	foreach ( $pages as $page ) {
+		$pages_options[ $page->ID ] = $page->post_title;
+	}
+
+	$custom_gateway_settings = array(
+		'kauf_auf_rechnung' => array(
+			array(
+				'id'   => 'kauf_auf_rechnung_gateway_settings',
+				'name' => '<strong>' . __( 'Kauf auf Rechnung Einstellungen', 'edd' ) . '</strong>',
+				'type' => 'header',
+			),
+			array(
+				'id'      => 'kauf_auf_rechnung_gateway_page',
+				'name'    => __( 'Kauf erfolgreich Seite', 'edd' ),
+				'desc'    => __( 'Wählen Sie eine Seite aus der Dropdown-Liste aus.', 'edd' ),
+				'type'    => 'select',
+				'options' => $pages_options,
+			),
+		),
+	);
+
+	// Merge new settings with existing settings
+	return array_merge( $settings, $custom_gateway_settings );
 }
-add_filter('edd_settings_gateways', 'kauf_auf_rechnung_gateway_settings');
-
+add_filter( 'edd_settings_gateways', 'kauf_auf_rechnung_gateway_settings' );

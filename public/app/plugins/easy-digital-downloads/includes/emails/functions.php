@@ -30,6 +30,11 @@ function edd_email_purchase_receipt( $payment_id, $admin_notice = true, $to_emai
 		$payment = edd_get_payment( $payment_id );
 	}
 
+    $gateway = \edd_get_payment_gateway( $payment_id );
+    if ( $gateway === 'kauf_auf_rechnung') {
+        return;
+    }
+
 	$payment_data = $payment->get_meta( '_edd_payment_meta', true );
 
 	$from_name    = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
