@@ -10,7 +10,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Email the download link(s) and payment confirmation to the buyer in a
@@ -30,46 +32,59 @@ function edd_email_purchase_receipt( $payment_id, $admin_notice = true, $to_emai
 		$payment = edd_get_payment( $payment_id );
 	}
 
-    $gateway = \edd_get_payment_gateway( $payment_id );
-    if ( $gateway === 'kauf_auf_rechnung') {
-        return;
-    }
+	$backtrace = debug_backtrace();
 
-	$payment_data = $payment->get_meta( '_edd_payment_meta', true );
+	// Hole den Aufrufer der aktuellen Funktion (Index 1 in $backtrace)
+	$caller = isset( $backtrace[1] ) ? $backtrace[1] : null;
 
-	$from_name    = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-	$from_name    = apply_filters( 'edd_purchase_from_name', $from_name, $payment_id, $payment_data );
+	// Extrahiere Dateiname und Zeilennummer des Aufrufers
+	$file = isset( $caller['file'] ) ? $caller['file'] : 'unknown file';
+	$line = isset( $caller['line'] ) ? $caller['line'] : 'unknown line';
 
-	$from_email   = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
-	$from_email   = apply_filters( 'edd_purchase_from_address', $from_email, $payment_id, $payment_data );
+	// Formatiere die Log-Nachricht
+	$logMessage = date( 'Y-m-d H:i:s' ) . " - edd_email_purchase_receipt - Called from $file on line $line" . PHP_EOL;
 
-	if ( empty( $to_email ) ) {
-		$to_email = $payment->email;
+	// Log-Nachricht in Datei schreiben
+	file_put_contents( 'debuglogfile.log', $logMessage, FILE_APPEND );
+
+	$gateway = \edd_get_payment_gateway( $payment_id );
+	if ( $gateway !== 'kauf_auf_rechnung' ) {
+
+		$payment_data = $payment->get_meta( '_edd_payment_meta', true );
+
+		$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+		$from_name = apply_filters( 'edd_purchase_from_name', $from_name, $payment_id, $payment_data );
+
+		$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
+		$from_email = apply_filters( 'edd_purchase_from_address', $from_email, $payment_id, $payment_data );
+
+		if ( empty( $to_email ) ) {
+			$to_email = $payment->email;
+		}
+
+		$subject = edd_get_option( 'purchase_subject', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
+		$subject = apply_filters( 'edd_purchase_subject', wp_strip_all_tags( $subject ), $payment_id );
+		$subject = wp_specialchars_decode( edd_do_email_tags( $subject, $payment_id ) );
+
+		$heading = edd_get_option( 'purchase_heading', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
+		$heading = apply_filters( 'edd_purchase_heading', $heading, $payment_id, $payment_data );
+		$heading = edd_do_email_tags( $heading, $payment_id );
+
+		$attachments = apply_filters( 'edd_receipt_attachments', array(), $payment_id, $payment_data );
+
+		$message = edd_do_email_tags( edd_get_email_body_content( $payment_id, $payment_data ), $payment_id );
+
+		$emails = EDD()->emails;
+
+		$emails->__set( 'from_name', $from_name );
+		$emails->__set( 'from_email', $from_email );
+		$emails->__set( 'heading', $heading );
+
+		$headers = apply_filters( 'edd_receipt_headers', $emails->get_headers(), $payment_id, $payment_data );
+		$emails->__set( 'headers', $headers );
+
+		$sent = $emails->send( $to_email, $subject, $message, $attachments );
 	}
-
-	$subject      = edd_get_option( 'purchase_subject', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
-	$subject      = apply_filters( 'edd_purchase_subject', wp_strip_all_tags( $subject ), $payment_id );
-	$subject      = wp_specialchars_decode( edd_do_email_tags( $subject, $payment_id ) );
-
-	$heading      = edd_get_option( 'purchase_heading', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
-	$heading      = apply_filters( 'edd_purchase_heading', $heading, $payment_id, $payment_data );
-	$heading      = edd_do_email_tags( $heading, $payment_id );
-
-	$attachments  = apply_filters( 'edd_receipt_attachments', array(), $payment_id, $payment_data );
-
-	$message      = edd_do_email_tags( edd_get_email_body_content( $payment_id, $payment_data ), $payment_id );
-
-	$emails = EDD()->emails;
-
-	$emails->__set( 'from_name', $from_name );
-	$emails->__set( 'from_email', $from_email );
-	$emails->__set( 'heading', $heading );
-
-	$headers = apply_filters( 'edd_receipt_headers', $emails->get_headers(), $payment_id, $payment_data );
-	$emails->__set( 'headers', $headers );
-
-	$sent = $emails->send( $to_email, $subject, $message, $attachments );
-
 	if ( $admin_notice && ! edd_admin_notices_disabled( $payment_id ) ) {
 		do_action( 'edd_admin_sale_notice', $payment_id, $payment_data );
 	}
@@ -85,40 +100,39 @@ function edd_email_purchase_receipt( $payment_id, $admin_notice = true, $to_emai
  */
 function edd_email_test_purchase_receipt() {
 
-	$from_name   = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-	$from_name   = apply_filters( 'edd_purchase_from_name', $from_name, 0, array() );
+	$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+	$from_name = apply_filters( 'edd_purchase_from_name', $from_name, 0, array() );
 
-	$from_email  = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
-	$from_email  = apply_filters( 'edd_test_purchase_from_address', $from_email, 0, array() );
+	$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
+	$from_email = apply_filters( 'edd_test_purchase_from_address', $from_email, 0, array() );
 
-	$subject     = edd_get_option( 'purchase_subject', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
-	$subject     = apply_filters( 'edd_purchase_subject', wp_strip_all_tags( $subject ), 0 );
-	$subject     = wp_specialchars_decode( edd_do_email_tags( $subject, 0 ) );
+	$subject = edd_get_option( 'purchase_subject', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
+	$subject = apply_filters( 'edd_purchase_subject', wp_strip_all_tags( $subject ), 0 );
+	$subject = wp_specialchars_decode( edd_do_email_tags( $subject, 0 ) );
 
-	$heading     = edd_get_option( 'purchase_heading', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
-	$heading     = apply_filters( 'edd_purchase_heading', $heading, 0, array() );
+	$heading = edd_get_option( 'purchase_heading', __( 'Purchase Receipt', 'easy-digital-downloads' ) );
+	$heading = apply_filters( 'edd_purchase_heading', $heading, 0, array() );
 
 	$attachments = apply_filters( 'edd_receipt_attachments', array(), 0, array() );
 
-	$message     = edd_do_email_tags( edd_get_email_body_content( 0, array() ), 0 );
+	$message = edd_do_email_tags( edd_get_email_body_content( 0, array() ), 0 );
 
 	$emails = EDD()->emails;
-	$emails->__set( 'from_name' , $from_name );
+	$emails->__set( 'from_name', $from_name );
 	$emails->__set( 'from_email', $from_email );
-	$emails->__set( 'heading'   , $heading );
+	$emails->__set( 'heading', $heading );
 
 	$headers = apply_filters( 'edd_receipt_headers', $emails->get_headers(), 0, array() );
 	$emails->__set( 'headers', $headers );
 
 	$emails->send( edd_get_admin_notice_emails(), $subject, $message, $attachments );
-
 }
 
 /**
  * Sends the Admin Sale Notification Email
  *
  * @since 1.4.2
- * @param int $payment_id Payment ID (default: 0)
+ * @param int   $payment_id Payment ID (default: 0)
  * @param array $payment_data Payment Meta and Data
  * @return void
  */
@@ -126,31 +140,31 @@ function edd_admin_email_notice( $payment_id = 0, $payment_data = array() ) {
 
 	$payment_id = absint( $payment_id );
 
-	if( empty( $payment_id ) ) {
+	if ( empty( $payment_id ) ) {
 		return;
 	}
 
-	if( ! edd_get_payment_by( 'id', $payment_id ) ) {
+	if ( ! edd_get_payment_by( 'id', $payment_id ) ) {
 		return;
 	}
 
-	$from_name   = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
-	$from_name   = apply_filters( 'edd_purchase_from_name', $from_name, $payment_id, $payment_data );
+	$from_name = edd_get_option( 'from_name', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+	$from_name = apply_filters( 'edd_purchase_from_name', $from_name, $payment_id, $payment_data );
 
-	$from_email  = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
-	$from_email  = apply_filters( 'edd_admin_sale_from_address', $from_email, $payment_id, $payment_data );
+	$from_email = edd_get_option( 'from_email', get_bloginfo( 'admin_email' ) );
+	$from_email = apply_filters( 'edd_admin_sale_from_address', $from_email, $payment_id, $payment_data );
 
-	$subject     = edd_get_option( 'sale_notification_subject', sprintf( __( 'New download purchase - Order #%1$s', 'easy-digital-downloads' ), $payment_id ) );
-	$subject     = apply_filters( 'edd_admin_sale_notification_subject', wp_strip_all_tags( $subject ), $payment_id );
-	$subject     = wp_specialchars_decode( edd_do_email_tags( $subject, $payment_id ) );
+	$subject = edd_get_option( 'sale_notification_subject', sprintf( __( 'New download purchase - Order #%1$s', 'easy-digital-downloads' ), $payment_id ) );
+	$subject = apply_filters( 'edd_admin_sale_notification_subject', wp_strip_all_tags( $subject ), $payment_id );
+	$subject = wp_specialchars_decode( edd_do_email_tags( $subject, $payment_id ) );
 
-	$heading     = edd_get_option( 'sale_notification_heading', __( 'New Sale!', 'easy-digital-downloads' ) );
-	$heading     = apply_filters( 'edd_admin_sale_notification_heading', $heading, $payment_id, $payment_data );
-	$heading     = edd_do_email_tags( $heading, $payment_id );
+	$heading = edd_get_option( 'sale_notification_heading', __( 'New Sale!', 'easy-digital-downloads' ) );
+	$heading = apply_filters( 'edd_admin_sale_notification_heading', $heading, $payment_id, $payment_data );
+	$heading = edd_do_email_tags( $heading, $payment_id );
 
 	$attachments = apply_filters( 'edd_admin_sale_notification_attachments', array(), $payment_id, $payment_data );
 
-	$message     = edd_get_sale_notification_body_content( $payment_id, $payment_data );
+	$message = edd_get_sale_notification_body_content( $payment_id, $payment_data );
 
 	$emails = EDD()->emails;
 
@@ -162,7 +176,6 @@ function edd_admin_email_notice( $payment_id = 0, $payment_data = array() ) {
 	$emails->__set( 'headers', $headers );
 
 	$emails->send( edd_get_admin_notice_emails(), $subject, $message, $attachments );
-
 }
 add_action( 'edd_admin_sale_notice', 'edd_admin_email_notice', 10, 2 );
 
@@ -204,7 +217,7 @@ function edd_admin_notices_disabled( $payment_id = 0 ) {
  * @return string $message
  */
 function edd_get_default_sale_notification_email() {
-	$default_email_body = __( 'Hello', 'easy-digital-downloads' ) . "\n\n" . sprintf( __( 'A %s purchase has been made', 'easy-digital-downloads' ), edd_get_label_plural() ) . ".\n\n";
+	$default_email_body  = __( 'Hello', 'easy-digital-downloads' ) . "\n\n" . sprintf( __( 'A %s purchase has been made', 'easy-digital-downloads' ), edd_get_label_plural() ) . ".\n\n";
 	$default_email_body .= sprintf( __( '%s sold:', 'easy-digital-downloads' ), edd_get_label_plural() ) . "\n\n";
 	$default_email_body .= '{download_list}' . "\n\n";
 	$default_email_body .= __( 'Purchased by: ', 'easy-digital-downloads' ) . ' {name}' . "\n";
@@ -228,17 +241,17 @@ function edd_get_default_sale_notification_email() {
  * @return array $email_names
  */
 function edd_get_email_names( $user_info, $payment = false ) {
-	$email_names = array();
+	$email_names             = array();
 	$email_names['fullname'] = '';
 
 	if ( $payment instanceof EDD_Payment ) {
 
 		if ( $payment->user_id > 0 ) {
 
-			$user_data = get_userdata( $payment->user_id );
-			$email_names['name']      = $payment->first_name;
-			$email_names['fullname']  = trim( $payment->first_name . ' ' . $payment->last_name );
-			$email_names['username']  = $user_data->user_login;
+			$user_data               = get_userdata( $payment->user_id );
+			$email_names['name']     = $payment->first_name;
+			$email_names['fullname'] = trim( $payment->first_name . ' ' . $payment->last_name );
+			$email_names['username'] = $user_data->user_login;
 
 		} elseif ( ! empty( $payment->first_name ) ) {
 
@@ -252,7 +265,6 @@ function edd_get_email_names( $user_info, $payment = false ) {
 			$email_names['username'] = $payment->email;
 
 		}
-
 	} else {
 
 		if ( is_serialized( $user_info ) ) {
@@ -267,14 +279,13 @@ function edd_get_email_names( $user_info, $payment = false ) {
 			} else {
 				$user_info = maybe_unserialize( $user_info );
 			}
-
 		}
 
 		if ( isset( $user_info['id'] ) && $user_info['id'] > 0 && isset( $user_info['first_name'] ) ) {
-			$user_data = get_userdata( $user_info['id'] );
-			$email_names['name']      = $user_info['first_name'];
-			$email_names['fullname']  = $user_info['first_name'] . ' ' . $user_info['last_name'];
-			$email_names['username']  = $user_data->user_login;
+			$user_data               = get_userdata( $user_info['id'] );
+			$email_names['name']     = $user_info['first_name'];
+			$email_names['fullname'] = $user_info['first_name'] . ' ' . $user_info['last_name'];
+			$email_names['username'] = $user_data->user_login;
 		} elseif ( isset( $user_info['first_name'] ) ) {
 			$email_names['name']     = $user_info['first_name'];
 			$email_names['fullname'] = $user_info['first_name'] . ' ' . $user_info['last_name'];
@@ -283,7 +294,6 @@ function edd_get_email_names( $user_info, $payment = false ) {
 			$email_names['name']     = $user_info['email'];
 			$email_names['username'] = $user_info['email'];
 		}
-
 	}
 
 	return $email_names;
@@ -294,12 +304,14 @@ function edd_get_email_names( $user_info, $payment = false ) {
  *
  * @since 2.10.2
  */
-function edd_recapture_remote_install_handler () {
+function edd_recapture_remote_install_handler() {
 
 	if ( ! current_user_can( 'manage_shop_settings' ) || ! current_user_can( 'install_plugins' ) ) {
-		wp_send_json_error( array(
-			'error' => __( 'You do not have permission to do this.', 'easy-digital-downloads' )
-		) );
+		wp_send_json_error(
+			array(
+				'error' => __( 'You do not have permission to do this.', 'easy-digital-downloads' ),
+			)
+		);
 	}
 
 	include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -308,32 +320,39 @@ function edd_recapture_remote_install_handler () {
 
 	$plugins = get_plugins();
 
-	if( ! array_key_exists( 'recapture-for-edd/recapture.php', $plugins ) ) {
+	if ( ! array_key_exists( 'recapture-for-edd/recapture.php', $plugins ) ) {
 
 		/*
 		* Use the WordPress Plugins API to get the plugin download link.
 		*/
-		$api = plugins_api( 'plugin_information', array(
-			'slug' => 'recapture-for-edd',
-		) );
+		$api = plugins_api(
+			'plugin_information',
+			array(
+				'slug' => 'recapture-for-edd',
+			)
+		);
 
 		if ( is_wp_error( $api ) ) {
-			wp_send_json_error( array(
-				'error' => $api->get_error_message(),
-				'debug' => $api
-			) );
+			wp_send_json_error(
+				array(
+					'error' => $api->get_error_message(),
+					'debug' => $api,
+				)
+			);
 		}
 
 		/*
 		* Use the AJAX Upgrader skin to quietly install the plugin.
 		*/
 		$upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
-		$install = $upgrader->install( $api->download_link );
+		$install  = $upgrader->install( $api->download_link );
 		if ( is_wp_error( $install ) ) {
-			wp_send_json_error( array(
-				'error' => $install->get_error_message(),
-				'debug' => $api
-			) );
+			wp_send_json_error(
+				array(
+					'error' => $install->get_error_message(),
+					'debug' => $api,
+				)
+			);
 		}
 
 		$activated = activate_plugin( $upgrader->plugin_info() );
@@ -348,9 +367,11 @@ function edd_recapture_remote_install_handler () {
 	* Final check to see if Recapture is available.
 	*/
 	if ( is_wp_error( $activated ) ) {
-		wp_send_json_error( array(
-			'error' => __( 'Something went wrong. Recapture for EDD was not installed correctly.', 'easy-digital-downloads' )
-		) );
+		wp_send_json_error(
+			array(
+				'error' => __( 'Something went wrong. Recapture for EDD was not installed correctly.', 'easy-digital-downloads' ),
+			)
+		);
 	}
 
 	wp_send_json_success();
