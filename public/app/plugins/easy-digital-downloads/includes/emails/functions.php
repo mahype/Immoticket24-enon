@@ -32,21 +32,6 @@ function edd_email_purchase_receipt( $payment_id, $admin_notice = true, $to_emai
 		$payment = edd_get_payment( $payment_id );
 	}
 
-	$backtrace = debug_backtrace();
-
-	// Hole den Aufrufer der aktuellen Funktion (Index 1 in $backtrace)
-	$caller = isset( $backtrace[1] ) ? $backtrace[1] : null;
-
-	// Extrahiere Dateiname und Zeilennummer des Aufrufers
-	$file = isset( $caller['file'] ) ? $caller['file'] : 'unknown file';
-	$line = isset( $caller['line'] ) ? $caller['line'] : 'unknown line';
-
-	// Formatiere die Log-Nachricht
-	$logMessage = date( 'Y-m-d H:i:s' ) . " - edd_email_purchase_receipt - Called from $file on line $line" . PHP_EOL;
-
-	// Log-Nachricht in Datei schreiben
-	file_put_contents( 'debuglogfile.log', $logMessage, FILE_APPEND );
-
 	$gateway = \edd_get_payment_gateway( $payment_id );
 	if ( $gateway !== 'kauf_auf_rechnung' ) {
 
