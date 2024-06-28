@@ -2,6 +2,7 @@
 
 namespace Enon\Models\Enon;
 
+use EDD_Payment;
 use Enon\Models\Exceptions\Exception;
 use WPENON\Model\EnergieausweisManager;
 
@@ -32,6 +33,7 @@ class Prevent_Completion
         'check_building_year_wall_insulation',
         'check_double_heater_including_hotwater',
         'check_too_good_energy_certificate_1',
+        'check_payment_fees'
     ];
 
     private $errors = [];
@@ -42,6 +44,13 @@ class Prevent_Completion
      * @var \WPENON\Model|Energieausweis Energieausweis object.
      */
     private $energy_certificate;
+
+    /**
+     * Payment.
+     * 
+     * @var EDD_Payment EDD Payment object.
+     */
+    private $payment; 
 
     /**
      * Energy certificate calculations.
@@ -185,6 +194,15 @@ class Prevent_Completion
 
         $this->calculations   = $energy_certificate->calculate();
         $this->energy_certificate = $energy_certificate;
+    }
+
+    /**
+     * Set payment object.
+     * 
+     * @since 1.0.0
+     */
+    private function set_payment($payment_id ) {
+        $this->payment = new EDD_Payment( $payment_id );
     }
 
     /**
@@ -542,6 +560,25 @@ class Prevent_Completion
         if (!empty($checks)) {
             return implode(' ', $checks);
         }
+
+        return true;
+    }
+
+    /**
+     * Check payment fees.
+     * 
+     * @return bool|string True if passed, otherwise error message.
+     */
+    private function check_payment_fees() {
+        $payment_fees = $this->payment->get_fees();
+
+        $stoppers = ['experten_check'];
+
+        foreach ( $payment_fees as $payment_fee ) {
+			if( in_array( $payment_fee['id'], $stoppers ) ) {
+				return 'Zusatzleistung: ' . $payment_fee['label'];
+			}
+		}
 
         return true;
     }
