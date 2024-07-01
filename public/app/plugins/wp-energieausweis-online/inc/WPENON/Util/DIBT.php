@@ -107,7 +107,7 @@ class DIBT {
 						$plainTextMailContent.= sprintf( "Validation file %s\n", $xsdFile );
 					}
 
-					wp_mail( 'sven@awesome.ug', sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title ), $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
+					// wp_mail( 'sven@awesome.ug', sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title ), $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
 					
 					$slack_text = sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title );
 					$slack_text.= sprintf( "\n%s", $plainTextMailContent );
