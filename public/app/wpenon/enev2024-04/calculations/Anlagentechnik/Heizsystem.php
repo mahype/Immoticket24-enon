@@ -330,10 +330,6 @@ class Heizsystem
 		 * anteilig der einzelnen Heizungsanlagen und Übergabesysteme gewichtet.
 		 */
 		foreach ($this->heizungsanlagen()->alle() as $heizungsanlage) {
-			if (count($this->uebergabesysteme()->alle()) === 0) {
-				throw new Calculation_Exception('Keine Übergabesysteme vorhanden');
-			}
-
 			foreach ($this->uebergabesysteme()->alle() as $uebergabesystem) {
 				$fa_h += $heizungsanlage->fa_h($uebergabesystem->auslegungstemperaturen()) * $heizungsanlage->prozentualer_faktor() * $uebergabesystem->prozentualer_faktor();
 			}
