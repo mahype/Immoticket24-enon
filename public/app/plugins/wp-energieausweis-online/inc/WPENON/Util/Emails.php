@@ -341,35 +341,64 @@ class Emails {
 	}
 
 	public function _emailTagCustomerContactData( $payment_id, $mode = 'html' ) {
-		$customer_id = edd_get_payment_customer_id( $payment_id );
+        $gateway = \edd_get_payment_gateway( $payment_id );
 
-		$customer = new \EDD_Customer( $customer_id );
-		if ( ! $customer->id ) {
-			return '';
-		}
+        if ( $gateway == 'kauf_auf_rechnung') { 
+            $origdata = get_post_meta( $payment_id, 'orig_purchase_data', true );
 
-		$customer_meta = \WPENON\Util\CustomerMeta::getCustomerMeta( $customer_id );
+            $data = array(
+                __( 'Kundendaten:', 'wpenon' ),
+                $origdata['post_data']['edd_first'] . ' '. $origdata['post_data']['edd_last'] 
+            );
+    
+            if ( 'plain' !== $mode ) {
+                $data[0] = '<strong>' . $data[0] . '</strong>';
+            }
+    
+            if ( isset($origdata['post_data']['wpenon_business_name']) && $origdata['post_data']['wpenon_business_name'] != '' ) {
+                $data[] = $origdata['post_data']['wpenon_business_name'] . ', ';
+            }
+            $data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $origdata['post_data']['edd_email'];
+    
+            if ( !$origdata['post_data']['wpenon_telefon'] )  {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $origdata['post_data']['wpenon_telefon'];
+            } else {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
+            }
+        } else {
 
-		$data = array(
-			__( 'Kundendaten:', 'wpenon' ),
-			$customer->name,
-		);
+            $customer_id = edd_get_payment_customer_id( $payment_id );
 
-		if ( 'plain' !== $mode ) {
-			$data[0] = '<strong>' . $data[0] . '</strong>';
-		}
+            $customer = new \EDD_Customer( $customer_id );
+            if ( ! $customer->id ) {
+                return '';
+            }
+    
+            $customer_meta = \WPENON\Util\CustomerMeta::getCustomerMeta( $customer_id );
+    
+            $data = array(
+                __( 'Kundendaten:', 'wpenon' ),
+                $customer->name,
+            );
+    
+            if ( 'plain' !== $mode ) {
+                $data[0] = '<strong>' . $data[0] . '</strong>';
+            }
+    
+            if ( ! empty( $customer_meta['business_name'] ) ) {
+                $data[] = $customer_meta['business_name'];
+            }
+    
+            $data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $customer->email;
+    
+            if ( ! empty( $customer_meta['telefon'] ) ) {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $customer_meta['telefon'];
+            } else {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
+            }
+        }
 
-		if ( ! empty( $customer_meta['business_name'] ) ) {
-			$data[] = $customer_meta['business_name'];
-		}
 
-		$data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $customer->email;
-
-		if ( ! empty( $customer_meta['telefon'] ) ) {
-			$data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $customer_meta['telefon'];
-		} else {
-			$data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
-		}
 
 		if ( 'plain' === $mode ) {
 			return implode( "\n", $data );
