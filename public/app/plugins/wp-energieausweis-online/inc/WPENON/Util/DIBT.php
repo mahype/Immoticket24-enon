@@ -93,6 +93,7 @@ class DIBT {
 					$errorMailContent = sprintf( "<h1>Energieausweis %s</h1>", $energieausweis->post_title );
 					$errorMailContent.= sprintf( "<a href=\"%s\">%s</a> (#%s)", $url, $energieausweis->post_title, $energieausweis->ID );
 
+					$plainTextMailContent = '';
 					foreach( libxml_get_errors() AS $key => $error ) 
 					{
 						$errorMailContent.= '<div style="margin-top:20px">';
@@ -100,9 +101,22 @@ class DIBT {
 						$errorMailContent.= sprintf( "<br />On line %d column %d", $error->line, $error->column );
 						$errorMailContent.= sprintf( "<br />Validation file %s", $xsdFile );
 						$errorMailContent.= '</div>';
+
+						$plainTextMailContent.= sprintf( "Fehler %d: %s\n", $key + 1, $error->message );
+						$plainTextMailContent.= sprintf( "On line %d column %d\n", $error->line, $error->column );
+						$plainTextMailContent.= sprintf( "Validation file %s\n", $xsdFile );
 					}
 
 					wp_mail( 'sven@awesome.ug', sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title ), $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
+					
+					$slack_text = sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title );
+					$slack_text.= sprintf( "\n%s", $plainTextMailContent );
+					$slack_text.= sprintf( "\n%s - %s", $energieausweis->post_title, $url );
+
+					$slack_webhook_url = 'https://hooks.slack.com/services/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';
+					
+					wpenonSendSlackNotification($slack_webhook_url, $slack_text );
+					
 					return false;
 				}
 
