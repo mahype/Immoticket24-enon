@@ -2077,14 +2077,14 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason)
 
 	$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
-	XsendSlackNotification($slack_webhook_url, $slack_text );
+	wpenonSendSlackNotification($slack_webhook_url, $slack_text );
 
 	$email_adresses = array_merge(edd_get_admin_notice_emails(), ['plausibilitaetscheck@immoticket24.de']);
 
 	$emails->send($email_adresses, $subject, $message, array());
 }
 
-function XsendSlackNotification($webhook_url, $text) {
+function wpenonSendSlackNotification($webhook_url, $text) {
     $data = ['text' => $text];
     $options = [
         'http' => [
