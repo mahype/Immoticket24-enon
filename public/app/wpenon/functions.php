@@ -2072,9 +2072,29 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason)
 	$emails->__set('headers', $headers);
 	$emails->__set('heading', __('Überprüfung benötigt', 'wpenon'));
 
+	$slack_text = 'Neue Bestellung ' . $payment_title . ' - Überprüfung benötigt. Grund: ' . $reason . "\n";
+	$slack_text.= 'https://immoticket24.de/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment_id;
+
+	$slack_webhook_url = 'https://hooks.slack.com/services/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';
+
+	sendSlackNotification($slack_webhook_url, $slack_text );
+
 	$email_adresses = array_merge(edd_get_admin_notice_emails(), ['plausibilitaetscheck@immoticket24.de']);
 
 	$emails->send($email_adresses, $subject, $message, array());
+}
+
+function sendSlackNotification($webhook_url, $text) {
+    $data = ['text' => $text];
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => json_encode($data)
+        ]
+    ];
+    $context = stream_context_create($options);
+    file_get_contents( $webhook_url, false, $context);
 }
 
 function wpenon_immoticket24_show_certificate_checked($group)
