@@ -32,6 +32,7 @@ function slackErrorHandler($severity, $message, $file, $line) {
     
     $text = "Error: [$severity] $message in $file on line $line";
     $text .= "\nURL: " . $_SERVER['REQUEST_URI'];
+    $text .= "\nIP Address: " . $_SERVER['REMOTE_ADDR'];
     
     if (!empty($_POST)) {
         $text .= "\nPOST Variables: " . print_r($_POST, true);
@@ -45,6 +46,7 @@ function slackErrorHandler($severity, $message, $file, $line) {
 function slackExceptionHandler($exception) {
     $text = "Exception: " . $exception->getMessage() . " in " . $exception->getFile() . " on line " . $exception->getLine();
     $text .= "\nURL: " . $_SERVER['REQUEST_URI'];
+    $text .= "\nIP Address: " . $_SERVER['REMOTE_ADDR'];
 
     if (!empty($_POST)) {
         $text .= "\nPOST Variables: " . print_r($_POST, true);
