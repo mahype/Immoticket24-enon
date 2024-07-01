@@ -96,7 +96,7 @@ function edd_kauf_auf_rechnung_process_payment( $purchase_data ) {
 
 		$url = $reseller2->get_payment_successful_url();
 		if ( empty( $url ) || $url == '' ) {
-			echo 'Danke für Ihr Vertrauen - Sie erhalten innerhalb der nächsten Minuten die Rechnung per Email übersendet. Sollte innerhalb der nächsten 5 Minuten keine Rechnungsmail bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach.';
+			echo '<strong>Danke für Ihr Vertraueny</strong><br><br>Sie erhalten in Kürze den Energieausweis per Email übersendet. Sollte innerhalb der nächsten Minuten kein Email bei Ihnen eingehen, schauen Sie bitte auch einmal im Spam-Ordner nach. Sollte auch dort keine Mail eingetroffen sein, gibt es Rückfragen zu Ihren Angaben  und wir melden uns bei Ihnen.';
 			exit;
 		} 
 		edd_send_to_success_page();
