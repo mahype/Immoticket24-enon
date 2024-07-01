@@ -109,8 +109,8 @@ class DIBT {
 
 					// wp_mail( 'sven@awesome.ug', sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title ), $errorMailContent, array('Content-Type: text/html; charset=UTF-8') );
 					
-					$slack_text = sprintf( 'XML Validierungsfehler: %s', $energieausweis->post_title );
-					$slack_text.= sprintf( "\n%s", $plainTextMailContent );
+					$slack_text = 'XML Validierungsfehler:';
+					$slack_text.= sprintf( "\n```%s```", $plainTextMailContent );
 					$slack_text.= sprintf( "\n%s - %s", $energieausweis->post_title, $url );
 
 					$slack_webhook_url = 'https://hooks.slack.com/services/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';
