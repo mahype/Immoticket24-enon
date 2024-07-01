@@ -209,6 +209,7 @@ function immoticketenergieausweis_payment_icons()
         $('#edd-gateway-' + value).trigger('change');
       });
 
+
       function maybeAddDoneCheckmark() {
         var $element = $(this);
 
@@ -262,6 +263,9 @@ function immoticketenergieausweis_payment_icons()
 <?php } ?>
   </div>
 <?php
+
+
+
 }
 add_action('edd_payment_mode_after_gateways', 'immoticketenergieausweis_payment_icons');
 
@@ -282,6 +286,9 @@ add_filter('edd_settings_gateways', 'immoticketenergieausweis_edd_add_default_ga
 
 function immoticketenergieausweis_edd_allow_no_default_gateway($gateway)
 {
+    if ( edd_is_reseller_redirect_bill() ) {
+        return 'kauf_auf_rechnung';
+    }
   $original_option = edd_get_option('default_gateway', '');
   if (empty($original_option)) {
     return $original_option;
