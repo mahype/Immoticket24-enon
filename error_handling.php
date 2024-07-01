@@ -3,7 +3,7 @@
 /**
  * Auto prepended file to handle errors.
  */
-$slack_webhook_url = 'https://hooks.slack.com/services/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';
+$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
 function getErrorType($type) {
     $error_types = [
