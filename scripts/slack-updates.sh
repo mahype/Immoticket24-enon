@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Konfiguration
-SLACK_WEBHOOK_URL="https://hooks.slack.com/services/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"
+SLACK_WEBHOOK_URL="https://hooks.slack.com/services/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"
 WP_PATH="$(cd ../ && cd public && pwd)"
 
 # Überprüfen Sie, ob WP CLI installiert ist
