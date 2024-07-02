@@ -2073,7 +2073,7 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason)
 	$emails->__set('heading', __('Überprüfung benötigt', 'wpenon'));
 
 	$slack_text = 'Neue Bestellung ' . $payment_title . ' - Überprüfung benötigt. Grund: ' . strip_tags( $reason ) . "\n";
-	$slack_text.= 'https://immoticket24.de/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment_id;
+	$slack_text.= 'https://energieausweis.de/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment_id;
 
 	$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
