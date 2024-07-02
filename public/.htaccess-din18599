@@ -12,8 +12,9 @@ AddDefaultCharset UTF-8
     AddCharset UTF-8 .atom .css .js .json .rss .vtt .xml
 </IfModule>
 
-# Disable ETags
+# Disable ETags and set X-Content-Type-Options
 <IfModule mod_headers.c>
+	Header always set X-Content-Type-Options "nosniff"
     Header unset ETag
 </IfModule>
 FileETag None
