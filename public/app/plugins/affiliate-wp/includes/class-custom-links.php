@@ -229,31 +229,43 @@ class Affiliate_WP_Custom_Links {
 		?>
 
 		<form id="affwp-custom-link-generator" class="affwp-form affwp-custom-link-generator" method="get" action="#affwp-generate-ref-url">
+
+			<div class="affwp-card">
+				<div class="affwp-card__header">
+					<h3>
+						<?php esc_html_e( 'Custom Link Generator', 'affiliate-wp' ); ?>
+					</h3>
+					<p>
+						<?php esc_html_e( 'Enter any URL from this website in the form below to generate a custom link.', 'affiliate-wp' ); ?>
+					</p>
+				</div>
+				<div class="affwp-card__content affwp-card__content--form">
+
+					<div>
+						<label for="affwp-url"><?php esc_html_e( 'Page URL', 'affiliate-wp' ); ?></label>
+						<input type="url" name="url" id="affwp-url" value="" required>
+					</div>
+
+					<div class="affwp-generator-campaign-text-link-wrap">
+						<a id="affwp-generator-toggle-campaign" href="#toggle-campaign"><?php esc_html_e( 'Add a campaign (optional)', 'affiliate-wp' ); ?></a>
+					</div>
+
+					<div class="affwp-campaign-wrap affwp-hidden">
+						<label for="affwp-campaign"><?php esc_html_e( 'Campaign Name (optional)', 'affiliate-wp' ); ?></label>
+						<input type="text" name="campaign" id="affwp-campaign" value="" maxlength="50">
+					</div>
+
+				</div>
+				<div class="affwp-card__footer affwp-custom-link-submit-wrap">
+					<span id="affwp-generator-submit-notices">
+						<input id="affwp-generator-submit-btn" type="submit" class="button" value="<?php esc_html_e( 'Create Custom Link', 'affiliate-wp' ); ?>" />
+					</span>
+				</div>
+			</div>
 			<input type="hidden" class="affwp-affiliate-id" value="<?php echo esc_attr( urldecode( affwp_get_referral_format_value() ) ); ?>">
 			<input type="hidden" class="affwp-custom-link-id" value="0">
-
-			<h4><?php esc_html_e( 'Custom Link Generator', 'affiliate-wp' ); ?></h4>
-			<p><?php esc_html_e( 'Enter any URL from this website in the form below to generate a custom link.', 'affiliate-wp' ); ?></p>
-			<div class="affwp-wrap affwp-base-url-wrap">
-				<label for="affwp-url"><?php esc_html_e( 'Page URL', 'affiliate-wp' ); ?></label>
-				<input type="url" name="url" id="affwp-url" value="" required>
-			</div>
-
-			<p class="affwp-generator-campaign-text-link-wrap">
-				<a id="affwp-generator-toggle-campaign" href="#toggle-campaign"><?php esc_html_e( 'Add a campaign (optional)', 'affiliate-wp' ); ?></a>
-			</p>
-
-			<div class="affwp-wrap affwp-campaign-wrap affwp-hidden">
-				<label for="affwp-campaign"><?php esc_html_e( 'Campaign Name (optional)', 'affiliate-wp' ); ?></label>
-				<input type="text" name="campaign" id="affwp-campaign" value="" maxlength="50">
-			</div>
-
-			<div class="affwp-custom-link-submit-wrap">
-				<span id="affwp-generator-submit-notices">
-					<input id="affwp-generator-submit-btn" type="submit" class="button" value="<?php esc_html_e( 'Create Custom Link', 'affiliate-wp' ); ?>" />
-				</span>
-			</div>
 		</form>
+
 		<?php
 
 		// Fetch custom links.
@@ -357,5 +369,4 @@ class Affiliate_WP_Custom_Links {
 
 		return $template;
 	}
-
 }

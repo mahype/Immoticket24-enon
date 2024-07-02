@@ -1227,7 +1227,7 @@ form .spinner {
 }
 
 .affwp-addon-action.affwp-addon-action--error::before {
-	color: darkred;
+	color: #d63638;
 }
 
 .affwp-addon-action .status-active {
@@ -1424,15 +1424,22 @@ tr.group-row span.set-default {
 /* Make select2 inputs same width */
 .affiliates_page_affiliate-wp-settings .select2-container,
 #affwp_add_creative .select2-container,
-#affwp_edit_creative .select2-container {
+#affwp_edit_creative .select2-container,
+.affwp-use-select2 + .select2 {
 	width: 175px;
 }
 
 /* Make the select2 selection vertically centered */
 .affiliates_page_affiliate-wp-settings .select2-container--default .select2-selection--single,
 #affwp_add_creative .select2-container--default .select2-selection--single,
-#affwp_edit_creative .select2-container--default .select2-selection--single {
+#affwp_edit_creative .select2-container--default .select2-selection--single,
+.affwp-use-select2 + .select2 .select2-selection--single {
 	display: grid;
+}
+
+.affwp-use-select2 + .select2 .select2-selection--single {
+	min-height: 32px;
+	height: 32px;
 }
 
 .affwp-creative-name-field > * {
@@ -1514,7 +1521,7 @@ tr.group-row span.set-default {
 	margin-bottom: 0;
 }
 
-.affwp-section.affwp-section-pro-access-only .affwp-section-title h2 {
+.affwp-section .affwp-section-title h2 {
 	display: flex;
 	gap: 10px;
 	align-items: center;
@@ -1531,10 +1538,19 @@ tr.group-row span.set-default {
 	margin: 0;
 }
 
+.affwp-section-title h2 .affwp-tooltip.icon {
+	margin-left: 0;
+}
+
+.affwp-activation-link,
 .affwp-section-title .affwp-section-help-text {
 	margin: 10px 0 0;
 	color: #555;
 	font-size: 14px;
+}
+
+.affwp-activation-link {
+	text-decoration: none;
 }
 
 /* Admin settings */
@@ -1582,6 +1598,7 @@ tr.group-row span.set-default {
     align-items: center;
 	text-transform: uppercase;
 }
+
 
 #affwp-settings-form .form-table th > div {
 	display: flex;
@@ -1749,6 +1766,10 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons {
 	grid-column: 1 / -1;
 }
 
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons a.btn {
+	text-decoration: none;
+}
+
 body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default {
 	border-top-width: 0;
 	padding-top: 25px;
@@ -1763,14 +1784,18 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default .j
 	margin-bottom: -6px;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm {
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm,
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default .btn.btn-confirm {
 	background-color: #44a2a7;
 	border-color: #44a2a7;
+	color: #FFF;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm:hover {
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default button.btn-confirm:hover,
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-default .btn.btn-confirm:hover {
 	background-color: #69b6ba;
 	border-color: #69b6ba;
+	color: #FFF;
 }
 
 body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red {
@@ -1781,11 +1806,13 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red .jconf
 	color: #d63638 !important;
 }
 
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red .btn.btn-confirm,
 body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm {
 	background-color: #d63638;
 	border-color: #d63638;
 }
 
+body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red .btn.btn-confirm:hover,
 body div.jconfirm .jconfirm-box-container .jconfirm-box.jconfirm-type-red button.btn-confirm:hover {
 	background-color: #b32d2e;
 	border-color: #b32d2e;
@@ -1913,21 +1940,26 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-title-c .jconf
 
 body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane {
 	display: block;
-	margin-bottom: 20px;
+	margin-bottom: 1.5rem;
 }
 
 body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content {
-	color: #444444;
+	color: #3c434a;
 	font-size: 16px;
 	line-height: 24px;
 	margin-bottom: 0;
 	overflow: inherit;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content.lite-upgrade p {
-	color: #777777;
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p {
+	color: #3c434a;
 	font-size: 18px;
-	padding: 0 20px;
+	padding: 0;
+	text-wrap: pretty;
+}
+
+.jconfirm.jconfirm-modern .jconfirm-box {
+	padding: 32px 40px 16px 40px;
 }
 
 body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-content-pane .jconfirm-content p {
@@ -2050,7 +2082,8 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box #affwp-edu-modal-license
 	margin-top: 20px;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn {
 	min-width: 83px;
 	background: #f8f8f8;
 	border: 1px solid #cccccc;
@@ -2067,7 +2100,8 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button
 	transition-timing-function: ease-out;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button:hover {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button:hover,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn:hover {
 	background: #eeeeee;
 	border-color: #cccccc;
 }
@@ -2078,11 +2112,13 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button
 	opacity: .6;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn.btn-confirm{
 	color: #ffffff;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm .affwp-spinner {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-confirm .affwp-spinner,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn.btn-confirm .affwp-spinner {
 	display: inline-block;
 	width: 20px;
 	height: 20px;
@@ -2090,22 +2126,26 @@ body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button
 	vertical-align: top;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button + button {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button + button,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn + .btn {
 	margin-left: 20px;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-block {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-block,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn.btn-block {
 	display: block;
 	margin: 0 0 10px 0 !important;
 	text-align: center;
 	width: 100%;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-normal-case {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button.btn-normal-case,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn.btn-normal-case {
 	text-transform: none !important;
 }
 
-body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button i {
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons button i,
+body div.jconfirm .jconfirm-box-container .jconfirm-box .jconfirm-buttons .btn i {
 	margin: 0 10px 0 0;
 }
 
@@ -2257,6 +2297,159 @@ body div.jconfirm.jconfirm-affwp-education .jconfirm-content-pane {
 	border-radius: 50%;
 }
 
+.affwp-exclamation-icon {
+	display:inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.affwp-exclamation-icon img {
+	width: 20px;
+	height: auto;
+}
+
+.notice-drm.notice-error h2 {
+	margin-top: 14px;
+	margin-bottom: 5px;
+}
+
+.notice-drm.notice-error p:first-of-type {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.notice-drm .button {
+	margin-right: 10px;
+}
+
+.affwp-drm-level-locked #wpbody {
+	z-index: 0;
+}
+
+.affwp-drm-level-locked #wpbody-content {
+	filter: blur(4px);
+}
+
+#affwp-drm-modal .jconfirm-box {
+	padding: 2rem;
+}
+
+#affwp-drm-modal .jconfirm-content-pane {
+	margin-bottom: 0;
+}
+
+@media screen and (max-height: 767px) {
+	#affwp-drm-modal .jconfirm-content-pane {
+		overflow-y: scroll;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+#affwp-drm-modal a:not(.btn) {
+	color: #44A2A7;
+}
+
+#affwp-drm-modal .jconfirm-content,
+#affwp-drm-modal .jconfirm-content p {
+	color: #3c434a;
+}
+
+#affwp-drm-modal .jconfirm-content p:first-child {
+	max-width: 700px;
+	margin: 0 auto 1rem auto;
+}
+
+#affwp-drm-modal .jconfirm-icon-c {
+	color: #d63638;
+}
+
+.affwp-drm-locked-features {
+	list-style: none;
+	padding:0;
+	text-align: left;
+	display: inline-block;
+	margin: 0 0 1rem 0;
+	font-weight: 600;
+}
+
+#affwp-drm-modal .jconfirm .affwp-drm-locked-features + p + .jconfirm-buttons {
+	padding: 1.5rem 0 2rem 0;
+}
+
+.affwp-drm-locked-features li {
+	margin-bottom: 0.5rem;
+	display: flex;
+}
+
+.affwp-drm-locked-features li::before {
+	content: '';
+	margin-right: 0.5rem;
+	content: "\f057";
+	font-family: FontAwesome;
+	color: #d63638;
+	font-size: 1.5rem;
+}
+
+#affwp-drm-ajax-license-activation {
+	max-width: 400px;
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	margin: 20px auto 0;
+}
+#affwp-drm-ajax-license-activation input[type="password"] {
+	border: 1px solid #b9c1cf;
+	border-radius: 5px;
+	color: #444;
+	display: block;
+	font-size: 16px;
+	padding: 5px 10px;
+	width: 100%;
+	margin: 0
+}
+
+#affwp-drm-ajax-license-activation .btn {
+	min-width: unset;
+	margin: 0;
+}
+
+#affwp-drm-ajax-license-activation .btn .affwp-spinner {
+	margin-right: 10px;
+	opacity: 0.5;
+}
+
+#affwp-drm-ajax-messages {
+	margin-top: 5px;
+	text-align: center;
+	color: green; /* TODO: Change to the final shade */
+}
+
+#affwp-drm-ajax-messages[data-type="error"] {
+	color: #d63638; /* TODO: Change to the final shade */
+}
+
+@media screen and (min-width: 1085px) {
+
+	#affwp-drm-modal .jconfirm-box {
+		padding: 4rem;
+	}
+
+	.affwp-drm-locked-features {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 1.5rem 0;
+	}
+
+	.affwp-drm-locked-features li {
+		display: inline-flex;
+		align-items: center;
+		margin: 0;
+	}
+
+}
+
 /* Affiliates > Name Column + Gravatar */
 body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info {
 	display: flex;
@@ -2270,4 +2463,99 @@ body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info
 body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info img {
 	margin-right: 10px;
 	display: block;
+}
+
+/* WooCommerce Order Screen: Affiliate Selector (Select2) */
+.select2-container--disabled #select2-affiliatewp-order-affiliate-container {
+	cursor: not-allowed !important;
+}
+
+/* Tippy tooltip styling */
+.tippy-box[data-theme~='affwp'] {
+	background-color: #fff;
+	color: #3c434a;
+	border-radius: 0.25rem;
+	min-width: 350px;
+	filter:
+		drop-shadow(
+			1px 2px 3px hsla(0, 0%, 0%, 0.05)
+		)
+		drop-shadow(
+			2px 4px 6px hsl(0 0% 0% / 0.05)
+		)
+		drop-shadow(
+			4px 8px 12px hsl(0 0% 0% / 0.05)
+		);
+}
+
+.tippy-box[data-theme~='affwp'][data-placement^='top'] > .tippy-arrow::before {
+	border-top-color: #fff;
+}
+
+.tippy-box[data-theme~='affwp'][data-placement^='bottom'] > .tippy-arrow::before {
+	border-bottom-color: #fff;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content {
+	padding: 1rem 1.25rem;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content p {
+	margin-top: 0;
+	font-weight: 400;
+	line-height: 1.4rem;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content a {
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content *:last-child {
+	margin-bottom: 0;
+}
+
+.tippy-box[data-theme~='affwp'] a .dashicons {
+	text-decoration: none;
+}
+
+.dashicons-editor-help:has(+ div) {
+	cursor: help;
+}
+
+#affwp-settings-form:has(.dashicons-editor-help[aria-expanded="true"]) {
+	z-index: 9999;
+	position: relative;
+}
+
+/* Feature benefits list */
+
+.affwp-feature-benefits {
+	list-style: none;
+	padding: 0;
+	text-align: left;
+	display: inline-block;
+	margin: 0;
+}
+
+.affwp-feature-benefits li {
+	margin-bottom: 1rem;
+	display: flex;
+}
+
+.affwp-feature-benefits li::before {
+	content: '';
+	margin-right: 0.875rem;
+	content: "\f00c";
+	font-family: FontAwesome;
+	color: #44a2a7;
+	font-size: 1.5rem;
+}
+
+p + .affwp-feature-benefits {
+	margin-top: 1.5rem;
+}
+
+.affwp-feature-benefits li:last-of-type {
+	margin-bottom: 0;
 }

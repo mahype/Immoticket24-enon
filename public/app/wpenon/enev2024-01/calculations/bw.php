@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Kalkulationen für den Bedarfsausweis.
  *
@@ -99,12 +100,12 @@ $calculations = array();
 /**
  * Anlegen des Grundrisses.
  */
-$grundriss = new Grundriss( $energieausweis->grundriss_form, $energieausweis->grundriss_richtung );
+$grundriss = new Grundriss($energieausweis->grundriss_form, $energieausweis->grundriss_richtung);
 
-foreach ( $grundriss->waende_manuell() as $wand ) {
+foreach ($grundriss->waende_manuell() as $wand) {
 	$wand_laenge_slug = 'wand_' . $wand . '_laenge';
 	$wand_laenge      = $energieausweis->$wand_laenge_slug;
-	$grundriss->wand_laenge( $wand, $wand_laenge );
+	$grundriss->wand_laenge($wand, $wand_laenge);
 }
 
 /**
@@ -121,22 +122,22 @@ $gebaeude = new Gebaeude(
 
 $calculations['gebaeude'] = $gebaeude;
 
-$gwert_fenster = wpenon_immoticket24_get_g_wert( $energieausweis->fenster_bauart );
+$gwert_fenster = wpenon_immoticket24_get_g_wert($energieausweis->fenster_bauart);
 
 /**
-* Dach
-*/
-switch ( $energieausweis->dach ) {
+ * Dach
+ */
+switch ($energieausweis->dach) {
 	case 'beheizt':
-		$kniestock_hoehe = isset( $energieausweis->kniestock_hoehe ) ? $energieausweis->kniestock_hoehe : 0.0;
-		$daemmung_dach   = isset( $energieausweis->dach_daemmung ) ? $energieausweis->dach_daemmung : 0.0;
-		$uwert_dach      = uwert( 'dach_' . $energieausweis->dach_bauart, $energieausweis->baujahr );
+		$kniestock_hoehe = isset($energieausweis->kniestock_hoehe) ? $energieausweis->kniestock_hoehe : 0.0;
+		$daemmung_dach   = isset($energieausweis->dach_daemmung) ? $energieausweis->dach_daemmung : 0.0;
+		$uwert_dach      = uwert('dach_' . $energieausweis->dach_bauart, $energieausweis->baujahr);
 
-		switch ( $energieausweis->dach_form ) {
+		switch ($energieausweis->dach_form) {
 			case 'walmdach':
 				$dach = new Walmdach(
 					grundriss: $grundriss,
-					name: __( 'Walmdach', 'wpenon' ),
+					name: __('Walmdach', 'wpenon'),
 					hoehe: $energieausweis->dach_hoehe,
 					kniestock_hoehe: $kniestock_hoehe,
 					uwert: $uwert_dach,
@@ -146,7 +147,7 @@ switch ( $energieausweis->dach ) {
 			case 'satteldach':
 				$dach = new Satteldach(
 					grundriss: $grundriss,
-					name: __( 'Satteldach', 'wpenon' ),
+					name: __('Satteldach', 'wpenon'),
 					hoehe: $energieausweis->dach_hoehe,
 					kniestock_hoehe: $kniestock_hoehe,
 					uwert: $uwert_dach,
@@ -156,7 +157,7 @@ switch ( $energieausweis->dach ) {
 			case 'pultdach':
 				$dach = new Pultdach(
 					grundriss: $grundriss,
-					name: __( 'Pultdach', 'wpenon' ),
+					name: __('Pultdach', 'wpenon'),
 					hoehe: $energieausweis->dach_hoehe,
 					kniestock_hoehe: $kniestock_hoehe,
 					uwert: $uwert_dach,
@@ -164,182 +165,185 @@ switch ( $energieausweis->dach ) {
 				);
 				break;
 			default:
-				throw new Calculation_Exception( 'Dachform nicht bekannt.' );
+				throw new Calculation_Exception('Dachform nicht bekannt.');
 		}
 
-		$gebaeude->bauteile()->hinzufuegen( $dach );
+		$gebaeude->bauteile()->hinzufuegen($dach);
 
 		break;
 	case 'unbeheizt':
 		$decke = new Decke(
-			name: __( 'Oberste Geschossdecke', 'wpenon' ),
+			name: __('Oberste Geschossdecke', 'wpenon'),
 			grundriss: $grundriss,
-			uwert: uwert( 'decke_' . $energieausweis->decke_bauart, $energieausweis->baujahr ),
+			uwert: uwert('decke_' . $energieausweis->decke_bauart, $energieausweis->baujahr),
 			daemmung: $energieausweis->decke_daemmung,
 		);
 
-		$gebaeude->bauteile()->hinzufuegen( $decke );
+		$gebaeude->bauteile()->hinzufuegen($decke);
 		break;
 	case 'nicht-vorhanden':
 	default:
-		$daemmung_dach = isset( $energieausweis->dach_daemmung ) ? $energieausweis->dach_daemmung : 0.0;
-		$uwert_dach    = uwert( 'dach_' . $energieausweis->dach_bauart, $energieausweis->baujahr );
+		$daemmung_dach = isset($energieausweis->dach_daemmung) ? $energieausweis->dach_daemmung : 0.0;
+		$uwert_dach    = uwert('dach_' . $energieausweis->dach_bauart, $energieausweis->baujahr);
 
 		$dach = new Flachdach(
 			grundriss: $grundriss,
-			name: __( 'Flachdach', 'wpenon' ),
+			name: __('Flachdach', 'wpenon'),
 			uwert: $uwert_dach,
 			daemmung: $daemmung_dach,
 		);
 
-		$gebaeude->bauteile()->hinzufuegen( $dach );
+		$gebaeude->bauteile()->hinzufuegen($dach);
 }
 
 /**
-* Anbaus, falls vorhanden.
-*
-* Der Anbau wird zuerst hinzugefügt, um eventuelle Überlappungen mit dem Hauptgebäude zu berechnen.
-*/
-if ( $energieausweis->anbau ) {
-	$grundriss_anbau = new Grundriss_Anbau( $energieausweis->anbau_form, $energieausweis->grundriss_richtung );
+ * Anbaus, falls vorhanden.
+ *
+ * Der Anbau wird zuerst hinzugefügt, um eventuelle Überlappungen mit dem Hauptgebäude zu berechnen.
+ */
+if ($energieausweis->anbau) {
+	$grundriss_anbau = new Grundriss_Anbau($energieausweis->anbau_form, $energieausweis->grundriss_richtung);
 
 	// Hinzufügen der angegebenen Wandlängen zum Grundriss des Anbaus.
-	foreach ( $grundriss_anbau->seiten_manuell() as $wand ) {
+	foreach ($grundriss_anbau->seiten_manuell() as $wand) {
 		$wand_laenge_slug = 'anbauwand_' . $wand . '_laenge';
 		$wand_laenge       = $energieausweis->$wand_laenge_slug;
-		$grundriss_anbau->wand_laenge( $wand, $wand_laenge );
+		$grundriss_anbau->wand_laenge($wand, $wand_laenge);
 	}
 
-	$gebaeude->anbau( new Anbau( $grundriss_anbau, $energieausweis->anbau_hoehe ) );
+	$gebaeude->anbau(new Anbau($grundriss_anbau, $energieausweis->anbau_hoehe));
 
 	// Hinzufügen der Bauteile des Anbaus zum Gebäude.
 	$anbauwand_bauart_feldname = 'anbauwand_bauart_' . $energieausweis->gebaeudekonstruktion;
 	$anbauwand_bauart_name     = $energieausweis->$anbauwand_bauart_feldname;
-	$uwert_anbau_wand    = uwert( 'wand_' . $anbauwand_bauart_name, $energieausweis->anbau_baujahr );
+	$uwert_anbau_wand    = uwert('wand_' . $anbauwand_bauart_name, $energieausweis->anbau_baujahr);
 
-	$uwert_anbau_fenster = $energieausweis->anbaufenster_uwert_info ? $energieausweis->anbaufenster_uwert:  uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
+	$uwert_anbau_fenster = $energieausweis->anbaufenster_uwert_info ? $energieausweis->anbaufenster_uwert :  uwert('fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr);
 
-	foreach ( $gebaeude->anbau()->grundriss()->waende() as $wand ) {
+	foreach ($gebaeude->anbau()->grundriss()->waende() as $wand) {
 		$anbauwand = new Anbauwand(
-			name: sprintf( __( 'Anbauwand %s', 'wpenon' ), $wand ),
+			name: sprintf(__('Anbauwand %s', 'wpenon'), $wand),
 			seite: $wand,
-			flaeche: $gebaeude->anbau()->wandseite_flaeche( $wand ),
+			flaeche: $gebaeude->anbau()->wandseite_flaeche($wand),
 			uwert: $uwert_anbau_wand,
-			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
+			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung($wand),
 			daemmung: $energieausweis->anbauwand_daemmung,
 		);
 
-		$fenster_flaeche = berechne_fenster_flaeche( $grundriss_anbau->wand_laenge( $wand ), $energieausweis->anbau_hoehe, $energieausweis->anbauwand_staerke / 100 );
+		$fenster_flaeche = berechne_fenster_flaeche($grundriss_anbau->wand_laenge($wand), $energieausweis->anbau_hoehe, $energieausweis->anbauwand_staerke / 100);
 
-		$fenster = new Anbaufenster(
-			name: sprintf( __( 'Anbaufenster Wand %s', 'wpenon' ), $wand ),
-			gwert: $gwert_fenster,
-			uwert: $uwert_anbau_fenster,
-			flaeche: $fenster_flaeche, // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-			himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung( $wand ),
-			winkel: 90.0
-		);
+		if ($fenster_flaeche > 0) {
+			$fenster = new Anbaufenster(
+				name: sprintf(__('Anbaufenster Wand %s', 'wpenon'), $wand),
+				gwert: $gwert_fenster,
+				uwert: $uwert_anbau_fenster,
+				flaeche: $fenster_flaeche, // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+				himmelsrichtung: $grundriss_anbau->wand_himmelsrichtung($wand),
+				winkel: 90.0
+			);
 
-		$anbauwand->flaeche_reduzieren( $fenster->flaeche() );
+			$anbauwand->flaeche_reduzieren($fenster->flaeche());
 
-		$gebaeude->bauteile()->hinzufuegen( $fenster );
-		$gebaeude->bauteile()->hinzufuegen( $anbauwand );
+			$gebaeude->bauteile()->hinzufuegen($fenster);
+		}
+
+		$gebaeude->bauteile()->hinzufuegen($anbauwand);
 	}
 
 	$gebaeude->bauteile()->hinzufuegen(
 		new Anbauboden(
-			name: sprintf( __( 'Anbau-Boden', 'wpenon' ) ),
+			name: sprintf(__('Anbau-Boden', 'wpenon')),
 			flaeche: $grundriss->flaeche(),
-			uwert: uwert( 'boden_' . $energieausweis->anbauboden_bauart, $energieausweis->anbau_baujahr ),
+			uwert: uwert('boden_' . $energieausweis->anbauboden_bauart, $energieausweis->anbau_baujahr),
 			daemmung: $energieausweis->anbauboden_daemmung,
 		)
 	);
 
 	$gebaeude->bauteile()->hinzufuegen(
 		new Anbaudecke(
-			name: sprintf( __( 'Anbau-Dach', 'wpenon' ) ),
+			name: sprintf(__('Anbau-Dach', 'wpenon')),
 			grundriss: $grundriss_anbau,
-			uwert: uwert( 'decke_' . $energieausweis->anbaudach_bauart, $energieausweis->anbau_baujahr ),
+			uwert: uwert('decke_' . $energieausweis->anbaudach_bauart, $energieausweis->anbau_baujahr),
 			daemmung: $energieausweis->anbaudach_daemmung,
 		)
 	);
 }
 
 /**
-* Hinzufügen aller Wände des Hauptgebäudes.
-*/
+ * Hinzufügen aller Wände des Hauptgebäudes.
+ */
 
 $wand_bauart_feld_name = 'wand_bauart_' . $energieausweis->gebaeudekonstruktion;
 $wand_bauart           = $energieausweis->$wand_bauart_feld_name;
-$uwert_wand            = uwert( 'wand_' . $wand_bauart, $energieausweis->baujahr );
+$uwert_wand            = uwert('wand_' . $wand_bauart, $energieausweis->baujahr);
 
-foreach ( $grundriss->waende() as $wand ) {
+foreach ($grundriss->waende() as $wand) {
 	$nachbar_slug = 'wand_' . $wand . '_nachbar';
 
-	if ( $energieausweis->$nachbar_slug ) { // Wenn es eine Wand zum Nachbar ist, dann wird diese nicht als Außenwand gewertet und entfällt.
+	if ($energieausweis->$nachbar_slug) { // Wenn es eine Wand zum Nachbar ist, dann wird diese nicht als Außenwand gewertet und entfällt.
 		continue;
 	}
 
 	$daemmung_slug = 'wand_' . $wand . '_daemmung';
 
-	$wand_laenge = $gebaeude->grundriss()->wand_laenge( $wand );
+	$wand_laenge = $gebaeude->grundriss()->wand_laenge($wand);
 	$wand_hoehe = $gebaeude->geschosshoehe() * $gebaeude->geschossanzahl();
 	$wand_flaeche = $wand_laenge * $wand_hoehe;
 
 	$wand = new Wand(
 		// translators: %s: Seite der Wand.
-		name: sprintf( __( 'Außenwand %s', 'wpenon' ), $wand ),
+		name: sprintf(__('Außenwand %s', 'wpenon'), $wand),
 		seite: $wand,
 		flaeche: $wand_flaeche,
 		uwert: $uwert_wand,
-		himmelsrichtung: $gebaeude->grundriss()->wand_himmelsrichtung( $wand ),
+		himmelsrichtung: $gebaeude->grundriss()->wand_himmelsrichtung($wand),
 		daemmung: $energieausweis->$daemmung_slug,
 		grenzt_an_wohngebaeude: $energieausweis->$nachbar_slug
 	);
 
-	$gebaeude->bauteile()->hinzufuegen( $wand );
+	$gebaeude->bauteile()->hinzufuegen($wand);
 }
 
 /**
-* Hinzufügen der Bauteile Wände, Fenster, Heizkörpernischen und Rolladenkästen.
-*/
-foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
-	if ( $wand->grenzt_an_wohngebaeude() ) {
+ * Hinzufügen der Bauteile Wände, Fenster, Heizkörpernischen und Rolladenkästen.
+ */
+foreach ($gebaeude->bauteile()->waende()->alle() as $wand) {
+	if ($wand->grenzt_an_wohngebaeude()) {
 		continue;
 	}
 
 	$fensterflaeche = $heizkoerpernische_flaeche = $rolladenkaesten_flaeche = 0.0;
 
 	// Ist ein beheiztes Dachgeschoss vorhanden, muss das Mauerwerk für die Wand hinzugefügt werden.
-	if ( $gebaeude->dach_vorhanden() ) {
-		$dachwand_flaeche = $gebaeude->dach()->wandseite_flaeche( $wand->seite() );
-		$dachwand_flaeche_kniestock = $gebaeude->dach()->kniestock_flaeche( $wand->seite() );
-		$wand->flaeche_addieren( $dachwand_flaeche + $dachwand_flaeche_kniestock );
+	if ($gebaeude->dach_vorhanden()) {
+		$dachwand_flaeche = $gebaeude->dach()->wandseite_flaeche($wand->seite());
+		$dachwand_flaeche_kniestock = $gebaeude->dach()->kniestock_flaeche($wand->seite());
+		$wand->flaeche_addieren($dachwand_flaeche + $dachwand_flaeche_kniestock);
 	}
 
 	// Ist ein Anbau vorhanden, muss die überlappende Fläche vom Mauerwerk abgezogen werden.
-	if ( $gebaeude->anbau_vorhanden() ) {
-		$anbau_schnittflaeche = $gebaeude->anbau()->ueberlappung_flaeche_gebaeude( $wand->seite() );
-		$wand->flaeche_reduzieren( $anbau_schnittflaeche );
+	if ($gebaeude->anbau_vorhanden()) {
+		$anbau_schnittflaeche = $gebaeude->anbau()->ueberlappung_flaeche_gebaeude($wand->seite());
+		$wand->flaeche_reduzieren($anbau_schnittflaeche);
 	}
 
 	/**
 	 * Fenster
-	 */	
-	$wand_laenge = $gebaeude->grundriss()->wand_laenge( $wand->seite() );
+	 */
+	$wand_laenge = $gebaeude->grundriss()->wand_laenge($wand->seite());
 
 	// TODO: Berechnung ggf. auch mit Abzug der Schnittfläche des Anbaus.
 	// NOTE: Vorher ausgelassen, da dies in den originalen Berechnungen auch nicht berücksichtigt wurde.	
-	// if( $gebaeude->anbau_vorhanden() ) {
-	// 	$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand( $wand->seite() );
-	// }
+	if ($gebaeude->anbau_vorhanden()) {
+		$wand_laenge -= $gebaeude->anbau()->ueberlappung_laenge_wand($wand->seite());
+	}
 
-	$fensterflaeche  = berechne_fenster_flaeche( $wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100 ) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
-	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert: uwert( 'fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr );
-	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung( $wand->seite() );
+	$fensterflaeche  = berechne_fenster_flaeche($wand_laenge, $energieausweis->geschoss_hoehe, $energieausweis->wand_staerke / 100) * $energieausweis->geschoss_zahl;  // Hier die Lichte Höhe und nicht die Geschosshöhe verwenden um die Fenster zu berechnen.
+	$uwert_fenster   = $energieausweis->fenster_uwert_info ? $energieausweis->fenster_uwert : uwert('fenster_' . $energieausweis->fenster_bauart, $energieausweis->fenster_baujahr);
+	$himmelsrichtung = $gebaeude->grundriss()->wand_himmelsrichtung($wand->seite());
 
 	$fenster = new Fenster(
-		name: sprintf( __( 'Fenster Wand %s', 'wpenon' ), $wand->name() ),
+		name: sprintf(__('Fenster Wand %s', 'wpenon'), $wand->name()),
 		gwert: $gwert_fenster,
 		uwert: $uwert_fenster,
 		flaeche: $fensterflaeche,
@@ -347,63 +351,63 @@ foreach ( $gebaeude->bauteile()->waende()->alle() as $wand ) {
 		winkel: 90.0
 	);
 
-	$gebaeude->bauteile()->hinzufuegen( $fenster );
+	$gebaeude->bauteile()->hinzufuegen($fenster);
 
 	// Reduzieren der Wandfläche um die Fensterfläche.
-	$wand->flaeche_reduzieren( $fensterflaeche );
+	$wand->flaeche_reduzieren($fensterflaeche);
 
 	/**
 	 * Heizkörpernischen
 	 */
-	if ( $energieausweis->heizkoerpernischen === 'vorhanden' ) {
-		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche( $fensterflaeche );
+	if ($energieausweis->heizkoerpernischen === 'vorhanden') {
+		$heizkoerpernische_flaeche = berechne_heizkoerpernische_flaeche($fensterflaeche);
 
 		$heizkoerpernische = new Heizkoerpernische(
-			name: sprintf( __( 'Heizkörpernischen Wand %s', 'wpenon' ), $wand->seite() ),
+			name: sprintf(__('Heizkörpernischen Wand %s', 'wpenon'), $wand->seite()),
 			flaeche: $heizkoerpernische_flaeche,
 			uwert_wand: $wand->uwert(),
 			himmelsrichtung: $himmelsrichtung,
 			daemmung: $wand->daemmung()
 		);
 
-		$gebaeude->bauteile()->hinzufuegen( $heizkoerpernische );
-		$wand->flaeche_reduzieren( $heizkoerpernische_flaeche );
+		$gebaeude->bauteile()->hinzufuegen($heizkoerpernische);
+		$wand->flaeche_reduzieren($heizkoerpernische_flaeche);
 	}
 
 	/**
 	 * Rolladenkästen.
 	 */
-	if ( substr( $energieausweis->rollladenkaesten, 0, 6 ) === 'innen_' ) { // Wir nehmen nur innenliegende Rolladenkästen.
-		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche( $fensterflaeche );
-		$daemmung                = substr( $energieausweis->rollladenkaesten, 6 );
-		$uwert_rolladenkaesten   = uwert( 'rollladen_' . $daemmung, $energieausweis->fenster_baujahr );
+	if (substr($energieausweis->rollladenkaesten, 0, 6) === 'innen_') { // Wir nehmen nur innenliegende Rolladenkästen.
+		$rolladenkaesten_flaeche = berechne_rolladenkasten_flaeche($fensterflaeche);
+		$daemmung                = substr($energieausweis->rollladenkaesten, 6);
+		$uwert_rolladenkaesten   = uwert('rollladen_' . $daemmung, $energieausweis->fenster_baujahr);
 
 		$rolladenkasten = new Rolladenkasten(
 			// translators: % s: Seite der Wand .
-			name: sprintf( __( 'Rolladenkasten Wand %s', 'wpenon' ), $wand->seite() ),
+			name: sprintf(__('Rolladenkasten Wand %s', 'wpenon'), $wand->seite()),
 			flaeche: $rolladenkaesten_flaeche,
 			uwert: $uwert_rolladenkaesten,
 			himmelsrichtung: $himmelsrichtung
 		);
 
-		$gebaeude->bauteile()->hinzufuegen( $rolladenkasten );
-		$wand->flaeche_reduzieren( $rolladenkaesten_flaeche );
+		$gebaeude->bauteile()->hinzufuegen($rolladenkasten);
+		$wand->flaeche_reduzieren($rolladenkaesten_flaeche);
 	}
 }
 
 /**
  * Sammlung aller Bauteile des Kellers.
  */
-switch ( $energieausweis->keller ) {
+switch ($energieausweis->keller) {
 	case 'beheizt':
-		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, $energieausweis->keller_hoehe );
-		$gebaeude->keller( $keller );
+		$keller = new Keller($grundriss, $energieausweis->keller_groesse, $energieausweis->keller_hoehe);
+		$gebaeude->keller($keller);
 
 		$gebaeude->bauteile()->hinzufuegen(
 			new Kellerwand(
-				name: __( 'Kellerwand', 'wpenon' ),
+				name: __('Kellerwand', 'wpenon'),
 				flaeche: $gebaeude->keller()->wandseite_flaeche(),
-				uwert: uwert( 'wand_' . $energieausweis->keller_bauart, $energieausweis->baujahr ),
+				uwert: uwert('wand_' . $energieausweis->keller_bauart, $energieausweis->baujahr),
 				daemmung: $energieausweis->keller_daemmung,
 			)
 		);
@@ -412,19 +416,19 @@ switch ( $energieausweis->keller ) {
 
 		$gebaeude->bauteile()->hinzufuegen(
 			new Kellerboden(
-				name: sprintf( __( 'Kellerboden', 'wpenon' ) ),
+				name: sprintf(__('Kellerboden', 'wpenon')),
 				flaeche: $kellerflaeche,
-				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				uwert: uwert('boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr),
 				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
 
-		if ( $energieausweis->keller_groesse < 100 ) {
+		if ($energieausweis->keller_groesse < 100) {
 			$gebaeude->bauteile()->hinzufuegen(
 				new Boden(
-					name: sprintf( __( 'Boden', 'wpenon' ) ),
+					name: sprintf(__('Boden', 'wpenon')),
 					flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
-					uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
+					uwert: uwert('boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr),
 					daemmung: $energieausweis->boden_daemmung,
 				)
 			);
@@ -432,26 +436,26 @@ switch ( $energieausweis->keller ) {
 
 		break;
 	case 'unbeheizt':
-		$keller = new Keller( $grundriss, $energieausweis->keller_groesse, 0 );
-		$gebaeude->keller( $keller );
+		$keller = new Keller($grundriss, $energieausweis->keller_groesse, 0);
+		$gebaeude->keller($keller);
 
 		$kellerflaeche = $gebaeude->grundriss()->flaeche() * $energieausweis->keller_groesse / 100;
 
 		$gebaeude->bauteile()->hinzufuegen(
 			new Kellerboden(
-				name: sprintf( __( 'Kellerboden', 'wpenon' ) ),
+				name: sprintf(__('Kellerboden', 'wpenon')),
 				flaeche: $kellerflaeche,
-				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				uwert: uwert('boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr),
 				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
 
-		if ( $energieausweis->keller_groesse < 100 ) {
+		if ($energieausweis->keller_groesse < 100) {
 			$gebaeude->bauteile()->hinzufuegen(
 				new Boden(
-					name: sprintf( __( 'Boden', 'wpenon' ) ),
+					name: sprintf(__('Boden', 'wpenon')),
 					flaeche: $gebaeude->grundriss()->flaeche() - $kellerflaeche,
-					uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
+					uwert: uwert('boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr),
 					daemmung: $energieausweis->boden_daemmung,
 				)
 			);
@@ -463,9 +467,9 @@ switch ( $energieausweis->keller ) {
 	default:
 		$gebaeude->bauteile()->hinzufuegen(
 			new Boden(
-				name: sprintf( __( 'Boden', 'wpenon' ) ),
+				name: sprintf(__('Boden', 'wpenon')),
 				flaeche: $gebaeude->grundriss()->flaeche(),
-				uwert: uwert( 'boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr ),
+				uwert: uwert('boden_' . $energieausweis->boden_bauart, $energieausweis->baujahr),
 				daemmung: $energieausweis->boden_daemmung,
 			)
 		);
@@ -489,8 +493,8 @@ $gebaeude->lueftung(
 
 $heizung_im_beheizten_bereich = $energieausweis->h_standort === 'innerhalb' ? true : false;
 
-switch ( $energieausweis->ww_info ) {
-	// Eigene Warmwasserbereitung.
+switch ($energieausweis->ww_info) {
+		// Eigene Warmwasserbereitung.
 	case 'ww':
 		$ww_zentral = false;
 		$mit_zirkulation = false;
@@ -499,7 +503,7 @@ switch ( $energieausweis->ww_info ) {
 		$ww_energietraeger = $energieausweis->ww_energietraeger;
 		$ww_baujahr = $energieausweis->ww_baujahr;
 		break;
-	// Zentrale Warmwasserbereitung über die Heizungsanlage.
+		// Zentrale Warmwasserbereitung über die Heizungsanlage.
 	case 'h':
 		$ww_zentral = true;
 		$mit_zirkulation = $energieausweis->verteilung_versorgung === 'mit' ? true : false;
@@ -537,7 +541,7 @@ $gebaeude->trinkwarmwasseranlage(
 		mit_solarthermie: $energieausweis->solarthermie_info === 'vorhanden' ? true : false,
 		solarthermie_neigung: $energieausweis->solarthermie_info === 'vorhanden' ? $energieausweis->solarthermie_neigung : null,
 		solarthermie_richtung: $energieausweis->solarthermie_info === 'vorhanden' ? $energieausweis->solarthermie_richtung : null,
-		solarthermie_baujahr:$energieausweis->solarthermie_info === 'vorhanden' ? $energieausweis->solarthermie_baujahr : null	
+		solarthermie_baujahr: $energieausweis->solarthermie_info === 'vorhanden' ? $energieausweis->solarthermie_baujahr : null
 	)
 );
 
@@ -546,7 +550,7 @@ $gebaeude->trinkwarmwasseranlage(
  */
 $energietraeger_name = 'h_energietraeger_' . $energieausweis->h_erzeugung;
 $energietraeger = $energieausweis->$energietraeger_name;
-$h_prozentualer_anteil = ! isset( $energieausweis->h_deckungsanteil ) || $energieausweis->h_deckungsanteil === 0 ? 100 : $energieausweis->h_deckungsanteil;
+$h_prozentualer_anteil = !isset($energieausweis->h_deckungsanteil) || $energieausweis->h_deckungsanteil === 0 ? 100 : $energieausweis->h_deckungsanteil;
 
 // if( $_GET['debug'] ) {
 // 	$file = fopen( __DIR__ . '/debug.txt', 'w' );
@@ -557,16 +561,16 @@ $h_prozentualer_anteil = ! isset( $energieausweis->h_deckungsanteil ) || $energi
 // }
 
 $fp = null;
-if( $energieausweis->h_custom_primaer_info ) {
+if ($energieausweis->h_custom_primaer_info) {
 	$fp = $energieausweis->h_custom_primaer;
 }
 
 $fco2 = null;
-if( $energieausweis->h_custom_co2_info ) {
+if ($energieausweis->h_custom_co2_info) {
 	$fco2 = $energieausweis->h_custom_co2;
 }
 
-if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde' ) {
+if ($energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erzeugung === 'waermepumpewasser' || $energieausweis->h_erzeugung === 'waermepumpeerde') {
 	// $h_evu_abschaltung = $energieausweis->h_evu_abschaltung === 'ja' ? true : false;
 	$h_evu_abschaltung = true; // NOTE: EVU wird immer auf true gesetzt, damit weniger Fragen aufkommen. Die Werte sollten dadurch schlechter werden (Michael: 2023-12-20)
 
@@ -581,73 +585,74 @@ if( $energieausweis->h_erzeugung === 'waermepumpeluft' || $energieausweis->h_erz
 
 	$h_waermepumpe_erde_typ = $energieausweis->h_erzeugung === 'waermepumpeerde' ? $energieausweis->h_waermepumpe_erde_typ : null;
 
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, $h_evu_abschaltung, $h_waermepumpe_luft_einstufig, $h_waermepumpe_erde_typ, $fp, $fco2 );
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, $h_evu_abschaltung, $h_waermepumpe_luft_einstufig, $h_waermepumpe_erde_typ, $fp, $fco2);
 } else {
-	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, false, false, null, $fp, $fco2 );
+	$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h_erzeugung, $energietraeger, $energieausweis->h_baujahr, $h_prozentualer_anteil, false, false, null, $fp, $fco2);
 }
 
-if ( $energieausweis->h2_info ) {
+if ($energieausweis->h2_info) {
 	$energietraeger_name = 'h2_energietraeger_' . $energieausweis->h2_erzeugung;
 	$energietraeger = $energieausweis->$energietraeger_name;
 
-	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieausweis->h2_waermepumpe_luft_stufen === 'einstufig' ) {
+	if ($energieausweis->h2_erzeugung === 'waermepumpeluft' && $energieausweis->h2_waermepumpe_luft_stufen === 'einstufig') {
 		$h2_waermepumpe_luft_einstufig = true;
 	} else {
-		$h2_waermepumpe_luft_einstufig = false;	
+		$h2_waermepumpe_luft_einstufig = false;
 	}
 
 	$h2_waermepumpe_erde_typ = $energieausweis->h2_erzeugung === 'waermepumpeerde' ? $energieausweis->h2_waermepumpe_erde_typ : null;
 
 	$fp_2 = null;
-	if( $energieausweis->h2_custom_primaer_info ) {
+	if ($energieausweis->h2_custom_primaer_info) {
 		$fp_2 = $energieausweis->h2_custom_primaer;
 	}
 
 	$fco2_2 = null;
-	if( $energieausweis->h2_custom_co2_info ) {
+	if ($energieausweis->h2_custom_co2_info) {
 		$fco2_2 = $energieausweis->h2_custom_co2;
 	}
 
-	if( $energieausweis->h2_erzeugung === 'waermepumpeluft' || $energieausweis->h2_erzeugung === 'waermepumpewasser' || $energieausweis->h2_erzeugung === 'waermepumpeerde' ) {
-		$h2_evu_abschaltung = $energieausweis->h2_evu_abschaltung === 'ja' ? true : false;	
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, $h2_evu_abschaltung, $h2_waermepumpe_luft_einstufig, $h2_waermepumpe_erde_typ, $fp_2, $fco2_2 );
+	if ($energieausweis->h2_erzeugung === 'waermepumpeluft' || $energieausweis->h2_erzeugung === 'waermepumpewasser' || $energieausweis->h2_erzeugung === 'waermepumpeerde') {
+		$h2_evu_abschaltung = $energieausweis->h2_evu_abschaltung === 'ja' ? true : false;
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, $h2_evu_abschaltung, $h2_waermepumpe_luft_einstufig, $h2_waermepumpe_erde_typ, $fp_2, $fco2_2);
 	} else {
-		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, false, false, null, $fp_2, $fco2_2 );
+		$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h2_erzeugung, $energietraeger, $energieausweis->h2_baujahr, $energieausweis->h2_deckungsanteil, false, false, null, $fp_2, $fco2_2);
 	}
 
-	if ( $energieausweis->h3_info ) {
+	if ($energieausweis->h3_info) {
 		$energietraeger_name = 'h3_energietraeger_' . $energieausweis->h3_erzeugung;
 		$energietraeger = $energieausweis->$energietraeger_name;
-	
-		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieausweis->h3_waermepumpe_luft_stufen === 'einstufig' ) {
+
+		if ($energieausweis->h3_erzeugung === 'waermepumpeluft' && $energieausweis->h3_waermepumpe_luft_stufen === 'einstufig') {
 			$h3_waermepumpe_luft_einstufig = true;
 		} else {
-			$h3_waermepumpe_luft_einstufig = false;	
+			$h3_waermepumpe_luft_einstufig = false;
 		}
-	
+
 		$h3_waermepumpe_erde_typ = $energieausweis->h3_erzeugung === 'waermepumpeerde' ? $energieausweis->h3_waermepumpe_erde_typ : null;
 
 		$fp_3 = null;
-		if( $energieausweis->h3_custom_primaer_info ) {
+		if ($energieausweis->h3_custom_primaer_info) {
 			$fp_3 = $energieausweis->h3_custom_primaer;
 		}
 
 		$fco2_3 = null;
-		if( $energieausweis->h3_custom_co2_info ) {
+		if ($energieausweis->h3_custom_co2_info) {
 			$fco2_3 = $energieausweis->h3_custom_co2;
 		}
-	
-		if( $energieausweis->h3_erzeugung === 'waermepumpeluft' || $energieausweis->h3_erzeugung === 'waermepumpewasser' || $energieausweis->h3_erzeugung === 'waermepumpeerde' ) {
-			$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;	
-			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung, $h3_waermepumpe_luft_einstufig, $h3_waermepumpe_erde_typ, $fp_3, $fco2_3 );
+
+		if ($energieausweis->h3_erzeugung === 'waermepumpeluft' || $energieausweis->h3_erzeugung === 'waermepumpewasser' || $energieausweis->h3_erzeugung === 'waermepumpeerde') {
+			$h3_evu_abschaltung = $energieausweis->h3_evu_abschaltung === 'ja' ? true : false;
+			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, $h3_evu_abschaltung, $h3_waermepumpe_luft_einstufig, $h3_waermepumpe_erde_typ, $fp_3, $fco2_3);
 		} else {
-			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen( $energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, false, false, null, $fp_3, $fco2_3 );
+			$gebaeude->heizsystem()->heizungsanlagen()->hinzufuegen($energieausweis->h3_erzeugung, $energietraeger, $energieausweis->h3_baujahr, $energieausweis->h3_deckungsanteil, false, false, null, $fp_3, $fco2_3);
 		}
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_temperatur_flaechenheizungen' ) )  {
-	function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp) {
+if (!function_exists('Enev\Schema202401\Calculations\wpenon_temperatur_flaechenheizungen')) {
+	function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp)
+	{
 		switch ($flaechenheizungstyp) {
 			case 'fussbodenheizung':
 			case 'wandheizung':
@@ -660,9 +665,10 @@ if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_temperatur_flaeche
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_auslegungstemperaturen' ) )  {
-	function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp) {
-		if( empty( $uebergabe ) ) {
+if (!function_exists('Enev\Schema202401\Calculations\wpenon_auslegungstemperaturen')) {
+	function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp)
+	{
+		if (empty($uebergabe)) {
 			return null;
 		}
 
@@ -687,30 +693,31 @@ if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_auslegungstemperat
 	}
 }
 
-if( ! function_exists( 'Enev\Schema202401\Calculations\wpenon_auslegungstemperatur' ) )  {
-	function wpenon_auslegungstemperatur( $heizungen ) {
+if (!function_exists('Enev\Schema202401\Calculations\wpenon_auslegungstemperatur')) {
+	function wpenon_auslegungstemperatur($heizungen)
+	{
 		$auslegungstemperaturen = array();
 
-		foreach( $heizungen as $heizung ) {		
+		foreach ($heizungen as $heizung) {
 			// Ermittle alle Auslegungstemperaturen.
-			$auslegungstemperatur = wpenon_auslegungstemperaturen( $heizung['erzeugung'], $heizung['uebergabe'], $heizung['flaechenheizungstyp'] );
+			$auslegungstemperatur = wpenon_auslegungstemperaturen($heizung['erzeugung'], $heizung['uebergabe'], $heizung['flaechenheizungstyp']);
 
-			if( $auslegungstemperatur === null ) {
+			if ($auslegungstemperatur === null) {
 				continue;
 			}
-			
-			$temperaturen = explode ( '/',  $auslegungstemperatur );
-			$auslegungstemperaturen[ $temperaturen[0] ] = $auslegungstemperatur;
+
+			$temperaturen = explode('/',  $auslegungstemperatur);
+			$auslegungstemperaturen[$temperaturen[0]] = $auslegungstemperatur;
 		}
 
-		if( empty( $auslegungstemperaturen ) ) {
+		if (empty($auslegungstemperaturen)) {
 			return null;
 		}
 
 		// Ermittle die niedrigste Auslegungstemperatur.
-		$auslegungstemperatur = min( array_keys( $auslegungstemperaturen ) );
+		$auslegungstemperatur = min(array_keys($auslegungstemperaturen));
 
-		return $auslegungstemperaturen[ $auslegungstemperatur ];
+		return $auslegungstemperaturen[$auslegungstemperatur];
 	}
 }
 
@@ -720,14 +727,14 @@ $heizungen[] = array(
 	'erzeugung' => $energieausweis->h_erzeugung,
 );
 
-if( $energieausweis->h2_info ) {
+if ($energieausweis->h2_info) {
 	$heizungen[] = array(
 		'uebergabe' => $energieausweis->h_uebergabe,
 		'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
 		'erzeugung' => $energieausweis->h2_erzeugung,
 	);
 
-	if( $energieausweis->h3_info ) {
+	if ($energieausweis->h3_info) {
 		$heizungen[] = array(
 			'uebergabe' => $energieausweis->h_uebergabe,
 			'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
@@ -736,12 +743,12 @@ if( $energieausweis->h2_info ) {
 	}
 }
 
-$auslegungstemperaturen = wpenon_auslegungstemperatur( $heizungen );
+$auslegungstemperaturen = wpenon_auslegungstemperatur($heizungen);
 
 // $auslegungstemperaturen = '70/55';
 
 // Wir rechnen vorerst nur mit einem Übergabesystem.
-if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
+if ($energieausweis->h_uebergabe === 'flaechenheizung') {
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
@@ -752,16 +759,16 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 			// mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
 			mindestdaemmung: true
 		)
-	);		
+	);
 } else {
 	$h2_info = $energieausweis->h2_info;
 	$h3_info = $energieausweis->h2_info;
-	
+
 	$h_erzeugung = $energieausweis->h_erzeugung;
 	$h2_erzeugung = $energieausweis->h2_erzeugung;
 	$h3_erzeugung = $energieausweis->h3_erzeugung;
 
-	if( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+	if (!wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info)) {
 		$uebergabe_typ = 'elektroheizungsflaechen';
 	} else {
 		$uebergabe_typ =  $energieausweis->h_uebergabe;
@@ -777,13 +784,13 @@ if( $energieausweis->h_uebergabe === 'flaechenheizung' ){
 	);
 }
 
-if( $energieausweis->pv_info === 'vorhanden' ) {
-	$gebaeude->photovoltaik_anlage( new Photovoltaik_Anlage(
+if ($energieausweis->pv_info === 'vorhanden') {
+	$gebaeude->photovoltaik_anlage(new Photovoltaik_Anlage(
 		gebaeude: $gebaeude,
 		richtung: $energieausweis->pv_richtung,
 		neigung: $energieausweis->pv_neigung,
-		flaeche: floatval( $energieausweis->pv_flaeche ),
-		baujahr: intval( $energieausweis->pv_baujahr ),
+		flaeche: floatval($energieausweis->pv_flaeche),
+		baujahr: intval($energieausweis->pv_baujahr),
 	));
 }
 
@@ -791,7 +798,7 @@ if( $energieausweis->pv_info === 'vorhanden' ) {
 $calculations['bauteile'] = array();
 
 // Opake Bauteile
-foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {	
+foreach ($gebaeude->bauteile()->opak()->alle() as $bauteil) {
 	$data = array(
 		'modus' => 'opak',
 		'key' => $bauteil->name(),
@@ -800,15 +807,15 @@ foreach( $gebaeude->bauteile()->opak()->alle() AS $bauteil ) {
 		'u' => $bauteil->uwert(),
 	);
 
-	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
-		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
-	}	
+	if (method_exists($bauteil, 'himmelsrichtung')) {
+		$data['richtung'] = strtoupper($bauteil->himmelsrichtung());
+	}
 
 	$calculations['bauteile'][] = $data;
 }
 
 // Transparente Bauteile
-foreach( $gebaeude->bauteile()->transparent()->alle() AS $bauteil ) {	
+foreach ($gebaeude->bauteile()->transparent()->alle() as $bauteil) {
 	$data = array(
 		'modus' => 'transparent',
 		'key' => $bauteil->name(),
@@ -817,15 +824,15 @@ foreach( $gebaeude->bauteile()->transparent()->alle() AS $bauteil ) {
 		'u' => $bauteil->uwert(),
 	);
 
-	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
-		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
-	}	
+	if (method_exists($bauteil, 'himmelsrichtung')) {
+		$data['richtung'] = strtoupper($bauteil->himmelsrichtung());
+	}
 
 	$calculations['bauteile'][] = $data;
 }
 
 // Dach
-foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {	
+foreach ($gebaeude->bauteile()->dach()->alle() as $bauteil) {
 	$data = array(
 		'modus' => 'dach',
 		'key' => $bauteil->name(),
@@ -834,9 +841,9 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 		'u' => $bauteil->uwert(),
 	);
 
-	if ( method_exists( $bauteil, 'himmelsrichtung' ) ) {
-		$data['richtung'] = strtoupper( $bauteil->himmelsrichtung() );
-	}	
+	if (method_exists($bauteil, 'himmelsrichtung')) {
+		$data['richtung'] = strtoupper($bauteil->himmelsrichtung());
+	}
 
 	$calculations['bauteile'][] = $data;
 }
@@ -844,7 +851,7 @@ foreach( $gebaeude->bauteile()->dach()->alle() AS $bauteil ) {
 
 // Heizungsanlagen
 $calculations['anlagendaten'] = array();
-foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+foreach ($gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage) {
 	$anlage = array();
 	$anlage['art'] = 'heizung';
 	$anlage['slug'] = $heizungsanlage->erzeuger();
@@ -869,54 +876,54 @@ $calculations['nutzflaeche'] = $gebaeude->nutzflaeche();
 
 $calculations['energietraeger'] = array();
 
-foreach( $gebaeude->heizsystem()->heizungsanlagen()->alle() AS $heizungsanlage ) {
+foreach ($gebaeude->heizsystem()->heizungsanlagen()->alle() as $heizungsanlage) {
 	$energietraeger = $heizungsanlage->energietraeger();
 
-	if( ! isset( $calculations['energietraeger'][ $energietraeger ] ) ) {
-		$calculations['energietraeger'][ $energietraeger ] = array(
+	if (!isset($calculations['energietraeger'][$energietraeger])) {
+		$calculations['energietraeger'][$energietraeger] = array(
 			'primaerfaktor' => 0,
-			'qh_e_b' => 0,	
+			'qh_e_b' => 0,
 			'qw_e_b' => 0,
 			'ql_e_b' => 0,
 			'q_e_b' => 0,
 		);
 	}
 
-	$calculations['energietraeger'][ $energietraeger ]['slug'] = $heizungsanlage->energietraeger();
-	$calculations['energietraeger'][ $energietraeger ]['primaerfaktor'] += $heizungsanlage->fp();
-	$calculations['energietraeger'][ $energietraeger ]['qh_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisc
-	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
+	$calculations['energietraeger'][$energietraeger]['slug'] = $heizungsanlage->energietraeger();
+	$calculations['energietraeger'][$energietraeger]['primaerfaktor'] += $heizungsanlage->fp();
+	$calculations['energietraeger'][$energietraeger]['qh_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisc
+	$calculations['energietraeger'][$energietraeger]['q_e_b'] += $heizungsanlage->Qfhges(); // Endenergie Heizungsspezifisch
 
-	if( $gebaeude->trinkwarmwasseranlage()->zentral() ) {
-		$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
-		$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
+	if ($gebaeude->trinkwarmwasseranlage()->zentral()) {
+		$calculations['energietraeger'][$energietraeger]['qw_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
+		$calculations['energietraeger'][$energietraeger]['q_e_b'] += $heizungsanlage->Qfwges(); // Endenergie Warmwasserspezifisch
 	}
 }
 
 // Trinkwarmwasseranlage
-if( ! $gebaeude->trinkwarmwasseranlage()->zentral() ) {
-	if( ! isset( $calculations['energietraeger'][ $ww_energietraeger ] ) ) {
-		$calculations['energietraeger'][ $ww_energietraeger ] = array(
-			'qh_e_b' => 0,	
+if (!$gebaeude->trinkwarmwasseranlage()->zentral()) {
+	if (!isset($calculations['energietraeger'][$ww_energietraeger])) {
+		$calculations['energietraeger'][$ww_energietraeger] = array(
+			'qh_e_b' => 0,
 			'qw_e_b' => 0,
 			'ql_e_b' => 0,
 			'q_e_b' => 0,
 		);
 	}
 
-	$calculations['energietraeger'][ $ww_energietraeger ]['slug'] = $gebaeude->trinkwarmwasseranlage()->energietraeger();
-	$calculations['energietraeger'][ $ww_energietraeger ]['primaerfaktor'] = $gebaeude->trinkwarmwasseranlage()->fp();
-	$calculations['energietraeger'][ $energietraeger ]['qw_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
-	$calculations['energietraeger'][ $energietraeger ]['q_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+	$calculations['energietraeger'][$ww_energietraeger]['slug'] = $gebaeude->trinkwarmwasseranlage()->energietraeger();
+	$calculations['energietraeger'][$ww_energietraeger]['primaerfaktor'] = $gebaeude->trinkwarmwasseranlage()->fp();
+	$calculations['energietraeger'][$energietraeger]['qw_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
+	$calculations['energietraeger'][$energietraeger]['q_e_b'] += $gebaeude->trinkwarmwasseranlage()->Qfwges(); // Endenergie Warmwasserspezifisch
 }
 
 // Lüftung
-if( $gebaeude->lueftung()->Wrvg() > 0 ){
-	if( ! isset( $calculations['energietraeger']['strom'] ) ) {
+if ($gebaeude->lueftung()->Wrvg() > 0) {
+	if (!isset($calculations['energietraeger']['strom'])) {
 		$calculations['energietraeger']['strom'] = array(
 			'slug' => 'strom',
 			'primaerfaktor' => 1.8,
-			'qh_e_b' => 0,	
+			'qh_e_b' => 0,
 			'qw_e_b' => 0,
 			'ql_e_b' => 0,
 			'q_e_b' => 0,
@@ -937,20 +944,20 @@ $calculations['qfw_ges'] = $gebaeude->Qfwges();
 $calculations['w_ges'] = $gebaeude->hilfsenergie()->Wges();
 
 $calculations['auslegungstemperatur'] = $auslegungstemperaturen;
-$calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen(): 0; // Pufferspeicher Nenninhalt in L
+$calculations['V_s'] =  $gebaeude->heizsystem()->pufferspeicher_vorhanden() ? $gebaeude->heizsystem()->pufferspeicher()->volumen() : 0; // Pufferspeicher Nenninhalt in L
 
 $calculations['ht'] = $gebaeude->bauteile()->ht();
 $calculations['hv'] = $gebaeude->lueftung()->hv();
 
-$calculations['qt'] = $gebaeude->bauteile()->ht(); 
+$calculations['qt'] = $gebaeude->bauteile()->ht();
 $calculations['qs'] = $gebaeude->qi_solar();
 $calculations['qi'] = $gebaeude->qi();
 $calculations['qh'] = $gebaeude->qh();
 
 $calculations['photovoltaik'] = array();
 
-if( $gebaeude->photovoltaik_anlage_vorhanden() ) {
-	$calculations['photovoltaik']['ertrag'] = round( $gebaeude->photovoltaik_anlage()->Pvans( $gebaeude->Qfstrom() ) / $gebaeude->nutzflaeche() );
+if ($gebaeude->photovoltaik_anlage_vorhanden()) {
+	$calculations['photovoltaik']['ertrag'] = round($gebaeude->photovoltaik_anlage()->Pvans($gebaeude->Qfstrom()) / $gebaeude->nutzflaeche());
 }
 
 

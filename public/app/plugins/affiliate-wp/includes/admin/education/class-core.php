@@ -69,7 +69,7 @@ class Core {
 		$this->js_strings['nonce']            = wp_create_nonce( 'affiliatewp-education' );
 		$this->js_strings['activate_prompt']  = '<p>' . esc_html(
 			sprintf( /* translators: %s - addon name. */
-				__( 'The %s is installed but not activated. Would you like to activate it?', 'affiliate-wp' ),
+				__( 'The %s addon is installed but not activated. Would you like to activate it?', 'affiliate-wp' ),
 				'%name%'
 			)
 		) . '</p>';
@@ -80,7 +80,7 @@ class Core {
 		$this->js_strings['activating']       = esc_html__( 'Activating', 'affiliate-wp' );
 		$this->js_strings['install_prompt']   = '<p>' . esc_html(
 			sprintf( /* translators: %s - addon name. */
-				__( 'The %s is not installed. Would you like to install and activate it?', 'affiliate-wp' ),
+				__( 'The %s addon is not installed. Would you like to install and activate it?', 'affiliate-wp' ),
 				'%name%'
 			)
 		) . '</p>';

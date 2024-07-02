@@ -11,40 +11,125 @@
 
 class Affiliate_WP_Logging {
 
-	public $is_writable = true;
-	private $filename   = '';
-	private $file       ='';
-
 	/**
 	 * Get things started
 	 *
 	 * @since 1.7.15
 	 */
 	public function __construct() {
-
 		$this->init();
-
 	}
+
+	/**
+	 * Is the Log file Writeable?
+	 *
+	 * @since 2.24.1
+	 * @var boolean
+	 */
+	public $is_writable = true;
+
+	/**
+	 * WordPress' Upload Directory
+	 *
+	 * @since 2.24.1
+	 * @var string
+	 */
+	private string $upload_dir = ABSPATH;
+
+	/**
+	 * Our Upload Directory
+	 *
+	 * @since 2.24.1
+	 * @var string
+	 */
+	private string $affwp_dir = ABSPATH;
+
+	/**
+	 * The Hash
+	 *
+	 * @since 2.24.1
+	 * @var string
+	 */
+	private string $hash = '';
+
+	/**
+	 * The (Base) Filename of the Log.
+	 *
+	 * @since 2.24.1
+	 * @var string
+	 */
+	private $filename = '';
+
+	/**
+	 * The full path to the log file.
+	 *
+	 * @since 2.24.1
+	 * @var string
+	 */
+	private $file = '';
 
 	/**
 	 * Get things started
 	 *
 	 * @since 1.7.15
+	 * @since 2.24.1 Updated to store logs in a more-secure place: uploads/affiliatewp.
 	 * @return void
 	 */
 	public function init() {
 
-		$upload_dir     = wp_upload_dir( null, false );
-		$hash           = affwp_get_hash( $upload_dir, defined( 'AUTH_SALT' ) ? AUTH_SALT : '' );
-		$this->filename = sprintf( 'affwp-debug-log__%s.log', $hash );
+		$this->upload_dir = untrailingslashit( wp_upload_dir( null, false )['basedir'] ?? ABSPATH );
+		$this->hash       = affwp_get_hash( $this->upload_dir, affiliatewp_get_salt() );
+		$this->filename   = sprintf( 'affwp-debug-log__%s.log', $this->hash );
+		$this->affwp_dir  = "{$this->upload_dir}/affiliatewp";
+		$this->file       = trailingslashit( $this->affwp_dir ) . $this->filename;
 
-		$base_dir   = isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'] : ABSPATH;
-		$this->file = trailingslashit( $base_dir ) . $this->filename;
+		if ( ! file_exists( $this->affwp_dir ) && wp_mkdir_p( $this->affwp_dir ) ) {
+			@chmod( $this->affwp_dir, 0770 );
+		}
 
-		if ( ! is_writeable( $base_dir ) ) {
+		if ( ! file_exists( "{$this->affwp_dir}/index.php" ) ) {
+			@file_put_contents( "{$this->affwp_dir}/index.php", '' );
+		}
+
+		if ( ! file_exists( "{$this->affwp_dir}/index.html" ) ) {
+			@file_put_contents( "{$this->affwp_dir}/index.html", '' );
+		}
+
+		if ( ! is_writeable( $this->affwp_dir ) ) {
 			$this->is_writable = false;
 		}
 
+		$this->move_old_log_files();
+	}
+
+	/**
+	 * Move any old log files to the new secure location.
+	 *
+	 * @since 2.24.1
+	 */
+	private function move_old_log_files() : void {
+
+		foreach ( glob( "{$this->upload_dir}/affwp-debug-log*.log" ) as $old_log_file ) {
+
+			$old_log_file_basename = basename( $old_log_file );
+
+			// Copy the log file to the new location.
+			if (
+
+				// We failed to copy the file.
+				! @copy( $old_log_file, "{$this->affwp_dir}/$old_log_file_basename" ) ||
+
+				// Or that file does not exist in the new location.
+				! file_exists( "{$this->affwp_dir}/$old_log_file_basename" )
+			) {
+
+				// Don't delete the old file.
+				continue;
+			}
+
+			// Delete the insecure log file.
+			@unlink( $old_log_file );
+		}
 	}
 
 	/**

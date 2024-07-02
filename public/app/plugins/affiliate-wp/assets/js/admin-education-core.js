@@ -75,6 +75,24 @@ AffiliateWPEducation.core = AffiliateWPEducation.core || ( function( document, w
 		},
 
 		/**
+		 * Get the feature name of the element.
+		 *
+		 * @since 2.23.2
+		 *
+		 * @param {Element} el Element.
+		 *
+		 * @return {string} The element name.
+		 */
+		getFeatureName( el ) {
+
+			if ( el.hasAttribute( 'data-feature-name' ) ) {
+				return el.dataset.featureName;
+			}
+
+			return '';
+		},
+
+		/**
 		 * Get UTM content for different elements.
 		 *
 		 * @since 2.18.0
@@ -125,12 +143,15 @@ AffiliateWPEducation.core = AffiliateWPEducation.core || ( function( document, w
 		 *
 		 * @param {string} utmContent UTM content.
 		 * @param {string} type       Feature license type: pro or elite.
+		 * @param {string} addon      Addon name. Optional.
 		 *
 		 * @return {string} Upgrade URL.
 		 */
-		getUpgradeURL( utmContent, type ) {
+		getUpgradeURL( utmContent, type, addon ) {
 
-			let	baseURL = affiliatewp_education.upgrade[ type ].url;
+			let	baseURL = affiliatewp_education.upgrade[ type ].hasOwnProperty( addon )
+				? affiliatewp_education.upgrade[ type ][ addon ].url
+				: affiliatewp_education.upgrade[ type ]['default'].url;
 
 			// Test if the base URL already contains `?`.
 			let appendChar = /(\?)/.test( baseURL ) ? '&' : '?';

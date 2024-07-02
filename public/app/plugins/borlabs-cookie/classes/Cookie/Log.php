@@ -196,7 +196,7 @@ class Log
      */
     private function log($level, $process, $message, array $context = [], array $data = [])
     {
-        if (defined('BORLABS_COOKIE_DEBUG') && BORLABS_COOKIE_DEBUG === true) {
+        if (defined('BORLABS_COOKIE_DEBUG') && constant('BORLABS_COOKIE_DEBUG') === true) {
             if (!is_array($data) && !is_object($data)) {
                 $data = [$data];
             }

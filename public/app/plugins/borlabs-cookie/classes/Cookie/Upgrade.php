@@ -64,13 +64,7 @@ class Upgrade
             'upgradeVersion_2_2_50' => '2.2.50',
             'upgradeVersion_2_2_56' => '2.2.56',
             'upgradeVersion_2_2_57' => '2.2.57',
-            'upgradeVersion_2_2_61' => '2.2.61',
-            'upgradeVersion_2_2_62' => '2.2.62',
-            'upgradeVersion_2_2_63' => '2.2.63',
-            'upgradeVersion_2_2_64' => '2.2.64',
-            'upgradeVersion_2_2_65' => '2.2.65',
-            'upgradeVersion_2_2_66' => '2.2.66',
-            'upgradeVersion_2_2_67' => '2.2.67',
+            'upgradeVersion_2_2_68' => '2.2.68',
         ];
 
     public function __construct()
@@ -1169,53 +1163,15 @@ class Upgrade
         Log::getInstance()->info(__METHOD__, 'Upgrade complete');
     }
 
-    public function upgradeVersion_2_2_61()
+    public function upgradeVersion_2_2_68()
     {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.61', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
+        if (!defined('BORLABS_COOKIE_DEBUG')) {
+            define('BORLABS_COOKIE_DEBUG', true);
+        }
 
-    public function upgradeVersion_2_2_62()
-    {
         update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.62', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_63()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.63', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_64()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.64', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_65()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.65', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_66()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.66', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
-    }
-
-    public function upgradeVersion_2_2_67()
-    {
-        update_option('BorlabsCookieClearCache', true, 'yes');
-        update_option('BorlabsCookieVersion', '2.2.67', 'yes');
-        Log::getInstance()->info(__METHOD__, 'Upgrade complete');
+        update_option('BorlabsCookieVersion', '2.2.68', 'yes');
+        Log::getInstance()->info(__METHOD__, 'Upgrade complete: 2.2.68');
     }
 
     public function upgradeVersion_2_2_9()

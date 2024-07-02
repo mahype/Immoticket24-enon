@@ -460,12 +460,14 @@ class Schema {
 	private function formatBasedOnType( $value, $type, $mode = 'input' ) {
 		switch ( $type ) {
 			case 'int':
-				return \WPENON\Util\Format::int( $value );
+				return is_numeric( $value ) ? \WPENON\Util\Format::int( $value ): $value;
 			case 'float':
-				return \WPENON\Util\Format::float( $value );
+				$value = str_replace( ',', '.', $value );
+				return is_numeric( $value ) ?  \WPENON\Util\Format::float( $value ): $value;
 			case 'float_length':
 			case 'float_length_wall':
-				return \WPENON\Util\Format::float_length( $value );
+				$value = str_replace( ',', '.', $value );
+				return is_numeric( $value ) ?  \WPENON\Util\Format::float_length( $value ): $value;
 			case 'date':
 				if ( $mode == 'output' ) {
 					return \WPENON\Util\Format::date( $value );
@@ -508,7 +510,7 @@ class Schema {
 				if ( $field['min'] !== false && $field['min'] < 0 ) {
 					$field['min'] = 0;
 				}
-
+                $default_default = '';
 				switch ( $field['type'] ) {
 					case 'select':
 					case 'radio':
@@ -531,19 +533,19 @@ class Schema {
 						break;
 					case 'int':
 						$default_validate = '\WPENON\Util\Validate::int';
-						$default_default  = $field['min'] ? $field['min'] : 0;
+						// $default_default  = $field['min'] ? $field['min'] : 0;
 						break;
 					case 'float':
 						$default_validate = '\WPENON\Util\Validate::float';
-						$default_default  = $field['min'] ? $field['min'] : 0.0;
+						// $default_default  = $field['min'] ? $field['min'] : 0.0;
 						break;
 					case 'float_length':
 						$default_validate = '\WPENON\Util\Validate::float_length';
-						$default_default  = $field['min'] ? $field['min'] : 0.0;
+						// $default_default  = $field['min'] ? $field['min'] : 0.0;
 						break;
 					case 'float_length_wall':
 						$default_validate = '\WPENON\Util\Validate::float_length_wall';
-						$default_default  = $field['min'] ? $field['min'] : 0.0;
+						// $default_default  = $field['min'] ? $field['min'] : 0.0;
 						break;
 					case 'zip':
 						$default_validate = '\WPENON\Util\Validate::zip';

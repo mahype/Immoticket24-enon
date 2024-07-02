@@ -62,7 +62,7 @@ class CookieBlocker
                 if (strpos($cookieName, $impreciseCookieName) !== false) {
                     unset($_COOKIE[$cookieName]);
 
-                    setcookie($cookieName, null, -1, '/');
+                    setcookie($cookieName, '', -1, '/');
                 }
             }
         }
@@ -78,7 +78,7 @@ class CookieBlocker
         if (!empty($_COOKIE[$cookieName])) {
             unset($_COOKIE[$cookieName]);
 
-            setcookie($cookieName, null, -1, '/');
+            setcookie($cookieName, '', -1, '/');
         }
     }
 

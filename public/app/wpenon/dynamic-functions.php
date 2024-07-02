@@ -371,6 +371,7 @@ function wpenon_get_water_independend_heaters() {
 		'gasraumheizer',
 		'elektronachtspeicherheizung',
 		'elektrodirektheizgeraet',
+		'infrarotheizung',
 	);
 }
 
@@ -498,6 +499,21 @@ function wpenon_immoticket24_get_ww_info_vw( $h2_info = false, $h3_info = false,
 	if ( ( ! $h_erzeuger || wpenon_immoticket24_is_h_erzeuger_ww( $h_erzeuger ) ) && ! $hide_pauschal ) {
 		$info['h'] = __( 'pauschal in Heizungsanlage enthalten', 'wpenon' );
 	}
+
+	if( current_user_can('edit_shop_payments') ) {		
+	    $info['h1'] = __( 'pauschal in 1. Heizungsanlage enthalten', 'wpenon' );
+		
+		if( $h2_info !== false ) {
+	    	$info['h2'] = __( 'pauschal in 2. Heizungsanlage enthalten', 'wpenon' );
+		}
+
+		if( $h3_info !== false ) {
+	    	$info['h3'] = __( 'pauschal in 3. Heizungsanlage enthalten', 'wpenon' );
+		}
+		
+		$info['all'] = __( 'pauschal in allen Heizungsanlagen enthalten', 'wpenon' );
+	}
+
 	$info['ww'] = __( 'separat angegeben', 'wpenon' );
 
 	if ( $show_unbekannt ) {
@@ -824,6 +840,18 @@ function wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, 
 	}
 
 	return false;
+}
+
+function wpenon_erzeuger_mit_flaechenheizung_vorhanden( $h_uebergabe, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info,  $h3_info ) {
+	if ( ! wpenon_erzeuger_mit_uebergabe_vorhanden( $h1_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info ) ) {
+		return false;
+	}
+
+	if( $h_uebergabe !== 'flaechenheizung' ) {
+		return false;
+	}
+
+	return true;
 }
 
 function wpenon_erzeuger_vorhanden( $erzeuger, $h1_erzeugung, $h2_erzeugung, $h3_erzeugung ) {

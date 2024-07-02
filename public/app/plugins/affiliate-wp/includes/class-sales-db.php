@@ -156,22 +156,6 @@ class Affiliate_WP_Sales_DB extends Affiliate_WP_DB {
 							$args['referral_id']
 					)
 			);
-		} elseif ( false === affiliate_wp()->integrations->supports( $context, 'sales_reporting' ) ) {
-			$errors->add(
-				'not_supported',
-				sprintf( 'Referral ID #%d used the %s integration, which does not support sales reporting.',
-					$args['referral_id'],
-					$context
-				)
-			);
-		} elseif ( 'sale' !== $referral->type ) {
-			$errors->add(
-				'invalid_referral_type',
-				sprintf( 'Referral ID #%d used the %s referral type, which does not support sales reporting.',
-					$args['referral_id'],
-					$referral->type
-				)
-			);
 		}
 
 		if ( affwp_get_sale( $args['referral_id'] ) ) {

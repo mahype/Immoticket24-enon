@@ -9,10 +9,11 @@
  * @since       1.0
  */
 
-use AffWP\Components\Wizard;
-use AffWP\Components\Notifications;
-use AffiliateWP\Scripts;
+use AffiliateWP\Admin\DRM\DRM_Controller;
 use AffiliateWP\Affiliate_Area_Creatives;
+use AffiliateWP\Scripts;
+use AffWP\Components\Notifications;
+use AffWP\Components\Wizard;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -330,6 +331,15 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 		public Scripts $scripts;
 
 		/**
+		 * The DRM class instance variable.
+		 *
+		 * @access public
+		 * @since  2.21.1
+		 * @var    DRM_Controller
+		 */
+		public DRM_Controller $drm;
+
+		/**
 		 * Main Affiliate_WP Instance
 		 *
 		 * Insures that only one instance of Affiliate_WP exists in memory at any one
@@ -496,6 +506,9 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 			// Loading files in includes/utils.
 			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/util-functions.php';
 
+			// Addons functions need to be available sooner.
+			require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/add-ons.php';
+
 			// Libraries.
 			require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'affiliatewp-autoload.php';
 			require_once AFFILIATEWP_PLUGIN_LIB_DIR . 'sandhills/persistent-dismissible/src/persistent-dismissible.php';
@@ -569,7 +582,6 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/tools.php';
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/plugins.php';
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-migrate.php';
-				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/add-ons.php';
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/user-profile.php';
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-smtp.php';
 				require_once AFFILIATEWP_PLUGIN_DIR . 'includes/admin/pages/class-analytics.php';
@@ -726,6 +738,7 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 			self::$instance->groups = new AffiliateWP\Groups\DB();
 			self::$instance->notifications = new Notifications\Notifications_DB();
 			self::$instance->scripts = new Scripts();
+			self::$instance->drm = new DRM_Controller();
 
 			// Affiliate Area.
 			self::$instance->creatives_view = new Affiliate_Area_Creatives();

@@ -125,7 +125,7 @@ class Notifications_DB extends \Affiliate_WP_DB {
 			if ( empty( $data[ $column ] ) || ! is_array( $data[ $column ] ) ) {
 				continue;
 			}
-			
+
 			$data[ $column ] = json_encode( $data[ $column ] );
 		}
 
@@ -193,8 +193,8 @@ class Notifications_DB extends \Affiliate_WP_DB {
 			try {
 				if (
 					! $model->conditions ||
-					( 
-						is_array( $model->conditions ) && 
+					(
+						is_array( $model->conditions ) &&
 						$environment_checker->is_valid( $model->conditions )
 					)
 				) {
@@ -283,7 +283,7 @@ class Notifications_DB extends \Affiliate_WP_DB {
 			) DEFAULT CHARACTER SET {$wpdb->charset} COLLATE {$wpdb->collate};"
 		);
 
-		update_option( "{$this->table_name}_db_version}", $this->version );
+		update_option( "{$this->table_name}_db_version", $this->version );
 	}
 
 }

@@ -20,6 +20,7 @@
 
 namespace BorlabsCookie\Cookie;
 
+use Plugin_Upgrader;
 use stdClass;
 
 class Update
@@ -161,11 +162,14 @@ class Update
      */
     public function upgradeComplete($upgraderObject, $options)
     {
-        if ($options['action'] == 'update' && $options['type'] == 'plugin' && !empty($options['plugins'])) {
-            // Check if Borlabs Cookie was updated
-            if (in_array(BORLABS_COOKIE_BASENAME, $options['plugins'], true)) {
-                $this->processUpgrade();
-            }
+        if ($upgraderObject instanceof Plugin_Upgrader === false) {
+            return;
         }
+
+        if (!isset($upgraderObject->result['source_files']) || !in_array(basename(BORLABS_COOKIE_BASENAME), $upgraderObject->result['source_files'], true)) {
+            return;
+        }
+
+        $this->processUpgrade();
     }
 }

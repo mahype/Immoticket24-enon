@@ -19,6 +19,105 @@ if ( ! is_admin() ) {
 }
 
 /**
+ * Renders a custom tooltip icon for use with AffiliateWP.
+ *
+ * @since 2.23.2
+ *
+ * @param string $tooltip The tooltip text.
+ * @param string $type The type of tooltip. Can be one of: 'normal', 'warning', or 'critical'.
+ * @param bool   $echo If true, the tooltip icon will be echoed. If false, it will be returned as a string.
+ * @param string $classes Additional CSS classes for the tooltip icon.
+ * @return string If $echo is false, returns the HTML of the tooltip icon. Otherwise, returns an empty string.
+ *
+ * @throws \InvalidArgumentException If the $type is not one of the valid types ('normal', 'warning', or 'critical').
+ */
+function affiliatewp_tooltip(
+	string $tooltip = '',
+	string $type = 'normal',
+	bool $echo = true,
+	string $classes = ''
+) {
+
+	// See https://developer.wordpress.org/resource/dashicons/ for more icons.
+	$dashicons_map = array(
+		'critical' => 'dismiss',
+		'normal'   => 'editor-help',
+		'warning'  => 'warning',
+		'setting'  => 'admin-settings',
+		'global'   => 'admin-site',
+		'unused'   => 'remove',
+		'disabled' => 'remove',
+		'hidden'   => 'hidden',
+		'mdash'    => 'minus',
+		'visible'  => 'visibility',
+		'privacy'  => 'privacy',
+		'locked'   => 'lock',
+		'text'     => '',
+	);
+
+	if ( ! in_array( $type, array_keys( $dashicons_map ), true ) ) {
+		throw new \InvalidArgumentException( '$type can only be one of: normal, warning, critical.' );
+	}
+
+	$id = wp_unique_id( 'affwp-tooltip-' );
+
+	$classes = sprintf(
+		'affwp-tooltip icon %s',
+		trim( $classes )
+	);
+
+	$kses = affwp_kses();
+
+	affiliate_wp()->scripts->enqueue( 'affiliatewp-tooltip' );
+
+	wp_add_inline_script(
+		'affiliatewp-tooltip',
+		sprintf(
+			"affiliatewp.tooltip.show( '%1\$s', `%2\$s`, %3\$s )",
+			"#{$id}",
+			wp_kses( $tooltip, $kses ),
+			wp_json_encode(
+				array(
+					'interactive' => true,
+					'allowHTML'   => true,
+					'trigger'     => 'mouseenter focus',
+					'theme'       => 'affwp',
+					'delay'       => [0, 500],
+					'placement'   => 'top',
+				)
+			)
+		)
+	);
+
+	ob_start();
+
+	?>
+
+	<span
+		class="<?php echo esc_attr( trim( $classes ) ); ?>"
+		aria-describedby="tooltip-<?php echo esc_attr( $id ); ?>">
+
+		<span
+			id="<?php echo esc_attr( $id ); ?>"
+			class="dashicon dashicons dashicons-<?php echo esc_attr( $dashicons_map[ $type ] ); ?>"
+		></span>
+
+	</span>
+
+	<?php
+
+	if ( $echo ) {
+
+		// Echo instead.
+		echo ob_get_clean();
+
+		return '';
+	}
+
+	return trim( ob_get_clean() );
+}
+
+/**
  * Icon Tooltip
  *
  * @since 2.13.0
