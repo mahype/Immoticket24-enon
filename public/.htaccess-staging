@@ -12,8 +12,20 @@ AddDefaultCharset UTF-8
     AddCharset UTF-8 .atom .css .js .json .rss .vtt .xml
 </IfModule>
 
-# Disable ETags
+# Disable ETags and set Header security
 <IfModule mod_headers.c>
+	# Prevent MIME type sniffing
+	Header always set X-Content-Type-Options "nosniff"
+
+	# Clickjacking protection
+    Header set X-Frame-Options "DENY"
+
+	# XSS Protection
+    Header set X-XSS-Protection "1; mode=block"
+
+	# Referrer Policy
+    Header set Referrer-Policy "no-referrer-when-downgrade"
+
     Header unset ETag
 </IfModule>
 FileETag None
