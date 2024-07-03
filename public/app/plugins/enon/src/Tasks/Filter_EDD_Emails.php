@@ -64,7 +64,9 @@ class Filter_EDD_Emails implements Task, Actions {
 	 */
 	public function add_actions() {
         add_action( 'edd_admin_sale_notice', [ $this, 'add_email_callbacks' ], 5  );
-		add_filter( 'edd_admin_sale_notification_headers', [ $this, 'add_bcc_emails' ], 5, 2);
+
+		// Not needed at the moment
+		// add_filter( 'edd_admin_sale_notification_headers', [ $this, 'add_bcc_emails' ], 5, 2);
 	}
 	/**
 	 * Add Email callbacks.
