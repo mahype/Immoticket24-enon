@@ -2,7 +2,7 @@
 
 # Import database via ddev
 echo "> Importing database..."
-ddev import-db --file=cleaned.sql
+ddev import-db --file=db/cleaned.sql
 echo "> Database imported!"
 
 # Install compoer dependencies via ddev
