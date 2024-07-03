@@ -17,9 +17,6 @@ AddDefaultCharset UTF-8
 	# Prevent MIME type sniffing
 	Header always set X-Content-Type-Options "nosniff"
 
-	# Clickjacking protection
-    Header set X-Frame-Options "SAMEORIGIN"
-
 	# XSS Protection
     Header set X-XSS-Protection "1; mode=block"
 
