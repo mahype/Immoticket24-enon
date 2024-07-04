@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbe101173678c9a741760ca714818e78f
+class ComposerStaticInitc107a1777813a46d4643c5a4732d470b
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -303,6 +303,7 @@ class ComposerStaticInitbe101173678c9a741760ca714818e78f
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/ServiceProvider.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/APIClient.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Controller' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Controller.php',
+        'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Queue' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Queue.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Subscriber.php',
         'WP_Rocket\\Engine\\Media\\Emojis\\EmojisSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/Emojis/EmojisSubscriber.php',
         'WP_Rocket\\Engine\\Media\\ImageDimensions\\AdminSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/ImageDimensions/AdminSubscriber.php',
@@ -549,10 +550,10 @@ class ComposerStaticInitbe101173678c9a741760ca714818e78f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbe101173678c9a741760ca714818e78f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$classMap;
 
         }, null, ClassLoader::class);
     }
