@@ -135,13 +135,7 @@ class Affiliate_WP_Integrations {
 	 *               is the label.
 	 */
 	public function get_discontinued_integrations() {
-		return array(
-			's2member' => array(
-				'label' => __( 's2Member & OptimizeMember', 'affiliate-wp' ),
-				'date'  => __( 'April, 2024', 'affiliate-wp' ),
-				'count' => 2,
-			),
-		);
+		return [];
 	}
 
 	/**

@@ -47,6 +47,7 @@ class Notices_Registry extends Utils\Registry {
 	 * Registers a new admin notice.
 	 *
 	 * @since 2.4
+	 * @since 2.25.0 Added `autop` as a $notice_args parameter.
 	 *
 	 * @param string $notice_id   Unique notice ID.
 	 * @param array  $notice_args {
@@ -80,6 +81,7 @@ class Notices_Registry extends Utils\Registry {
 			'capability'    => 'manage_affiliates',
 			'dismissible'   => false,
 			'dismiss_label' => _x( 'Dismiss', 'admin notice', 'affiliate-wp' ),
+			'autop'         => true,
 		);
 
 		$notice_args = wp_parse_args( $notice_args, $defaults );

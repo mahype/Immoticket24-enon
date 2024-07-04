@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2024-03-21T18:38:26+00:00\n"
-"PO-Revision-Date: 2024-04-01 17:38-0300\n"
+"PO-Revision-Date: 2024-05-14 08:33-0300\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.4.2\n"
@@ -8704,9 +8704,8 @@ msgstr "Confirme sua senha"
 
 #: includes/class-editor.php:1710
 #: assets/js/editor/build/index.js:1
-#, fuzzy
 msgid "(required)"
-msgstr "E-mail"
+msgstr "(obrigatório)"
 
 #: includes/class-editor.php:2198
 msgid "The hash supplied do not match any forms"
@@ -11396,7 +11395,7 @@ msgstr "Dong Vietnamita"
 #: includes/misc-functions.php:1367
 #: includes/misc-functions.php:1386
 msgid "Email (required)"
-msgstr "E-mail"
+msgstr "E-mail (obrigatório)"
 
 #: includes/misc-functions.php:1369
 msgid "First/Full Name"

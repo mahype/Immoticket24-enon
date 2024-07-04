@@ -420,11 +420,9 @@ class Bootstrap {
 			'Membership' => array(
 				'membermouse',
 				'memberpress',
-				'optimizemember',
 				'pmp',
 				'pms',
 				'rcp',
-				's2member',
 			),
 			'Form'       => array(
 				'contactform7',

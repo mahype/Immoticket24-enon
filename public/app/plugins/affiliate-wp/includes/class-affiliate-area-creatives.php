@@ -152,11 +152,16 @@ class Affiliate_Area_Creatives {
 	 */
 	public function body_class( array $classes ) : array {
 
-		return array_merge(
-			$classes,
-			array(
-				'affwp-affiliate-area',
-				$this->is_creatives_tab() ? 'affwp-affiliate-area-creatives' : '',
+		if ( ! affwp_is_affiliate_area() ) {
+			return $classes;
+		}
+
+		return array_filter(
+			array_merge(
+				$classes,
+				[
+					$this->is_creatives_tab() ? 'affwp-affiliate-area-creatives' : '',
+				]
 			)
 		);
 	}

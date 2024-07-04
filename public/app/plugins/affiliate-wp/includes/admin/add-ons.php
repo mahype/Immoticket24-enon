@@ -33,10 +33,15 @@ function affwp_add_ons_admin() {
 	// Get license type.
 	$license_type = strtolower( $license_data->get_license_type( $license_id ) );
 
-	// Get the addons feed.
-	affwp_add_ons_get_feed();
-
 	ob_start();
+
+	try {
+		affwp_add_ons_get_feed();
+	} catch ( \Exception $exception ) {
+		?>
+			<?php echo $exception->getMessage(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- No need for escaping. ?>
+		<?php
+	};
 
 	?>
 
@@ -44,7 +49,6 @@ function affwp_add_ons_admin() {
 		<h1>
 			<?php esc_html_e( 'AffiliateWP Addons', 'affiliate-wp' ); ?>
 		</h1>
-		<p><?php _e( 'These addons <em><strong>add functionality</strong></em> to your AffiliateWP-powered site.', 'affiliate-wp' ); ?></p>
 		<?php
 
 		if ( ! empty( $license_type ) ) :
@@ -65,7 +69,15 @@ function affwp_add_ons_admin() {
 			);
 		endif;
 
-		affwp_addons_layout( $license_type );
+		affwp_addons_layout(
+			[
+				'personal',
+				'plus',
+				'professional',
+				'official-free',
+				'pro',
+			]
+		);
 
 		?>
 
@@ -80,60 +92,31 @@ function affwp_add_ons_admin() {
  * Gets the Addons page layout based on AffiliateWP version.
  *
  * @since 2.12.2
+ * @since 2.25.1 Change method to render only Activated Addons and All Addons sections.
  *
- * @param string $license_type License type.
+ * @param array $categories The addon categories.
  *
  * @return void
  */
-function affwp_addons_layout( $license_type ) {
+function affwp_addons_layout( array $categories = [] ) {
 
-		ob_start();
+	// Display activated addons.
+	$activated_addons = affwp_display_addons( $categories, 'active', false );
 
-		// In 2.12.2 we switched to use 'personal', 'plus', and 'professional' categories.
-		if ( defined( 'AFFILIATEWP_VERSION' ) && version_compare( AFFILIATEWP_VERSION, '2.12.1', '>' ) ) :
-			if ( empty( $license_type ) ) :
+	if ( ! empty( $activated_addons ) ) {
+		echo sprintf(
+			'<h4 class="affwp-addon-section-title">%1$s</h4>%2$s',
+			esc_html( __( 'Activated Addons', 'affiliate-wp' ) ),
+			$activated_addons
+		);
+	}
 
-				affwp_display_addons( [ 'personal', 'plus', 'professional' ] );
-
-			elseif ( 'personal' === $license_type ) :
-
-				affwp_display_addons( [ 'personal' ] );
-				affwp_display_unlock_features();
-				affwp_display_addons( [ 'plus', 'professional' ] );
-
-			elseif ( 'plus' === $license_type ) :
-
-				affwp_display_addons( [ 'personal', 'plus' ] );
-				affwp_display_unlock_features();
-				affwp_display_addons( [ 'professional' ] );
-
-			elseif ( 'professional' === $license_type || 'ultimate' === $license_type ) :
-
-				affwp_display_addons( [ 'personal', 'plus', 'professional' ] );
-
-			endif;
-
-			echo ob_get_clean();
-			return;
-		endif;
-
-		// For previous versions, use 'official-free' or 'pro'.
-		if ( empty( $license_type ) ) :
-
-			affwp_display_addons( [ 'official-free', 'pro' ] );
-
-		elseif ( 'personal' === $license_type || 'plus' === $license_type ) :
-
-			affwp_display_addons( [ 'official-free' ] );
-			affwp_display_unlock_features();
-			affwp_display_addons( [ 'pro' ] );
-
-		elseif ( 'professional' === $license_type || 'ultimate' === $license_type ) :
-
-			affwp_display_addons( [ 'official-free', 'pro' ] );
-
-		endif;
-		echo ob_get_clean();
+	// Display all addons, excluding the active ones.
+	echo sprintf(
+		'<h4 class="affwp-addon-section-title">%1$s</h4>%2$s',
+		esc_html( __( 'All Addons', 'affiliate-wp' ) ),
+		affwp_display_addons( $categories, 'all', false )
+	);
 }
 
 /**
@@ -142,63 +125,77 @@ function affwp_addons_layout( $license_type ) {
  * @since 1.7.15
  * @since 2.9.6 Feed pulls in JSON data now.
  *
+ * @since 2.25.1 Updated so it won't show an error when addons.json is unreachable.
+ * @see   https://github.com/awesomemotive/affiliate-wp/issues/5210
+ *
  * @param bool $update Update the cache.
  *
- * @return void|string If error, display error message.
+ * @return void
+ *
+ * @throws \Exception If there is an error.
  */
 function affwp_add_ons_get_feed( $update = false ) {
 
-	$cache = get_transient( 'affiliatewp_add_ons_feed' );
+	// Update the cache.
+	if (
+		! is_array( get_transient( 'affiliatewp_add_ons_feed' ) ) // If cached data is corrupt or never set.
+		|| true === $update // Function caller wants it updated.
 
-	// If refresh link is clicked, this query param will be true.
-	$force_refresh = ! empty( $_GET['affwp_refresh_addons'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We aren't storing this data anywhere.
+		|| isset( $_GET['affwp_refresh_addons'] ) // Force update via ?affwp_refresh_addons.
+	) {
 
-	if ( false === $cache || true === $update || $force_refresh ) {
-		$url = 'https://affiliatewp.com/wp-content/addons.json';
+		$addons = json_decode(
+			wp_remote_retrieve_body(
+				wp_remote_get(
+					esc_url_raw( 'https://affiliatewp.com/wp-content/addons.json' ),
+					array(
+						'sslverify' => false,
+					)
+				)
+			),
+			true
+		)
+			?? []; // json_decode didn't work.
 
-		$feed = wp_remote_get( esc_url_raw( $url ), array( 'sslverify' => false ) );
+		if ( empty( $addons ) ) {
 
-		if ( is_wp_error( $feed ) ) {
+			delete_transient( 'affiliatewp_add_ons_feed' ); // Reset the cache for next time.
+
 			/* translators: %s - Retrieving addons error */
-			return sprintf( '<div class="error"><p>%s</p></div>', __( 'There was an error retrieving the addons list from the server. Please try again later.', 'affiliate-wp' ) );
+			throw new \Exception(
+				sprintf(
+					'<div class="error"><p>%s</p></div>',
+					__( 'There was an error retrieving the addons list from the server. Please try again later.', 'affiliate-wp' )
+				)
+			);
 		}
 
-		if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
-			// Retrieve the feed, decode, and prepare an array of addons.
-			set_transient( 'affiliatewp_add_ons_feed', array_map( 'affwp_prepare_addon_data', json_decode( wp_remote_retrieve_body( $feed ), true ) ), HOUR_IN_SECONDS );
-		}
+		// Retrieve the feed, decode, and prepare an array of addons (will be pulled from this cache later on).
+		set_transient( 'affiliatewp_add_ons_feed', array_map( 'affwp_prepare_addon_data', $addons ), HOUR_IN_SECONDS );
 	}
-
 }
 
 /**
- * Print unlock features message.
+ * Get the addon badge HTML.
  *
- * @since 2.9.6
+ * @since 2.25.1
+ *
+ * @param string $license_type The addon required license.
+ *
+ * @return string The badge markup.
  */
-function affwp_display_unlock_features() {
-	/* translators: 1: Unlock more features heading 2: AffiliateWP.com account downloads page URL, 3: Descriptive text, 4: Upgrade link to be displayed, 5: Additional descriptive text */
-	echo wp_kses(
-		sprintf(
-			'<div class="unlock-msg"><h4>%1$s</h4><p>%3$s<a href="%2$s" target="_blank" rel="noopener noreferrer">%4$s</a>%5$s</p></div>',
-			esc_html__( 'Unlock More Features...', 'affiliate-wp' ),
-			esc_url( 'https://affiliatewp.com/account/downloads/?utm_source=WordPress&amp;utm_campaign=plugin&amp;utm_medium=addons&amp;utm_content=unlock-msg' ),
-			__( 'Want to get even more features? ', 'affiliate-wp' ),
-			__( 'Upgrade your AffiliateWP account', 'affiliate-wp' ),
-			__( ' and unlock the following addons.', 'affiliate-wp' )
-		),
-		[
-			'div' => [
-				'class' => [],
-			],
-			'a'   => [
-				'href'   => [],
-				'target' => [],
-				'rel'    => [],
-			],
-			'h4'  => [],
-			'p'   => [],
-		]
+function affiliatewp_get_addon_badge( string $license_type ) : string {
+
+	if ( ! affwp_is_upgrade_required( $license_type ) ) {
+		return '';
+	}
+
+	return sprintf(
+		'<span class="affwp-addon-badge">%s</span>',
+		'professional' === $license_type
+			? 'pro'
+			: $license_type
 	);
 }
 
@@ -206,17 +203,21 @@ function affwp_display_unlock_features() {
  * Display addons.
  *
  * @since 2.9.6
+ * @since 2.25.1 Added filter_by and echo parameters.
  *
- * @param array $category Category of addon to display.
+ * @param array  $category Category of addon to display.
+ * @param string $filter_by Filter by 'active' or all addons (will still ignore active ones). Default 'all'.
+ * @param bool   $echo Whether it should echo the content or not.
  *
- * @return void
+ * @return string
  */
-function affwp_display_addons( $category ) {
+function affwp_display_addons( array $category, string $filter_by = 'all', bool $echo = true ) : string {
+
 	// Get addons.
 	$cache = get_transient( 'affiliatewp_add_ons_feed' );
 
 	if ( false === $cache ) {
-		return;
+		return '';
 	}
 
 	$status = affiliate_wp()->settings->get( 'license_status', '' );
@@ -226,8 +227,6 @@ function affwp_display_addons( $category ) {
 		: $status;
 
 	ob_start();
-
-	echo '<div class="affwp-addons-list">';
 
 	// Loop through and display each addon.
 	foreach( $cache as $addon ):
@@ -247,8 +246,18 @@ function affwp_display_addons( $category ) {
 
 		// Use bool to determine if checked and input text below.
 		$is_active = isset( $addon['status'] ) && $addon['status'] === 'active' ? true : false;
+
+		// Skip addons based on the filter.
+		if ( ( 'active' === $filter_by && ! $is_active ) || ( 'all' === $filter_by && $is_active ) ) {
+			continue;
+		}
+
+		$classes = sprintf(
+			'affwp-addon%s',
+			empty( $addon['recommended'] ) ? '' : ' affwp-addon-recommended'
+		);
 		?>
-		<div class="affwp-addon">
+		<div class="<?php echo esc_attr( $classes ); ?>">
 			<div class="affwp-addon-details">
 				<span class="affwp-addon-img">
 					<img src="<?php echo esc_url( $addon['image'] ); ?>" class="attachment-affwp-post-thumbnail size-affwp-post-thumbnail wp-post-image" alt="<?php echo esc_attr( $addon['title'] ); ?>" loading="lazy" title="<?php echo esc_attr( $addon['title'] ); ?>"/>
@@ -261,20 +270,18 @@ function affwp_display_addons( $category ) {
 				</div>
 			</div>
 			<div class="affwp-addon-action">
+
 				<?php if ( isset( $addon['action'] ) && $addon['action'] === 'upgrade' ):  ?>
-					<a href="<?php echo esc_url( $addon['upgrade_url'] );?>" class="button-primary" target="_blank" rel="noopener noreferrer">Upgrade Now</a>
-				<?php elseif ( ! empty( $status ) && 'expired' === $status && isset( $addon['action'] ) && $addon['action'] === 'install' ) : ?>
-					<p class="affwp-status">Status:
-						<span class="affwp-status-<?php echo esc_attr( $addon['status'] ); ?>">
-							<?php echo esc_html( $addon['status_label'] ); ?>
-						</span>
-					</p>
+
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is safe.
+					echo affiliatewp_get_addon_badge( $addon['category'] );
+					?>
+
+					<a href="<?php echo esc_url( $addon['upgrade_url'] );?>" class="button-secondary" target="_blank" rel="noopener noreferrer">Upgrade Now</a>
+
 				<?php else : ?>
-					<p class="affwp-status">Status:
-						<span class="affwp-status-<?php echo esc_attr( $addon['status'] ); ?>">
-							<?php echo esc_html( $addon['status_label'] ); ?>
-						</span>
-					</p>
+
 					<button for="<?php echo esc_attr( $addon['slug'] ); ?>" class="affwp-styled-checkbox">
 						<input class="<?php if ( $is_active ) { echo esc_attr( 'checked' ); } ?>" type="checkbox"
 							name="<?php echo esc_attr( $addon['slug'] ); ?>"
@@ -284,16 +291,26 @@ function affwp_display_addons( $category ) {
 							<?php if ( $is_active ) { echo esc_html( 'checked' ); } ?>/>
 						<span><?php echo esc_html( $addon['input_label'] ); ?></span>
 					</button>
+
 				<?php endif; ?>
 			</div>
 		</div>
 		<?php
 	endforeach;
 
-	echo '</div>';
+	$html = ob_get_clean();
 
-	echo ob_get_clean();
+	if ( empty( $html ) ) {
+		return '';
+	}
 
+	$html = sprintf( '<div class="affwp-addons-list">%s</div>', $html );
+
+	if ( false === $echo ) {
+		return $html;
+	}
+
+	echo $html;
 }
 
 /**

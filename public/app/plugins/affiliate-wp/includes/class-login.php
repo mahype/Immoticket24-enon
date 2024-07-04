@@ -20,8 +20,35 @@ class Affiliate_WP_Login {
 	 */
 	public function __construct() {
 
-		add_action( 'affwp_user_login', array( $this, 'process_login' ) );
+		add_action( 'affwp_user_login', [ $this, 'process_login' ] );
+		add_action( 'template_redirect', [ $this, 'redirect_out_from_login_page_when_logged' ] );
+	}
 
+	/**
+	 * Prevents users from direct accessing the Login page if they are already logged.
+	 *
+	 * @since 2.25.0
+	 * @return void
+	 */
+	public function redirect_out_from_login_page_when_logged() {
+
+		if ( ! is_user_logged_in() ) {
+			return; // Bail if the user is not logged.
+		}
+
+		$affiliate_area_page_id = affwp_get_affiliate_area_page_id();
+		$login_page_id          = affiliatewp_get_affiliate_login_page_id();
+
+		if ( $affiliate_area_page_id === $login_page_id ) {
+			return; // Bail since the login page is the same as the Affiliate Area page.
+		}
+
+		if ( is_page( $login_page_id ) && ! empty( $affiliate_area_page_id ) ) {
+			wp_safe_redirect(
+				get_permalink( $affiliate_area_page_id )
+			);
+			exit;
+		}
 	}
 
 	/**
@@ -100,7 +127,7 @@ class Affiliate_WP_Login {
 		 * @param \WP_User $user  The WordPress user whose password is being checked.
 		 */
 		if ( true === apply_filters( 'affwp_login_check_password', true, $user ) ) {
-			
+
 			if ( empty( $data['affwp_user_pass'] ) ) {
 				$this->add_error( 'empty_password', __( 'Please enter a password', 'affiliate-wp' ) );
 			}
@@ -112,7 +139,7 @@ class Affiliate_WP_Login {
 					$this->add_error( 'password_incorrect', __( 'Incorrect username or password', 'affiliate-wp' ) );
 				}
 			}
-			
+
 		}
 
 		if ( function_exists( 'is_limit_login_ok' ) && ! is_limit_login_ok() ) {
@@ -217,6 +244,7 @@ class Affiliate_WP_Login {
 	 * Retrieves the login URL
 	 *
 	 * @since 1.1
+	 * @since 2.25.0 The new Affiliate Login page is used instead of the Affiliate Area page to return the login URL.
 	 */
 	function get_login_url() {
 		/**
@@ -226,7 +254,7 @@ class Affiliate_WP_Login {
 		 *
 		 * @param string $url Login URL.
 		 */
-	    return apply_filters( 'affwp_login_url', get_permalink( affiliate_wp()->settings->get( 'affiliates_page' ) ) );
+	    return apply_filters( 'affwp_login_url', get_permalink( affiliatewp_get_affiliate_login_page_id() ) );
 	}
 
 }

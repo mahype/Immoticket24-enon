@@ -12,6 +12,9 @@
 // phpcs:disable PEAR.Functions.FunctionCallSignature.FirstArgumentPosition -- Allowing comments in function call lines.
 // phpcs:disable PEAR.Functions.FunctionCallSignature.EmptyLine -- Allowing comments in function call lines.
 
+use AffiliateWP\Affiliate_Area;
+use AffiliateWP\Installation_Tools;
+
 affwp_require_util_traits( 'data' );
 
 class Affiliate_WP_Register {
@@ -27,15 +30,47 @@ class Affiliate_WP_Register {
 	 */
 	public function __construct() {
 
-		add_action( 'affwp_affiliate_register', array( $this, 'process_registration' ) );
-		add_action( 'user_register', array( $this, 'auto_register_user_as_affiliate' ) );
-		add_action( 'user_new_form', array( $this, 'add_as_affiliate' ) );
-		add_action( 'user_register', array( $this, 'process_add_as_affiliate' ) );
-		add_action( 'added_existing_user', array( $this, 'process_add_as_affiliate' ) );
-		add_action( 'admin_footer', array( $this, 'scripts' ) );
-		add_filter( 'affwp_register_required_fields', array( $this, 'maybe_required_fields' ) );
-		add_action( 'affwp_register_user', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
-		add_action( 'affwp_add_new_affiliate', array( $this, 'add_new_affiliates_to_default_group' ), 10, 1 );
+		add_action( 'affwp_affiliate_register', [ $this, 'process_registration' ] );
+		add_action( 'user_register', [ $this, 'auto_register_user_as_affiliate' ] );
+		add_action( 'user_new_form', [ $this, 'add_as_affiliate' ] );
+		add_action( 'user_register', [ $this, 'process_add_as_affiliate' ] );
+		add_action( 'added_existing_user', [ $this, 'process_add_as_affiliate' ] );
+		add_action( 'admin_footer', [ $this, 'scripts' ] );
+		add_filter( 'affwp_register_required_fields', [ $this, 'maybe_required_fields' ] );
+		add_action( 'affwp_register_user', [ $this, 'add_new_affiliates_to_default_group' ], 10, 1 );
+		add_action( 'affwp_add_new_affiliate', [ $this, 'add_new_affiliates_to_default_group' ], 10, 1 );
+		add_action( 'template_redirect', [ $this, 'redirect_out_from_registration_page_when_logged' ] );
+	}
+
+	/**
+	 * Prevents users from direct accessing the Registration page if they are already logged.
+	 *
+	 * @since 2.25.0
+	 * @return void
+	 */
+	public function redirect_out_from_registration_page_when_logged() {
+
+		if ( ! is_user_logged_in() ) {
+			return; // Bail if the user is not logged.
+		}
+
+		if ( ! affwp_is_affiliate() ) {
+			return; // Bail if the user is not an affiliate yet. They can still see the form to register.
+		}
+
+		$affiliate_area_page_id = affwp_get_affiliate_area_page_id();
+		$registration_page_id   = affiliatewp_get_affiliate_registration_page_id();
+
+		if ( $affiliate_area_page_id === $registration_page_id ) {
+			return; // Bail since the registration page is the same as the Affiliate Area page.
+		}
+
+		if ( is_page( $registration_page_id ) && ! empty( $affiliate_area_page_id ) ) {
+			wp_safe_redirect(
+				get_permalink( $affiliate_area_page_id )
+			);
+			exit;
+		}
 	}
 
 	/**
@@ -398,10 +433,9 @@ class Affiliate_WP_Register {
 			do_action( 'affwp_process_register_form' );
 		}
 
-		// only log the user in if there are no errors
+		// Only log the user in if there are no errors.
 		if ( empty( $this->errors ) ) {
 			$affiliate_id = $this->register_user( $user_email );
-
 
 			// Register the date when the Terms of use were accepted.
 			if (
@@ -651,11 +685,12 @@ class Affiliate_WP_Register {
 	 *
 	 * @since 1.0
 	 * @since 2.8.1 The `$user_email` parameter was added.
+	 * @since 2.25.0 The `$auto_login` parameter was added.
 	 *
 	 * @param string $user_email Optional. User email. Registration will be skipped if omitted. Default empty.
 	 * @return int|false The newly-created affiliate ID if successful, otherwise false.
 	 */
-	private function register_user( $user_email = '' ) {
+	private function register_user( $user_email = '', bool $auto_login = true ) {
 
 		if ( empty( $user_email ) ) {
 			return false;
@@ -749,7 +784,7 @@ class Affiliate_WP_Register {
 			'registration_url'    => esc_url_raw( home_url( $_SERVER['REQUEST_URI'] ) )
 		) );
 
-		if ( ! is_user_logged_in() ) {
+		if ( $auto_login && ! is_user_logged_in() ) {
 			$this->log_user_in( $user_id, $user_login );
 		}
 

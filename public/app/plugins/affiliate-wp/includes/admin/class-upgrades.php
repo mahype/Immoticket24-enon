@@ -382,6 +382,16 @@ class Affiliate_WP_Upgrades {
 				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-update-creative-names.php',
 			),
 		) );
+
+		$this->add_routine( 'upgrade_v2250_create_login_registration_pages', array(
+			'version'       => '2.25.0',
+			'compare'       => '<',
+			'batch_process' => array(
+				'id'    => 'create-login-registration-pages',
+				'class' => 'AffWP\Utils\Batch_Process\Batch_Create_Login_Registration_Pages',
+				'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-create-login-registration-pages.php',
+			),
+		) );
 	}
 
 	/**

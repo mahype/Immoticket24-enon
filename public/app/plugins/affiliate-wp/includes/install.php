@@ -9,6 +9,7 @@
  * @since       1.0
  */
 
+use AffiliateWP\Installation_Tools;
 use AffWP\Components\Notifications\Notifications_DB;
 
 /**
@@ -61,66 +62,27 @@ function affiliate_wp_install() {
 
 	if ( ! get_option( 'affwp_is_installed' ) ) {
 
-		// Get the page ID of the Affiliate Area.
-		$affiliates_page = $affiliate_wp_install->settings->get( 'affiliates_page' );
-
-		// Check that the page exists.
-		$affiliates_page = ! empty( $affiliates_page ) ? get_post( $affiliates_page ) : false;
-
-		// Create the Affiliate Area page if it doesn't exist.
-		if ( empty( $affiliates_page ) ) {
-
-			$post_content = '<!-- wp:affiliatewp/affiliate-area -->
-				<!-- wp:affiliatewp/registration -->
-				<!-- wp:affiliatewp/field-name {"type":"name"} /-->
-				<!-- wp:affiliatewp/field-username {"required":true,"type":"username"} /-->
-				<!-- wp:affiliatewp/field-account-email {"type":"account"} /-->
-				<!-- wp:affiliatewp/field-payment-email {"label":"' . __( 'Payment Email', 'affiliate-wp' ) . '","type":"payment"} /-->
-				<!-- wp:affiliatewp/field-website {"label":"' . __( 'Website URL', 'affiliate-wp' ) . '","type":"websiteUrl"} /-->
-				<!-- wp:affiliatewp/field-textarea {"label":"' . __( 'How will you promote us?', 'affiliate-wp' ) . '","type":"promotionMethod"} /-->
-				<!-- wp:affiliatewp/field-register-button /-->
-				<!-- /wp:affiliatewp/registration -->
-				<!-- wp:affiliatewp/login /-->
-				<!-- /wp:affiliatewp/affiliate-area -->
-			';
-
-			if ( class_exists( 'Classic_Editor' ) && 'classic' === get_option( 'classic-editor-replace' ) ) {
-				$post_content = '[affiliate_area]';
-			}
-
-			$affiliate_area = wp_insert_post(
-				array(
-					'post_title'     => __( 'Affiliate Area', 'affiliate-wp' ),
-					'post_content'   => $post_content,
-					'post_status'    => 'publish',
-					'post_author'    => get_current_user_id(),
-					'post_type'      => 'page',
-					'comment_status' => 'closed',
-				)
-			);
-
-			// Set Affliate Area page.
-			$affiliate_wp_install->settings->set( array(
-				'affiliates_page' => $affiliate_area,
-			), $save = true );
-
-		}
-
 		// Update settings.
-		$affiliate_wp_install->settings->set( array(
-			'require_approval'             => true,
-			'allow_affiliate_registration' => true,
-			'revoke_on_refund'             => true,
-			'referral_pretty_urls'         => true,
-			'enable_payouts_service'       => 1,
-			'required_registration_fields' => array(
-				'your_name'   => __( 'Your Name', 'affiliate-wp' ),
-				'website_url' => __( 'Website URL', 'affiliate-wp' )
-			),
-			'email_notifications' => $affiliate_wp_install->settings->email_notifications( true ),
-		), $save = true );
+		$affiliate_wp_install->settings->set(
+			[
+				'affiliates_page'              => Installation_Tools::get_instance()->create_affiliate_area_page(false, false ),
+				'affiliates_login_page'        => Installation_Tools::get_instance()->create_login_page( false, false ),
+				'affiliates_registration_page' => Installation_Tools::get_instance()->create_registration_page( false, false ),
+				'require_approval'             => true,
+				'allow_affiliate_registration' => true,
+				'revoke_on_refund'             => true,
+				'referral_pretty_urls'         => true,
+				'enable_payouts_service'       => 1,
+				'required_registration_fields' => array(
+					'your_name'   => __( 'Your Name', 'affiliate-wp' ),
+					'website_url' => __( 'Website URL', 'affiliate-wp' ),
+				),
+				'email_notifications'          => $affiliate_wp_install->settings->email_notifications( true ),
+			],
+			true
+		);
 
-		update_option( 'affwp_migrated_meta_fields',affwp_get_pending_migrated_user_meta_fields() );
+		update_option( 'affwp_migrated_meta_fields', affwp_get_pending_migrated_user_meta_fields() );
 
 		// Note, if this value is not found in the database, it means affwp_is_installed was set before this was introduced in version 2.10.0.
 		update_option( 'affwp_first_installed', time(), false );
@@ -151,6 +113,7 @@ function affiliate_wp_install() {
 		'upgrade_v281_convert_failed_referrals',
 		'upgrade_v2140_set_creative_type',
 		'upgrade_v2160_update_creative_names',
+		'upgrade_v2250_create_login_registration_pages',
 	);
 
 	// Set past upgrade routines complete for all sites.
