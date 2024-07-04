@@ -325,6 +325,8 @@ class Affiliate_WP_Settings {
 				'affiliatewp_register_section_registration_management',
 				array(
 					'affiliates_page',
+					'affiliates_login_page',
+					'affiliates_registration_page',
 					'terms_of_use',
 					'allow_affiliate_registration',
 					'require_approval',
@@ -379,6 +381,39 @@ class Affiliate_WP_Settings {
 					'referral_pretty_urls',
 				)
 			)
+		);
+
+		$this->register_section(
+			'affiliates',
+			'affiliate_link_sharing',
+			__( 'Affiliate Link Sharing', 'affiliate-wp' ),
+			apply_filters(
+				'affiliatewp_register_section_affiliate_link_sharing',
+				[
+					'link_sharing_options',
+					'link_sharing_x_text',
+					'link_sharing_email_subject',
+					'link_sharing_email_body',
+				]
+			),
+			'',
+			[],
+			'',
+			false,
+			sprintf( '<p>%s</p>%s',
+				__( 'Enable your affiliates to quickly share their affiliate links directly from their Affiliate Area using popular platforms and methods.', 'affiliate-wp' ),
+				sprintf(
+					/* translators: 1: Link to the doc page on affiliate link sharing. 2: Additional link attributes. 3: Accessibility text. */
+					__( '<a href="%1$s" %2$s>Learn more%3$s</a>', 'affiliate-wp' ),
+					esc_url( 'https://affiliatewp.com/docs/affiliate-link-sharing' ),
+					'target="_blank" rel="noopener"',
+					sprintf(
+						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
+						/* translators: Hidden accessibility text. */
+						__( '(opens in a new tab)', 'affiliate-wp' )
+					)
+				)
+			),
 		);
 
 		$this->register_section(
@@ -1463,6 +1498,8 @@ class Affiliate_WP_Settings {
 						$this->get_settings(
 							array(
 								'affiliates_page',
+								'affiliates_login_page',
+								'affiliates_registration_page',
 								'terms_of_use',
 								'allow_affiliate_registration',
 								'require_approval',
@@ -1474,6 +1511,11 @@ class Affiliate_WP_Settings {
 								'referral_var',
 								'referral_format',
 								'referral_pretty_urls',
+								'affiliate_link_sharing',
+								'link_sharing_options',
+								'link_sharing_x_text',
+								'link_sharing_email_subject',
+								'link_sharing_email_body',
 								'logout_link',
 								'affiliate-landing-pages',
 								'direct_link_tracking',
@@ -1665,10 +1707,59 @@ class Affiliate_WP_Settings {
 			),
 			'affiliates_page' => array(
 				'name' => __( 'Affiliate Account Page', 'affiliate-wp' ),
-				'desc' => __( 'This is the page where affiliates will manage their affiliate account.', 'affiliate-wp' ),
 				'type' => 'select',
 				'options' => affwp_get_pages(),
 				'sanitize_callback' => 'absint',
+				'tooltip' => sprintf(
+					'<p>' . __( 'This is the page where affiliates will manage their affiliate account.', 'affiliate-wp' ) . '</p>' .
+					/* translators: 1: Link to the doc page for the affiliate account page. 2: Additional link attributes. 3: Accessibility text. */
+					__( '<a href="%1$s" %2$s>Learn more%3$s</a>', 'affiliate-wp' ),
+					esc_url( 'https://affiliatewp.com/docs/affiliate-account-page' ),
+					'target="_blank" rel="noopener"',
+					sprintf(
+						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
+						/* translators: Hidden accessibility text. */
+						__( '(opens in a new tab)', 'affiliate-wp' )
+					)
+				),
+			),
+			'affiliates_login_page' => array(
+				'name' => __( 'Affiliate Login Page', 'affiliate-wp' ),
+				'type' => 'select',
+				'std'  => affwp_get_affiliate_area_page_id(), // Leave Affiliate Area as default for existing installations.
+				'options' => affwp_get_pages(),
+				'sanitize_callback' => 'absint',
+				'tooltip' => sprintf(
+					'<p>' . __( 'This is the page where affiliates will log in to access their affiliate account.', 'affiliate-wp' ) . '</p>' .
+					/* translators: 1: Link to the doc page for the affiliate login page. 2: Additional link attributes. 3: Accessibility text. */
+					__( '<a href="%1$s" %2$s>Learn more%3$s</a>', 'affiliate-wp' ),
+					esc_url( 'https://affiliatewp.com/docs/affiliate-login-page' ),
+					'target="_blank" rel="noopener"',
+					sprintf(
+						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
+						/* translators: Hidden accessibility text. */
+						__( '(opens in a new tab)', 'affiliate-wp' )
+					)
+				),
+			),
+			'affiliates_registration_page' => array(
+				'name' => __( 'Affiliate Registration Page', 'affiliate-wp' ),
+				'type' => 'select',
+				'std'  => affwp_get_affiliate_area_page_id(), // Leave Affiliate Area as default for existing installations.
+				'options' => affwp_get_pages(),
+				'sanitize_callback' => 'absint',
+				'tooltip' => sprintf(
+					'<p>' . __( 'This is the page where your visitors will register to become affiliates.', 'affiliate-wp' ) . '</p>' .
+					/* translators: 1: Link to the doc page for the affiliate registration page. 2: Additional link attributes. 3: Accessibility text. */
+					__( '<a href="%1$s" %2$s>Learn more%3$s</a>', 'affiliate-wp' ),
+					esc_url( 'https://affiliatewp.com/docs/affiliate-registration-page' ),
+					'target="_blank" rel="noopener"',
+					sprintf(
+						'<span class="screen-reader-text"> %s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
+						/* translators: Hidden accessibility text. */
+						__( '(opens in a new tab)', 'affiliate-wp' )
+					)
+				),
 			),
 			'terms_of_use' => array(
 				'name' => __( 'Terms of Use Page', 'affiliate-wp' ),
@@ -2291,6 +2382,55 @@ class Affiliate_WP_Settings {
 				'rows' => 3,
 				'std'  => __( 'Share your affiliate link below with friends. When they buy, you earn!', 'affiliate-wp' ),
 			),
+			'affiliate_link_sharing' => [
+				'name' => __( 'Affiliate Link Sharing', 'affiliate-wp' ),
+				'desc' => __( 'Enable your affiliates to quickly share their affiliate links directly from their Affiliate Area using popular platforms and methods.', 'affiliate-wp' ),
+				'type' => 'header',
+			],
+			'link_sharing_options' => [
+				'name'    => __( 'Sharing Options', 'affiliate-wp' ),
+				'desc'    => __( 'Select the options you wish to enable for affiliate link sharing.', 'affiliate-wp' ),
+				'type'    => 'multicheck',
+				'options' => $this->affwp_get_social_networks(),
+			],
+			'link_sharing_x_text'     => [
+				'name'  => __( 'Default X Post', 'affiliate-wp' ),
+				'desc'  => __( 'The default text that will show when an affiliate shares to X. Leave blank to use Site Title.', 'affiliate-wp' ),
+				'type'  => 'textarea',
+				'size'  => 'large',
+				'rows'  => 3,
+				'class' => in_array( 'x', array_keys( affiliate_wp()->settings->get( 'link_sharing_options', [] ) ), true ) ? '' : 'affwp-hidden',
+				'std'   => html_entity_decode( get_bloginfo( 'name' ), ENT_QUOTES, 'UTF-8' ),
+				'visibility' => [
+					'required_field'  => 'link_sharing_options',
+					'required_option' => 'x',
+					'value'           => true,
+				],
+			],
+			'link_sharing_email_subject'    => [
+				'name'  => __( 'Email Sharing Subject', 'affiliate-wp' ),
+				'desc'  => __( 'The default text that will show in the email subject line. Leave blank to use Site Title.', 'affiliate-wp' ),
+				'type'  => 'text',
+				'class' => in_array( 'email', array_keys( affiliate_wp()->settings->get( 'link_sharing_options', [] ) ), true ) ? '' : 'affwp-hidden',
+				'std'   => get_bloginfo( 'name' ),
+				'visibility' => [
+					'required_field'  => 'link_sharing_options',
+					'required_option' => 'email',
+					'value'           => true,
+				],
+			],
+			'link_sharing_email_body'       => [
+				'name' => __( 'Email Sharing Message', 'affiliate-wp' ),
+				'desc' => __( 'The default text that will show in the email message. The affiliate\'s referral URL will be automatically appended to the email.', 'affiliate-wp' ),
+				'type' => 'text',
+				'std'  => __( 'I thought you might be interested in this:', 'affiliate-wp' ),
+				'class'   => in_array( 'email', array_keys( affiliate_wp()->settings->get( 'link_sharing_options', [] ) ), true ) ? '' : 'affwp-hidden',
+				'visibility' => [
+					'required_field'  => 'link_sharing_options',
+					'required_option' => 'email',
+					'value'           => true,
+				],
+			],
 		);
 		// phpcs:enable WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned
 		// phpcs:enable WordPress.Arrays.CommaAfterArrayItem.NoComma
@@ -2490,6 +2630,22 @@ class Affiliate_WP_Settings {
 		);
 
 		return array_merge( $email_settings, $new_email_settings );
+	}
+
+	/**
+	 * Get list of supported social networks for affiliate link sharing.
+	 *
+	 * @since 2.25.0
+	 * @return array Array of social networks.
+	 */
+	private function affwp_get_social_networks() {
+		return [
+			'facebook' => __( 'Facebook', 'affiliate-wp' ),
+			'linkedin' => __( 'LinkedIn', 'affiliate-wp' ),
+			'x'        => __( 'X (Formerly Twitter)', 'affiliate-wp' ),
+			'email'    => __( 'Email', 'affiliate-wp' ),
+			'qrcode'   => __( 'QR Code', 'affiliate-wp' ),
+		];
 	}
 
 	/**
@@ -3151,9 +3307,10 @@ class Affiliate_WP_Settings {
 		<?php endforeach; ?>
 
 		</select>
-		<p class="description"> <?php echo wp_kses( $args['desc'], affwp_kses() ); ?></p>
 
-		<?php
+		<?php if ( ! empty( $args['desc'] ) ) : ?>
+			<p class="description"><?php echo wp_kses( $args['desc'], affwp_kses() ); ?></p>
+		<?php endif;
 
 		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	}

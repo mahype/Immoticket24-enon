@@ -10,10 +10,12 @@
  */
 
 use AffiliateWP\Admin\DRM\DRM_Controller;
+use AffiliateWP\Affiliate_Area;
 use AffiliateWP\Affiliate_Area_Creatives;
 use AffiliateWP\Scripts;
 use AffWP\Components\Notifications;
 use AffWP\Components\Wizard;
+use AffiliateWP\Affiliate_Links;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -302,6 +304,15 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 		 * @var array
 		 */
 		private $plugin_data = [];
+
+		/**
+		 * The affiliate links class instance variable.
+		 *
+		 * @access public
+		 * @since  2.25.0
+		 * @var    Affiliate_Links
+		 */
+		public Affiliate_Links $affiliate_links;
 
 		/**
 		 * The custom links instance variable.
@@ -729,6 +740,7 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 			self::$instance->creatives = new Affiliate_WP_Creatives_DB;
 			self::$instance->creative = new Affiliate_WP_Creatives;
 			self::$instance->creative_meta = new AffiliateWP\Creatives\Meta\DB();
+			self::$instance->affiliate_links = new Affiliate_Links();
 			self::$instance->custom_links = new Affiliate_WP_Custom_Links_DB();
 			self::$instance->custom_Link = new Affiliate_WP_Custom_Links();
 			self::$instance->rewrites = new Affiliate_WP_Rewrites;
@@ -741,6 +753,7 @@ if ( ! class_exists( 'Affiliate_WP' ) ) :
 			self::$instance->drm = new DRM_Controller();
 
 			// Affiliate Area.
+			Affiliate_Area::get_instance();
 			self::$instance->creatives_view = new Affiliate_Area_Creatives();
 
 			// Onboarding wizard.

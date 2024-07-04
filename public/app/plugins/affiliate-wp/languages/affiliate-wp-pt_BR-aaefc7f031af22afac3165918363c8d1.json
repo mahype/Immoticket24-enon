@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2024-04-01 17:38-0300",
+    "translation-revision-date": "2024-05-14 08:33-0300",
     "generator": "WP-CLI\/2.10.0",
     "source": "assets\/js\/editor\/build\/index.js",
     "domain": "messages",
@@ -110,7 +110,7 @@
                 "Confirme sua senha"
             ],
             "(required)": [
-                "E-mail"
+                "(obrigat\u00f3rio)"
             ],
             "Affiliate Area": [
                 "\u00c1rea Afiliado"

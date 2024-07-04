@@ -11,7 +11,7 @@ table.affwp-table {
 	text-align: left;
 	width: 100%;
 	border: none;
-	margin: 0 0 21px;
+	margin: 0 0 1.5rem;
 	border-collapse: collapse;
 }
 
@@ -30,7 +30,7 @@ table.affwp-table th {
 }
 
 .affwp-form {
-	margin-bottom: 20px;
+	margin-bottom: 1.5rem;
 }
 
 .affwp-form fieldset {
@@ -209,7 +209,106 @@ button.affwp-tooltip,
 	height: 20px;
 	display: inline-block;
 }
-/* Start styling for rows with actions (copy/download/etc) */
+/* End styling for rows with actions (copy/download/etc) */
+
+/* Tooltips */
+.affwp-card__tooltip {
+	cursor: help;
+}
+
+.affwp-card__tooltip p {
+	margin-bottom: 1rem;
+}
+
+.affwp-card__tooltip svg {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content {
+	padding: 1rem;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content p {
+	margin-bottom: 1rem;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content p:last-child {
+	margin-bottom: 0;
+}
+
+.affwp-card__header:has(.affwp-card__tooltip) {
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
+	gap: 0.5rem;
+}
+/* End Tooltips */
+
+/* Affiliate Link Card */
+.affwp-card.affwp-affiliate-link {
+	margin-bottom: 1.5rem;
+}
+
+.affwp-affiliate-link__display {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.affwp-affiliate-link__toggle {
+	margin-top: 0.5rem;
+	display: inline-block;
+}
+
+.affwp-affiliate-link__input {
+	cursor: pointer;
+}
+/* End Affiliate Link Card */
+
+/* Affiliate Landing Pages */
+.affwp-affiliate-landing-pages .affwp-affiliate-link__display:not(:last-child) {
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(17, 24, 39, 0.05);
+	margin-bottom: 1rem;
+}
+/* End Affiliate Landing Pages */
+
+/* Link Sharing */
+.affwp-link-sharing {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-top: 1.5rem;
+}
+
+.affwp-link-sharing__options {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.affwp-link-sharing__icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.affwp-link-sharing__icon svg {
+	width: 2rem;
+	height: 2rem;
+	color: rgba(0, 0, 0, 0.75);
+}
+
+.affwp-link-sharing__x svg {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.affwp-link-sharing__qrcode {
+    cursor: pointer;
+}
+/* End link Sharing */
 
 .affwp-errors,
 .affwp-notice {
@@ -231,10 +330,6 @@ p.affwp-error {
 
 #affwp-affiliate-dashboard h4 {
 	margin-bottom: 20px;
-}
-
-#affwp-affiliate-dashboard-url-generator h4 {
-	margin-top: 0;
 }
 
 #affwp-graphs-filter {
@@ -634,15 +729,46 @@ table.affwp-table {
 	max-height: var(--affwp-creative-preview-width);
 }
 
-.affwp-qrcode-preview svg {
-	width: 100%;
-	height: auto;
+/* Modals */
+.affwp-modal * {
+	margin: 0;
 }
 
-.affwp-qrcode-modal-preview {
-	width: 256px;
-	height: 256px;
+.affwp-modal__header {
+	margin-bottom: 1.5rem;
 }
+
+.affwp-modal__header h2 {
+	margin-bottom: 0.5rem;
+}
+
+.affwp-modal__actions {
+	margin-top: 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 4rem;
+}
+
+.affwp-modal__button {
+	align-self: start;
+}
+
+/* End Modal */
+
+/* QR Code Modals */
+.affwp-modal__qr-code {
+	display: flex;
+	justify-content: center;
+}
+
+.affwp-modal__body:has(.affwp-modal__qr-code) {
+	border: 2px solid rgba(0, 0, 0, 0.03);
+    padding: 2rem;
+}
+/* End QR Code Modals */
+
+/* Creatives Modal */
 
 #affwp-creatives-modal {
 	width: 100%;
@@ -922,8 +1048,25 @@ table.affwp-table {
 	.affwp-creatives-table-row:hover .affwp-creative-last-updated {
 		opacity: 0;
 	}
-}
 
+}
+@media (min-width: 480px) {
+
+	#affwp-affiliate-dashboard-url-generator  .affwp-affiliate-link,
+	.affwp-affiliate-link__display {
+		flex-direction: row;
+	}
+
+	.affwp-affiliate-link__input {
+		flex-grow: 1;
+	}
+
+	.affwp-link-sharing {
+		flex-direction: row;
+		align-items: center;
+	}
+
+}
 /* Card styling */
 .affwp-card {
 	border: 1px solid rgba(17, 24, 39, 0.05);
@@ -935,7 +1078,7 @@ table.affwp-table {
 		rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
 }
 
-.affwp-card .affwp-card__header * {
+.affwp-card .affwp-card__header:not(.affwp-affiliate-link__tooltip) * {
 	margin: 0;
 }
 
@@ -1060,3 +1203,7 @@ table.affwp-table {
 	align-items: center;
 }
 /* End coupons url styling */
+
+.affwp-registration-submitted form fieldset {
+	display: none;
+}

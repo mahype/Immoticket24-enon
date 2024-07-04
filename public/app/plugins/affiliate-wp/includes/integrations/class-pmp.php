@@ -281,8 +281,8 @@ class Affiliate_WP_PMP extends Affiliate_WP_Base {
 	 */
 	public function mark_referral_complete( $order ) {
 
-		affiliatewp_deprecate_function() (
-			__FUNCTION__,
+		affiliatewp_deprecate_function(
+			__METHOD__,
 			__( 'Use update_referral_status() instead.', 'affiliate-wp' ),
 			'2.21.1'
 		);

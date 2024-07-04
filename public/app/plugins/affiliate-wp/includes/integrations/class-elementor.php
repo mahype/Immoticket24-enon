@@ -71,13 +71,158 @@ class Affiliate_WP_Elementor extends Affiliate_WP_Base {
 		add_filter( 'elementor_pro/forms/render/item', array( $this, 'disable_logged_in_fields' ), 10, 3 );
 		add_action( 'elementor/controls/register',  array( $this, 'register_controls' ) );
 		add_action( 'elementor_pro/forms/new_record', array( $this, 'affiliate_email' ), 10, 2 );
+		add_action( 'elementor_pro/forms/validation/email', array( $this, 'validate_user_email_field' ), 10, 3 );
+		add_action( 'elementor_pro/forms/validation/text', array( $this, 'validate_user_login_field' ), 10, 3 );
 		add_action( 'affwp_review_affiliate_end', array( $this, 'display_registration_data' ) );
 		add_action( 'affwp_edit_affiliate_end', array( $this, 'display_registration_data' ) );
+		add_action( 'elementor-pro/forms/pre_render', array( $this, 'pre_render_form' ), 10, 2 );
+		add_action( 'wp_head', array( $this, 'hide_registration_form' ) );
 
 		// Referral tracking.
 		add_filter( 'affwp_referral_table_description', array( $this, 'referral_table_description' ), 10, 2 );
 		add_action( 'affwp_edit_referral_end', array( $this, 'lead_information_table' ), 10, 1 );
 		add_action( 'elementor_pro/forms/new_record', array( $this, 'add_referral' ), 10, 2 );
+	}
+
+	/**
+	 * Hide the registration form if the user is already an affiliate.
+	 *
+	 * @since AFFPWN
+	 *
+	 * @return void
+	 */
+	public function hide_registration_form() : void {
+		// Return early if the user is not logged in or is not an affiliate.
+		if ( ! ( is_user_logged_in() && affwp_is_affiliate() ) ) {
+			return;
+		}
+		?>
+		<style>
+			.elementor-form:has(.affwp-elementor-registration-form)  {
+				display: none;
+			}
+		</style>
+		<?php
+	}
+
+	/**
+	 * Hide form and show notice to affiliates who are already registered.
+	 *
+	 * @since AFFPWN
+	 *
+	 * @param array $instance The form instance.
+	 * @param Form  $form The form object.
+	 *
+	 * @return void
+	 */
+	public function pre_render_form( $instance, $form ) : void {
+
+		// Return early if this form isn't an affiliate registration form.
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $instance ) ) ) {
+			return;
+		}
+
+		// Return early if the user is not logged in or is not an affiliate.
+		if ( ! ( is_user_logged_in() && affwp_is_affiliate() ) ) {
+			return;
+		}
+
+		$affiliate_area_page_id = affwp_get_affiliate_area_page_id();
+		$affiliate_notice       = esc_html__( 'You are already registered as an affiliate.', 'affiliate-wp' );
+
+		// Add a link to the affiliate area page if it exists.
+		if ( $affiliate_area_page_id ) {
+			$affiliate_notice .= ' ' . sprintf(
+				// translators: %1$s is the opening anchor tag, %2$s is the closing anchor tag.
+				esc_html__( 'Visit your %1$sAffiliate Area%2$s for more information.', 'affiliate-wp' ),
+				'<a href="' . esc_url( get_permalink( $affiliate_area_page_id ) ) . '">',
+				'</a>'
+			);
+		}
+		?>
+			<p class="affwp-notice"><?php echo wp_kses_post( $affiliate_notice ); ?></p>
+		<?php
+
+		// Add a class to the form wrapper. We'll use this to hide the form.
+		$form->add_render_attribute( 'wrapper', 'class', 'affwp-elementor-registration-form' );
+
+		// Disable the submit button on the form.
+		$form->add_render_attribute( 'button', 'disabled', 'disabled' );
+	}
+
+	/**
+	 * Validate the user email field on the affiliate registration form.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param array                                           $field The field data.
+	 * @param ElementorPro\Modules\Forms\Classes\Form_Record  $record The form record.
+	 * @param ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler The ajax handler.
+	 *
+	 * @return void
+	 */
+	public function validate_user_email_field( $field, $record, $ajax_handler ) : void {
+
+		// Return early if this form isn't an affiliate registration form.
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $record ) ) ) {
+			return;
+		}
+
+		// Return early if the user is logged in.
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		$user_data = $this->form_data(
+			$record,
+			array(
+				'user_email',
+			),
+			'affiliatewp_fields_map'
+		);
+
+		$fields_map = $this->get_fields_map( $record, 'affiliatewp_fields_map' );
+
+		// Checks the user_email field (and not payment_email) to see if the email address is already registered to a WP user account.
+		if ( $fields_map['user_email'] === $field['id'] && email_exists( $user_data['user_email'] ) ) {
+			$ajax_handler->add_error( $field['id'], esc_html__( 'An affiliate with that email already exists.', 'affiliate-wp' ) );
+			return;
+		}
+	}
+
+	/**
+	 * Validate the username field on the affiliate registration form.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param array                                           $field The field data.
+	 * @param ElementorPro\Modules\Forms\Classes\Form_Record  $record The form record.
+	 * @param ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler The ajax handler.
+	 *
+	 * @return void
+	 */
+	public function validate_user_login_field( $field, $record, $ajax_handler ) : void {
+
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $record ) ) ) {
+			return;
+		}
+
+		$fields_map = $this->get_fields_map( $record, 'affiliatewp_fields_map' );
+
+		// Checks the user_email field (and not payment_email) to see if the email address is already registered to a WP user account.
+		if ( ! empty( $field['value'] ) && $fields_map['user_login'] === $field['id'] ) {
+
+			if ( ! is_user_logged_in() && username_exists( $field['value'] ) ) {
+				$ajax_handler->add_error( $field['id'], esc_html__( 'An account with that username already exists.', 'affiliate-wp' ) );
+			}
+
+			if ( ! validate_username( $field['value'] ) ) {
+				$ajax_handler->add_error( $field['id'], esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'affiliate-wp' ) );
+			}
+
+			return;
+		}
+
 	}
 
 	/**
@@ -498,8 +643,8 @@ class Affiliate_WP_Elementor extends Affiliate_WP_Base {
 	public function affiliate_email( $record, $handler ) : void {
 		include_once( __DIR__ . '/elementor/form-actions/affiliate-email.php' );
 
-		$affiliate_registration = $record->get_form_settings( 'affiliate_registration' );
-		if ( empty( $affiliate_registration ) || 'yes' !== $affiliate_registration ) {
+		// Return early if this form isn't an affiliate registration form.
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $record ) ) ) {
 			return;
 		}
 

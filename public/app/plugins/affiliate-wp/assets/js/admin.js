@@ -1,7 +1,7 @@
-/* global affwp_vars */
-jQuery(document).ready(function($) {
-
-		// Settings uploader
+/* global affwp_vars, jQuery, window, wp, document */
+/* eslint-disable camelcase */
+jQuery( document ).ready( function( $ ) {
+	// Settings uploader.
 	var file_frame;
 	window.formfield = '';
 
@@ -9,20 +9,23 @@ jQuery(document).ready(function($) {
 	// And move this to be more global as we use it in other places in our settings.
 	const affwpSelect2Width = '175px';
 
-	const $select2Elements = $( '.affwp-use-select2' );
+	// Check if we can use select2 globally. It may be not loaded on non-affiliatewp pages.
+	if ( typeof $.fn.select2 !== 'undefined' ) {
+		const $select2Elements = $( '.affwp-use-select2' );
 
-	$select2Elements.closest( 'tr' ).addClass( 'affwp-select2-initialized' );
+		$select2Elements.closest( 'tr' ).addClass( 'affwp-select2-initialized' );
 
-	// Apply a simple select2 to select elements to keep all them with the same aspect.
-	$select2Elements.select2( {
-		width: affwpSelect2Width,
-		minimumResultsForSearch: -1
-	} );
+		// Apply a simple select2 to select elements to keep all them with the same aspect.
+		$select2Elements.select2( {
+			width: affwpSelect2Width,
+			minimumResultsForSearch: -1,
+		} );
 
-	// Open the Type select2 dropdown when clicking on the Type label.
-	$( '.affwp-select2-initialized label' ).on( 'click', function() {
-		$( this ).closest( 'tr' ).find( 'select' ).select2( 'open' );
-	} );
+		// Open the Type select2 dropdown when clicking on the Type label.
+		$( '.affwp-select2-initialized label' ).on( 'click', function() {
+			$( this ).closest( 'tr' ).find( 'select' ).select2( 'open' );
+		} );
+	}
 
 	$('body').on('click', '.affwp_settings_upload_button', function(e) {
 
@@ -618,10 +621,16 @@ jQuery(document).ready(function($) {
 			const $row    = $( this );
 			const $form   = $( '#affwp-settings-form' );
 			const ruleset = $row.data( 'visibility' );
-			const $field  = $form.find( `input[name="affwp_settings[${ruleset.rule.required_field}]"]` );
+			// Allow support for multicheck field types by using the required_option property.
+			const option = ruleset.rule.hasOwnProperty( 'required_option' )
+				? ruleset.rule.required_option
+				: false;
+			const $field  = false !== option
+				? $form.find( `input[name="affwp_settings[${ruleset.rule.required_field}][${ruleset.rule.required_option}]"]` )
+				: $form.find( `input[name="affwp_settings[${ruleset.rule.required_field}]"]` );
 			const comparison = ruleset.rule.hasOwnProperty( 'compare' )
 				? ruleset.rule.compare
-				: '=='
+				: '==';
 
  			$field.on( 'change', function () {
 
@@ -1239,6 +1248,11 @@ jQuery(document).ready(function($) {
 			.attr( 'disabled', false );
 	} );
 
+	$( '.affwp-batch-form[data-batch_id="create-login-registration-pages"] input[type="radio"]' ).on( 'change', function(){
 
-
- } );
+		$( '#v2250-create-login-registration-pages' )
+			.val( $( this ).data( 'button-label' ) )
+			.removeClass( 'button-disabled' )
+			.attr( 'disabled', false );
+	} );
+} );

@@ -81,4 +81,38 @@ trait Elementor_Shared_Utils {
 		return $map;
 	}
 
+	/**
+	 * Get the affiliate registration setting from the provided source.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param mixed $source The source object or array (e.g., $record or $instance).
+	 *
+	 * @return string The value of the affiliate registration setting.
+	 */
+	private function get_affiliate_registration_setting( $source ) : string {
+
+		if ( is_array( $source ) ) {
+			return $source['affiliate_registration'] ?? '';
+		}
+
+		if ( is_object( $source ) && method_exists( $source, 'get_form_settings' ) ) {
+			return $source->get_form_settings( 'affiliate_registration' ) ?? '';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Check if the form setting indicates an affiliate registration form.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param string $affiliate_registration The value of the affiliate registration setting.
+	 *
+	 * @return bool True if the form is an affiliate registration form, false otherwise.
+	 */
+	private function is_affiliate_registration( $affiliate_registration ) : bool {
+		return ! empty( $affiliate_registration ) && 'yes' === $affiliate_registration;
+	}
 }

@@ -51,6 +51,8 @@ if ( $affiliate_wp_settings->get( 'uninstall_on_delete' ) ) {
 
 	// Remove the affiliate area page.
 	wp_delete_post( $affiliate_wp_settings->get( 'affiliates_page' ) );
+	wp_delete_post( $affiliate_wp_settings->get( 'affiliates_login_page' ) );
+	wp_delete_post( $affiliate_wp_settings->get( 'affiliates_registration_page' ) );
 
 	// Remove all capabilities and roles.
 	$caps = new Affiliate_WP_Capabilities;

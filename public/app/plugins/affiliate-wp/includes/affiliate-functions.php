@@ -257,8 +257,9 @@ function affwp_get_affiliate_gravatar( $affiliate = 0, int $size = 40 ) : string
  * @since 1.0
  * @since 1.9 The `$affiliate` parameter was made optional. Affiliates can also now
  *            be retrieved by username.
+ * @since 2.25.0 The `$affiliate` parameter now accepts a custom slug.
  *
- * @param int|AffWP\Affiliate|string $affiliate Optional. Affiliate ID, object, or username. Default null.
+ * @param int|AffWP\Affiliate|string $affiliate Optional. Affiliate ID, object, username, or custom slug. Default null.
  * @return AffWP\Affiliate|false Affiliate object if found, otherwise false.
  */
 function affwp_get_affiliate( $affiliate = 0 ) {
@@ -279,7 +280,13 @@ function affwp_get_affiliate( $affiliate = 0 ) {
 				return false;
 			}
 		} else {
-			return false;
+			// Check if the string is a custom slug.
+			$meta         = affiliate_wp()->affiliate_meta->get_meta_by_value( 'custom_slug', $affiliate );
+			$affiliate_id = $meta->affiliate_id ?? 0;
+
+			if ( ! is_numeric( $affiliate_id ) ) {
+				return false;
+			}
 		}
 	} else {
 		return false;
@@ -1832,11 +1839,11 @@ function affwp_get_current_user_affiliate_referral_url( string $url = '' ) : str
  * Retrieves the page ID for the Affiliate Area page.
  *
  * @since 1.8
+ * @since 2.25.0 Returns 0 as default value instead of false.
  *
  * @return int Affiliate Area page ID.
  */
-function affwp_get_affiliate_area_page_id() {
-	$affiliate_page_id = affiliate_wp()->settings->get( 'affiliates_page' );
+function affwp_get_affiliate_area_page_id() : int {
 
 	/**
 	 * Filters the Affiliate Area page ID.
@@ -1845,7 +1852,67 @@ function affwp_get_affiliate_area_page_id() {
 	 *
 	 * @param int $affiliate_page_id Affiliate Area page ID.
 	 */
-	return apply_filters( 'affwp_affiliate_area_page_id', $affiliate_page_id );
+	return apply_filters( 'affwp_affiliate_area_page_id', affiliate_wp()->settings->get( 'affiliates_page', 0 ) );
+}
+
+/**
+ * Retrieves the page ID for the Affiliate Login page.
+ *
+ * It returns the Affiliate Area page ID in case none is set.
+ *
+ * @since 2.25.0
+ *
+ * @return int Affiliate Login page ID.
+ */
+function affiliatewp_get_affiliate_login_page_id() : int {
+
+	/**
+	 * Filters the Affiliate Login page ID.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param int $affiliate_page_id Affiliate Login page ID.
+	 */
+	$page_id = apply_filters(
+		'affiliatewp_affiliate_login_page_id',
+		affiliate_wp()->settings->get( 'affiliates_login_page', affwp_get_affiliate_area_page_id() )
+	);
+
+	if ( is_numeric( $page_id ) ) {
+		return intval( $page_id );
+	}
+
+	return 0;
+}
+
+/**
+ * Retrieves the page ID for the Affiliate Registration page.
+ *
+ * It returns the Affiliate Area page ID in case none is set.
+ *
+ * @since 2.25.0
+ *
+ * @return int Affiliate Registration page ID.
+ */
+function affiliatewp_get_affiliate_registration_page_id() : int {
+
+	/**
+	 * Filters the Affiliate Registration page ID.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param int $affiliate_page_id Affiliate Registration page ID.
+	 */
+	$page_id = apply_filters(
+		'affiliatewp_affiliate_registration_page_id',
+		affiliate_wp()->settings->get( 'affiliates_registration_page', affwp_get_affiliate_area_page_id() )
+	);
+
+	if ( is_numeric( $page_id ) ) {
+		return intval( $page_id );
+	}
+
+	return 0;
 }
 
 /**

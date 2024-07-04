@@ -47,7 +47,6 @@ affiliatewp.attach(
 				instance.setProps( {
 					onHidden: () => {
 						instance.setContent( originalContent );
-						instance.setProps( { onHidden: null } );
 					},
 				} );
 

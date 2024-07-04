@@ -81,7 +81,7 @@ class License_Data {
 		);
 
 		// Call the custom API.
-		$response = wp_remote_post( 'https://affiliatewp.com', array(
+		$response = wp_remote_get( 'https://affiliatewp.com/edd-sl-api', array(
 			'timeout'   => 35,
 			'sslverify' => false,
 			'body'      => $api_params,
@@ -165,7 +165,7 @@ class License_Data {
 		);
 
 		// Call the custom API.
-		$response = wp_remote_post( 'https://affiliatewp.com', array(
+		$response = wp_remote_get( 'https://affiliatewp.com/edd-sl-api', array(
 			'timeout'   => 35,
 			'sslverify' => false,
 			'body'      => $api_params,
@@ -246,7 +246,7 @@ class License_Data {
 	public function check_status( $force = false ) {
 		$status = get_transient( 'affwp_license_check' );
 
-		$request_url = 'https://affiliatewp.com';
+		$request_url = 'https://affiliatewp.com/edd-sl-api';
 
 		// Run the license check a maximum of once per day.
 		if ( ( false === $status || $force ) && site_url() !== $request_url ) {
@@ -260,7 +260,7 @@ class License_Data {
 			);
 
 			// Call the custom API.
-			$response = wp_remote_post( $request_url, array(
+			$response = wp_remote_get( $request_url, array(
 				'timeout'   => 15,
 				'sslverify' => false,
 				'body'      => $api_params,

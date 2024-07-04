@@ -100,16 +100,15 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 	 *
 	 * @since 2.19.0
 	 * @access public
-	 * @param \ElementorPro\Modules\Forms\Classes\Form_Record  $record
-	 * @param \ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler
+	 * @param \ElementorPro\Modules\Forms\Classes\Form_Record  $record       Form record data.
+	 * @param \ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler AJAX handler for the form.
 	 */
 	public function run( $record, $ajax_handler ) : void {
-		$affiliate_registration = $record->get_form_settings( 'affiliate_registration' );
-		if ( empty( $affiliate_registration ) || 'yes' !== $affiliate_registration ) {
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $record ) ) ) {
 			return;
 		}
 
-		// Get all submitted fields
+		// Get all submitted fields.
 		$all_fields = $record->get( 'fields' );
 
 		// Get data from mapped fields.
@@ -126,8 +125,9 @@ class AffiliateWP_Action_After_Submit extends Integration_Base {
 				'user_email',
 				'user_url',
 				'payment_email',
-				'promotion_method'
-			), 'affiliatewp_fields_map'
+				'promotion_method',
+			),
+			'affiliatewp_fields_map'
 		);
 
 		// Fallback to user_email if user_login is not mapped or empty
