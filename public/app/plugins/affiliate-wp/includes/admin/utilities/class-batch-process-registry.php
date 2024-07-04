@@ -180,6 +180,12 @@ class Registry extends Utils\Registry {
 			'class' => 'AffWP\Utils\Batch_Process\Batch_Update_Creative_Names',
 			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-update-creative-names.php',
 		) );
+
+		// Create Login and Registration pages.
+		$this->register_process( 'create-login-registration-pages', array(
+			'class' => 'AffWP\Utils\Batch_Process\Batch_Create_Login_Registration_Pages',
+			'file'  => AFFILIATEWP_PLUGIN_DIR . 'includes/admin/tools/class-batch-create-login-registration-pages.php',
+		) );
 	}
 
 	/**

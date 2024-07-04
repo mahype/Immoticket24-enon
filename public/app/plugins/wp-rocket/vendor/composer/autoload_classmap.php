@@ -273,6 +273,7 @@ return array(
     'WP_Rocket\\Engine\\Media\\AboveTheFold\\ServiceProvider' => $baseDir . '/inc/Engine/Media/AboveTheFold/ServiceProvider.php',
     'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\APIClient' => $baseDir . '/inc/Engine/Media/AboveTheFold/WarmUp/APIClient.php',
     'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Controller' => $baseDir . '/inc/Engine/Media/AboveTheFold/WarmUp/Controller.php',
+    'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Queue' => $baseDir . '/inc/Engine/Media/AboveTheFold/WarmUp/Queue.php',
     'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Subscriber' => $baseDir . '/inc/Engine/Media/AboveTheFold/WarmUp/Subscriber.php',
     'WP_Rocket\\Engine\\Media\\Emojis\\EmojisSubscriber' => $baseDir . '/inc/Engine/Media/Emojis/EmojisSubscriber.php',
     'WP_Rocket\\Engine\\Media\\ImageDimensions\\AdminSubscriber' => $baseDir . '/inc/Engine/Media/ImageDimensions/AdminSubscriber.php',

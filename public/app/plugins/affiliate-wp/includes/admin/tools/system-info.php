@@ -91,6 +91,8 @@ function affwp_tools_system_info_report() {
 	// Pages.
 	$return .= "\n" . '-- AffiliateWP Page Configuration' . "\n\n";
 	$return .= 'Affiliate Area:                   ' . ( $settings->get( 'affiliates_page' ) ? get_permalink( $settings->get( 'affiliates_page' ) ) . "\n" : "Unset\n" );
+	$return .= 'Affiliate Login:                  ' . ( $settings->get( 'affiliates_login_page' ) ? get_permalink( affiliatewp_get_affiliate_login_page_id() ) . "\n" : "Unset\n" );
+	$return .= 'Affiliate Registration:           ' . ( $settings->get( 'affiliates_registration_page' ) ? get_permalink( affiliatewp_get_affiliate_registration_page_id() ) . "\n" : "Unset\n" );
 	$return .= 'Terms of Use:                     ' . ( $settings->get( 'terms_of_use' ) ? get_permalink( $settings->get( 'terms_of_use' ) ) . "\n" : "Unset\n" );
 
 	// Referral Settings

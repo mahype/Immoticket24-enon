@@ -18,7 +18,7 @@ AddDefaultCharset UTF-8
 	Header always set X-Content-Type-Options "nosniff"
 
 	# Clickjacking protection
-    Header set X-Frame-Options "DENY"
+    Header set X-Frame-Options "SAMEORIGIN"
 
 	# XSS Protection
     Header set X-XSS-Protection "1; mode=block"

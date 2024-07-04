@@ -933,10 +933,11 @@ add_action( 'admin_footer', 'affwp_add_screen_options_nonces' );
  * Retrieves the logout URL.
  *
  * @since 1.8.8
+ * @since 2.25.0 Logout defaults to the Login page.
  *
  * @return string Logout URL.
  */
-function affwp_get_logout_url() {
+function affwp_get_logout_url() : string {
 
 	/**
 	 * Filters the URL to log out the current user.
@@ -945,7 +946,14 @@ function affwp_get_logout_url() {
 	 *
 	 * @param string $logout_url URL to log out the current user.
 	 */
-	return apply_filters( 'affwp_logout_url', wp_logout_url( get_permalink() ) );
+	return apply_filters(
+		'affwp_logout_url',
+		wp_logout_url(
+			empty( affiliatewp_get_affiliate_login_page_id() )
+				? get_bloginfo( 'url' ) // It is an edge case, but ensure that we have a safe place to redirect if there's no Affiliate Area set.
+				: get_permalink( affiliatewp_get_affiliate_login_page_id() )
+		)
+	);
 }
 
 /**
@@ -2347,6 +2355,40 @@ function affiliatewp_get_pro_feature_option_classes(
 	}
 
 	return 'addProBadge affwp-education-modal';
+}
+
+/**
+ * Check if the current page is the AffiliateWP settings page.
+ *
+ * @param string $tab Optional. The specific tab to check for.
+ * @return bool True if it's the AffiliateWP settings page, false otherwise.
+ * @since 2.25.0
+ */
+function affiliatewp_is_settings_page( string $tab = '' ) : bool {
+	// Check if we are in the admin area
+	if ( ! is_admin() ) {
+		return false;
+	}
+
+	$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+
+	if ( $page !== 'affiliate-wp-settings' ) {
+		return false;
+	}
+
+	$current_tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+
+	// If a specific tab is provided, check if it matches the 'tab' parameter
+	if ( ! empty( $tab ) && $current_tab === $tab ) {
+		return true;
+	}
+
+	// If no specific tab is provided, return true as it's the settings page
+	if ( empty( $tab ) ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**

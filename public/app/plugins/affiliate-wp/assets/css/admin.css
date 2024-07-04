@@ -667,6 +667,9 @@ form .spinner {
 	position: relative;
 	float: none;
 }
+.affwp-batch-form--has-choices .affwp-batch-form__submit-container {
+	margin: 1rem 0;
+}
 .admin-color-fresh .affwp-batch-progress div {
 	background: #0073aa;
 }
@@ -1602,6 +1605,7 @@ tr.group-row span.set-default {
 
 #affwp-settings-form .form-table th > div {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
 }
@@ -2498,17 +2502,21 @@ body.affiliates_page_affiliate-wp-affiliates .wp-list-table td.column-name .info
 
 .tippy-box[data-theme~='affwp'] .tippy-content {
 	padding: 1rem 1.25rem;
+	font-weight: 400;
+	line-height: 1.4rem;
+	font-size: 14px;
+}
+
+.tippy-box[data-theme~='affwp'] .tippy-content *:not(.dashicons) {
+	font-size: inherit;
 }
 
 .tippy-box[data-theme~='affwp'] .tippy-content p {
 	margin-top: 0;
-	font-weight: 400;
-	line-height: 1.4rem;
 }
 
 .tippy-box[data-theme~='affwp'] .tippy-content a {
 	font-weight: 600;
-	font-size: 13px;
 }
 
 .tippy-box[data-theme~='affwp'] .tippy-content *:last-child {

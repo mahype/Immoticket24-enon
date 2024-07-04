@@ -11,6 +11,8 @@
  * @since       2.8
  */
 
+use AffiliateWP\Installation_Tools;
+use AffiliateWP\Affiliate_Area;
 use AffWP\Core\Registration;
 
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- We properly escape.
@@ -553,7 +555,7 @@ final class Affiliate_WP_Editor {
 	/**
 	 * Render the Affiliate Area.
 	 *
-	 * @param array  $atts    Block attributes.
+	 * @param array $atts Block attributes.
 	 * @param string $content Block content.
 	 *
 	 * @return string
@@ -569,11 +571,20 @@ final class Affiliate_WP_Editor {
 			return ob_get_clean();
 		}
 
-		if ( ! affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
+		if ( is_user_logged_in() && ! affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
 			affiliate_wp()->templates->get_template_part( 'no', 'access' );
 		}
 
-		// Render the inner blocks (registration and login).
+		// For users that are not authenticated and are using a separate page for login, show the new message.
+		if (
+			empty( $content ) &&
+			! is_user_logged_in() &&
+			! Affiliate_Area::get_instance()->is_affiliate_area_the_login_page()
+		) {
+			echo Affiliate_Area::get_instance()->get_unauthorized_access_message();
+		}
+
+		// Render the inner blocks (registration and login); prior to 2.25.0, inner blocks are not allowed since then.
 		echo do_blocks( $content );
 
 		return ob_get_clean();

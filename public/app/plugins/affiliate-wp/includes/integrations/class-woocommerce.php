@@ -183,6 +183,8 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 	 * Save the selected affiliate on the Order Page.
 	 *
 	 * @since 2.24.0
+	 * @since 2.25.1 Updated to no longer use meta, since we'll use the natural
+	 *               Referral > Order (Reference) > Affiliate (ID) relationship.
 	 *
 	 * @param int    $order_id The Order ID.
 	 * @param object $order    The order object.
@@ -201,18 +203,8 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 		// Make sure affilaites issuing an order for themselves as the affiliate works.
 		add_filter( 'affwp_tracking_is_valid_affiliate', '__return_true' );
 
+		// This should create a referral, if it does we can connect the order to the referral and to the affiliate's ID in the select-box.
 		$this->add_pending_referral( $order_id );
-
-		if ( is_a( $order, '\WP_Post' ) ) {
-
-			// No HPOS, update meta the manual way.
-			update_post_meta( $order->ID ?? 0, '_affiliatewp_order_affiliate', $affiliate_id );
-
-			return;
-		}
-
-		// Remember what affiliate was selected for the order (HPOS).
-		$order->update_meta_data( '_affiliatewp_order_affiliate', $affiliate_id );
 	}
 
 	/**
@@ -231,6 +223,37 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		wp_enqueue_script( 'jquery-core' );
 		wp_enqueue_script( 'affwp-select2' );
+	}
+
+	/**
+	 * Get the Affiliate's ID for the Referral of an Order.
+	 *
+	 * Note on Rejected Referrals:
+	 *
+	 * Yes, rejected referrals will keep orders from being re-assigned to another affiliate.
+	 * This is because if we allow it, add_pending_referral() and insert_draft_referral() will
+	 * reject the referral creation. See message: Draft referral could not be converted to pending due
+	 * to invalid visit ID value in class-base.php as to why.
+	 *
+	 * Note on Failed Referrals:
+	 *
+	 * The same above is also true of failed referrals. They (orders) cannot be re-assigned.
+	 *
+	 * @param int $order_id The Order ID.
+	 *
+	 * @since 2.25.1
+	 *
+	 * @return int The ID, 0 if there is none.
+	 */
+	private function get_affiliate_id_for_order( int $order_id ) : int {
+
+		$referral = affwp_get_referral_by( 'reference', $order_id, 'woocommerce' );
+
+		if ( ! is_a( $referral, '\AffWP\Referral' ) ) {
+			return 0;
+		}
+
+		return $referral->affiliate_id ?? 0;
 	}
 
 	/**
@@ -253,7 +276,7 @@ class Affiliate_WP_WooCommerce extends Affiliate_WP_Base {
 
 		// Get the Affiliate ID from the Order.
 		$affiliate_id = ( false !== $order ) && is_object( $order )
-			? $order->get_meta( '_affiliatewp_order_affiliate', true )
+			? $this->get_affiliate_id_for_order( $order_id )
 			: 0;
 
 		// Sanitize the database value.

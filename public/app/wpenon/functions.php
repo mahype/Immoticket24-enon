@@ -2156,11 +2156,15 @@ function wpenon_immoticket24_maybe_check_certificate($post_id, $payment_id)
 	$fees = edd_get_payment_fees($payment_id);
 
 	$fee_ids = wp_list_pluck($fees, 'id');
-	if (!in_array('experten_check', $fee_ids)) {
-		update_post_meta($post_id, 'wpenon_immoticket24_certificate_checked', true);
-	} else {
-		update_post_meta($post_id, 'wpenon_immoticket24_certificate_checked', false);
-	}
+
+	update_post_meta($post_id, 'wpenon_immoticket24_certificate_checked', true);
+
+	// Wird nicht mehr gebraucht, läuft über Prevent_Completion Klasse
+	// if (!in_array('experten_check', $fee_ids)) {
+	// 	update_post_meta($post_id, 'wpenon_immoticket24_certificate_checked', true);
+	// } else {
+	// 	update_post_meta($post_id, 'wpenon_immoticket24_certificate_checked', false);
+	// }
 }
 
 add_action('edd_complete_download_purchase', 'wpenon_immoticket24_maybe_check_certificate', 5, 2);

@@ -145,6 +145,14 @@ function affwp_display_post_states( $post_states, $post ) {
 			$post_states['affwp_page_for_affiliate_area'] = __( 'Affiliate Area Page', 'affiliate-wp' );
 		}
 
+		if ( affiliatewp_get_affiliate_login_page_id() === $post->ID ) {
+			$post_states['affwp_page_for_affiliate_login'] = __( 'Affiliate Login Page', 'affiliate-wp' );
+		}
+
+		if ( affiliatewp_get_affiliate_registration_page_id() === $post->ID ) {
+			$post_states['affwp_page_for_affiliate_registration'] = __( 'Affiliate Registration Page', 'affiliate-wp' );
+		}
+
 		if ( affwp_get_affiliate_terms_of_use_page_id() === $post->ID ) {
 			$post_states['affwp_page_for_affiliate_terms'] = __( 'Affiliate Terms of Use Page', 'affiliate-wp' );
 		}
