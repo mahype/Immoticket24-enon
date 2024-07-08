@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc107a1777813a46d4643c5a4732d470b
+class ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -231,6 +231,7 @@ class ComposerStaticInitc107a1777813a46d4643c5a4732d470b
         'WP_Rocket\\Engine\\Common\\ExtractCSS\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Common/ExtractCSS/Subscriber.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/APIClient.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractAPIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/AbstractAPIClient.php',
+        'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractSafeAPIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/AbstractSafeAPIClient.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\AbstractFactory\\SaasFactory' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/AbstractFactory/SaasFactory.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\Cron\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/Cron/Subscriber.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\JobProcessor' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/JobProcessor.php',
@@ -550,10 +551,10 @@ class ComposerStaticInitc107a1777813a46d4643c5a4732d470b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc107a1777813a46d4643c5a4732d470b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$classMap;
 
         }, null, ClassLoader::class);
     }

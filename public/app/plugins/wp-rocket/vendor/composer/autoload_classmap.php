@@ -201,6 +201,7 @@ return array(
     'WP_Rocket\\Engine\\Common\\ExtractCSS\\Subscriber' => $baseDir . '/inc/Engine/Common/ExtractCSS/Subscriber.php',
     'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\APIClient' => $baseDir . '/inc/Engine/Common/JobManager/APIHandler/APIClient.php',
     'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractAPIClient' => $baseDir . '/inc/Engine/Common/JobManager/APIHandler/AbstractAPIClient.php',
+    'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractSafeAPIClient' => $baseDir . '/inc/Engine/Common/JobManager/APIHandler/AbstractSafeAPIClient.php',
     'WP_Rocket\\Engine\\Common\\JobManager\\AbstractFactory\\SaasFactory' => $baseDir . '/inc/Engine/Common/JobManager/AbstractFactory/SaasFactory.php',
     'WP_Rocket\\Engine\\Common\\JobManager\\Cron\\Subscriber' => $baseDir . '/inc/Engine/Common/JobManager/Cron/Subscriber.php',
     'WP_Rocket\\Engine\\Common\\JobManager\\JobProcessor' => $baseDir . '/inc/Engine/Common/JobManager/JobProcessor.php',
