@@ -154,22 +154,31 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
       ?>
     </a>
   </div>
+  <?php
+      // Prüfen ob Rechnung an Reseller umleiten aktiv ist.
+      $reseller_id = get_post_meta( get_the_ID(), 'reseller_id', true );
+      $reseller = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+      $redirect = $reseller->redirect_bill_to_reseller();
+      if ( !$redirect ||   !$data['ordered']) {
+    ?>
   <div class="col-sm-4">
     <a class="btn btn-primary btn-lg btn-block<?php echo $data['buy_url'] ? '' : ' disabled'; ?>" href="<?php echo ( $data['buy_url'] && $data['editoverview_url'] ) ? ( $data['ordered'] ? $data['buy_url'] : $data['editoverview_url'] ) : '#'; ?>">
       <?php
-      if ( $data['ordered'] ) :
-        _e( 'Rechnung ansehen', 'wpenon' );
-      else :
-        _e( 'Bestellen', 'wpenon' );
-        if ( ! $data['buy_url'] ) :
-          echo '<br><div class="small">';
-          _e( '(erst nach vollständiger Dateneingabe möglich)', 'wpenon' );
-          echo '</div>';
-        endif;
-      endif;
+
+        if ( $data['ordered'] ) :
+            _e( 'Rechnung ansehen', 'wpenon' );
+        else :
+            _e( 'Bestellen', 'wpenon' );
+            if ( ! $data['buy_url'] ) :
+            echo '<br><div class="small">';
+            _e( '(erst nach vollständiger Dateneingabe möglich)', 'wpenon' );
+            echo '</div>';
+            endif;
+        endif; 
       ?>
     </a>
   </div>
+  <?php } ?>
 </div>
 
 <div class="calculations well">

@@ -104,17 +104,37 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 			$this->SetXY( $this->wpenon_margin_h + 3, 50 );
 
 			$this->SetPageFont( 'address' );
-
 			$address = '';
 			if ( isset( $this->wpenon_payment->user_info['business_name'] ) && ! empty( $this->wpenon_payment->user_info['business_name'] ) ) {
-				$address .= $this->wpenon_payment->user_info['business_name'] . "\n";
+                $order = $this->wpenon_payment->cart_details[0]["id"];
+                if ( $order ) {
+                    $reseller_id = get_post_meta( $order, 'reseller_id', true );
+                    $reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+                    $address .=  $reseller->get_company_name() . "\n";
+                } else {
+                    $address .= $this->wpenon_payment->user_info['business_name'] . "\n";
+                }
 			}
-			$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+			
+
+            $order = $this->wpenon_payment->cart_details[0]["id"];
+            if ( $order ) {
+                $reseller_id = get_post_meta( $order, 'reseller_id', true );
+                if ( $reseller_id ) {
+                    $reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
+                    $address .=  $reseller->get_contact_firstname. ' ' . $reseller->get_contact_lastname . "\n";
+                } else {
+                    $address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+                }
+            } else {
+                $address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+            }
+            
 			if ( isset( $this->wpenon_payment->user_info['address']['line1'] ) && ! empty( $this->wpenon_payment->user_info['address']['line1'] ) ) {
 				$address .= $this->wpenon_payment->user_info['address']['line1'] . "\n";
 			}
 			if ( isset( $this->wpenon_payment->user_info['address']['line2'] ) && ! empty( $this->wpenon_payment->user_info['address']['line2'] ) ) {
-				$address .= $this->wpenon_payment->user_info['address']['line2'] . "\n";
+				//$address .= $this->wpenon_payment->user_info['address']['line2'] . "\n";
 			}
 			if ( isset( $this->wpenon_payment->user_info['address']['zip'] ) && ! empty( $this->wpenon_payment->user_info['address']['zip'] ) && isset( $this->wpenon_payment->user_info['address']['city'] ) && ! empty( $this->wpenon_payment->user_info['address']['city'] ) ) {
 				$address .= $this->wpenon_payment->user_info['address']['zip'] . ' ' . $this->wpenon_payment->user_info['address']['city'];
@@ -157,11 +177,25 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 					$price_mode = __( 'Download', 'wpenon' );
 				}
 				$product_title .= ', ' . $price_mode;
+                $temp = '';
+                $cartid      = $item['id'];
 
-				$product_secondary = get_post_meta( $item['id'], 'adresse_strassenr', true ) . ', ' . get_post_meta( $item['id'], 'adresse_plz', true ) . ' ' . get_post_meta( $item['id'], 'adresse_ort', true );
+                $reseller = get_post_meta( $cartid, 'reseller_id', true );
+                if ($reseller != '' && $reseller != 0 && $reseller != null && $reseller != false)  {
+                $origdata = get_post_meta( $cartid, 'orig_purchase_data', true );
+
+                if ( isset($origdata['post_data']['wpenon_business_name']) && $origdata['post_data']['wpenon_business_name'] != '' ) {
+                    $temp = $origdata['post_data']['wpenon_business_name'] . ', ';
+                }
+                if ( isset($origdata['post_data']['edd_first']) && isset($origdata['post_data']['edd_last']) ) {
+                    $temp .= $origdata['post_data']['edd_first'] . ' '. $origdata['post_data']['edd_last'] . ', ';
+                }
+            }
+
+				$product_secondary = $temp." ". get_post_meta( $item['id'], 'adresse_strassenr', true ) . ', ' . get_post_meta( $item['id'], 'adresse_plz', true ) . ' ' . get_post_meta( $item['id'], 'adresse_ort', true ) . "\n";
 				$registry_id       = get_post_meta( $item['id'], 'registriernummer', true );
 				if ( ! empty( $registry_id ) ) {
-					$product_secondary .= ' (' . __( 'Registriernummer', 'wpenon' ) . ': ' . $registry_id . ')';
+					$product_secondary .=  '(' . __( 'Registriernummer', 'wpenon' ) . ': ' . $registry_id . ')';
 				}
 
 				$product_subtotal = $item['item_price'];
@@ -175,7 +209,7 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 				$this->WriteCell( $this->escape( edd_currency_filter( edd_format_amount( $product_subtotal ), edd_get_payment_currency_code( $this->wpenon_payment->ID ) ) ), 'R', 1, 0 );
 				$this->SetPageFont( 'small' );
 				$this->WriteCell( '', 'L', 0, 5 );
-				$this->WriteCell( $this->escape( $product_secondary ), 'L', 1, 0 );
+				$this->WriteMultiCell( $this->escape( $product_secondary ), 'L', 1, 0 );
 				$this->SetPageFont( 'text' );
 			}
 
@@ -235,7 +269,13 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 				}
 
 				if ( edd_is_payment_complete( $this->wpenon_payment->ID ) ) {
-					$payment_message = sprintf( __( 'Die Rechnung wurde am %1$s via %2$s beglichen.', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ), edd_get_gateway_checkout_label( edd_get_payment_gateway( $this->wpenon_payment->ID ) ) );
+                    $gateway = \edd_get_payment_gateway( $this->wpenon_payment->ID );
+
+                    if ( $gateway === 'kauf_auf_rechnung') {
+                        $payment_message = sprintf( __( 'Kauf auf Rechnung am %1$s', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ) );
+                    } else { 
+					    $payment_message = sprintf( __( 'Die Rechnung wurde am %1$s via %2$s beglichen.', 'wpenon' ), \WPENON\Util\Format::date( edd_get_payment_completed_date( $this->wpenon_payment->ID ) ), edd_get_gateway_checkout_label( edd_get_payment_gateway( $this->wpenon_payment->ID ) ) );
+                    }  
 					if ( get_post_meta( $this->wpenon_payment->ID, '_wpenon_deposit_refunded', true ) ) {
 						$payment_message .= ' ' . __( '(Lastschrift zurückgegangen)', 'wpenon' );
 					}

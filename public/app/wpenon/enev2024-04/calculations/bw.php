@@ -767,27 +767,30 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperatur
 	}
 }
 
-$heizungen[] = array(
-	'uebergabe' => $energieausweis->h_uebergabe,
-	'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
-	'erzeugung' => $energieausweis->h_erzeugung,
-);
+if (wpenon_erzeuger_mit_uebergabe_vorhanden($energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung, $energieausweis->h2_info, $energieausweis->h3_info)) {
+	$flaechenheizungstyp = $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null;
 
-if ($energieausweis->h2_info) {
 	$heizungen[] = array(
 		'uebergabe' => $energieausweis->h_uebergabe,
-		'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
-		'erzeugung' => $energieausweis->h2_erzeugung,
+		'flaechenheizungstyp' =>$flaechenheizungstyp,
+		'erzeugung' => $energieausweis->h_erzeugung,
 	);
-
-	if ($energieausweis->h3_info) {
+	
+	if ($energieausweis->h2_info) {
 		$heizungen[] = array(
 			'uebergabe' => $energieausweis->h_uebergabe,
-			'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
-			'erzeugung' => $energieausweis->h3_erzeugung,
+			'flaechenheizungstyp' =>$flaechenheizungstyp,
+			'erzeugung' => $energieausweis->h2_erzeugung,
 		);
+	
+		if ($energieausweis->h3_info) {
+			$heizungen[] = array(
+				'uebergabe' => $energieausweis->h_uebergabe,
+				'flaechenheizungstyp' =>$flaechenheizungstyp,
+				'erzeugung' => $energieausweis->h3_erzeugung,
+			);
+		}
 	}
-}
 
 $auslegungstemperaturen = wpenon_auslegungstemperatur($heizungen);
 

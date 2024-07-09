@@ -40,6 +40,8 @@ class Emails {
 		add_filter( 'edd_admin_notices_disabled', array( $this, '_hackAdminNotices' ), 10, 2 );
 
 		add_filter( 'edd_settings_emails', array( $this, '_addAdditionalEmailSettings' ) );
+
+        add_filter( 'wpenon_confirmation_content', array( $this, '_addConfirmationEmailSettings' ), 10, 2 );
 	}
 
 	public function _addEmailTags() {
@@ -341,35 +343,64 @@ class Emails {
 	}
 
 	public function _emailTagCustomerContactData( $payment_id, $mode = 'html' ) {
-		$customer_id = edd_get_payment_customer_id( $payment_id );
+        $gateway = \edd_get_payment_gateway( $payment_id );
 
-		$customer = new \EDD_Customer( $customer_id );
-		if ( ! $customer->id ) {
-			return '';
-		}
+        if ( $gateway == 'kauf_auf_rechnung') { 
+            $origdata = get_post_meta( $payment_id, 'orig_purchase_data', true );
 
-		$customer_meta = \WPENON\Util\CustomerMeta::getCustomerMeta( $customer_id );
+            $data = array(
+                __( 'Kundendaten:', 'wpenon' ),
+                $origdata['post_data']['edd_first'] . ' '. $origdata['post_data']['edd_last'] 
+            );
+    
+            if ( 'plain' !== $mode ) {
+                $data[0] = '<strong>' . $data[0] . '</strong>';
+            }
+    
+            if ( isset($origdata['post_data']['wpenon_business_name']) && $origdata['post_data']['wpenon_business_name'] != '' ) {
+                $data[] = $origdata['post_data']['wpenon_business_name'] . ', ';
+            }
+            $data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $origdata['post_data']['edd_email'];
+    
+            if ( !$origdata['post_data']['wpenon_telefon'] )  {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $origdata['post_data']['wpenon_telefon'];
+            } else {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
+            }
+        } else {
 
-		$data = array(
-			__( 'Kundendaten:', 'wpenon' ),
-			$customer->name,
-		);
+            $customer_id = edd_get_payment_customer_id( $payment_id );
 
-		if ( 'plain' !== $mode ) {
-			$data[0] = '<strong>' . $data[0] . '</strong>';
-		}
+            $customer = new \EDD_Customer( $customer_id );
+            if ( ! $customer->id ) {
+                return '';
+            }
+    
+            $customer_meta = \WPENON\Util\CustomerMeta::getCustomerMeta( $customer_id );
+    
+            $data = array(
+                __( 'Kundendaten:', 'wpenon' ),
+                $customer->name,
+            );
+    
+            if ( 'plain' !== $mode ) {
+                $data[0] = '<strong>' . $data[0] . '</strong>';
+            }
+    
+            if ( ! empty( $customer_meta['business_name'] ) ) {
+                $data[] = $customer_meta['business_name'];
+            }
+    
+            $data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $customer->email;
+    
+            if ( ! empty( $customer_meta['telefon'] ) ) {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $customer_meta['telefon'];
+            } else {
+                $data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
+            }
+        }
 
-		if ( ! empty( $customer_meta['business_name'] ) ) {
-			$data[] = $customer_meta['business_name'];
-		}
 
-		$data[] = __( 'Email-Adresse:', 'wpenon' ) . ' ' . $customer->email;
-
-		if ( ! empty( $customer_meta['telefon'] ) ) {
-			$data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . $customer_meta['telefon'];
-		} else {
-			$data[] = __( 'Telefonnummer:', 'wpenon' ) . ' ' . __( 'Nicht angegeben', 'wpenon' );
-		}
 
 		if ( 'plain' === $mode ) {
 			return implode( "\n", $data );
@@ -409,6 +440,7 @@ class Emails {
 	public function _maybeSendOrderConfirmationEmail( $payment_id, $payment_data = array() ) {
 		$gateway  = edd_get_payment_gateway( $payment_id );
 		$supports = edd_get_gateway_supports( $gateway );
+        
 		if ( in_array( 'manual_handling', $supports ) ) {
 			$this->send_bill_email( $payment_id );
 		}
@@ -700,4 +732,33 @@ class Emails {
 
 		return apply_filters( 'wpenon_email_legal', $text );
 	}
+
+    public function _addConfirmationEmailSettings ( $content, $energieausweis ) {
+        if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+
+            $content = <<<EOF
+Sehr geehrter Kunde,
+
+schön, dass Sie auf unserer Website {{site}} mit der Erstellung eines Energieausweises (Kennung {{en-title}}) begonnen haben.
+
+Typ: {{en-type}}
+
+Gebäudeadresse: {{en-address}}
+
+Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:
+
+{{en-link}}
+
+Bitte gehen Sie vertraulich mit diesem Link um und geben Sie ihn unter keinen Umständen an Dritte weiter, da diese andernfalls Zugriff auf den Energieausweis bekommen würden.
+
+Über diesen Link können Sie die Daten für Ihren Energieausweis jederzeit bearbeiten. Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.
+
+Mit freundlichen Grüßen
+
+Ihr Team von Enercity.de
+
+EOF;
+        }
+        return $content;
+    }
 }

@@ -53,6 +53,10 @@ add_filter( 'the_title', 'immoticketenergieausweis_the_title', 10, 2);
 
 function immoticketenergieausweis_email_signature($text)
 {
+    
+    if (edd_is_reseller_redirect_bill() ) {
+        return 'Mit freundlichen Grüßen<br/><br/>Ihr Team von enerctiy.de';
+    }
   return 'Mit freundlichen Grüßen<br/><br/>Ihr Team von Immoticket24.de';
 }
 add_filter('wpenon_email_signature', 'immoticketenergieausweis_email_signature');
@@ -209,6 +213,7 @@ function immoticketenergieausweis_payment_icons()
         $('#edd-gateway-' + value).trigger('change');
       });
 
+
       function maybeAddDoneCheckmark() {
         var $element = $(this);
 
@@ -233,6 +238,7 @@ function immoticketenergieausweis_payment_icons()
   </script>
   <p class="lead"><strong><?php _e('Bitte wählen Sie die Zahlungsmethode aus, mit der Sie Ihre Bestellung bezahlen möchten!', 'immoticketenergieausweis'); ?></strong></p>
   <div class="immoticket24-payment-buttons">
+    <?php if ( ! edd_is_reseller_redirect_bill() ) { ?>
     <button type="button" id="it24-paypal-button" class="btn btn-default">
       <span class="sr-only"><?php _e('PayPal', 'immoticketenergieausweis'); ?></span>
       <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/paypal.webp" alt="<?php _e('PayPal', 'immoticketenergieausweis'); ?>" />
@@ -253,9 +259,17 @@ function immoticketenergieausweis_payment_icons()
       <span class="sr-only"><?php _e('Kreditkarte', 'immoticketenergieausweis'); ?></span>
       <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/stripe.webp" alt="<?php _e('Kreditkarte', 'immoticketenergieausweis'); ?>" />
     </button>
-
+<?php } else { ?>
+    <button type="button" id="it24-kauf_auf_rechnung" class="btn btn-default">
+      <span class="sr-only"><?php _e('Kauf auf Rechnung', 'immoticketenergieausweis'); ?></span>
+      <img src="<?php echo get_template_directory_uri(); ?>/assets/img/payment/rechnung.webp" alt="<?php _e('Kauf auf Rechnung', 'immoticketenergieausweis'); ?>" />
+    </button>
+<?php } ?>
   </div>
 <?php
+
+
+
 }
 add_action('edd_payment_mode_after_gateways', 'immoticketenergieausweis_payment_icons');
 
@@ -276,6 +290,9 @@ add_filter('edd_settings_gateways', 'immoticketenergieausweis_edd_add_default_ga
 
 function immoticketenergieausweis_edd_allow_no_default_gateway($gateway)
 {
+    if ( edd_is_reseller_redirect_bill() ) {
+        return 'kauf_auf_rechnung';
+    }
   $original_option = edd_get_option('default_gateway', '');
   if (empty($original_option)) {
     return $original_option;
