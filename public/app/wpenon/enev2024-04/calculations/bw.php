@@ -6,39 +6,39 @@
  * @package wpenon
  */
 
-namespace Enev\Schema202404\Calculations;
+namespace Enev\Schema202403\Calculations;
 
-use Enev\Schema202404\Calculations\Gebaeude\Gebaeude;
-use Enev\Schema202404\Calculations\Gebaeude\Grundriss;
-use Enev\Schema202404\Calculations\Gebaeude\Anbau;
-use Enev\Schema202404\Calculations\Gebaeude\Grundriss_Anbau;
-use Enev\Schema202404\Calculations\Gebaeude\Keller;
+use Enev\Schema202403\Calculations\Gebaeude\Gebaeude;
+use Enev\Schema202403\Calculations\Gebaeude\Grundriss;
+use Enev\Schema202403\Calculations\Gebaeude\Anbau;
+use Enev\Schema202403\Calculations\Gebaeude\Grundriss_Anbau;
+use Enev\Schema202403\Calculations\Gebaeude\Keller;
 
-use Enev\Schema202404\Calculations\Anlagentechnik\Lueftung;
-use Enev\Schema202404\Calculations\Anlagentechnik\Photovoltaik_Anlage;
-use Enev\Schema202404\Calculations\Anlagentechnik\Uebergabesystem;
-use Enev\Schema202404\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
-use Enev\Schema202404\Calculations\Bauteile\Anbauboden;
-use Enev\Schema202404\Calculations\Bauteile\Anbaudecke;
-use Enev\Schema202404\Calculations\Bauteile\Anbaufenster;
-use Enev\Schema202404\Calculations\Bauteile\Anbauwand;
-use Enev\Schema202404\Calculations\Bauteile\Boden;
-use Enev\Schema202404\Calculations\Bauteile\Decke;
-use Enev\Schema202404\Calculations\Bauteile\Fenster;
-use Enev\Schema202404\Calculations\Bauteile\Flachdach;
-use Enev\Schema202404\Calculations\Bauteile\Heizkoerpernische;
-use Enev\Schema202404\Calculations\Bauteile\Kellerboden;
-use Enev\Schema202404\Calculations\Bauteile\Kellerwand;
-use Enev\Schema202404\Calculations\Bauteile\Pultdach;
-use Enev\Schema202404\Calculations\Bauteile\Rolladenkasten;
-use Enev\Schema202404\Calculations\Bauteile\Satteldach;
-use Enev\Schema202404\Calculations\Bauteile\Walmdach;
-use Enev\Schema202404\Calculations\Bauteile\Wand;
+use Enev\Schema202403\Calculations\Anlagentechnik\Lueftung;
+use Enev\Schema202403\Calculations\Anlagentechnik\Photovoltaik_Anlage;
+use Enev\Schema202403\Calculations\Anlagentechnik\Uebergabesystem;
+use Enev\Schema202403\Calculations\Anlagentechnik\Trinkwarmwasseranlage;
+use Enev\Schema202403\Calculations\Bauteile\Anbauboden;
+use Enev\Schema202403\Calculations\Bauteile\Anbaudecke;
+use Enev\Schema202403\Calculations\Bauteile\Anbaufenster;
+use Enev\Schema202403\Calculations\Bauteile\Anbauwand;
+use Enev\Schema202403\Calculations\Bauteile\Boden;
+use Enev\Schema202403\Calculations\Bauteile\Decke;
+use Enev\Schema202403\Calculations\Bauteile\Fenster;
+use Enev\Schema202403\Calculations\Bauteile\Flachdach;
+use Enev\Schema202403\Calculations\Bauteile\Heizkoerpernische;
+use Enev\Schema202403\Calculations\Bauteile\Kellerboden;
+use Enev\Schema202403\Calculations\Bauteile\Kellerwand;
+use Enev\Schema202403\Calculations\Bauteile\Pultdach;
+use Enev\Schema202403\Calculations\Bauteile\Rolladenkasten;
+use Enev\Schema202403\Calculations\Bauteile\Satteldach;
+use Enev\Schema202403\Calculations\Bauteile\Walmdach;
+use Enev\Schema202403\Calculations\Bauteile\Wand;
 
-use function Enev\Schema202404\Calculations\Helfer\berechne_fenster_flaeche;
-use function Enev\Schema202404\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
-use function Enev\Schema202404\Calculations\Helfer\berechne_rolladenkasten_flaeche;
-use function Enev\Schema202404\Calculations\Tabellen\uwert;
+use function Enev\Schema202403\Calculations\Helfer\berechne_fenster_flaeche;
+use function Enev\Schema202403\Calculations\Helfer\berechne_heizkoerpernische_flaeche;
+use function Enev\Schema202403\Calculations\Helfer\berechne_rolladenkasten_flaeche;
+use function Enev\Schema202403\Calculations\Tabellen\uwert;
 
 require_once __DIR__ . '/Referenzgebaeude.php';
 require_once __DIR__ . '/Helfer/Jahr.php';
@@ -696,7 +696,7 @@ if ($energieausweis->h2_info) {
 	}
 }
 
-if (!function_exists('Enev\Schema202404\Calculations\wpenon_temperatur_flaechenheizungen')) {
+if (!function_exists('Enev\Schema202403\Calculations\wpenon_temperatur_flaechenheizungen')) {
 	function wpenon_temperatur_flaechenheizungen($flaechenheizungstyp)
 	{
 		switch ($flaechenheizungstyp) {
@@ -706,12 +706,12 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_temperatur_flaechenh
 			case 'deckenheizung':
 				return '55/45';
 			default:
-				throw new Calculation_Exception(\sprintf('Flächenheizungstyp "%s" nicht bekannt.', $flaechenheizungstyp));
+				throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
 		}
 	}
 }
 
-if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperaturen')) {
+if (!function_exists('Enev\Schema202403\Calculations\wpenon_auslegungstemperaturen')) {
 	function wpenon_auslegungstemperaturen($erzeuger, $uebergabe, $flaechenheizungstyp)
 	{
 		if (empty($uebergabe)) {
@@ -739,7 +739,7 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperatur
 	}
 }
 
-if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperatur')) {
+if (!function_exists('Enev\Schema202403\Calculations\wpenon_auslegungstemperatur')) {
 	function wpenon_auslegungstemperatur($heizungen)
 	{
 		$auslegungstemperaturen = array();
@@ -767,44 +767,34 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_auslegungstemperatur
 	}
 }
 
-if (wpenon_erzeuger_mit_uebergabe_vorhanden($energieausweis->h_erzeugung, $energieausweis->h2_erzeugung, $energieausweis->h3_erzeugung, $energieausweis->h2_info, $energieausweis->h3_info)) {
-	$flaechenheizungstyp = $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null;
+$heizungen[] = array(
+	'uebergabe' => $energieausweis->h_uebergabe,
+	'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+	'erzeugung' => $energieausweis->h_erzeugung,
+);
 
+if ($energieausweis->h2_info) {
 	$heizungen[] = array(
 		'uebergabe' => $energieausweis->h_uebergabe,
-		'flaechenheizungstyp' =>$flaechenheizungstyp,
-		'erzeugung' => $energieausweis->h_erzeugung,
+		'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+		'erzeugung' => $energieausweis->h2_erzeugung,
 	);
-	
-	if ($energieausweis->h2_info) {
+
+	if ($energieausweis->h3_info) {
 		$heizungen[] = array(
 			'uebergabe' => $energieausweis->h_uebergabe,
-			'flaechenheizungstyp' =>$flaechenheizungstyp,
-			'erzeugung' => $energieausweis->h2_erzeugung,
+			'flaechenheizungstyp' => $energieausweis->h_uebergabe === 'flaechenheizung' ? $energieausweis->h_uebergabe_flaechenheizungstyp : null,
+			'erzeugung' => $energieausweis->h3_erzeugung,
 		);
-	
-		if ($energieausweis->h3_info) {
-			$heizungen[] = array(
-				'uebergabe' => $energieausweis->h_uebergabe,
-				'flaechenheizungstyp' =>$flaechenheizungstyp,
-				'erzeugung' => $energieausweis->h3_erzeugung,
-			);
-		}
 	}
+}
 
 $auslegungstemperaturen = wpenon_auslegungstemperatur($heizungen);
 
 // $auslegungstemperaturen = '70/55';
 
-$h2_info = $energieausweis->h2_info;
-$h3_info = $energieausweis->h3_info;
-
-$h_erzeugung = $energieausweis->h_erzeugung;
-$h2_erzeugung = $energieausweis->h2_erzeugung;
-$h3_erzeugung = $energieausweis->h3_erzeugung;
-
 // Wir rechnen vorerst nur mit einem Übergabesystem.
-if (wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info) && $energieausweis->h_uebergabe === 'flaechenheizung') {
+if ($energieausweis->h_uebergabe === 'flaechenheizung') {
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
@@ -817,10 +807,17 @@ if (wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erz
 		)
 	);
 } else {
-	$uebergabe_typ = $energieausweis->h_uebergabe;
+	$h2_info = $energieausweis->h2_info;
+	$h3_info = $energieausweis->h3_info;
+
+	$h_erzeugung = $energieausweis->h_erzeugung;
+	$h2_erzeugung = $energieausweis->h2_erzeugung;
+	$h3_erzeugung = $energieausweis->h3_erzeugung;
 
 	if (!wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info)) {
 		$uebergabe_typ = 'elektroheizungsflaechen';
+	} else {
+		$uebergabe_typ =  $energieausweis->h_uebergabe;
 	}
 
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
