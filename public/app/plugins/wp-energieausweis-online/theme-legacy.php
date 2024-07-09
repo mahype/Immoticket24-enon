@@ -53,6 +53,10 @@ add_filter( 'the_title', 'immoticketenergieausweis_the_title', 10, 2);
 
 function immoticketenergieausweis_email_signature($text)
 {
+    
+    if (edd_is_reseller_redirect_bill() ) {
+        return 'Mit freundlichen Grüßen<br/><br/>Ihr Team von enerctiy.de';
+    }
   return 'Mit freundlichen Grüßen<br/><br/>Ihr Team von Immoticket24.de';
 }
 add_filter('wpenon_email_signature', 'immoticketenergieausweis_email_signature');
