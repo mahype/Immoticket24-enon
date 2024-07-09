@@ -40,6 +40,8 @@ class Emails {
 		add_filter( 'edd_admin_notices_disabled', array( $this, '_hackAdminNotices' ), 10, 2 );
 
 		add_filter( 'edd_settings_emails', array( $this, '_addAdditionalEmailSettings' ) );
+
+        add_filter( 'wpenon_confirmation_content', array( $this, '_addConfirmationEmailSettings' ), 10, 2 );
 	}
 
 	public function _addEmailTags() {
@@ -730,4 +732,33 @@ class Emails {
 
 		return apply_filters( 'wpenon_email_legal', $text );
 	}
+
+    public function _addConfirmationEmailSettings ( $content, $energieausweis ) {
+        if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+
+            $content = <<<EOF
+Sehr geehrter Kunde,
+
+schön, dass Sie auf unserer Website {{site}} mit der Erstellung eines Energieausweises (Kennung {{en-title}}) begonnen haben.
+
+Typ: {{en-type}}
+
+Gebäudeadresse: {{en-address}}
+
+Sie haben jederzeit die Möglichkeit die Erstellung des Energieausweises unter folgendem Link fortzusetzen:
+
+{{en-link}}
+
+Bitte gehen Sie vertraulich mit diesem Link um und geben Sie ihn unter keinen Umständen an Dritte weiter, da diese andernfalls Zugriff auf den Energieausweis bekommen würden.
+
+Über diesen Link können Sie die Daten für Ihren Energieausweis jederzeit bearbeiten. Wenn Sie alle benötigten Angaben vollständig eingegeben haben, können Sie den Energieausweis bestellen.
+
+Mit freundlichen Grüßen
+
+Ihr Team von Enercity.de
+
+EOF;
+        }
+        return $content;
+    }
 }
