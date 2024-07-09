@@ -58,11 +58,12 @@ add_action('edd_stats_meta_box', function () {
 	foreach ($payments as $payment_id) {
 		$payment = edd_get_payment($payment_id);
 		$payment_url = admin_url('edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment->ID);
-		if ('revoked' === $payment->status) {
+		if( 'revoked' === $payment->status ) {
 			echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/<strong><span style="color:#F00">' . $payment->status_nicename . '</span></strong>)<br />';
 		} else {
 			echo '<a href="' . $payment_url . '">' . $payment->number . '</a> (' . $payment->gateway . '/' . $payment->status_nicename . ')<br />';
 		}
+		
 	}
 
 	$is_registered = !empty(trim(get_post_meta($post_id, 'registriernummer', true)));
@@ -93,13 +94,15 @@ require_once dirname(__FILE__) . '/customer-csv-generator.php';
 
 add_action('admin_menu', array(WPENON_Immoticket24_Customer_CSV_Generator::instance(), 'add_menu_page'));
 
-function wpenon_immoticket24_add_email_tags() {
+function wpenon_immoticket24_add_email_tags()
+{
 	edd_add_email_tag('certificate_data', __('Übersicht über die eingegebenen Energieausweis-Daten', 'wpenon'), 'wpenon_immoticket24_email_tag_certificate_data');
 }
 
 add_action('edd_add_email_tags', 'wpenon_immoticket24_add_email_tags');
 
-function wpenon_immoticket24_email_tag_certificate_data($payment_id) {
+function wpenon_immoticket24_email_tag_certificate_data($payment_id)
+{
 	$cart_details = edd_get_payment_meta_cart_details($payment_id);
 
 	if (!is_array($cart_details) || empty($cart_details)) {
@@ -167,7 +170,8 @@ function wpenon_immoticket24_email_tag_certificate_data($payment_id) {
 	return $output;
 }
 
-function wpenon_immoticket24_print_no_consumption_modal() {
+function wpenon_immoticket24_print_no_consumption_modal()
+{
 	list($klima_year, $klima_month) = array_map('absint', explode('_', get_option('wpenon_immoticket24_klimafaktoren_end', '2014_03')));
 	$klima_maximum_year = $klima_year - 2;
 ?>
@@ -324,7 +328,8 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 <?php
 }
 
-function wpenon_check_geg20() {
+function wpenon_check_geg20()
+{
 ?>
 	<div id="dialog_geg20_approval" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document" style="margin-top:140px;">
@@ -570,7 +575,8 @@ function wpenon_check_geg20() {
 
 add_action('wp_footer', 'wpenon_check_geg20');
 
-function wpenon_immoticket24_enqueue_no_consumption_modal($template_slug, $template_suffix) {
+function wpenon_immoticket24_enqueue_no_consumption_modal($template_slug, $template_suffix)
+{
 	if ('edit' !== $template_slug || 'vw' !== $template_suffix) {
 		return;
 	}
@@ -580,7 +586,8 @@ function wpenon_immoticket24_enqueue_no_consumption_modal($template_slug, $templ
 
 add_action('wpenon_frontend_view_init', 'wpenon_immoticket24_enqueue_no_consumption_modal', 10, 2);
 
-function wpenon_immoticket24_script_vars($vars) {
+function wpenon_immoticket24_script_vars($vars)
+{
 	$vars['grundriss_formen'] = wpenon_immoticket24_get_grundriss_formen();
 	$vars['anbau_formen']     = wpenon_immoticket24_get_anbau_formen();
 
@@ -589,27 +596,31 @@ function wpenon_immoticket24_script_vars($vars) {
 
 add_filter('wpenon_script_vars', 'wpenon_immoticket24_script_vars');
 
-function wpenon_immoticket24_enqueue_additional_js() {
+function wpenon_immoticket24_enqueue_additional_js()
+{
 	wp_enqueue_script('immoticket24-extra-js', WPENON_DATA_URL . '/assets/extra-scripts.js', array('wpenon-frontend'), false, true);
 }
 
 // add_action( 'wp_enqueue_scripts', 'wpenon_immoticket24_enqueue_additional_js' );
 
-function wpenon_immoticket24_pdf_seller_company_name($name, $pdf) {
+function wpenon_immoticket24_pdf_seller_company_name($name, $pdf)
+{
 	return 'Harsche-Energieberatung';
 }
 
 add_filter('wpenon_pdf_seller_company_name', 'wpenon_immoticket24_pdf_seller_company_name', 10, 2);
 
-function wpenon_immoticket24_pdf_seller_meta($meta, $pdf) {
-	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode('(Energieberater gem. §88 GEG)' . "\n" . 'Gartenstraße 25, 53498 Bad Breisig' . "\n" . 'Tel: 02633-4729016' . "\n");
+function wpenon_immoticket24_pdf_seller_meta($meta, $pdf)
+{
+	$meta = 'Inh. Roland Harsche' . "\n" . \WPENON\Util\Format::pdfEncode('(Energieberater gem. §88 GEG)' . "\n" . 'Gartenstraße 25, 53498 Bad Breisig');
 
 	return $meta;
 }
 
 add_filter('wpenon_pdf_seller_meta', 'wpenon_immoticket24_pdf_seller_meta', 10, 2);
 
-function wpenon_immoticket24_make_anlagenkeys($field_prefix, $field_suffix = '') {
+function wpenon_immoticket24_make_anlagenkeys($field_prefix, $field_suffix = '')
+{
 	if (!empty($field_suffix)) {
 		$field_suffix = '_' . $field_suffix;
 	}
@@ -621,7 +632,8 @@ function wpenon_immoticket24_make_anlagenkeys($field_prefix, $field_suffix = '')
 	);
 }
 
-function wpenon_immoticket24_address_field_labels($labels) {
+function wpenon_immoticket24_address_field_labels($labels)
+{
 	$labels['card_address']    = __('Straße und Hausnummer', 'wpenon');
 	$labels['card_address_2']  = __('Zusätzliche Adresszeile (optional)', 'wpenon');
 	$labels['card_city']       = __('Ort', 'wpenon');
@@ -634,7 +646,8 @@ function wpenon_immoticket24_address_field_labels($labels) {
 
 add_filter('wpenon_address_field_labels', 'wpenon_immoticket24_address_field_labels');
 
-function wpenon_immoticket24_render_receipt_pdf($payment, $seller_meta, $pdf) {
+function wpenon_immoticket24_render_receipt_pdf($payment, $seller_meta, $pdf)
+{
 	if ($pdf->is_bulk()) {
 		return;
 	}
@@ -711,7 +724,8 @@ function wpenon_immoticket24_render_receipt_pdf($payment, $seller_meta, $pdf) {
 
 add_action('wpenon_render_receipt_pdf', 'wpenon_immoticket24_render_receipt_pdf', 10, 3);
 
-function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false) {
+function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false)
+{
 	switch ($table) {
 		case 'uwerte':
 		case 'uwerte2019':
@@ -791,7 +805,8 @@ function wpenon_immoticket24_make_yearkey($year, $table, $gedaemmt = false) {
 	return false;
 }
 
-function wpenon_immoticket24_get_dach_formen() {
+function wpenon_immoticket24_get_dach_formen()
+{
 	return array(
 		'satteldach' => __('Satteldach', 'wpenon'),
 		'pultdach'   => __('Pultdach', 'wpenon'),
@@ -799,7 +814,8 @@ function wpenon_immoticket24_get_dach_formen() {
 	);
 }
 
-function wpenon_immoticket24_get_grundriss_formen() {
+function wpenon_immoticket24_get_grundriss_formen()
+{
 	// erstes Array-Element: Seitenlänge eingeben / Berechnungsformel?
 	// zweites Array-Element: Offset für Himmelsrichtung
 	return array(
@@ -856,7 +872,8 @@ function wpenon_immoticket24_get_grundriss_formen() {
 	);
 }
 
-function wpenon_immoticket24_get_grundriss_dropdown() {
+function wpenon_immoticket24_get_grundriss_dropdown()
+{
 	$formen = wpenon_immoticket24_get_grundriss_formen();
 	foreach ($formen as $key => &$value) {
 		$value = sprintf(__('Form %s', 'wpenon'), strtoupper($key));
@@ -865,7 +882,8 @@ function wpenon_immoticket24_get_grundriss_dropdown() {
 	return $formen;
 }
 
-function wpenon_immoticket24_get_anbau_formen() {
+function wpenon_immoticket24_get_anbau_formen()
+{
 	// erstes Array-Element: Seitenlänge eingeben / Berechnungsformel?
 	// zweites Array-Element: Offset für Himmelsrichtung
 	return array(
@@ -891,7 +909,8 @@ function wpenon_immoticket24_get_anbau_formen() {
 	);
 }
 
-function wpenon_immoticket24_get_anbau_dropdown() {
+function wpenon_immoticket24_get_anbau_dropdown()
+{
 	$formen = wpenon_immoticket24_get_anbau_formen();
 	foreach ($formen as $key => &$value) {
 		$value = sprintf(__('Form %s', 'wpenon'), strtoupper($key));
@@ -900,7 +919,8 @@ function wpenon_immoticket24_get_anbau_dropdown() {
 	return $formen;
 }
 
-function wpenon_immoticket24_get_himmelsrichtungen() {
+function wpenon_immoticket24_get_himmelsrichtungen()
+{
 	return array(
 		's'  => __('Süden', 'wpenon'),
 		'so' => __('Südosten', 'wpenon'),
@@ -913,23 +933,28 @@ function wpenon_immoticket24_get_himmelsrichtungen() {
 	);
 }
 
-function wpenon_immoticket24_get_pufferspeicher_erzeuger() {
+function wpenon_immoticket24_get_pufferspeicher_erzeuger()
+{
 	return array_values(array_flip(array_filter(wpenon_get_table_results('h_erzeugung', array(), array('speicher')))));
 }
 
-function wpenon_immoticket24_get_heizungsanlagen() {
+function wpenon_immoticket24_get_heizungsanlagen()
+{
 	return wpenon_get_table_results('h_erzeugung', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_warmwasseranlagen() {
+function wpenon_immoticket24_get_warmwasseranlagen()
+{
 	return wpenon_get_table_results('ww_erzeugung', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_heizungsanlagen2019() {
+function wpenon_immoticket24_get_heizungsanlagen2019()
+{
 	return wpenon_get_table_results('h_erzeugung2019', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_heizungsanlagen202101($field_regenerativ_art) {
+function wpenon_immoticket24_get_heizungsanlagen202101($field_regenerativ_art)
+{
 	$heaters = wpenon_get_table_results('h_erzeugung202001', array(), array('name'));
 
 	$remove_heaters = ['brennwertkesselverbessert', 'gasraumheizer'];
@@ -945,7 +970,8 @@ function wpenon_immoticket24_get_heizungsanlagen202101($field_regenerativ_art) {
 	return $heaters;
 }
 
-function wpenon_immoticket24_get_heizungsanlagen202001($energieausweis = '') {
+function wpenon_immoticket24_get_heizungsanlagen202001($energieausweis = '')
+{
 
 	$heaters = wpenon_get_table_results('h_erzeugung202001', array(), array('name'));
 
@@ -962,26 +988,31 @@ function wpenon_immoticket24_get_heizungsanlagen202001($energieausweis = '') {
 	return $heaters;
 }
 
-function wpenon_immoticket24_get_heizungsanlagen202002_vw() {
+function wpenon_immoticket24_get_heizungsanlagen202002_vw()
+{
 	$anlagen = wpenon_get_table_results('h_erzeugung202001', array(), array('name'));
 	unset($anlagen['brennwertkesselverbessert']);
 
 	return $anlagen;
 }
 
-function wpenon_immoticket24_get_warmwasseranlagen2019() {
+function wpenon_immoticket24_get_warmwasseranlagen2019()
+{
 	return wpenon_get_table_results('ww_erzeugung2019', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_warmwasseranlagen202001() {
+function wpenon_immoticket24_get_warmwasseranlagen202001()
+{
 	return wpenon_get_table_results('ww_erzeugung202001', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_lueftungsanlagen() {
+function wpenon_immoticket24_get_lueftungsanlagen()
+{
 	return wpenon_get_table_results('l_erzeugung', array(), array('name'));
 }
 
-function wpenon_immoticket24_get_energietraeger($with_units = false) {
+function wpenon_immoticket24_get_energietraeger($with_units = false)
+{
 	$table_slug = 'energietraeger';
 	if (strtotime('2016-01-01') <= strtotime(wpenon_get_reference_date('Y-m-d'))) {
 		$table_slug = 'energietraeger2016';
@@ -1000,7 +1031,8 @@ function wpenon_immoticket24_get_energietraeger($with_units = false) {
 	return $energietraeger;
 }
 
-function wpenon_immoticket24_get_energietraeger_name($slug, $is_with_units = false) {
+function wpenon_immoticket24_get_energietraeger_name($slug, $is_with_units = false)
+{
 	if ($is_with_units) {
 		$slug = wpenon_get_table_results('energietraeger_umrechnungen', array(
 			'bezeichnung' => array(
@@ -1025,7 +1057,8 @@ function wpenon_immoticket24_get_energietraeger_name($slug, $is_with_units = fal
 	return $energietraeger_name;
 }
 
-function wpenon_immoticket24_get_energietraeger_name_2021($slug, $is_with_units = false) {
+function wpenon_immoticket24_get_energietraeger_name_2021($slug, $is_with_units = false)
+{
 	if ($is_with_units) {
 		$slug = wpenon_get_table_results('energietraeger_umrechnungen', array(
 			'bezeichnung' => array(
@@ -1052,7 +1085,8 @@ function wpenon_immoticket24_get_energietraeger_name_2021($slug, $is_with_units 
 	return $energietraeger_name;
 }
 
-function wpenon_immoticket24_get_regenerativ_art_name($slug) {
+function wpenon_immoticket24_get_regenerativ_art_name($slug)
+{
 	$regenerativ_arten = array(
 		'keine' => 'Keine',
 		'solar' => 'Solaranlage',
@@ -1065,7 +1099,8 @@ function wpenon_immoticket24_get_regenerativ_art_name($slug) {
 	return 'Keine';
 }
 
-function wpenon_immoticket24_get_regenerativ_nutzung_name($slug) {
+function wpenon_immoticket24_get_regenerativ_nutzung_name($slug)
+{
 	$values = array(
 		'warmwasser'                 => 'Warmwasser',
 		'warmwasser_waermeerzeugung' => 'Warmwasser und Wärmeerzeugung',
@@ -1078,7 +1113,8 @@ function wpenon_immoticket24_get_regenerativ_nutzung_name($slug) {
 	return 'Keine';
 }
 
-function wpenon_immoticket24_get_fenster_bauarten() {
+function wpenon_immoticket24_get_fenster_bauarten()
+{
 	$_fenster = wpenon_get_table_results('uwerte', array(
 		'bezeichnung' => array(
 			'value'   => 'fenster_%',
@@ -1094,7 +1130,8 @@ function wpenon_immoticket24_get_fenster_bauarten() {
 	return $fenster;
 }
 
-function wpenon_immoticket24_get_fenster_bauarten_2021() {
+function wpenon_immoticket24_get_fenster_bauarten_2021()
+{
 	$_fenster = wpenon_get_table_results('uwerte2021', array(
 		'bezeichnung' => array(
 			'value'   => 'fenster_%',
@@ -1110,14 +1147,16 @@ function wpenon_immoticket24_get_fenster_bauarten_2021() {
 	return $fenster;
 }
 
-function wpenon_immoticket24_get_bauarten() {
+function wpenon_immoticket24_get_bauarten()
+{
 	return array(
 		'massiv' => __('Massiv', 'wpenon'),
 		'holz'   => __('Holz', 'wpenon'),
 	);
 }
 
-function wpenon_immoticket24_get_bauarten_boden() {
+function wpenon_immoticket24_get_bauarten_boden()
+{
 	return array(
 		'massiv'     => __('Massiv', 'wpenon'),
 		'holz'       => __('Holz', 'wpenon'),
@@ -1126,7 +1165,8 @@ function wpenon_immoticket24_get_bauarten_boden() {
 }
 
 
-function wpenon_immoticket24_get_bauarten_keller() {
+function wpenon_immoticket24_get_bauarten_keller()
+{
 	return array(
 		'holzhaus_holz'     => __('Holz', 'wpenon'),
 		'massiv_bis_20cm'   => __('Sonstige Massivwände bis 20 cm', 'wpenon'),
@@ -1134,20 +1174,23 @@ function wpenon_immoticket24_get_bauarten_keller() {
 	);
 }
 
-function wpenon_immoticket24_get_bauarten_holzhaus() {
+function wpenon_immoticket24_get_bauarten_holzhaus()
+{
 	return array(
 		'holz' => __('Holz', 'wpenon'),
 	);
 }
 
-function wpenon_immoticket24_get_bauarten_fachwerk() {
+function wpenon_immoticket24_get_bauarten_fachwerk()
+{
 	return array(
 		'lehm'       => __('Lehm-/Lehmziegelausfachung', 'wpenon'),
 		'vollziegel' => __('Vollziegel oder Massive Natursteinausfach', 'wpenon'),
 	);
 }
 
-function wpenon_immoticket24_get_bauarten_massiv() {
+function wpenon_immoticket24_get_bauarten_massiv()
+{
 	return array(
 		'bims'        => __('Hochlochziegel, Bimsbeton; z. B. Poroton', 'wpenon'),
 		'zweischalig' => __('Zweischalige Bauweise', 'wpenon'),
@@ -1156,7 +1199,8 @@ function wpenon_immoticket24_get_bauarten_massiv() {
 	);
 }
 
-function wpenon_immoticket24_get_g_wert($bauart, $reference = false) {
+function wpenon_immoticket24_get_g_wert($bauart, $reference = false)
+{
 	// g-Wert Bestimmung abhängig Fensterart und Baujahr
 
 	// g = 0,87 einfachverglasung 18599 T2, Tab.8
@@ -1189,7 +1233,8 @@ function wpenon_immoticket24_get_g_wert($bauart, $reference = false) {
 	return $g;
 }
 
-function wpenon_get_construction_year($construction_year, $field_year) {
+function wpenon_get_construction_year($construction_year, $field_year)
+{
 	if ($field_year <= $construction_year || empty($field_year)) {
 		return $construction_year;
 	}
@@ -1197,7 +1242,8 @@ function wpenon_get_construction_year($construction_year, $field_year) {
 	return $field_year;
 }
 
-function wpenon_immoticket24_get_klimafaktoren_zeitraeume202301() {
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202301()
+{
 	$zeitraeume = array();
 
 	$reference = wpenon_get_reference_date('timestamp');
@@ -1233,7 +1279,8 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202301() {
 }
 
 
-function wpenon_immoticket24_get_klimafaktoren_zeitraeume202101() {
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202101()
+{
 	$zeitraeume = array();
 
 	$reference = wpenon_get_reference_date('timestamp');
@@ -1268,7 +1315,8 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202101() {
 	return $zeitraeume;
 }
 
-function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001()
+{
 	$zeitraeume = array();
 
 	$reference = wpenon_get_reference_date('timestamp');
@@ -1298,7 +1346,8 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume202001() {
 	return $zeitraeume;
 }
 
-function wpenon_immoticket24_get_klimafaktoren_zeitraeume() {
+function wpenon_immoticket24_get_klimafaktoren_zeitraeume()
+{
 	$zeitraeume = array();
 
 	$reference = wpenon_get_reference_date('timestamp');
@@ -1327,7 +1376,8 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraeume() {
 	return $zeitraeume;
 }
 
-function wpenon_immoticket24_get_klimafaktoren_zeitraum_date($datum, $index = 0, $end = false, $format = 'coll') {
+function wpenon_immoticket24_get_klimafaktoren_zeitraum_date($datum, $index = 0, $end = false, $format = 'coll')
+{
 	$year = $month = '';
 	list($year, $month) = array_map('absint', explode('_', $datum));
 
@@ -1360,7 +1410,8 @@ function wpenon_immoticket24_get_klimafaktoren_zeitraum_date($datum, $index = 0,
 	return date_i18n($format, $date);
 }
 
-function wpenon_validate_buildingyear($value, $field) {
+function wpenon_validate_buildingyear($value, $field)
+{
 	$error = '';
 
 	if (!preg_match('/^([0-9]{4})$/', $value, $matches)) {
@@ -1375,7 +1426,8 @@ function wpenon_validate_buildingyear($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_year_greater_than($value, $field) {
+function wpenon_immoticket24_validate_year_greater_than($value, $field)
+{
 	$value = is_numeric($value) ? \WPENON\Util\Validate::int($value, $field) : $value;
 
 	if (isset($value['error']) || isset($value['warning'])) {
@@ -1398,7 +1450,8 @@ function wpenon_immoticket24_validate_year_greater_than($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_daemmung_baujahr($value, $field) {
+function wpenon_immoticket24_validate_daemmung_baujahr($value, $field)
+{
 	$baujahr_daemmung = filter_var($value, FILTER_VALIDATE_INT);
 	$baujahr_haus = filter_var($field['validate_dependencies'][0], FILTER_VALIDATE_INT);
 
@@ -1413,7 +1466,8 @@ function wpenon_immoticket24_validate_daemmung_baujahr($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_validate_anbau_s1($value, $field) {
+function wpenon_validate_anbau_s1($value, $field)
+{
 	$anbau_form = $field['validate_dependencies'][0];
 	$anbauwand_t_laenge = floatval(str_replace(",", ".", $field['validate_dependencies'][1]));
 	$anbauwand_s1_laenge = floatval(str_replace(",", ".", $value));
@@ -1434,7 +1488,8 @@ function wpenon_validate_anbau_s1($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_validate_anbau_s2($value, $field) {
+function wpenon_validate_anbau_s2($value, $field)
+{
 	$anbau_form = $field['validate_dependencies'][0];
 	$anbauwand_b_laenge = floatval(str_replace(",", ".", $field['validate_dependencies'][1]));
 	$anbauwand_s2_laenge = floatval(str_replace(",", ".", $value));
@@ -1452,7 +1507,8 @@ function wpenon_validate_anbau_s2($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_house_image_upload($value, $field) {
+function wpenon_immoticket24_validate_house_image_upload($value, $field)
+{
 	if (empty($value)) {
 		$error = __('Bitte laden Sie ein Foto der Außenansicht vom Gebäude hoch. Die Aufnahmen sind durch das Gebäudeenergiegesetz (GEG) gefordert, da ohne diese Aufnahmen keine Ausstellung erfolgen darf.', 'wpenon');
 	}
@@ -1461,7 +1517,8 @@ function wpenon_immoticket24_validate_house_image_upload($value, $field) {
 }
 
 
-function wpenon_immoticket24_validate_typenschild_image_upload($value, $field) {
+function wpenon_immoticket24_validate_typenschild_image_upload($value, $field)
+{
 	if (empty($value)) {
 		$error = __('Bitte laden Sie ein Foto vom Typenschild der Heizungsanlage hoch. Alternativ können Sie auch die Anlagenbeschreibung hochladen. Die Aufnahmen sind durch das Gebäudeenergiegesetz (GEG) gefordert, da ohne diese Aufnahmen keine Ausstellung erfolgen darf.', 'wpenon');
 	}
@@ -1469,7 +1526,8 @@ function wpenon_immoticket24_validate_typenschild_image_upload($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_month_year($value, $field) {
+function wpenon_immoticket24_validate_month_year($value, $field)
+{
 	$error = '';
 
 	if (empty($value)) {
@@ -1491,7 +1549,8 @@ function wpenon_immoticket24_validate_month_year($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_area_lower_than($value, $field) {
+function wpenon_immoticket24_validate_area_lower_than($value, $field)
+{
 	$value = \WPENON\Util\Validate::float($value, $field);
 	if (isset($value['error']) || isset($value['warning'])) {
 		return $value;
@@ -1509,7 +1568,8 @@ function wpenon_immoticket24_validate_area_lower_than($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_validate_fenster($value, $field) {
+function wpenon_immoticket24_validate_fenster($value, $field)
+{
 	$value = \WPENON\Util\Validate::float($value, $field);
 	if (isset($value['error']) || isset($value['warning'])) {
 		return $value;
@@ -1572,7 +1632,8 @@ function wpenon_immoticket24_validate_fenster($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 // @deprecated: wpenon_immoticket24_validate_at_least_one_fenster - Used in old schemas
-function wpenon_immoticket24_validate_at_least_one_fenster($value, $field) {
+function wpenon_immoticket24_validate_at_least_one_fenster($value, $field)
+{
 	$value = \WPENON\Util\Validate::float($value, $field);
 	if (isset($value['error']) || isset($value['warning'])) {
 		return $value;
@@ -1598,7 +1659,8 @@ function wpenon_immoticket24_validate_at_least_one_fenster($value, $field) {
 	return \WPENON\Util\Validate::formatResponse($value, $field, $error);
 }
 
-function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = null) {
+function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = null)
+{
 	$_modernisierungsempfehlungen = array(
 		'heizung'            => array(
 			'bauteil'      => 'Heizung',
@@ -1863,7 +1925,8 @@ function wpenon_immoticket24_get_modernisierungsempfehlungen($energieausweis = n
 	return $modernisierungsempfehlungen;
 }
 
-function wpenon_ec_has_heater($energieausweis, $heater_type) {
+function wpenon_ec_has_heater($energieausweis, $heater_type)
+{
 	$heatings = array('h');
 	if (isset($energieausweis->h2_info) && $energieausweis->h2_info) {
 		$heatings[] = 'h2';
@@ -1883,7 +1946,8 @@ function wpenon_ec_has_heater($energieausweis, $heater_type) {
 	return false;
 }
 
-function wpenon_immoticket24_needs_fenster_recommendations($fenster_bauart, $fenster_baujahr = 1990) {
+function wpenon_immoticket24_needs_fenster_recommendations($fenster_bauart, $fenster_baujahr = 1990)
+{
 	if ($fenster_baujahr >= 1995) {
 		return false;
 	}
@@ -1899,7 +1963,8 @@ function wpenon_immoticket24_needs_fenster_recommendations($fenster_bauart, $fen
 	return true;
 }
 
-function wpenon_immoticket24_show_empfehlungen_toggle($group) {
+function wpenon_immoticket24_show_empfehlungen_toggle($group)
+{
 	if (!is_admin()) {
 		return;
 	}
@@ -1939,7 +2004,8 @@ function wpenon_immoticket24_show_empfehlungen_toggle($group) {
 
 add_action('wpenon_form_group_basisdaten_after', 'wpenon_immoticket24_show_empfehlungen_toggle', 10, 1);
 
-function wpenon_immoticket24_save_empfehlungen_toggle($post_data, $energieausweis) {
+function wpenon_immoticket24_save_empfehlungen_toggle($post_data, $energieausweis)
+{
 	if (!isset($post_data['wpenon_immoticket24_empfehlungen_toggle']) || !wp_verify_nonce($post_data['wpenon_immoticket24_empfehlungen_toggle'], 'wpenon_immoticket24_empfehlungen_toggle')) {
 		return;
 	}
@@ -1956,11 +2022,13 @@ function wpenon_immoticket24_save_empfehlungen_toggle($post_data, $energieauswei
 
 add_action('wpenon_save_meta_boxes', 'wpenon_immoticket24_save_empfehlungen_toggle', 10, 2);
 
-function wpenon_immoticket24_is_empfehlung_active($key, $energieausweis) {
+function wpenon_immoticket24_is_empfehlung_active($key, $energieausweis)
+{
 	return !get_post_meta($energieausweis->id, 'wpenon_immoticket24_disable_empfehlung_' . $key, true);
 }
 
-function wpenon_immoticket24_allow_manual_completion_trigger() {
+function wpenon_immoticket24_allow_manual_completion_trigger()
+{
 	global $edd_payments_page;
 
 	add_action('load-' . $edd_payments_page, 'wpenon_immoticket24_allow_manual_completion');
@@ -1968,11 +2036,13 @@ function wpenon_immoticket24_allow_manual_completion_trigger() {
 
 add_action('admin_menu', 'wpenon_immoticket24_allow_manual_completion_trigger', 100);
 
-function wpenon_immoticket24_allow_manual_completion() {
+function wpenon_immoticket24_allow_manual_completion()
+{
 	remove_filter('edd_should_update_payment_status', 'wpenon_immoticket24_maybe_prevent_completion', 10);
 }
 
-function wpenon_immoticket24_send_needs_review_email($payment_id, $reason) {
+function wpenon_immoticket24_send_needs_review_email($payment_id, $reason)
+{
 	$payment_title = get_the_title($payment_id);
 
 	$from_name  = edd_get_option('from_name', wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES));
@@ -2002,12 +2072,12 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason) {
 	$emails->__set('headers', $headers);
 	$emails->__set('heading', __('Überprüfung benötigt', 'wpenon'));
 
-	$slack_text = 'Neue Bestellung ' . $payment_title . ' - Überprüfung benötigt. Grund: ' . strip_tags($reason) . "\n";
-	$slack_text .= 'https://energieausweis.de/core/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment_id;
+	$slack_text = 'Neue Bestellung ' . $payment_title . ' - Überprüfung benötigt. Grund: ' . strip_tags( $reason ) . "\n";
+	$slack_text.= 'https://energieausweis.de/core/wp-admin/edit.php?post_type=download&page=edd-payment-history&view=view-order-details&id=' . $payment_id;
 
 	$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
-	wpenonSendSlackNotification($slack_webhook_url, $slack_text);
+	wpenonSendSlackNotification($slack_webhook_url, $slack_text );
 
 	$email_adresses = array_merge(edd_get_admin_notice_emails(), ['plausibilitaetscheck@immoticket24.de']);
 
@@ -2015,19 +2085,20 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason) {
 }
 
 function wpenonSendSlackNotification($webhook_url, $text) {
-	$data = ['text' => $text];
-	$options = [
-		'http' => [
-			'header'  => "Content-type: application/json\r\n",
-			'method'  => 'POST',
-			'content' => json_encode($data)
-		]
-	];
-	$context = stream_context_create($options);
-	file_get_contents($webhook_url, false, $context);
+    $data = ['text' => $text];
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => json_encode($data)
+        ]
+    ];
+    $context = stream_context_create($options);
+    file_get_contents( $webhook_url, false, $context);
 }
 
-function wpenon_immoticket24_show_certificate_checked($group) {
+function wpenon_immoticket24_show_certificate_checked($group)
+{
 	if (!is_admin()) {
 		return;
 	}
@@ -2065,7 +2136,8 @@ function wpenon_immoticket24_show_certificate_checked($group) {
 
 add_action('wpenon_form_group_basisdaten_after', 'wpenon_immoticket24_show_certificate_checked', 10, 1);
 
-function wpenon_immoticket24_save_certificate_checked($post_data, $energieausweis) {
+function wpenon_immoticket24_save_certificate_checked($post_data, $energieausweis)
+{
 	$certificate_checked = false;
 	if (isset($post_data['wpenon_immoticket24_certificate_checked']) && $post_data['wpenon_immoticket24_certificate_checked']) {
 		$certificate_checked = true;
@@ -2079,7 +2151,8 @@ function wpenon_immoticket24_save_certificate_checked($post_data, $energieauswei
 
 add_action('wpenon_save_meta_boxes', 'wpenon_immoticket24_save_certificate_checked', 10, 2);
 
-function wpenon_immoticket24_maybe_check_certificate($post_id, $payment_id) {
+function wpenon_immoticket24_maybe_check_certificate($post_id, $payment_id)
+{
 	$fees = edd_get_payment_fees($payment_id);
 
 	$fee_ids = wp_list_pluck($fees, 'id');
@@ -2096,7 +2169,8 @@ function wpenon_immoticket24_maybe_check_certificate($post_id, $payment_id) {
 
 add_action('edd_complete_download_purchase', 'wpenon_immoticket24_maybe_check_certificate', 5, 2);
 
-function wpenon_immoticket24_maybe_prevent_payment_complete_actions($value, $energieausweis) {
+function wpenon_immoticket24_maybe_prevent_payment_complete_actions($value, $energieausweis)
+{
 	if (!$value) {
 		return $value;
 	}
@@ -2110,7 +2184,8 @@ function wpenon_immoticket24_maybe_prevent_payment_complete_actions($value, $ene
 
 add_filter('wpenon_execute_complete_actions', 'wpenon_immoticket24_maybe_prevent_payment_complete_actions', 10, 2);
 
-function wpenon_immoticket24_is_pdf_preview($value, $energieausweis) {
+function wpenon_immoticket24_is_pdf_preview($value, $energieausweis)
+{
 	if ($value) {
 		return $value;
 	}
@@ -2124,7 +2199,8 @@ function wpenon_immoticket24_is_pdf_preview($value, $energieausweis) {
 
 add_filter('wpenon_is_pdf_preview', 'wpenon_immoticket24_is_pdf_preview', 10, 2);
 
-function wpenon_immoticket24_show_fenster_table() {
+function wpenon_immoticket24_show_fenster_table()
+{
 ?>
 	<div class="col-md-4 col-sm-4 col-xs-12 control-label"></div>
 	<div class="col-md-7 col-sm-7 col-xs-11">
@@ -2170,7 +2246,8 @@ function wpenon_immoticket24_show_fenster_table() {
 
 add_action('wpenon_form_group_bauteile_fenster_before', 'wpenon_immoticket24_show_fenster_table', 1);
 
-function wpenon_immoticket24_show_wohnung_warning() {
+function wpenon_immoticket24_show_wohnung_warning()
+{
 ?>
 	<div class="alert alert-warning">
 		<p>
@@ -2183,7 +2260,8 @@ function wpenon_immoticket24_show_wohnung_warning() {
 
 add_action('wpenon_form_group_gebaeude_before', 'wpenon_immoticket24_show_wohnung_warning');
 
-function wpenon_immoticket24_show_gebaeude_table() {
+function wpenon_immoticket24_show_gebaeude_table()
+{
 	if (current_time('timestamp') >= strtotime('2017-07-01')) {
 		return;
 	}
@@ -2204,7 +2282,8 @@ function wpenon_immoticket24_show_gebaeude_table() {
 
 add_action('wpenon_form_group_gebaeude_before', 'wpenon_immoticket24_show_gebaeude_table');
 
-function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand($energieausweis) {
+function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand($energieausweis)
+{
 	$energietraeger_fields = array('h_energietraeger', 'h2_energietraeger', 'h3_energietraeger', 'ww_energietraeger');
 	foreach ($energietraeger_fields as $energietraeger_field) {
 		if (false !== strpos($energieausweis->$energietraeger_field, '_kwhheizwert')) {
@@ -2217,7 +2296,8 @@ function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand($energi
 
 add_filter('wpenon_admin_edit_certificate', 'wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand', 10, 1);
 
-function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand_filter($data, $energieausweis) {
+function wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand_filter($data, $energieausweis)
+{
 	wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand($energieausweis);
 
 	return $data;
@@ -2228,7 +2308,8 @@ add_filter('wpenon_edit_page_data', 'wpenon_immoticket24_migrate_old_energietrae
 add_filter('wpenon_editoverview_page_data', 'wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand_filter', 10, 2);
 add_filter('wpenon_purchase_page_data', 'wpenon_immoticket24_migrate_old_energietraeger_fields_on_demand_filter', 10, 2);
 
-function wpenon_immoticket24_check_global_certificate_validation_results($results, $energieausweis) {
+function wpenon_immoticket24_check_global_certificate_validation_results($results, $energieausweis)
+{
 	if (property_exists($energieausweis, 'type') && 'bw' === $energieausweis->type) {
 		$grundriss_form = !empty($results['validated']['grundriss_form']) ? $results['validated']['grundriss_form'] : $energieausweis->grundriss_form;
 
@@ -2273,7 +2354,8 @@ function wpenon_immoticket24_check_global_certificate_validation_results($result
 
 add_filter('wpenon_validation_results', 'wpenon_immoticket24_check_global_certificate_validation_results', 10, 2);
 
-function wpenon_immoticket24_render_payments_per_page_filter() {
+function wpenon_immoticket24_render_payments_per_page_filter()
+{
 	$choices = array(
 		'-1'  => __('Alle anzeigen', 'wpenon'),
 		'30'  => sprintf(__('%s anzeigen', 'wpenon'), number_format_i18n(30)),
@@ -2303,7 +2385,8 @@ function wpenon_immoticket24_render_payments_per_page_filter() {
 
 add_action('edd_payment_advanced_filters_after_fields', 'wpenon_immoticket24_render_payments_per_page_filter');
 
-function wpenon_immoticket24_filter_payments_per_page($per_page) {
+function wpenon_immoticket24_filter_payments_per_page($per_page)
+{
 	/* Hack EDD: Add the following line into the constructor of the EDD_Payment_History_Table class:
 	$this->per_page = apply_filters( 'edd_wpenon_payments_per_page', $this->per_page ); */
 
@@ -2316,7 +2399,8 @@ function wpenon_immoticket24_filter_payments_per_page($per_page) {
 
 add_filter('edd_wpenon_payments_per_page', 'wpenon_immoticket24_filter_payments_per_page');
 
-function wpenon_immoticket24_maybe_generate_payment_csv_bulk() {
+function wpenon_immoticket24_maybe_generate_payment_csv_bulk()
+{
 	if ('edit.php' !== $GLOBALS['pagenow']) {
 		return;
 	}
@@ -2401,7 +2485,8 @@ function wpenon_immoticket24_maybe_generate_payment_csv_bulk() {
 
 add_action('current_screen', 'wpenon_immoticket24_maybe_generate_payment_csv_bulk');
 
-function wpenon_immoticket24_add_payment_csv_bulk_action($actions) {
+function wpenon_immoticket24_add_payment_csv_bulk_action($actions)
+{
 	$actions['wpenon-csv-view'] = __('CSV-Datei herunterladen', 'wpenon');
 
 	return $actions;
