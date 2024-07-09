@@ -144,11 +144,11 @@ class Edd_Payment_Emails implements Actions, Filters, Task
     danke für Ihr Vertrauen. Sie können den Ausweis ab sofort unter folgendem Link herunterladen: 
     %s herunterladen.
     
-    Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet. Sobald die Freischaltung erfolgt ist, erhalten Sie eine Bestellbestätigungsmail an Ihre Email-Adresse gesendet.
+    Sollte der Energieausweis noch keine Registriernummer beinhalten, so befindet sich dieser noch in der finalen Prüfung und wird in Kürze freigeschaltet.
     
     Mit freundlichen Grüßen
     
-    Ihr Team von Immoticket24.de', $ec_url);
+    Ihr Team von enercity.de', $ec_url);
     
     
         } else {
