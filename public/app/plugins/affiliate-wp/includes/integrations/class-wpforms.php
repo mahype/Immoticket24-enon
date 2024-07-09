@@ -1333,7 +1333,7 @@ class Affiliate_WP_WPForms extends Affiliate_WP_Base {
 
 		// Login URL to the affiliate area.
 		if ( 'affiliate_login_url' === $tag ) {
-			$affiliate_login_url = get_permalink( affiliate_wp()->settings->get( 'affiliates_page' ) );
+			$affiliate_login_url = get_permalink( affiliatewp_get_affiliate_login_page_id() );
 			$content = str_replace( '{affiliate_login_url}', $affiliate_login_url, $content );
 		}
 

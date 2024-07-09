@@ -42,9 +42,12 @@ $autoload = array(
 	'AffWP\Utils\Environment_Checker',
 	'AffiliateWP\Utils\Icons',
 	'AffiliateWP\Affiliate_Area_Creatives',
+	'AffiliateWP\Affiliate_Links',
 	'AffiliateWP\Admin\Starting_Affiliate_ID',
 	'AffiliateWP\Admin\Addons',
 	'AffiliateWP\Admin\DRM\DRM_Controller',
+	'AffiliateWP\Installation_Tools',
+	'AffiliateWP\Affiliate_Area',
 );
 
 spl_autoload_register( function( $filename ) use ( $autoload ) {

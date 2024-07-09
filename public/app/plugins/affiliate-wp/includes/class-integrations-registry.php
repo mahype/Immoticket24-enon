@@ -379,11 +379,6 @@ class Integrations_Registry extends Utils\Registry {
 			'class' => '\Affiliate_WP_Ninja_Forms',
 		) );
 
-		$this->add_integration( 'optimizemember', array(
-			'name'  => 'OptimizeMember',
-			'class' => '\Affiliate_WP_OptimizeMember',
-		) );
-
 		$this->add_integration( 'paypal', array(
 			'name'  => 'PayPal Buttons',
 			'class' => '\Affiliate_WP_PayPal',
@@ -403,11 +398,6 @@ class Integrations_Registry extends Utils\Registry {
 			'name'     => 'Restrict Content Pro',
 			'class'    => '\Affiliate_WP_RCP',
 			'supports' => array( 'sales_reporting' ),
-		) );
-
-		$this->add_integration( 's2member', array(
-			'name'  => 's2Member',
-			'class' => '\Affiliate_WP_S2Member',
 		) );
 
 		$this->add_integration( 'sproutinvoices', array(

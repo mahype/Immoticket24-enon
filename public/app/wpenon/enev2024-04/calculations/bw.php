@@ -706,7 +706,7 @@ if (!function_exists('Enev\Schema202404\Calculations\wpenon_temperatur_flaechenh
 			case 'deckenheizung':
 				return '55/45';
 			default:
-				throw new Calculation_Exception('Flächenheizungstyp nicht bekannt.');
+				throw new Calculation_Exception(\sprintf('Flächenheizungstyp "%s" nicht bekannt.', $flaechenheizungstyp));
 		}
 	}
 }
@@ -792,15 +792,43 @@ if (wpenon_erzeuger_mit_uebergabe_vorhanden($energieausweis->h_erzeugung, $energ
 		}
 	}
 
+$auslegungstemperaturen = wpenon_auslegungstemperatur($heizungen);
+
+// $auslegungstemperaturen = '70/55';
+
+$h2_info = $energieausweis->h2_info;
+$h3_info = $energieausweis->h3_info;
+
+$h_erzeugung = $energieausweis->h_erzeugung;
+$h2_erzeugung = $energieausweis->h2_erzeugung;
+$h3_erzeugung = $energieausweis->h3_erzeugung;
+
+// Wir rechnen vorerst nur mit einem Übergabesystem.
+if (wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info) && $energieausweis->h_uebergabe === 'flaechenheizung') {
 	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
 		new Uebergabesystem(
 			gebaeude: $gebaeude,
 			typ: $energieausweis->h_uebergabe,
-			auslegungstemperaturen: wpenon_auslegungstemperatur($heizungen),
+			auslegungstemperaturen: $auslegungstemperaturen,
 			prozentualer_anteil: 100, // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
-			flaechenheizungstyp: $flaechenheizungstyp,
+			flaechenheizungstyp: $energieausweis->h_uebergabe_flaechenheizungstyp,
 			// mindestdaemmung: $energieausweis->h_uebergabe_mindestdaemmung
 			mindestdaemmung: true
+		)
+	);
+} else {
+	$uebergabe_typ = $energieausweis->h_uebergabe;
+
+	if (!wpenon_erzeuger_mit_uebergabe_vorhanden($h_erzeugung, $h2_erzeugung, $h3_erzeugung, $h2_info, $h3_info)) {
+		$uebergabe_typ = 'elektroheizungsflaechen';
+	}
+
+	$gebaeude->heizsystem()->uebergabesysteme()->hinzufuegen(
+		new Uebergabesystem(
+			gebaeude: $gebaeude,
+			typ: $uebergabe_typ,
+			auslegungstemperaturen: $auslegungstemperaturen,
+			prozentualer_anteil: 100 // Erst 100%, später dann anteilmäßig mit $energieausweis->h_uebergabe_anteil
 		)
 	);
 }

@@ -4,7 +4,6 @@
  * @since 2.8
  */
 
-
 /**
  * Internal Dependencies
  */
@@ -22,7 +21,7 @@ const name = 'affiliatewp/affiliate-area';
 const settings = {
 	title: __( 'Affiliate Area', 'affiliate-wp' ),
 	description: __(
-		'Displays the affiliate registration and login forms to a logged out user. A logged-in user will see the Affiliate Area instead of these forms.',
+		'Displays the Affiliate Area for logged-in users.',
 		'affiliate-wp'
 	),
 	keywords: [
@@ -32,10 +31,12 @@ const settings = {
 	],
 	category: 'affiliatewp',
 	icon,
+	apiVersion: 2,
 	supports: {
 		html: false,
 	},
 	edit,
 	save,
-}
+};
+
 export { name, settings };

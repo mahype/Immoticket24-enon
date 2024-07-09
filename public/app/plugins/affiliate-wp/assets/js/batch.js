@@ -121,7 +121,10 @@ jQuery(document).ready(function($) {
 						} else if ( response.data.done ) {
 
 							spinner.remove();
-							notice_wrap.html('<div id="affwp-batch-success" class="updated notice"><p class="affwp-batch-success">' + response.data.message + '</p></div>');
+
+							if ( '' !== response.data.message ) {
+								notice_wrap.html( '<div id="affwp-batch-success" class="updated notice"><p class="affwp-batch-success">' + response.data.message + '</p></div>' );
+							}
 
 							if ( response.data.url ) {
 
@@ -142,9 +145,14 @@ jQuery(document).ready(function($) {
 							}
 
 							if( true === dismiss_on_complete ){
-								setTimeout( function(){
-									form.parent( '.notice' ).remove();
-								}, 3000 );
+								setTimeout(
+									function(){
+										form.parent( '.notice' ).remove();
+									},
+									'' === response.data.message
+										? 0 // For empty notices, we don't need to wait.
+										: 3000
+								);
 							}
 
 						} else {

@@ -489,7 +489,7 @@ class UsedCSS {
 			 *
 			 * @since 3.11.4
 			 *
-			 * @param type  $url url to be rewritten.
+			 * @param string $url url to be rewritten.
 			 */
 			$font_url = apply_filters( 'rocket_font_url', $font_url );
 
@@ -615,7 +615,7 @@ class UsedCSS {
 		$links = '';
 
 		foreach ( $urls as $url ) {
-			$links .= '<link rel="preload" as="font" href="' . esc_url( $url ) . '" crossorigin>';
+			$links .= '<link rel="preload" data-rocket-preload as="font" href="' . esc_url( $url ) . '" crossorigin>';
 		}
 
 		return $links;

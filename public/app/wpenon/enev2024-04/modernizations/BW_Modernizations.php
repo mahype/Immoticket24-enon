@@ -12,6 +12,79 @@ require_once(dirname(__FILE__) . '/Modernizations.php');
 class BW_Modernizations extends Modernizations
 {
 	/**
+	 * Needs heater.
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	protected function needs_heater() {
+		$heatings = ['h'];
+
+		if ( isset( $this->energieausweis->h2_info ) && $this->energieausweis->h2_info ) {
+			$heatings[] = 'h2';
+
+			if ( isset( $this->energieausweis->h3_info ) && $this->energieausweis->h3_info ) {
+				$heatings[] = 'h3';
+			}
+		}
+
+		// Standardkessel check
+		if ( count($heatings) === 1 && $this->energieausweis->h_erzeugung === 'standardkessel') {
+			return true;
+		} else {
+			// Wenn Standardkessel und Deckungsanteil >= 45%
+			foreach ( $heatings as $heating ) {
+				$erzeugung_field = $heating . '_erzeugung';
+				$anteil_field = $heating . '_deckungsanteil';
+	
+				$erzeugung = $this->energieausweis->$erzeugung_field;
+				$anteil = $this->energieausweis->$anteil_field;
+	
+				if( $erzeugung === 'standardkessel' && $anteil >= 45 ) {
+					return true;
+				}
+	
+			}
+		}
+
+		$max_age = 30;
+
+		$current_year = absint( current_time( 'Y' ) );
+
+		$types_general = array(
+			'elektronachtspeicherheizung',
+		);
+
+		$types_older_max_age  = array(
+			'gasraumheizer',
+			'elektrodirektheizgeraet',
+			'oelofenverdampfungsbrenner',
+			'kohleholzofen',
+		);
+
+		foreach ( $heatings as $heating ) {
+			$erzeugung_field = $heating . '_erzeugung';
+			$baujahr_field = $heating . '_baujahr';
+
+			$erzeugung = $this->energieausweis->$erzeugung_field;
+			$baujahr = $this->energieausweis->$baujahr_field;
+
+			// Erzeuger bei denen generell ausgetauscht werden soll
+			if ( in_array($erzeugung, $types_general, true ) ) {
+				return true;
+			}
+
+			// Erzeuger bei denen ausgetauscht werden soll, wenn sie älter als 30 Jahre sind
+			if ( in_array($erzeugung, $types_older_max_age, true ) && ! empty( $baujahr ) && $baujahr<= $current_year - $max_age ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Needs wand.
 	 *
 	 * @return bool

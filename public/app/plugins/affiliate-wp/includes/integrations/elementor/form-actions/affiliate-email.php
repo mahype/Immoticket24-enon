@@ -10,6 +10,8 @@
 
 class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Classes\Action_Base {
 
+	use Elementor_Shared_Utils;
+
 	/**
 	 * Get the unique name of the action.
 	 *
@@ -43,8 +45,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 	 */
 	public function run( $record, $ajax_handler ) : void {
 
-		$affiliate_registration = $record->get_form_settings( 'affiliate_registration' );
-		if ( empty( $affiliate_registration ) || 'yes' !== $affiliate_registration ) {
+		if ( ! $this->is_affiliate_registration( $this->get_affiliate_registration_setting( $record ) ) ) {
 			return;
 		}
 
@@ -80,7 +81,7 @@ class Affiliate_Email_After_Registration extends \ElementorPro\Modules\Forms\Cla
 		);
 
 		// Affiliate login URL.
-		$affiliate_login_url = get_permalink( affiliate_wp()->settings->get( 'affiliates_page' ) );
+		$affiliate_login_url = get_permalink( affiliatewp_get_affiliate_login_page_id() );
 
 		// Affiliate username.
 		$current_user = wp_get_current_user();

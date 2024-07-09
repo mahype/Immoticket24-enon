@@ -76,6 +76,8 @@ class Affiliate_WP_Admin_Notices {
 		add_action( 'admin_notices',               array( $this,     'show_notices'     ) );
 		add_action( 'wp_ajax_affwp_dismiss_promo', array( $this,     'dismiss_promo'    ) );
 		add_action( 'affwp_dismiss_notices',       array( $this,     'dismiss_notices'  ) );
+		add_action( 'admin_print_scripts',         array( $this,     'hide_non_affiliatewp_notices' ) );
+		add_action( 'admin_head',                  array( $this,     'hide_non_affiliatewp_notices' ), PHP_INT_MAX );
 	}
 
 	/**
@@ -248,6 +250,10 @@ class Affiliate_WP_Admin_Notices {
 
 		if ( false === affwp_has_upgrade_completed( 'upgrade_v2160_update_creative_names' ) ) {
 			$output .= self::show_notice( 'upgrade_v2160_update_creative_names', false );
+		}
+
+		if ( false === affwp_has_upgrade_completed( 'upgrade_v2250_create_login_registration_pages' ) ) {
+			$output .= self::show_notice( 'upgrade_v2250_create_login_registration_pages', false );
 		}
 
 		// Payouts Service.
@@ -914,6 +920,100 @@ class Affiliate_WP_Admin_Notices {
 		// Try to show the creative name upgrade notice.
 		$this->creative_name_upgrade_notice();
 
+		// Try to show the login and registration notice.
+		$this->create_login_registration_pages_notice();
+	}
+
+	/**
+	 * Displays an upgrade notice for the Login and Registration pages upgrade.
+	 *
+	 * This notice will be displayed for users with no Login and Registration pages set yet.
+	 * Two option are available, either to create the pages or dismiss and leave as it is.
+	 *
+	 * @since 2.25.0
+	 */
+	public function create_login_registration_pages_notice() {
+
+		if ( ! affiliatewp_is_settings_page( 'affiliates' ) ) {
+			return; // Shows only in the Affiliates settings tab.
+		}
+
+		$notice_id = 'upgrade_v2250_create_login_registration_pages';
+
+		if ( affwp_has_upgrade_completed( $notice_id ) ) {
+			return; // Bail if it was already completed.
+		}
+
+		$this->add_notice(
+			$notice_id,
+			[
+				'class'      => 'notice notice-info is-dismissible',
+				'capability' => 'edit_pages',
+				'autop'      => false,
+				'message'    => function() {
+
+					ob_start();
+					// Enqueue admin JS for the batch processor.
+					affwp_enqueue_admin_js();
+					?>
+
+					<h4><?php esc_html_e( 'New Page Options for Affiliate Login and Registration', 'affiliate-wp' ); ?></h4>
+					<p>
+						<?php
+						echo wp_kses(
+							sprintf(
+								/* translators: 1: Link to the doc page for the affiliate login page. 2: Link to the doc page for the affiliate registration page. */
+								__(
+									'We have introduced two new page options to improve the user experience for your affiliates: separate <a href="%1$s" target="_blank" rel="noopener noreferrer">Affiliate Login</a> and <a href="%2$s" target="_blank" rel="noopener noreferrer">Affiliate Registration</a> pages.',
+									'affiliate-wp'
+								),
+								esc_url( 'https://affiliatewp.com/docs/affiliate-login-page' ),
+								esc_url( 'https://affiliatewp.com/docs/affiliate-registration-page' )
+							),
+							affwp_kses()
+						);
+						?>
+					</p>
+					<form
+						method="post"
+						class="affwp-batch-form affwp-batch-form--has-choices"
+						data-dismiss-when-complete="true"
+						data-batch_id="create-login-registration-pages"
+						data-nonce="<?php echo esc_attr( wp_create_nonce( 'create-login-registration-pages_step_nonce' ) ); ?>">
+						<p>
+							<input id="create_login_registration_pages_choice_yes" data-button-label="<?php esc_html_e( 'Create Pages and Update Settings', 'affiliate-wp' ); ?>" type="radio" name="create_login_registration_pages_choice" value="yes">
+							<label for="create_login_registration_pages_choice_yes"><?php echo wp_kses( __( 'Create new pages and update settings.', 'affiliate-wp' ), affwp_kses() ); ?></label>
+						</p>
+
+						<p>
+							<input id="create_login_registration_pages_choice_no" data-button-label="<?php esc_html_e( 'Keep Current Setup and Dismiss', 'affiliate-wp' ); ?>" type="radio" name="create_login_registration_pages_choice" value="no">
+							<label for="create_login_registration_pages_choice_no"><?php echo wp_kses( __( 'Keep my current setup.', 'affiliate-wp' ), affwp_kses() ); ?></label>
+						</p>
+						<p class="affwp-batch-form__submit-container">
+							<?php
+
+							submit_button(
+								__( 'Create Pages and Update Settings', 'affiliate-wp' ),
+								'secondary button-disabled',
+								'v2250-create-login-registration-pages',
+								false,
+								'disabled="disabled"'
+							);
+
+							?>
+							<noscript>
+								<span class="dashicons dashicons-warning" style="vertical-align: middle"></span>
+								<span><?php esc_html_e( 'Please enable Javascript to update.', 'affiliate-wp' ); ?></span>
+							</noscript>
+						</p>
+					</form>
+
+					<?php
+
+					return ob_get_clean();
+				},
+			]
+		);
 	}
 
 	/**
@@ -1362,43 +1462,42 @@ class Affiliate_WP_Admin_Notices {
 	 *
 	 * @since 2.1
 	 * @since 2.4 Refactored to handle for multiple classes and for message to be a callable
+	 * @since 2.25.0 Added autop as a parameter to control if we want to automatically format content or not.
 	 *
 	 * @param string|callable $message      Notice message.
 	 * @param string|array    $class        Notice class or array of classes.
 	 * @param string          $extra_output Optional. Extra output to append to the end of the message.
 	 *                                      Default empty.
+	 * @param bool            $autop        Whether automatically format paragraphs.
 	 * @return string Notice markup or empty string if `$message` is empty.
 	 */
-	public static function prepare_message_for_output( $message, $class, $extra_output = '' ) {
-		if ( ! empty( $message ) ) {
-			if ( is_array( $class ) ) {
-				$classes = implode( ' ', $class );
-			} else {
-				$classes = $class;
-			}
+	public static function prepare_message_for_output( $message, $class, string $extra_output = '', bool $autop = true ) : string {
 
-			if ( is_callable( $message ) ) {
-				$message = call_user_func( $message );
-			}
-
-			if ( ! empty( $extra_output ) ) {
-				$message .= $extra_output;
-			}
-
-			$message = wpautop( $message, false );
-
-			// wpautop() pads the end.
-			$message = str_replace( "\n", '', $message );
-
-			$output = sprintf( '<div class="%1$s">%2$s</div>',
-				esc_attr( $classes ),
-				$message
-			);
-		} else {
-			$output = '';
+		if ( empty( $message ) ) {
+			return '';
 		}
 
-		return $output;
+		if ( is_callable( $message ) ) {
+			$message = call_user_func( $message );
+		}
+
+		if ( ! empty( $extra_output ) ) {
+			$message .= $extra_output;
+		}
+
+		if ( $autop ) {
+			$message = str_replace( "\n", '', wpautop( $message, false ) ); // wpautop() pads the end.
+		}
+
+		return sprintf(
+			'<div class="%1$s">%2$s</div>',
+			esc_attr(
+				is_array( $class )
+					? implode( ' ', $class )
+					: $class
+			),
+			$message
+		);
 	}
 
 	/**
@@ -1547,7 +1646,12 @@ class Affiliate_WP_Admin_Notices {
 					$extra_output = '';
 				}
 
-				$output .= self::prepare_message_for_output( $notice['message'], $notice['class'], $extra_output );
+				$output .= self::prepare_message_for_output(
+					$notice['message'],
+					$notice['class'],
+					$extra_output,
+					$notice['autop']
+				);
 			}
 		}
 
@@ -1608,6 +1712,80 @@ class Affiliate_WP_Admin_Notices {
 	 */
 	public function get_registry() {
 		return self::$registry;
+	}
+
+	/**
+	 * Removes non-AffiliateWP notices from AffiliateWP admin screens.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @return void Early exit if not on an AffiliateWP screen.
+	 */
+	public function hide_non_affiliatewp_notices() : void {
+
+		// // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Check if we're on an AffiliateWP screen, exit if not.
+		if ( empty( $_REQUEST['page'] ) || strpos( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ), 'affiliate-wp' ) === false ) {
+			return;
+		}
+
+		global $wp_filter;
+
+		// User admin notices.
+		if ( ! empty( $wp_filter['user_admin_notices']->callbacks ) && is_array( $wp_filter['user_admin_notices']->callbacks ) ) {
+			$this->remove_unwanted_notices( $wp_filter['user_admin_notices'] );
+		}
+
+		// Admin notices.
+		if ( ! empty( $wp_filter['admin_notices']->callbacks ) && is_array( $wp_filter['admin_notices']->callbacks ) ) {
+			$this->remove_unwanted_notices( $wp_filter['admin_notices'] );
+		}
+
+		// All admin notices.
+		if ( ! empty( $wp_filter['all_admin_notices']->callbacks ) && is_array( $wp_filter['all_admin_notices']->callbacks ) ) {
+			$this->remove_unwanted_notices( $wp_filter['all_admin_notices'] );
+		}
+	}
+
+	/**
+	 * Helper function to remove unwanted notices.
+	 *
+	 * @since 2.25.0
+	 *
+	 * @param WP_Hook $notices The notices object.
+	 * @return void
+	 */
+	private function remove_unwanted_notices( $notices ) : void {
+
+		foreach ( $notices->callbacks as $priority => $hooks ) {
+
+			foreach ( $hooks as $name => $callback ) {
+				// Remove closures, they're not target specific functions or classes.
+				if ( is_object( $callback['function'] ) && $callback['function'] instanceof Closure ) {
+					unset( $notices->callbacks[ $priority ][ $name ] );
+					continue;
+				}
+
+				$keep_notice = false;
+
+				// Check if the callback is from an object and the class name starts with "AffiliateWP" or "Affiliate_WP".
+				if ( ! empty( $callback['function'][0] ) && is_object( $callback['function'][0] ) ) {
+					$class_name = strtolower( get_class( $callback['function'][0] ) );
+					if ( strpos( $class_name, 'affiliatewp' ) === 0 || strpos( $class_name, 'affiliate_wp' ) === 0 ) {
+						$keep_notice = true;
+					}
+				}
+
+				// Additionally check if the hook name starts with "affwp".
+				if ( ! $keep_notice && ! empty( $name ) && strpos( $name, 'affwp' ) !== false ) {
+					$keep_notice = true;
+				}
+
+				// If the notice does not match the criteria to be kept, remove it.
+				if ( ! $keep_notice ) {
+					unset( $notices->callbacks[ $priority ][ $name ] );
+				}
+			}
+		}
 	}
 
 }

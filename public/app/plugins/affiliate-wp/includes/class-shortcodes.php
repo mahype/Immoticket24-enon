@@ -1,4 +1,8 @@
 <?php
+
+use AffiliateWP\Affiliate_Area;
+use AffiliateWP\Installation_Tools;
+
 /**
  * Shortcodes Bootstrap
  *
@@ -24,7 +28,6 @@ class Affiliate_WP_Shortcodes {
 		add_shortcode( 'affiliate_creatives',         array( $this, 'affiliate_creatives'    ) );
 		add_shortcode( 'opt_in',                      array( $this, 'opt_in_form'            ) );
 		add_shortcode( 'affiliate_coupons',           array( $this, 'affiliate_coupons'      ) );
-
 	}
 
 	/**
@@ -35,15 +38,42 @@ class Affiliate_WP_Shortcodes {
 	 *
 	 * @return string Affiliate area content.
 	 * @since 1.0
+	 * @since 2.25.0 Changed the behavior of the shortcode depending on the Affiliate pages migration status.
 	 */
 	public function affiliate_area( $atts, $content = null ) : string {
 
-		// See https://github.com/AffiliateWP/AffiliateWP/issues/867
-		if( is_admin() && ( ! wp_doing_ajax() ) ) {
+		// See https://github.com/AffiliateWP/AffiliateWP/issues/867.
+		if ( is_admin() && ( ! wp_doing_ajax() ) ) {
 			return '';
 		}
 
 		affwp_enqueue_script( 'affwp-frontend', 'affiliate_area' );
+
+		// For users that are not authenticated and are using a separate page for login, show the new message.
+		if ( ! is_user_logged_in() && ! Affiliate_Area::get_instance()->is_affiliate_area_the_login_page() ) {
+			return Affiliate_Area::get_instance()->get_unauthorized_access_message();
+		}
+
+		ob_start();
+
+		// This will check if the user is logged and it is also an affiliate, if so, shows the dashboard.
+		if ( affwp_is_affiliate() ) {
+
+			affiliate_wp()->templates->get_template_part( 'dashboard' );
+
+			return ob_get_clean();
+		}
+
+		/*
+		 * The code below applies to the following conditions:
+		 * 1) Non-authenticated user visits a non-migrated site.
+		 * 2) Authenticated user visits the page independent if it was migrated or not.
+		 *
+		 * This has been kept mainly due to backwards compatibility with non-migrated sites.
+		 * However, we also have the situation where we want to show the registration form
+		 * if the user is a non-affiliate, so it is still valid for any sites, independent if
+		 * they migrated or not.
+		 */
 
 		/**
 		 * Filters the display of the registration form
@@ -54,6 +84,12 @@ class Affiliate_WP_Shortcodes {
 		 */
 		$show_registration = apply_filters( 'affwp_affiliate_area_show_registration', true );
 
+		if ( true === $show_registration && affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
+			affiliate_wp()->templates->get_template_part( 'register' );
+		} else {
+			affiliate_wp()->templates->get_template_part( 'no', 'access' );
+		}
+
 		/**
 		 * Filters the display of the login form
 		 *
@@ -63,40 +99,11 @@ class Affiliate_WP_Shortcodes {
 		 */
 		$show_login = apply_filters( 'affwp_affiliate_area_show_login', true );
 
-		ob_start();
-
-		if ( is_user_logged_in() && affwp_is_affiliate() ) {
-			affiliate_wp()->templates->get_template_part( 'dashboard' );
-		} elseif ( is_user_logged_in() && affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
-
-			if ( true === $show_registration ) {
-				affiliate_wp()->templates->get_template_part( 'register' );
-			}
-
-		} else {
-
-			if ( affiliate_wp()->settings->get( 'allow_affiliate_registration' ) ) {
-
-				if ( true === $show_registration ) {
-					affiliate_wp()->templates->get_template_part( 'register' );
-				}
-
-			} else {
-				affiliate_wp()->templates->get_template_part( 'no', 'access' );
-			}
-
-			if ( ! is_user_logged_in() ) {
-
-				if ( true === $show_login ) {
-					affiliate_wp()->templates->get_template_part( 'login' );
-				}
-
-			}
-
+		if ( true === $show_login && ! is_user_logged_in() ) {
+			affiliate_wp()->templates->get_template_part( 'login' );
 		}
 
 		return ob_get_clean();
-
 	}
 
 	/**

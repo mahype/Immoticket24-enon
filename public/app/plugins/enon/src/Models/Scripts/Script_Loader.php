@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * Script Loader.
  *
@@ -17,6 +18,7 @@ use Awsm\WP_Wrapper\Interfaces\Task;
 use Enon\Models\Edd\Payment;
 use Enon\Models\Enon\Enon_Location;
 use Enon\Models\Exceptions\Exception;
+use Enon_Reseller\Models\Detector;
 use WPENON\Model\EnergieausweisManager;
 use WPENON\Model\Energieausweis;
 
@@ -41,7 +43,10 @@ abstract class Script_Loader implements Actions, Task {
      * @since 2020-09-11
      */
     public function add_actions() {
-        add_action( 'wp_footer', [ $this, 'controller' ] );
+        if (Detector::is_reseller_ec_page() || Detector::is_reseller_iframe()) {
+            return;
+        }
+        add_action('wp_footer', [$this, 'controller']);
     }
 
     /**
@@ -50,35 +55,35 @@ abstract class Script_Loader implements Actions, Task {
      * @since 2020-09-11
      */
     public function controller() {
-        if ( Enon_Location::cart() ) {
+        if (Enon_Location::cart()) {
             $this->cart();
         }
 
-        if ( Enon_Location::ec_funnel() ) {
+        if (Enon_Location::ec_funnel()) {
             $this->ec_funnel();
         }
 
-        if ( Enon_Location::ec_funnel_started() ) {
+        if (Enon_Location::ec_funnel_started()) {
             $this->ec_funnel_editing_started();
         }
 
-        if ( Enon_Location::ec_funnel_started() && $this->contacting_allowed() ) {
+        if (Enon_Location::ec_funnel_started() && $this->contacting_allowed()) {
             $this->ec_funnel_contacting_allowed();
         }
 
-        if ( Enon_Location::ec_registration() ) {
+        if (Enon_Location::ec_registration()) {
             $this->ec_registration();
         }
 
-        if ( Enon_Location::ec_edit() ) {
+        if (Enon_Location::ec_edit()) {
             $this->ec_edit();
         }
 
-        if ( Enon_Location::success() ) {
+        if (Enon_Location::success()) {
             $this->success();
         }
 
-        if ( Enon_Location::failed() ) {
+        if (Enon_Location::failed()) {
             $this->failed();
         }
 
@@ -89,27 +94,27 @@ abstract class Script_Loader implements Actions, Task {
      * Base script to load in Borlabs.
      */
     protected function base_script() {
-        $reflect = new ReflectionClass( $this );
+        $reflect = new ReflectionClass($this);
 
-        $function_name = strtolower( $reflect->getShortName() );
+        $function_name = strtolower($reflect->getShortName());
         $js_files      = '';
         $js            = '';
 
-        if ( count( $this->script_files() ) > 0 ) {            
-            foreach( $this->script_files()  AS $file ) {
-                $js_files.= sprintf( 'var %s = document.createElement("script");', $function_name );
-                $js_files.= sprintf( '%s.src = \'%s\';', $function_name, $file );
-                $js_files.= sprintf( 'document.body.appendChild(%s);', $function_name );
-                $js_files.= sprintf( 'console.log("Loaded script: %s");', $function_name );
+        if (count($this->script_files()) > 0) {
+            foreach ($this->script_files()  as $file) {
+                $js_files .= sprintf('var %s = document.createElement("script");', $function_name);
+                $js_files .= sprintf('%s.src = \'%s\';', $function_name, $file);
+                $js_files .= sprintf('document.body.appendChild(%s);', $function_name);
+                $js_files .= sprintf('console.log("Loaded script: %s");', $function_name);
             }
         }
 
-        if ( ! empty( $this->script() ) || count( $this->script_files() ) > 0 ) {
-            $js = sprintf( '<script>window.load_%s=function(){%s}</script>', $function_name, $this->script() . $js_files );
+        if (!empty($this->script()) || count($this->script_files()) > 0) {
+            $js = sprintf('<script>window.load_%s=function(){%s}</script>', $function_name, $this->script() . $js_files);
         }
 
-        $js = '<!-- Start scripts for ' . get_class( $this ) . ' //-->' . $js . '<!-- End scripts for ' . get_class( $this ) . ' //-->';
-        
+        $js = '<!-- Start scripts for ' . get_class($this) . ' //-->' . $js . '<!-- End scripts for ' . get_class($this) . ' //-->';
+
         return $js;
     }
 
@@ -118,7 +123,7 @@ abstract class Script_Loader implements Actions, Task {
      * 
      * @since 2020-09-11.
      */
-    protected function script() : string {
+    protected function script(): string {
         return '';
     }
 
@@ -127,7 +132,7 @@ abstract class Script_Loader implements Actions, Task {
      * 
      * @since 2020-09-11.
      */
-    protected function script_files() : array {
+    protected function script_files(): array {
         return array();
     }
 
@@ -136,97 +141,107 @@ abstract class Script_Loader implements Actions, Task {
      * 
      * @since 2020-09-11.
      */
-    protected function frontend() {}
+    protected function frontend() {
+    }
 
     /**
      * Funnel page scripts if contacting is allowed.
      * 
      * @since 2020-09-11.
      */
-    protected function ec_funnel_contacting_allowed() {}
+    protected function ec_funnel_contacting_allowed() {
+    }
 
     /**
      * Funnel page scripts if energy certificate is started.
      * 
      * @since 2020-09-11.
      */
-    protected function ec_funnel_editing_started() {}
+    protected function ec_funnel_editing_started() {
+    }
 
     /**
      * Funnel page scripts.
      * 
      * @since 2020-09-11.
      */
-    protected function ec_funnel() {}
+    protected function ec_funnel() {
+    }
 
     /**
      * Registration page.
      * 
      * @since 2020-09-11.
      */
-    protected function ec_registration() {}
+    protected function ec_registration() {
+    }
 
     /**
      * Energy certificate edit page.
      * 
      * @since 2020-09-11.
      */
-    protected function ec_edit() {}
+    protected function ec_edit() {
+    }
 
     /**
      * Cart page.
      * 
      * @since 2020-09-11.
      */
-    protected function cart() {}
+    protected function cart() {
+    }
 
     /**
      * Success page.
      * 
      * @since 2020-09-11.
      */
-    protected function success() {}
+    protected function success() {
+    }
 
     /**
      * Failed page.
      * 
      * @since 2020-09-11.
      */
-    protected function failed() {}
-    
-    /**
-    * Everywhere.
-    * 
-    * @since 2020-09-11.
-    */
-   protected function whole_page() {}
+    protected function failed() {
+    }
 
     /**
-	 * Get current ec (works on funnel pages)
-	 * 
-	 * @return Energieausweis Energy certificate object.
-	 * 
-	 * @since 2020-09-11
-	 */
-	protected function ec() {
-		if( ! Enon_Location::ec_funnel_started() ) {
-			throw new Exception('ec() functions cannot be used outside funnel.');
+     * Everywhere.
+     * 
+     * @since 2020-09-11.
+     */
+    protected function whole_page() {
+    }
+
+    /**
+     * Get current ec (works on funnel pages)
+     * 
+     * @return Energieausweis Energy certificate object.
+     * 
+     * @since 2020-09-11
+     */
+    protected function ec() {
+        if (!Enon_Location::ec_funnel_started()) {
+            throw new Exception('ec() functions cannot be used outside funnel.');
         }
-        
-        if ( Enon_Location::cart() ) {
+
+        if (Enon_Location::cart()) {
             $ec = $this->get_ec_in_cart();
-        } else if ( Enon_Location::success() ) {
+        } else if (Enon_Location::success()) {
             $ec = $this->get_ec_in_success_page();
         } else {
             $ec_manager = EnergieausweisManager::instance();
             $ec = $ec_manager::getEnergieausweis();
         }
 
-		if ( ! $ec ) {
-			return false;
-		}
+        if (!$ec) {
+            return false;
+        }
 
-		return $ec;
+        return $ec;
     }
 
     /**
@@ -239,12 +254,12 @@ abstract class Script_Loader implements Actions, Task {
     public function get_ec_in_cart() {
         $cart_items = EDD()->cart->get_contents();
 
-        if( count( $cart_items ) === 0 ) {
+        if (count($cart_items) === 0) {
             return false;
         }
 
         $ec_id = $cart_items[0]['id'];
-        return  new Energieausweis( $ec_id );
+        return  new Energieausweis($ec_id);
     }
 
     /**
@@ -257,114 +272,114 @@ abstract class Script_Loader implements Actions, Task {
     public function get_ec_in_success_page() {
         $payment_id = $_GET['payment-id'];
 
-        if( empty( $payment_id ) ) {
+        if (empty($payment_id)) {
             return;
         }
 
-        $payment = new Payment( $payment_id );
+        $payment = new Payment($payment_id);
         $ec_id = $payment->get_energieausweis_id();
 
-        return new Energieausweis( $ec_id );
-    }	
-
-    /**
-	 * Success page
-	 * 
-	 * @since 2022-02-07
-	 */
-	protected function is_success() {
-		global $edd_receipt_args;
-
-		if( ! Enon_Location::success() || ! array_key_exists( 'id', $edd_receipt_args ) ) {
-			return false;
-		}
-
-		$payment = get_post( $edd_receipt_args['id'] );
-		$status = edd_get_payment_status( $payment );
-
-		switch( $status ) {
-			case 'publish':
-			case 'pending':
-				return true;
-				break;
-			case 'failed':
-			case 'abandoned':
-			case 'revoked':
-			case 'processing':
-			default:
-				return false;
-				break;
-		}
-	}
-
-	/**
-	 * Get price of ec.
-	 * 
-	 * @return float Price
-	 * 
-	 * @since 2020-09-11
-	 */
-	protected function ec_mail() : string {
-		return $this->ec()->wpenon_email;
+        return new Energieausweis($ec_id);
     }
 
     /**
-	 * Get order date of ec.
-	 * 
-	 * @return float Price
-	 * 
-	 * @since 2022-02-07
-	 */
+     * Success page
+     * 
+     * @since 2022-02-07
+     */
+    protected function is_success() {
+        global $edd_receipt_args;
+
+        if (!Enon_Location::success() || !array_key_exists('id', $edd_receipt_args)) {
+            return false;
+        }
+
+        $payment = get_post($edd_receipt_args['id']);
+        $status = edd_get_payment_status($payment);
+
+        switch ($status) {
+            case 'publish':
+            case 'pending':
+                return true;
+                break;
+            case 'failed':
+            case 'abandoned':
+            case 'revoked':
+            case 'processing':
+            default:
+                return false;
+                break;
+        }
+    }
+
+    /**
+     * Get price of ec.
+     * 
+     * @return float Price
+     * 
+     * @since 2020-09-11
+     */
+    protected function ec_mail(): string {
+        return $this->ec()->wpenon_email;
+    }
+
+    /**
+     * Get order date of ec.
+     * 
+     * @return float Price
+     * 
+     * @since 2022-02-07
+     */
     protected function ec_date() {
         return $this->ec()->post_date;
     }
 
     /**
-	 * Get name of ec.
-	 * 
-	 * @return float Price
-	 * 
-	 * @since 2022-02-07
-	 */
+     * Get name of ec.
+     * 
+     * @return float Price
+     * 
+     * @since 2022-02-07
+     */
     protected function ec_name() {
         return $this->ec()->post_title;
     }
 
     /**
-	 * Get price of ec.
-	 * 
-	 * @return float Price
-	 * 
-	 * @since 2020-09-11
-	 */
-	protected function ec_price( ) : float {
-		switch( $this->ec()->type ) {
-			case 'bw':
-				return 109.95;
-				break;
-			case 'vw':
-				return 59.95;
-				break;
-			default:
-				return 0;
-		}
+     * Get price of ec.
+     * 
+     * @return float Price
+     * 
+     * @since 2020-09-11
+     */
+    protected function ec_price(): float {
+        switch ($this->ec()->type) {
+            case 'bw':
+                return 109.95;
+                break;
+            case 'vw':
+                return 59.95;
+                break;
+            default:
+                return 0;
+        }
     }
 
-	/**
-	 * Checks if user wants to be contacted.
-	 * 
-	 * @param Energieausweis $ec Energy certificate object.
-	 * @return Bool True if user wants to be contacted, false if not.
-	 * 
-	 * @since 2020-09-10
-	 */
-	protected function contacting_allowed() : bool {
+    /**
+     * Checks if user wants to be contacted.
+     * 
+     * @param Energieausweis $ec Energy certificate object.
+     * @return Bool True if user wants to be contacted, false if not.
+     * 
+     * @since 2020-09-10
+     */
+    protected function contacting_allowed(): bool {
         $ec_id = $this->ec()->ID;
 
-        if ( ! $ec_id ) {
+        if (!$ec_id) {
             return false;
         }
-       
-		return (bool) get_post_meta( $ec_id, 'contact_acceptance', '1' );
-	}
+
+        return (bool) get_post_meta($ec_id, 'contact_acceptance', '1');
+    }
 }

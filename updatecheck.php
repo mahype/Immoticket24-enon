@@ -19,7 +19,7 @@
 $wordpressDir = '/www/htdocs/w012900a/energieausweis.de/public/app';
 
 // Slack Webhook URL
-$slackWebhookUrl = 'https://hooks.slack.com/services/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';
+$slackWebhookUrl = 'https://hooks.slack.com/services/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';
 
 // Befehl zum Ausführen
 $command = 'wp plugin status';

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbe101173678c9a741760ca714818e78f
+class ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -231,6 +231,7 @@ class ComposerStaticInitbe101173678c9a741760ca714818e78f
         'WP_Rocket\\Engine\\Common\\ExtractCSS\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Common/ExtractCSS/Subscriber.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/APIClient.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractAPIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/AbstractAPIClient.php',
+        'WP_Rocket\\Engine\\Common\\JobManager\\APIHandler\\AbstractSafeAPIClient' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/APIHandler/AbstractSafeAPIClient.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\AbstractFactory\\SaasFactory' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/AbstractFactory/SaasFactory.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\Cron\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/Cron/Subscriber.php',
         'WP_Rocket\\Engine\\Common\\JobManager\\JobProcessor' => __DIR__ . '/../..' . '/inc/Engine/Common/JobManager/JobProcessor.php',
@@ -303,6 +304,7 @@ class ComposerStaticInitbe101173678c9a741760ca714818e78f
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\ServiceProvider' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/ServiceProvider.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\APIClient' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/APIClient.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Controller' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Controller.php',
+        'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Queue' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Queue.php',
         'WP_Rocket\\Engine\\Media\\AboveTheFold\\WarmUp\\Subscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/AboveTheFold/WarmUp/Subscriber.php',
         'WP_Rocket\\Engine\\Media\\Emojis\\EmojisSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/Emojis/EmojisSubscriber.php',
         'WP_Rocket\\Engine\\Media\\ImageDimensions\\AdminSubscriber' => __DIR__ . '/../..' . '/inc/Engine/Media/ImageDimensions/AdminSubscriber.php',
@@ -549,10 +551,10 @@ class ComposerStaticInitbe101173678c9a741760ca714818e78f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbe101173678c9a741760ca714818e78f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbe101173678c9a741760ca714818e78f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit46a65e1fe8be58ad5e0aa085264a96b8::$classMap;
 
         }, null, ClassLoader::class);
     }
