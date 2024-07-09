@@ -11,8 +11,7 @@ namespace WPENON\Model;
 use Enon\Enon\Standards\Schema;
 use Exception;
 
-class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
-{
+class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI {
 	private $wpenon_title = '';
 	private $wpenon_type = 'bw';
 	private $wpenon_standard = 'enev2013';
@@ -29,8 +28,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 	private $wpenon_energieausweis = null;
 	private $wpenon_seller_meta = array();
 
-	public function __construct($title, $type, $standard, $preview = false)
-	{
+	public function __construct($title, $type, $standard, $preview = false) {
 		$this->wpenon_title    = $title;
 		$this->wpenon_type     = $type;
 		$this->wpenon_standard = $standard;
@@ -71,8 +69,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		$this->SetMargins($this->wpenon_margin_h, $this->wpenon_margin_v, $this->wpenon_margin_h);
 	}
 
-	public function __isset($name)
-	{
+	public function __isset($name) {
 		if (strpos($name, 'wpenon_') !== 0) {
 			$name = 'wpenon_' . $name;
 		}
@@ -80,8 +77,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		return property_exists($this, $name);
 	}
 
-	public function __get($name)
-	{
+	public function __get($name) {
 		if (strpos($name, 'wpenon_') !== 0) {
 			$name = 'wpenon_' . $name;
 		}
@@ -92,8 +88,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		return null;
 	}
 
-	public function create($energieausweis)
-	{
+	public function create($energieausweis) {
 		if (is_a($energieausweis, '\WPENON\Model\Energieausweis')) {
 			$this->wpenon_energieausweis = $energieausweis;
 			$this->wpenon_type           = $this->wpenon_energieausweis->wpenon_type;
@@ -129,14 +124,12 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		}
 	}
 
-	public function finalize($output_mode = 'I')
-	{
+	public function finalize($output_mode = 'I') {
 		return $this->Output($this->wpenon_title . '.pdf', $output_mode);
 	}
 
 
-	private function renderPage($index)
-	{
+	private function renderPage($index) {
 		$override = apply_filters('wpenon_override_energieausweis_pdf_' . $index, false, $this);
 
 		$schema = new Schema($this->wpenon_standard);
@@ -307,7 +300,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 
 					if (!$this->wpenon_preview) {
 						$this->SetPageFont('aussteller');
-						$this->SetXY(25, 247);
+						$this->SetXY(25, 244);
 
 						$aussteller_firma = $this->GetData('sellermeta_firmenname');
 						$aussteller_firma = apply_filters('wpenon_pdf_seller_company_name', $aussteller_firma, $this);
@@ -556,7 +549,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 
 						if (!$this->wpenon_preview) {
 							$this->SetPageFont('aussteller');
-							$this->SetXY(24, 252);
+							$this->SetXY(24, 249);
 							$aussteller_firma = $this->GetData('sellermeta_firmenname');
 							$aussteller_firma = apply_filters('wpenon_pdf_seller_company_name', $aussteller_firma, $this);
 							$aussteller_daten = $this->GetData('sellermeta_strassenr') . "\n" . $this->GetData('sellermeta_plz') . ' ' . $this->GetData('sellermeta_ort') . "\n" . __('Telefon:', 'wpenon') . ' ' . $this->GetData('sellermeta_telefon');
@@ -582,8 +575,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		}
 	}
 
-	public function GetData($context, $index = 0, $override = false)
-	{
+	public function GetData($context, $index = 0, $override = false) {
 		$data = '';
 		if (strpos($context, 'sellermeta_') === 0) {
 			$key = str_replace('sellermeta_', '', $context);
@@ -612,8 +604,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		return $data;
 	}
 
-	public function DrawEnergyBar($x, $y, $reference_value, $type = 'verbrauch', $value1 = null, $value2 = null)
-	{
+	public function DrawEnergyBar($x, $y, $reference_value, $type = 'verbrauch', $value1 = null, $value2 = null) {
 		$old_font = $this->wpenon_current_font;
 
 		$border_width        = 4.5;
@@ -755,8 +746,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 		$this->SetPageFillColor('background');
 	}
 
-	public function DrawPreviewText()
-	{
+	public function DrawPreviewText() {
 		$orig_font = $this->wpenon_current_font;
 
 		$this->SetPageFont('preview');
@@ -774,8 +764,7 @@ class EnergieausweisPDF2024 extends \WPENON\Util\UFPDI
 	 * UTILITY FUNCTIONS
 	 */
 
-	public function CheckBox($x, $y)
-	{
+	public function CheckBox($x, $y) {
 		$orig_font = $this->wpenon_current_font;
 
 		$this->SetPageFont('marker');
