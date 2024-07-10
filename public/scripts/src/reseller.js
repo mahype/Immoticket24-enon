@@ -1,4 +1,17 @@
+let urlSet = false;
+
+// Check if the DOM is already loaded
 document.addEventListener("DOMContentLoaded", function() {
+    if( urlSet ) return;
+    setUrl();
+});
+
+// Maybe the DOM is already loaded, then check if the URL is already set and set it if not
+if(! urlSet ) {
+    setUrl();
+} 
+
+function setUrl() {
     const enonQueryString = window.location.search;
     const enonUrlParams = new URLSearchParams(enonQueryString);
 
@@ -23,8 +36,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 iframes[i].style.display = "none";
             }
         }     
+    
     }
-});
+}
 
 window.addEventListener("message", function(event) {
     if ( event.origin !== "https://energieausweis.de" ) return;
