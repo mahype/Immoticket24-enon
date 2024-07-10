@@ -22,9 +22,9 @@ function setUrl() {
 
     if( enonAccessToken === null ) {
         console.log("No access token found. Exiting...");
-        console.log("Iframe token: " + enonIframeToken);
-        console.log("Access token: " + enonAccessToken);
-        console.log("Slug: " + enonSlug);
+        console.log("- Iframe token: " + enonIframeToken);
+        console.log("- Access token: " + enonAccessToken);
+        console.log("- Slug: " + enonSlug);
         return;
     }
 
@@ -40,16 +40,17 @@ function setUrl() {
     for (let i = 0; i < iframes.length; i++) {
         if( i === 0 ){
             iframes[i].src = enonUrl;
+
+            console.log("URL set to: " + enonUrl);
+            console.log("- Iframe token: " + enonIframeToken);
+            console.log("- Access token: " + enonAccessToken);
+            console.log("- Slug: " + enonSlug);
+            console.l9g("- Iframe",iframes[i]);
         } else {
             iframes[i].style.display = "none";
         }
     }     
-
-    console.log("URL set to: " + enonUrl);
-    console.log("No access token found. Exiting...");
-    console.log("Iframe token: " + enonIframeToken);
-    console.log("Access token: " + enonAccessToken);
-    console.log("Slug: " + enonSlug);    
+    
     urlSet = true;
 }
 
