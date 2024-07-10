@@ -107,6 +107,11 @@ FileETag None
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteRule ^edd-listener/([^/]+)/?$ /index.php?edd-listener=$1 [QSA,L]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
     RewriteBase /
     RewriteCond %{HTTPS} on [OR]
     RewriteCond %{SERVER_PORT} ^443$ [OR]
