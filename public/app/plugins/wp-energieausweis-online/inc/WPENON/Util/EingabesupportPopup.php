@@ -247,6 +247,11 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @return array $fees Filtered EDD fees.
 	 */
 	public function add_custom_fees( $fees ) {
+        if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+            //   var_dump( $settings);exit;
+            
+               return $fees;
+           }
 		$eingabesupport = array(
 			'id'             => 'eingabesupport',
 			'label'          => $this->get_default( 'label' ),
@@ -299,6 +304,9 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @return array $settings Settings Zusatzoptionen.
 	 */
 	public function zusatzoptionen_settings( $settings ) {
+        if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+               return $settings;
+        }
 		$eingabesupport_settings = array(
 			'eingabesupport' => array(
 				'title'  => 'Eingabesupport',
@@ -336,7 +344,7 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 				),
 			),
 		);
-
+       
 		$settings = array_merge( $settings, $eingabesupport_settings );
 
 		return $settings;
@@ -352,6 +360,9 @@ URL:            ' . admin_url( 'post.php?post=' . $energieausweis->id . '&action
 	 * @return bool|string|int           Value of default type.
 	 */
 	private function get_default( $type ) {
+        if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+            return;
+        }
 		switch ( $type ) {
 			case 'label':
 				return __( 'Professioneller Eingabesupport', 'wpenon' );
