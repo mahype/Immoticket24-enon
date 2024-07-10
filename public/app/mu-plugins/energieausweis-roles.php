@@ -177,6 +177,7 @@ function energieausweis_roles_get_caps( $role_slug ) {
 				'edit_shop_payments',
 				'edit_shop_customer',
 				'manage_shop_discounts',
+				'view_shop_reports'
 			) );
 		case 'reseller_manager':
 			$caps = array_merge( $caps, array(
