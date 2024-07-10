@@ -115,7 +115,9 @@ define( 'WP_DEBUG_LOG', WP_LOG_DIR . '/php_error.log' );
  **======================================================================================*/
 switch ( WP_ENV ) {
 	case 'development':
-		define( 'WP_DEBUG', true );
+		if ( ! defined( 'WP_DEBUG' ) ) {
+			define( 'WP_DEBUG', true );
+		}
 		define( 'WP_DEBUG_DISPLAY', false );
 		define( 'SAVEQUERIES', true );
 		define( 'SCRIPT_DEBUG', true );
