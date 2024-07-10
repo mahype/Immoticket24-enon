@@ -21,12 +21,14 @@ function setUrl() {
     const enonSlug = enonUrlParams.get("slug");
 
     if( enonAccessToken === null ) {
-        console.log("No access token found. Exiting...");
-        console.log("- Iframe token: " + enonIframeToken);
-        console.log("- Access token: " + enonAccessToken);
-        console.log("- Slug: " + enonSlug);
+        console.log("No iframe parameters found. Exiting...");        
         return;
-    }
+    } 
+
+    console.log("Iframe parameters found.");
+    console.log("- Iframe token: " + enonIframeToken);
+    console.log("- Access token: " + enonAccessToken);
+    console.log("- Slug: " + enonSlug);
 
     const enonUrl = "https://energieausweis.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
     const enonIframe = document.getElementById("iframe-energieausweis-online");
@@ -38,7 +40,10 @@ function setUrl() {
 
     const iframes = document.getElementsByClassName("iframe-energieausweis-online");
 
-    console.log("Iframes found: " + iframes.length);
+    if( iframes.length === 0 ) {
+        console.log("No iframes found. Exiting...");
+        return;
+    }
 
     for (let i = 0; i < iframes.length; i++) {
         if( i === 0 ){
@@ -48,7 +53,7 @@ function setUrl() {
             console.log("- Iframe token: " + enonIframeToken);
             console.log("- Access token: " + enonAccessToken);
             console.log("- Slug: " + enonSlug);
-            console.l9g("- Iframe",iframes[i]);
+            console.log("- Iframe",iframes[i]);            
         } else {
             iframes[i].style.display = "none";
         }
