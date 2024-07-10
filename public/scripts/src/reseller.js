@@ -37,6 +37,9 @@ function setUrl() {
     }
 
     const iframes = document.getElementsByClassName("iframe-energieausweis-online");
+
+    console.log("Iframes found: " + iframes.length);
+
     for (let i = 0; i < iframes.length; i++) {
         if( i === 0 ){
             iframes[i].src = enonUrl;
