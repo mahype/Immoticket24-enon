@@ -191,7 +191,7 @@ abstract class PaymentGateway {
 
 	protected function _getListenerURL() {
 		if ( ! empty( $this->listener_key ) ) {
-			return home_url( '/index.php?edd-listener=' . $this->listener_key . '/' );
+			return home_url( '/edd-listener/' . $this->listener_key . '/' );
 		}
 
 		return false;
