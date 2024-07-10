@@ -3,22 +3,22 @@ let urlSet = false;
 // Check if the DOM is already loaded
 document.addEventListener("DOMContentLoaded", function() {
     if( urlSet ) return;
-    setUrl();
+    enonIframeSetUrl();
 });
 
 // Maybe the DOM is already loaded, then check if the URL is already set and set it if not
 if(! urlSet ) {
-    setUrl();
+    enonIframeSetUrl();
 } 
 
-function setUrl() {
+function enonIframeSetUrl() {
     const iframes = document.getElementsByClassName("iframe-energieausweis-online");
     console.log("energieausweis.de:");   
 
     if( iframes.length === 0 ) {         
         console.log("No iframes found. Exiting...");
         console.log("Make sure that the iframe is available and already loaded.")
-        console.log("If frame is blocked by a cookie blocker on loading, please be sure to execute the setUrl() function after the DOM is loaded completely.");
+        console.log("If frame is blocked by a cookie blocker on loading, please be sure to execute the enonIframeSetUrl() function after the DOM is loaded completely.");
         return;
     }
 
