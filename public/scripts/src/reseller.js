@@ -12,6 +12,7 @@ if(! urlSet ) {
 } 
 
 function setUrl() {
+    console.log("Setting iframe URL...");    
     const enonQueryString = window.location.search;
     const enonUrlParams = new URLSearchParams(enonQueryString);
 
@@ -19,25 +20,37 @@ function setUrl() {
     const enonAccessToken = enonUrlParams.get("access_token");
     const enonSlug = enonUrlParams.get("slug");
 
-    if( enonAccessToken !== null ) {
-        const enonUrl = "https://energieausweis.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
-        const enonIframe = document.getElementById("iframe-energieausweis-online");
-
-        if( enonIframe !== null ) {
-            enonIframe.src = enonUrl;
-            return;
-        }
-
-        const iframes = document.getElementsByClassName("iframe-energieausweis-online");
-        for (let i = 0; i < iframes.length; i++) {
-            if( i === 0 ){
-                iframes[i].src = enonUrl;
-            } else {
-                iframes[i].style.display = "none";
-            }
-        }     
-    
+    if( enonAccessToken === null ) {
+        console.log("No access token found. Exiting...");
+        console.log("Iframe token: " + enonIframeToken);
+        console.log("Access token: " + enonAccessToken);
+        console.log("Slug: " + enonSlug);
+        return;
     }
+
+    const enonUrl = "https://energieausweis.de/energieausweise/" + enonSlug + "/?iframe_token=" + enonIframeToken + "&access_token=" + enonAccessToken;
+    const enonIframe = document.getElementById("iframe-energieausweis-online");
+
+    if( enonIframe !== null ) {
+        enonIframe.src = enonUrl;
+        return;
+    }
+
+    const iframes = document.getElementsByClassName("iframe-energieausweis-online");
+    for (let i = 0; i < iframes.length; i++) {
+        if( i === 0 ){
+            iframes[i].src = enonUrl;
+        } else {
+            iframes[i].style.display = "none";
+        }
+    }     
+
+    console.log("URL set to: " + enonUrl);
+    console.log("No access token found. Exiting...");
+    console.log("Iframe token: " + enonIframeToken);
+    console.log("Access token: " + enonAccessToken);
+    console.log("Slug: " + enonSlug);    
+    urlSet = true;
 }
 
 window.addEventListener("message", function(event) {
