@@ -36,7 +36,8 @@ function setUrl() {
                 iframes[i].style.display = "none";
             }
         }     
-    
+        
+        urlSet = true;
     }
 }
 
