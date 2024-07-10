@@ -50,6 +50,7 @@ function enonIframeSetUrl() {
         console.log("- Slug: " + enonSlug);
         console.log("- Iframe",enonIframe); 
         enonIframe.src = enonUrl;
+        urlSet = true;
         return;
     }
 
@@ -61,13 +62,12 @@ function enonIframeSetUrl() {
             console.log("- Iframe token: " + enonIframeToken);
             console.log("- Access token: " + enonAccessToken);
             console.log("- Slug: " + enonSlug);
-            console.log("- Iframe",iframes[i]);            
+            console.log("- Iframe",iframes[i]); 
+            urlSet = true;           
         } else {
             iframes[i].style.display = "none";
         }
-    }     
-    
-    urlSet = true;
+    } 
 }
 
 window.addEventListener("message", function(event) {
