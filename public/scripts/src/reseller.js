@@ -42,6 +42,7 @@ function setUrl() {
 
     if( iframes.length === 0 ) {
         console.log("No iframes found. Exiting...");
+        console.log("If frame is blocked by a cookie blocker on loading, please be sure to execute the setUrl() function after the DOM is loaded completely.");
         return;
     }
 
