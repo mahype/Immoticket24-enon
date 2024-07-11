@@ -466,10 +466,17 @@ function enon_show_form_modals_js()
         }
 
         if ($setContanct && $acceptanceGdpr.prop('checked')) {
-          $modalEingabesupportAcceptance.modal('show');
-          return false;
+            <?php if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) { ?>
+                $acceptanceEingabesupport.val('false');
+                $modalEingabesupportAcceptance.modal('hide');
+                $setEingabesupport = true;
+                $form.off('submit', onFormSubmission);
+                $form.submit();
+            <?php } else { ?>
+                $modalEingabesupportAcceptance.modal('show');
+                return false;
+           <?php } ?>
         }
-
         return false;
       }
 
