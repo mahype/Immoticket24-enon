@@ -360,6 +360,9 @@ function energieausweis_zusatzoptionen_settings( $wpod ) {
 		)
 	);
 
+    if ( isset ( $_GET['iframe_token' ] )  && $_GET['iframe_token'] == 'cf2c086b3c0adc' ) {
+        unset( $options['eingabesupport'] );
+    }
 	$options = apply_filters( 'wpenon_zusatzoptionen_settings', $options );
 
 	$wpod->add_components( array(
