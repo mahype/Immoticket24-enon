@@ -561,6 +561,7 @@ class Affiliate_Area_Creatives {
 	 * Display a menu to navigate through creative types.
 	 *
 	 * @since 2.16.0
+	 * @since 2.25.2 Only display the menu if there are more than two types of creatives to show.
 	 *
 	 * @return void
 	 */
@@ -568,7 +569,7 @@ class Affiliate_Area_Creatives {
 
 		$types_count = $this->types_count();
 
-		if ( count( $types_count ) === 1 ) {
+		if ( count( $types_count ) <= 1 ) {
 			return; // Bail if we have only one type to display.
 		}
 

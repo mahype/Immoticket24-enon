@@ -5,7 +5,7 @@
  * Description: Affiliate Plugin for WordPress
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 2.25.1
+ * Version: 2.25.2
  * Text Domain: affiliate-wp
  * Domain Path: languages
  * GitHub Plugin URI: affiliatewp/affiliatewp
