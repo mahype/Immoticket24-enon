@@ -1035,7 +1035,7 @@ class Affiliate_WP_Settings {
 					is_callable( $callback ) ? $callback : array( $this, 'missing_callback' ),
 					'affwp_settings_' . $tab,
 					'affwp_settings_' . $tab,
-					array(
+					[
 						'id'               => $key,
 						'desc'             => ! empty( $option['desc'] ) ? $option['desc'] : '',
 						'name'             => $option['name'] ?? null,
@@ -1056,7 +1056,8 @@ class Affiliate_WP_Settings {
 						'visibility'       => $visibility_rules,
 						'feature_name'     => $option['feature_name'] ?? '',
 						'utm_content'      => $option['utm_content'] ?? '',
-					)
+						'select2'          => $option['select2'] ?? [],
+					]
 				);
 			}
 
@@ -3255,6 +3256,8 @@ class Affiliate_WP_Settings {
 	 * Renders select fields.
 	 *
 	 * @since 1.0
+	 * @since 2.25.2 added support to select2 settings.
+	 *
 	 * @param array $args Arguments passed by the setting.
 	 * @global $this->options Array of all the AffiliateWP Options.
 	 * @return void
@@ -3272,6 +3275,7 @@ class Affiliate_WP_Settings {
 		<select
 			id="<?php echo esc_attr( "affwp_settings[{$args['id']}]" ); ?>"
 			name="<?php echo esc_attr( "affwp_settings[{$args['id']}]" ); ?>"
+			<?php echo affiliatewp_tag_attr( 'data-select2-settings', $args['select2'] ?? [] ); ?>
 		>
 
 		<?php foreach ( $args['options'] as $option => $name ) : ?>
