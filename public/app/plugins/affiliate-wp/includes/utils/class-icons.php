@@ -39,12 +39,13 @@ class Icons {
 			'fill'         => true,
 		),
 		'path'     => array(
-			'stroke'          => true,
-			'stroke-width'    => true,
-			'stroke-linecap'  => true,
-			'stroke-linejoin' => true,
-			'd'               => true,
-			'fill'            => true,
+			'stroke'            => true,
+			'stroke-width'      => true,
+			'stroke-linecap'    => true,
+			'stroke-linejoin'   => true,
+			'stroke-miterlimit' => true,
+			'd'                 => true,
+			'fill'              => true,
 
 		),
 		'g'        => array(
@@ -101,6 +102,7 @@ class Icons {
 		'mail'                 => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20" fill="none"><path d="M1.42857 4.08163H18.5714V16.3265H1.42857V4.08163Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.2947 4.53061L11.6465 9.64408C11.1745 10.0072 10.5956 10.2041 10 10.2041C9.40441 10.2041 8.82554 10.0072 8.35347 9.64408L1.70531 4.53061" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 		'exclamation-triangle' => '<svg xmlns="http://www.w3.org/2000/svg" width="24.067" height="24"><defs><style>.b{fill:#231f20}</style></defs><g transform="translate(-.066)"><path d="M1.6 24a1.338 1.338 0 01-1.3-2.1L11 .9c.6-1.2 1.6-1.2 2.2 0l10.7 21c.6 1.2 0 2.1-1.3 2.1z" fill="#ffce31"/><path class="b" d="M10.3 8.6l1.1 7.4a.605.605 0 001.2 0l1.1-7.4a1.738 1.738 0 10-3.4 0z"/><circle class="b" cx="1.7" cy="1.7" r="1.7" transform="translate(10.3 17.3)"/></g></svg>',
 		'top-affiliate'        => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.8647 2.82593L9.86467 2.82599L8.01719 7.2681L3.22236 7.65318C3.22222 7.65319 3.22208 7.6532 3.22195 7.65321C1.17105 7.8174 0.340278 10.376 1.90235 11.7144L1.90241 11.7144L5.55565 14.8441L4.44034 19.5228C3.96286 21.5225 6.1385 23.1052 7.89403 22.0335L7.89423 22.0334L12 19.5258L16.1058 22.0334L16.106 22.0335C17.8611 23.1049 20.0371 21.524 19.5597 19.523L18.4443 14.8441L22.0976 11.7144L22.0976 11.7144C23.6597 10.376 22.8289 7.8174 20.7781 7.65321C20.7779 7.6532 20.7778 7.65319 20.7776 7.65318L15.9828 7.2681L14.1353 2.82599L14.1353 2.82593C13.3457 0.927689 10.6543 0.927689 9.8647 2.82593Z" fill="#FFCF24" stroke="white" style="fill:#FFCF24;fill:color(display-p3 1.0000 0.8108 0.1398);fill-opacity:1;stroke:white;stroke-opacity:1;" stroke-width="2"/></svg>',
+		'tooltip'              => '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9 9.00004c0.00011 -0.54997 0.15139 -1.08933 0.43732 -1.55913s0.69548 -0.85196 1.18398 -1.10472c0.4884 -0.25275 1.037 -0.36637 1.5856 -0.32843 0.5487 0.03793 1.0764 0.22596 1.5254 0.54353 0.449 0.31757 0.8021 0.75246 1.0206 1.25714 0.2186 0.50468 0.2942 1.05973 0.2186 1.60448 -0.0756 0.54475 -0.2994 1.05829 -0.6471 1.48439 -0.3477 0.4261 -0.8059 0.7484 -1.3244 0.9317 -0.2926 0.1035 -0.5459 0.2951 -0.725 0.5485 -0.1791 0.2535 -0.2752 0.5562 -0.275 0.8665v1.006" stroke-width="1.5"></path><path stroke="currentColor" d="M12 18c-0.2071 0 -0.375 -0.1679 -0.375 -0.375s0.1679 -0.375 0.375 -0.375" stroke-width="1.5"></path><path stroke="currentColor" d="M12 18c0.2071 0 0.375 -0.1679 0.375 -0.375s-0.1679 -0.375 -0.375 -0.375" stroke-width="1.5"></path><path stroke="currentColor" stroke-miterlimit="10" d="M12 23.25c6.2132 0 11.25 -5.0368 11.25 -11.25S18.2132 0.75 12 0.75 0.75 5.7868 0.75 12 5.7868 23.25 12 23.25Z" stroke-width="1.5"></path></svg>',
 	);
 
 	/**

@@ -682,49 +682,58 @@ jQuery( document ).ready( function( $ ) {
 
 			$row.addClass( 'affwp-select2-initialized' );
 
-			$select.select2( {
-				width: '240px',
-				minimumResultsForSearch: -1,
-				/**
-				 * Format the dropdown options.
-				 * Add a pro badge to the QR Code option addProBadge class is present.
-				 *
-				 * @param  {Object} option The option object.
-				 * @return {Object}        The option with or without the pro badge.
-				 */
-				templateResult ( option ) {
+			$select.select2(
+				affiliatewp.parseArgs(
+					/*
+					 * You can use an object with select2 arguments in your select tag to override
+					 * the select2 defaults or add new setting.
+					 */
+					$select.data( 'select2-settings' ) || {},
+					{
+						width: '240px',
+						minimumResultsForSearch: -1,
+						/**
+						 * Format the dropdown options.
+						 * Add a pro-badge to the QR Code option addProBadge class is present.
+						 *
+						 * @param {Object} option The option object.
+						 * @return {Object}        The option with or without the pro badge.
+						 */
+						templateResult( option ){
 
-					if ( ! option.id ) {
-						return option.text;
+							if ( ! option.id ) {
+								return option.text;
+							}
+
+							if ( option.element.classList.contains( 'addProBadge' ) ) {
+								return $(`<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>`);
+							}
+
+							return option.text;
+						},
+						/**
+						 * Format the selected option.
+						 * Add a pro-badge to the option addProBadge class is present.
+						 *
+						 * @param {Object} option The option object.
+						 * @return {Object}       The option with or without the pro badge.
+						 */
+						templateSelection( option ) {
+
+							if ( ! option.id ) {
+								return option.text;
+							}
+
+							if ( option.element.classList.contains( 'addProBadge' ) ) {
+								return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
+							}
+
+							return option.text;
+						},
 					}
-
-					if ( option.element.classList.contains( 'addProBadge' ) ) {
-						return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
-					}
-
-					return option.text;
-				},
-				/**
-				 * Format the selected option.
-				 * Add a pro badge to the option addProBadge class is present.
-				 *
-				 * @param  {Object} option The option object.
-				 * @return {Object}       The option with or without the pro badge.
-				 */
-				templateSelection( option ) {
-
-					if ( ! option.id ) {
-						return option.text;
-					}
-
-					if ( option.element.classList.contains( 'addProBadge' ) ) {
-						return $( `<span>${option.text}</span><span class="affwp-settings-label-pro">PRO</span>` );
-					}
-
-					return option.text;
-				},
-			} ).on( 'change', function( e ) {
-				$( document ).trigger( 'affiliatewp_on_select_change', [e] );
+				)
+			).on( 'change', function( e ) {
+				$( document ).trigger( 'affiliatewp_on_select_change', [ e ] );
 			} );
 		} );
 

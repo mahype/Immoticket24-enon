@@ -1082,8 +1082,13 @@ table.affwp-table {
 	margin: 0;
 }
 
-.affwp-card__header {
+.affwp-card__header,
+.affwp-card__actions {
 	padding: 1.5rem;
+}
+
+.affwp-card__header + .affwp-card__actions {
+	padding-top: 0;
 }
 
 .affwp-card__content--form {
