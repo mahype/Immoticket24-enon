@@ -195,7 +195,7 @@ function wpenon_immoticket24_print_no_consumption_modal() {
 					<h4 class="modal-title"><?php _e('Für dieses Gebäude kann kein Verbrauchsausweis erstellt werden', 'wpenon'); ?></h4>
 				</div>
 				<div class="modal-body">
-					<?php _e('Für Gebäude, die in den drei Verbrauchsjahren einen durchschnittlichen Leerstand von über 30 Prozent hatten, ist eine Verbrauchsausweis-Erstellung nicht möglich - in dem Fall kann nur ein Bedarfsausweis erstellt werden. Klicken Sie den unten angezeigten Button, um Ihre Angaben in einen Bedarfsausweis umzuwandeln.', 'wpenon'); ?>
+					<?php _e('Für Gebäude, die in den drei Verbrauchsjahren einen durchschnittlichen Leerstand von über 30 Prozent hatten, ist eine Verbrauchsausweis-Erstellung nicht möglich - in dem Fall kann nur ein Bedarfsausweis erstellt werden. Klicken Sie den unten angezeigten Button, um Ihre Angaben in einen Bedarfsausweis umzuwandeln. Der Bedarfsausweis kostet 109,95 Euro.', 'wpenon'); ?>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Angaben bearbeiten', 'wpenon'); ?></button>
