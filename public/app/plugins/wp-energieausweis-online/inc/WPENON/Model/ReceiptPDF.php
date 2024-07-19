@@ -106,29 +106,41 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 			$this->SetXY( $this->wpenon_margin_h + 3, 50 );
 
 			$this->SetPageFont( 'address' );		
-			$address = '';
 
 			$certificate_id = $this->wpenon_payment->cart_details[0]["id"];
 			$reseller_id = get_post_meta( $certificate_id, 'reseller_id', true );
 
+			$address = '';
+
+			// Check if reseller is set
 			if( $reseller_id ) {
 				$reseller = new Reseller( $reseller_id );
-				$address .= ! empty( $reseller->data()->general->get_company_name() ) ? $reseller->data()->general->get_company_name() . "\n" : '';
-				$address .= $reseller->data()->general->get_contact_firstname() . ' ' . $reseller->data()->general->get_contact_lastname() . "\n";
-			} else {
+
+				// Check if reseller is set to receive the bill and if so, use the reseller's address
+				if( $reseller->data()->general->redirect_bill_to_reseller() ) {
+					$address.= ! empty( $reseller->data()->general->get_company_name() ) ? $reseller->data()->general->get_company_name() . "\n" : '';										
+					$address.= ! empty( $reseller->data()->general->get_contact_firstname() ) || ! empty( $reseller->data()->general->get_contact_lastname() ) ? $reseller->data()->general->get_contact_firstname() . ' ' . $reseller->data()->general->get_contact_lastname() . "\n" : '';										
+					$address.= $reseller->data()->general->get_address_line1() . "\n";
+					$address.= ! empty( $reseller->data()->general->get_address_line2() ) ? $reseller->data()->general->get_address_line2() . "\n" : '';
+					$address.= $reseller->data()->general->get_address_plz() . ' ' . $reseller->data()->general->get_address_city();
+				}			
+			}
+
+			// Get address of the buyer if address is not set
+			if ( empty( $address ) ) {
 				$address .= isset( $this->wpenon_payment->user_info['business_name'] ) && ! empty( $this->wpenon_payment->user_info['business_name'] ) ? $this->wpenon_payment->user_info['business_name'] . "\n" : '';
-				$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
-			}
+				$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";			
             
-			if ( isset( $this->wpenon_payment->user_info['address']['line1'] ) && ! empty( $this->wpenon_payment->user_info['address']['line1'] ) ) {
-				$address .= $this->wpenon_payment->user_info['address']['line1'] . "\n";
-			}
-			if ( isset( $this->wpenon_payment->user_info['address']['line2'] ) && ! empty( $this->wpenon_payment->user_info['address']['line2'] ) ) {
-				//$address .= $this->wpenon_payment->user_info['address']['line2'] . "\n";
-			}
-			if ( isset( $this->wpenon_payment->user_info['address']['zip'] ) && ! empty( $this->wpenon_payment->user_info['address']['zip'] ) && isset( $this->wpenon_payment->user_info['address']['city'] ) && ! empty( $this->wpenon_payment->user_info['address']['city'] ) ) {
-				$address .= $this->wpenon_payment->user_info['address']['zip'] . ' ' . $this->wpenon_payment->user_info['address']['city'];
-			}
+				if ( isset( $this->wpenon_payment->user_info['address']['line1'] ) && ! empty( $this->wpenon_payment->user_info['address']['line1'] ) ) {
+					$address .= $this->wpenon_payment->user_info['address']['line1'] . "\n";
+				}
+				if ( isset( $this->wpenon_payment->user_info['address']['line2'] ) && ! empty( $this->wpenon_payment->user_info['address']['line2'] ) ) {
+					//$address .= $this->wpenon_payment->user_info['address']['line2'] . "\n";
+				}
+				if ( isset( $this->wpenon_payment->user_info['address']['zip'] ) && ! empty( $this->wpenon_payment->user_info['address']['zip'] ) && isset( $this->wpenon_payment->user_info['address']['city'] ) && ! empty( $this->wpenon_payment->user_info['address']['city'] ) ) {
+					$address .= $this->wpenon_payment->user_info['address']['zip'] . ' ' . $this->wpenon_payment->user_info['address']['city'];
+				}
+			}	
 			
 			$this->WriteMultiCell( $this->escape( $address ), 'L', 1, 0 );
 
