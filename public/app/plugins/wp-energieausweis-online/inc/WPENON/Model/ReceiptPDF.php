@@ -7,6 +7,8 @@
 
 namespace WPENON\Model;
 
+use Enon_Reseller\Models\Reseller;
+
 class ReceiptPDF extends \WPENON\Util\UFPDF {
 	private $wpenon_title = '';
 
@@ -103,32 +105,20 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 
 			$this->SetXY( $this->wpenon_margin_h + 3, 50 );
 
-			$this->SetPageFont( 'address' );
+			$this->SetPageFont( 'address' );		
 			$address = '';
-			if ( isset( $this->wpenon_payment->user_info['business_name'] ) && ! empty( $this->wpenon_payment->user_info['business_name'] ) ) {
-                $order = $this->wpenon_payment->cart_details[0]["id"];
-                if ( $order ) {
-                    $reseller_id = get_post_meta( $order, 'reseller_id', true );
-                    $reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
-                    $address .=  $reseller->get_company_name() . "\n";
-                } else {
-                    $address .= $this->wpenon_payment->user_info['business_name'] . "\n";
-                }
-			}
-			
 
-            $order = $this->wpenon_payment->cart_details[0]["id"];
-            if ( $order ) {
-                $reseller_id = get_post_meta( $order, 'reseller_id', true );
-                if ( $reseller_id ) {
-                    $reseller    = new \Enon_Reseller\Models\Data\Post_Meta_General( $reseller_id );
-                    $address .=  $reseller->get_contact_firstname. ' ' . $reseller->get_contact_lastname . "\n";
-                } else {
-                    $address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
-                }
-            } else {
-                $address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
-            }
+			$certificate_id = $this->wpenon_payment->cart_details[0]["id"];
+			$reseller_id = get_post_meta( $certificate_id, 'reseller_id', true );
+
+			if( $reseller_id ) {
+				$reseller = new Reseller( $reseller_id );
+				$address .= ! empty( $reseller->data()->general->get_company_name() ) ? $reseller->data()->general->get_company_name() . "\n" : '';
+				$address .= $reseller->data()->general->get_contact_firstname() . ' ' . $reseller->data()->general->get_contact_lastname() . "\n";
+			} else {
+				$address .= isset( $this->wpenon_payment->user_info['business_name'] ) && ! empty( $this->wpenon_payment->user_info['business_name'] ) ? $this->wpenon_payment->user_info['business_name'] . "\n" : '';
+				$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";
+			}
             
 			if ( isset( $this->wpenon_payment->user_info['address']['line1'] ) && ! empty( $this->wpenon_payment->user_info['address']['line1'] ) ) {
 				$address .= $this->wpenon_payment->user_info['address']['line1'] . "\n";
@@ -139,6 +129,7 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 			if ( isset( $this->wpenon_payment->user_info['address']['zip'] ) && ! empty( $this->wpenon_payment->user_info['address']['zip'] ) && isset( $this->wpenon_payment->user_info['address']['city'] ) && ! empty( $this->wpenon_payment->user_info['address']['city'] ) ) {
 				$address .= $this->wpenon_payment->user_info['address']['zip'] . ' ' . $this->wpenon_payment->user_info['address']['city'];
 			}
+			
 			$this->WriteMultiCell( $this->escape( $address ), 'L', 1, 0 );
 
 			$this->SetXY( $this->wpenon_margin_h, 85 );
