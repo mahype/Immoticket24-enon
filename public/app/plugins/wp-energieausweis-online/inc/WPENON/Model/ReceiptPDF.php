@@ -113,7 +113,7 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 			$address = '';
 
 			// Check if reseller is set
-			if( $reseller_id ) {
+			if( isset( $reseller_id ) && ! empty( $reseller_id ) ){
 				$reseller = new Reseller( $reseller_id );
 
 				// Check if reseller is set to receive the bill and if so, use the reseller's address
