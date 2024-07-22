@@ -193,7 +193,7 @@ class Format {
 
 		$string = str_replace( array( '&euro;', '–' ), array( '_EURO_', '-' ), $string );
 		$string = html_entity_decode( $string, ENT_NOQUOTES );
-		$string = self::utf8Decode( $string, 'ISO-8859-1//TRANSLIT' );
+		$string = self::utf8Decode( $string, 'ISO-8859-1//IGNORE' );
 		$string =  str_replace( '_EURO_', chr( 128 ), $string );
 		return $string;
 	}
