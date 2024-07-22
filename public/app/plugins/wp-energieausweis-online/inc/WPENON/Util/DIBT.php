@@ -113,7 +113,7 @@ class DIBT {
 					$slack_text.= sprintf( "\n```%s```", $plainTextMailContent );
 					$slack_text.= sprintf( "\n%s - %s", $energieausweis->post_title, $url );
 
-					$slack_webhook_url = 'https://hooks.slack.com/services/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';
+					$slack_webhook_url = 'https://hooks.slack.com/services/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';
 					
 					wpenonSendSlackNotification($slack_webhook_url, $slack_text );
 					

@@ -192,15 +192,16 @@ class Format {
 		}
 
 		$string = str_replace( array( '&euro;', '–' ), array( '_EURO_', '-' ), $string );
-
 		$string = html_entity_decode( $string, ENT_NOQUOTES );
-
-		return str_replace( '_EURO_', chr( 128 ), self::utf8Decode( $string, 'ISO8859-1' ) );
+		$string = self::utf8Decode( $string, 'ISO-8859-1//IGNORE' );
+		$string =  str_replace( '_EURO_', chr( 128 ), $string );
+		return $string;
 	}
 
 	public static function utf8Encode( $string, $charset = WPENON_DEFAULT_CHARSET ) {
 		if ( strtoupper( $charset ) !== 'UTF-8' ) {
-			return iconv( $charset, 'UTF-8', $string );
+			$converted_string = iconv( $charset, 'UTF-8', $string );
+			return ! $converted_string ? $string : $converted_string;
 		}
 
 		return $string;
@@ -208,7 +209,8 @@ class Format {
 
 	public static function utf8Decode( $string, $charset = WPENON_DEFAULT_CHARSET ) {
 		if ( strtoupper( $charset ) !== 'UTF-8' ) {
-			return iconv( 'UTF-8', $charset, $string );
+			$converted_string = iconv( 'UTF-8', $charset, $string );
+			return ! $converted_string ? $string : $converted_string;
 		}
 
 		return $string;
