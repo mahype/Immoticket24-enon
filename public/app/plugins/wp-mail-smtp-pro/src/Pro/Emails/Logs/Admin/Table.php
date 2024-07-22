@@ -963,7 +963,7 @@ class Table extends \WP_List_Table {
 			wp_nonce_field( RecheckDeliveryStatus::ARCHIVE_NONCE_ACTION, 'wp-mail-smtp-recheck-all-email-logs-status-nonce', false );
 			printf(
 				'<button id="wp-mail-smtp-recheck-all-email-logs-status-button" type="button" class="button">%s</button>',
-				esc_html__( 'Re-check All Email Status', 'wp-mail-smtp-pro' )
+				esc_html__( 'Re-check All Email Statuses', 'wp-mail-smtp-pro' )
 			);
 		}
 	}

@@ -2,11 +2,12 @@
 
 namespace WPMailSMTP\Vendor\Aws\Credentials;
 
+use WPMailSMTP\Vendor\Aws\Identity\AwsCredentialIdentity;
 /**
  * Basic implementation of the AWS Credentials interface that allows callers to
  * pass in the AWS Access Key and AWS Secret Access Key in the constructor.
  */
-class Credentials implements \WPMailSMTP\Vendor\Aws\Credentials\CredentialsInterface, \Serializable
+class Credentials extends \WPMailSMTP\Vendor\Aws\Identity\AwsCredentialIdentity implements \WPMailSMTP\Vendor\Aws\Credentials\CredentialsInterface, \Serializable
 {
     private $key;
     private $secret;
@@ -23,8 +24,8 @@ class Credentials implements \WPMailSMTP\Vendor\Aws\Credentials\CredentialsInter
      */
     public function __construct($key, $secret, $token = null, $expires = null)
     {
-        $this->key = \trim($key);
-        $this->secret = \trim($secret);
+        $this->key = \trim((string) $key);
+        $this->secret = \trim((string) $secret);
         $this->token = $token;
         $this->expires = $expires;
     }
