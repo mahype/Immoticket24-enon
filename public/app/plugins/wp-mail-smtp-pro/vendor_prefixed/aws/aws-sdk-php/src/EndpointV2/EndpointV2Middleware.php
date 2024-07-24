@@ -4,6 +4,7 @@ namespace WPMailSMTP\Vendor\Aws\EndpointV2;
 
 use WPMailSMTP\Vendor\Aws\Api\Operation;
 use WPMailSMTP\Vendor\Aws\Api\Service;
+use WPMailSMTP\Vendor\Aws\Auth\Exception\UnresolvedAuthSchemeException;
 use WPMailSMTP\Vendor\Aws\CommandInterface;
 use Closure;
 use WPMailSMTP\Vendor\GuzzleHttp\Promise\Promise;
@@ -17,7 +18,7 @@ use WPMailSMTP\Vendor\GuzzleHttp\Promise\Promise;
  */
 class EndpointV2Middleware
 {
-    private static $validAuthSchemes = ['sigv4' => \true, 'sigv4a' => \true, 'none' => \true, 'bearer' => \true, 'sigv4-s3express' => \true];
+    private static $validAuthSchemes = ['sigv4' => 'v4', 'sigv4a' => 'v4a', 'none' => 'anonymous', 'bearer' => 'bearer', 'sigv4-s3express' => 'v4-s3express'];
     /** @var callable */
     private $nextHandler;
     /** @var EndpointProviderV2 */
@@ -163,7 +164,15 @@ class EndpointV2Middleware
     private function applyAuthScheme(array $authSchemes, \WPMailSMTP\Vendor\Aws\CommandInterface $command) : void
     {
         $authScheme = $this->resolveAuthScheme($authSchemes);
-        $command->setAuthSchemes($authScheme);
+        $command['@context']['signature_version'] = $authScheme['version'];
+        if (isset($authScheme['name'])) {
+            $command['@context']['signing_service'] = $authScheme['name'];
+        }
+        if (isset($authScheme['region'])) {
+            $command['@context']['signing_region'] = $authScheme['region'];
+        } elseif (isset($authScheme['signingRegionSet'])) {
+            $command['@context']['signing_region_set'] = $authScheme['signingRegionSet'];
+        }
     }
     /**
      * Returns the first compatible auth scheme in an endpoint object's
@@ -177,15 +186,14 @@ class EndpointV2Middleware
     {
         $invalidAuthSchemes = [];
         foreach ($authSchemes as $authScheme) {
-            if (isset(self::$validAuthSchemes[$authScheme['name']])) {
+            if ($this->isValidAuthScheme($authScheme['name'])) {
                 return $this->normalizeAuthScheme($authScheme);
-            } else {
-                $invalidAuthSchemes[] = "`{$authScheme['name']}`";
             }
+            $invalidAuthSchemes[$authScheme['name']] = \false;
         }
-        $invalidAuthSchemesString = \implode(', ', $invalidAuthSchemes);
-        $validAuthSchemesString = '`' . \implode('`, `', \array_keys(self::$validAuthSchemes)) . '`';
-        throw new \InvalidArgumentException("This operation requests {$invalidAuthSchemesString}" . " auth schemes, but the client only supports {$validAuthSchemesString}.");
+        $invalidAuthSchemesString = '`' . \implode('`, `', \array_keys($invalidAuthSchemes)) . '`';
+        $validAuthSchemesString = '`' . \implode('`, `', \array_keys(\array_diff_key(self::$validAuthSchemes, $invalidAuthSchemes))) . '`';
+        throw new \WPMailSMTP\Vendor\Aws\Auth\Exception\UnresolvedAuthSchemeException("This operation requests {$invalidAuthSchemesString}" . " auth schemes, but the client currently supports {$validAuthSchemesString}.");
     }
     /**
      * Normalizes an auth scheme's name, signing region or signing region set
@@ -204,14 +212,22 @@ class EndpointV2Middleware
         $normalizedAuthScheme = [];
         if (isset($authScheme['disableDoubleEncoding']) && $authScheme['disableDoubleEncoding'] === \true && $authScheme['name'] !== 'sigv4a' && $authScheme['name'] !== 'sigv4-s3express') {
             $normalizedAuthScheme['version'] = 's3v4';
-        } elseif ($authScheme['name'] === 'none') {
-            $normalizedAuthScheme['version'] = 'anonymous';
         } else {
-            $normalizedAuthScheme['version'] = \str_replace('sig', '', $authScheme['name']);
+            $normalizedAuthScheme['version'] = self::$validAuthSchemes[$authScheme['name']];
         }
-        $normalizedAuthScheme['name'] = isset($authScheme['signingName']) ? $authScheme['signingName'] : null;
-        $normalizedAuthScheme['region'] = isset($authScheme['signingRegion']) ? $authScheme['signingRegion'] : null;
-        $normalizedAuthScheme['signingRegionSet'] = isset($authScheme['signingRegionSet']) ? $authScheme['signingRegionSet'] : null;
+        $normalizedAuthScheme['name'] = $authScheme['signingName'] ?? null;
+        $normalizedAuthScheme['region'] = $authScheme['signingRegion'] ?? null;
+        $normalizedAuthScheme['signingRegionSet'] = $authScheme['signingRegionSet'] ?? null;
         return $normalizedAuthScheme;
+    }
+    private function isValidAuthScheme($signatureVersion) : bool
+    {
+        if (isset(self::$validAuthSchemes[$signatureVersion])) {
+            if ($signatureVersion === 'sigv4a') {
+                return \extension_loaded('awscrt');
+            }
+            return \true;
+        }
+        return \false;
     }
 }

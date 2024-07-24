@@ -124,8 +124,10 @@ class ReceiptPDF extends \WPENON\Util\UFPDF {
 					$address.= ! empty( $reseller->data()->general->get_address_line2() ) ? $reseller->data()->general->get_address_line2() . "\n" : '';
 					$address.= $reseller->data()->general->get_address_plz() . ' ' . $reseller->data()->general->get_address_city();
 				}			
-			} else {
-				// Get address of the buyer if address is not set
+			}
+
+			// Get address of the buyer if address is not set
+			if ( empty( $address ) ) {
 				$address .= isset( $this->wpenon_payment->user_info['business_name'] ) && ! empty( $this->wpenon_payment->user_info['business_name'] ) ? $this->wpenon_payment->user_info['business_name'] . "\n" : '';
 				$address .= $this->wpenon_payment->user_info['first_name'] . ' ' . $this->wpenon_payment->user_info['last_name'] . "\n";			
             
