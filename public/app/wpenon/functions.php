@@ -1991,6 +1991,19 @@ function wpenon_immoticket24_send_needs_review_email($payment_id, $reason) {
 	$message .= '{discount_codes}' . "\n\n";
 	$message .= sprintf('Die betroffene Zahlung hat die Nummer %s.', $payment_title) . ' ';
 	$message .= sprintf('Folgende Auffälligkeit ist aufgetreten: %s.', $reason);
+
+    $orig_purchase_data = get_post_meta( $payment_id, 'orig_purchase_data',true );
+    if ( !empty( $orig_purchase_data )) {
+        $message .= "\n\n";
+        $message .= 'Bestellung via Reseller. Daten des Bestellers:' . "\n";
+        $message .= 'Name: ' . $orig_purchase_data['post_data']['edd_first'] . ' ' . $orig_purchase_data['post_data']['edd_last'] . "\n";
+        $message .= 'E-Mail: ' . $orig_purchase_data['post_data']['edd_email'] . "\n";
+        $message .= 'Telefon: ' . $orig_purchase_data['post_data']['wpenon_telefon'] . "\n";
+        $message .= 'Firma: ' . $orig_purchase_data['post_data']['wpenon_business_name'] . "\n";
+        $message .= 'Straße: ' . $orig_purchase_data['post_data']['card_address'] . "\n" . $orig_purchase_data['post_data']['card_address_2'] . "\n";
+        $message .= 'PLZ: ' . $orig_purchase_data['post_data']['card_zip'] . "\n";
+        $message .= 'Ort: ' . $orig_purchase_data['post_data']['card_city'] . "\n\n\n";
+    }
 	$message .= 'Bitte setzen Sie sie nach erfolgter Prüfung auf Abgeschlossen, um die Zahlung zu vervollständigen und dem Kunden den Energieausweis zuzusenden.' . "\n\n";
 	$message .= 'Vielen Dank!';
 
