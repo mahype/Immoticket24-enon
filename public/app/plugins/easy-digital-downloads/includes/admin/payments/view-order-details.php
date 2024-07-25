@@ -746,7 +746,72 @@ $customer       = new EDD_Customer( $payment->customer_id );
 
 								</div><!-- /.inside -->
 							</div><!-- /#edd-customer-details -->
+<?php 
+$orig_purchase_data = get_post_meta( $payment_id, 'orig_purchase_data',true );
+if ( !empty( $orig_purchase_data )) {
+?>
+<div id="edd-billing-details" class="postbox">
 
+<h3 class="hndle"><?php _e( 'Daten des Bestellers', 'easy-digital-downloads' ); ?></h3>
+<div class="inside edd-clearfix">
+
+									<div id="edd-order-address">
+
+										<div class="order-data-address">
+											<div class="data column-container">
+												<div class="column">
+													<p>
+														<strong class="order-data-address-line"><?php _e( 'Street Address Line 1:', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_address1" value="<?php echo esc_attr( $orig_purchase_data['post_data']['card_address'] ); ?>" class="large-text" />
+													</p>
+													<p>
+														<strong class="order-data-address-line"><?php _e( 'Street Address Line 2:', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_address2" value="<?php echo esc_attr( $orig_purchase_data['post_data']['card_address_2'] ); ?>" class="large-text" />
+													</p>
+                                                    <p>
+														<strong class="order-data-address-line"><?php _e( 'Firmenname:', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_address2" value="<?php echo esc_attr( $orig_purchase_data['post_data']['wpenon_business_name'] ); ?>" class="large-text" />
+													</p>
+												</div>
+												<div class="column">
+													<p>
+														<strong class="order-data-address-line"><?php echo _x( 'City:', 'Address City', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_city" value="<?php echo esc_attr( $orig_purchase_data['post_data']['card_city'] ); ?>" class="large-text"/>
+
+													</p>
+													<p>
+														<strong class="order-data-address-line"><?php echo _x( 'Zip / Postal Code:', 'Zip / Postal code of address', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_zip" value="<?php echo esc_attr( $orig_purchase_data['post_data']['card_zip'] ); ?>" class="large-text"/>
+
+													</p>
+                                                    <p>
+                                                    <strong class="order-data-address-line"><?php _e( 'Vorname:', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_zip" value="<?php echo esc_attr( $orig_purchase_data['post_data']['edd_first'] ); ?>" class="large-text"/>
+
+													</p>
+												</div>
+												<div class="column">
+                                                <p>
+														<strong class="order-data-address-line"><?php echo _e( 'Telefon:', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_city" value="<?php echo esc_attr( $orig_purchase_data['post_data']['wpenon_telefon'] ); ?>" class="large-text"/>
+
+													</p>
+                                                    <p>
+														<strong class="order-data-address-line"><?php echo _e( 'Email', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_city" value="<?php echo esc_attr( $orig_purchase_data['post_data']['edd_email'] ); ?>" class="large-text"/>
+
+													</p>
+                                                    <p>
+                                                    <strong class="order-data-address-line"><?php _e( 'Nachname', 'easy-digital-downloads' ); ?></strong><br/>
+														<input type="text" name="orig_data_zip" value="<?php echo esc_attr( $orig_purchase_data['post_data']['edd_last'] ); ?>" class="large-text"/>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div><!-- /#edd-order-address -->
+								</div><!-- /.inside -->
+</div>
+<?php } ?>
 							<div id="edd-billing-details" class="postbox">
 								<h3 class="hndle">
 									<span><?php _e( 'Billing Address', 'easy-digital-downloads' ); ?></span>
