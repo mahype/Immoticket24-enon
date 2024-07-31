@@ -114,7 +114,7 @@ if (!function_exists('wpenon_format_decimal')) {
 		src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt-bold.ttf') format('truetype');
 	}
 
-	/* @media print { */
+	@media print {
 		@page {
 			margin: 2cm;
 			/* Festlegen der Druckränder */
@@ -219,7 +219,7 @@ if (!function_exists('wpenon_format_decimal')) {
 			background: none !important;
 		}
 
-	/* } */
+	}
 
 	<?php endif; ?>
 </style>
