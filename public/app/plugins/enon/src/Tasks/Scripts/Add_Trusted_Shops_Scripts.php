@@ -38,6 +38,9 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
 	 * @since 2022-02-07
 	 */
 	protected function script(): string {
+		if( \current_user_can( 'edit_shop_payments' ) ) {
+			return '';
+		}
 
 		if ( isset( $_GET['iframe_token'] ) ) {
 			return "(function () { 
