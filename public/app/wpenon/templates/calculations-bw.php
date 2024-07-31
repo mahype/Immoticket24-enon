@@ -25,7 +25,7 @@ if (!function_exists('wpenon_format_decimal')) {
 			return $value;
 		}
 
-		$value = round($value, 2);
+		$value = is_float( $value ) ? round($value, 2) : $value;
 		$value = str_replace('.', ',', $value);
 
 		return $value;
