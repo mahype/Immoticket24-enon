@@ -38,6 +38,9 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
 	 * @since 2022-02-07
 	 */
 	protected function script(): string {
+		if( \current_user_can( 'edit_shop_payments' ) ) {
+			return '';
+		}
 
 		if ( isset( $_GET['iframe_token'] ) ) {
 			return "(function () { 
@@ -57,7 +60,6 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
                 _ts.charset = 'utf-8'; 
                 _ts.async = true; 
                 _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js'; 
-				_ts.classList.add('trustedshops-widget');
                 var __ts = document.getElementsByTagName('script')[0];
                 __ts.parentNode.insertBefore(_ts, __ts);
                 })();";
@@ -79,7 +81,6 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
             _ts.charset = 'utf-8'; 
             _ts.async = true; 
             _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js'; 
-			_ts.classList.add('trustedshops-widget');
             var __ts = document.getElementsByTagName('script')[0];
             __ts.parentNode.insertBefore(_ts, __ts);
             })();";
