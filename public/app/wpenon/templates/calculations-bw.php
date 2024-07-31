@@ -141,6 +141,10 @@ if (!function_exists('wpenon_format_decimal')) {
 			text-transform: none;
 		}
 
+		iframe {
+			display: none;
+		}
+
 		#calculation-details h1:first-of-type {
 			margin: 0 5px 0 0;
 			font-size: 16px;
