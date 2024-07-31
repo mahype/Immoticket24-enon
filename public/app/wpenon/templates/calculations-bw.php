@@ -25,7 +25,7 @@ if (!function_exists('wpenon_format_decimal')) {
 			return $value;
 		}
 
-		$value = is_float( $value ) ? round($value, 2) : $value;
+		$value = is_float($value) ? round($value, 2) : $value;
 		$value = str_replace('.', ',', $value);
 
 		return $value;
@@ -103,18 +103,18 @@ if (!function_exists('wpenon_format_decimal')) {
 	}
 
 
-	<?php if (current_user_can('edit_shop_payments')) : ?>@font-face {
-		font-family: 'Zapf Humanist';
-		src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt.ttf') format('truetype');
-	}
+	<?php if (current_user_can('edit_shop_payments')) : ?>@media print {
+		@font-face {
+			font-family: 'Zapf Humanist';
+			src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt.ttf') format('truetype');
+		}
 
-	@font-face {
-		font-family: 'Zapf Humanist';
-		font-weight: bold;
-		src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt-bold.ttf') format('truetype');
-	}
+		@font-face {
+			font-family: 'Zapf Humanist';
+			font-weight: bold;
+			src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt-bold.ttf') format('truetype');
+		}
 
-	@media print {
 		@page {
 			margin: 2cm;
 			/* Festlegen der Druckränder */
