@@ -57,6 +57,7 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
                 _ts.charset = 'utf-8'; 
                 _ts.async = true; 
                 _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js'; 
+				_ts.classList.add('trustedshops-widget');
                 var __ts = document.getElementsByTagName('script')[0];
                 __ts.parentNode.insertBefore(_ts, __ts);
                 })();";
@@ -78,6 +79,7 @@ class Add_Trusted_Shops_Scripts extends Script_Loader {
             _ts.charset = 'utf-8'; 
             _ts.async = true; 
             _ts.src = '//widgets.trustedshops.com/js/' + _tsid + '.js'; 
+			_ts.classList.add('trustedshops-widget');
             var __ts = document.getElementsByTagName('script')[0];
             __ts.parentNode.insertBefore(_ts, __ts);
             })();";
