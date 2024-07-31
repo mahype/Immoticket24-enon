@@ -138,7 +138,7 @@ class EDDAdjustments {
 
 		$post_address_extra_fields = $_POST['edd-order-address-extra-fields'];
 
-		if(!empty($post_address_extra_fields['business_name'])){
+		if(isset($post_address_extra_fields['business_name'])){
 			\WPENON\Util\CustomerMeta::update($customer->id, 'business_name',  $post_address_extra_fields['business_name']);
 		}
 

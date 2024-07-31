@@ -232,14 +232,17 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
 </div>
 
 <?php if ( count( $data['calculations'] ) > 0 && is_user_logged_in() && current_user_can( WPENON_CERTIFICATE_CAP ) ) : ?>
-  <p class="text-right">
+  <!-- <p class="text-right">
     <a class="btn btn-default" data-toggle="collapse" href="#calculation-details">
       <?php _e( 'Details zur Berechnung anzeigen', 'wpenon' ); ?>
     </a>
-  </p>
-  <div id="calculation-details" class="collapse">
-    <h4><?php _e( 'Details zur Berechnung', 'wpenon' ); ?></h4>
-    <p><?php _e( 'Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der Kunde hat keinen Zugriff darauf.', 'wpenon' ); ?></p>
+  </p> -->
+  <div id="calculation-details">
+    <h1><?php _e( 'Details zur Berechnung', 'wpenon' ); ?></h1>
+    <h2>NW-2024-005111370
+      <!-- <?php echo  $data['meta']['registriernummer'] ? $data['meta']['registriernummer'] : __( 'wird nach Bezahlung festgelegt', 'wpenon' ); ?> -->
+    </h2>
+    <!--<p><?php _e( 'Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der Kunde hat keinen Zugriff darauf.', 'wpenon' ); ?></p> -->
     <?php if( $din18599ready ) : ?>
     <?php wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data['calculations'] ); ?>
     <?php else : ?>
