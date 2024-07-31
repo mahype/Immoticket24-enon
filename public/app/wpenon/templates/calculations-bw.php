@@ -103,23 +103,25 @@ if (!function_exists('wpenon_format_decimal')) {
 	}
 
 
-	<?php if (current_user_can('edit_shop_payments')) : ?>@media print {
+	<?php if (current_user_can('edit_shop_payments')) : ?>@font-face {
+		font-family: 'Zapf Humanist';
+		src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt.ttf') format('truetype');
+	}
+
+	@font-face {
+		font-family: 'Zapf Humanist';
+		font-weight: bold;
+		src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt-bold.ttf') format('truetype');
+	}
+
+	@media print {
 
 		@page {
 			margin: 2cm;
 			/* Festlegen der Druckränder */
 		}
 
-		@font-face {
-			font-family: 'Zapf Humanist';
-			src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt.ttf') format('truetype');
-		}
 
-		@font-face {
-			font-family: 'Zapf Humanist';
-			font-weight: bold;
-			src: url('/app/themes/jason/assets/fonts/Zapf-Humanist/zapf-humanist-601-bt-bold.ttf') format('truetype');
-		}
 
 		html {
 			margin-top: 0 !important;
