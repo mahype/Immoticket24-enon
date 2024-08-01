@@ -7,6 +7,8 @@
 
 namespace WPENON\Model;
 
+use EDD_Payment;
+
 class EnergieausweisForm {
 	private static $instance;
 
@@ -36,6 +38,9 @@ class EnergieausweisForm {
 		$this->id     = $energieausweis->id;
 		$this->type   = $energieausweis->type;
 		$this->action = 'overview';
+
+		$payment_id = $energieausweis->_wpenon_attached_payment_id;
+		$payment = new EDD_Payment( $payment_id );
 
 		$thumbnail = array(
 			'id'                 => $energieausweis->thumbnail_id,
@@ -69,8 +74,10 @@ class EnergieausweisForm {
 			'adresse_strassenr'   => $energieausweis->adresse_strassenr,
 			'adresse_plz'         => $energieausweis->adresse_plz,
 			'adresse_ort'         => $energieausweis->adresse_ort,
-			'adresse_bundesland'  => $energieausweis->adresse_bundesland,
+			'adresse_bundesland'  => $energieausweis->adresse_bundesland,	
 		); 
+		$data['payment'] = $payment;
+		$data['energieausweis']            = $energieausweis;
 		$data['thumbnail']                 = $thumbnail;
 		$data['calculations']              = $energieausweis->calculate();
 		

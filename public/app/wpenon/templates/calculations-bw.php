@@ -8,13 +8,17 @@
 
 require_once __DIR__ . '/helfer.php';
 
-$gebaeude = $data['gebaeude']; #
+$calculations = $data['calculations'];
+$gebaeude = $calculations['gebaeude'];
+$payment = $data['payment']; // EDD_Payment
+$energieausweis = $data['energieausweis'];
+$meta = $data['meta'];
 
-if (isset($data['referenzgebaeude'])) {
-	$referenzgebaeude = $data['referenzgebaeude'];
+if (isset($calculations['referenzgebaeude'])) {
+	$referenzgebaeude = $calculations['referenzgebaeude'];
 }
 
-$anlass = $data['anlass'];
+$anlass = $calculations['anlass'];
 
 $jahr = new Jahr();
 
@@ -229,6 +233,45 @@ if (!function_exists('wpenon_format_decimal')) {
 </style>
 
 <div class="calculation-details">
+	<h2>Angegebene Daten</h2>
+
+	<h3>Anschrfit des Kunden</h3>	
+
+	<h3>Allgemeine Angaben</h3>
+	<table>
+		<tr>
+			<td>Anlass</td>
+			<td><?php echo $energieausweis->anlass; ?></td>
+		</tr>
+	</table>
+
+	<h3>Gebäudeinformationen</h3>
+
+	<table>
+		<tr>
+			<td>Baujahr</td>
+			<td><?php echo $energieausweis->baujahr; ?></td>
+		</tr>
+		<tr>
+			<td>Gebäudetyp</td>
+			<td><?php echo $energieausweis->gebaeudetyp; ?></td>
+		</tr>
+		<tr>
+			<td>Gebäudeteil</td>
+			<td><?php echo $energieausweis->gebaeudeteil; ?></td>
+		</tr>
+	</table>
+
+	<h3>Erneuerbare Energien</h3>
+
+	<table>
+		<tr>
+			<td>Erneuerbare Energien</td>
+			<td><?php echo $energieausweis->erneuerbare_energien; ?></td>
+		</tr>O
+
+
+	<h2>Berechnungen</h2>
 	<h3>Gebäude</h3>
 	<p><?php printf(__('Baujahr: %s', 'wpenon'), $gebaeude->baujahr()); ?></p>
 	<p><?php printf(__('Hüllvolumen V<sub>e</sub>: %s m&sup3;', 'wpenon'), wpenon_format_decimal($gebaeude->huellvolumen())); ?></p>
@@ -2332,8 +2375,8 @@ if (!function_exists('wpenon_format_decimal')) {
 
 		<h4>Vergleichswerte</h4>
 
-		<p><?php printf(__('Qp (Primärenergie): %s', 'wpenon'), wpenon_format_decimal($data['Qp_ref'])); ?></p>
-		<p><?php printf(__('Ht\': %s', 'wpenon'), wpenon_format_decimal($data['ht_strich_ref'])); ?></p>
+		<p><?php printf(__('Qp (Primärenergie): %s', 'wpenon'), wpenon_format_decimal($calculations['Qp_ref'])); ?></p>
+		<p><?php printf(__('Ht\': %s', 'wpenon'), wpenon_format_decimal($calculations['ht_strich_ref'])); ?></p>
 
 	</div>
 

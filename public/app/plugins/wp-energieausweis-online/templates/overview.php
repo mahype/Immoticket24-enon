@@ -242,7 +242,7 @@ $showImage = $oldStandard || ! empty ( $image ) ? true : false;
     <h2><?php echo  $data['meta']['registriernummer'] ? $data['meta']['registriernummer'] : __( 'Registriernummer wird nach Bezahlung festgelegt', 'wpenon' ); ?></h2>
     <!--<p><?php _e( 'Die folgenden Informationen sind nur für den Shop-Betreiber sichtbar. Der Kunde hat keinen Zugriff darauf.', 'wpenon' ); ?></p> -->
     <?php if( $din18599ready ) : ?>
-    <?php wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data['calculations'] ); ?>
+    <?php wpenon_get_view()->displaySubTemplate( 'calculations', $data['template_suffix'], $data ); ?>
     <?php else : ?>
     <?php wpenon_get_view()->displaySubTemplate( 'calculations-old', $data['template_suffix'], $data['calculations'] ); ?>
     <?php endif; ?>
